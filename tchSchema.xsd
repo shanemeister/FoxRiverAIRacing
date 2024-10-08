@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="CHART">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="TRACK" />
+                <xs:element maxOccurs="unbounded" ref="RACE" />
+            </xs:sequence>
+            <xs:attribute name="RACE_DATE" use="required" type="xs:date" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RACE">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="BREED" />
+                <xs:element ref="CARD_ID" />
+                <xs:element ref="TYPE" />
+                <xs:element ref="PURSE" />
+                <xs:element ref="RACE_TEXT" />
+                <xs:element ref="AGE_RESTRICTIONS" />
+                <xs:element ref="DISTANCE" />
+                <xs:element ref="DIST_UNIT" />
+                <xs:element ref="ABOUT_DIST_FLAG" />
+                <xs:element ref="COURSE_ID" />
+                <xs:element ref="COURSE_DESC" />
+                <xs:element ref="SURFACE" />
+                <xs:element ref="CLASS_RATING" />
+                <xs:element ref="TRK_COND" />
+                <xs:element ref="WEATHER" />
+                <xs:element ref="STRT_DESC" />
+                <xs:element ref="POST_TIME" />
+                <xs:element ref="DTV" />
+                <xs:element ref="FRACTION_1" />
+                <xs:element ref="FRACTION_2" />
+                <xs:element ref="FRACTION_3" />
+                <xs:element ref="FRACTION_4" />
+                <xs:element ref="FRACTION_5" />
+                <xs:element ref="WIN_TIME" />
+                <xs:element ref="PACE_CALL1" />
+                <xs:element ref="PACE_CALL2" />
+                <xs:element ref="PACE_FINAL" />
+                <xs:element ref="PAR_TIME" />
+                <xs:element ref="EARNING_SPLITS" />
+                <xs:element ref="EXOTIC_WAGERS" />
+                <xs:element ref="CLAIMED" />
+                <xs:element minOccurs="0" ref="VOIDED_CLAIMS" />
+                <xs:element minOccurs="0" ref="WIND_DIRECTION" />
+                <xs:element minOccurs="0" ref="WIND_SPEED" />
+                <xs:element minOccurs="0" ref="RUNUPDIST" />
+                <xs:element minOccurs="0" ref="RAILDIST" />
+                <xs:element minOccurs="0" ref="SEALED" />
+                <xs:element minOccurs="0" ref="WPS_POOL" />
+                <xs:element minOccurs="0" ref="FOOTNOTES" />
+                <xs:element maxOccurs="unbounded" ref="ENTRY" />
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="SCRATCH" />
+            </xs:sequence>
+            <xs:attribute name="NUMBER" use="required" type="xs:integer" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CARD_ID" type="xs:NCName" />
+    <xs:element name="TYPE" type="xs:string" />
+    <xs:element name="PURSE" type="xs:decimal" />
+    <xs:element name="RACE_TEXT" type="xs:string" />
+    <xs:element name="AGE_RESTRICTIONS" type="xs:string" />
+    <xs:element name="DISTANCE" type="xs:integer" />
+    <xs:element name="DIST_UNIT" type="xs:NCName" />
+    <xs:element name="ABOUT_DIST_FLAG" type="xs:string" />
+    <xs:element name="COURSE_ID" type="xs:NCName" />
+    <xs:element name="COURSE_DESC" type="xs:string" />
+    <xs:element name="SURFACE" type="xs:NCName" />
+    <xs:element name="CLASS_RATING" type="xs:integer" />
+    <xs:element name="TRK_COND" type="xs:string" />
+    <xs:element name="WEATHER" type="xs:string" />
+    <xs:element name="STRT_DESC" type="xs:string" />
+    <xs:element name="POST_TIME" type="xs:NMTOKEN" />
+    <xs:element name="DTV" type="xs:integer" />
+    <xs:element name="FRACTION_1" type="xs:decimal" />
+    <xs:element name="FRACTION_2" type="xs:decimal" />
+    <xs:element name="FRACTION_3" type="xs:decimal" />
+    <xs:element name="FRACTION_4" type="xs:decimal" />
+    <xs:element name="FRACTION_5" type="xs:decimal" />
+    <xs:element name="WIN_TIME" type="xs:decimal" />
+    <xs:element name="PACE_CALL1" type="xs:string" />
+    <xs:element name="PACE_CALL2" type="xs:string" />
+    <xs:element name="PACE_FINAL" type="xs:integer" />
+    <xs:element name="PAR_TIME" type="xs:decimal" />
+    <xs:element name="EARNING_SPLITS">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="SPLIT_1" />
+                <xs:element minOccurs="0" ref="SPLIT_2" />
+                <xs:element minOccurs="0" ref="SPLIT_3" />
+                <xs:element minOccurs="0" ref="SPLIT_4" />
+                <xs:element minOccurs="0" ref="SPLIT_5" />
+                <xs:element minOccurs="0" ref="SPLIT_6" />
+                <xs:element minOccurs="0" ref="SPLIT_7" />
+                <xs:element minOccurs="0" ref="SPLIT_8" />
+                <xs:element minOccurs="0" ref="SPLIT_9" />
+                <xs:element minOccurs="0" ref="SPLIT_10" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SPLIT_1" type="xs:decimal" />
+    <xs:element name="SPLIT_2" type="xs:decimal" />
+    <xs:element name="SPLIT_3" type="xs:decimal" />
+    <xs:element name="SPLIT_4" type="xs:decimal" />
+    <xs:element name="SPLIT_5" type="xs:decimal" />
+    <xs:element name="SPLIT_6" type="xs:decimal" />
+    <xs:element name="SPLIT_7" type="xs:decimal" />
+    <xs:element name="SPLIT_8" type="xs:decimal" />
+    <xs:element name="SPLIT_9" type="xs:decimal" />
+    <xs:element name="SPLIT_10" type="xs:decimal" />
+    <xs:element name="EXOTIC_WAGERS">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="WAGER" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="WAGER">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="WAGER_TYPE" />
+                <xs:element ref="NUM_TICKETS" />
+                <xs:element ref="POOL_TOTAL" />
+                <xs:element ref="WINNERS" />
+                <xs:element ref="PAYOFF" />
+            </xs:sequence>
+            <xs:attribute name="NUMBER" use="required" type="xs:integer" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="WAGER_TYPE" type="xs:string" />
+    <xs:element name="NUM_TICKETS" type="xs:decimal" />
+    <xs:element name="POOL_TOTAL" type="xs:decimal" />
+    <xs:element name="WINNERS" type="xs:string" />
+    <xs:element name="PAYOFF" type="xs:decimal" />
+    <xs:element name="CLAIMED">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="CLAIM" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CLAIM">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="HORSE" />
+                <xs:element ref="PRICE" />
+                <xs:element ref="OWNER" />
+                <xs:element ref="TRAINER" />
+            </xs:sequence>
+            <xs:attribute name="NUMBER" use="required" type="xs:integer" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="VOIDED_CLAIMS">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="VOIDED_CLAIM" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="VOIDED_CLAIM">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="HORSE" />
+                <xs:element ref="REASON" />
+            </xs:sequence>
+            <xs:attribute name="NUMBER" use="required" type="xs:integer" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="HORSE" type="xs:string" />
+    <xs:element name="PRICE" type="xs:decimal" />
+    <xs:element name="WIND_DIRECTION" type="xs:string" />
+    <xs:element name="WIND_SPEED" type="xs:string" />
+    <xs:element name="RUNUPDIST" type="xs:integer" />
+    <xs:element name="RAILDIST" type="xs:integer" />
+    <xs:element name="SEALED" type="xs:string" />
+    <xs:element name="WPS_POOL" type="xs:decimal" />
+    <xs:element name="FOOTNOTES" type="xs:string" />
+    <xs:element name="ENTRY">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="NAME" />
+                <xs:element ref="DH_DQ_FLAGS" />
+                <xs:element ref="BREED" />
+                <xs:element ref="LAST_PP" />
+                <xs:element ref="WEIGHT" />
+                <xs:element ref="AGE" />
+                <xs:element ref="SEX" />
+                <xs:element ref="MEDS" />
+                <xs:element ref="EQUIP" />
+                <xs:element ref="DOLLAR_ODDS" />
+                <xs:element ref="PROGRAM_NUM" />
+                <xs:element ref="POST_POS" />
+                <xs:element ref="CLAIM_PRICE" />
+                <xs:element ref="START_POSITION" />
+                <xs:element maxOccurs="unbounded" ref="POINT_OF_CALL" />
+                <xs:element ref="OFFICIAL_FIN" />
+                <xs:element ref="FINISH_TIME" />
+                <xs:element ref="SPEED_RATING" />
+                <xs:element ref="JOCKEY" />
+                <xs:element ref="TRAINER" />
+                <xs:element ref="OWNER" />
+                <xs:element ref="COMMENT" />
+                <xs:element ref="WINNERS_DETAILS" />
+                <xs:element ref="WIN_PAYOFF" />
+                <xs:element ref="PLACE_PAYOFF" />
+                <xs:element ref="SHOW_PAYOFF" />
+                <xs:element ref="SHOW_PAYOFF2" />
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="AXCISKEY" />
+                </xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="DH_DQ_FLAGS" type="xs:string" />
+    <xs:element name="WEIGHT" type="xs:integer" />
+    <xs:element name="AGE" type="xs:integer" />
+    <xs:element name="SEX">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="CODE" />
+                <xs:element ref="DESCRIPTION" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MEDS" type="xs:string" />
+    <xs:element name="EQUIP" type="xs:string" />
+    <xs:element name="DOLLAR_ODDS" type="xs:decimal" />
+    <xs:element name="PROGRAM_NUM" type="xs:string" />
+    <xs:element name="POST_POS" type="xs:integer" />
+    <xs:element name="CLAIM_PRICE" type="xs:decimal" />
+    <xs:element name="START_POSITION" type="xs:integer" />
+    <xs:element name="POINT_OF_CALL">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="POSITION" />
+                <xs:element ref="LENGTHS" />
+            </xs:sequence>
+            <xs:attribute name="WHICH" use="required" type="xs:NMTOKEN" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="POSITION" type="xs:integer" />
+    <xs:element name="LENGTHS" type="xs:decimal" />
+    <xs:element name="OFFICIAL_FIN" type="xs:integer" />
+    <xs:element name="FINISH_TIME" type="xs:string" />
+    <xs:element name="SPEED_RATING" type="xs:integer" />
+    <xs:element name="JOCKEY">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="FIRST_NAME" />
+                <xs:element ref="MIDDLE_NAME" />
+                <xs:element ref="LAST_NAME" />
+                <xs:element ref="SUFFIX" />
+                <xs:element ref="KEY" minOccurs="0" />
+                <xs:element ref="TYPE" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="TRAINER">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="FIRST_NAME" />
+                <xs:element ref="LAST_NAME" />
+                <xs:element ref="MIDDLE_NAME" />
+                <xs:element ref="SUFFIX" />
+                <xs:element ref="KEY" minOccurs="0" />
+                <xs:element ref="TYPE" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="OWNER" type="xs:string" />
+    <xs:element name="COMMENT" type="xs:string" />
+    <xs:element name="WINNERS_DETAILS">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="COLOR" />
+                <xs:element ref="SIRE" />
+                <xs:element ref="DAM" />
+                <xs:element ref="DAM_SIRE" />
+                <xs:element ref="BREEDER" />
+                <xs:element ref="BRED_LOCATION" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="COLOR">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="CODE" />
+                <xs:element ref="DESCRIPTION" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SIRE" type="xs:string" />
+    <xs:element name="DAM" type="xs:string" />
+    <xs:element name="DAM_SIRE" type="xs:string" />
+    <xs:element name="BREEDER" type="xs:string" />
+    <xs:element name="BRED_LOCATION">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="CODE" />
+                <xs:element ref="DESCRIPTION" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="WIN_PAYOFF" type="xs:decimal" />
+    <xs:element name="PLACE_PAYOFF" type="xs:decimal" />
+    <xs:element name="SHOW_PAYOFF" type="xs:decimal" />
+    <xs:element name="SHOW_PAYOFF2" type="xs:decimal" />
+    <xs:element name="SCRATCH">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="NAME" />
+                <xs:element ref="BREED" />
+                <xs:element minOccurs="0" maxOccurs="1" ref="REASON" />
+                <xs:element ref="LAST_PP" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="TRACK">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="CODE" />
+                <xs:element ref="NAME" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="BREED" type="xs:NCName" />
+    <xs:element name="NAME" type="xs:string" />
+    <xs:element name="REASON" type="xs:string" />
+    <xs:element name="LAST_PP">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="TRACK" />
+                <xs:element ref="RACE_DATE" />
+                <xs:element ref="RACE_NUMBER" />
+                <xs:element ref="OFL_FINISH" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RACE_DATE" type="xs:date" />
+    <xs:element name="RACE_NUMBER" type="xs:integer" />
+    <xs:element name="OFL_FINISH" type="xs:integer" />
+    <xs:element name="CODE" type="xs:string" />
+    <xs:element name="DESCRIPTION" type="xs:string" />
+    <xs:element name="FIRST_NAME" type="xs:string" />
+    <xs:element name="MIDDLE_NAME" type="xs:string" />
+    <xs:element name="LAST_NAME" type="xs:string" />
+    <xs:element name="SUFFIX" type="xs:string" />
+    <xs:element name="AXCISKEY" type="xs:string" />
+    <xs:element name="KEY" type="xs:string" />
+</xs:schema>
