@@ -8,6 +8,7 @@ __pycache__/
 
 # Data that will be stored in S3
 ./data
+.env
 
 # Distribution / packaging
 .Python
