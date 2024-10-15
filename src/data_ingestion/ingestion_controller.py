@@ -1,11 +1,12 @@
 import logging
 import os
 from datetime import datetime
-from race_list import race_list
-from ingestion_utils import get_db_connection
+from race_list import race_list # type: ignore
+from racedata import racedata
+from ingestion_utils import get_db_connection # type: ignore
 
 # Setup logging
-logging.basicConfig(filename='/path/to/logs/ingestion.log', level=logging.INFO)
+logging.basicConfig(filename='logs/ingestion.log', level=logging.INFO)
 
 def log_start(dataset_name):
     logging.info(f"{datetime.now()} - Starting ingestion for: {dataset_name}")
@@ -20,6 +21,7 @@ def run_ingestion_pipeline():
     
     datasets = [
         ('Race List', lambda: race_list(conn, './data/TPD/racelist', error_file)),
+        ('Race Data', lambda: racedata(conn, './data/Equibase/PlusPro', './data/Equibase/ResultsCharts', error_file)),
         # Add more datasets and their corresponding functions here (age_restriction, course, etc.)
     ]
     

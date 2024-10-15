@@ -1,0 +1,13 @@
+Tue Oct 15 10:11:24 AM CDT 2024 - Python script ran successfully.
+sending incremental file list
+gpsData/
+
+sent 85,324 bytes  received 30 bytes  170,708.00 bytes/sec
+total size is 74,146,220  speedup is 868.69
+Tue Oct 15 10:11:24 AM CDT 2024 - Data moved successfully to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD.
+Tue Oct 15 10:13:16 AM CDT 2024 - Python script ran successfully.
+sending incremental file list
+
+sent 85,321 bytes  received 27 bytes  170,696.00 bytes/sec
+total size is 74,146,220  speedup is 868.75
+Tue Oct 15 10:13:16 AM CDT 2024 - Data moved successfully to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD.

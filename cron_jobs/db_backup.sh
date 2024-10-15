@@ -1,4 +1,10 @@
-#!/bin/bash
+#!/bin/zsh
+
+# Source your .zshrc file
+source ~/.zshrc
+
+# Log environment variables for debugging
+env > /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/cron_env.log
 
 # Set variables
 DB_NAME="foxriverai"
@@ -8,7 +14,7 @@ DB_HOST="192.168.4.25"
 BACKUP_DIR="/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups"
 BACKUP_FILE="$BACKUP_DIR/$(date +\%Y-\%m-\%d)_$DB_NAME.sql"
 S3_BUCKET="s3://rshane/FoxRiverAIRacing/db_backups"
-LOG_FILE="/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/db_backup.log"
+LOG_FILE="/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/db_backup.log"
 
 # Create a backup
 echo "$(date +'%Y-%m-%d %H:%M:%S') - Starting database backup" >> $LOG_FILE
