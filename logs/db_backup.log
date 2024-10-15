@@ -1,0 +1,12 @@
+2024-10-13 15:46:09 - Starting database backup
+2024-10-13 15:46:10 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2024-10-13_foxriverai.sql
+2024-10-13 15:46:10 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+Completed 36.5 KiB/36.5 KiB (356.1 KiB/s) with 1 file(s) remainingupload: ../data/backups/2024-10-13_foxriverai.sql to s3://rshane/FoxRiverAIRacing/db_backups/2024-10-13_foxriverai.sql
+2024-10-13 15:46:10 - Sync to S3 succeeded
+2024-10-13 15:47:29 - Starting database backup
+2024-10-13 15:47:29 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2024-10-13_foxriverai.sql
+2024-10-13 15:47:29 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+Completed 36.5 KiB/36.5 KiB (321.7 KiB/s) with 1 file(s) remainingupload: ../data/backups/2024-10-13_foxriverai.sql to s3://rshane/FoxRiverAIRacing/db_backups/2024-10-13_foxriverai.sql
+2024-10-13 15:47:29 - Sync to S3 succeeded
+2024-10-14 02:00:01 - Starting database backup
+2024-10-14 02:00:01 - Backup failed
