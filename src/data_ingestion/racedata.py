@@ -1,8 +1,9 @@
-import os
-import zipfile
+
 import xml.etree.ElementTree as ET
+from datetime import datetime
 import logging
-from ingestion_utils import get_db_connection, update_tracking  # Assuming helper functions for connection & tracking
+from mapping_dictionaries import eqb_to_course_cd
+
 
 def process_racedata_file(xml_file, conn, cursor):
     """
@@ -11,78 +12,68 @@ def process_racedata_file(xml_file, conn, cursor):
     try:
         tree = ET.parse(xml_file)
         root = tree.getroot()
+        logging.info(f"Parsed XML successfully: {xml_file}")
         
         # Assuming the root has race data, adapt the following to match your XML structure
         for race in root.findall('Race'):
-            race_date = race.find('race_date').text
-            post_time = race.find('post_time').text
-            course_cd = race.find('track').text
-            race_number = race.find('raceord').text
+            # Extract and format the necessary fields from XML
+            eqb_track_cd = race.find('track').text  # This is the EQB track code like 'BEL'
+            # Translate the EQB track code to the corresponding course_cd in TDP
+            course_cd = eqb_to_course_cd.get(eqb_track_cd, eqb_track_cd)  # Default to eqb_track_cd if no mapping exists
+            race_date = datetime.strptime(race.find('race_date').text, '%Y%m%d').date()
+            race_number = race.find('race').text
+            post_time = datetime.strptime(race.find('post_time').text, '%I:%M%p').time()
+            country = race.find('country').text
+            logging.info(f"Processing race: {eqb_track_cd} on {race_date}")
+
+            # Skip if country is Canada (CAN) and the track is EP
+            if country == 'CAN' and eqb_track_cd == 'EP':
+                logging.info(f"Skipping race from EP in Canada: {race.find('race').text}")
+                continue
+
+            
+            # Other race fields from the XML
+            
             todays_cls = race.find('todays_cls').text
-            distance = race.find('dist_disp').text
+            distance = race.find('distance').text
             dist_unit = race.find('dist_unit').text
             surface_type_code = race.find('course_id').text
-            
-            race_id = race.find('RaceID').text
-            
-            race_track = race.find('Track').text
-            # Add any other required fields here
+            surface = race.find('surface').text
+            stkorclm = race.find('stkorclm').text
+            purse = race.find('purse').text
+            claimamt = race.find('claimamt').text
+            age_restr = race.find('age_restr').text
+            bet_opt = race.find('bet_opt').text
+            send_track = race.find('send_track').text
+            race_ord = race.find('race_ord').text
+            partim = race.find('partim').text
+            dist_disp = race.find('dist_disp').text
+            breed_type = race.find('breed_type').text
+            race_text = race.find('race_text').text
+            stk_clm_md = race.find('stk_clm_md').text
 
-            # Insert into database
-            cursor.execute("""
-                INSERT INTO racedata (race_id, race_date, race_track)
-                VALUES (%s, %s, %s)
+            # SQL insert query for the racedata table
+            insert_query = """
+                INSERT INTO racedata (race_id, post_time, course_cd, race_number, todays_cls, distance, dist_unit,
+                                      surface_type_code, surface, stkorclm, purse, claimamt, age_restr, race_date, race_text)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (race_id) DO UPDATE 
-                SET race_date = EXCLUDED.race_date, race_track = EXCLUDED.race_track
-            """, (race_id, race_date, race_track))
+                SET post_time = EXCLUDED.post_time,
+                    race_date = EXCLUDED.race_date,
+                    race_text = EXCLUDED.race_text
+            """
+            # Execute the query
+            cursor.execute(insert_query, (
+                race.find('race_id').text, post_time, course_cd, race_number, todays_cls,
+                distance, dist_unit, surface_type_code, surface, stkorclm, purse, claimamt,
+                age_restr, race_date, race_text
+            ))
+        
+        # Commit the transaction
         conn.commit()
+        logging.info("Race data processed successfully.")
 
     except Exception as e:
+        # Handle exceptions and rollback in case of error
         logging.error(f"Error processing file {xml_file}: {e}")
-        conn.rollback()  # Rollback in case of failure
-
-def process_zip_files(directory, conn):
-    """
-    Extract and process all XML files inside ZIP archives in the specified directory.
-    """
-    cursor = conn.cursor()
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            if file.endswith("plusxml.zip"):
-                zip_path = os.path.join(root, file)
-                with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                    zip_ref.extractall("/tmp/racedata")  # Extract XMLs to temp folder
-                    for xml_file in os.listdir("/tmp/racedata"):
-                        if xml_file.endswith(".xml"):
-                            xml_path = os.path.join("/tmp/racedata", xml_file)
-                            process_racedata_file(xml_path, conn, cursor)
-
-def racedata(conn, pluspro_dir, resultscharts_dir, error_log):
-    """
-    Main function to process race data for the racedata table.
-    Iterate over the year-specific subdirectories in PlusPro and ResultsCharts.
-    """
-    try:
-        # Iterate over each year directory for PlusPro
-        for year_dir in ['2022PP', '2023PP', '2024PP']:
-            year_path = os.path.join(pluspro_dir, year_dir)
-            if os.path.exists(year_path):
-                logging.info(f"Processing PlusPro data for {year_dir}")
-                process_zip_files(year_path, conn)
-            else:
-                logging.warning(f"PlusPro directory for {year_dir} not found")
-
-        # Iterate over each year directory for ResultsCharts
-        for year_dir in ['2022R', '2023R', '2024R']:
-            year_path = os.path.join(resultscharts_dir, year_dir)
-            if os.path.exists(year_path):
-                logging.info(f"Processing ResultsCharts data for {year_dir}")
-                process_zip_files(year_path, conn)
-            else:
-                logging.warning(f"ResultsCharts directory for {year_dir} not found")
-
-        logging.info("Race data ingestion completed successfully.")
-    except Exception as e:
-        logging.error(f"Error during race data ingestion: {e}")
-        with open(error_log, 'a') as error_file:
-            error_file.write(f"Race data ingestion error: {e}\n")
+        conn.rollback()  # Rollback the transaction in case of an error

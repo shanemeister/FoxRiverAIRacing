@@ -3,6 +3,7 @@ import json
 import logging
 from datetime import datetime
 import psycopg2
+from ingestion_utils import extract_race_date, extract_course_code, extract_post_time
 
 def format_race_record(race_info):
     """Helper function to format race_info as a CSV string for logging."""
@@ -31,8 +32,10 @@ def race_list(conn, directory_path, error_log_file):
 
                 for race_id, race_info in race_data.items():
                     try:
-                        course_cd = race_info['I'][:2]  # Assuming first two characters are course_cd
-                        post_time = datetime.fromisoformat(race_info['PostTime'])
+                        # Use the new extraction functions
+                        course_cd = extract_course_code(race_info['I'])
+                        race_date = extract_race_date(race_info['I'])  # From the 'I' field (YYYY-MM-DD)
+                        post_time = extract_post_time(race_info['PostTime'])  # Combine race_date with PostTime
                         country = race_info['Country']
                         race_course = race_info['Racecourse']
                         race_number = race_info['RaceNo']
@@ -42,20 +45,23 @@ def race_list(conn, directory_path, error_log_file):
                         eqb_race_course = race_info.get('EQBRacecourse', None)
 
                         insert_query = """
-                            INSERT INTO race_list (course_cd, post_time, country, race_course, race_number, race_type, race_length, published, eqb_race_course)
-                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-                            ON CONFLICT (course_cd, post_time)
+                            INSERT INTO race_list (course_cd, post_time, country, race_course, race_number, race_type, race_length, published, eqb_race_course, race_date)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            ON CONFLICT (course_cd, race_date, race_number)
                             DO UPDATE SET
+                                post_time = EXCLUDED.post_time,
                                 country = EXCLUDED.country,
                                 race_course = EXCLUDED.race_course,
-                                race_number = EXCLUDED.race_number,
                                 race_type = EXCLUDED.race_type,
                                 race_length = EXCLUDED.race_length,
                                 published = EXCLUDED.published,
                                 eqb_race_course = EXCLUDED.eqb_race_course;
                         """
                         try:
-                            cursor.execute(insert_query, (course_cd, post_time, country, race_course, race_number, race_type, race_length, published, eqb_race_course))
+                            cursor.execute(insert_query, (
+                                course_cd, post_time, country, race_course, race_number, race_type, race_length,
+                                published, eqb_race_course, race_date
+                            ))
                             conn.commit()  # Commit after each successful insert
                         except psycopg2.Error as e:
                             logging.error(f"Error inserting race ID {race_id} in file {filename}: {e}")

@@ -11,3 +11,136 @@ sending incremental file list
 sent 85,321 bytes  received 27 bytes  170,696.00 bytes/sec
 total size is 74,146,220  speedup is 868.75
 Tue Oct 15 10:13:16 AM CDT 2024 - Data moved successfully to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD.
+Wed Oct 16 03:01:18 AM CDT 2024 - Python script ran successfully.
+sending incremental file list
+fixtures/
+fixtures/2024-10-16
+gpsData/
+gpsData/88202410151815
+gpsData/88202410151838
+gpsData/88202410151901
+gpsData/88202410151924
+gpsData/88202410151947
+gpsData/88202410152010
+gpsData/88202410152033
+gpsData/88202410152056
+gpsData/88202410152119
+gpsData/88202410152142
+gpsData/88202410152205
+gpsData/88202410152228
+gpsData/88202410152251
+gpsData/89202410151410
+gpsData/89202410151441
+gpsData/89202410151512
+gpsData/89202410151543
+gpsData/89202410151614
+gpsData/89202410151645
+gpsData/89202410151716
+gpsData/89202410151747
+gpsData/89202410151815
+racelist/
+racelist/2024-10-16
+sectionals/
+sectionals/88202410151815
+sectionals/88202410151838
+sectionals/88202410151901
+sectionals/88202410151924
+sectionals/88202410151947
+sectionals/88202410152010
+sectionals/88202410152033
+sectionals/88202410152056
+sectionals/88202410152119
+sectionals/88202410152142
+sectionals/88202410152205
+sectionals/88202410152228
+sectionals/88202410152251
+sectionals/89202410151410
+sectionals/89202410151441
+sectionals/89202410151512
+sectionals/89202410151543
+sectionals/89202410151614
+sectionals/89202410151645
+sectionals/89202410151716
+sectionals/89202410151747
+sectionals/89202410151815
+
+sent 2,993,340 bytes  received 927 bytes  5,988,534.00 bytes/sec
+total size is 77,055,846  speedup is 25.73
+Wed Oct 16 03:01:18 AM CDT 2024 - Data moved successfully to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD.
+Thu Oct 17 03:02:06 AM CDT 2024 - Python script ran successfully.
+sending incremental file list
+fixtures/
+fixtures/2024-10-17
+fixtures/2024-10-18
+gpsData/
+gpsData/75202410161300
+gpsData/75202410161332
+gpsData/75202410161404
+gpsData/75202410161436
+gpsData/75202410161508
+gpsData/75202410161540
+gpsData/75202410161612
+gpsData/75202410161644
+gpsData/88202410161815
+gpsData/88202410161838
+gpsData/88202410161901
+gpsData/88202410161924
+gpsData/88202410161947
+gpsData/88202410162010
+gpsData/88202410162033
+gpsData/88202410162056
+gpsData/88202410162119
+gpsData/88202410162142
+gpsData/88202410162205
+gpsData/88202410162228
+gpsData/88202410162251
+gpsData/89202410161410
+gpsData/89202410161441
+gpsData/89202410161512
+gpsData/89202410161543
+gpsData/89202410161614
+gpsData/89202410161645
+gpsData/89202410161716
+gpsData/89202410161747
+gpsData/89202410161818
+gpsData/89202410161849
+gpsData/89202410161917
+racelist/
+racelist/2024-10-17
+sectionals/
+sectionals/75202410161300
+sectionals/75202410161332
+sectionals/75202410161404
+sectionals/75202410161436
+sectionals/75202410161508
+sectionals/75202410161540
+sectionals/75202410161612
+sectionals/75202410161644
+sectionals/88202410161815
+sectionals/88202410161838
+sectionals/88202410161901
+sectionals/88202410161924
+sectionals/88202410161947
+sectionals/88202410162010
+sectionals/88202410162033
+sectionals/88202410162056
+sectionals/88202410162119
+sectionals/88202410162142
+sectionals/88202410162205
+sectionals/88202410162228
+sectionals/88202410162251
+sectionals/89202410161410
+sectionals/89202410161441
+sectionals/89202410161512
+sectionals/89202410161543
+sectionals/89202410161614
+sectionals/89202410161645
+sectionals/89202410161716
+sectionals/89202410161747
+sectionals/89202410161818
+sectionals/89202410161849
+sectionals/89202410161917
+
+sent 4,752,255 bytes  received 1,326 bytes  9,507,162.00 bytes/sec
+total size is 81,721,853  speedup is 17.19
+Thu Oct 17 03:02:06 AM CDT 2024 - Data moved successfully to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD.

@@ -2,11 +2,12 @@ import logging
 import os
 from datetime import datetime
 from race_list import race_list # type: ignore
-from racedata import racedata
+from racedata import process_racedata_file # type: ignore
 from ingestion_utils import get_db_connection # type: ignore
+from eqb_ppData import ppData # type: ignore
 
 # Setup logging
-logging.basicConfig(filename='logs/ingestion.log', level=logging.INFO)
+logging.basicConfig(filename='/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/ingestion.log', level=logging.INFO)
 
 def log_start(dataset_name):
     logging.info(f"{datetime.now()} - Starting ingestion for: {dataset_name}")
@@ -17,13 +18,14 @@ def log_end(dataset_name, success=True):
 
 def run_ingestion_pipeline():
     conn = get_db_connection()  # Establish connection once and pass it to functions
-    error_file = "./logs/data_ingestion_errors.log"  # Log file for rejected data
+    error_file = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/data_ingestion_errors.log"  # Log file for rejected data
     
     datasets = [
-        ('Race List', lambda: race_list(conn, './data/TPD/racelist', error_file)),
-        ('Race Data', lambda: racedata(conn, './data/Equibase/PlusPro', './data/Equibase/ResultsCharts', error_file)),
+        #('Race List', lambda: race_list(conn, '/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/racelist', error_file)),
+        ('Race Data', lambda: ppData(conn, '/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro', 
+                                      '/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts', error_file)),
         # Add more datasets and their corresponding functions here (age_restriction, course, etc.)
-    ]
+        ]
     
     for dataset_name, ingest_func in datasets:
         log_start(dataset_name)

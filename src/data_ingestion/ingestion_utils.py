@@ -3,7 +3,7 @@ import psycopg2
 from datetime import datetime
 
 # Configure logging
-logging.basicConfig(filename='logs/ingestion.log', level=logging.INFO,
+logging.basicConfig(filename='/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/ingestion.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 def log_status(table_name, status, message=""):
@@ -58,3 +58,37 @@ def parse_race_id(race_id):
         return course_cd, race_date, post_time
     except ValueError as e:
         raise ValueError(f"Error parsing race_id '{race_id}': {e}")
+
+def extract_course_code(i_field):
+    """
+    Extract the course code from the first two characters of the 'I' field.
+    """
+    return i_field[:2]
+
+def extract_race_date(i_field):
+    """
+    Extract the race date from the 'I' field in the format 'YYYYMMDD'.
+    The race date starts from the third character and is eight digits long.
+    
+    Parameters:
+    - i_field (str): The 'I' field value from which to extract the race date.
+    
+    Returns:
+    - race_date (date): The extracted date in the format YYYY-MM-DD.
+    """
+    race_date_str = i_field[2:10]  # Extract characters from position 2 to 9 (inclusive)
+    return datetime.strptime(race_date_str, '%Y%m%d').date()
+
+def extract_post_time(post_time_str):
+    """
+    Extracts the time from the PostTime string.
+    
+    Parameters:
+    - post_time_str (str): The full PostTime string in ISO format, e.g., '2023-08-10T18:52:00-04:00'.
+    
+    Returns:
+    - time (time): The extracted time in the format HH:MM:SS.
+    """
+    post_time = datetime.fromisoformat(post_time_str).time()  # Extract only the time component
+    return post_time
+
