@@ -1,107 +1,153 @@
 import os
 import zipfile
 import logging
-import xml.etree.ElementTree as ET
-from concurrent.futures import ThreadPoolExecutor
+import tempfile
+from ingestion_utils import validate_xml
 from racedata import process_racedata_file
 from horse_data import process_horsedata_file 
-from stat_horse import process_stathorse_file 
+from dam import process_dam_file
 from sire import process_sire_file
-# from jockey import process_jockey_file
-# from stat_jockey import process_stat_jockey_file
+from stat_horse import process_stathorse_file
+from stat_dam import process_stat_dam_file
+from stat_sire import process_stat_sire_file
+from jockey import process_jockey_file
+from stat_jockey import process_stat_jockey_file
+from trainer import process_trainer_file
+from stat_trainer import process_stat_trainer_file
+from runners import process_runners_file
+from runners_stats import process_runners_stats_file
+from workoutdata import process_workoutdata_file
+from ppdata import process_ppData_file
+from ingestion_utils import log_file_status, log_ingestion_status, get_unprocessed_files
+from datetime import datetime
 
-# EQB to TDP course_cd mapping
-eqb_to_course_cd = {
-    'BEL': '98',
-    # Add more mappings as needed
-    # 'CD': '12',
-    # 'SAR': '20',
-    # etc.
-}
-
-def process_zip_files(directory, conn):
-    """
-    Extract and process all XML files inside ZIP archives in the specified directory.
-    """
+def process_zip_files(directory, conn, xsd_schema_path, processed_files):
     cursor = conn.cursor()
-
-    # Define the number of worker threads (adjust based on system resources)
-    max_workers = 4
+    total_zips = 0  # Counter for total ZIP files to be processed
+    zips_processed = 0  # Counter for successfully processed ZIPs
+    zips_failed = 0  # Counter for ZIPs that failed processing
 
     for root, dirs, files in os.walk(directory):
+        total_zips += len([f for f in files if f.endswith("plusxml.zip")])
+
         for file in files:
-            if file.endswith("plusxml.zip"):
-                logging.info(f"Processing ZIP file: {file}")
+            # Process only unprocessed files with "plusxml.zip" extension
+            if file.endswith("plusxml.zip") and file not in processed_files:
                 zip_path = os.path.join(root, file)
-                with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                    zip_ref.extractall("/tmp/racedata")  # Extract XMLs to temp folder
-                    for xml_file in os.listdir("/tmp/racedata"):
-                        if xml_file.endswith(".xml"):
-                            logging.info(f"Processing XML file: {xml_file}")
-                            xml_path = os.path.join("/tmp/racedata", xml_file)
-                            process_xml_file_in_parallel(xml_path, conn, cursor, max_workers)
+                
+                try:
+                    # Log "in-progress" status initially
+                    log_file_status(conn, file, datetime.now(), "in-progress")
+                    
+                    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                        # Extract the single XML file
+                        xml_file = zip_ref.namelist()[0]
+                        zip_ref.extract(xml_file, path=directory)
+                        xml_path = os.path.join(directory, xml_file)
 
-def process_xml_file_in_parallel(xml_file, conn, cursor, max_workers):
+                        # Process the extracted XML file
+                        logging.info(f"Processing XML file: {xml_path}")
+                        if validate_xml(xml_path, xsd_schema_path):
+                            if process_single_xml_file(xml_path, conn, cursor, xsd_schema_path):
+                                log_file_status(conn, file, datetime.now(), "processed")
+                                processed_files.add(file)
+                                zips_processed += 1
+                            else:
+                                log_file_status(conn, file, datetime.now(), "error", "Partial processing failure")
+                                zips_failed += 1
+                        else:
+                            log_file_status(conn, file, datetime.now(), "error", "Validation failed")
+                            zips_failed += 1
+
+                except zipfile.BadZipFile:
+                    logging.error(f"Bad ZIP file: {file} in {directory}")
+                    log_file_status(conn, file, datetime.now(), "error", "Bad ZIP file")
+                    zips_failed += 1
+
+                except Exception as xml_err:
+                    logging.error(f"Error processing XML in ZIP {zip_path}: {xml_err}")
+                    log_file_status(conn, file, datetime.now(), "error", str(xml_err))
+                    zips_failed += 1
+
+    cursor.close()
+    
+    # Print summary of processed ZIP files
+    print(f"Total ZIP files found: {total_zips}")
+    print(f"ZIP files processed successfully: {zips_processed}")
+    print(f"ZIP files failed or skipped: {zips_failed}")
+                    
+def process_single_xml_file(xml_file, conn, cursor, xsd_schema_path):
     """
-    Parse an XML file and process its contents in parallel using multiple threads.
-    """  
+    Processes each XML file, logging success only after all sections are loaded.
+    Returns True if all sections succeed; False otherwise.
+    """
     try:
-        # Parse the XML file
-        tree = ET.parse(xml_file)
-        root = tree.getroot()
-
-        # Use ThreadPoolExecutor to process different tasks concurrently
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            # Submit different tasks (processing functions) to the executor
-            future_racedata = executor.submit(process_racedata_file, xml_file, conn, cursor)
-            future_horsedata = executor.submit(process_horsedata_file, xml_file, conn, cursor)
-            future_stathorse = executor.submit(process_stathorse_file, xml_file, conn, cursor)
-            future_sire = executor.submit(process_sire_file, xml_file, conn, cursor)
-            #future_jockey = executor.submit(process_jockey_file, root, conn, cursor)
-            #future_stat_jockey = executor.submit(process_stat_jockey_file, root, conn, cursor)
-            # Add more future calls for other modules (trainer, stat_trainer, etc.)
-
-            # Ensure all futures complete
-            future_racedata.result()
-            future_horsedata.result()
-            future_stathorse.result()
-            future_sire.result()
-            #future_jockey.result()
-            #future_stat_jockey.result()
-
-    except Exception as e:
-        logging.error(f"Error processing file {xml_file}: {e}")
-        conn.rollback()
+        if not validate_xml(xml_file, xsd_schema_path):
+            logging.error(f"Validation failed for XML file: {xml_file}")
+            return False  # Skip processing if validation fails
         
-def ppData(conn, pluspro_dir, resultscharts_dir, error_log):
+        # Sequentially process each part of the data
+        logging.info(f"Processing race data file: {xml_file}")
+        process_racedata_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing horse data file: {xml_file}")
+        logging.info(f"Processing  race data file: {xml_file}")
+        process_racedata_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing horse data file: {xml_file}")
+        process_horsedata_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing stat horse data file: {xml_file}")
+        process_stathorse_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing dam data file: {xml_file}")
+        process_dam_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing stat dam data file: {xml_file}")
+        process_stat_dam_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing sire data file: {xml_file}")
+        process_sire_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing stat sire data file: {xml_file}")
+        process_stat_sire_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing jockey data file: {xml_file}")
+        process_jockey_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing stat jockey data file: {xml_file}")
+        process_stat_jockey_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing trainer data file: {xml_file}")
+        process_trainer_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing stat trainer data file: {xml_file}")
+        process_stat_trainer_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing runners data file: {xml_file}")
+        process_runners_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing runners stats data file: {xml_file}")
+        process_runners_stats_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing workout data file: {xml_file}")
+        process_workoutdata_file(xml_file, xsd_schema_path, conn, cursor)
+        logging.info(f"Processing ppData file: {xml_file}")
+        process_ppData_file(xml_file, xsd_schema_path, conn, cursor)
+        conn.commit()
+        return True  # Return True only if all sections succeeded
+        
+    except Exception as e:
+        logging.error(f"Error processing XML file {xml_file}: {e}")
+        conn.rollback()  # Rollback the transaction for safety
+        return False  # Indicate failure
+    
+def process_pluspro_data(conn, pluspro_dir, xsd_schema_path, error_log, processed_files):
     """
-    Main function to process race data for the racedata table.
-    Iterate over the year-specific subdirectories in PlusPro and ResultsCharts.
+    Main function to process PlusPro data.
+    This will handle the year-specific subdirectories.
     """
     try:
-        # Iterate over each year directory for PlusPro
-        for year_dir in ['2022PP', '2023PP', '2024PP', 'Daily']:
+        # Specify the year or directory to process (e.g., 2022PP)
+        year_dirs = ['2022PP', '2023PP', '2024PP', 'Daily']  # Extend this list for more years or other directories
+        
+        for year_dir in year_dirs:
             pp_data_path = os.path.join(pluspro_dir, year_dir)
-            print(f"Path to data: {pp_data_path}")
-            if os.path.exists(pp_data_path):
-                logging.info(f"Processing PlusPro data for {year_dir}")
-                process_zip_files(pp_data_path, conn)
-            else:
-                logging.warning(f"PlusPro directory for {year_dir} not found")
-
-        # Iterate over each year directory for ResultsCharts
-        for year_dir in ['2022R', '2023R', '2024R', 'Daily']:
-            results_data_path = os.path.join(resultscharts_dir, year_dir)
-            print(f"Path to data: {results_data_path}")
-            if os.path.exists(results_data_path):
-                logging.info(f"Processing ResultsCharts data for {year_dir}")
-                process_zip_files(results_data_path, conn)
-            else:
-                logging.warning(f"ResultsCharts directory for {year_dir} not found")
-
-        logging.info("Race data ingestion completed successfully.")
-    except Exception as e:
-        logging.error(f"Error during race data ingestion: {e}")
-        with open(error_log, 'a') as error_file:
-            error_file.write(f"Race data ingestion error: {e}\n")
             
+            if os.path.exists(pp_data_path):
+                process_zip_files(pp_data_path, conn, xsd_schema_path, processed_files)
+            else:
+                logging.warning(f"Directory {pp_data_path} not found for {year_dir}")
+
+        logging.info("PlusPro data ingestion completed successfully.")
+    
+    except Exception as e:
+        logging.error(f"Error during PlusPro data ingestion: {e}")
+        with open(error_log, 'a') as error_file:
+            error_file.write(f"PlusPro data ingestion error: {e}\n")

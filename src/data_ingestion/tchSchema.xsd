@@ -73,7 +73,7 @@
     <xs:element name="WEATHER" type="xs:string" />
     <xs:element name="STRT_DESC" type="xs:string" />
     <xs:element name="POST_TIME" type="xs:NMTOKEN" />
-    <xs:element name="DTV" type="xs:integer" />
+    <xs:element name="DTV" type="xs:string" />
     <xs:element name="FRACTION_1" type="xs:decimal" />
     <xs:element name="FRACTION_2" type="xs:decimal" />
     <xs:element name="FRACTION_3" type="xs:decimal" />
