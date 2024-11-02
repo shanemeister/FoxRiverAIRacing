@@ -18,8 +18,8 @@ if not USERNAME or not PASSWORD:
     raise Exception("TrackMaster credentials not set in environment variables")
 
 # Define where to save the files
-pluspro_dir = './data/Equibase/PlusPro/Daily'
-results_dir = './data/Equibase/ResultsCharts/Daily'
+pluspro_dir = '/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily'
+results_dir = '/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily'
 
 # Ensure directories exist
 os.makedirs(pluspro_dir, exist_ok=True)

@@ -10,7 +10,44 @@ import os
 import csv
 import argparse
 import base64
+from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
+def parse_filename(filename):
+    """
+    Parse the filename to extract course code, race date, and post time.
+    
+    Parameters:
+    - filename: The name of the file.
+    
+    Returns:
+    - course_cd: The course code.
+    - race_date_str: The race date as a string in 'YYYYMMDD' format.
+    - post_time_str: The post time as a string in 'HHMM' format.
+    """
+    try:
+        # Assuming the filename format is 'CCYYYYMMDDHHMM' where:
+        # - CC is the course code (2 characters)
+        # - YYYYMMDD is the race date (8 characters)
+        # - HHMM is the post time (4 characters)
+        course_cd = filename[:2]
+        race_date_str = filename[2:10]
+        post_time_str = filename[10:14]
+        
+        # Validate the extracted date and time
+        datetime.strptime(race_date_str, '%Y%m%d')
+        datetime.strptime(post_time_str, '%H%M')
+        
+        return course_cd, race_date_str, post_time_str
+    except ValueError as e:
+        logging.error(f"Error parsing filename {filename}: {e}")
+        raise
+
+# def translate_course_code(tpd_code):
+#     """Translate a TPD or EQB course code to a baseline course code."""
+#     course_cd = eqb_tpd_codes_to_course_cd.get(tpd_code)
+#     if course_cd is None:
+#         logging.error(f"Missing mapping for course code: {tpd_code}")
+#     return course_cd
 
 # Configure logging
 logging.basicConfig(filename='/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/ingestion.log', level=logging.INFO,
@@ -82,47 +119,48 @@ def validate_xml(xml_file, xsd_file_path):
         logging.error(f"Exception during XML validation of file {xml_file}: {e}")
         return False
 
-def parse_race_id(race_id):
+def extract_course_code(identifier):
     """
-    Parses the race_id into course_cd, race_date, and post_time.
-    The format of race_id is 'coursecode + date + time' (e.g., '71201703091245').
+    Extract the course code from the identifier and return the mapped course_cd.
+    Assumes the course code is the first two characters of the identifier.
     """
     try:
-        # Extract the course code (first two characters)
-        course_cd = race_id[:2]  # First 2 characters for course_cd
+        # Extract the first two characters as the course code and strip any whitespace
+        course_code = identifier[:2].strip()
+        logging.info(f"Extracted course code: {course_code} from identifier: {identifier}")
         
-        # Extract the date (next 8 characters)
-        race_date_str = race_id[2:10]  # Next 8 characters for date (YYYYMMDD)
-        race_date = datetime.strptime(race_date_str, "%Y%m%d").date()  # Convert to date object
+        # Look up the course code in the dictionary
+        mapped_course_cd = eqb_tpd_codes_to_course_cd.get(course_code)
         
-        # Extract the time (remaining characters)
-        race_time_str = race_id[10:14]  # Next 4 characters for time (HHMM)
-        post_time = datetime.strptime(f"{race_date_str} {race_time_str}", "%Y%m%d %H%M")  # Combine date and time
-        
-        return course_cd, race_date, post_time
-    except ValueError as e:
-        raise ValueError(f"Error parsing race_id '{race_id}': {e}")
+        if mapped_course_cd and len(mapped_course_cd) == 3:
+            logging.info(f"Mapped course code: {mapped_course_cd} for course code: {course_code}")
+            return mapped_course_cd
+        else:
+            logging.error(f"Course code {course_code} not found in mapping dictionary or mapped course code is not three characters.")
+            return None
+    except Exception as e:
+        logging.error(f"Error extracting course code from identifier {identifier}: {e}")
+        return None
 
-def extract_course_code(i_field):
+def extract_race_date(filename):
     """
-    Extract the course code from the first two characters of the 'I' field.
-    """
-    return i_field[:2]
-
-def extract_race_date(i_field):
-    """
-    Extract the race date from the 'I' field in the format 'YYYYMMDD'.
-    The race date starts from the third character and is eight digits long.
+    Extract the race date from the filename.
     
     Parameters:
-    - i_field (str): The 'I' field value from which to extract the race date.
+    - filename: The name of the file.
     
     Returns:
-    - race_date (date): The extracted date in the format YYYY-MM-DD.
+    - The race date as a datetime object.
     """
-    race_date_str = i_field[2:10]  # Extract characters from position 2 to 9 (inclusive)
-    return datetime.strptime(race_date_str, '%Y%m%d').date()
-
+    try:
+        # Assuming the race date is in the format 'ccyyyymmddHHMM' and starts at the 3rd character
+        if len(filename) < 10:
+            raise ValueError("Filename too short to contain a valid race date")
+        race_date_str = filename[2:10]  # Extract 'yyyymmdd' part
+        return datetime.strptime(race_date_str, '%Y%m%d').date()
+    except ValueError as e:
+        raise ValueError(f"Error parsing race date from filename {filename}: {e}")
+    
 def extract_post_time(post_time_str):
     """
     Extracts the time from the PostTime string.
@@ -158,30 +196,37 @@ def parse_date(date_str, attribute = ''):
         
 # Function to parse AM/PM formatted time strings
 
-from datetime import datetime
-
 def parse_time(time_str):
     """
-    Parse time string, assuming PM if no AM/PM designator is present.
+    Parse a time string in ISO format, 24-hour, or 12-hour AM/PM format.
     """
     if time_str:
         try:
-            # Try parsing with AM/PM designator if present (e.g., 1:00PM)
+            # Try ISO 8601 format (e.g., '2024-07-30T16:05:00-05:00')
+            if 'T' in time_str and '-' in time_str[-6:]:
+                return datetime.fromisoformat(time_str).time()
+        except ValueError:
+            pass  # Fall through to other formats if ISO fails
+
+        try:
+            # Try parsing with AM/PM designator if present (e.g., '4:05PM')
             return datetime.strptime(time_str, '%I:%M%p').time()
         except ValueError:
-            try:
-                # Try parsing as 24-hour format
-                parsed_time = datetime.strptime(time_str, '%H:%M').time()
-                
-                # If parsed hour is between 1 and 11, assume PM if AM/PM is missing
-                if 1 <= parsed_time.hour <= 11:
-                    parsed_time = parsed_time.replace(hour=(parsed_time.hour + 12) % 24)
-                    
-                return parsed_time
+            pass
 
-            except ValueError as e:
-                logging.error(f"Error parsing time {time_str}: {e}")
-                return None
+        try:
+            # Try parsing as 24-hour format (e.g., '16:05')
+            parsed_time = datetime.strptime(time_str, '%H:%M').time()
+            
+            # Adjust to PM if parsed hour is between 1 and 11 with no AM/PM specifier
+            if 1 <= parsed_time.hour <= 11:
+                parsed_time = parsed_time.replace(hour=(parsed_time.hour + 12) % 24)
+                
+            return parsed_time
+
+        except ValueError as e:
+            logging.error(f"Error parsing time {time_str}: {e}")
+            return None
 
     return None
 
@@ -263,7 +308,12 @@ def log_rejected_record(conn, table_name, record_data, error_message):
     finally:
         cursor.close()
 
+import base64
+from datetime import date
+
 def gen_race_identifier(course_cd, race_date, race_number):
+    """ Generate a race identifier by encoding course code, race date, and race number. """
+    
     try:
         if not course_cd or not race_date or race_number is None:
             raise ValueError("Invalid inputs: course_cd, race_date, and race_number must not be empty or None.")
@@ -290,9 +340,9 @@ def gen_race_identifier(course_cd, race_date, race_number):
         return encoded_data
 
     except (ValueError, TypeError) as e:
-        print(f"Error generating race identifier: {e}")
+        print(f"Error generating race identifier: {e}, course_cd: {course_cd}, race_date: {race_date}, race_number: {race_number}")
         return None
-    
+
 def decode_race_identifier(encoded_data):
     try:
         # Decode the Base64 string back to the original string
@@ -313,12 +363,6 @@ def decode_race_identifier(encoded_data):
     except (ValueError, TypeError, base64.binascii.Error) as e:
         print(f"Error decoding race identifier: {e}")
         return None
-
-    except (ValueError, TypeError, base64.binascii.Error) as e:
-        print(f"Error decoding race identifier: {e}")
-        return None
-    
-from datetime import datetime
 
 def log_ingestion_status(conn, table_name, status, message=None):
     """
@@ -487,3 +531,6 @@ def convert_point_of_call_to_json(point_of_call_elems):
             "LENGTHS": float(elem.find('LENGTHS').text)
         })
     return json.dumps(point_of_call_list)
+
+def process_tpd_racelist():
+    pass

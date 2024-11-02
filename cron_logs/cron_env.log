@@ -7,7 +7,7 @@ LANG=en_US.UTF-8
 XDG_SESSION_CLASS=background
 USER=exx
 SHLVL=1
-XDG_SESSION_ID=411
+XDG_SESSION_ID=425
 XDG_RUNTIME_DIR=/run/user/1000
 PATH=/home/exx/.amplify/bin:/usr/local/cuda-12.4/bin:/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/bin:/home/exx/anaconda3/envs/mamba_env/condabin:/usr/bin:/bin
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus

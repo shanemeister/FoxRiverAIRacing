@@ -3,6 +3,8 @@ import base64
 from datetime import date, datetime
 
 def gen_race_identifier(course_cd, race_date, race_number):
+    """ Generate a race identifier by encoding course code, race date, and race number. """
+    
     try:
         if not course_cd or not race_date or race_number is None:
             raise ValueError("Invalid inputs: course_cd, race_date, and race_number must not be empty or None.")
@@ -29,8 +31,10 @@ def gen_race_identifier(course_cd, race_date, race_number):
         return encoded_data
 
     except (ValueError, TypeError) as e:
-        print(f"Error generating race identifier: {e}")
+        print(f"Error generating race identifier: {e}, course_cd: {course_cd}, race_date {race_date}, race_number: {race_number}")
         return None
+    
+import base64
 
 def decode_race_identifier(encoded_data):
     try:

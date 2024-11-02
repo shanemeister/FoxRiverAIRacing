@@ -1,5 +1,14 @@
-import pytest
-from hello_world import hello
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
-def test_hello_world():
-    assert hello() == "Hello, World!"
+import unittest
+from src.data_ingestion.hello_world import hello
+
+class TestHelloWorld(unittest.TestCase):
+    def test_hello(self):
+        self.assertEqual(hello(), "Hello, World!")
+
+if __name__ == '__main__':
+    unittest.main()
