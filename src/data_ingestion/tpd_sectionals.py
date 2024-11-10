@@ -3,148 +3,72 @@ import json
 import logging
 from datetime import datetime
 import psycopg2
-from src.data_ingestion.ingestion_utils import extract_race_date, extract_course_code, log_file_status, gen_race_identifier
+from src.data_ingestion.ingestion_utils import update_ingestion_status, parse_time, parse_date, extract_course_code, extract_race_date
+from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
-def parse_filename(filename):
-    """
-    Parses the filename to extract course code, race date, and post time.
-    Assumes the filename format is 'coursecodeYYYYMMDDHHMM.ext'.
-    """
-    try:
-        course_cd = filename[:2]
-        race_date_str = filename[2:10]
-        post_time_str = filename[10:14]
-        return course_cd, race_date_str, post_time_str
-    except Exception as e:
-        raise ValueError(f"Error parsing filename {filename}: {e}")
-
-def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, race_identifier, directory_path, processed_files, course_mapping):
+def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, post_time, filename):
+    has_rejections = False  # Track if any records were rejected
+    logging.info(f"Processing sectionals data from file {filename}")
     cursor = conn.cursor()
-
-    for filename in os.listdir(directory_path):
-        if filename in processed_files:
-            logging.info(f"Skipping already processed file: {filename}")
-            continue
-
-        # Skip non-data files
-        if not filename.endswith('.json'):
-            logging.info(f"Skipping non-data file: {filename}")
-            continue
-
-        # Parse information from the filename
-        try:
-            course_cd, race_date_str, post_time_str = parse_filename(filename)
-            race_date = datetime.strptime(race_date_str, '%Y%m%d').date()
-            logging.info(f"Extracted course code: {course_cd} from identifier: {filename}")
-        except ValueError as e:
-            logging.error(f"Error parsing filename {filename}: {e}")
-            log_file_status(conn, filename, datetime.now(), "error", f"Filename parsing error: {e}")
-            continue
-
-        # Check if course code is in the mapping dictionary
-        if course_cd not in course_mapping or len(course_mapping[course_cd]) != 3:
-            logging.error(f"Course code '{course_cd}' not found in mapping dictionary or mapped course code is not three characters. Filename: {filename}")
-            log_file_status(conn, filename, datetime.now(), "error", f"Course code '{course_cd}' not found in mapping dictionary or mapped course code is not three characters.")
-            continue
-
-        filepath = os.path.join(directory_path, filename)
-        logging.info(f"Processing file: {filepath}")
-
-        with open(filepath, 'r') as f:
-            try:
-                sectional_data = json.load(f)
-                logging.info(f"Loaded JSON data from file: {filename}")
-
-                # Check if the loaded JSON data is a list or a dictionary
-                if isinstance(sectional_data, list):
-                    for index, sec_info in enumerate(sectional_data):
-                        logging.info(f"Processing list entry {index + 1} of {len(sectional_data)}")
-                        process_sectional_entry(conn, cursor, sec_info, race_identifier, course_cd, race_date, race_number, filename, index + 1)
-                elif isinstance(sectional_data, dict):
-                    for index, (sec_id, sec_info) in enumerate(sectional_data.items()):
-                        logging.info(f"Processing dictionary entry {index + 1} of {len(sectional_data)}")
-                        process_sectional_entry(conn, cursor, sec_info, race_identifier, course_cd, race_date, race_number, filename, index + 1)
-                else:
-                    raise ValueError("Unexpected JSON format")
-
-                processed_files.add(filename)
-                log_file_status(conn, filename, datetime.now(), "processed")
-
-            except json.JSONDecodeError as e:
-                logging.error(f"JSON decode error in file {filename}: {e}")
-                log_file_status(conn, filename, datetime.now(), "error", "JSON decode error")
-            except Exception as e:
-                logging.error(f"Unexpected error in file {filename}: {e}")
-                log_file_status(conn, filename, datetime.now(), "error", str(e))
-
-    cursor.close()
-
-def process_sectional_entry(conn, cursor, sec_info, race_identifier, course_cd, race_date, race_number, filename, index):
     try:
-        # Extract and prepare sectional data fields
-        program_number = str(sec_info.get('I', '')[-2:])  # Last two characters represent the program number
-        gate_name = str(sec_info.get('G', ''))
-        length_to_finish = str(sec_info.get('L', ''))
-        sectional_time = str(sec_info.get('S', ''))
-        running_time = str(sec_info.get('R', ''))
-        distance_back = str(sec_info.get('B', ''))
-        distance_ran = str(sec_info.get('D', ''))
-        number_of_strides = str(sec_info.get('N', '')) if sec_info.get('N') is not None else None  # Optional field
+        for sec_info in data:
+            logging.info(f"sec_info content: {sec_info}")
+            logging.info(f"Gate Name (G): {sec_info.get('G', '')}")
+            
+            # Extract the saddle cloth number as the last two characters of 'I' field
+            saddle_cloth_number = sec_info['I'][-2:]
+            
+            # Map each field to the relevant table column
+            gate_name = sec_info.get('G', '')
+            length_to_finish = sec_info.get('L', None)
+            sectional_time = sec_info.get('S', None)
+            running_time = sec_info.get('R', None)
+            distance_back = sec_info.get('B', None)
+            distance_ran = sec_info.get('D', None)
+            number_of_strides = sec_info.get('N', None)
 
-        # Use index to make each entry unique within the file
-        unique_identifier = index
-
-        # Insert or update race_list record
-        insert_race_list_query = """
-            INSERT INTO race_list (race_identifier, course_cd, race_date, race_number)
-            VALUES (%s, %s, %s, %s)
-            ON CONFLICT (race_identifier)
-            DO UPDATE SET
-                course_cd = EXCLUDED.course_cd,
-                race_date = EXCLUDED.race_date,
-                race_number = EXCLUDED.race_number;
-        """
-        cursor.execute(insert_race_list_query, (race_identifier, course_cd, race_date, race_number))
-
-        # Insert or update sectional entry
-        insert_query = """
-            INSERT INTO sectionals (program_number, course_cd, race_date, race_number, 
-                                    gate_name, length_to_finish, sectional_time, running_time, distance_back, 
-                                    distance_ran, number_of_strides, race_identifier, unique_identifier)
-            VALUES (%s, %s, %s, %s, 
-                    %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s)
-            ON CONFLICT (race_identifier, program_number, unique_identifier)
-            DO UPDATE SET
-                course_cd = EXCLUDED.course_cd,
-                race_date = EXCLUDED.race_date,
-                race_number = EXCLUDED.race_number,
-                gate_name = EXCLUDED.gate_name,
-                length_to_finish = EXCLUDED.length_to_finish,
-                sectional_time = EXCLUDED.sectional_time,
-                running_time = EXCLUDED.running_time,
-                distance_back = EXCLUDED.distance_back,
-                distance_ran = EXCLUDED.distance_ran,
-                number_of_strides = EXCLUDED.number_of_strides;
-        """
-        try:
-            cursor.execute(insert_query, (
-                program_number, course_cd, race_date, race_number, 
-                gate_name, length_to_finish, sectional_time, running_time, distance_back, 
-                distance_ran, number_of_strides, race_identifier, unique_identifier
-            ))
-            conn.commit()
-            logging.info(f"Inserted sectional entry with unique_identifier: {unique_identifier} in file {filename}")
-        except psycopg2.Error as e:
-            logging.error(f"Error inserting sectional data in file {filename}: {e}")
-            formatted_record = format_sectional_record(sec_info)
-            logging.error(f"Failed record: {formatted_record}")
-            conn.rollback()
-            log_file_status(conn, filename, datetime.now(), "error", str(e))
-
+            # SQL insert statement
+            insert_query = """
+                INSERT INTO public.sectionals (
+                    course_cd, race_date, post_time, race_number, saddle_cloth_number, 
+                    gate_name, length_to_finish, sectional_time, running_time, distance_back, 
+                    distance_ran, number_of_strides
+                ) VALUES (%s, %s, %s, %s, %s, 
+                          %s, %s, %s, %s, %s,
+                          %s, %s)
+                ON CONFLICT (course_cd, race_date, post_time, race_number, saddle_cloth_number, gate_name)
+                DO UPDATE SET
+                    length_to_finish = EXCLUDED.length_to_finish,
+                    sectional_time = EXCLUDED.sectional_time,
+                    running_time = EXCLUDED.running_time,
+                    distance_back = EXCLUDED.distance_back,
+                    distance_ran = EXCLUDED.distance_ran,
+                    number_of_strides = EXCLUDED.number_of_strides;
+            """
+            
+            try:
+                cursor.execute(insert_query, (
+                    course_cd, race_date, post_time, race_number, saddle_cloth_number, 
+                    gate_name, length_to_finish, sectional_time, running_time, distance_back, 
+                    distance_ran, number_of_strides
+                ))
+                conn.commit()
+            except psycopg2.Error as e:
+                has_rejections = True  # Track if any records were rejected
+                logging.error(f"Error inserting sectional data in file {filename}: {e}")
+                conn.rollback()
+                update_ingestion_status(conn, filename, str(e), "Sectionals")
+    
     except KeyError as e:
+        has_rejections = True
         logging.error(f"Missing key {e} in sectional data from file {filename}")
-        log_file_status(conn, filename, datetime.now(), "error", f"Missing key {e}")
+        update_ingestion_status(conn, filename, f"Missing key {e}", "Sectionals")
     except TypeError as e:
+        has_rejections = True
         logging.error(f"Type error in sectional data from file {filename}: {e}")
-        log_file_status(conn, filename, datetime.now(), "error", f"Type error: {e}")
+        update_ingestion_status(conn, filename, f"Type error: {e}", "Sectionals")
+    finally:
+        
+        return not has_rejections  # Returns True if no rejections, otherwise False
+
+

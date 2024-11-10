@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import logging
-from ingestion_utils import validate_xml, get_text
+from ingestion_utils import validate_xml, get_text, log_rejected_record, update_ingestion_status
 
 def process_dam_file(xml_file, xsd_file_path, conn, cursor):
     """
@@ -12,6 +12,8 @@ def process_dam_file(xml_file, xsd_file_path, conn, cursor):
     if not validate_xml(xml_file, xsd_file_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
         return  # Skip processing this file
+    has_rejections = False  # Track if any records were rejected
+    rejected_record = {}  # Store rejected records for logging
 
     try:
         tree = ET.parse(xml_file)
@@ -48,22 +50,36 @@ def process_dam_file(xml_file, xsd_file_path, conn, cursor):
                                 damname = EXCLUDED.damname,
                                 damsire = EXCLUDED.damsire
                         """
+                        try:
+                            # Execute the query
+                            cursor.execute(insert_query, (
+                                damname, axciskey, stat_breed, damsire
+                            ))
+                        except Exception as horse_error:
+                            has_rejections = True
+                            logging.error(f"Error processing horse {horse}: {horse_error}")
+                            # Prepare and log rejected record
+                            rejected_record = {
+                                'damname': damname,
+                                'axciskey': axciskey,
+                                'stat_breed': stat_breed,
+                                'damsire': damsire
+                            }
+                            conn.rollback()  # Rollback the transaction before logging the rejected record
+                            log_rejected_record(conn, 'dam_data', rejected_record, str(horse_error))
+                            continue  # Skip to the next race record
 
-                        # Execute the query
-                        cursor.execute(insert_query, (
-                            damname, axciskey, stat_breed, damsire
-                        ))
                     else:
                         logging.warning(f"No dam data found for horse {axciskey} in file {xml_file}.")
                 except Exception as e:
-                    logging.error(f"Error processing dam data for horse {axciskey} in file {xml_file}: {e}")
-                    conn.rollback()  # Rollback the transaction for this dam record
-                    continue  # Skip to the next horse/dam
-
-        # Commit the transaction after all dam data has been processed
-        conn.commit()
+                    has_rejections = True
+                    conn.rollback()  # Rollback the transaction before logging the rejected record
+                    log_rejected_record(conn, 'dam_data', rejected_record, str(e))
+                    continue  # Skip to the next race record
         
+        return not has_rejections  # Returns True if no rejections, otherwise False
+
     except Exception as e:
-        # Handle exceptions and rollback in case of error
-        logging.error(f"Error processing dam data in file {xml_file}: {e}")
-        conn.rollback()  # Rollback the transaction in case of an error
+        logging.error(f"Critical error processing horse data file {xml_file}: {e}")
+        conn.rollback()  # Rollback transaction if an error occurred
+        return False

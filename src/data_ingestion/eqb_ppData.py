@@ -18,114 +18,127 @@ from runners import process_runners_file
 from runners_stats import process_runners_stats_file
 from workoutdata import process_workoutdata_file
 from ppdata import process_ppData_file
-from ingestion_utils import log_file_status, log_ingestion_status, get_unprocessed_files
+from ingestion_utils import update_ingestion_status
+from datetime import datetime
+
+import os
+import zipfile
+import logging
+from datetime import datetime
+
+import os
+import zipfile
+import logging
 from datetime import datetime
 
 def process_zip_files(directory, conn, xsd_schema_path, processed_files):
     cursor = conn.cursor()
-    total_zips = 0  # Counter for total ZIP files to be processed
-    zips_processed = 0  # Counter for successfully processed ZIPs
-    zips_failed = 0  # Counter for ZIPs that failed processing
-
+    total_zips = 0
+    zips_processed = 0
+    zips_failed = 0
+    x = 0
     for root, dirs, files in os.walk(directory):
         total_zips += len([f for f in files if f.endswith("plusxml.zip")])
-
+    
         for file in files:
-            # Process only unprocessed files with "plusxml.zip" extension
-            if file.endswith("plusxml.zip") and file not in processed_files:
+            if file.endswith("plusxml.zip"):
                 zip_path = os.path.join(root, file)
                 
                 try:
-                    # Log "in-progress" status initially
-                    log_file_status(conn, file, datetime.now(), "in-progress")
-                    
                     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                        # Extract the single XML file
+                        # Extract the XML file name inside the ZIP
                         xml_file = zip_ref.namelist()[0]
-                        zip_ref.extract(xml_file, path=directory)
+                        xml_base_name = os.path.basename(xml_file)  # Get the base name without path
                         xml_path = os.path.join(directory, xml_file)
 
-                        # Process the extracted XML file
-                        logging.info(f"Processing XML file: {xml_path}")
+                        # Check if the XML file has already been processed by its base name
+                        if xml_base_name in processed_files:
+                            # logging.info(f"########################### Skipping already processed file: {xml_base_name} ###########################")
+                            continue  # Skip this XML file if already processed
+                        # Extract and validate XML
+                        zip_ref.extract(xml_file, path=directory)
                         if validate_xml(xml_path, xsd_schema_path):
-                            if process_single_xml_file(xml_path, conn, cursor, xsd_schema_path):
-                                log_file_status(conn, file, datetime.now(), "processed")
-                                processed_files.add(file)
+                            # Process the XML file and set the final status based on the outcome
+                            x+=1
+                            if process_single_xml_file(xml_path, xml_base_name, conn, cursor, xsd_schema_path, processed_files, x):
                                 zips_processed += 1
                             else:
-                                log_file_status(conn, file, datetime.now(), "error", "Partial processing failure")
                                 zips_failed += 1
                         else:
-                            log_file_status(conn, file, datetime.now(), "error", "Validation failed")
                             zips_failed += 1
 
                 except zipfile.BadZipFile:
                     logging.error(f"Bad ZIP file: {file} in {directory}")
-                    log_file_status(conn, file, datetime.now(), "error", "Bad ZIP file")
                     zips_failed += 1
 
                 except Exception as xml_err:
                     logging.error(f"Error processing XML in ZIP {zip_path}: {xml_err}")
-                    log_file_status(conn, file, datetime.now(), "error", str(xml_err))
                     zips_failed += 1
 
     cursor.close()
-    
-    # Print summary of processed ZIP files
     print(f"Total ZIP files found: {total_zips}")
     print(f"ZIP files processed successfully: {zips_processed}")
     print(f"ZIP files failed or skipped: {zips_failed}")
-                    
-def process_single_xml_file(xml_file, conn, cursor, xsd_schema_path):
+                   
+def process_single_xml_file(xml_file, xml_base_name, conn, cursor, xsd_schema_path, processed_files, x):
     """
     Processes each XML file, logging success only after all sections are loaded.
     Returns True if all sections succeed; False otherwise.
     """
+    print(f"Processing XML file number : {x}")
+
+    section_results = {}  # Track the result of each section
     try:
         if not validate_xml(xml_file, xsd_schema_path):
             logging.error(f"Validation failed for XML file: {xml_file}")
             return False  # Skip processing if validation fails
-        
-        # Sequentially process each part of the data
-        logging.info(f"Processing race data file: {xml_file}")
-        process_racedata_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing horse data file: {xml_file}")
-        logging.info(f"Processing  race data file: {xml_file}")
-        process_racedata_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing horse data file: {xml_file}")
-        process_horsedata_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing stat horse data file: {xml_file}")
-        process_stathorse_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing dam data file: {xml_file}")
-        process_dam_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing stat dam data file: {xml_file}")
-        process_stat_dam_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing sire data file: {xml_file}")
-        process_sire_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing stat sire data file: {xml_file}")
-        process_stat_sire_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing jockey data file: {xml_file}")
-        process_jockey_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing stat jockey data file: {xml_file}")
-        process_stat_jockey_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing trainer data file: {xml_file}")
-        process_trainer_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing stat trainer data file: {xml_file}")
-        process_stat_trainer_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing runners data file: {xml_file}")
-        process_runners_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing runners stats data file: {xml_file}")
-        process_runners_stats_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing workout data file: {xml_file}")
-        process_workoutdata_file(xml_file, xsd_schema_path, conn, cursor)
-        logging.info(f"Processing ppData file: {xml_file}")
-        process_ppData_file(xml_file, xsd_schema_path, conn, cursor)
-        conn.commit()
-        return True  # Return True only if all sections succeeded
-        
+
+        # Sequentially process each part of the data and store the result for each section
+        sections = [
+            ("racedata", process_racedata_file),
+            ("horse_data", process_horsedata_file),
+            ("stat_horse", process_stathorse_file),
+            ("dam", process_dam_file),
+            ("stat_dam", process_stat_dam_file),
+            ("sire", process_sire_file),
+            ("stat_sire", process_stat_sire_file),
+            ("jockey", process_jockey_file),
+            ("stat_jockey", process_stat_jockey_file),
+            ("trainer", process_trainer_file),
+            ("stat_trainer", process_stat_trainer_file),
+            ("runners", process_runners_file),
+            ("runners_stats", process_runners_stats_file),
+            ("workout", process_workoutdata_file),
+            ("ppData", process_ppData_file)
+        ]
+
+        for section_name, process_function in sections:
+            logging.info(f"Processing {section_name} data file: {xml_file}")
+            try:
+                result = process_function(xml_file, xsd_schema_path, conn, cursor)
+                if result:
+                    section_results[section_name] = "processed"
+                else:
+                    section_results[section_name] = "error"
+            except Exception as section_error:
+                logging.error(f"Error processing {section_name} in file {xml_file}: {section_error}")
+                section_results[section_name] = "error"
+
+        # Determine overall success based on individual section results
+        if all(status == "processed" for status in section_results.values()):
+            conn.commit()
+            update_ingestion_status(conn, xml_base_name, "processed", "PlusPro")
+            processed_files.add(xml_base_name)
+            return True  # All sections succeeded
+        else:
+            conn.rollback()
+            update_ingestion_status(conn, xml_base_name, "processed_with_errors", "PlusPro")
+            return False  # At least one section had an error
+
     except Exception as e:
         logging.error(f"Error processing XML file {xml_file}: {e}")
         conn.rollback()  # Rollback the transaction for safety
+        update_ingestion_status(conn, xml_base_name, str(e), "PlusPro")
         return False  # Indicate failure
     
 def process_pluspro_data(conn, pluspro_dir, xsd_schema_path, error_log, processed_files):
@@ -135,12 +148,13 @@ def process_pluspro_data(conn, pluspro_dir, xsd_schema_path, error_log, processe
     """
     try:
         # Specify the year or directory to process (e.g., 2022PP)
-        year_dirs = ['2022PP', '2023PP', '2024PP', 'Daily']  # Extend this list for more years or other directories
+        year_dirs = ['Daily'] #'2022PP', '2023PP', '2024PP', 'Daily']  # Extend this list for more years or other directories
         
         for year_dir in year_dirs:
             pp_data_path = os.path.join(pluspro_dir, year_dir)
             
             if os.path.exists(pp_data_path):
+                print(f"Processing PlusPro data for {processed_files}")
                 process_zip_files(pp_data_path, conn, xsd_schema_path, processed_files)
             else:
                 logging.warning(f"Directory {pp_data_path} not found for {year_dir}")

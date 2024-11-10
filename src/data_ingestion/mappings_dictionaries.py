@@ -1,125 +1,5 @@
 eqb_tpd_codes_to_course_cd = {
-    "SWC": "SWC",  # None
-    "CPW": "CPW",  # CHIPPEWA DOWNS
-    "LSP": "LSP",  # None
-    "FAR": "FAR",  # NORTH DAKOTA HORSE PARK
-    "HC": "CLS",  # COLUMBUS
-    "CLS": "CLS",  # COLUMBUS
-    "ATO": "ATO",  # ATOKAD DOWNS
-    "FON": "FON",  # FONNER PARK
-    "FPL": "FPL",  # FAIR PLAY PARK
-    "HPO": "HPO",  # HORSEMENS PARK
-    "LEG": "LEG",  # LEGACY DOWNS
-    "LNN": "LNN",  # LINCOLN RACE COURSE
-    "RKM": "RKM",  # ROCKINGHAM PARK
-    "ATL": "ATL",  # ATLANTIC CITY
-    "FH": "TFH",  # FAR HILLS
-    "RB": "TRB",  # RED BANK
-    "87": "MED",  # MEADOWLANDS
-    "MED": "MED",  # MEADOWLANDS
-    "84": "MTH",  # MONMOUTH PARK
-    "MTH": "MTH",  # MONMOUTH PARK
-    "ALB": "ALB",  # ALBUQUERQUE
-    "LAM": "LAM",  # LA MESA PARK
-    "RUI": "RUI",  # RUIDOSO DOWNS
-    "SFE": "SFE",  # SANTA FE
-    "SJD": "SJD",  # SAN JUAN DOWNS
-    "SRP": "SRP",  # SUNRAY PARK
-    "SUN": "SUN",  # SUNLAND PARK
-    "ZIA": "ZIA",  # ZIA PARK
-    "ELK": "ELK",  # ELKO COUNTY FAIR
-    "ELY": "ELY",  # WHITE PINE RACING
-    "HCF": "HCF",  # HUMBOLDT COUNTY FAIR
-    "WPR": "WPR",  # WHITE PINE RACEWAY
-    "96": "AQU",  # AQUEDUCT
-    "AQU": "AQU",  # AQUEDUCT
-    "98": "BEL",  # BELMONT PARK
-    "BEL": "BEL",  # BELMONT PARK
-    "BAQ": "BAQ",  # BELMONT AT THE BIG A
-    "FL": "TFL",  # FINGER LAKES
-    "GV": "TGV",  # GENESEE VALLEY
-    "TGD": "TGD",  # TIOGA DOWNS
-    "ST": "SAR",  # SARATOGA
-    "SAR": "SAR",  # SARATOGA
-    "76": "MVR",  # MAHONING VALLEY RACE COURSE
-    "MVR": "MVR",  # MAHONING VALLEY RACE COURSE
-    "BEU": "BEU",  # BEULAH PARK
-    "BTP": "BTP",  # BELTERRA PARK
-    "RD": "TRD",  # RIVER DOWNS
-    "TDN": "TDN",  # THISTLEDOWN
-    "BRD": "BRD",  # BLUE RIBBON DOWNS
-    "FMT": "FMT",  # FAIR MEADOWS
-    "WRD": "WRD",  # WILL ROGERS DOWNS
-    "90": "TWO",  # WOODBINE
-    "WO": "TWO",  # WOODBINE
-    "AJX": "AJX",  # AJAX DOWNS
-    "TFE": "TFE",  # FORT ERIE
-    "FE": "TFE",  # FORT ERIE
-    "PIC": "PIC",  # PICOV DOWNS
-    "BRN": "BRN",  # HARNEY COUNTY FAIR
-    "GRP": "GRP",  # GRANTS PASS
-    "PM": "TPM",  # PORTLAND MEADOWS
-    "PRV": "PRV",  # CROOKED RIVER ROUNDUP
-    "TIL": "TIL",  # TILLAMOOK COUNTY FAIR
-    "UN": "TUN",  # EASTERN OREGON LIVESTOCK SHOW
-    "77": "PEN",  # PENN NATIONAL
-    "PEN": "PEN",  # PENN NATIONAL
-    "CHE": "CHE",  # CHESHIRE
-    "MAL": "MAL",  # MALVERN
-    "PHA": "PHA",  # PHILADELPHA PARK
-    "PID": "PID",  # PRESQUE ISLE DOWNS
-    "PRX": "PRX",  # PARX RACING
-    "UNI": "UNI",  # PENNSYLVANIA HUNT CUP
-    "WIL": "WIL",  # WILLOWDALE STEEPLECHASE
-    "AIK": "AIK",  # AIKEN
-    "CAM": "CAM",  # CAMDEN
-    "CHA": "CHA",  # CHARLESTON
-    "BCF": "BCF",  # BROWN COUNTY FAIR
-    "FTP": "FTP",  # FORT PIERRE
-    "MD": "TMD",  # MARQUIS DOWNS
-    "MDA": "MDA",  # MELVILLE DISTRICT AGRIPAR
-    "MMD": "MMD",  # MOOSOMIN D & E AT MARQUIS DOWNS
-    "PW": "TPW",  # PERCY WARNER
-    "80": "HOU",  # SAM HOUSTON RACE PARK
-    "HOU": "HOU",  # SAM HOUSTON RACE PARK
-    "93": "TLS",  # LONE STAR PARK
-    "LS": "TLS",  # LONE STAR PARK
-    "GIL": "GIL",  # GILLESPIE COUNTY FAIRGROUND
-    "MAN": "MAN",  # MANOR DOWNS
-    "RET": "RET",  # RETAMA PARK
-    "DXD": "DXD",  # DIXIE DOWNS
-    "LBT": "LBT",  # LAUREL BROWN RACETRACK
-    "WBR": "WBR",  # WEBER DOWNS
-    "78": "CNL",  # COLONIAL DOWNS
-    "CNL": "CNL",  # COLONIAL DOWNS
-    "FAX": "FAX",  # FAIRFAX
-    "FX": "TFX",  # FOXFIELD
-    "GRM": "GRM",  # GREAT MEADOW
-    "ING": "ING",  # INGLESIDE
-    "MID": "MID",  # GLENWOOD PARK AT MIDDLEBURG
-    "MOR": "MOR",  # MORVEN PARK
-    "MTP": "MTP",  # MONTPELIER
-    "ODH": "ODH",  # OLD DOMINION HOUNDS
-    "OKR": "OKR",  # OAK RIDGE
-    "SH": "TSH",  # STRAWBERRY HILL
-    "DAY": "DAY",  # DAYTON
-    "EMD": "EMD",  # EMERALD DOWNS
-    "HAP": "HAP",  # HARBOR PARK
-    "SUD": "SUD",  # SUN DOWNS
-    "WTS": "WTS",  # WAITSBURG RACE TRACK
-    "WW": "TWW",  # WALLA WALLA
-    "YM": "TYM",  # YAKIMA MEADOWS
-    "CT": "TCT",  # HOLLYWOOD CASINO AT CHARLES TOWN RACES
-    "MNR": "MNR",  # MOUNTAINEER CASINO RACETRACK & RESORT
-    "SHD": "SHD",  # SHENNANDOAH DOWNS
-    "CWF": "CWF",  # CENTRAL WYOMING FAIR
-    "ED": "TED",  # ENERGY DOWNS
-    "EDR": "EDR",  # ENERGY DOWNS 307 HORSE RACING
-    "SWF": "SWF",  # SWEETWATER DOWNS
-    "WYO": "WYO",  # WYOMING DOWNS
-    "91": "T91",  # MOHAWK PARK
-    "91": "T91",  # MOHAWK PARK
-    "EQE": "EQE",  # None
+    "EQE": "EQE",  # None -- Going to make this the new default
     "EQC": "EQC",  # None
     "CCP": "CCP",  # None
     "CMR": "CMR",  # None
@@ -154,6 +34,17 @@ eqb_tpd_codes_to_course_cd = {
     "EQM": "EQM",  # None
     "EQP": "EQP",  # None
     "BCE": "BCE",  # None
+    "EQU": "EQU",  # None
+    "EQT": "EQT",  # None
+    "EQW": "EQW",  # None
+    "SWA": "SWA",  # None
+    "SWD": "SWD",  # None
+    "SWC": "SWC",  # None
+    "LSP": "LSP",  # None
+    "LTD": "LTD",  # None
+    "LTH": "LTH",  # None
+    "": "TRP",  # REMINGTON PARK
+    "FG": "TFG",  # FAIR GROUNDS
     "ABT": "ABT",  # ALBERTA DOWNS
     "GPR": "GPR",  # GRANDE PRAIRIE
     "LBG": "LBG",  # LETHBRIDGE - RMTC
@@ -162,15 +53,6 @@ eqb_tpd_codes_to_course_cd = {
     "ED": "CTM",  # CENTURY MILE
     "CTM": "CTM",  # CENTURY MILE
     "MIL": "MIL",  # MILLARVILLE
-    "EQU": "EQU",  # None
-    "EQT": "EQT",  # None
-    "EQW": "EQW",  # None
-    "SWA": "SWA",  # None
-    "SWD": "SWD",  # None
-    "LTD": "LTD",  # None
-    "LTH": "LTH",  # None
-    "TRP": "TRP",  # REMINGTON PARK
-    "RP": "TRP",  # REMINGTON PARK
     "NP": "TNP",  # NORTHLANDS PARK
     "STP": "STP",  # STAMPEDE PARK
     "81": "TOP",  # OAKLAWN PARK
@@ -191,7 +73,6 @@ eqb_tpd_codes_to_course_cd = {
     "SAN": "SAN",  # SANDOWN PARK
     "SND": "SND",  # SUNFLOWER
     "BHP": "BHP",  # BETFAIR HOLLYWOOD PARK
-    "BM": "TBM",  # BAY MEADOWS
     "BMF": "BMF",  # BAY MEADOWS FAIR
     "BSR": "BSR",  # BARRETTS RACE MEET AT FAIRPLEX
     "FER": "FER",  # FERNDALE
@@ -244,8 +125,6 @@ eqb_tpd_codes_to_course_cd = {
     "AP": "TAP",  # ARLINGTON
     "DUQ": "DUQ",  # DU QUOIN
     "FAN": "FAN",  # FanDuel Sportsbook and Horse Racing
-    "TFP": "TFP",  # FAIRMOUNT PARK
-    "FP": "TFP",  # FAIRMOUNT PARK
     "HAW": "HAW",  # HAWTHORNE
     "SPT": "SPT",  # SPORTSMANS PARK
     "88": "HOO",  # HOOSIER PARK
@@ -271,8 +150,7 @@ eqb_tpd_codes_to_course_cd = {
     "TP": "TTP",  # TURFWAY PARK
     "DED": "DED",  # DELTA DOWNS
     "EVD": "EVD",  # EVANGELINE DOWNS
-    "TFG": "TFG",  # FAIR GROUNDS
-    "FG": "TFG",  # FAIR GROUNDS
+    "BM": "TBM",  # BAY MEADOWS
     "70": "LAD",  # LOUISIANA DOWNS
     "LAD": "LAD",  # LOUISIANA DOWNS
     "GBF": "GBF",  # GREAT BARRINGTON FAIR
@@ -310,7 +188,125 @@ eqb_tpd_codes_to_course_cd = {
     "CHL": "CHL",  # CHARLOTTE
     "CLM": "CLM",  # CLEMMONS
     "MS": "TMS",  # MILL SPRING
+    "FP": "TFP",  # FAIRMOUNT PARK
     "SOP": "SOP",  # SOUTHERN PINES
     "STN": "STN",  # STONEYBROOK AT FIVE POINTS
     "TRY": "TRY",  # TRYON
+    "CPW": "CPW",  # CHIPPEWA DOWNS
+    "FAR": "FAR",  # NORTH DAKOTA HORSE PARK
+    "HC": "CLS",  # COLUMBUS
+    "CLS": "CLS",  # COLUMBUS
+    "ATO": "ATO",  # ATOKAD DOWNS
+    "FON": "FON",  # FONNER PARK
+    "FPL": "FPL",  # FAIR PLAY PARK
+    "HPO": "HPO",  # HORSEMENS PARK
+    "LEG": "LEG",  # LEGACY DOWNS
+    "LNN": "LNN",  # LINCOLN RACE COURSE
+    "RKM": "RKM",  # ROCKINGHAM PARK
+    "ATL": "ATL",  # ATLANTIC CITY
+    "FH": "TFH",  # FAR HILLS
+    "RB": "TRB",  # RED BANK
+    "87": "MED",  # MEADOWLANDS
+    "MED": "MED",  # MEADOWLANDS
+    "84": "MTH",  # MONMOUTH PARK
+    "MTH": "MTH",  # MONMOUTH PARK
+    "ALB": "ALB",  # ALBUQUERQUE
+    "LAM": "LAM",  # LA MESA PARK
+    "RUI": "RUI",  # RUIDOSO DOWNS
+    "SFE": "SFE",  # SANTA FE
+    "SJD": "SJD",  # SAN JUAN DOWNS
+    "SRP": "SRP",  # SUNRAY PARK
+    "SUN": "SUN",  # SUNLAND PARK
+    "ZIA": "ZIA",  # ZIA PARK
+    "ELK": "ELK",  # ELKO COUNTY FAIR
+    "ELY": "ELY",  # WHITE PINE RACING
+    "HCF": "HCF",  # HUMBOLDT COUNTY FAIR
+    "WPR": "WPR",  # WHITE PINE RACEWAY
+    "96": "AQU",  # AQUEDUCT
+    "AQU": "AQU",  # AQUEDUCT
+    "98": "BEL",  # BELMONT PARK
+    "BEL": "BEL",  # BELMONT PARK
+    "BAQ": "BAQ",  # BELMONT AT THE BIG A
+    "FL": "TFL",  # FINGER LAKES
+    "GV": "TGV",  # GENESEE VALLEY
+    "TGD": "TGD",  # TIOGA DOWNS
+    "ST": "SAR",  # SARATOGA
+    "SAR": "SAR",  # SARATOGA
+    "76": "MVR",  # MAHONING VALLEY RACE COURSE
+    "MVR": "MVR",  # MAHONING VALLEY RACE COURSE
+    "BEU": "BEU",  # BEULAH PARK
+    "BTP": "BTP",  # BELTERRA PARK
+    "RD": "TRD",  # RIVER DOWNS
+    "TDN": "TDN",  # THISTLEDOWN
+    "BRD": "BRD",  # BLUE RIBBON DOWNS
+    "FMT": "FMT",  # FAIR MEADOWS
+    "WRD": "WRD",  # WILL ROGERS DOWNS
+    "AJX": "AJX",  # AJAX DOWNS
+    "PIC": "PIC",  # PICOV DOWNS
+    "BRN": "BRN",  # HARNEY COUNTY FAIR
+    "GRP": "GRP",  # GRANTS PASS
+    "PRV": "PRV",  # CROOKED RIVER ROUNDUP
+    "TIL": "TIL",  # TILLAMOOK COUNTY FAIR
+    "UN": "TUN",  # EASTERN OREGON LIVESTOCK SHOW
+    "77": "PEN",  # PENN NATIONAL
+    "PEN": "PEN",  # PENN NATIONAL
+    "CHE": "CHE",  # CHESHIRE
+    "MAL": "MAL",  # MALVERN
+    "PHA": "PHA",  # PHILADELPHA PARK
+    "PID": "PID",  # PRESQUE ISLE DOWNS
+    "PRX": "PRX",  # PARX RACING
+    "UNI": "UNI",  # PENNSYLVANIA HUNT CUP
+    "WIL": "WIL",  # WILLOWDALE STEEPLECHASE
+    "AIK": "AIK",  # AIKEN
+    "CAM": "CAM",  # CAMDEN
+    "CHA": "CHA",  # CHARLESTON
+    "BCF": "BCF",  # BROWN COUNTY FAIR
+    "FTP": "FTP",  # FORT PIERRE
+    "MD": "TMD",  # MARQUIS DOWNS
+    "MDA": "MDA",  # MELVILLE DISTRICT AGRIPAR
+    "MMD": "MMD",  # MOOSOMIN D & E AT MARQUIS DOWNS
+    "PW": "TPW",  # PERCY WARNER
+    "80": "HOU",  # SAM HOUSTON RACE PARK
+    "HOU": "HOU",  # SAM HOUSTON RACE PARK
+    "93": "TLS",  # LONE STAR PARK
+    "LS": "TLS",  # LONE STAR PARK
+    "GIL": "GIL",  # GILLESPIE COUNTY FAIRGROUND
+    "MAN": "MAN",  # MANOR DOWNS
+    "RET": "RET",  # RETAMA PARK
+    "DXD": "DXD",  # DIXIE DOWNS
+    "LBT": "LBT",  # LAUREL BROWN RACETRACK
+    "WBR": "WBR",  # WEBER DOWNS
+    "78": "CNL",  # COLONIAL DOWNS
+    "CNL": "CNL",  # COLONIAL DOWNS
+    "FAX": "FAX",  # FAIRFAX
+    "FX": "TFX",  # FOXFIELD
+    "GRM": "GRM",  # GREAT MEADOW
+    "ING": "ING",  # INGLESIDE
+    "MID": "MID",  # GLENWOOD PARK AT MIDDLEBURG
+    "MOR": "MOR",  # MORVEN PARK
+    "MTP": "MTP",  # MONTPELIER
+    "ODH": "ODH",  # OLD DOMINION HOUNDS
+    "OKR": "OKR",  # OAK RIDGE
+    "SH": "TSH",  # STRAWBERRY HILL
+    "DAY": "DAY",  # DAYTON
+    "EMD": "EMD",  # EMERALD DOWNS
+    "HAP": "HAP",  # HARBOR PARK
+    "SUD": "SUD",  # SUN DOWNS
+    "WTS": "WTS",  # WAITSBURG RACE TRACK
+    "CT": "TCT",  # HOLLYWOOD CASINO AT CHARLES TOWN RACES
+    "MNR": "MNR",  # MOUNTAINEER CASINO RACETRACK & RESORT
+    "SHD": "SHD",  # SHENNANDOAH DOWNS
+    "CWF": "CWF",  # CENTRAL WYOMING FAIR
+    "ED": "TED",  # ENERGY DOWNS
+    "EDR": "EDR",  # ENERGY DOWNS 307 HORSE RACING
+    "SWF": "SWF",  # SWEETWATER DOWNS
+    "WYO": "WYO",  # WYOMING DOWNS
+    "FE": "TFE",  # FORT ERIE
+    "RP": "TRP",  # REMINGTON PARK
+    "90": "TWO",  # WOODBINE
+    "WO": "TWO",  # WOODBINE
+    "PM": "TPM",  # PORTLAND MEADOWS
+    "WW": "TWW",  # WALLA WALLA
+    "YM": "TYM",  # YAKIMA MEADOWS
+    "91": "XXX",  # Mowhawk Park
 }

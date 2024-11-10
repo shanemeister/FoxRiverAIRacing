@@ -2,7 +2,7 @@
 
 import xml.etree.ElementTree as ET
 import logging
-from ingestion_utils import validate_xml, get_text, log_rejected_record
+from ingestion_utils import validate_xml, get_text, log_rejected_record, update_ingestion_status
 
 def process_trainer_current_file(xml_file, conn, cursor, xsd_schema_path):
     """
@@ -15,6 +15,7 @@ def process_trainer_current_file(xml_file, conn, cursor, xsd_schema_path):
         return  # Skip processing this file
 
     has_rejections = False  # Track if any records were rejected
+    rejected_record = {}  # Store rejected records for logging
     
     try:
         tree = ET.parse(xml_file)
@@ -45,6 +46,8 @@ def process_trainer_current_file(xml_file, conn, cursor, xsd_schema_path):
                     cursor.execute(insert_train_query, (
                         train_key, first_name, last_name, middle_name, suffix, t_type
                     ))
+                    conn.commit()  # Ensure each successful operation is committed
+                    return "processed"
                 except Exception as entry_error:
                     has_rejections = True
                     logging.error(f"Error processing entry {train_key}: {entry_error}")
@@ -57,14 +60,12 @@ def process_trainer_current_file(xml_file, conn, cursor, xsd_schema_path):
                         "t_type": t_type
                     }
                     conn.rollback()  # Rollback transaction before logging the rejected record
-                    log_rejected_record(conn, 'train', rejected_record, str(entry_error))
+                    log_rejected_record(conn, 'trainer_current', rejected_record, str(entry_error))
                     continue  # Skip to the next entry
 
-    except Exception as race_error:
-        logging.error(f"Error processing trainer data in file {xml_file}: {race_error}")
-        conn.rollback()
-        return "error"
-    finally:
-        conn.commit()
-
-    return "processed_with_rejections" if has_rejections else "processed"
+        return not has_rejections  # Returns True if no rejections, otherwise False
+           
+    except Exception as e:
+        has_rejections = True
+        conn.rollback()  # Rollback the transaction before logging the rejected record
+        log_rejected_record(conn, 'trainer_current_data', rejected_record, str(e))

@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 import logging
-from ingestion_utils import validate_xml, get_text
+from ingestion_utils import validate_xml, get_text, log_rejected_record, update_ingestion_status
 
 def process_stat_dam_file(xml_file, xsd_file_path, conn, cursor):
     """
@@ -11,6 +11,8 @@ def process_stat_dam_file(xml_file, xsd_file_path, conn, cursor):
     if not validate_xml(xml_file, xsd_file_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
         return  # Skip processing this file
+    has_rejections = False  # Track if any records were rejected
+    rejected_record = {}  # Store rejected records for logging
 
     try:
         tree = ET.parse(xml_file)
@@ -38,7 +40,6 @@ def process_stat_dam_file(xml_file, xsd_file_path, conn, cursor):
                         stats_data = dam_data.find('stats_data')
                         if stats_data is not None:
                             for stat in stats_data.findall('stat'):
-                                try:
                                     stat_type = stat.get('type')
                                     if not stat_type:
                                         logging.warning(f"Missing stat type for dam '{damname}' of horse {axciskey} in file {xml_file}. Skipping this stat.")
@@ -69,27 +70,40 @@ def process_stat_dam_file(xml_file, xsd_file_path, conn, cursor):
                                             roi = EXCLUDED.roi
                                     """
     
-                                    # Execute the query
-                                    cursor.execute(insert_stat_dam_query, (
-                                        damname, stat_type, axciskey, starts, wins, places, shows, earnings, paid, roi
-                                    ))
-                                except Exception as e:
-                                    logging.error(f"Error processing stat '{stat_type}' for dam '{damname}' of horse {axciskey} in file {xml_file}: {e}")
-                                    conn.rollback()  # Rollback the transaction for this stat record
-                                    continue  # Skip to the next stat
-                        else:
-                            logging.warning(f"No stats_data found for dam '{damname}' of horse {axciskey} in file {xml_file}.")
-                    else:
-                        logging.warning(f"No dam data found for horse {axciskey} in file {xml_file}.")
-                except Exception as e:
-                    logging.error(f"Error processing stat_dam data for horse {axciskey} in file {xml_file}: {e}")
-                    conn.rollback()  # Rollback the transaction for this horse
-                    continue  # Skip to the next horse
+                                    try:
+                                        # Execute the query
+                                        cursor.execute(insert_stat_dam_query, (
+                                            damname, stat_type, axciskey, starts, wins, places, shows, earnings, paid, roi
+                                        ))
+                                    except Exception as stat_error:
+                                        # Log and store rejected stat_horse record
+                                        has_rejections = True
+                                        logging.error(f"Error processing stat '{stat}' for horse {axciskey} in file {xml_file}: {stat_error}")
+                                        rejected_record = {
+                                            "damname": damname,
+                                            "stat_type": stat_type,
+                                            "axciskey": axciskey,
+                                            "starts": starts,
+                                            "wins": wins,
+                                            "places": places,
+                                            "shows": shows,
+                                            "earnings": earnings,
+                                            "paid": paid,
+                                            "roi": roi
+                                        }
+                                        conn.rollback()  # Rollback the transaction before logging the rejected record
+                                        log_rejected_record(conn, 'stat_dam', rejected_record, str(stat_error))
+                                        continue  # Skip to the next race record
 
-        # Commit the transaction after all stat_dam data has been processed
-        conn.commit()
-         
+                except Exception as e:
+                    has_rejections = True
+                    conn.rollback()  # Rollback the transaction before logging the rejected record
+                    log_rejected_record(conn, 'horse_data', rejected_record, str(e))
+                    continue  # Skip to the next race record
+        
+        return not has_rejections  # Returns True if no rejections, otherwise False
+
     except Exception as e:
-        # Handle exceptions and rollback in case of error
-        logging.error(f"Error processing stat_dam data in file {xml_file}: {e}")
-        conn.rollback()  # Rollback the transaction in case of an error
+        logging.error(f"Critical error processing horse data file {xml_file}: {e}")
+        conn.rollback()  # Rollback transaction if an error occurred
+        return False

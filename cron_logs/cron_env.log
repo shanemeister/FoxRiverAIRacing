@@ -7,7 +7,7 @@ LANG=en_US.UTF-8
 XDG_SESSION_CLASS=background
 USER=exx
 SHLVL=1
-XDG_SESSION_ID=425
+XDG_SESSION_ID=550
 XDG_RUNTIME_DIR=/run/user/1000
 PATH=/home/exx/.amplify/bin:/usr/local/cuda-12.4/bin:/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/bin:/home/exx/anaconda3/envs/mamba_env/condabin:/usr/bin:/bin
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
@@ -51,3 +51,4 @@ JUMPS_PATH=/home/exx/myCode/horse-racing/gmaxfeed/data/jumps
 TRACKMASTER_USERNAME=rshane
 TRACKMASTER_PASSWORD=SparkPy2024
 OpenAIAPI=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
+PYTHONPATH=/home/exx/myCode/horse-racing/FoxRiverAIRacing

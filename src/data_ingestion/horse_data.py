@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import logging
-from ingestion_utils import validate_xml, get_text
+from ingestion_utils import validate_xml, get_text, log_rejected_record, update_ingestion_status
 
 # from mapping_dictionaries import eqb_to_course_cd  # Not used in this function
 
@@ -13,7 +13,8 @@ def process_horsedata_file(xml_file, xsd_file_path, conn, cursor):
     if not validate_xml(xml_file, xsd_file_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
         return  # Skip processing this file
-
+    has_rejections = False  # Track if any records were rejected
+    rejected_record = {}  # Store rejected records for logging
     try:
         tree = ET.parse(xml_file)
         root = tree.getroot()
@@ -47,18 +48,37 @@ def process_horsedata_file(xml_file, xsd_file_path, conn, cursor):
                             color = EXCLUDED.color
                     """
                     
-                    # Execute the query
-                    cursor.execute(insert_query, (
-                        axciskey, horse_name, foal_date, sex, wh_foaled, color
-                    ))
-                except Exception as e:
-                    logging.error(f"Error processing horse {axciskey} in file {xml_file}: {e}")
-                    conn.rollback()  # Rollback the transaction for this horse
-                    continue  # Skip to the next horse
+                    try:
+                        # Execute the query
+                        cursor.execute(insert_query, (
+                            axciskey, horse_name, foal_date, sex, wh_foaled, color
+                        ))
+                        
+                    except Exception as horse_error:
+                        has_rejections = True
+                        logging.error(f"Error processing horse {horse}: {horse_error}")
+                        # Prepare and log rejected record
+                        rejected_record = {
+                            'axciskey': axciskey,
+                            'horse_name': horse_name,
+                            'foal_date': foal_date,
+                            'sex': sex,
+                            'wh_foaled': wh_foaled,
+                            'color': color
+                        }
+                        conn.rollback()  # Rollback the transaction before logging the rejected record
+                        log_rejected_record(conn, 'horse_data', rejected_record, str(horse_error))
+                        continue  # Skip to the next race record
 
-        # Commit the transaction after all horses are processed
-        conn.commit()
+                except Exception as e:
+                    has_rejections = True
+                    conn.rollback()  # Rollback the transaction before logging the rejected record
+                    log_rejected_record(conn, 'horse_data', rejected_record, str(e))
+                    continue  # Skip to the next race record
         
+        return not has_rejections  # Returns True if no rejections, otherwise False
+
     except Exception as e:
-        logging.error(f"Error processing file {xml_file}: {e}")
-        conn.rollback()
+        logging.error(f"Critical error processing horse data file {xml_file}: {e}")
+        conn.rollback()  # Rollback transaction if an error occurred
+        return False

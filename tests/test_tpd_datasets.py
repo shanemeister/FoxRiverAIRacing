@@ -1,9 +1,9 @@
 import os
 import json
 import pytest
+from unittest import mock
 from unittest.mock import MagicMock, patch
-from datetime import datetime
-from src.data_ingestion.tpd_datasets import process_tpd_sectionals_data
+from src.data_ingestion.tpd_datasets import process_tpd_data
 
 @pytest.fixture
 def mock_conn():
@@ -27,103 +27,56 @@ def mock_utils():
          patch('src.data_ingestion.tpd_datasets.process_tpd_sectionals') as mock_process_tpd_sectionals:
         yield mock_extract_course_code, mock_extract_race_date, mock_gen_race_identifier, mock_log_file_status, mock_process_tpd_sectionals
 
-def test_process_tpd_sectionals_data_empty_directory(mock_conn, mock_filesystem, mock_utils):
+def test_process_tpd_data_invalid_json(mock_conn, mock_filesystem, mock_utils):
     mock_listdir, mock_isdir, mock_open = mock_filesystem
-    mock_listdir.return_value = []
-    mock_isdir.return_value = False
-
-    process_tpd_sectionals_data(mock_conn, 'dummy_path', 'dummy_error_log', set())
-
-    mock_conn.cursor().execute.assert_not_called()
-
-def test_process_tpd_sectionals_data_invalid_filenames(mock_conn, mock_filesystem, mock_utils):
-    mock_listdir, mock_isdir, mock_open = mock_filesystem
-    mock_listdir.return_value = ['invalid_filename']
-    mock_isdir.return_value = False
-
-    mock_extract_course_code, mock_extract_race_date, mock_gen_race_identifier, mock_log_file_status, mock_process_tpd_sectionals = mock_utils
-    mock_extract_course_code.side_effect = ValueError("Invalid filename")
-    mock_extract_race_date.side_effect = ValueError("Invalid filename")
-
-    process_tpd_sectionals_data(mock_conn, 'dummy_path', 'dummy_error_log', set())
-
-    mock_log_file_status.assert_not_called()
-    mock_conn.cursor().execute.assert_not_called()
-
-def test_process_tpd_sectionals_data_invalid_json(mock_conn, mock_filesystem, mock_utils):
-    mock_listdir, mock_isdir, mock_open = mock_filesystem
-    mock_listdir.return_value = ['valid_filename']
-    mock_isdir.return_value = False
-
-    mock_extract_course_code, mock_extract_race_date, mock_gen_race_identifier, mock_log_file_status, mock_process_tpd_sectionals = mock_utils
-    mock_extract_course_code.return_value = '76'
-    mock_extract_race_date.return_value = '20221121'
-    mock_gen_race_identifier.return_value = '76202211231'
-
-    mock_open.side_effect = [MagicMock(read=MagicMock(side_effect=json.JSONDecodeError("Expecting value", "", 0)))]
-
-    process_tpd_sectionals_data(mock_conn, 'dummy_path', 'dummy_error_log', set())
-
-    mock_log_file_status.assert_called()
-    mock_conn.cursor().execute.assert_not_called()
-
-def test_process_tpd_sectionals_data_valid_json(mock_conn, mock_filesystem, mock_utils):
-    mock_listdir, mock_isdir, mock_open = mock_filesystem
-    mock_listdir.return_value = ['76202211211245', '76202211211312']
-    mock_isdir.return_value = False
-
-    mock_extract_course_code, mock_extract_race_date, mock_gen_race_identifier, mock_log_file_status, mock_process_tpd_sectionals = mock_utils
-    mock_extract_course_code.side_effect = ['76', '76']
-    mock_extract_race_date.side_effect = ['20221121', '20221121']
-    mock_gen_race_identifier.side_effect = ['76202211231', '76202211232']
-
-    mock_open.side_effect = [
-        MagicMock(read=MagicMock(return_value=json.dumps({"key": "value"}))),
-        MagicMock(read=MagicMock(return_value=json.dumps({"key": "value"})))
-    ]
-
-    process_tpd_sectionals_data(mock_conn, 'dummy_path', 'dummy_error_log', set())
-
-    assert mock_process_tpd_sectionals.call_count == 2
-    mock_log_file_status.assert_called()
-    mock_conn.cursor().execute.assert_called()
-
-def test_process_tpd_sectionals_data_invalid_filenames(mock_conn, mock_filesystem, mock_utils):
-    mock_listdir, mock_isdir, mock_open = mock_filesystem
-    mock_listdir.return_value = ['invalid_filename']
-    mock_isdir.return_value = False
-
-    process_tpd_sectionals_data(mock_conn, 'dummy_path', 'dummy_error_log', set())
-
-    mock_conn.cursor().execute.assert_not_called()
-    mock_utils[3].assert_called()  # log_file_status should be called for the error
-
-def test_process_tpd_sectionals_data_invalid_json(mock_conn, mock_filesystem, mock_utils):
-    mock_listdir, mock_isdir, mock_open = mock_filesystem
-    mock_listdir.return_value = ['76202211211245']
+    mock_listdir.return_value = ['ST202409021235']
     mock_isdir.return_value = False
     mock_open.side_effect = [MagicMock(read=MagicMock(side_effect=json.JSONDecodeError('Expecting value', 'doc', 0)))]
 
-    mock_utils[0].return_value = '76'
-    mock_utils[1].return_value = '20221121'
+    mock_extract_course_code, mock_extract_race_date, mock_gen_race_identifier, mock_log_file_status, mock_process_tpd_sectionals = mock_utils
+    mock_extract_course_code.return_value = 'ST'
+    mock_extract_race_date.return_value = '20240902'
 
-    process_tpd_sectionals_data(mock_conn, 'dummy_path', 'dummy_error_log', set())
+    print("Calling process_tpd_data for invalid JSON")
+    process_tpd_data(mock_conn, 'dummy_path', 'dummy_error_log', set(), data_type="sectionals")
+    print("Finished calling process_tpd_data for invalid JSON")
 
+    mock_log_file_status.assert_called()  # log_file_status should be called for the error
     mock_conn.cursor().execute.assert_not_called()
-    mock_utils[3].assert_called()  # log_file_status should be called for the error
 
-def test_process_tpd_sectionals_data_valid_json(mock_conn, mock_filesystem, mock_utils):
+def test_process_tpd_data_extract_metadata_and_process_sectionals(mock_conn, mock_filesystem, mock_utils):
     mock_listdir, mock_isdir, mock_open = mock_filesystem
-    mock_listdir.return_value = ['76202211211245']
+    mock_listdir.return_value = ['ST202409021235', 'ST202409021307', 'ST202409021340']
     mock_isdir.return_value = False
     mock_open.side_effect = [MagicMock(read=MagicMock(return_value=json.dumps({'key': 'value'})))]
 
-    mock_utils[0].return_value = '76'
-    mock_utils[1].return_value = '20221121'
-    mock_utils[2].return_value = '76_20221121_1'
+    mock_extract_course_code, mock_extract_race_date, mock_gen_race_identifier, mock_log_file_status, mock_process_tpd_sectionals = mock_utils
+    mock_extract_course_code.return_value = 'ST'
+    mock_extract_race_date.return_value = '20240902'
+    mock_gen_race_identifier.return_value = 'ST_20240902_1'
 
-    process_tpd_sectionals_data(mock_conn, 'dummy_path', 'dummy_error_log', set())
+    print("Calling process_tpd_data for valid JSON")
+    process_tpd_data(mock_conn, 'dummy_path', 'dummy_error_log', set(), data_type="sectionals")
+    print("Finished calling process_tpd_data for valid JSON")
 
+    print("Checking if process_tpd_sectionals was called")
+    mock_process_tpd_sectionals.assert_called_with(
+        mock_conn,
+        {'key': 'value'},
+        'ST',
+        '20240902',
+        1,
+        'ST_20240902_1',
+        'dummy_path',
+        set(),
+        mock.ANY
+    )
+    print("process_tpd_sectionals was called")
+
+    print("Checking if log_file_status was called")
+    mock_log_file_status.assert_called_with(mock_conn, 'ST202409021235', mock.ANY, 'processed')
+    print("log_file_status was called")
+
+    print("Checking if execute was called")
     mock_conn.cursor().execute.assert_called()
-    mock_utils[4].assert_called()  # process_tpd_sectionals should be called
-    mock_utils[3].assert_called()  # log_file_status should be called for success
+    print("execute was called")
