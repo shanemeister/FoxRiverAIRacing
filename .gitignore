@@ -3,3 +3,7 @@
 /data/
 .env
 config.ini
+./cron_logs
+./cron_logs/*
+./logs
+./logs/*
