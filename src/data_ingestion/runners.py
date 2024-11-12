@@ -1,10 +1,10 @@
 import xml.etree.ElementTree as ET
 import logging
-from ingestion_utils import (
+from src.data_ingestion.ingestion_utils import (
     validate_xml, get_text, safe_float, parse_date, clean_text, parse_time,
     odds_to_probability, gen_race_identifier, log_rejected_record, safe_int, update_ingestion_status
 )
-from mappings_dictionaries import eqb_tpd_codes_to_course_cd
+from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 from datetime import datetime
 
 def process_runners_file(xml_file, xsd_file_path, conn, cursor):

@@ -1,7 +1,7 @@
 from lxml import etree
 from datetime import datetime
 import logging
-from ingestion_utils import validate_xml, log_rejected_record, parse_date, gen_race_identifier, safe_int
+from ingestion_utils import validate_xml, log_rejected_record, parse_date, safe_int
 
 def process_results_scratches_file(xml_file, conn, cursor, xsd_schema_path):
     """

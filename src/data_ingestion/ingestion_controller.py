@@ -12,6 +12,8 @@ from src.data_ingestion.tpd_datasets import (
     process_tpd_sectionals_data,
     process_tpd_gpsdata_data
 )
+from src.data_ingestion.race_list import process_tpd_racelist
+
 
 # Read configuration settings from 'config.ini' file
 config = configparser.ConfigParser()
@@ -67,6 +69,12 @@ def run_ingestion_pipeline(datasets_to_process):
                 config['paths']['tpd_gpsdata_dir'],
                 "/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/tpd_gpsdata_errors.log",
                 processed_files
+            ),
+            'Racelist': lambda processed_files: process_tpd_racelist(
+                conn,
+                config['paths']['tpd_racelist_dir'],
+                "/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/tpd_racelist_errors.log",
+                processed_files
             )
         }
 
@@ -94,6 +102,7 @@ if __name__ == "__main__":
     parser.add_argument('--resultsCharts', action='store_true', help="Process only resultsCharts.")
     parser.add_argument('--tpdSectionals', action='store_true', help="Process only TPD Sectionals.")
     parser.add_argument('--tpdGPS', action='store_true', help="Process only TPD GPS.")
+    parser.add_argument('--tpdRacelist', action='store_true', help="Process only TPD Racelist.")
 
     args = parser.parse_args()
 
@@ -107,6 +116,9 @@ if __name__ == "__main__":
         datasets_to_process['Sectionals'] = True
     if args.tpdGPS:
         datasets_to_process['GPSData'] = True
+    if args.tpdRacelist:
+        datasets_to_process['Racelist'] = True
+        
 
     # Run the ingestion pipeline with the selected datasets
     run_ingestion_pipeline(datasets_to_process)

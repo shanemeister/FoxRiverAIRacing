@@ -1,12 +1,12 @@
 import xml.etree.ElementTree as ET
 import json
 import logging
-from ingestion_utils import (
+from src.data_ingestion.ingestion_utils import (
     validate_xml, get_text, parse_time, parse_date, safe_numeric_int, safe_numeric_float,
     log_rejected_record, update_ingestion_status, convert_last_pp_to_json, convert_point_of_call_to_json, parse_finish_time
 )
 from datetime import datetime
-from mappings_dictionaries import eqb_tpd_codes_to_course_cd
+from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
 def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
     """

@@ -66,14 +66,14 @@ logging.basicConfig(filename='/home/exx/myCode/horse-racing/FoxRiverAIRacing/log
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-def update_ingestion_status(conn, file_name, status, message=None):
+def update_ingestion_status(conn, file_name, status, message):
     """
     Update the ingestion status for a given file in the ingestion_files table, ensuring only the date is stored.
     """
     try:
         cursor = conn.cursor()
         # Convert datetime to string and take the first 10 characters to get "YYYY-MM-DD"
-        date_only = parse_date(str(datetime.now())[:10])
+        date_only = str(datetime.now())[:10]
         
         cursor.execute(
             """
@@ -83,7 +83,7 @@ def update_ingestion_status(conn, file_name, status, message=None):
             DO UPDATE SET 
                 status = EXCLUDED.status,
                 last_processed = EXCLUDED.last_processed
-                """,
+            """,
             (file_name, date_only, status, message)  # Use date_only for last_processed
         )
         conn.commit()
@@ -420,21 +420,6 @@ def decode_race_identifier(encoded_data):
         logging.info(f"Error decoding race identifier: {e}")
         return None
 
-def get_unprocessed_files(conn, directory_path):
-    """
-    Returns a list of unprocessed files by querying ingestion_files 
-    for a specific directory path.
-    """
-    cursor = conn.cursor()
-    cursor.execute("""
-        SELECT file_name FROM ingestion_files 
-        WHERE (status != 'processed' OR status IS NULL)
-        AND file_name LIKE %s;
-    """, (f"%{directory_path}%",))
-    files = [row[0] for row in cursor.fetchall()]
-    cursor.close()
-    return files
-
 def load_processed_files(conn, dataset_type=None):
     """
     Loads previously processed file names from ingestion_files into a set.
@@ -444,21 +429,21 @@ def load_processed_files(conn, dataset_type=None):
     - dataset_type (str, optional): Dataset type to filter by (e.g., 'Sectionals', 'GPSData', etc.)
     
     Returns:
-    - A set of processed file names for the specified dataset type, or all if no dataset_type is given.
+    - A set of tuples (file_name, status, dataset_type) for the specified dataset type, or all if no dataset_type is given.
     """
     cursor = conn.cursor()
     if dataset_type:
         # Query to filter by dataset type if specified
         cursor.execute(
-            "SELECT file_name FROM ingestion_files WHERE status = 'processed' AND message = %s",
+            "SELECT file_name, status, message FROM ingestion_files WHERE message = %s",
             (dataset_type,)
         )
     else:
         # Backward-compatible query to load all processed files
-        cursor.execute("SELECT file_name FROM ingestion_files WHERE status = 'processed'")
+        cursor.execute("SELECT file_name, status, message FROM ingestion_files")
     
     # Use set comprehension to gather processed files
-    processed_files = {row[0] for row in cursor.fetchall()}
+    processed_files = {(row[0], row[1], row[2]) for row in cursor.fetchall()}
     cursor.close()
     return processed_files
 

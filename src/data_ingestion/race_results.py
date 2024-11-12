@@ -16,7 +16,7 @@ def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
     # Validate the XML file first
     if not validate_xml(xml_file, xsd_schema_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
-        update_ingestion_status(conn, xml_file, "error")  # Record error status
+        update_ingestion_status(conn, xml_file, "Failed Validation", 'ResultsCharts')  # Record error status
         return False
 
     has_rejections = False  # Track if any records were rejected

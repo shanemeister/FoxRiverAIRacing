@@ -1,9 +1,9 @@
 import xml.etree.ElementTree as ET
 import logging
-from ingestion_utils import validate_xml, get_text, safe_int, parse_date, gen_race_identifier, log_rejected_record, parse_time, update_ingestion_status
+from src.data_ingestion.ingestion_utils import validate_xml, get_text, safe_int, parse_date, gen_race_identifier, log_rejected_record, parse_time, update_ingestion_status
 import json
 from datetime import datetime
-from mappings_dictionaries import eqb_tpd_codes_to_course_cd
+from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
 def process_workoutdata_file(xml_file, xsd_file_path, conn, cursor):
     """

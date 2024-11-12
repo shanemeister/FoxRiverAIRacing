@@ -1,11 +1,11 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import logging
-from ingestion_utils import (
+from src.data_ingestion.ingestion_utils import (
     validate_xml, safe_float, log_rejected_record, clean_attribute, 
     parse_date, parse_time, gen_race_identifier, safe_int, update_ingestion_status
 )
-from mappings_dictionaries import eqb_tpd_codes_to_course_cd
+from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
 def process_racedata_file(xml_file, xsd_file_path, conn, cursor):
     """

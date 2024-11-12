@@ -2,23 +2,23 @@ import os
 import zipfile
 import logging
 import tempfile
-from ingestion_utils import validate_xml
-from racedata import process_racedata_file
-from horse_data import process_horsedata_file 
-from dam import process_dam_file
-from sire import process_sire_file
-from stat_horse import process_stathorse_file
-from stat_dam import process_stat_dam_file
-from stat_sire import process_stat_sire_file
-from jockey import process_jockey_file
-from stat_jockey import process_stat_jockey_file
-from trainer import process_trainer_file
-from stat_trainer import process_stat_trainer_file
-from runners import process_runners_file
-from runners_stats import process_runners_stats_file
-from workoutdata import process_workoutdata_file
-from ppdata import process_ppData_file
-from ingestion_utils import update_ingestion_status
+from src.data_ingestion.ingestion_utils import validate_xml
+from src.data_ingestion.racedata import process_racedata_file
+from src.data_ingestion.horse_data import process_horsedata_file 
+from src.data_ingestion.dam import process_dam_file
+from src.data_ingestion.sire import process_sire_file
+from src.data_ingestion.stat_horse import process_stathorse_file
+from src.data_ingestion.stat_dam import process_stat_dam_file
+from src.data_ingestion.stat_sire import process_stat_sire_file
+from src.data_ingestion.jockey import process_jockey_file
+from src.data_ingestion.stat_jockey import process_stat_jockey_file
+from src.data_ingestion.trainer import process_trainer_file
+from src.data_ingestion.stat_trainer import process_stat_trainer_file
+from src.data_ingestion.runners import process_runners_file
+from src.data_ingestion.runners_stats import process_runners_stats_file
+from src.data_ingestion.workoutdata import process_workoutdata_file
+from src.data_ingestion.ppdata import process_ppData_file
+from src.data_ingestion.ingestion_utils import update_ingestion_status
 from datetime import datetime
 
 import os
@@ -52,9 +52,10 @@ def process_zip_files(directory, conn, xsd_schema_path, processed_files):
                         xml_path = os.path.join(directory, xml_file)
 
                         # Check if the XML file has already been processed by its base name
-                        if xml_base_name in processed_files:
-                            # logging.info(f"########################### Skipping already processed file: {xml_base_name} ###########################")
-                            continue  # Skip this XML file if already processed
+                        if os.path.isdir(xml_base_name) or (xml_base_name, 'processed', 'PlusPro') in processed_files:
+                            logging.info(f"########################### Skipping already processed PluPro file: {xml_base_name} ###########################")
+                            continue  # Skip directories and already processed files
+                            
                         # Extract and validate XML
                         zip_ref.extract(xml_file, path=directory)
                         if validate_xml(xml_path, xsd_schema_path):
@@ -154,7 +155,7 @@ def process_pluspro_data(conn, pluspro_dir, xsd_schema_path, error_log, processe
             pp_data_path = os.path.join(pluspro_dir, year_dir)
             
             if os.path.exists(pp_data_path):
-                print(f"Processing PlusPro data for {processed_files}")
+                #print(f"Processing PlusPro data for {processed_files}")
                 process_zip_files(pp_data_path, conn, xsd_schema_path, processed_files)
             else:
                 logging.warning(f"Directory {pp_data_path} not found for {year_dir}")
