@@ -74,8 +74,13 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                             axciskey = get_text(entry_elem.find('AXCISKEY')) if entry_elem.find('AXCISKEY') is not None else None,
                             point_of_call_elem = entry_elem.find('POINT_OF_CALL')
                             point_of_call = convert_point_of_call_to_json(point_of_call_elem) if point_of_call_elem is not None else None
-                            jock_key = get_text(entry_elem.find('JOCK_KEY')) if entry_elem.find('JOCK_KEY') is not None else None,
-                            train_key = get_text(entry_elem.find('TRAIN_KEY')) if entry_elem.find('TRAIN_KEY') is not None else None,
+                            # Extract jock_key from JOCKEY tag
+                            jockey_elem = entry_elem.find('JOCKEY')
+                            jock_key = jockey_elem.find('KEY').text if jockey_elem is not None and jockey_elem.find('KEY') is not None else None
+
+                            # Extract train_key from TRAINER tag (assuming similar structure)
+                            trainer_elem = entry_elem.find('TRAINER')
+                            train_key = trainer_elem.find('KEY').text if trainer_elem is not None and trainer_elem.find('KEY') is not None else None
                             # Insert entry data into the table
                             insert_entry_query = """
                                 INSERT INTO public.results_entries (
@@ -93,8 +98,9 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                                         %s, %s, %s, %s, %s, 
                                         %s, %s, %s, %s, %s, 
                                         %s, %s)
-                                ON CONFLICT (course_cd, race_date, post_time, race_number, program_num) DO UPDATE 
-                                    SET horse_name = EXCLUDED.horse_name,
+                                ON CONFLICT (course_cd, race_date, race_number, program_num) DO UPDATE 
+                                    SET post_time = EXCLUDED.post_time,
+                                        horse_name = EXCLUDED.horse_name,
                                         breed = EXCLUDED.breed,
                                         last_pp = EXCLUDED.last_pp,
                                         weight = EXCLUDED.weight,
@@ -157,7 +163,7 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                                 "claim_price": claim_price,
                                 "start_position": start_position,
                                 "official_fin": official_fin,
-                                "finish_time": finish_time,
+                                "finish_time": finish_time.isoformat() if finish_time else None, 
                                 "speed_rating": speed_rating,
                                 "owner": owner,
                                 "comment": comment,

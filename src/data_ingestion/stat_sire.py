@@ -72,6 +72,7 @@ def process_stat_sire_file(xml_file, xsd_file_path, conn, cursor):
                                         cursor.execute(insert_stat_sire_query, (
                                             sirename, stat_type, axciskey, starts, wins, places, shows, earnings, paid, roi
                                         ))
+                                        conn.commit()
                                     except Exception as stat_error:
                                         # Log and store rejected stat_sire record
                                         has_rejections = True

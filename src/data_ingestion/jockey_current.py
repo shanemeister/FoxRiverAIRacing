@@ -47,7 +47,6 @@ def process_jockey_current_file(xml_file, conn, cursor, xsd_schema_path):
                         jock_key, first_name, last_name, middle_name, suffix, j_type
                     ))
                     conn.commit()  # Ensure each successful operation is committed
-                    return "processed"
                 except Exception as jockey_current_error:
                     has_rejections = True
                     logging.error(f"Error processing entry {jock_key}: {jockey_current_error}")

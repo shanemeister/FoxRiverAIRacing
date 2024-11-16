@@ -55,6 +55,8 @@ def process_dam_file(xml_file, xsd_file_path, conn, cursor):
                             cursor.execute(insert_query, (
                                 damname, axciskey, stat_breed, damsire
                             ))
+                            conn.commit()  # Commit the transaction
+                            #logging.info(f"Inserted dam data for horse {axciskey} in file {xml_file}.")
                         except Exception as horse_error:
                             has_rejections = True
                             logging.error(f"Error processing horse {horse}: {horse_error}")

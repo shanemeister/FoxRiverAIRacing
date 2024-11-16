@@ -74,6 +74,7 @@ def process_stat_jockey_file(xml_file, xsd_file_path, conn, cursor):
                                         cursor.execute(insert_stat_jockey_query, (
                                             jock_key, stat_type, starts, wins, places, shows, earnings, paid, roi
                                         ))
+                                        conn.commit()  # Ensure each successful operation is committed
                                     except Exception as horse_error:
                                         has_rejections = True
                                         logging.error(f"Error processing stat_jockey {horse}: {horse_error}")

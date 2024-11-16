@@ -30,8 +30,9 @@ def process_tpd_gpsdata(conn, data, course_cd, race_date, post_time, race_number
                     longitude, latitude, speed, progress, stride_frequency, location
                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
                           ST_SetSRID(ST_MakePoint(%s, %s), 4326))
-                ON CONFLICT (course_cd, race_date, post_time, race_number, saddle_cloth_number, time_stamp)
+                ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number, time_stamp)
                 DO UPDATE SET
+                    post_time = EXCLUDED.post_time,
                     longitude = EXCLUDED.longitude,
                     latitude = EXCLUDED.latitude,
                     speed = EXCLUDED.speed,

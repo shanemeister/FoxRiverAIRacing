@@ -93,7 +93,7 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                                   %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
                                   %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
                                   %s, %s, %s, %s, %s)
-                        ON CONFLICT (course_cd, race_date, post_time, race_number, saddle_cloth_number) DO UPDATE 
+                        ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number) DO UPDATE 
                         SET country = EXCLUDED.country,
                             axciskey = EXCLUDED.axciskey,
                             post_position = EXCLUDED.post_position,
@@ -136,6 +136,8 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                             breed_type, lst_salena, lst_salepr, lst_saleda, claimprice,
                             avgspd, avgcls, apprweight, jock_key, train_key          
                         ))
+                        conn.commit()  # Commit the transaction
+                        #logging.info(f"Inserted runner data for {axciskey} in file: {xml_file}")
 
                     except Exception as race_error:
                         has_rejections = True
@@ -178,6 +180,7 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                             "train_key": train_key
                         }
                         conn.rollback()  # Rollback the transaction before logging the rejected record
+                        logging.error(f"Rejected record for runner {axciskey} in file {xml_file}")
                         log_rejected_record(conn, 'runners', rejected_record, str(race_error))
                         continue  # Skip to the next race record
             except Exception as e:

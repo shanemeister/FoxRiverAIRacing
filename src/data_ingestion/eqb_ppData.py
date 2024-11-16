@@ -114,13 +114,15 @@ def process_single_xml_file(xml_file, xml_base_name, conn, cursor, xsd_schema_pa
         ]
 
         for section_name, process_function in sections:
-            logging.info(f"Processing {section_name} data file: {xml_file}")
+            # logging.info(f"Processing {section_name} data file: {xml_file}")
             try:
                 result = process_function(xml_file, xsd_schema_path, conn, cursor)
                 if result:
                     section_results[section_name] = "processed"
+                    update_ingestion_status(conn, xml_base_name, "processed", section_name)
                 else:
                     section_results[section_name] = "error"
+                    update_ingestion_status(conn, xml_base_name, "processed_with_errors", section_name)
             except Exception as section_error:
                 logging.error(f"Error processing {section_name} in file {xml_file}: {section_error}")
                 section_results[section_name] = "error"
@@ -132,7 +134,7 @@ def process_single_xml_file(xml_file, xml_base_name, conn, cursor, xsd_schema_pa
             processed_files.add(xml_base_name)
             return True  # All sections succeeded
         else:
-            conn.rollback()
+            conn.commit()
             update_ingestion_status(conn, xml_base_name, "processed_with_errors", "PlusPro")
             return False  # At least one section had an error
 
@@ -149,13 +151,13 @@ def process_pluspro_data(conn, pluspro_dir, xsd_schema_path, error_log, processe
     """
     try:
         # Specify the year or directory to process (e.g., 2022PP)
-        year_dirs = ['Daily'] #'2022PP', '2023PP', '2024PP', 'Daily']  # Extend this list for more years or other directories
+        year_dirs = ['Daily'] # ['2022PP', '2023PP', '2024PP', 'Daily']  # Extend this list for more years or other directories
         
         for year_dir in year_dirs:
             pp_data_path = os.path.join(pluspro_dir, year_dir)
             
             if os.path.exists(pp_data_path):
-                #print(f"Processing PlusPro data for {processed_files}")
+                logging.info(f"Processing PlusPro data for {processed_files}")
                 process_zip_files(pp_data_path, conn, xsd_schema_path, processed_files)
             else:
                 logging.warning(f"Directory {pp_data_path} not found for {year_dir}")

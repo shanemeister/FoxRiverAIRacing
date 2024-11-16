@@ -72,7 +72,7 @@ def process_resultscharts_data(conn, resultscharts_dir, xsd_schema_rc, error_log
     - error_log (str): Log file for errors.
     - processed_files (set): Set of processed files to avoid reprocessing.
     """
-    year_dirs = ['2022R', '2023R', '2024R', 'Daily']
+    year_dirs = ['Daily'] # ['2022R', '2023R', '2024R', 'Daily']
     
     for year_dir in year_dirs:
         rc_data_path = os.path.join(resultscharts_dir, year_dir)

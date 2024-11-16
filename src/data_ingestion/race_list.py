@@ -54,9 +54,7 @@ def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
 
                         # Extract post_time (last 4 characters) and format it as HH:MM:SS
                         post_time_str = identifier[-4:]
-                        post_time = f"{post_time_str[:2]}:{post_time_str[2:]}:00"
-                        post_time = datetime.strptime(post_time, "%H:%M:%S").time()
-
+                        post_time = f"{post_time_str[:2]}:{post_time_str[2:]}:00"  # Ensures 24-hour format HH:MM:SS
                         # Extract other data fields
                         race_number = race_data.get("RaceNo")
                         country = race_data.get("Country")

@@ -243,35 +243,40 @@ def parse_date(date_str, attribute = ''):
 from datetime import datetime
 import logging
 
+import logging
+from datetime import datetime
+
 def parse_time(time_str):
     """
     Parse a time string in various formats and return a datetime.time object.
-    Handles ISO 8601 timestamps with timezone info if provided.
+    Prioritize 24-hour formats to normalize.
     """
     if time_str:
         time_str = time_str.strip()
         
-        # List of time formats to try, including ISO 8601 with timezone info
+        # List of time formats to try, prioritizing 24-hour formats
         time_formats = [
-            '%I:%M%p',  # e.g., '2:33PM'
-            '%I%p',     # e.g., '2PM'
-            '%H:%M',    # e.g., '14:33' or '11:55'
-            '%H%M',     # e.g., '1433'
-            '%I:%M',    # e.g., '2:33' (ambiguous AM/PM)
-            '%H',       # e.g., '14' or '2'
+            '%H:%M:%S',  # e.g., '14:33:00'
+            '%H:%M',     # e.g., '14:33' or '11:55'
+            '%H%M',      # e.g., '1433'
+            '%I:%M%p',   # e.g., '2:33PM'
+            '%I%p',      # e.g., '2PM'
+            '%I:%M',     # e.g., '2:33' (ambiguous AM/PM)
+            '%H',        # e.g., '14' or '2'
             '%Y-%m-%dT%H:%M:%S%z',  # e.g., '2024-10-12T11:30:00-04:00'
         ]
         
         for fmt in time_formats:
             try:
-                # Attempt to parse the time string
                 parsed_datetime = datetime.strptime(time_str, fmt)
-                # Return only the time part if timezone-aware format was parsed
-                return parsed_datetime.time() if '%z' not in fmt else parsed_datetime.timetz()
+                # Log the parsed time to help with debugging
+                #logging.info(f"Successfully parsed time '{time_str}' as '{parsed_datetime.time()}' with format '{fmt}'")
+                return parsed_datetime.time()
             except ValueError:
                 continue
         
-        logging.error(f"Error parsing time {time_str}: No matching format.")
+        # Log an error if no format matched
+        logging.error(f"Error parsing time '{time_str}': No matching format.")
         return None
     return None
 

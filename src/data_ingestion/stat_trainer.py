@@ -76,6 +76,7 @@ def process_stat_trainer_file(xml_file, xsd_schema_path, conn, cursor):
                                         cursor.execute(insert_stat_trainer_query, (
                                             starts, wins, places, shows, earnings, paid, roi, stat_type, train_key
                                         ))
+                                        conn.commit()  # Commit the transaction
                                     except Exception as horse_error:
                                         has_rejections = True
                                         logging.error(f"Error processing stat_jockey {horse}: {horse_error}")

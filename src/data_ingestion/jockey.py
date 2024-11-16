@@ -56,6 +56,7 @@ def process_jockey_file(xml_file, xsd_file_path, conn, cursor):
                             cursor.execute(insert_jockey_query, (
                                 stat_breed, jock_disp, jock_key, j_type
                             ))
+                            conn.commit()  # Commit the transaction
                         except Exception as horse_error:
                             has_rejections = True
                             logging.error(f"Error processing horse {horse}: {horse_error}")

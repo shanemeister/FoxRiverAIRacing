@@ -68,6 +68,8 @@ def process_stathorse_file(xml_file, xsd_file_path, conn, cursor):
                             cursor.execute(insert_query, (
                                 type_stat, axciskey, starts, wins, places, shows, earnings, paid, roi
                             ))
+                            conn.commit()  # Commit the transaction
+                            #logging.info(f"Inserted stat '{type_stat}' for horse {axciskey} in file {xml_file}")
                         except Exception as horse_error:
                             # Log and store rejected stat_horse record
                             has_rejections = True
@@ -84,6 +86,7 @@ def process_stathorse_file(xml_file, xsd_file_path, conn, cursor):
                                 "roi": roi
                             }
                             conn.rollback()  # Rollback the transaction before logging the rejected record
+                            logging.error(f"Failed to insert stat_horse record: {rejected_record}")
                             log_rejected_record(conn, 'stat_horse', rejected_record, str(horse_error))
                             continue  # Skip to the next race record
 

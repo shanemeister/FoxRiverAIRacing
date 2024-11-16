@@ -75,6 +75,8 @@ def process_stat_dam_file(xml_file, xsd_file_path, conn, cursor):
                                         cursor.execute(insert_stat_dam_query, (
                                             damname, stat_type, axciskey, starts, wins, places, shows, earnings, paid, roi
                                         ))
+                                        conn.commit()
+                                        # logging.info(f"Inserted stat '{stat}' for horse {axciskey} in file {xml_file}")
                                     except Exception as stat_error:
                                         # Log and store rejected stat_horse record
                                         has_rejections = True

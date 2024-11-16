@@ -57,6 +57,7 @@ def process_sire_file(xml_file, xsd_file_path, conn, cursor):
                             cursor.execute(insert_query, (
                                 sirename, axciskey, stat_breed, tmmark, stud_fee
                             ))
+                            conn.commit()  # Commit the transaction
                         except Exception as sire_error:
                             has_rejections = True
                             logging.error(f"Error processing horse {horse}: {sire_error}")

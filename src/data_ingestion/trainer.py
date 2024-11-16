@@ -57,6 +57,7 @@ def process_trainer_file(xml_file, xsd_schema_path, conn, cursor):
                             cursor.execute(insert_trainer_query, (
                                 stat_breed, tran_disp, train_key, t_type
                             ))
+                            conn.commit()  # Commit the transaction
                         except Exception as trainer_error:
                             has_rejections = True
                             logging.error(f"Error processing horse {horse}: {trainer_error}")

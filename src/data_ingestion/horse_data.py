@@ -53,7 +53,8 @@ def process_horsedata_file(xml_file, xsd_file_path, conn, cursor):
                         cursor.execute(insert_query, (
                             axciskey, horse_name, foal_date, sex, wh_foaled, color
                         ))
-                        
+                        conn.commit()  # Commit the transaction
+                        # logging.info(f"Inserted horse data for {horse_name} in file {xml_file}")
                     except Exception as horse_error:
                         has_rejections = True
                         logging.error(f"Error processing horse {horse}: {horse_error}")
@@ -67,6 +68,7 @@ def process_horsedata_file(xml_file, xsd_file_path, conn, cursor):
                             'color': color
                         }
                         conn.rollback()  # Rollback the transaction before logging the rejected record
+                        logging.error(f"Rejected record for horse {horse_name} in file {xml_file}")
                         log_rejected_record(conn, 'horse_data', rejected_record, str(horse_error))
                         continue  # Skip to the next race record
 

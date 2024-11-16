@@ -75,6 +75,7 @@ def process_workoutdata_file(xml_file, xsd_file_path, conn, cursor):
                                     course_cd, race_date, post_time, race_number, saddle_cloth_number, 
                                     worknum, days_back, worktext, ranking, rank_group
                                 ))
+                                conn.commit()  # Commit the transaction
                             except Exception as workout_error:
                                 has_rejections = True
                                 logging.error(f"Error processing workoutdata for race {race_number}: {workout_error}")
