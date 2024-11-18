@@ -114,7 +114,7 @@ def process_single_xml_file(xml_file, xml_base_name, conn, cursor, xsd_schema_pa
         ]
 
         for section_name, process_function in sections:
-            # logging.info(f"Processing {section_name} data file: {xml_file}")
+            logging.info(f"Processing {section_name} data file: {xml_file}")
             try:
                 result = process_function(xml_file, xsd_schema_path, conn, cursor)
                 if result:
@@ -157,7 +157,7 @@ def process_pluspro_data(conn, pluspro_dir, xsd_schema_path, error_log, processe
             pp_data_path = os.path.join(pluspro_dir, year_dir)
             
             if os.path.exists(pp_data_path):
-                logging.info(f"Processing PlusPro data for {processed_files}")
+                #logging.info(f"Processing PlusPro data for {processed_files}")
                 process_zip_files(pp_data_path, conn, xsd_schema_path, processed_files)
             else:
                 logging.warning(f"Directory {pp_data_path} not found for {year_dir}")

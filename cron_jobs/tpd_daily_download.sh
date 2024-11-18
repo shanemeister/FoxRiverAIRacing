@@ -1,10 +1,7 @@
 #!/bin/zsh
 
-# Source your .zshrc file to ensure environment variables are loaded
-source ~/.zshrc
-
-# Log environment variables for debugging (Optional, remove if not needed)
-env > /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/cron_env.log
+# Exit immediately if a command exits with a non-zero status
+set -e
 
 # Define paths
 WORKING_DIR="/home/exx/myCode/horse-racing/gmaxfeed"  # The directory where the script needs to run
@@ -23,46 +20,38 @@ moved_files=0
 
 # Ensure the working directory exists
 if [ ! -d "$WORKING_DIR" ]; then
-    echo "$(date) - Working directory $WORKING_DIR does not exist. Exiting." | tee -a $LOG_FILE
-    echo "$(date +'%Y-%m-%d %H:%M:%S') - FAILED: Working directory missing" >> $SUMMARY_LOG
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - Working directory $WORKING_DIR does not exist. Exiting." | tee -a "$LOG_FILE"
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - FAILED: Working directory missing" >> "$SUMMARY_LOG"
     exit 1
 fi
 
 # Change directory to the required working directory
-cd $WORKING_DIR
+cd "$WORKING_DIR"
 
 # Run the Python script using the correct Python interpreter
-$PYTHON_EXEC $PYTHON_SCRIPT 2>&1 | tee -a $LOG_FILE
-
-# Check if the Python script ran successfully
-if [ $? -eq 0 ]; then
-    echo "$(date) - Python script ran successfully." | tee -a $LOG_FILE
+if "$PYTHON_EXEC" "$PYTHON_SCRIPT" 2>&1 | tee -a "$LOG_FILE"; then
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - Python script ran successfully." | tee -a "$LOG_FILE"
 
     # Count number of files downloaded (assuming all files are placed in DATA_DIR)
-    downloaded_files=$(find $DATA_DIR -type f | wc -l)
+    downloaded_files=$(find "$DATA_DIR" -type f | wc -l)
 
     # Ensure the data directory exists before proceeding
     if [ ! -d "$DATA_DIR" ]; then
-        echo "$(date) - Data directory $DATA_DIR does not exist. Exiting." | tee -a $LOG_FILE
-        echo "$(date +'%Y-%m-%d %H:%M:%S') - FAILED: Data directory missing" >> $SUMMARY_LOG
+        echo "$(date +'%Y-%m-%d %H:%M:%S') - Data directory $DATA_DIR does not exist. Exiting." | tee -a "$LOG_FILE"
+        echo "$(date +'%Y-%m-%d %H:%M:%S') - FAILED: Data directory missing" >> "$SUMMARY_LOG"
         exit 1
     fi
 
     # Move the downloaded data to the target directory using rsync
-    rsync -av --ignore-existing $DATA_DIR/ $TARGET_DIR/ 2>&1 | tee -a $LOG_FILE
+    rsync_output=$(rsync -av --ignore-existing "$DATA_DIR/" "$TARGET_DIR/" 2>&1 | tee -a "$LOG_FILE")
 
-    # Check if the rsync was successful
-    if [ $? -eq 0 ]; then
-        # Count number of files moved
-        moved_files=$(rsync -avn --ignore-existing $DATA_DIR/ $TARGET_DIR/ | grep -c '^>f')
+    # Extract and count files moved
+    moved_files=$(echo "$rsync_output" | grep -c '^>f')
 
-        echo "$(date) - Data moved successfully to $TARGET_DIR." | tee -a $LOG_FILE
-        echo "$(date +'%Y-%m-%d %H:%M:%S') - SUCCESS: Downloaded $downloaded_files files, Moved $moved_files files" >> $SUMMARY_LOG
-    else
-        echo "$(date) - Failed to move data to $TARGET_DIR." | tee -a $LOG_FILE
-        echo "$(date +'%Y-%m-%d %H:%M:%S') - FAILED: Rsync failure" >> $SUMMARY_LOG
-    fi
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - Data moved successfully to $TARGET_DIR. Downloaded $downloaded_files files, Moved $moved_files files." | tee -a "$LOG_FILE"
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - SUCCESS: Downloaded $downloaded_files files, Moved $moved_files files" >> "$SUMMARY_LOG"
 else
-    echo "$(date) - Python script failed to run." | tee -a $LOG_FILE
-    echo "$(date +'%Y-%m-%d %H:%M:%S') - FAILED: Python script error" >> $SUMMARY_LOG
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - Python script failed to run." | tee -a "$LOG_FILE"
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - FAILED: Python script error" >> "$SUMMARY_LOG"
+    exit 1
 fi

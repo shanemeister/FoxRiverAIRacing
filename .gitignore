@@ -7,3 +7,5 @@ config.ini
 ./cron_logs/*
 ./logs
 ./logs/*
+./config
+./config/*

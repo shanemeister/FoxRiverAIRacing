@@ -47,7 +47,7 @@ echo "$(date +'%Y-%m-%d %H:%M:%S') - PlusPro files downloaded: $PLUSPRO_FILES_CO
 
 # Backup the data directory to S3
 echo "$(date +'%Y-%m-%d %H:%M:%S') - Syncing data directory to S3: $S3_BUCKET" >> $LOG_FILE
-aws s3 sync $DATA_DIR $S3_BUCKET >> $LOG_FILE 2>&1
+aws s3 sync $DATA_DIR $S3_BUCKET --only-show-errors >> $LOG_FILE 2>&1
 
 # Check if the sync succeeded
 if [ $? -eq 0 ]; then

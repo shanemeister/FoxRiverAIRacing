@@ -30,7 +30,7 @@ fi
 
 # Sync backups to S3
 echo "$(date +'%Y-%m-%d %H:%M:%S') - Syncing to S3: $S3_BUCKET" >> $LOG_FILE
-aws s3 sync $BACKUP_DIR $S3_BUCKET >> $LOG_FILE 2>&1
+aws s3 sync $BACKUP_DIR $S3_BUCKET --only-show-errors >> $LOG_FILE 2>&1
 
 if [ $? -eq 0 ]; then
   echo "$(date +'%Y-%m-%d %H:%M:%S') - Sync to S3 succeeded" >> $LOG_FILE
