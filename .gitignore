@@ -9,3 +9,4 @@ config.ini
 ./logs/*
 ./config
 ./config/*
+logs/ingestion.log
