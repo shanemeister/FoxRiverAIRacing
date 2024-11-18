@@ -1,59 +1,10 @@
-2024-11-17 20:19:43 - Starting ingestion job
-2024-11-17 20:19:43 - Running ingestion script
-Processed files for PlusPro: 15883
-Processing XML file number : 1
-Processing XML file number : 2
-Total ZIP files found: 1875
-ZIP files processed successfully: 0
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14418
-Processed files for Sectionals: 60469
-Processed files for GPSData: 60471
-Processed files for Racelist: 2811
-2024-11-17 20:19:53 - Ingestion job succeeded
-2024-11-17 20:19:53 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-17 20:20:45 - Sync to S3 succeeded
-2024-11-17 20:20:45 - Job completed successfully
-2024-11-18 03:00:01 - Starting ingestion job
-2024-11-18 03:00:01 - Running ingestion script
-Traceback (most recent call last):
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py", line 6, in <module>
-    from src.data_ingestion.ingestion_utils import (
-ModuleNotFoundError: No module named 'src'
-2024-11-18 09:27:15 - Starting ingestion job
-2024-11-18 09:27:15 - Running ingestion script
-Processed files for PlusPro: 15883
-Processing XML file number : 1
-Processing XML file number : 2
-Processing XML file number : 3
-Processing XML file number : 4
-Processing XML file number : 5
-Processing XML file number : 6
-Total ZIP files found: 1879
-ZIP files processed successfully: 4
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14418
-Processed files for Sectionals: 60469
-Processed files for GPSData: 60471
-Processed files for Racelist: 2811
-Processed files for PlusPro: 15883
-Processing XML file number : 1
-Processing XML file number : 2
-Processing XML file number : 3
-Processing XML file number : 4
-Processing XML file number : 5
-Processing XML file number : 6
-Total ZIP files found: 1879
-ZIP files processed successfully: 4
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14418
-Processed files for Sectionals: 60469
-Processed files for GPSData: 60471
-Processed files for Racelist: 2811
-2024-11-18 09:28:24 - Python script ran successfully.
-2024-11-18 09:28:24 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-18 09:34:33 - Starting ingestion job
-2024-11-18 09:34:33 - Running ingestion script
+2024-11-18 14:45:18 - Starting ingestion job
+2024-11-18 14:45:34 - Ingestion job succeeded
+2024-11-18 14:45:34 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-18 14:46:20 - Sync to S3 succeeded
+2024-11-18 14:46:20 - Job completed
+2024-11-18 14:48:34 - Starting ingestion job
+2024-11-18 14:48:34 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
 Processed files for PlusPro: 15887
 Processing XML file number : 1
 Processing XML file number : 2
@@ -64,86 +15,7 @@ Processed files for ResultsCharts: 14430
 Processed files for Sectionals: 60528
 Processed files for GPSData: 60530
 Processed files for Racelist: 2812
-Processed files for PlusPro: 15887
-Processing XML file number : 1
-Processing XML file number : 2
-Total ZIP files found: 1879
-ZIP files processed successfully: 0
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14430
-Processed files for Sectionals: 60528
-Processed files for GPSData: 60530
-Processed files for Racelist: 2812
-2024-11-18 09:34:42 - Python script ran successfully.
-find: ‘/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/ResultsCharts’: No such file or directory
-Processed files for ResultsCharts: 0
-find: ‘/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Sectionals’: No such file or directory
-Processed files for Sectionals: 0
-find: ‘/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/GPSData’: No such file or directory
-Processed files for GPSData: 0
-find: ‘/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Racelist’: No such file or directory
-Processed files for Racelist: 0
-2024-11-18 09:34:43 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-18 09:40:07 - Starting ingestion job
-2024-11-18 09:40:07 - Running ingestion script
-Processed files for PlusPro: 15887
-Processing XML file number : 1
-Processing XML file number : 2
-Total ZIP files found: 1879
-ZIP files processed successfully: 0
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14430
-Processed files for Sectionals: 60528
-Processed files for GPSData: 60530
-Processed files for Racelist: 2812
-Processed files for PlusPro: 15887
-Processing XML file number : 1
-Processing XML file number : 2
-Total ZIP files found: 1879
-ZIP files processed successfully: 0
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14430
-Processed files for Sectionals: 60528
-Processed files for GPSData: 60530
-Processed files for Racelist: 2812
-2024-11-18 09:40:17 - Python script ran successfully.
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14433
-Processed files for Sectionals: 89532
-Processed files for GPSData: 89539
-Processed files for Racelist: 2812
-2024-11-18 09:40:17 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-18 10:06:00 - Starting ingestion job
-2024-11-18 10:06:00 - Running ingestion script
-Processed files for PlusPro: 15887
-Processing XML file number : 1
-Processing XML file number : 2
-Total ZIP files found: 1879
-ZIP files processed successfully: 0
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14430
-Processed files for Sectionals: 60528
-Processed files for GPSData: 60530
-Processed files for Racelist: 2812
-Processed files for PlusPro: 15887
-Processing XML file number : 1
-Processing XML file number : 2
-Total ZIP files found: 1879
-ZIP files processed successfully: 0
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14430
-Processed files for Sectionals: 60528
-Processed files for GPSData: 60530
-Processed files for Racelist: 2812
-2024-11-18 10:06:10 - Python script ran successfully.
-ZIP files failed or skipped: 2
-Processed files for ResultsCharts: 14433
-Processed files for Sectionals: 89532
-Processed files for GPSData: 89539
-Processed files for Racelist: 2812
-2024-11-18 10:06:10 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-18 10:06:10 - Starting aws s3 sync command
-2024-11-18 10:06:57 - aws s3 sync command completed with exit code 0
-
-send_failure_email:1: command not found: mail
-send_failure_email:1: command not found: mail
+2024-11-18 14:48:50 - Python script succeeded
+2024-11-18 14:48:50 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-18 14:49:33 - Sync to S3 succeeded
+2024-11-18 14:49:33 - Job completed
