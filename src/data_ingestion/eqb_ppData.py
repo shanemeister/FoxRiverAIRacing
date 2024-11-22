@@ -108,9 +108,9 @@ def process_single_xml_file(xml_file, xml_base_name, conn, cursor, xsd_schema_pa
             ("trainer", process_trainer_file),
             ("stat_trainer", process_stat_trainer_file),
             ("runners", process_runners_file),
-            ("runners_stats", process_runners_stats_file),
-            ("workout", process_workoutdata_file),
-            ("ppData", process_ppData_file)
+            # ("runners_stats", process_runners_stats_file),
+            ("workout", process_workoutdata_file)
+            #("ppData", process_ppData_file)
         ]
 
         for section_name, process_function in sections:

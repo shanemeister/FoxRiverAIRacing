@@ -19,3 +19,157 @@ Processed files for Racelist: 2812
 2024-11-18 14:48:50 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
 2024-11-18 14:49:33 - Sync to S3 succeeded
 2024-11-18 14:49:33 - Job completed
+2024-11-19 03:00:02 - Starting ingestion job
+2024-11-19 03:00:02 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+Processed files for PlusPro: 15887
+Processing XML file number : 1
+Processing XML file number : 2
+Processing XML file number : 3
+Processing XML file number : 4
+Processing XML file number : 5
+Processing XML file number : 6
+Processing XML file number : 7
+Processing XML file number : 8
+Processing XML file number : 9
+Total ZIP files found: 1886
+ZIP files processed successfully: 7
+ZIP files failed or skipped: 2
+Processed files for ResultsCharts: 14430
+Processed files for Sectionals: 60528
+Processed files for GPSData: 60530
+Processed files for Racelist: 2812
+2024-11-19 03:01:40 - Python script succeeded
+2024-11-19 03:01:40 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-19 03:02:26 - Sync to S3 succeeded
+2024-11-19 03:02:26 - Job completed
+2024-11-19 08:11:32 - Starting ingestion job
+2024-11-19 08:11:32 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-19 08:11:32 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+Processed files for PlusPro: 15894
+Processing XML file number : 1
+Processing XML file number : 2
+Total ZIP files found: 1886
+ZIP files processed successfully: 0
+ZIP files failed or skipped: 2
+Processed files for ResultsCharts: 14439
+Processed files for Sectionals: 60528
+Processed files for GPSData: 60530
+Processed files for Racelist: 2812
+2024-11-19 08:11:48 - Python script succeeded
+2024-11-19 08:11:48 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-19 08:12:34 - Sync to S3 succeeded
+2024-11-19 08:12:34 - Job completed
+2024-11-20 03:00:01 - Starting ingestion job
+2024-11-20 03:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-20 03:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+Processed files for PlusPro: 15881
+Processing XML file number : 1
+Processing XML file number : 2
+Total ZIP files found: 1886
+ZIP files processed successfully: 0
+ZIP files failed or skipped: 2
+Processed files for ResultsCharts: 14439
+Processed files for Sectionals: 60539
+Processed files for GPSData: 60541
+Processed files for Racelist: 0
+2024-11-20 03:00:15 - Python script succeeded
+2024-11-20 03:00:15 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-20 03:01:09 - Sync to S3 succeeded
+2024-11-20 03:01:09 - Job completed
+2024-11-21 03:00:01 - Starting ingestion job
+2024-11-21 03:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-21 03:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+Processed files for PlusPro: 15883
+Processing XML file number : 1
+Processing XML file number : 2
+Processing XML file number : 3
+Processing XML file number : 4
+Processing XML file number : 5
+Processing XML file number : 6
+Processing XML file number : 7
+Processing XML file number : 8
+Processing XML file number : 9
+Processing XML file number : 10
+Processing XML file number : 11
+Processing XML file number : 12
+Processing XML file number : 13
+Processing XML file number : 14
+Processing XML file number : 15
+Processing XML file number : 16
+Processing XML file number : 17
+Processing XML file number : 18
+Processing XML file number : 19
+Processing XML file number : 20
+Processing XML file number : 21
+Processing XML file number : 22
+Processing XML file number : 23
+Processing XML file number : 24
+Processing XML file number : 25
+Processing XML file number : 26
+Processing XML file number : 27
+Processing XML file number : 28
+Total ZIP files found: 1914
+ZIP files processed successfully: 0
+ZIP files failed or skipped: 28
+Processed files for ResultsCharts: 1193
+
+--- Accessing directory: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily ---
+Sample filenames: ['wo20241109tch.xml', 'ded20241017tch.xml', 'pid20241001tch.xml', 'btp20241002tch.xml', 'mnr20241022tch.xml']
+Valid files in Daily: 1193
+Processed files for Sectionals: 60539
+Processed files for GPSData: 60541
+Processed files for Racelist: 0
+2024-11-21 03:05:14 - Python script succeeded
+2024-11-21 03:05:14 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-21 03:06:11 - Sync to S3 succeeded
+2024-11-21 03:06:11 - Job completed
+2024-11-21 09:52:16 - Starting ingestion job
+2024-11-21 09:52:16 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-21 09:52:16 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+Script_dir: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion
+Processed files for PlusPro: 15911
+Processing XML file number : 1
+Processing XML file number : 2
+Processing XML file number : 3
+Processing XML file number : 4
+Processing XML file number : 5
+Processing XML file number : 6
+Processing XML file number : 7
+Processing XML file number : 8
+Processing XML file number : 9
+Processing XML file number : 10
+Processing XML file number : 11
+Processing XML file number : 12
+Processing XML file number : 13
+Processing XML file number : 14
+Processing XML file number : 15
+Processing XML file number : 16
+Processing XML file number : 17
+Processing XML file number : 18
+Processing XML file number : 19
+Processing XML file number : 20
+Processing XML file number : 21
+Processing XML file number : 22
+Processing XML file number : 23
+Processing XML file number : 24
+Processing XML file number : 25
+Processing XML file number : 26
+Processing XML file number : 27
+Processing XML file number : 28
+Processing XML file number : 29
+Processing XML file number : 30
+Total ZIP files found: 1916
+ZIP files processed successfully: 0
+ZIP files failed or skipped: 30
+Processed files for ResultsCharts: 1193
+
+--- Accessing directory: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily ---
+Sample filenames: ['wo20241109tch.xml', 'ded20241017tch.xml', 'pid20241001tch.xml', 'btp20241002tch.xml', 'mnr20241022tch.xml']
+Valid files in Daily: 1199
+Processed files for Sectionals: 60557
+Processed files for GPSData: 60559
+Processed files for Racelist: 2815
+2024-11-21 09:57:46 - Python script succeeded
+2024-11-21 09:57:46 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-21 09:58:38 - Sync to S3 succeeded
+2024-11-21 09:58:38 - Job completed

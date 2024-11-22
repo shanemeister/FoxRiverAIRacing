@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Exit immediately if a command exits with a non-zero status
 set -e
@@ -13,6 +13,18 @@ SUMMARY_LOG="/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/tpd_summar
 
 # Define the Python executable from the tf_gpu environment
 PYTHON_EXEC="/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/bin/python"
+
+# Load environment variables from .env file
+ENV_FILE="/home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env"
+
+if [ -f "$ENV_FILE" ]; then
+    set -a  # Automatically export all variables
+    source "$ENV_FILE"
+    set +a
+else
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - Environment file $ENV_FILE not found. Exiting." | tee -a "$LOG_FILE"
+    exit 1
+fi
 
 # Initialize counters
 downloaded_files=0
@@ -55,3 +67,7 @@ else
     echo "$(date +'%Y-%m-%d %H:%M:%S') - FAILED: Python script error" >> "$SUMMARY_LOG"
     exit 1
 fi
+
+# End time and log the completion
+END_TIME=$(date +'%Y-%m-%d %H:%M:%S')
+echo "$END_TIME - Job completed" >> "$LOG_FILE"

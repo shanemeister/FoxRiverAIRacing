@@ -9,7 +9,7 @@ from src.data_ingestion.jockey_current import process_jockey_current_file
 from src.data_ingestion.trainer_current import process_trainer_current_file
 from src.data_ingestion.results_scratches import process_results_scratches_file
 from src.data_ingestion.results_earnings import process_results_earnings_file
-
+    
 def process_xml_file(filepath, conn, xsd_schema_path, processed_files):
     cursor = conn.cursor()
     xml_base_name = os.path.basename(filepath)
@@ -27,13 +27,13 @@ def process_xml_file(filepath, conn, xsd_schema_path, processed_files):
         if not validate_xml(filepath, xsd_schema_path):
             logging.error(f"Validation failed for XML file: {xml_base_name}")
             update_ingestion_status(conn, xml_base_name, "validation_failed", data_type)
-            return
 
         sections = [
             ("race_results", process_raceresults_file),
             ("jockey_current", process_jockey_current_file),
             ("trainer_current", process_trainer_current_file),
             ("results_entries", process_results_entries_file),
+            ("results_earnings", process_results_earnings_file),
             ("exotic_wagers", process_exotic_wagers_file),
         ]
 
@@ -49,6 +49,7 @@ def process_xml_file(filepath, conn, xsd_schema_path, processed_files):
                 else:
                     conn.rollback()
                     update_ingestion_status(conn, xml_base_name, "error", data_type)
+                    logging.error(f"Error processing {section_name} in file {xml_base_name}")
 
             except Exception as section_error:
                 logging.error(f"Error processing {section_name} in file {xml_base_name}: {section_error}")
@@ -76,21 +77,21 @@ def process_resultscharts_data(conn, resultscharts_dir, xsd_schema_rc, error_log
     
     for year_dir in year_dirs:
         rc_data_path = os.path.join(resultscharts_dir, year_dir)
-        
+        print(f"\n--- Accessing directory: {rc_data_path} ---")
         if not os.path.exists(rc_data_path):
             logging.warning(f"Directory {rc_data_path} does not exist for {year_dir}")
             continue
         
         #print(f"\n--- Accessing directory: {rc_data_path} ---")
         all_files = os.listdir(rc_data_path)
-        #print(f"Total files in {year_dir}: {len(all_files)}")
+        #print(f"Total all files {all_files}")
 
         # Display a sample of filenames for quick verification
-        #print("Sample filenames:", all_files[:5])
+        print("Sample filenames:", all_files[:5])
 
         # Filter files ending with 'tch.xml'
         valid_files = [filename for filename in all_files if filename.endswith("tch.xml")]
-        #print(f"Valid files in {year_dir}: {len(valid_files)}")
+        print(f"Valid files in {year_dir}: {len(valid_files)}")
 
         for filename in valid_files:
             filepath = os.path.join(rc_data_path, filename)

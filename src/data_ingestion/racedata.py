@@ -1,74 +1,117 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import logging
+from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 from src.data_ingestion.ingestion_utils import (
-    validate_xml, safe_float, log_rejected_record, clean_attribute, 
+    validate_xml, safe_float, log_rejected_record, clean_attribute, normalize_tags,
     parse_date, parse_time, get_text, safe_int, update_ingestion_status
 )
-from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
+
+def parse_time_with_am_pm(time_text):
+    """
+    Parses a time string into a Python time object, handling AM/PM format.
+    
+    Args:
+        time_text (str): Time string to parse (e.g., '6:05PM').
+        
+    Returns:
+        datetime.time: Parsed time object, or None if parsing fails.
+    """
+    try:
+        return datetime.strptime(time_text.strip().upper(), "%I:%M%p").time()
+    except ValueError:
+        logging.error(f"Invalid time format: {time_text}")
+        return None
 
 def process_racedata_file(xml_file, xsd_file_path, conn, cursor):
     """
     Process individual XML race data file and insert into the racedata table.
     Validates the XML against the provided XSD schema and updates ingestion status.
+    
+    Args:
+        xml_file (str): Path to the XML race data file.
+        xsd_file_path (str): Path to the XSD schema file for validation.
+        conn (psycopg2.connection): Database connection object.
+        cursor (psycopg2.cursor): Database cursor object.
+        
+    Returns:
+        str: Status of the processing - "processed", "processed_with_rejections", or "error".
     """
-    # Validate the XML file first
+
     if not validate_xml(xml_file, xsd_file_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
-        update_ingestion_status(conn, xml_file, "error", "racedata")  # Record error status
+        update_ingestion_status(conn, xml_file, "error", "racedata")
         return "error"
-    
-    #logging.info(f"################## Processing racedata file: {xml_file} ##################")
+
     has_rejections = False  # Track if any records were rejected
-    rejected_record = {}
+
     try:
         tree = ET.parse(xml_file)
         root = tree.getroot()
+        logging.info(f"Parsed XML file: {xml_file}")
+        normalized_root = normalize_tags(root)
+        logging.info("Normalized XML tags to lowercase.")
 
-        for race in root.findall('racedata'):
+        for racedata_elem in normalized_root.findall('racedata'):
             try:
-                # Extract key details safely with default values if missing
-                country = get_text(race.find('country'))
-                course_cd = eqb_tpd_codes_to_course_cd.get(get_text(race.find('track'), 'Unknown'))
-                race_date = parse_date(get_text(race.find('race_date')))
-                default_time = datetime(1970, 1, 1).time()
+                race_date_text = get_text(racedata_elem.find('race_date'))
+                race_date = parse_date(race_date_text) if race_date_text else None
 
-                # Parse post_time or use default
-                post_time_element = race.find('post_time')
-                post_time = parse_time(get_text(post_time_element)) if post_time_element is not None else default_time
+                if not race_date:
+                    logging.error(f"Invalid or missing race_date in file {xml_file}.")
+                    update_ingestion_status(conn, xml_file, "error", "racedata")
+                    return "error"
 
-                # Extract race-specific attributes
-                race_number = safe_int(get_text(race.find('race')))
-                todays_cls = get_text(race.find('todays_cls'))
-                distance = safe_float(get_text(race.find('distance')))
-                dist_unit = get_text(race.find('dist_unit'))
-                surface_type_code = clean_attribute(get_text(race.find('course_id')))
-                surface = get_text(race.find('surface'))
-                stkorclm = get_text(race.find('stkorclm'))
-                purse = safe_float(get_text(race.find('purse')))
-                claimant = safe_float(get_text(race.find('claimant')))
-                age_restr = get_text(race.find('age_restr'))
-                bet_opt = get_text(race.find('bet_opt'))
-                raceord = safe_int(get_text(race.find('raceord')))
-                partim = safe_float(get_text(race.find('partim')))
-                dist_disp = get_text(race.find('dist_disp'))
-                breed_cd = get_text(race.find('breed_type'))
-                race_text = get_text(race.find('race_text'))
-                stk_clm_md = get_text(race.find('stk_clm_md'))
+                track_code_text = get_text(racedata_elem.find('track'))
+                track_code = track_code_text.lower() if track_code_text else 'unk'
+                course_cd = eqb_tpd_codes_to_course_cd.get(track_code.upper(), 'UNK')
 
-                # SQL insert query for the racedata table
+                if track_code.upper() in eqb_tpd_codes_to_course_cd:
+                    course_cd = eqb_tpd_codes_to_course_cd[track_code.upper()]
+                    if len(course_cd) != 3:
+                        logging.warning(f"Mapped course_cd '{course_cd}' for track_code '{track_code}' is not three characters. Defaulting to 'UNK'.")
+                        course_cd = 'UNK'
+                else:
+                    logging.warning(f"Course code '{track_code}' not found in mapping dictionary. Defaulting to 'UNK'.")
+                    continue
+
+                logging.info(f"Determined course_cd: {course_cd} for track_code: {track_code}")
+
+                race_number = safe_int(get_text(racedata_elem.find('race')))
+                breed_cd = get_text(racedata_elem.find('breed_type'))
+                post_time_text = get_text(racedata_elem.find('post_time'))
+                post_time = parse_time_with_am_pm(post_time_text) if post_time_text else datetime.strptime("00:00", "%H:%M").time()
+
+                todays_cls = get_text(racedata_elem.find('todays_cls'))
+                distance = safe_float(get_text(racedata_elem.find('distance')))
+                dist_unit = get_text(racedata_elem.find('dist_unit'))
+                surface_type_code = get_text(racedata_elem.find('course_id'))
+                surface = get_text(racedata_elem.find('surface'))
+                stkorclm = get_text(racedata_elem.find('stkorclm'))
+                purse = safe_float(get_text(racedata_elem.find('purse')))
+                claimant = safe_float(get_text(racedata_elem.find('claimamt')))
+                age_restr = get_text(racedata_elem.find('age_restr'))
+                bet_opt = get_text(racedata_elem.find('bet_opt'))
+                raceord = safe_int(get_text(racedata_elem.find('raceord')))
+                partim = safe_float(get_text(racedata_elem.find('partim')))
+                dist_disp = get_text(racedata_elem.find('dist_disp'))
+                race_text = get_text(racedata_elem.find('race_text'))
+                stk_clm_md = get_text(racedata_elem.find('stk_clm_md'))
+                country = get_text(racedata_elem.find('country')) or 'USA'
+
                 insert_query = """
-                    INSERT INTO racedata (country, post_time, course_cd, race_number, todays_cls, 
-                                        distance, dist_unit, surface_type_code, surface, 
-                                        stkorclm, purse, claimant, age_restr, 
-                                        race_date, race_text, bet_opt, 
-                                        raceord, partim, dist_disp, breed_cd, 
-                                        stk_clm_md)
-                    VALUES (%s, %s, %s, %s, %s, 
-                            %s, %s, %s, %s, %s, 
-                            %s, %s, %s, %s, %s, 
-                            %s, %s, %s, %s, %s, 
-                            %s)
+                    INSERT INTO racedata (
+                        country, post_time, course_cd, race_number, todays_cls, 
+                        distance, dist_unit, surface_type_code, surface, 
+                        stkorclm, purse, claimant, age_restr, 
+                        race_date, race_text, bet_opt, 
+                        raceord, partim, dist_disp, breed_cd, 
+                        stk_clm_md
+                    ) VALUES (%s, %s, %s, %s, %s, 
+                              %s, %s, %s, %s, %s, 
+                              %s, %s, %s, %s, %s, 
+                              %s, %s, %s, %s, %s, 
+                              %s)
                     ON CONFLICT (course_cd, race_date, race_number) DO UPDATE 
                     SET post_time = EXCLUDED.post_time,
                         country = EXCLUDED.country,
@@ -89,60 +132,29 @@ def process_racedata_file(xml_file, xsd_file_path, conn, cursor):
                         race_text = EXCLUDED.race_text,
                         stk_clm_md = EXCLUDED.stk_clm_md
                 """
-                try:
-                    cursor.execute(insert_query, (
-                        country, post_time, course_cd, race_number, todays_cls, 
-                        distance, dist_unit, surface_type_code, surface, 
-                        stkorclm, purse, claimant, age_restr, 
-                        race_date, race_text, bet_opt, 
-                        raceord, partim, dist_disp, breed_cd, 
-                        stk_clm_md
-                    ))
-                    conn.commit()
-                    #logging.info(f"******************* Inserted racedata *******************")
-                    #update_ingestion_status(conn, xml_file, "processed", "racedata")  # Record processed status
-                except Exception as race_error:
-                    has_rejections = True
-                    logging.error(f"Error processing race: {race_number}, error: {race_error}")
-                    # Prepare rejected record data
-                    rejected_record = {
-                        "country": country,
-                        "course_cd": course_cd,
-                        "race_date": race_date,
-                        "race_number": race_number,
-                        "post_time": post_time,
-                        "todays_cls": todays_cls,
-                        "distance": distance,
-                        "dist_unit": dist_unit,
-                        "surface_type_code": surface_type_code,
-                        "surface": surface,
-                        "stkorclm": stkorclm,
-                        "purse": purse,
-                        "claimant": claimant,
-                        "age_restr": age_restr,
-                        "bet_opt": bet_opt,
-                        "raceord": raceord,
-                        "partim": partim,
-                        "dist_disp": dist_disp,
-                        "breed_cd": breed_cd,
-                        "race_text": race_text,
-                        "stk_clm_md": stk_clm_md
-                    }
-                    conn.rollback()
-                    log_rejected_record(conn, 'racedata', rejected_record, str(race_error))
-                    update_ingestion_status(conn, xml_file, "error", "racedata")
-                    logging.error(f"*********************** Error processing racedata on file {xml_file}: {race_error} ***********************")
-                    continue  # Skip to the next race after logging the error
-
-            except Exception as e:
+                
+                cursor.execute(insert_query, (
+                    country, post_time, course_cd, race_number, todays_cls, 
+                    distance, dist_unit, surface_type_code, surface, 
+                    stkorclm, purse, claimant, age_restr, 
+                    race_date, race_text, bet_opt, 
+                    raceord, partim, dist_disp, breed_cd, 
+                    stk_clm_md
+                ))
+                conn.commit()
+                logging.info(f"Successfully inserted/updated race number {race_number} on {race_date}.")
+            
+            except Exception as race_error:
                 has_rejections = True
-                logging.error(f"*************** Critical error processing racedata file {xml_file}: {e} ***************")
-                log_rejected_record(conn, 'horse_data', rejected_record, str(e))
-                continue  # Skip to the next race record
-
-        return not has_rejections  # Returns True if no rejections, otherwise False
+                logging.error(f"Error processing race number {race_number} in file {xml_file}: {race_error}")
+                conn.rollback()
+                log_rejected_record(conn, 'racedata', {"race_number": race_number}, str(race_error))
+                update_ingestion_status(conn, xml_file, "error", "racedata")
+                continue
 
     except Exception as e:
-        logging.error(f"******************* Critical error processing racedata file {xml_file}: {e} *******************")
-        logging.error(f"Critical error processing horse data file {xml_file}: {e}")
-        return False
+        logging.error(f"Critical error processing racedata file {xml_file}: {e}")
+        update_ingestion_status(conn, xml_file, "error", "racedata")
+        return "error"
+
+    return "processed_with_rejections" if has_rejections else "processed"

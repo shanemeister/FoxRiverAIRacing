@@ -55,8 +55,9 @@ def process_exotic_wagers_file(xml_file, conn, cursor, xsd_schema_path):
                                 wager_id, course_cd, race_date, post_time, race_number, 
                                 wager_type, num_tickets, pool_total, winners, payoff
                             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                            ON CONFLICT (wager_id, course_cd, race_date, post_time, race_number) DO UPDATE 
+                            ON CONFLICT (wager_id, course_cd, race_date, race_number) DO UPDATE 
                         SET wager_type = EXCLUDED.wager_type,
+                            post_time = EXCLUDED.post_time,
                             num_tickets = EXCLUDED.num_tickets,
                             pool_total = EXCLUDED.pool_total,
                             winners = EXCLUDED.winners,

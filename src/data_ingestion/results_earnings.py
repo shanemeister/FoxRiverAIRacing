@@ -1,77 +1,109 @@
-from lxml import etree
-from datetime import datetime
 import logging
-from ingestion_utils import validate_xml, log_rejected_record, parse_date, gen_race_identifier, safe_int, safe_float
+import xml.etree.ElementTree as ET
+from src.data_ingestion.ingestion_utils import (
+    validate_xml, get_text, safe_int, parse_date,
+    log_rejected_record, update_ingestion_status, safe_numeric_int
+)
+from datetime import datetime
+from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
 def process_results_earnings_file(xml_file, conn, cursor, xsd_schema_path):
     """
-    Process individual XML race data file and insert into the results_earnings table.
-    Validates the XML against the provided XSD schema.
+    Process the XML file and insert data into the results_earnings table.
     """
-    
-    # Validate the XML file first
+    # Validate the XML file
     if not validate_xml(xml_file, xsd_schema_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
-        return  # Skip processing this file
+        update_ingestion_status(conn, cursor, xml_file, "error", "results_earnings")
+        return False
 
     has_rejections = False
-    
+
     try:
-        tree = etree.parse(xml_file)
+        tree = ET.parse(xml_file)
         root = tree.getroot()
 
-        course_cd_nodes = root.xpath('.//TRACK/CODE/text()')
-        course_cd = course_cd_nodes[0] if course_cd_nodes else None
-        if course_cd is None:
-            raise ValueError("TRACK/CODE element not found or empty")
+        course_code = get_text(root.find('./TRACK/CODE'), 'Unknown')
+        course_cd = eqb_tpd_codes_to_course_cd.get(course_code, 'UNK')
 
-        race_date = parse_date(root.get("RACE_DATE"))
+        # Get race_date from <CHART RACE_DATE="...">
+        race_date = parse_date(root.get('RACE_DATE'))
 
-        for race_elem in root.xpath('.//RACE'):
-            race_number = safe_int(race_elem.get("NUMBER"))
-            race_identifier = gen_race_identifier(course_cd, race_date, race_number)
-            
-            # Access EARNING_SPLITS
-            earning_splits_elem = race_elem.xpath('.//EARNING_SPLITS')[0] if race_elem.xpath('.//EARNING_SPLITS') else None
-            if earning_splits_elem is not None:
-                split_num = 1  # Initialize split number counter
+        for race in root.findall('RACE'):
+            try:
+                # Extract race information
+                race_number = safe_int(race.get('NUMBER'))
 
-                # Iterate over each split element within EARNING_SPLITS
-                for split in earning_splits_elem:
-                    earning_amount = safe_float(split.text) if split.text else None
+                # The splits are under <EARNING_SPLITS> in <RACE>
+                earning_splits = race.find('EARNING_SPLITS')
+                if earning_splits is None:
+                    logging.warning(f"No EARNING_SPLITS found in race {race_number}")
+                    continue
 
-                    if earning_amount is not None:
-                        # Insert the split data into the results_earnings table
-                        insert_results_earnings_query = """
-                            INSERT INTO results_earnings (
-                                race_identifier, split_num, earning_amount
-                            ) VALUES (%s, %s, %s)
-                            ON CONFLICT (race_identifier, split_num) DO UPDATE
-                            SET earning_amount = EXCLUDED.earning_amount
-                        """
-                        try:
-                            cursor.execute(insert_results_earnings_query, (
-                                race_identifier, split_num, earning_amount
+                # Iterate over splits like <SPLIT_1>, <SPLIT_2>, etc.
+                for split_elem in earning_splits:
+                    try:
+                        split_tag = split_elem.tag  # e.g., 'SPLIT_1'
+                        split_num_str = split_tag.replace('SPLIT_', '')
+                        split_num = safe_int(split_num_str)
+
+                        earnings = safe_numeric_int(get_text(split_elem), split_tag)
+
+                        if earnings is not None:
+                            # Insert the split data into the results_earnings table
+                            insert_query = """
+                                INSERT INTO results_earnings (
+                                    course_cd, race_date, race_number, split_num, earnings
+                                ) VALUES (%s, %s, %s, %s, %s)
+                                ON CONFLICT (course_cd, race_date, race_number, split_num) DO UPDATE
+                                SET earnings = EXCLUDED.earnings
+                            """
+                            cursor.execute(insert_query, (
+                                course_cd, race_date, race_number, split_num, earnings
                             ))
-                        except Exception as split_error:
+                            conn.commit()
+                            logging.info(f"Inserted earnings for race {race_number}, split {split_num}")
+                        else:
+                            # Handle the case where earnings is None
                             has_rejections = True
-                            logging.error(f"Error processing entry {race_identifier}, split {split_num}: {split_error}")
                             rejected_record = {
-                                "race_identifier": race_identifier,
+                                "course_cd": course_cd,
+                                "race_date": race_date.isoformat() if race_date else None,
+                                "race_number": race_number,
                                 "split_num": split_num,
-                                "earning_amount": earning_amount
+                                "earnings": earnings
                             }
-                            conn.rollback()  # Rollback transaction before logging the rejected record
-                            log_rejected_record(conn, 'results_earnings', rejected_record, str(split_error))
-                            continue  # Skip to the next split
+                            log_rejected_record(conn, cursor, 'results_earnings', rejected_record, "Earnings is None")
+                    except Exception as e:
+                        has_rejections = True
+                        logging.error(f"Error processing split {split_num} in race {race_number}: {e}")
+                        # Prepare rejected record
+                        rejected_record = {
+                            "course_cd": course_cd,
+                            "race_date": race_date.isoformat() if race_date else None,
+                            "race_number": race_number,
+                            "split_num": split_num,
+                            "earnings": earnings
+                        }
+                        log_rejected_record(conn, cursor, 'results_earnings', rejected_record, str(e))
+                        conn.rollback()
+                        continue  # Skip to the next split
+            except Exception as e:
+                has_rejections = True
+                logging.error(f"Error processing race {race_number}: {e}")
+                rejected_record = {
+                    "course_cd": course_cd,
+                    "race_date": race_date.isoformat() if race_date else None,
+                    "race_number": race_number
+                }
+                log_rejected_record(conn, cursor, 'results_earnings', rejected_record, str(e))
+                conn.rollback()
+                continue  # Skip to the next race
 
-                    split_num += 1  # Increment split number for each split
+        return not has_rejections  # Return True if no rejections, else False
 
-    except Exception as earnings_error:
-        logging.error(f"Error processing results_earnings data in file {xml_file}: {earnings_error}")
+    except Exception as e:
+        logging.error(f"Critical error processing results_earnings file {xml_file}: {e}")
         conn.rollback()
-        return "error"
-    finally:
-        conn.commit()
-
-    return "processed_with_rejections" if has_rejections else "processed"
+        update_ingestion_status(conn, cursor, xml_file, "error", "results_earnings")
+        return False

@@ -46,6 +46,7 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                             age = safe_numeric_int(get_text(entry_elem.find('AGE')), 'age') if entry_elem.find('AGE') is not None else None
                             sex_code = get_text(entry_elem.find('SEX/CODE')) if entry_elem.find('SEX/CODE') is not None else None
                             sex_description = get_text(entry_elem.find('SEX/DESCRIPTION')) if entry_elem.find('SEX/DESCRIPTION') is not None else None
+                            sex = sex_code
                             meds = get_text(entry_elem.find('MEDS')) if entry_elem.find('MEDS') is not None else None
                             equip = get_text(entry_elem.find('EQUIP')) if entry_elem.find('EQUIP') is not None else None
                             dollar_odds = safe_numeric_float(get_text(entry_elem.find('DOLLAR_ODDS')), 'dollar_odds') if entry_elem.find('DOLLAR_ODDS') is not None else None
@@ -138,7 +139,7 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                                 jock_key, train_key
                                 ))
                             conn.commit()  # Commit after successful insertion
-                                
+                            logging.info(f"Inserted entry for result_entries: {course_cd}")    
                         except Exception as entries_error:
                             has_rejections = True
                             logging.error(f"Error processing race {race_number}: {entries_error}")
@@ -179,8 +180,31 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                             }
                             conn.rollback()
                             log_rejected_record(conn, 'results_entries', rejected_record, str(entries_error))
+                            # continue  # Skip to the next race entry after logging the error
+                        try:
+                            insert_horse_query = """
+                            INSERT INTO public.horse(
+                                axciskey, horse_name, sex
+                            ) VALUES (%s, %s, %s)
+                            ON CONFLICT (axciskey) DO UPDATE 
+                                SET horse_name = EXCLUDED.horse_name,
+                                    sex = EXCLUDED.sex
+                            """     
+                            cursor.execute(insert_horse_query, (
+                                axciskey, horse_name, sex
+                                ))
+                            conn.commit()  # Commit after successful insertion
+                            logging.info(f"Inserted entry for horse: {axciskey}")
+                        except Exception as horse_error:
+                            has_rejections = True
+                            logging.error(f"Error processing horse {axciskey}: {horse_error}")
+                            # Prepare rejected record
+                            rejected_record = {
+                                "axciskey": axciskey,
+                                "horse_name": horse_name}
+                            conn.rollback()
+                            log_rejected_record(conn, 'horse', rejected_record, str(horse_error))
                             continue  # Skip to the next race entry after logging the error
-
                 except Exception as e:
                     has_rejections = True
                     logging.error(f"Error processing results_entries before cursor insert: file: {xml_file}, error: {e}")

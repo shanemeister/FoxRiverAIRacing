@@ -7,20 +7,20 @@ from ingestion_utils import (
 )
 from datetime import datetime
 from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
-
+                            
 def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
     """
-    Process individual XML race results data file and insert into the race results table.
+    Process individual XML race results data file and insert into the race_results table.
     Validates the XML against the provided XSD schema and tracks ingestion status.
     """
+    logging.info(f"Processing xml file: {xml_file}, conn: {conn}, cursor: {cursor}, xsd_schema_path: {xsd_schema_path}")
     # Validate the XML file first
     if not validate_xml(xml_file, xsd_schema_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
-        update_ingestion_status(conn, xml_file, "Failed Validation", 'ResultsCharts')  # Record error status
+        update_ingestion_status(conn, cursor, xml_file, "Failed Validation", 'ResultsCharts')  # Record error status
         return False
 
     has_rejections = False  # Track if any records were rejected
-    rejected_record = {}  # Store rejected records for logging
 
     try:
         tree = ET.parse(xml_file)
@@ -29,28 +29,37 @@ def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
         course_cd = course_name = race_date = race_number = None
 
         # Extract course_cd and course_name
-        course_cd = eqb_tpd_codes_to_course_cd.get(root.find('./TRACK/CODE').text, 'EQE')
-        course_name = root.find('./TRACK/NAME').text
+        course_code = get_text(root.find('./TRACK/CODE'), 'Unknown')
+        course_cd = eqb_tpd_codes_to_course_cd.get(course_code, 'UNK')
+        course_name = get_text(root.find('./TRACK/NAME'), 'Unknown')
         race_date = parse_date(root.get("RACE_DATE"))  # Get race date directly from attribute
+
+        # Log the starting of file processing
+        logging.info(f"Processing race results file: {xml_file}, Course: {course_cd}, Date: {race_date}")
+
         # Iterate over each RACE element to extract race-specific details
-        for race_elem in root.findall('RACE'):
+        races = root.findall('RACE')
+        logging.info(f"Found {len(races)} races in file {xml_file}")
+
+        for race_elem in races:
             try:
-                # Corrected call with field name specified
-                race_number = safe_numeric_int(race_elem.get("NUMBER"), "race_number")  # Get race number from attribute        
-                
-                 # Initialize claimed to None at the start of each race processing iteration
+                race_number = safe_numeric_int(race_elem.get("NUMBER"), "race_number")  # Get race number from attribute
+                logging.info(f"Processing race number: {race_number}")
+
+                # Initialize claimed to None at the start of each race processing iteration
                 claimed = None
-                
+
                 # Convert claims to JSON format if claims exist
-                claims = race_elem.find('CLAIMED')
-                claimed_json = parse_claims(claims) if claims is not None and len(claims) > 0 else None
-                claimed = json.dumps(claimed_json) if claimed_json is not None else None
-                
+                claims_elem = race_elem.find('CLAIMED')
+                if claims_elem is not None:
+                    claimed_json = parse_claims(claims_elem)
+                    claimed = json.dumps(claimed_json) if claimed_json else None
+
                 # Extract race data fields
                 card_id = get_text(race_elem.find('CARD_ID'))
-                type = get_text(race_elem.find('TYPE'))
+                race_type = get_text(race_elem.find('TYPE'))
                 purse = safe_numeric_int(get_text(race_elem.find('PURSE')), 'Purse')
-                race_text = get_text(race_elem.find('race_text'))
+                race_text = get_text(race_elem.find('RACE_TEXT'))
                 age_restr_cd = get_text(race_elem.find('AGE_RESTRICTIONS'))
                 distance = safe_numeric_int(get_text(race_elem.find('DISTANCE')), 'Distance')
                 dist_unit = get_text(race_elem.find('DIST_UNIT'))
@@ -74,17 +83,25 @@ def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
                 pace_call2 = safe_numeric_int(get_text(race_elem.find('PACE_CALL2')), 'Pace Call 2')
                 pace_final = safe_numeric_int(get_text(race_elem.find('PACE_FINAL')), 'Pace Final')
                 par_time = safe_numeric_float(get_text(race_elem.find('PAR_TIME')), 'Par Time')
+
                 # Parse earning_splits
-                earning_splits_temp = {
-                    f"SPLIT_{i}": safe_numeric_float(get_text(split), f"SPLIT_{i}")
-                    for i, split in enumerate(race_elem.findall('EARNING_SPLITS/SPLIT'), start=1)
-                    if get_text(split)  # Ensure there's a value to process
-                }
+                earning_splits_elem = race_elem.find('EARNING_SPLITS')
+                earning_splits_temp = {}
+                if earning_splits_elem is not None:
+                    for split_elem in earning_splits_elem:
+                        split_num_str = split_elem.tag.replace('SPLIT_', '')
+                        split_num = safe_numeric_int(split_num_str, 'Split Number')
+                        earnings = safe_numeric_int(get_text(split_elem), f"Earnings Split {split_num}")
+                        if split_num is not None and earnings is not None:
+                            earning_splits_temp[f"SPLIT_{split_num}"] = earnings
                 # Convert earning_splits to JSON if there are valid entries, otherwise set to None
                 earning_splits = json.dumps(earning_splits_temp) if earning_splits_temp else None
 
                 # Remaining fields
-                voided_claims = get_text(race_elem.find('VOIDED_CLAIMS'))
+                voided_claims_elem = race_elem.find('VOIDED_CLAIMS')
+                voided_claims = parse_claims(voided_claims_elem) if voided_claims_elem is not None else None
+                voided_claims = json.dumps(voided_claims) if voided_claims else None
+
                 wind_direction = get_text(race_elem.find('WIND_DIRECTION'))
                 wind_speed = safe_numeric_int(get_text(race_elem.find('WIND_SPEED')), 'Wind Speed')
                 runupdist = safe_numeric_int(get_text(race_elem.find('RUNUPDIST')), 'Runup Distance')
@@ -102,14 +119,16 @@ def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
                         surface, class_rating, trk_cond, weather, strt_desc, 
                         dtv, fraction_1, fraction_2, fraction_3, fraction_4, 
                         fraction_5, win_time, pace_call1, pace_call2, pace_final, 
-                        par_time, earning_splits, claimed, voided_claims, wind_direction, wind_speed, 
-                        runupdist, raildist, sealed, wps_pool, footnotes)
+                        par_time, earning_splits, claimed, voided_claims, wind_direction, 
+                        wind_speed, runupdist, raildist, sealed, wps_pool, 
+                        footnotes)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (course_cd, race_date, post_time, race_number) DO UPDATE 
+                    ON CONFLICT (course_cd, race_date, race_number) DO UPDATE 
                     SET course_name = EXCLUDED.course_name,
+                        post_time = EXCLUDED.post_time,
                         card_id = EXCLUDED.card_id,
                         type = EXCLUDED.type,
                         purse = EXCLUDED.purse,
@@ -148,21 +167,22 @@ def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
                         footnotes = EXCLUDED.footnotes
                 """
                 try:
-                        
                     cursor.execute(insert_race_results_query, (
-                            course_cd, race_date, post_time, race_number, course_name,
-                            card_id, type, purse, race_text, age_restr_cd, 
-                            distance, dist_unit, about_dist_flag, course_id, course_desc,
-                            surface, class_rating, trk_cond, weather, strt_desc, 
-                            dtv, fraction_1, fraction_2, fraction_3, fraction_4, 
-                            fraction_5, win_time, pace_call1, pace_call2, pace_final, 
-                            par_time, earning_splits, claimed, voided_claims, wind_direction, wind_speed, 
-                            runupdist, raildist, sealed, wps_pool, footnotes
-                            ))
+                        course_cd, race_date, post_time, race_number, course_name,
+                        card_id, race_type, purse, race_text, age_restr_cd, 
+                        distance, dist_unit, about_dist_flag, course_id, course_desc,
+                        surface, class_rating, trk_cond, weather, strt_desc, 
+                        dtv, fraction_1, fraction_2, fraction_3, fraction_4, 
+                        fraction_5, win_time, pace_call1, pace_call2, pace_final, 
+                        par_time, earning_splits, claimed, voided_claims, wind_direction, 
+                        wind_speed, runupdist, raildist, sealed, wps_pool, 
+                        footnotes
+                    ))
                     conn.commit()  # Commit after successful insertion
+                    logging.info(f"Inserted race result for course {course_cd}, date {race_date}, race number {race_number}")
                 except Exception as race_error:
                     has_rejections = True
-                    logging.error(f"Error processing race {race_number}: {race_error}")
+                    logging.error(f"Error inserting race {race_number}: {race_error}")
                     # Prepare rejected record
                     rejected_record = {
                         "course_cd": course_cd,
@@ -171,7 +191,7 @@ def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
                         "race_number": race_number,
                         "course_name": course_name,
                         "card_id": card_id,
-                        "type": type,
+                        "type": race_type,
                         "purse": purse,
                         "race_text": race_text,
                         "age_restr_cd": age_restr_cd,
@@ -208,16 +228,25 @@ def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
                         "footnotes": footnotes
                     }
                     conn.rollback()  # Rollback after error
-                    log_rejected_record(conn, 'race_results', rejected_record, str(race_error))
+                    log_rejected_record(conn, cursor, 'race_results', rejected_record, str(race_error))
                     continue  # Skip to the next race after logging the error
 
             except Exception as e:
                 has_rejections = True
-                logging.error(f"Critical error processing race_results before cursor insert: file: {xml_file}, error: {e}")
+                logging.error(f"Critical error processing race {race_number}: {e}")
+                rejected_record = {
+                    "course_cd": course_cd,
+                    "race_date": race_date.isoformat() if race_date else None,
+                    "race_number": race_number
+                }
+                log_rejected_record(conn, cursor, 'race_results', rejected_record, str(e))
+                conn.rollback()
                 continue  # Skip to the next race record
-        
+
         return not has_rejections  # Returns True if no rejections, otherwise False
 
     except Exception as e:
-        logging.error(f"Critical error processing horse data file {xml_file}: {e}")
+        logging.error(f"Critical error processing race results file {xml_file}: {e}")
+        update_ingestion_status(conn, cursor, xml_file, "Error", 'ResultsCharts')
+        conn.rollback()
         return False

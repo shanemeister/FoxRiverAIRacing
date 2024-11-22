@@ -14,10 +14,9 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
     # Validate the XML file first
     if not validate_xml(xml_file, xsd_file_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
-        update_ingestion_status(conn, cursor, xml_file, "error")
+        update_ingestion_status(conn, xml_file, "error", "runners")
         return
     has_rejections = False  # Track if any records were rejected
-    rejected_record = {}  # Store rejected records for logging
 
     try:
         tree = ET.parse(xml_file)
@@ -26,23 +25,29 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
         # Process each race in the XML
         for race in root.findall('racedata'):
             try:
-                course_cd = eqb_tpd_codes_to_course_cd.get(get_text(race.find('track'), 'EQE'))  # Default 'EQE' for course_cd if missing          
-                race_date = parse_date(race.find('race_date').text)
+                # Extract course code
+                course_code = get_text(race.find('track'), 'Unknown')
+
+                if course_code and course_code != 'Unknown':
+                    mapped_course_cd = eqb_tpd_codes_to_course_cd.get(course_code)
+                    if mapped_course_cd and len(mapped_course_cd) == 3:
+                        course_cd = mapped_course_cd
+                    else:
+                        logging.info(f"Course code '{course_code}' not found in mapping dictionary or mapped course code is not three characters -- defaulting to 'UNK'.")
+                        continue  # Skip
+                else:
+                    logging.error("Course code not found in XML or is 'Unknown' -- defaulting to 'UNK'.")
+                    continue  # Skip
+
+                race_date = parse_date(get_text(race.find('race_date')))
                 post_time = parse_time(get_text(race.find('post_time'))) or datetime.strptime("00:00", "%H:%M").time()
                 race_number = safe_int(get_text(race.find('race')))
                 country = get_text(race.find('country'))
 
-                # Initialize variables for logging in case of an exception
-                saddle_cloth_number = axciskey = post_position = todays_cls = None
-                owner_name = turf_mud_mark = avg_purse_val_calc = weight = wght_shift = cldate = None
-                price = bought_fr = power = med = equip = morn_odds_str = breeder = ae_flag = power_symb = None
-                horse_comm = breed_type = lst_salena = lst_salepr = lst_saleda = claimprice = avgspd = avgcls = apprweight = None
-                jock_key = train_key = None
-
                 # Process each horse in the race
                 for horse in race.findall('horsedata'):
-                    # Retrieve and set defaults for program number and axciskey
-                    saddle_cloth_number = get_text(horse.find('program')) or 0
+                    # Initialize variables
+                    saddle_cloth_number = get_text(horse.find('program')) or '0'
                     axciskey = get_text(horse.find('axciskey'))
                     if not axciskey:
                         logging.warning(f"Missing axciskey for horse in race {race_number} from file {xml_file}. Skipping runner data.")
@@ -137,15 +142,15 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                             avgspd, avgcls, apprweight, jock_key, train_key          
                         ))
                         conn.commit()  # Commit the transaction
-                        #logging.info(f"Inserted runner data for {axciskey} in file: {xml_file}")
 
                     except Exception as race_error:
                         has_rejections = True
                         logging.error(f"Error processing race: {race_number}, error: {race_error}")
+                        # Prepare rejected record data
                         rejected_record = {
                             "course_cd": course_cd,
-                            "race_date": race_date,
-                            "post_time": post_time,
+                            "race_date": race_date.isoformat() if race_date else None,
+                            "post_time": post_time.isoformat() if post_time else None,
                             "race_number": race_number,
                             "saddle_cloth_number": saddle_cloth_number,
                             "country": country,
@@ -157,7 +162,7 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                             "avg_purse_val_calc": avg_purse_val_calc,
                             "weight": weight,
                             "wght_shift": wght_shift,
-                            "cldate": cldate,
+                            "cldate": cldate.isoformat() if cldate else None,
                             "price": price,
                             "bought_fr": bought_fr,
                             "power": power,
@@ -171,7 +176,7 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                             "breed_type": breed_type,
                             "lst_salena": lst_salena,
                             "lst_salepr": lst_salepr,
-                            "lst_saleda": lst_saleda,
+                            "lst_saleda": lst_saleda.isoformat() if lst_saleda else None,
                             "claimprice": claimprice,
                             "avgspd": avgspd,
                             "avgcls": avgcls,
@@ -182,16 +187,26 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                         conn.rollback()  # Rollback the transaction before logging the rejected record
                         logging.error(f"Rejected record for runner {axciskey} in file {xml_file}")
                         log_rejected_record(conn, 'runners', rejected_record, str(race_error))
-                        continue  # Skip to the next race record
+                        continue  # Skip to the next horse
+
             except Exception as e:
                 has_rejections = True
-                conn.rollback()  # Rollback the transaction before logging the rejected record
+                logging.error(f"Critical error processing race {race_number} in file {xml_file}: {e}")
+                # Prepare minimal rejected record data
+                rejected_record = {
+                    "course_cd": course_cd,
+                    "race_date": race_date.isoformat() if race_date else None,
+                    "post_time": post_time.isoformat() if post_time else None,
+                    "race_number": race_number
+                }
+                conn.rollback()
                 log_rejected_record(conn, 'runners', rejected_record, str(e))
-                continue  # Skip to the next race record
-    
+                continue  # Skip to the next race
+
         return not has_rejections  # Returns True if no rejections, otherwise False
 
     except Exception as e:
-        logging.error(f"Critical error processing horse data file {xml_file}: {e}")
+        logging.error(f"Critical error processing runners data file {xml_file}: {e}")
         conn.rollback()  # Rollback transaction if an error occurred
+        update_ingestion_status(conn, xml_file, "error", "runners")
         return False

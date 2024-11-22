@@ -1,4 +1,14 @@
-2024-11-18 04:00:01 - Starting database backup
-2024-11-18 04:01:00 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2024-11-18_foxriverai.sql
-2024-11-18 04:01:00 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
-2024-11-18 04:02:37 - Sync to S3 succeeded
+2024-11-21 10:31:36 - Starting ingestion job
+2024-11-21 10:31:36 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-21 10:31:36 - Starting database backup
+2024-11-21 10:31:36 - Backup failed
+2024-11-21 10:48:48 - Starting ingestion job
+2024-11-21 10:48:48 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-21 10:48:48 - Starting database backup
+2024-11-21 10:48:48 - Backup failed
+2024-11-21 10:52:54 - Starting ingestion job
+2024-11-21 10:52:54 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-21 10:52:54 - Starting database backup
+2024-11-21 10:53:52 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2024-11-21_foxriverai.sql
+2024-11-21 10:53:52 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2024-11-21 10:55:31 - Sync to S3 succeeded

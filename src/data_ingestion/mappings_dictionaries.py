@@ -309,4 +309,5 @@ eqb_tpd_codes_to_course_cd = {
     "WW": "TWW",  # WALLA WALLA
     "YM": "TYM",  # YAKIMA MEADOWS
     "91": "XXX",  # Mowhawk Park
+    "UNK": "UNK",  # UNKNOWN
 }

@@ -3,6 +3,7 @@ import json
 import psycopg2
 from datetime import datetime
 from datetime import date
+import traceback
 import configparser
 from lxml import etree
 import re
@@ -65,7 +66,118 @@ def translate_course_code(course_code):
 logging.basicConfig(filename='/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/ingestion.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+def get_last_processed_date(conn, stat_type):
+    """
+    Retrieve the last_processed date for a given stat_type.
+    Returns None if the stat_type has never been processed.
+    """
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT last_processed
+            FROM stat_type_code
+            WHERE stat_type = %s
+        """, (stat_type,))
+        result = cursor.fetchone()
+        cursor.close()
+        return result[0] if result else None
+    except Exception as e:
+        logging.error(f"Error fetching last_processed date for {stat_type}: {e}")
+        raise
+    
+def update_stat_type_last_processed(conn, stat_type, date):
+    """
+    Update the last_processed date for a given stat_type in the stat_type_code table.
+    """
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE stat_type_code
+            SET last_processed = %s
+            WHERE stat_type = %s
+        """, (date, stat_type))
+        conn.commit()
+        cursor.close()
+    except Exception as e:
+        logging.error(f"Error updating last_processed date for {stat_type}: {e}")
+        conn.rollback()
+        raise
+    
+def ensure_stat_type_exists(conn, stat_type):
+    """
+    Ensure that a given stat_type exists in the stat_type_code table.
+    If it doesn't exist, insert it with a NULL last_processed date.
+    """
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO stat_type_code (stat_type, last_processed)
+            VALUES (%s, NULL)
+            ON CONFLICT (stat_type) DO NOTHING
+        """, (stat_type,))
+        conn.commit()
+        cursor.close()
+    except Exception as e:
+        logging.error(f"Error ensuring stat_type {stat_type} exists: {e}")
+        conn.rollback()
+        raise
 
+def initialize_stat_types(conn, stat_types):
+    """
+    Ensure all stat types are present in the stat_type_code table.
+    """
+    try:
+        cursor = conn.cursor()
+
+        # Loop through all defined stat types
+        for stat_type in stat_types:
+            stat_type_name = stat_type[0]
+
+            # Check if the stat type exists in the table
+            cursor.execute("""
+                SELECT COUNT(*)
+                FROM stat_type_code
+                WHERE stat_type = %s
+            """, (stat_type_name,))
+            exists = cursor.fetchone()[0]
+
+            if exists == 0:
+                # Insert the stat type if it doesn't exist
+                cursor.execute("""
+                    INSERT INTO stat_type_code (stat_type, last_processed)
+                    VALUES (%s, NULL)
+                """, (stat_type_name,))
+                conn.commit()
+        cursor.close()
+    except Exception as e:
+        logging.error(f"Failed to initialize stat types: {e}")
+        traceback.print_exc()
+        conn.rollback()
+    
+def get_unprocessed_stat_types(conn):
+    """
+    Get a list of stat types that have not been processed yet.
+    """
+    try:
+        cursor = conn.cursor()
+
+        # Retrieve stat types where last_processed is NULL
+        cursor.execute("""
+            SELECT stat_type
+            FROM stat_type_code
+            WHERE last_processed IS NULL
+            OR last_processed < CURRENT_DATE
+        """)
+        result = [row[0] for row in cursor.fetchall()]
+
+        cursor.close()
+        return result
+    except Exception as e:
+        logging.error(f"Failed to fetch unprocessed stat types: {e}")
+        traceback.print_exc()
+        conn.rollback()
+        return []
+    
 def update_ingestion_status(conn, file_name, status, message):
     """
     Update the ingestion status for a given file in the ingestion_files table, ensuring only the date is stored.
@@ -92,6 +204,15 @@ def update_ingestion_status(conn, file_name, status, message):
         logging.error(f"Failed to update ingestion status for {file_name}: {e}")
         conn.rollback()
             
+def normalize_tags(element):
+        """
+        Recursively normalizes the tag names of an XML element and its children to lowercase.
+        """
+        element.tag = element.tag.lower()
+        for child in element:
+            normalize_tags(child)
+        return element
+
 def update_tracking(conn, table_name, status, message=""):
     """Update the ingestion tracking table."""
     try:
@@ -126,34 +247,38 @@ def get_text(element, default=None):
     """
     return element.text.strip() if element is not None and element.text else default
 
+from lxml import etree
+import logging
+
 def validate_xml(xml_file, xsd_file_path):
     """
-    Validates an XML file against an XSD schema.
+    Validates an XML file against an XSD schema and provides detailed error logging.
     """
     try:
-        # Parse the XSD schema
+        logging.info(f"Validating XML file {xml_file} against XSD schema {xsd_file_path}...")
+
+        # Load the XSD schema
         with open(xsd_file_path, 'rb') as xsd_file:
-            xmlschema_doc = etree.parse(xsd_file)
-            xmlschema = etree.XMLSchema(xmlschema_doc)
+            xsd_doc = etree.parse(xsd_file)
+            xmlschema = etree.XMLSchema(xsd_doc)
 
         # Parse the XML file
         xml_doc = etree.parse(xml_file)
 
-        # Validate the XML document against the schema
-        result = xmlschema.validate(xml_doc)
-        if result:
-            #logging.info(f"XML file {xml_file} is valid.")
+        # Validate the XML
+        if xmlschema.validate(xml_doc):
+            logging.info(f"Validation successful for file {xml_file}.")
             return True
         else:
-            # Log the errors
+            logging.error(f"Validation failed for file {xml_file}. Errors:")
             for error in xmlschema.error_log:
-                logging.error(f"XML validation error in {xml_file}: {error.message}")
+                logging.error(f"Line {error.line}, Column {error.column}: {error.message}")
             return False
 
     except Exception as e:
-        logging.error(f"Exception during XML validation of file {xml_file}: {e}")
+        logging.error(f"Critical error during validation of file {xml_file}: {e}")
         return False
-
+        
 def extract_course_code(filename):
     """
     Extract the course code from the identifier and return the mapped course_cd.
@@ -171,11 +296,11 @@ def extract_course_code(filename):
             # logging.info(f"Mapped course code: {mapped_course_cd} for course code: {course_code}")
             return mapped_course_cd
         else:
-            logging.error(f"Course code {course_code} not found in mapping dictionary or mapped course code is not three characters.")
-            return None
+            logging.error(f"Course code {course_code} not found in mapping dictionary or mapped course code is not three characters -- returning UNK.")
+            return 'UNK'
     except Exception as e:
         logging.error(f"Error extracting course code from identifier {filename}: {e}")
-        return None
+        return 'UNK'
 
 def extract_race_date(filename):
     """
@@ -487,7 +612,7 @@ def safe_numeric_int(value, field_name, max_value=10**8):
     except Exception as e:
         logging.error(f"Failed to process {field_name} field: {e}")
         return None
-    
+
 def safe_numeric_float(value, field_name, max_value=10**8 - 0.01):
     """Helper function to handle float fields with overflow checks for database constraints."""
     try:

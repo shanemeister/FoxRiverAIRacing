@@ -125,7 +125,7 @@ def main():
     """Main function to execute data ingestion tasks."""
     # Determine the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    
+    print(f"Script_dir: {script_dir}")
     # Setup logging
     setup_logging(script_dir)
     

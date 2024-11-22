@@ -1,0 +1,101 @@
+2024-11-19 06:51:31 - Python script ran successfully.
+sending incremental file list
+gpsData/
+gpsData/91202411181910
+gpsData/91202411181942
+gpsData/91202411182004
+gpsData/91202411182026
+gpsData/91202411182048
+gpsData/91202411182110
+gpsData/91202411182132
+gpsData/91202411182154
+gpsData/91202411182216
+gpsData/91202411182238
+gpsData/91202411182300
+racelist/
+racelist/2024-11-19
+sectionals/
+sectionals/91202411181910
+sectionals/91202411181942
+sectionals/91202411182004
+sectionals/91202411182026
+sectionals/91202411182048
+sectionals/91202411182110
+sectionals/91202411182132
+sectionals/91202411182154
+sectionals/91202411182216
+sectionals/91202411182238
+sectionals/91202411182300
+
+sent 2,055,980 bytes  received 493 bytes  4,112,946.00 bytes/sec
+total size is 355,438,830  speedup is 172.84
+2024-11-19 07:59:23 - Python script ran successfully.
+sending incremental file list
+
+sent 204,677 bytes  received 39 bytes  409,432.00 bytes/sec
+total size is 355,438,830  speedup is 1,736.25
+2024-11-19 08:14:14 - Python script ran successfully.
+sending incremental file list
+
+sent 204,676 bytes  received 39 bytes  409,430.00 bytes/sec
+total size is 355,438,830  speedup is 1,736.26
+2024-11-20 01:00:36 - Python script ran successfully.
+sending incremental file list
+fixtures/
+fixtures/2024-11-20
+racelist/
+racelist/2024-11-20
+routes/
+
+sent 213,779 bytes  received 90 bytes  427,738.00 bytes/sec
+total size is 355,492,744  speedup is 1,662.20
+2024-11-20 09:39:44 - Python script ran successfully.
+sending incremental file list
+
+sent 204,745 bytes  received 39 bytes  409,568.00 bytes/sec
+total size is 355,492,744  speedup is 1,735.94
+2024-11-21 01:00:49 - Python script ran successfully.
+sending incremental file list
+gpsData/
+gpsData/85202411201240
+gpsData/85202411201310
+gpsData/85202411201340
+gpsData/85202411201410
+gpsData/85202411201440
+gpsData/85202411201510
+gpsData/85202411201540
+gpsData/85202411201610
+gpsData/85202411201640
+gpsData/97202411201300
+gpsData/97202411201329
+gpsData/97202411201358
+gpsData/97202411201427
+gpsData/97202411201457
+gpsData/97202411201526
+gpsData/97202411201555
+gpsData/97202411201625
+gpsData/97202411201655
+racelist/
+racelist/2024-11-21
+sectionals/
+sectionals/85202411201240
+sectionals/85202411201310
+sectionals/85202411201340
+sectionals/85202411201410
+sectionals/85202411201440
+sectionals/85202411201510
+sectionals/85202411201540
+sectionals/85202411201610
+sectionals/85202411201640
+sectionals/97202411201300
+sectionals/97202411201329
+sectionals/97202411201358
+sectionals/97202411201427
+sectionals/97202411201457
+sectionals/97202411201526
+sectionals/97202411201555
+sectionals/97202411201625
+sectionals/97202411201655
+
+sent 2,361,154 bytes  received 761 bytes  4,723,830.00 bytes/sec
+total size is 357,646,088  speedup is 151.42

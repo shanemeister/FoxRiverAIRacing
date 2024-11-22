@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import logging
 import os
 import sys
@@ -10,7 +8,6 @@ from src.data_ingestion.ingestion_utils import get_db_connection
 import traceback
 import re
 import psycopg2
-from psycopg2 import sql
 
 def setup_logging(log_file_path):
     """
@@ -38,7 +35,6 @@ def read_config(config_file_path):
         sys.exit(1)
     
     return config
-
 
 def update_stat_type(conn):
     """
@@ -68,7 +64,7 @@ def update_stat_type(conn):
         # Default category to assign to remaining records
         {"stat_type": "OTHER", "conditions": {}}  # Assign to all remaining records
     ]
-    # print(stat_type_mapping)
+    
     try:
         with conn.cursor() as cur:
             for mapping in stat_type_mapping:
@@ -79,38 +75,31 @@ def update_stat_type(conn):
 
                 # Dynamically build the WHERE clause based on conditions
                 for key, value in conditions.items():
-                    print(key, value)
                     if isinstance(value, str):
-                        print(f"Value1: {value}")
                         # Check for operators in the value (e.g., '>=8', '<5')
                         operator_match = re.match(r'(>=|<=|>|<)\s*(\d+)', value)
                         if operator_match:
                             operator, val = operator_match.groups()
-                            where_clauses.append(sql.SQL("{} {} %({})s").format(
+                            where_clauses.append(sql.SQL("{} {} %s").format(
                                 sql.Identifier(key),
-                                sql.SQL(operator),
-                                sql.Identifier(key)
+                                sql.SQL(operator)
                             ))
                             params[key] = val
                         else:
                             # Exact match condition
-                            where_clauses.append(sql.SQL("{} = %({})s").format(
-                                sql.Identifier(key),
+                            where_clauses.append(sql.SQL("{} = %s").format(
                                 sql.Identifier(key)
                             ))
                             params[key] = value
                     elif isinstance(value, bool):
-                        print(f"Value2: {value}")
                         # Boolean condition
-                        where_clauses.append(sql.SQL("{} = %({})s").format(
-                            sql.Identifier(key),
+                        where_clauses.append(sql.SQL("{} = %s").format(
                             sql.Identifier(key)
                         ))
                         params[key] = value
                     else:
                         # Handle other types if necessary
-                        where_clauses.append(sql.SQL("{} = %({})s").format(
-                            sql.Identifier(key),
+                        where_clauses.append(sql.SQL("{} = %s").format(
                             sql.Identifier(key)
                         ))
                         params[key] = value
@@ -128,6 +117,10 @@ def update_stat_type(conn):
                     WHERE {where_clause};
                 """).format(where_clause=where_clause)
 
+                # Debugging logs
+                logging.debug(f"Executing query: {update_query.as_string(cur)}")
+                logging.debug(f"With parameters: {params}")
+
                 # Execute the UPDATE query with parameters
                 cur.execute(update_query, params)
 
@@ -144,146 +137,6 @@ def update_stat_type(conn):
         logging.error("Error updating stat_type:")
         logging.error(e)
         logging.error(traceback.format_exc())
-        raise
-    
-def update_net_sentiment(conn):
-    """
-    Updates the net_sentiment column in the runners table based on horse_comm comments.
-    """
-    try:
-        with conn.cursor() as cur:
-            # Update net_sentiment based on positive and negative comments
-            update_sentiment_query = """
-                UPDATE runners r
-                SET net_sentiment = (
-                    SELECT
-                        COUNT(*) FILTER (WHERE c LIKE '[+]%') - COUNT(*) FILTER (WHERE c LIKE '[-]%')
-                    FROM
-                        regexp_split_to_table(r.horse_comm, E'\n') AS c
-                )
-                WHERE
-                    r.horse_comm IS NOT NULL;
-            """
-            cur.execute(update_sentiment_query)
-            updated_rows = cur.rowcount
-            logging.info(f"Updated net_sentiment for {updated_rows} runners based on horse_comm.")
-            
-            # Set net_sentiment to 0 where it is NULL
-            set_default_query = """
-                UPDATE runners
-                SET net_sentiment = 0
-                WHERE net_sentiment IS NULL;
-            """
-            cur.execute(set_default_query)
-            default_rows = cur.rowcount
-            logging.info(f"Set net_sentiment to 0 for {default_rows} runners with no comments.")
-        
-        # Commit the transaction
-        conn.commit()
-        logging.info("net_sentiment update transaction committed successfully.")
-    
-    except Exception as e:
-        # Rollback in case of error
-        conn.rollback()
-        logging.error(f"Error updating net_sentiment: {e}")
-        raise
-
-def update_sectionals_aggregated(conn):
-    """
-    Updates the sectionals_aggregated table with new sectional data.
-    Assumes that new sectional data has been loaded into the source sectionals table.
-    """
-    try:
-        with conn.cursor() as cur:
-            # Example SQL to refresh sectionals_aggregated
-            # This may vary based on your exact aggregation logic
-            refresh_sectionals_aggregated_query = """
-                TRUNCATE TABLE sectionals_aggregated;
-                
-                INSERT INTO sectionals_aggregated (course_cd, race_date, race_number, saddle_cloth_number, early_pace_time, late_pace_time, pace_differential, total_race_time, total_strides, avg_stride_length)
-                SELECT
-                    s.course_cd,
-                    s.race_date,
-                    s.race_number,
-                    s.saddle_cloth_number,
-                    SUM(CASE WHEN cs.pace_category = 'early' THEN cs.sectional_time ELSE 0 END) AS early_pace_time,
-                    SUM(CASE WHEN cs.pace_category = 'late' THEN cs.sectional_time ELSE 0 END) AS late_pace_time,
-                    SUM(CASE WHEN cs.pace_category = 'early' THEN cs.sectional_time ELSE 0 END) - 
-                    SUM(CASE WHEN cs.pace_category = 'late' THEN cs.sectional_time ELSE 0 END) AS pace_differential,
-                    SUM(cs.sectional_time) AS total_race_time,
-                    SUM(cs.number_of_strides) AS total_strides,
-                    SUM(cs.distance_ran) / NULLIF(SUM(cs.number_of_strides), 0) AS avg_stride_length
-                FROM
-                    sectionals s
-                JOIN
-                    sectionals_historical cs
-                    ON s.course_cd = cs.course_cd
-                    AND s.race_date = cs.race_date
-                    AND s.race_number = cs.race_number
-                    AND s.saddle_cloth_number = cs.saddle_cloth_number
-                GROUP BY
-                    s.course_cd,
-                    s.race_date,
-                    s.race_number,
-                    s.saddle_cloth_number;
-            """
-            cur.execute(refresh_sectionals_aggregated_query)
-            logging.info("sectionals_aggregated table refreshed successfully.")
-        
-        # Commit the transaction
-        conn.commit()
-        logging.info("sectionals_aggregated update transaction committed successfully.")
-    
-    except Exception as e:
-        # Rollback in case of error
-        conn.rollback()
-        logging.error(f"Error updating sectionals_aggregated: {e}")
-        raise
-
-def update_gps_aggregated_results(conn):
-    """
-    Updates the gps_aggregated_results table with new GPS data.
-    Assumes that new GPS data has been loaded into the source gps_data table.
-    """
-    try:
-        with conn.cursor() as cur:
-            # Example SQL to refresh gps_aggregated_results
-            # Modify according to your actual aggregation logic
-            refresh_gps_aggregated_query = """
-                TRUNCATE TABLE gps_aggregated_results;
-                
-                INSERT INTO gps_aggregated_results (course_cd, race_date, race_number, saddle_cloth_number, avg_speed, max_speed, min_speed, avg_acceleration, max_acceleration, avg_stride_freq, max_stride_freq)
-                SELECT
-                    g.course_cd,
-                    g.race_date,
-                    g.race_number,
-                    g.saddle_cloth_number,
-                    AVG(g.speed) AS avg_speed,
-                    MAX(g.speed) AS max_speed,
-                    MIN(g.speed) AS min_speed,
-                    AVG(g.acceleration) AS avg_acceleration,
-                    MAX(g.acceleration) AS max_acceleration,
-                    AVG(g.stride_freq) AS avg_stride_freq,
-                    MAX(g.stride_freq) AS max_stride_freq
-                FROM
-                    gps_data g
-                GROUP BY
-                    g.course_cd,
-                    g.race_date,
-                    g.race_number,
-                    g.saddle_cloth_number;
-            """
-            cur.execute(refresh_gps_aggregated_query)
-            logging.info("gps_aggregated_results table refreshed successfully.")
-        
-        # Commit the transaction
-        conn.commit()
-        logging.info("gps_aggregated_results update transaction committed successfully.")
-    
-    except Exception as e:
-        # Rollback in case of error
-        conn.rollback()
-        logging.error(f"Error updating gps_aggregated_results: {e}")
         raise
 
 def update_tpd_features(conn):
@@ -337,7 +190,6 @@ def update_tpd_features(conn):
         conn.rollback()
         logging.error(f"Error updating tpd_features: {e}")
         raise
-
 def main():
     """
     Main function to execute all data metric updates.
@@ -371,10 +223,10 @@ def main():
     # Perform the update operations
     try:
         update_stat_type(conn)
-        update_net_sentiment(conn)
-        update_sectionals_aggregated(conn)
-        update_gps_aggregated_results(conn)
-        update_tpd_features(conn)
+        #update_net_sentiment(conn)
+        #update_sectionals_aggregated(conn)
+        #update_gps_aggregated_results(conn)
+        #update_tpd_features(conn)
         logging.info("All data metric updates completed successfully.")
     except Exception as e:
         logging.error(f"Data metrics update process failed: {e}")
