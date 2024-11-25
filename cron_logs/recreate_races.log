@@ -1,0 +1,92 @@
+2024-11-23 23:55:21 - Starting races table recreation job
+2024-11-23 23:55:21 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-23 23:55:22 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 149166
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-11-23 23:55:27 - SQL script executed successfully
+2024-11-23 23:55:27 - Races table recreation job completed
+2024-11-24 14:58:20 - Starting races table recreation job
+2024-11-24 14:58:20 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-24 14:58:20 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 149233
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-11-24 14:58:29 - SQL script executed successfully
+2024-11-24 14:58:29 - Races table recreation job completed
+2024-11-24 15:05:45 - Starting races table recreation job
+2024-11-24 15:05:45 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-24 15:05:45 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+psql:/sql_scripts/recreate_races.sql:57: NOTICE:  relation "races" already exists, skipping
+psql:/sql_scripts/recreate_races.sql:60: ERROR:  multiple primary keys for table "races" are not allowed
+psql:/sql_scripts/recreate_races.sql:69: ERROR:  constraint "races_fk_course" for relation "races" already exists
+psql:/sql_scripts/recreate_races.sql:73: ERROR:  duplicate key value violates unique constraint "races_pk"
+DETAIL:  Key (course_cd, race_date, race_number)=(DEL, 2024-10-02, 2) already exists.
+psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
+psql:/sql_scripts/recreate_races.sql:84: ERROR:  constraint "gpspoint_races_fkey" for relation "gpspoint" already exists
+psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
+psql:/sql_scripts/recreate_races.sql:95: ERROR:  constraint "sectionals_races_fkey" for relation "sectionals" already exists
+psql:/sql_scripts/recreate_races.sql:99: ERROR:  constraint "fk_racedata_runners" of relation "runners" does not exist
+psql:/sql_scripts/recreate_races.sql:106: ERROR:  constraint "fk_races_runners" for relation "runners" already exists
+psql:/sql_scripts/recreate_races.sql:111: ERROR:  constraint "fk_race_results_results_entries" of relation "results_entries" does not exist
+psql:/sql_scripts/recreate_races.sql:118: ERROR:  constraint "fk_races_results_entries" for relation "results_entries" already exists
+2024-11-24 15:05:46 - SQL script executed successfully
+2024-11-24 15:05:46 - Races table recreation job completed
+2024-11-25 06:30:01 - Starting races table recreation job
+2024-11-25 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-25 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 149240
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-11-25 06:30:09 - SQL script executed successfully
+2024-11-25 06:30:09 - Races table recreation job completed
+2024-11-25 10:23:40 - Starting races table recreation job
+2024-11-25 10:23:40 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-25 10:23:40 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 149288
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-11-25 10:23:48 - SQL script executed successfully
+2024-11-25 10:23:48 - Races table recreation job completed

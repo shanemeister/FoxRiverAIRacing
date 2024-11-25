@@ -186,7 +186,8 @@ def update_ingestion_status(conn, file_name, status, message):
         cursor = conn.cursor()
         # Convert datetime to string and take the first 10 characters to get "YYYY-MM-DD"
         date_only = str(datetime.now())[:10]
-        
+        race_date_str = file_name  # Ensure this matches the race_date format
+        logging.info(f"Updating ingestion status check  that file_name is {file_name}, and race_date_str is {race_date_str}")
         cursor.execute(
             """
             INSERT INTO ingestion_files (file_name, last_processed, status, message)

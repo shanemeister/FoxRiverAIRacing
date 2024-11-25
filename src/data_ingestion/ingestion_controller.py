@@ -14,19 +14,52 @@ from src.data_ingestion.tpd_datasets import (
 )
 from src.data_ingestion.race_list import process_tpd_racelist
 
-def setup_logging(script_dir):
-    """Sets up logging configuration to write logs to a file."""
-    log_dir = os.path.join(script_dir, '../../logs')
-    os.makedirs(log_dir, exist_ok=True)
-    log_file = os.path.join(log_dir, 'ingestion.log')
-    
-    logging.basicConfig(
-        filename=log_file,
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
-    )
-    logging.info("Logging has been set up successfully.")
+def setup_logging(script_dir, log_dir=None):
+    """Sets up logging configuration to write logs to a file and the console."""
+    try:
+        # Default log directory
+        if not log_dir:
+            log_dir = '/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs'
+        
+        # Ensure the log directory exists
+        os.makedirs(log_dir, exist_ok=True)
+        log_file = os.path.join(log_dir, 'ingestion_controller.log')
+
+        # Clear the log file by opening it in write mode
+        with open(log_file, 'w'):
+            pass  # This will truncate the file without writing anything
+
+        # Create a logger and clear existing handlers
+        logger = logging.getLogger()
+        if logger.hasHandlers():
+            logger.handlers.clear()
+
+        logger.setLevel(logging.INFO)
+
+        # Create file handler
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setLevel(logging.INFO)
+
+        # Create console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+
+        # Define a common format
+        formatter = logging.Formatter(
+            '%(asctime)s - %(levelname)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
+        file_handler.setFormatter(formatter)
+        console_handler.setFormatter(formatter)
+
+        # Add handlers to the logger
+        logger.addHandler(file_handler)
+        logger.addHandler(console_handler)
+
+        logger.info("Logging has been set up successfully.")
+    except Exception as e:
+        print(f"Failed to set up logging: {e}", file=sys.stderr)
+        sys.exit(1)
 
 def read_config(script_dir):
     """Reads the configuration file and returns the configuration object."""
@@ -83,6 +116,12 @@ def run_ingestion_pipeline(datasets_to_process, config, script_dir):
                 os.path.join(script_dir, '../../logs/result_charts_errors.log'),
                 processed_files
             ),
+            'Racelist': lambda processed_files: process_tpd_racelist(
+                conn,
+                config['paths']['tpd_racelist_dir'],
+                os.path.join(script_dir, '../../logs/tpd_racelist_errors.log'),
+                processed_files
+            ),
             'Sectionals': lambda processed_files: process_tpd_sectionals_data(
                 conn,
                 config['paths']['tpd_sectionals_dir'],
@@ -93,12 +132,6 @@ def run_ingestion_pipeline(datasets_to_process, config, script_dir):
                 conn,
                 config['paths']['tpd_gpsdata_dir'],
                 os.path.join(script_dir, '../../logs/tpd_gpsdata_errors.log'),
-                processed_files
-            ),
-            'Racelist': lambda processed_files: process_tpd_racelist(
-                conn,
-                config['paths']['tpd_racelist_dir'],
-                os.path.join(script_dir, '../../logs/tpd_racelist_errors.log'),
                 processed_files
             )
         }
@@ -139,10 +172,10 @@ def main():
         parser = argparse.ArgumentParser(description="Run EQB and TPD ingestion pipeline.")
         parser.add_argument('--ppData', action='store_true', help="Process only ppData.")
         parser.add_argument('--resultsCharts', action='store_true', help="Process only resultsCharts.")
+        parser.add_argument('--tpdRacelist', action='store_true', help="Process only TPD Racelist.")
         parser.add_argument('--tpdSectionals', action='store_true', help="Process only TPD Sectionals.")
         parser.add_argument('--tpdGPS', action='store_true', help="Process only TPD GPS.")
-        parser.add_argument('--tpdRacelist', action='store_true', help="Process only TPD Racelist.")
-
+        
         args = parser.parse_args()
 
         # Create a set of datasets to process based on user-specified arguments

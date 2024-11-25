@@ -4,6 +4,7 @@ import logging
 from datetime import datetime, date
 from src.data_ingestion.ingestion_utils import update_ingestion_status
 from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
+import psycopg2
 
 def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
     has_rejections = False  # Track if any records were rejected
@@ -40,9 +41,9 @@ def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
                             course_cd_key = identifier[:2]
                         course_cd = eqb_tpd_codes_to_course_cd.get(course_cd_key, None)
                         
-                        if not course_cd:
-                            raise ValueError(f"Unknown course_cd key: {course_cd_key}")
-
+                        if not course_cd or course_cd == 'XXX':
+                            logging.info(f"Skipping file {filename} due to invalid course_cd: {course_cd}")
+                            continue
                         # Extract race_date (next 8 characters)
                         race_date_str = identifier[len(course_cd_key):len(course_cd_key) + 8]
                         race_date = datetime.strptime(race_date_str, "%Y%m%d").date()
@@ -51,10 +52,6 @@ def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
                         if race_date < cutoff_date:
                             logging.info(f"Skipping file {filename} due to race_date before cutoff: {race_date}")
                             continue
-
-                        # Extract post_time (last 4 characters) and format it as HH:MM:SS
-                        post_time_str = identifier[-4:]
-                        post_time = f"{post_time_str[:2]}:{post_time_str[2:]}:00"  # Ensures 24-hour format HH:MM:SS
                         # Extract other data fields
                         race_number = race_data.get("RaceNo")
                         country = race_data.get("Country")
@@ -63,23 +60,35 @@ def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
                         race_length = race_data.get("RaceLength")
                         published = race_data.get("Published")
                         eqb_race_course = race_data.get("EQBRacecourse")
-                        try:        
+                               
                             # Insert data into the race_list table
-                            cursor.execute("""
-                                INSERT INTO race_list (course_cd, race_date, race_number, post_time, country,
-                                    race_course, race_type, race_length, published, eqb_race_course)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                                ON CONFLICT (course_cd, race_date, post_time, race_number)
-                                DO NOTHING;
-                            """, (course_cd, race_date, race_number, post_time, country, race_course, race_type,
-                                race_length, published, eqb_race_course))
+                        insert_query = """
+                            INSERT INTO race_list (
+                                course_cd, race_date, race_number, country,
+                                race_course, race_type, race_length, published, eqb_race_course
+                                )VALUES (%s, %s, %s, %s, 
+                                         %s, %s, %s, %s, %s)
+                            ON CONFLICT (course_cd, race_date, race_number)
+                            DO UPDATE SET   country = EXCLUDED.country,
+                                            race_course = EXCLUDED.race_course,
+                                            race_type = EXCLUDED.race_type,
+                                            race_length = EXCLUDED.race_length,
+                                            published = EXCLUDED.published,
+                                            eqb_race_course = EXCLUDED.eqb_race_course;
+                        """
+                        try:
+                            cursor.execute(insert_query, (
+                                course_cd, race_date, race_number, country,
+                                race_course, race_type, race_length, published, eqb_race_course
+                            ))
                             conn.commit()
-                            logging.info(f"Successfully inserted data RaceList data from file {filename}")
-                        except Exception as e:
-                            has_rejections = True
-                            logging.error(f"Error inserting data from file {filename}: {e}")
+                            #logging.info(f"Successfully inserted record for saddle_cloth_number: {saddle_cloth_number}, time_stamp: {time_stamp}")
+                            logging.info(f"Successfully inserted record for race_list: {course_cd}, race_date: {race_date})")
+                        except psycopg2.Error as e:
+                            has_rejections = True  # Track if any records were rejected
+                            logging.error(f"Error inserting RACE_LIST data in file {filename}: {e}")
                             conn.rollback()
-                            update_ingestion_status(conn, filename, str(e), 'Racelist')                  
+                            update_ingestion_status(conn, filename, str(e), "Racelist")               
                     # Mark file as processed
                     processed_files.add((filename, 'processed', data_type))
                     logging.info(f"Successfully processed Racelist data from file {filename}")

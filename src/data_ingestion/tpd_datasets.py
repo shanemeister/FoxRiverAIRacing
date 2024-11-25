@@ -39,13 +39,14 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
                 
                 if (filename, 'processed', data_type) in processed_files:
                     skipped += 1
-                    logging.info(f"Skipping already processed TPD {data_type} file: {filename}")
+                    #logging.info(f"Skipping already processed TPD {data_type} file: {filename}")
                     continue  # Skip already processed files
 
                 try:
                     course_cd = extract_course_code(filename)
-                    if course_cd is None or len(course_cd) != 3:
-                        raise ValueError("Course code is either missing or not three characters.")
+                    if course_cd is None or len(course_cd) != 3 or course_cd == 'XXX':
+                        #logging.info(f"Skipping file {filename} due to invalid course_cd: {course_cd}")
+                        continue
 
                     race_date = extract_race_date(filename)
                     post_time_str = filename[-4:]
@@ -53,7 +54,7 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
 
                     # Filter out files with race_date earlier than cutoff_date
                     if race_date < cutoff_date:
-                        logging.info(f"Skipping file {filename} due to race_date before cutoff: {race_date}")
+                        # logging.info(f"Skipping file {filename} due to race_date before cutoff: {race_date}")
                         continue
 
                     # Group files by (course_cd, race_date) for sorting and race number assignment
@@ -85,7 +86,7 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
 
                             # Delegate to appropriate processing function based on data_type
                             if data_type == "Sectionals":
-                                results = process_tpd_sectionals(conn, data, course_cd, race_date, race_number, post_time, filename)
+                                results = process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filename)
                                 try:
                                     if results:
                                         update_ingestion_status(conn, filename, "processed", "Sectionals")

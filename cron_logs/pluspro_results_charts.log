@@ -1,59 +1,11 @@
-2024-11-18 02:00:02 - Starting download job
-2024-11-18 02:05:51 - Download job succeeded
-2024-11-18 02:05:51 - Results files downloaded: 616
-2024-11-18 02:05:51 - PlusPro files downloaded: 77
-2024-11-18 02:05:51 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-18 02:06:40 - Sync to S3 succeeded
-2024-11-18 02:06:40 - Job completed
-2024-11-18 02:00:02 - Results: 616 files, PlusPro: 77 files, Backup: Success
-2024-11-18 08:51:37 - Starting download job
-2024-11-18 08:56:51 - Download job succeeded
-2024-11-18 08:56:51 - Results files downloaded: 603
-2024-11-18 08:56:51 - PlusPro files downloaded: 62
-2024-11-18 08:56:51 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-18 08:59:23 - Sync to S3 succeeded
-2024-11-18 08:59:23 - Job completed
-2024-11-18 08:51:37 - Results: 603 files, PlusPro: 62 files, Backup: Success
-2024-11-18 09:49:50 - Starting download job
-2024-11-18 09:55:46 - Download job succeeded
-2024-11-18 09:55:46 - Results files downloaded: 603
-2024-11-18 09:55:46 - PlusPro files downloaded: 62
-2024-11-18 09:55:46 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-18 09:56:35 - Sync to S3 succeeded
-2024-11-18 09:56:35 - Job completed
-2024-11-18 09:49:50 - Results: 603 files, PlusPro: 62 files, Backup: Success
-2024-11-19 02:00:02 - Starting download job
-2024-11-19 02:06:34 - Download job succeeded
-2024-11-19 02:06:34 - Results files downloaded: 612
-2024-11-19 02:06:34 - PlusPro files downloaded: 69
-2024-11-19 02:06:34 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-19 02:07:21 - Sync to S3 succeeded
-2024-11-19 02:07:21 - Job completed
-2024-11-19 02:00:02 - Results: 612 files, PlusPro: 69 files, Backup: Success
-2024-11-19 08:00:01 - Starting download job
-2024-11-19 08:08:31 - Download job succeeded
-2024-11-19 08:08:31 - Results files downloaded: 595
-2024-11-19 08:08:31 - PlusPro files downloaded: 52
-2024-11-19 08:08:31 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-19 08:11:02 - Sync to S3 succeeded
-2024-11-19 08:11:02 - Job completed
-2024-11-19 08:00:01 - Results: 595 files, PlusPro: 52 files, Backup: Success
-2024-11-20 02:00:01 - Starting download job
-2024-11-20 02:00:02 - Download job failed
-Traceback (most recent call last):
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 18, in <module>
-    raise Exception("TrackMaster credentials not set in environment variables")
-Exception: TrackMaster credentials not set in environment variables
-  2024-11-21 02:00:01 - Starting download job
-  2024-11-21 02:00:01 - Download job failed
-  Traceback (most recent call last):
-    File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 18, in <module>
-      raise Exception("TrackMaster credentials not set in environment variables")
-  Exception: TrackMaster credentials not set in environment variables
-2024-11-21 09:48:20 - Download job succeeded
-2024-11-21 09:48:20 - Results files downloaded: 571
-2024-11-21 09:48:20 - PlusPro files downloaded: 63
-2024-11-21 09:48:20 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-21 09:49:17 - Sync to S3 succeeded
-2024-11-21 09:49:17 - Job completed
-2024-11-21 09:42:30 - Results: 571 files, PlusPro: 63 files, Backup: Success
+2024-11-25 09:22:10 - Starting ingestion job
+2024-11-25 09:22:10 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-25 09:22:10 - Starting download job
+2024-11-25 09:27:20 - Download job succeeded
+2024-11-25 09:27:20 - Results files downloaded: 572
+2024-11-25 09:27:20 - PlusPro files downloaded: 62
+2024-11-25 09:27:20 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-25 09:28:10 - Sync to S3 succeeded
+2024-11-25 09:28:10 - Job completed
+2024-11-25 09:22:10 - Results: 572 files, PlusPro: 62 files, Backup: Success
+2024-11-25 09:28:10 - Job completed

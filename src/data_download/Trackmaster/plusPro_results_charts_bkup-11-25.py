@@ -53,9 +53,7 @@ def login():
         print("Login failed")
         raise Exception("Failed to log in")
 
-import time
-
-def download_file(download_url, save_dir, retries=3, delay=5):
+def download_file(download_url, save_dir):
     headers = {
         'Referer': 'https://www.trackmaster.com/',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
@@ -64,30 +62,23 @@ def download_file(download_url, save_dir, retries=3, delay=5):
     # Use HTTP Basic Auth for each download request
     auth = HTTPBasicAuth(USERNAME, PASSWORD)
 
-    for attempt in range(retries):
-        try:
-            response = session.get(download_url, headers=headers, auth=auth, timeout=30)
+    # Send a GET request to download the file with basic authentication
+    response = session.get(download_url, headers=headers, auth=auth)
 
-            # Check if the download is successful
-            if response.status_code == 200:
-                file_name = download_url.split("/")[-1].split('?')[0]
-                save_path = os.path.join(save_dir, file_name)
-                with open(save_path, 'wb') as file:
-                    file.write(response.content)
-                print(f"Downloaded: {save_path}")
-                return  # Exit after a successful download
-            else:
-                print(f"Failed to download: {download_url}, Status code: {response.status_code}")
-                print("Response headers:", response.headers)
+    # Check if the download is successful
+    if response.status_code == 200:
+        # Extract the file name and remove query parameters
+        file_name = download_url.split("/")[-1].split('?')[0]  # Remove ?LISTING or other query params
+        save_path = os.path.join(save_dir, file_name)
 
-        except requests.exceptions.RequestException as e:
-            print(f"Attempt {attempt + 1} failed: {e}")
-
-        if attempt < retries - 1:
-            print(f"Retrying in {delay} seconds...")
-            time.sleep(delay)
-
-    raise Exception(f"Failed to download {download_url} after {retries} attempts")
+        # Save the content to a file
+        with open(save_path, 'wb') as file:
+            file.write(response.content)
+        print(f"Downloaded: {save_path}")
+    else:
+        print(f"Failed to download: {download_url}, Status code: {response.status_code}")
+        print("Response headers:", response.headers)
+        print("Session cookies:", session.cookies.get_dict())
 
 def scrape_download_links(page_url, file_extension):
     """

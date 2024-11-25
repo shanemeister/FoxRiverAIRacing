@@ -1,0 +1,7 @@
+2024-11-24 23:36:40 - INFO - Logging has been set up successfully.
+2024-11-24 23:36:40 - INFO - JDBC URL: jdbc:postgresql://192.168.4.25:5433/foxriverai
+2024-11-24 23:36:41 - INFO - Spark session created successfully.
+2024-11-24 23:36:42 - INFO - Connection successful. Table schema:
+2024-11-24 23:36:42 - INFO - Sample data:
+2024-11-24 23:37:17 - INFO - Spark session stopped.
+2024-11-24 23:37:17 - INFO - Closing down clientserver connection

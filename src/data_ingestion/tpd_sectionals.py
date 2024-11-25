@@ -6,14 +6,14 @@ import psycopg2
 from src.data_ingestion.ingestion_utils import update_ingestion_status, parse_time, parse_date, extract_course_code, extract_race_date
 from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
-def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, post_time, filename):
+def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filename):
     has_rejections = False  # Track if any records were rejected
-    logging.info(f"Processing sectionals data from file {filename}")
+    # logging.info(f"Processing sectionals data from file {filename}")
     cursor = conn.cursor()
     try:
         for sec_info in data:
-            logging.info(f"sec_info content: {sec_info}")
-            logging.info(f"Gate Name (G): {sec_info.get('G', '')}")
+            # logging.info(f"sec_info content: {sec_info}")
+            # logging.info(f"Gate Name (G): {sec_info.get('G', '')}")
             
             # Extract the saddle cloth number as the last two characters of 'I' field
             saddle_cloth_number = sec_info['I'][-2:]
@@ -30,15 +30,14 @@ def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, post_t
             # SQL insert statement
             insert_query = """
                 INSERT INTO public.sectionals (
-                    course_cd, race_date, post_time, race_number, saddle_cloth_number, 
+                    course_cd, race_date, race_number, saddle_cloth_number, 
                     gate_name, length_to_finish, sectional_time, running_time, distance_back, 
                     distance_ran, number_of_strides
                 ) VALUES (%s, %s, %s, %s, %s, 
                           %s, %s, %s, %s, %s,
-                          %s, %s)
+                          %s)
                 ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number, gate_name)
                 DO UPDATE SET
-                    post_time = EXCLUDED.post_time,
                     length_to_finish = EXCLUDED.length_to_finish,
                     sectional_time = EXCLUDED.sectional_time,
                     running_time = EXCLUDED.running_time,
@@ -49,11 +48,12 @@ def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, post_t
             
             try:
                 cursor.execute(insert_query, (
-                    course_cd, race_date, post_time, race_number, saddle_cloth_number, 
+                    course_cd, race_date, race_number, saddle_cloth_number, 
                     gate_name, length_to_finish, sectional_time, running_time, distance_back, 
                     distance_ran, number_of_strides
                 ))
                 conn.commit()
+                logging.info(f"Successfully inserted record for sectionals: {course_cd}")
             except psycopg2.Error as e:
                 has_rejections = True  # Track if any records were rejected
                 logging.error(f"Error inserting sectional data in file {filename}: {e}")

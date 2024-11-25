@@ -1,0 +1,76 @@
+2024-11-25 09:44:53 - INFO - Logging has been set up successfully.
+2024-11-25 09:44:53 - INFO - Initializing stat types in stat_type_code table...
+2024-11-25 09:44:53 - INFO - Stat types initialized successfully.
+2024-11-25 09:44:53 - INFO - Unprocessed stat types: ['DIRT_SPRNT', 'ALL_WEATHR', 'FAST_TRACK', 'MUDDY_TRACK', 'FIRM_TURF', 'SOFT_TURF', 'CLAIMING', 'ALLOWANCE', 'STAKE_HCP', 'MAIDEN', 'UP_IN_CLASS', 'DOWN_IN_CLASS', 'FAVORITE', 'LONGSHOT', 'TWO_YEAR_OLD', 'FIRST_TIME', 'LAST_OUT_WINNER', 'JOCK_TRAIN_COMBO', 'FAVORITE_SPRNT', 'FAVORITE_RTE', 'ALL_WEATHER_SPRNT', 'ALL_WEATHER_RTE', '1_7OFF', 'LAST30', '31_60OFF', '61_180OFF', 'TY_TURF', 'AT_DST_CRS', 'AT_DST_D', 'LY_SOFT', 'AT_TRK_CRS', 'TY_ALLWTHR', 'TY_JUMP', 'AT_TRKDIRT', 'MUD', 'AT_TRKTURF', 'AT_TRK_DRT', 'TRAN_HORSE', 'TY_DIRT', 'AT_TRK_DSP', 'AT_TRKDSTT', 'AT_TRKDSTD', 'AT_TRK_TSP', 'AT_TRK', 'JUMP', 'AT_TRKSOFT', 'AT_TRKMUD', 'DIST_SURF', 'JOCK_HORSE', 'LONG_LAY34', 'LY_ALLWTHR', 'LY_JUMP', 'LY_MUD', 'LY_TURF', 'OFF_CLM1', 'OFF_CLM2', 'AT_DST_T', 'AT_TRK_TRT', 'DIRT', 'STAKES', 'Allowance_SPRNT', 'Allowance_RTE', 'Maiden_SPRNT', 'Maiden_RTE', 'MUDDY_SPRNT', 'MUDDY_RTE', '180_UPOFF', 'AFTER_60', 'AFTER_CLM', 'BLINKOFF', 'BLINKON', 'DIRT2TURF', 'DOWNCLASS', 'FRSTBLINK', 'FRSTLASIX', 'FRSTTURF', 'LAST10', 'MCLDEBUT', 'MCLRACE', 'MSW2MCL', 'MSWRACE', 'ODDSGT5', 'ODDSLE5', 'ROUTE2SPRT', 'SCND60_180', 'SCND180_UP', 'SPRT2ROUTE', 'SYN2TURF', 'TURF2DIRT', 'TURF2SYN', '2YEAR_OLD', 'UP_INCLASS', 'WON_LAST', 'SHRT_LAY34', 'SHRT_LAY12', 'THIS_YEAR', 'TURF', 'TY_MUD', 'TY_SOFT', 'JOCK_TRAN', 'DIRT_RTE', 'TURF_SPRNT', 'TURF_RTE', 'ALLOWANCE_SPRNT', 'ALLOWANCE_RTE', 'LIFETIME', 'LONG_LAY12', 'LY_DIRT', 'LAST_YEAR', 'AT_TRKSURF', 'CLAIMING_SPRNT', 'CLAIMING_RTE', 'STAKES_SPRNT', 'STAKES_RTE']
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: DIRT_SPRNT
+2024-11-25 09:44:53 - INFO - Last processed date for DIRT_SPRNT: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for DIRT_SPRNT.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: DIRT_SPRNT.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: DIRT_SPRNT
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: DIRT_RTE
+2024-11-25 09:44:53 - INFO - Last processed date for DIRT_RTE: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for DIRT_RTE.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: DIRT_RTE.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: DIRT_RTE
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: MUDDY_SPRNT
+2024-11-25 09:44:53 - INFO - Last processed date for MUDDY_SPRNT: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for MUDDY_SPRNT.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: MUDDY_SPRNT.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: MUDDY_SPRNT
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: MUDDY_RTE
+2024-11-25 09:44:53 - INFO - Last processed date for MUDDY_RTE: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for MUDDY_RTE.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: MUDDY_RTE.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: MUDDY_RTE
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: TURF_SPRNT
+2024-11-25 09:44:53 - INFO - Last processed date for TURF_SPRNT: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for TURF_SPRNT.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: TURF_SPRNT.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: TURF_SPRNT
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: TURF_RTE
+2024-11-25 09:44:53 - INFO - Last processed date for TURF_RTE: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for TURF_RTE.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: TURF_RTE.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: TURF_RTE
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: ALL_WEATHER_SPRNT
+2024-11-25 09:44:53 - INFO - Last processed date for ALL_WEATHER_SPRNT: None
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for ALL_WEATHER_SPRNT.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: ALL_WEATHER_SPRNT.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: ALL_WEATHER_SPRNT
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: ALL_WEATHER_RTE
+2024-11-25 09:44:53 - INFO - Last processed date for ALL_WEATHER_RTE: None
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for ALL_WEATHER_RTE.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: ALL_WEATHER_RTE.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: ALL_WEATHER_RTE
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: ALLOWANCE_SPRNT
+2024-11-25 09:44:53 - INFO - Last processed date for ALLOWANCE_SPRNT: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for ALLOWANCE_SPRNT.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: ALLOWANCE_SPRNT.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: ALLOWANCE_SPRNT
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: ALLOWANCE_RTE
+2024-11-25 09:44:53 - INFO - Last processed date for ALLOWANCE_RTE: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for ALLOWANCE_RTE.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: ALLOWANCE_RTE.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: ALLOWANCE_RTE
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: CLAIMING_SPRNT
+2024-11-25 09:44:53 - INFO - Last processed date for CLAIMING_SPRNT: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for CLAIMING_SPRNT.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: CLAIMING_SPRNT.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: CLAIMING_SPRNT
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: CLAIMING_RTE
+2024-11-25 09:44:53 - INFO - Last processed date for CLAIMING_RTE: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for CLAIMING_RTE.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: CLAIMING_RTE.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: CLAIMING_RTE
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: STAKES_SPRNT
+2024-11-25 09:44:53 - INFO - Last processed date for STAKES_SPRNT: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for STAKES_SPRNT.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: STAKES_SPRNT.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: STAKES_SPRNT
+2024-11-25 09:44:53 - INFO - Starting processing for stat type: STAKES_RTE
+2024-11-25 09:44:53 - INFO - Last processed date for STAKES_RTE: 2024-11-24
+2024-11-25 09:44:53 - INFO - Fetched 0 race_dates for STAKES_RTE.
+2024-11-25 09:44:53 - INFO - No new race dates to process for stat type: STAKES_RTE.
+2024-11-25 09:44:53 - INFO - No race dates were processed for stat type: STAKES_RTE
+2024-11-25 09:44:53 - INFO - Successfully updated horse_accum_stats for all stat types.
+2024-11-25 09:44:53 - INFO - Database connection closed.
