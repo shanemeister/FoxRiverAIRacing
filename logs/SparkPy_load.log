@@ -1,7 +1,110 @@
-2024-11-24 23:36:40 - INFO - Logging has been set up successfully.
-2024-11-24 23:36:40 - INFO - JDBC URL: jdbc:postgresql://192.168.4.25:5433/foxriverai
-2024-11-24 23:36:41 - INFO - Spark session created successfully.
-2024-11-24 23:36:42 - INFO - Connection successful. Table schema:
-2024-11-24 23:36:42 - INFO - Sample data:
-2024-11-24 23:37:17 - INFO - Spark session stopped.
-2024-11-24 23:37:17 - INFO - Closing down clientserver connection
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2022-08-08, race_number: 2
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2022-08-08, race_number: 2
+ERROR:root:KeyboardInterrupt while sending command.
+Traceback (most recent call last):
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/py4j/java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/py4j/clientserver.py", line 511, in send_command
+    answer = smart_decode(self.stream.readline()[:-1])
+                          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/socket.py", line 706, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+INFO:root:Starting Spark Processing for GPS Data
+INFO:root:Spark session created successfully.
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2022-08-08, race_number: 2
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2022-08-08, race_number: 2
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2022-08-08, race_number: 2
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2022-08-08, race_number: 2
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2022-08-08, race_number: 2
+INFO:root:Schema of aggregated_metrics after join:
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
+WARNING:Comm:No such comm: 70270927-0e8a-42f0-ade0-35de290dafd5
+INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
+INFO:root:Processing course: CNL
+INFO:root:Processing race: 2023-01-14, race_number: 6
+ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
+WARNING:Comm:No such comm: a71302b9-0532-4442-ae39-707a3245ec9e
+ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
+WARNING:Comm:No such comm: 92f01fe9-dd19-4576-a409-b2fb47f08316
+ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
+WARNING:Comm:No such comm: 91864299-26b6-4d12-8789-32dfb4bf6c3d
+INFO:root:Starting Spark Processing for GPS Data
+INFO:root:Spark session created successfully.
+ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
+WARNING:Comm:No such comm: 5a42ccf0-4f27-4923-9a6a-dbbfada83c7d

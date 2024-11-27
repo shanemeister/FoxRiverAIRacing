@@ -31,7 +31,6 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
         # Iterate over each RACE element
         for race_elem in root.findall('RACE'):
                 try:
-                    program_num_inc = 99  # default starting value for missing program_num
                     race_number = safe_numeric_int(race_elem.get("NUMBER"), "race_number")
                     post_time = parse_time(get_text(race_elem.find('POST_TIME'))) or datetime.strptime("00:00", "%H:%M").time()
 
@@ -52,11 +51,7 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                             dollar_odds = safe_numeric_float(get_text(entry_elem.find('DOLLAR_ODDS')), 'dollar_odds') if entry_elem.find('DOLLAR_ODDS') is not None else None
 
                             # Assign a program number, incrementing if the original is missing
-                            if get_text(entry_elem.find('PROGRAM_NUM')) is None:
-                                program_num = program_num_inc
-                                program_num_inc += 1
-                            else:
-                                program_num = get_text(entry_elem.find('PROGRAM_NUM'))
+                            program_num = get_text(entry_elem.find('PROGRAM_NUM'))
                                 
                             post_pos = safe_numeric_int(get_text(entry_elem.find('POST_POS')), 'post_pos') if entry_elem.find('POST_POS') is not None else None
                             claim_price = safe_numeric_float(get_text(entry_elem.find('CLAIM_PRICE')), 'claim_price') if entry_elem.find('CLAIM_PRICE') is not None else None,

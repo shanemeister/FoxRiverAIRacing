@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import argparse
 from datetime import datetime
 import configparser
@@ -23,7 +24,7 @@ def setup_logging(script_dir, log_dir=None):
         
         # Ensure the log directory exists
         os.makedirs(log_dir, exist_ok=True)
-        log_file = os.path.join(log_dir, 'ingestion_controller.log')
+        log_file = os.path.join(log_dir, 'ingestion.log')
 
         # Clear the log file by opening it in write mode
         with open(log_file, 'w'):
@@ -41,8 +42,8 @@ def setup_logging(script_dir, log_dir=None):
         file_handler.setLevel(logging.INFO)
 
         # Create console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
+        #console_handler = logging.StreamHandler()
+        #console_handler.setLevel(logging.INFO)
 
         # Define a common format
         formatter = logging.Formatter(
@@ -50,11 +51,11 @@ def setup_logging(script_dir, log_dir=None):
             datefmt='%Y-%m-%d %H:%M:%S'
         )
         file_handler.setFormatter(formatter)
-        console_handler.setFormatter(formatter)
+        #console_handler.setFormatter(formatter)
 
         # Add handlers to the logger
         logger.addHandler(file_handler)
-        logger.addHandler(console_handler)
+        #logger.addHandler(console_handler)
 
         logger.info("Logging has been set up successfully.")
     except Exception as e:
@@ -141,7 +142,7 @@ def run_ingestion_pipeline(datasets_to_process, config, script_dir):
             if not datasets_to_process or dataset_name in datasets_to_process:
                 # Load processed files specific to the dataset
                 processed_files = load_processed_files(conn, dataset_type=dataset_name)
-                print(f"Processed files for {dataset_name}: {len(processed_files)}")
+                #print(f"Processed files for {dataset_name}: {len(processed_files)}")
 
                 log_start(dataset_name, conn)
                 try:
@@ -158,7 +159,7 @@ def main():
     """Main function to execute data ingestion tasks."""
     # Determine the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    print(f"Script_dir: {script_dir}")
+    # print(f"Script_dir: {script_dir}")
     # Setup logging
     setup_logging(script_dir)
     

@@ -1,6 +1,6 @@
-2024-11-23 23:59:01 - Starting races table recreation job
-2024-11-23 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-23 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
+2024-11-26 23:59:01 - Starting races table recreation job
+2024-11-26 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-26 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
 DROP VIEW
 ALTER TABLE
 ALTER TABLE
@@ -12,37 +12,5 @@ ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 DROP TABLE
-2024-11-23 23:59:04 - SQL script executed successfully
-2024-11-23 23:59:04 - Races table recreation job completed
-2024-11-24 23:59:01 - Starting races table recreation job
-2024-11-24 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-24 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-11-24 23:59:08 - SQL script executed successfully
-2024-11-24 23:59:08 - Races table recreation job completed
-2024-11-25 08:58:15 - Starting races table recreation job
-2024-11-25 08:58:15 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-25 08:58:15 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-11-25 08:58:21 - SQL script executed successfully
-2024-11-25 08:58:21 - Races table recreation job completed
+2024-11-26 23:59:07 - SQL script executed successfully
+2024-11-26 23:59:07 - Races table recreation job completed

@@ -1,25 +1,23 @@
-2024-11-25 09:29:35 - Starting ingestion job
-2024-11-25 09:29:35 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-25 09:29:35 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
-Script_dir: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion
-Processed files for PlusPro: 15948
+2024-11-27 03:00:01 - Starting ingestion job
+2024-11-27 03:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-27 03:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
 Processing XML file number : 1
 Processing XML file number : 2
 Processing XML file number : 3
 Processing XML file number : 4
 Processing XML file number : 5
-Total ZIP files found: 1956
-ZIP files processed successfully: 5
+Processing XML file number : 6
+Processing XML file number : 7
+Processing XML file number : 8
+Processing XML file number : 9
+Processing XML file number : 10
+Processing XML file number : 11
+Processing XML file number : 12
+Processing XML file number : 13
+Total ZIP files found: 1978
+ZIP files processed successfully: 13
 ZIP files failed or skipped: 0
-Processed files for ResultsCharts: 1236
-
---- Accessing directory: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily ---
-Sample filenames: ['wo20241109tch.xml', 'ded20241017tch.xml', 'pid20241001tch.xml', 'gp20241124tch.xml', 'btp20241002tch.xml']
-Valid files in Daily: 1245
-Processed files for Racelist: 2819
-Processed files for Sectionals: 54153
-Processed files for GPSData: 54155
-2024-11-25 09:33:54 - Python script succeeded
-2024-11-25 09:33:54 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
-2024-11-25 09:34:48 - Sync to S3 succeeded
-2024-11-25 09:34:48 - Job completed
+2024-11-27 03:05:05 - Python script succeeded
+2024-11-27 03:05:05 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-11-27 03:05:55 - Sync to S3 succeeded
+2024-11-27 03:05:55 - Job completed

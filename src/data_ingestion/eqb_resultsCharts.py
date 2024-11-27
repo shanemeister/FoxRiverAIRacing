@@ -73,11 +73,11 @@ def process_resultscharts_data(conn, resultscharts_dir, xsd_schema_rc, error_log
     - error_log (str): Log file for errors.
     - processed_files (set): Set of processed files to avoid reprocessing.
     """
-    year_dirs = ['Daily'] # ['2022R', '2023R', '2024R', 'Daily']
+    year_dirs = ['2022R', '2023R', '2024R', 'Daily']
     
     for year_dir in year_dirs:
         rc_data_path = os.path.join(resultscharts_dir, year_dir)
-        print(f"\n--- Accessing directory: {rc_data_path} ---")
+        #print(f"\n--- Accessing directory: {rc_data_path} ---")
         if not os.path.exists(rc_data_path):
             logging.warning(f"Directory {rc_data_path} does not exist for {year_dir}")
             continue
@@ -87,11 +87,11 @@ def process_resultscharts_data(conn, resultscharts_dir, xsd_schema_rc, error_log
         #print(f"Total all files {all_files}")
 
         # Display a sample of filenames for quick verification
-        print("Sample filenames:", all_files[:5])
+        #print("Sample filenames:", all_files[:5])
 
         # Filter files ending with 'tch.xml'
         valid_files = [filename for filename in all_files if filename.endswith("tch.xml")]
-        print(f"Valid files in {year_dir}: {len(valid_files)}")
+        #print(f"Valid files in {year_dir}: {len(valid_files)}")
 
         for filename in valid_files:
             filepath = os.path.join(rc_data_path, filename)
