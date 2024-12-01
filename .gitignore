@@ -13,3 +13,9 @@ config.ini
 logs/ingestion.log
 ./jdbc
 ./jdbc/*
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data/*
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data/*
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data/*
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data/*
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data/*

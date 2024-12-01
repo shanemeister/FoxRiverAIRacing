@@ -1,18 +1,80 @@
-2024-11-27 06:30:01 - Starting races table recreation job
-2024-11-27 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-27 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+2024-11-28 11:12:17 - Starting races table recreation job
+2024-11-28 11:12:17 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-28 11:12:17 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
 CREATE VIEW
 CREATE TABLE AS
 ALTER TABLE
 ALTER TABLE
-INSERT 0 149483
+INSERT 0 149706
+psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
+psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
+psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
+psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
+2024-11-28 11:12:20 - SQL script executed successfully
+2024-11-28 11:12:20 - Races table recreation job completed
+2024-11-29 06:30:01 - Starting races table recreation job
+2024-11-29 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-29 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 149782
+psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
+psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
+psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
+psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
-2024-11-27 06:30:10 - SQL script executed successfully
-2024-11-27 06:30:10 - Races table recreation job completed
+2024-11-29 06:30:04 - SQL script executed successfully
+2024-11-29 06:30:04 - Races table recreation job completed
+2024-11-30 06:30:01 - Starting races table recreation job
+2024-11-30 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-11-30 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 149933
+psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
+psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
+psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
+psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-11-30 06:30:03 - SQL script executed successfully
+2024-11-30 06:30:03 - Races table recreation job completed
+2024-12-01 06:30:01 - Starting races table recreation job
+2024-12-01 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-01 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 179310
+psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
+psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
+psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
+psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-12-01 06:30:03 - SQL script executed successfully
+2024-12-01 06:30:03 - Races table recreation job completed

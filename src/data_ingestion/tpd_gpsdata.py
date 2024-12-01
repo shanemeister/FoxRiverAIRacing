@@ -15,7 +15,10 @@ def process_tpd_gpsdata(conn, data, course_cd, race_date, post_time, race_number
             #logging.info(f"sec_info content: {sec_info}")
 
             # Extract the saddle cloth number as the last two characters of 'I' field
-            saddle_cloth_number = sec_info['I'][-2:]
+            saddle_cloth_number = sec_info['I'][-2:]          # Extract the last two characters
+            saddle_cloth_number = saddle_cloth_number.replace(' ', '')  # Remove all spaces
+            if saddle_cloth_number.startswith('0'):
+                saddle_cloth_number = saddle_cloth_number[1:]  # Remove leading '0' if present
             time_stamp = sec_info.get('T', None)  # UTC time in ISO 8601 format
             longitude = sec_info.get('X', None)
             latitude = sec_info.get('Y', None)

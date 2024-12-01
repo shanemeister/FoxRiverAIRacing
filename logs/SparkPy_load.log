@@ -1,110 +1,128 @@
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2022-08-08, race_number: 2
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2022-08-08, race_number: 2
-ERROR:root:KeyboardInterrupt while sending command.
-Traceback (most recent call last):
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/py4j/java_gateway.py", line 1038, in send_command
-    response = connection.send_command(command)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/py4j/clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-                          ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/socket.py", line 706, in readinto
-    return self._sock.recv_into(b)
-           ^^^^^^^^^^^^^^^^^^^^^^^
-KeyboardInterrupt
-INFO:root:Starting Spark Processing for GPS Data
-INFO:root:Spark session created successfully.
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2022-08-08, race_number: 2
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2022-08-08, race_number: 2
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2022-08-08, race_number: 2
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2022-08-08, race_number: 2
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2022-08-08, race_number: 2
-INFO:root:Schema of aggregated_metrics after join:
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
+INFO:root:Loading data from database for course: SAR
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: PIM
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TSA
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: BEL
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: MVR
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TWO
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: CLS
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: KEE
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TAM
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TTP
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TKD
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: ELP
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: PEN
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: HOU
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: DMR
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TLS
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: AQU
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: MTH
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TGP
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TGG
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: CBY
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: LRL
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TED
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: IND
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: CTD
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: ASD
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TCD
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: LAD
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: MED
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: TOP
+INFO:root:None
+INFO:root:None
+INFO:root:None
+INFO:root:Loading data from database for course: HOO
+INFO:root:None
+INFO:root:None
+INFO:root:None
 ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
-WARNING:Comm:No such comm: 70270927-0e8a-42f0-ade0-35de290dafd5
-INFO:root:Starting GPS Sectionals Analysis with Enhanced Metrics
-INFO:root:Processing course: CNL
-INFO:root:Processing race: 2023-01-14, race_number: 6
+WARNING:Comm:No such comm: 2c6f4d8f-02d7-4c01-bd6f-fccec9f8149e
 ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
-WARNING:Comm:No such comm: a71302b9-0532-4442-ae39-707a3245ec9e
-ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
-WARNING:Comm:No such comm: 92f01fe9-dd19-4576-a409-b2fb47f08316
-ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
-WARNING:Comm:No such comm: 91864299-26b6-4d12-8789-32dfb4bf6c3d
-INFO:root:Starting Spark Processing for GPS Data
-INFO:root:Spark session created successfully.
-ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
-WARNING:Comm:No such comm: 5a42ccf0-4f27-4923-9a6a-dbbfada83c7d
+WARNING:Comm:No such comm: 389203e3-0712-4433-bf7b-546aa0160657

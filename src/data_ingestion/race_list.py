@@ -12,7 +12,7 @@ def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
     data_type = "Racelist"  # Specify the data type for processed_files check
 
     # Define cutoff date for filtering files (adjust as needed)
-    cutoff_date = date(2022, 1, 1)
+    cutoff_date = date(2017, 1, 1)
 
     try:
         with open(error_log_file, 'a') as error_log:

@@ -16,8 +16,10 @@ def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filena
             # logging.info(f"Gate Name (G): {sec_info.get('G', '')}")
             
             # Extract the saddle cloth number as the last two characters of 'I' field
-            saddle_cloth_number = sec_info['I'][-2:]
-            
+            saddle_cloth_number = sec_info['I'][-2:]          # Extract the last two characters
+            saddle_cloth_number = saddle_cloth_number.replace(' ', '')  # Remove all spaces
+            if saddle_cloth_number.startswith('0'):
+                saddle_cloth_number = saddle_cloth_number[1:]  # Remove leading '0' if present
             # Map each field to the relevant table column
             gate_name = sec_info.get('G', '')
             length_to_finish = sec_info.get('L', None)
