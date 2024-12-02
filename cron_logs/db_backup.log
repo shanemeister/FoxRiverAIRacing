@@ -33,3 +33,10 @@
 2024-12-01 06:01:09 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
 2024-12-01 06:03:02 - Sync to S3 succeeded
 2024-12-01 06:03:02 - Job completed
+2024-12-02 06:00:01 - Starting ingestion job
+2024-12-02 06:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-02 06:00:01 - Starting database backup
+2024-12-02 06:02:28 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2024-12-02_foxriverai.sql
+2024-12-02 06:02:28 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2024-12-02 06:04:20 - Sync to S3 succeeded
+2024-12-02 06:04:20 - Job completed

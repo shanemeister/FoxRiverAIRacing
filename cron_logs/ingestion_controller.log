@@ -116,3 +116,18 @@ ZIP files failed or skipped: 0
 2024-12-01 03:03:10 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
 2024-12-01 03:03:56 - Sync to S3 succeeded
 2024-12-01 03:03:56 - Job completed
+2024-12-02 03:00:01 - Starting ingestion job
+2024-12-02 03:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-02 03:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+Processing XML file number : 1
+Processing XML file number : 2
+Processing XML file number : 3
+Processing XML file number : 4
+Processing XML file number : 5
+Total ZIP files found: 2038
+ZIP files processed successfully: 5
+ZIP files failed or skipped: 0
+2024-12-02 03:02:33 - Python script succeeded
+2024-12-02 03:02:33 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-12-02 03:03:27 - Sync to S3 succeeded
+2024-12-02 03:03:27 - Job completed

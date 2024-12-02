@@ -78,3 +78,23 @@ ALTER TABLE
 DROP TABLE
 2024-11-30 23:59:01 - SQL script executed successfully
 2024-11-30 23:59:01 - Races table recreation job completed
+2024-12-01 23:59:01 - Starting races table recreation job
+2024-12-01 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-01 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
+DROP VIEW
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "gpspoint_races_fkey" of relation "gpspoint" does not exist, skipping
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
+psql:/sql_scripts/drop_races.sql:21: NOTICE:  constraint "sectionals_races_fkey" of relation "sectionals" does not exist, skipping
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
+DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP TABLE
+2024-12-01 23:59:05 - SQL script executed successfully
+2024-12-01 23:59:05 - Races table recreation job completed
