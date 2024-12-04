@@ -27,7 +27,7 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/home/exx/.local/bin"
 PYTHON_SCRIPT="/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py"
 
 # Define the Python interpreter
-PYTHON_EXEC="/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/bin/python"
+PYTHON_EXEC="/home/exx/anaconda3/envs/mamba_env/envs/tf_310/bin/python"
 
 # Optionally activate the Conda environment
 # source "/home/exx/anaconda3/etc/profile.d/conda.sh"

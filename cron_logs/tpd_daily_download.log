@@ -1,0 +1,37 @@
+2024-12-03 09:03:40 - Python script ran successfully.
+sending incremental file list
+
+sent 244,576 bytes  received 39 bytes  489,230.00 bytes/sec
+total size is 448,686,424  speedup is 1,834.26
+2024-12-03 09:04:11 - Python script ran successfully.
+sending incremental file list
+
+sent 244,576 bytes  received 39 bytes  489,230.00 bytes/sec
+total size is 448,686,424  speedup is 1,834.26
+2024-12-04 01:00:02 - Python script ran successfully.
+sending incremental file list
+racelist/
+racelist/2024-12-04
+
+sent 244,647 bytes  received 61 bytes  489,416.00 bytes/sec
+total size is 448,686,426  speedup is 1,833.56
+2024-12-04 10:51:43 - Python script ran successfully.
+sending incremental file list
+fixtures/
+fixtures/2024-12-04
+fixtures/2024-12-05
+routes/
+
+sent 253,049 bytes  received 85 bytes  506,268.00 bytes/sec
+total size is 448,709,297  speedup is 1,772.62
+2024-12-04 12:06:14 - Python script ran successfully.
+sending incremental file list
+gpsData/
+gpsData/85202412041225
+gpsData/85202412041255
+sectionals/
+sectionals/85202412041225
+sectionals/85202412041255
+
+sent 389,123 bytes  received 127 bytes  778,500.00 bytes/sec
+total size is 448,853,431  speedup is 1,153.12

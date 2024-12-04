@@ -8,7 +8,7 @@ WORKING_DIR="/home/exx/myCode/horse-racing/gmaxfeed"  # The directory where the 
 PYTHON_SCRIPT="download_data.py"  # Just the script name, since we will cd into the directory
 DATA_DIR="/home/exx/myCode/horse-racing/gmaxfeed/data"
 TARGET_DIR="/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD"
-LOG_FILE="/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/tpd_download_and_move.log"
+LOG_FILE="/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/tpd_daily_download.log"
 SUMMARY_LOG="/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/tpd_summary.log"
 
 # Define the Python executable from the tf_gpu environment

@@ -3,6 +3,7 @@ import requests
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from requests.auth import HTTPBasicAuth
+import time
 
 # Set the URLs and login credentials
 login_url = "https://www.trackmaster.com/myAccountLogin"
@@ -34,7 +35,13 @@ def login():
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Extract the CSRF token from the hidden input field
-    csrf_token = soup.find('input', {'name': '_token'})['value']
+    csrf_input = soup.find('input', {'name': '_token'})
+    if csrf_input:
+        csrf_token = csrf_input['value']
+        print(f"CSRF Token: {csrf_token}")
+    else:
+        print("CSRF token not found on the login page.")
+        raise Exception("Failed to retrieve CSRF token")
 
     # Step 2: Perform login with the CSRF token
     payload = {
@@ -43,8 +50,18 @@ def login():
         '_token': csrf_token  # Include the CSRF token in the POST data
     }
 
+    headers = {
+        'Referer': login_url,
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+    }
+
     # Send the POST request to log in
-    login_response = session.post(login_url, data=payload)
+    login_response = session.post(login_url, data=payload, headers=headers)
+
+    # Debugging output
+    print("Login response status code:", login_response.status_code)
+    print("Login response URL:", login_response.url)
+    print("Login response text snippet:", login_response.text[:500])
 
     # Check if login was successful
     if login_response.status_code == 200 and "My Account" in login_response.text:
@@ -52,8 +69,6 @@ def login():
     else:
         print("Login failed")
         raise Exception("Failed to log in")
-
-import time
 
 def download_file(download_url, save_dir, retries=3, delay=5):
     headers = {
@@ -79,6 +94,7 @@ def download_file(download_url, save_dir, retries=3, delay=5):
             else:
                 print(f"Failed to download: {download_url}, Status code: {response.status_code}")
                 print("Response headers:", response.headers)
+                print("Response content snippet:", response.text[:200])  # For debugging
 
         except requests.exceptions.RequestException as e:
             print(f"Attempt {attempt + 1} failed: {e}")
@@ -92,27 +108,27 @@ def download_file(download_url, save_dir, retries=3, delay=5):
 def scrape_download_links(page_url, file_extension):
     """
     Scrape the download links from the page URL and return links matching the file extension.
-    
+
     Parameters:
     - page_url: URL of the page to scrape
-    - file_extension: File extension to filter download links (e.g., "tch.xml?LISTING" or "plusxml.zip")
-    
+    - file_extension: File extension to filter download links (e.g., "tch.xml" or "plusxml.zip")
+
     Returns:
     - A list of full URLs for the matched files.
     """
     headers = {
-        'Referer': 'https://www.trackmaster.com/',  # Adjust if needed
+        'Referer': 'https://www.trackmaster.com/',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
     }
 
     # Send a GET request to the page
     response = session.get(page_url, headers=headers)
-    
+
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, "html.parser")
         # Find all <a> tags with href containing the file_extension
         links = soup.find_all('a', href=True)
-        
+
         # Extract the full URLs for download
         download_links = [
             urljoin("https://www.trackmaster.com", link['href']) 
@@ -128,11 +144,9 @@ def download_daily_data():
     Function to download daily PlusPro and ResultsCharts data.
     """
     # Scrape and download ResultsCharts XML files
-    results_links = scrape_download_links(results_page_url, "tch.xml?LISTING")
+    results_links = scrape_download_links(results_page_url, "tch.xml")
     if results_links:
         for link in results_links:
-            filename = link.split("/")[-1].split('?')[0]  # Strip query parameters like ?LISTING
-            save_path = os.path.join(results_dir, filename)
             download_file(link, results_dir)
     else:
         print("No ResultsCharts download links found.")
@@ -141,8 +155,6 @@ def download_daily_data():
     pluspro_links = scrape_download_links(pluspro_page_url, "plusxml.zip")
     if pluspro_links:
         for link in pluspro_links:
-            filename = link.split("/")[-1].split('?')[0]  # Strip query parameters
-            save_path = os.path.join(pluspro_dir, filename)
             download_file(link, pluspro_dir)
     else:
         print("No PlusPro download links found.")
@@ -150,6 +162,6 @@ def download_daily_data():
 if __name__ == "__main__":
     # Step 1: Login to TrackMaster
     login()
-    
+
     # Step 2: Download daily files
     download_daily_data()

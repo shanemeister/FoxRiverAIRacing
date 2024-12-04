@@ -44,7 +44,7 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
 
                 try:
                     course_cd = extract_course_code(filename)
-                    if course_cd is None or len(course_cd) != 3 or course_cd == 'XXX':
+                    if course_cd is None or len(course_cd) != 3 or course_cd == 'XXX' or course_cd == 'UNK':
                         #logging.info(f"Skipping file {filename} due to invalid course_cd: {course_cd}")
                         continue
 
@@ -75,6 +75,10 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
             # Process files sorted by post_time for each group
             for (course_cd, race_date), file_info_list in files_by_course_date.items():
                 sorted_files = sorted(file_info_list, key=lambda x: x[1])  # Sort by post_time
+                course_cd = extract_course_code(filename)
+                if course_cd is None or len(course_cd) != 3 or course_cd == 'XXX' or course_cd == 'UNK':
+                    #logging.info(f"Skipping file {filename} due to invalid course_cd: {course_cd}")
+                    continue
 
                 for race_number, (filename, post_time) in enumerate(sorted_files, start=1):
                     filepath = os.path.join(directory_path, filename)
@@ -86,7 +90,7 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
 
                             # Delegate to appropriate processing function based on data_type
                             if data_type == "Sectionals":
-                                results = process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filename)
+                                results = process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filename, post_time)
                                 try:
                                     if results:
                                         update_ingestion_status(conn, filename, "processed", "Sectionals")

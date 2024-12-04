@@ -14,6 +14,7 @@ from src.data_ingestion.tpd_datasets import (
     process_tpd_gpsdata_data
 )
 from src.data_ingestion.race_list import process_tpd_racelist
+from src.data_ingestion.routes_loading import process_tpd_routes_data
 
 def setup_logging(script_dir, log_dir=None):
     """Sets up logging configuration to write logs to a file and the console."""
@@ -134,18 +135,34 @@ def run_ingestion_pipeline(datasets_to_process, config, script_dir):
                 config['paths']['tpd_gpsdata_dir'],
                 os.path.join(script_dir, '../../logs/tpd_gpsdata_errors.log'),
                 processed_files
+            ),
+            'Routes': lambda processed_files: process_tpd_routes_data(
+                conn,
+                config['paths']['tpd_routes_dir'],
+                os.path.join(script_dir, '../../logs/tpd_routes.log'),
+                processed_files
             )
         }
-
+        
         # Process each dataset as specified
         for dataset_name, ingest_func in datasets.items():
+            #print(f"Processing {dataset_name}, and ingest_func: {ingest_func}")
             if not datasets_to_process or dataset_name in datasets_to_process:
                 # Load processed files specific to the dataset
+                #print(f"Processing {dataset_name}")
                 processed_files = load_processed_files(conn, dataset_type=dataset_name)
                 #print(f"Processed files for {dataset_name}: {len(processed_files)}")
-
+                # Set up logging for the specific dataset
+                dataset_log_file = os.path.join(script_dir, f"../../logs/{dataset_name.lower()}_ingestion.log")
+                print(f"Dataset log file: {dataset_log_file} for dataset: {dataset_name}")
+                logging.info(f"Setting up logging for {dataset_name}")
+                setup_logging(script_dir, log_dir=dataset_log_file)
+                print(f"Dataset log file: {dataset_log_file} for dataset: {dataset_name}")
+                logging.info(f"Setting up logging for {dataset_name}")
+                logging.info("Starting ingestion job")
                 log_start(dataset_name, conn)
                 try:
+                    print(f"Processing {dataset_name}")
                     ingest_func(processed_files)
                     log_end(dataset_name, conn, success=True)
                 except Exception as e:
@@ -159,11 +176,7 @@ def main():
     """Main function to execute data ingestion tasks."""
     # Determine the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    # print(f"Script_dir: {script_dir}")
-    # Setup logging
-    setup_logging(script_dir)
-    
-    logging.info("Starting ingestion job")
+    print(f"Script_dir: {script_dir}")
     
     try:
         # Read configuration
@@ -176,7 +189,7 @@ def main():
         parser.add_argument('--tpdRacelist', action='store_true', help="Process only TPD Racelist.")
         parser.add_argument('--tpdSectionals', action='store_true', help="Process only TPD Sectionals.")
         parser.add_argument('--tpdGPS', action='store_true', help="Process only TPD GPS.")
-        
+        parser.add_argument('--tpdRoutes', action='store_true', help="Process only TPD Routes.")
         args = parser.parse_args()
 
         # Create a set of datasets to process based on user-specified arguments
@@ -191,6 +204,8 @@ def main():
             datasets_to_process.add('GPSData')
         if args.tpdRacelist:
             datasets_to_process.add('Racelist')
+        if args.tpdRoutes:
+            datasets_to_process.add('Routes')
 
         # Run the ingestion pipeline with the selected datasets
         run_ingestion_pipeline(datasets_to_process, config, script_dir)

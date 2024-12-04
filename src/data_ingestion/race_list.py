@@ -54,6 +54,7 @@ def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
                             continue
                         # Extract other data fields
                         race_number = race_data.get("RaceNo")
+                        post_time = race_data.get("PostTime")
                         country = race_data.get("Country")
                         race_course = race_data.get("Racecourse")
                         race_type = race_data.get("RaceType")
@@ -64,12 +65,13 @@ def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
                             # Insert data into the race_list table
                         insert_query = """
                             INSERT INTO race_list (
-                                course_cd, race_date, race_number, country,
+                                course_cd, race_date, race_number, country, post_time,
                                 race_course, race_type, race_length, published, eqb_race_course
-                                )VALUES (%s, %s, %s, %s, 
+                                )VALUES (%s, %s, %s, %s, %s,
                                          %s, %s, %s, %s, %s)
                             ON CONFLICT (course_cd, race_date, race_number)
-                            DO UPDATE SET   country = EXCLUDED.country,
+                            DO UPDATE SET   post_time = EXCLUDED.post_time,
+                                            country = EXCLUDED.country,
                                             race_course = EXCLUDED.race_course,
                                             race_type = EXCLUDED.race_type,
                                             race_length = EXCLUDED.race_length,
@@ -78,7 +80,7 @@ def process_tpd_racelist(conn, directory_path, error_log_file, processed_files):
                         """
                         try:
                             cursor.execute(insert_query, (
-                                course_cd, race_date, race_number, country,
+                                course_cd, race_date, race_number, country, post_time,
                                 race_course, race_type, race_length, published, eqb_race_course
                             ))
                             conn.commit()

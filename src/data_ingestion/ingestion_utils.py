@@ -297,7 +297,7 @@ def extract_course_code(filename):
             # logging.info(f"Mapped course code: {mapped_course_cd} for course code: {course_code}")
             return mapped_course_cd
         else:
-            logging.error(f"Course code {course_code} not found in mapping dictionary or mapped course code is not three characters -- returning UNK.")
+            #logging.error(f"Course code {course_code} not found in mapping dictionary or mapped course code is not three characters -- returning UNK.")
             return 'UNK'
     except Exception as e:
         logging.error(f"Error extracting course code from identifier {filename}: {e}")

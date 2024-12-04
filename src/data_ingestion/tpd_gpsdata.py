@@ -8,10 +8,10 @@ from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
 def process_tpd_gpsdata(conn, data, course_cd, race_date, post_time, race_number, filename):
     has_rejections = False  # Track if any records were rejected
-    logging.info(f"Processing GPS data from file {filename}")
     cursor = conn.cursor()
     try:
         for sec_info in data:
+            #logging.info(f"Processing GPS data from file {filename}")
             #logging.info(f"sec_info content: {sec_info}")
 
             # Extract the saddle cloth number as the last two characters of 'I' field
@@ -25,13 +25,19 @@ def process_tpd_gpsdata(conn, data, course_cd, race_date, post_time, race_number
             speed = sec_info.get('V', None)
             progress = sec_info.get('P', None)
             stride_frequency = sec_info.get('SF', None)
+            
+            # Ensure post_time is a complete timestamp
+            if isinstance(post_time, str) and len(post_time) == 8:  # Check if it's a time-only string
+                post_time = f"{race_date} {post_time}"  # Combine with race_date
+            elif isinstance(post_time, datetime):  # If it's already a datetime object
+                post_time = post_time.strftime('%Y-%m-%d %H:%M:%S')  # Format it as a string
 
             # Insert SQL for gpspoint data
             insert_query = """
                 INSERT INTO public.gpspoint (
-                    course_cd, race_date, race_number, saddle_cloth_number, time_stamp, 
+                    course_cd, race_date, race_number, saddle_cloth_number, time_stamp, post_time,
                     longitude, latitude, speed, progress, stride_frequency, location
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                           ST_SetSRID(ST_MakePoint(%s, %s), 4326))
                 ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number, time_stamp)
                 DO UPDATE SET
@@ -40,17 +46,18 @@ def process_tpd_gpsdata(conn, data, course_cd, race_date, post_time, race_number
                     speed = EXCLUDED.speed,
                     progress = EXCLUDED.progress,
                     stride_frequency = EXCLUDED.stride_frequency,
-                    location = EXCLUDED.location;
+                    location = EXCLUDED.location,
+                    post_time = EXCLUDED.post_time;
             """
             
             try:
                 cursor.execute(insert_query, (
-                    course_cd, race_date, race_number, saddle_cloth_number, time_stamp, 
+                    course_cd, race_date, race_number, saddle_cloth_number, time_stamp, post_time,
                     longitude, latitude, speed, progress, stride_frequency,
                     longitude, latitude  # For location as ST_MakePoint
                 ))
                 conn.commit()
-                #logging.info(f"Successfully inserted record for saddle_cloth_number: {saddle_cloth_number}, time_stamp: {time_stamp}")
+                logging.info(f"Successfully inserted record for saddle_cloth_number: {saddle_cloth_number}, time_stamp: {time_stamp}")
             except psycopg2.Error as e:
                 has_rejections = True  # Track if any records were rejected
                 logging.error(f"Error inserting GPS data in file {filename}: {e}")

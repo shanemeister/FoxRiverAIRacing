@@ -43,7 +43,7 @@ eqb_tpd_codes_to_course_cd = {
     "LSP": "LSP",  # None
     "LTD": "LTD",  # None
     "LTH": "LTH",  # None
-    "": "TRP",  # REMINGTON PARK
+    "TRP": "TRP",  # REMINGTON PARK
     "FG": "TFG",  # FAIR GROUNDS
     "ABT": "ABT",  # ALBERTA DOWNS
     "GPR": "GPR",  # GRANDE PRAIRIE
@@ -127,8 +127,8 @@ eqb_tpd_codes_to_course_cd = {
     "FAN": "FAN",  # FanDuel Sportsbook and Horse Racing
     "HAW": "HAW",  # HAWTHORNE
     "SPT": "SPT",  # SPORTSMANS PARK
-    "88": "HOO",  # HOOSIER PARK
-    "HOO": "HOO",  # HOOSIER PARK
+    #"88": "HOO",  # HOOSIER PARK
+    #"HOO": "HOO",  # HOOSIER PARK
     "89": "IND",  # HORSESHOE INDIANAPOLIS
     "IND": "IND",  # HORSESHOE INDIANAPOLIS
     "ANF": "ANF",  # ANTHONY DOWNS
@@ -206,8 +206,8 @@ eqb_tpd_codes_to_course_cd = {
     "ATL": "ATL",  # ATLANTIC CITY
     "FH": "TFH",  # FAR HILLS
     "RB": "TRB",  # RED BANK
-    "87": "MED",  # MEADOWLANDS
-    "MED": "MED",  # MEADOWLANDS
+    #"87": "MED",  # MEADOWLANDS
+    #"MED": "MED",  # MEADOWLANDS
     "84": "MTH",  # MONMOUTH PARK
     "MTH": "MTH",  # MONMOUTH PARK
     "ALB": "ALB",  # ALBUQUERQUE
@@ -308,6 +308,6 @@ eqb_tpd_codes_to_course_cd = {
     "PM": "TPM",  # PORTLAND MEADOWS
     "WW": "TWW",  # WALLA WALLA
     "YM": "TYM",  # YAKIMA MEADOWS
-    "91": "XXX",  # Mowhawk Park
+    # "91": "XXX",  # Mowhawk Park
     "UNK": "UNK",  # UNKNOWN
 }

@@ -3,10 +3,10 @@ import json
 import logging
 from datetime import datetime
 import psycopg2
-from src.data_ingestion.ingestion_utils import update_ingestion_status, parse_time, parse_date, extract_course_code, extract_race_date
+from src.data_ingestion.ingestion_utils import update_ingestion_status, parse_time, parse_date, extract_course_code, extract_race_date, extract_post_time
 from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
-def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filename):
+def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filename, post_time):
     has_rejections = False  # Track if any records were rejected
     # logging.info(f"Processing sectionals data from file {filename}")
     cursor = conn.cursor()
@@ -28,18 +28,25 @@ def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filena
             distance_back = sec_info.get('B', None)
             distance_ran = sec_info.get('D', None)
             number_of_strides = sec_info.get('N', None)
-
+            
+            # Ensure post_time is a complete timestamp
+            if isinstance(post_time, str) and len(post_time) == 8:  # Check if it's a time-only string
+                post_time = f"{race_date} {post_time}"  # Combine with race_date
+            elif isinstance(post_time, datetime):  # If it's already a datetime object
+                post_time = post_time.strftime('%Y-%m-%d %H:%M:%S')  # Format it as a string
+                
             # SQL insert statement
             insert_query = """
                 INSERT INTO public.sectionals (
-                    course_cd, race_date, race_number, saddle_cloth_number, 
+                    course_cd, race_date, race_number, saddle_cloth_number, post_time,
                     gate_name, length_to_finish, sectional_time, running_time, distance_back, 
                     distance_ran, number_of_strides
-                ) VALUES (%s, %s, %s, %s, %s, 
+                ) VALUES (%s, %s, %s, %s, %s, %s, 
                           %s, %s, %s, %s, %s,
                           %s)
                 ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number, gate_name)
                 DO UPDATE SET
+                    post_time = EXCLUDED.post_time,
                     length_to_finish = EXCLUDED.length_to_finish,
                     sectional_time = EXCLUDED.sectional_time,
                     running_time = EXCLUDED.running_time,
@@ -50,7 +57,7 @@ def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filena
             
             try:
                 cursor.execute(insert_query, (
-                    course_cd, race_date, race_number, saddle_cloth_number, 
+                    course_cd, race_date, race_number, saddle_cloth_number, post_time,
                     gate_name, length_to_finish, sectional_time, running_time, distance_back, 
                     distance_ran, number_of_strides
                 ))
