@@ -226,3 +226,21 @@ ALTER TABLE
 ALTER TABLE
 2024-12-04 06:30:16 - SQL script executed successfully
 2024-12-04 06:30:16 - Races table recreation job completed
+2024-12-05 06:30:02 - Starting races table recreation job
+2024-12-05 06:30:02 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-05 06:30:02 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 179670
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-12-05 06:30:14 - SQL script executed successfully
+2024-12-05 06:30:14 - Races table recreation job completed

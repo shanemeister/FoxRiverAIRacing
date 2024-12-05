@@ -236,3 +236,19 @@ ALTER TABLE
 DROP TABLE
 2024-12-04 10:50:39 - SQL script executed successfully
 2024-12-04 10:50:39 - Races table recreation job completed
+2024-12-04 23:59:01 - Starting races table recreation job
+2024-12-04 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-04 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
+DROP VIEW
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP TABLE
+2024-12-04 23:59:08 - SQL script executed successfully
+2024-12-04 23:59:08 - Races table recreation job completed
