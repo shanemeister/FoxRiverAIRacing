@@ -147,16 +147,17 @@ def update_sectionals_aggregated(conn, batch_size=1000):
                         s.race_date,
                         s.race_number,
                         s.saddle_cloth_number,
-                        MIN(CASE WHEN s.gate_name = 'early' THEN s.running_time END) AS early_pace_time,
-                        MIN(CASE WHEN s.gate_name = 'late' THEN s.running_time END) AS late_pace_time,
+                        MIN(CASE WHEN s.gate_numeric = 0.5 THEN s.running_time END) AS early_pace_time,
+                        MIN(CASE WHEN s.gate_numeric = 9999 THEN s.running_time END) AS late_pace_time,
                         MAX(s.running_time) - MIN(s.running_time) AS total_race_time,
-                        MAX(s.running_time) - MIN(CASE WHEN s.gate_name = 'early' THEN s.running_time END) AS pace_differential,
+                        MAX(s.running_time) - MIN(CASE WHEN s.gate_numeric = 0.5 THEN s.running_time END) AS pace_differential,
                         SUM(s.number_of_strides) AS total_strides,
                         AVG(s.distance_ran / NULLIF(s.number_of_strides, 0)) AS avg_stride_length,
                         s.gate_name  -- Use the actual gate_name from data
                     FROM sectionals s
                     WHERE {where_clause}
-                    GROUP BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number, s.gate_name
+                    GROUP BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number, s.gate_numeric, s.gate_name
+                    ORDER BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number, s.gate_numeric
                     ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number, gate_name)
                     DO UPDATE SET
                         early_pace_time = EXCLUDED.early_pace_time,

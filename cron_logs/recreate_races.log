@@ -244,3 +244,50 @@ ALTER TABLE
 ALTER TABLE
 2024-12-05 06:30:14 - SQL script executed successfully
 2024-12-05 06:30:14 - Races table recreation job completed
+2024-12-06 06:30:01 - Starting races table recreation job
+2024-12-06 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-06 06:30:01 - Docker container postgis_container_new is not running. Exiting.
+2024-12-06 11:12:57 - Starting races table recreation job
+2024-12-06 11:12:57 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-06 11:12:57 - Docker container postgis_container_new is not running. Exiting.
+2024-12-06 11:13:10 - Starting races table recreation job
+2024-12-06 11:13:10 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-06 11:13:10 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+psql: error: /sql_scripts/recreate_races.sql: No such file or directory
+2024-12-06 11:13:10 - SQL script failed with exit code 1
+2024-12-06 11:24:43 - Starting races table recreation job
+2024-12-06 11:24:43 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-06 11:24:43 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 179830
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-12-06 11:24:56 - SQL script executed successfully
+2024-12-06 11:24:56 - Races table recreation job completed
+2024-12-06 12:48:37 - Starting races table recreation job
+2024-12-06 12:48:37 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-06 12:48:37 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 179847
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-12-06 12:48:48 - SQL script executed successfully
+2024-12-06 12:48:48 - Races table recreation job completed

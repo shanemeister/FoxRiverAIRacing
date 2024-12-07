@@ -252,3 +252,38 @@ ALTER TABLE
 DROP TABLE
 2024-12-04 23:59:08 - SQL script executed successfully
 2024-12-04 23:59:08 - Races table recreation job completed
+2024-12-05 23:59:01 - Starting races table recreation job
+2024-12-05 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-05 23:59:01 - Docker container postgis_container_new is not running. Exiting.
+2024-12-06 11:23:57 - Starting races table recreation job
+2024-12-06 11:23:57 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-06 11:23:57 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+DROP VIEW
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP TABLE
+2024-12-06 11:24:02 - SQL script executed successfully
+2024-12-06 11:24:02 - Races table recreation job completed
+2024-12-06 11:37:29 - Starting races table recreation job
+2024-12-06 11:37:29 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-06 11:37:29 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+DROP VIEW
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP TABLE
+2024-12-06 11:37:33 - SQL script executed successfully
+2024-12-06 11:37:33 - Races table recreation job completed

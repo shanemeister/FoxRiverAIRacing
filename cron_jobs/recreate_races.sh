@@ -27,7 +27,7 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/home/exx/.local/bin"
 SQL_SCRIPT="/sql_scripts/recreate_races.sql"  # Path inside the Docker container
 
 # Define Docker container name
-DOCKER_CONTAINER="postgis_container_new"  # Ensure this matches your container name
+DOCKER_CONTAINER="rshane_pg16_prod"  # Ensure this matches your container name
 
 # Define psql connection parameters from environment variables
 PSQL_USER="$USER"       # Corrected to uppercase

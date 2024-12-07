@@ -10,6 +10,12 @@ config.ini
 ./logs/*
 ./config
 ./config/*
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/*
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/data
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/*
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/*
 logs/ingestion.log
 ./jdbc
 ./jdbc/*
