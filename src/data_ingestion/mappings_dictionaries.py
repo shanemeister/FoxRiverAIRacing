@@ -55,8 +55,8 @@ eqb_tpd_codes_to_course_cd = {
     "MIL": "MIL",  # MILLARVILLE
     "NP": "TNP",  # NORTHLANDS PARK
     "STP": "STP",  # STAMPEDE PARK
-    "81": "TOP",  # OAKLAWN PARK
-    "OP": "TOP",  # OAKLAWN PARK
+    "81": "TOP",  # OAKLAWN PARK -- Route to TOP
+    "OP": "TOP",  # OAKLAWN PARK -- Route to TOP
     "AZD": "AZD",  # ARIZONA DOWNS
     "DG": "TDG",  # COCHISE COUNTY FAIR @ DOUGLAS
     "DUN": "DUN",  # GREENELEE COUNTY FAIR @ DUNCAN
@@ -90,12 +90,12 @@ eqb_tpd_codes_to_course_cd = {
     "SOL": "SOL",  # SOLANO
     "SR": "TSR",  # SANTA ROSA
     "STK": "STK",  # STOCKTON
-    "79": "DMR",  # DEL MAR
-    "DMR": "DMR",  # DEL MAR
-    "71": "TGG",  # GOLDEN GATE FIELDS
-    "GG": "TGG",  # GOLDEN GATE FIELDS
-    "94": "TSA",  # SANTA ANITA PARK
-    "SA": "TSA",  # SANTA ANITA PARK
+    "79": "DMR",  # DEL MAR -- Route to DMR
+    "DMR": "DMR",  # DEL MAR -- Route to DMR
+    "71": "TGG",  # GOLDEN GATE FIELDS -- Route to GG
+    "GG": "TGG",  # GOLDEN GATE FIELDS -- Route to GG
+    "94": "TSA",  # SANTA ANITA PARK -- Route to TSA
+    "SA": "TSA",  # SANTA ANITA PARK -- Route to TSA
     "ARP": "ARP",  # ARAPAHOE PARK
     "DEL": "DEL",  # DELAWARE PARK
     "WNT": "WNT",  # WINTERTHUR
@@ -105,10 +105,10 @@ eqb_tpd_codes_to_course_cd = {
     "LEV": "LEV",  # LITTLE EVERGLADES
     "OTC": "OTC",  # OCALA TRAINING CENTER
     "PMB": "PMB",  # PALM BEACH POLO CLUB
-    "86": "TGP",  # GULFSTREAM PARK
-    "GP": "TGP",  # GULFSTREAM PARK
-    "85": "TAM",  # TAMPA BAY DOWNS
-    "TAM": "TAM",  # TAMPA BAY DOWNS
+    "86": "TGP",  # GULFSTREAM PARK -- Route to TGP
+    "GP": "TGP",  # GULFSTREAM PARK -- Route to TGP
+    "85": "TAM",  # TAMPA BAY DOWNS -- Route to TAM
+    "TAM": "TAM",  # TAMPA BAY DOWNS -- Route to TAM
     "ATH": "ATH",  # ATLANTA
     "GRA": "GRA",  # GREEN ACRES
     "PMT": "PMT",  # PINE MTN-CALLAWAY GARDEN
@@ -127,35 +127,35 @@ eqb_tpd_codes_to_course_cd = {
     "FAN": "FAN",  # FanDuel Sportsbook and Horse Racing
     "HAW": "HAW",  # HAWTHORNE
     "SPT": "SPT",  # SPORTSMANS PARK
-    #"88": "HOO",  # HOOSIER PARK
+    #"88": "HOO",  # HOOSIER PARK -- Route to HOO
     #"HOO": "HOO",  # HOOSIER PARK
-    "89": "IND",  # HORSESHOE INDIANAPOLIS
-    "IND": "IND",  # HORSESHOE INDIANAPOLIS
+    "89": "IND",  # HORSESHOE INDIANAPOLIS -- Route to IND
+    "IND": "IND",  # HORSESHOE INDIANAPOLIS -- Route to IND
     "ANF": "ANF",  # ANTHONY DOWNS
     "EUR": "EUR",  # EUREKA
     "WDS": "WDS",  # THE WOODLANDS
-    "97": "TCD",  # CHURCHILL DOWNS
-    "CD": "TCD",  # CHURCHILL DOWNS
+    "97": "TCD",  # CHURCHILL DOWNS -- Route to TCD
+    "CD": "TCD",  # CHURCHILL DOWNS -- Route to TCD
     "EP": "ELP",  # ELLIS PARK
     "ELP": "ELP",  # ELLIS PARK
     "LEX": "LEX",  # LEXINGTON
     "RDM": "RDM",  # RED MILE
     "SRM": "SRM",  # SANDY RIDGE AT THE RED MILE
     "SRR": "SRR",  # SANDY RIDGE RACING
-    "83": "TKD",  # KENTUCKY DOWNS
-    "KD": "TKD",  # KENTUCKY DOWNS
-    "75": "KEE",  # KEENELAND
-    "KEE": "KEE",  # KEENELAND
-    "95": "TTP",  # TURFWAY PARK
-    "TP": "TTP",  # TURFWAY PARK
+    "83": "TKD",  # KENTUCKY DOWNS -- Route to TKD
+    "KD": "TKD",  # KENTUCKY DOWNS -- Route to TKD
+    "75": "KEE",  # KEENELAND -- Route to KEE
+    "KEE": "KEE",  # KEENELAND -- Route to KEE
+    "95": "TTP",  # TURFWAY PARK -- Route to TTP
+    "TP": "TTP",  # TURFWAY PARK -- Route to TTP
     "DED": "DED",  # DELTA DOWNS
     "EVD": "EVD",  # EVANGELINE DOWNS
     "BM": "TBM",  # BAY MEADOWS
-    "70": "LAD",  # LOUISIANA DOWNS
-    "LAD": "LAD",  # LOUISIANA DOWNS
+    "70": "LAD",  # LOUISIANA DOWNS  -- Route to LAD
+    "LAD": "LAD",  # LOUISIANA DOWNS -- Route to LAD
     "GBF": "GBF",  # GREAT BARRINGTON FAIR
     "SUF": "SUF",  # SUFFOLK DOWNS
-    "AD": "ASD",  # ASSINIBOIA DOWNS
+    "AD": "ASD",  # ASSINIBOIA DOWNS -- Route to ASD
     "ASD": "ASD",  # ASSINIBOIA DOWNS
     "RPD": "RPD",  # ROSSBURN PARKLAND DOWNS
     "BOW": "BOW",  # BOWIE
@@ -166,18 +166,18 @@ eqb_tpd_codes_to_course_cd = {
     "MON": "MON",  # MONKTON
     "SHW": "SHW",  # SHAWAN DOWNS
     "TIM": "TIM",  # TIMONIUM
-    "73": "LRL",  # LAUREL PARK
-    "LRL": "LRL",  # LAUREL PARK
-    "74": "PIM",  # PIMLICO
-    "PIM": "PIM",  # PIMLICO
+    "73": "LRL",  # LAUREL PARK -- Route to LRL
+    "LRL": "LRL",  # LAUREL PARK -- Route to LRL
+    "74": "PIM",  # PIMLICO -- Route to PIM
+    "PIM": "PIM",  # PIMLICO -- Route to PIM
     "DET": "DET",  # DETROIT RACE COURSE
     "GLD": "GLD",  # GREAT LAKES DOWNS
     "HP": "THP",  # HAZEL PARK
     "MPM": "MPM",  # MT. PLEASANT MEADOWS
     "NVD": "NVD",  # NORTHVILLE DOWNS
     "PNL": "PNL",  # PINNACLE RACE COURSE
-    "82": "CBY",  # CANTERBURY PARK
-    "CBY": "CBY",  # CANTERBURY PARK
+    "82": "CBY",  # CANTERBURY PARK -- Route to CBY
+    "CBY": "CBY",  # CANTERBURY PARK -- Route to CBY
     "GF": "TGF",  # GREAT FALLS
     "KSP": "KSP",  # KALISPELL
     "MAF": "MAF",  # MARIAS FAIR
@@ -206,10 +206,10 @@ eqb_tpd_codes_to_course_cd = {
     "ATL": "ATL",  # ATLANTIC CITY
     "FH": "TFH",  # FAR HILLS
     "RB": "TRB",  # RED BANK
-    #"87": "MED",  # MEADOWLANDS
+    #"87": "MED",  # MEADOWLANDS -- Route to MED
     #"MED": "MED",  # MEADOWLANDS
-    "84": "MTH",  # MONMOUTH PARK
-    "MTH": "MTH",  # MONMOUTH PARK
+    "84": "MTH",  # MONMOUTH PARK   -- Route to MTH
+    "MTH": "MTH",  # MONMOUTH PARK -- Route to MTH
     "ALB": "ALB",  # ALBUQUERQUE
     "LAM": "LAM",  # LA MESA PARK
     "RUI": "RUI",  # RUIDOSO DOWNS
@@ -222,9 +222,9 @@ eqb_tpd_codes_to_course_cd = {
     "ELY": "ELY",  # WHITE PINE RACING
     "HCF": "HCF",  # HUMBOLDT COUNTY FAIR
     "WPR": "WPR",  # WHITE PINE RACEWAY
-    "96": "AQU",  # AQUEDUCT
-    "AQU": "AQU",  # AQUEDUCT
-    "98": "BEL",  # BELMONT PARK
+    "96": "AQU",  # AQUEDUCT -- Route to AQU
+    "AQU": "AQU",  # AQUEDUCT -- Route to AQU
+    "98": "BEL",  # BELMONT PARK 
     "BEL": "BEL",  # BELMONT PARK
     "BAQ": "BAQ",  # BELMONT AT THE BIG A
     "FL": "TFL",  # FINGER LAKES
@@ -232,8 +232,8 @@ eqb_tpd_codes_to_course_cd = {
     "TGD": "TGD",  # TIOGA DOWNS
     "ST": "SAR",  # SARATOGA
     "SAR": "SAR",  # SARATOGA
-    "76": "MVR",  # MAHONING VALLEY RACE COURSE
-    "MVR": "MVR",  # MAHONING VALLEY RACE COURSE
+    "76": "MVR",  # MAHONING VALLEY RACE COURSE -- Route to MVR
+    "MVR": "MVR",  # MAHONING VALLEY RACE COURSE -- Route to MVR
     "BEU": "BEU",  # BEULAH PARK
     "BTP": "BTP",  # BELTERRA PARK
     "RD": "TRD",  # RIVER DOWNS
@@ -248,8 +248,8 @@ eqb_tpd_codes_to_course_cd = {
     "PRV": "PRV",  # CROOKED RIVER ROUNDUP
     "TIL": "TIL",  # TILLAMOOK COUNTY FAIR
     "UN": "TUN",  # EASTERN OREGON LIVESTOCK SHOW
-    "77": "PEN",  # PENN NATIONAL
-    "PEN": "PEN",  # PENN NATIONAL
+    "77": "PEN",  # PENN NATIONAL -- Route to PEN
+    "PEN": "PEN",  # PENN NATIONAL -- Route to PEN
     "CHE": "CHE",  # CHESHIRE
     "MAL": "MAL",  # MALVERN
     "PHA": "PHA",  # PHILADELPHA PARK
@@ -266,18 +266,18 @@ eqb_tpd_codes_to_course_cd = {
     "MDA": "MDA",  # MELVILLE DISTRICT AGRIPAR
     "MMD": "MMD",  # MOOSOMIN D & E AT MARQUIS DOWNS
     "PW": "TPW",  # PERCY WARNER
-    "80": "HOU",  # SAM HOUSTON RACE PARK
-    "HOU": "HOU",  # SAM HOUSTON RACE PARK
-    "93": "TLS",  # LONE STAR PARK
-    "LS": "TLS",  # LONE STAR PARK
+    "80": "HOU",  # SAM HOUSTON RACE PARK -- Route to Sam Houston
+    "HOU": "HOU",  # SAM HOUSTON RACE PARK -- Route to Sam Houston
+    "93": "TLS",  # LONE STAR PARK -- Route to TLS
+    "LS": "TLS",  # LONE STAR PARK -- Route to TLS
     "GIL": "GIL",  # GILLESPIE COUNTY FAIRGROUND
     "MAN": "MAN",  # MANOR DOWNS
     "RET": "RET",  # RETAMA PARK
     "DXD": "DXD",  # DIXIE DOWNS
     "LBT": "LBT",  # LAUREL BROWN RACETRACK
     "WBR": "WBR",  # WEBER DOWNS
-    "78": "CNL",  # COLONIAL DOWNS
-    "CNL": "CNL",  # COLONIAL DOWNS
+    "78": "CNL",  # COLONIAL DOWNS -- Route to CNL
+    "CNL": "CNL",  # COLONIAL DOWNS -- Route to CNL
     "FAX": "FAX",  # FAIRFAX
     "FX": "TFX",  # FOXFIELD
     "GRM": "GRM",  # GREAT MEADOW
@@ -303,11 +303,11 @@ eqb_tpd_codes_to_course_cd = {
     "WYO": "WYO",  # WYOMING DOWNS
     "FE": "TFE",  # FORT ERIE
     "RP": "TRP",  # REMINGTON PARK
-    "90": "TWO",  # WOODBINE
-    "WO": "TWO",  # WOODBINE
+    "90": "TWO",  # WOODBINE -- Route to TWO
+    "WO": "TWO",  # WOODBINE -- Route to TWO
     "PM": "TPM",  # PORTLAND MEADOWS
     "WW": "TWW",  # WALLA WALLA
     "YM": "TYM",  # YAKIMA MEADOWS
-    # "91": "XXX",  # Mowhawk Park
+    # "91": "XXX",  # Mowhawk Park -- Route to XXX
     "UNK": "UNK",  # UNKNOWN
 }

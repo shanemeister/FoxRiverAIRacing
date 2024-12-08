@@ -34,7 +34,7 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
                 
                 # Check if the file is a directory or already processed
                 if os.path.isdir(filepath):
-                    logging.info(f"Skipping directory: {filename}")
+                    #logging.info(f"Skipping directory: {filename}")
                     continue  # Skip directories
                 
                 if (filename, 'processed', data_type) in processed_files:

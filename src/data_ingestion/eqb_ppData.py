@@ -36,6 +36,7 @@ def process_zip_files(directory, conn, xsd_schema_path, processed_files):
     total_zips = 0
     zips_processed = 0
     zips_failed = 0
+    skipped = 0
     x = 0
     for root, dirs, files in os.walk(directory):
         total_zips += len([f for f in files if f.endswith("plusxml.zip")])
@@ -53,7 +54,8 @@ def process_zip_files(directory, conn, xsd_schema_path, processed_files):
 
                         # Check if the XML file has already been processed by its base name
                         if os.path.isdir(xml_base_name) or (xml_base_name, 'processed', 'PlusPro') in processed_files:
-                            logging.info(f"########################### Skipping already processed PluPro file: {xml_base_name} ###########################")
+                            #logging.info(f"########################### Skipping already processed PluPro file: {xml_base_name} ###########################")
+                            skipped += 1
                             continue  # Skip directories and already processed files
                             
                         # Extract and validate XML
@@ -80,6 +82,7 @@ def process_zip_files(directory, conn, xsd_schema_path, processed_files):
     print(f"Total ZIP files found: {total_zips}")
     print(f"ZIP files processed successfully: {zips_processed}")
     print(f"ZIP files failed or skipped: {zips_failed}")
+    print(f"Total files skipped: {skipped}")
                    
 def process_single_xml_file(xml_file, xml_base_name, conn, cursor, xsd_schema_path, processed_files, x):
     """

@@ -1,164 +1,27 @@
-2024-11-28 11:05:25 - Starting races table recreation job
-2024-11-28 11:05:25 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-28 11:05:25 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
+2024-12-08 14:13:44 - Starting races table recreation job
+2024-12-08 14:13:44 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-08 14:13:44 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
 DROP VIEW
-ALTER TABLE
+psql:/sql_scripts/drop_races.sql:2: NOTICE:  view "v_races" does not exist, skipping
+psql:/sql_scripts/drop_races.sql:5: ERROR:  relation "public.races" does not exist
 psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "gpspoint_races_fkey" of relation "gpspoint" does not exist, skipping
 ALTER TABLE
-psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-19, 1) is not present in table "race_list".
+ALTER TABLE
+ALTER TABLE
 psql:/sql_scripts/drop_races.sql:21: NOTICE:  constraint "sectionals_races_fkey" of relation "sectionals" does not exist, skipping
 ALTER TABLE
-psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-19, 1) is not present in table "race_list".
+psql:/sql_scripts/drop_races.sql:33: NOTICE:  constraint "fk_races_runners" of relation "runners" does not exist, skipping
+psql:/sql_scripts/drop_races.sql:40: ERROR:  constraint "fk_racedata_runners" for relation "runners" already exists
 ALTER TABLE
 ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-11-28 11:05:25 - SQL script executed successfully
-2024-11-28 11:05:25 - Races table recreation job completed
-2024-11-28 23:59:01 - Starting races table recreation job
-2024-11-28 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-28 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "gpspoint_races_fkey" of relation "gpspoint" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-psql:/sql_scripts/drop_races.sql:21: NOTICE:  constraint "sectionals_races_fkey" of relation "sectionals" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-11-28 23:59:02 - SQL script executed successfully
-2024-11-28 23:59:02 - Races table recreation job completed
-2024-11-29 23:59:01 - Starting races table recreation job
-2024-11-29 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-29 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "gpspoint_races_fkey" of relation "gpspoint" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-psql:/sql_scripts/drop_races.sql:21: NOTICE:  constraint "sectionals_races_fkey" of relation "sectionals" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-11-29 23:59:02 - SQL script executed successfully
-2024-11-29 23:59:02 - Races table recreation job completed
-2024-11-30 23:59:01 - Starting races table recreation job
-2024-11-30 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-30 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "gpspoint_races_fkey" of relation "gpspoint" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-psql:/sql_scripts/drop_races.sql:21: NOTICE:  constraint "sectionals_races_fkey" of relation "sectionals" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-11-30 23:59:01 - SQL script executed successfully
-2024-11-30 23:59:01 - Races table recreation job completed
-2024-12-01 23:59:01 - Starting races table recreation job
-2024-12-01 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-01 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "gpspoint_races_fkey" of relation "gpspoint" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-psql:/sql_scripts/drop_races.sql:21: NOTICE:  constraint "sectionals_races_fkey" of relation "sectionals" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-01 23:59:05 - SQL script executed successfully
-2024-12-01 23:59:05 - Races table recreation job completed
-2024-12-02 23:59:01 - Starting races table recreation job
-2024-12-02 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-02 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "gpspoint_races_fkey" of relation "gpspoint" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-psql:/sql_scripts/drop_races.sql:21: NOTICE:  constraint "sectionals_races_fkey" of relation "sectionals" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "race_list".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-02 23:59:02 - SQL script executed successfully
-2024-12-02 23:59:02 - Races table recreation job completed
-2024-12-03 14:03:37 - Starting races table recreation job
-2024-12-03 14:03:37 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:03:37 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "gpspoint_races_fkey" of relation "gpspoint" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-11-15, 1) is not present in table "race_list".
-psql:/sql_scripts/drop_races.sql:21: NOTICE:  constraint "sectionals_races_fkey" of relation "sectionals" does not exist, skipping
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-11-15, 1) is not present in table "race_list".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-03 14:03:38 - SQL script executed successfully
-2024-12-03 14:03:38 - Races table recreation job completed
-2024-12-03 14:09:07 - Starting races table recreation job
-2024-12-03 14:09:07 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:09:07 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:16: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-11-15, 1) is not present in table "race_list".
-ALTER TABLE
-psql:/sql_scripts/drop_races.sql:28: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_race_list_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-11-15, 1) is not present in table "race_list".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-03 14:09:08 - SQL script executed successfully
-2024-12-03 14:09:08 - Races table recreation job completed
-2024-12-03 14:33:24 - Starting races table recreation job
-2024-12-03 14:33:24 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:33:25 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
+psql:/sql_scripts/drop_races.sql:44: NOTICE:  constraint "fk_races_results_entries" of relation "results_entries" does not exist, skipping
+psql:/sql_scripts/drop_races.sql:51: ERROR:  constraint "fk_race_results_results_entries" for relation "results_entries" already exists
+psql:/sql_scripts/drop_races.sql:54: ERROR:  table "races" does not exist
+2024-12-08 14:13:48 - SQL script executed successfully
+2024-12-08 14:13:48 - Races table recreation job completed
+2024-12-08 14:14:23 - Starting races table recreation job
+2024-12-08 14:14:23 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-08 14:14:23 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
 DROP VIEW
 ALTER TABLE
 ALTER TABLE
@@ -170,120 +33,5 @@ ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 DROP TABLE
-2024-12-03 14:33:31 - SQL script executed successfully
-2024-12-03 14:33:31 - Races table recreation job completed
-2024-12-03 14:37:54 - Starting races table recreation job
-2024-12-03 14:37:54 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:37:54 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-03 14:38:00 - SQL script executed successfully
-2024-12-03 14:38:00 - Races table recreation job completed
-2024-12-03 14:39:11 - Starting races table recreation job
-2024-12-03 14:39:11 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:39:11 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-03 14:39:18 - SQL script executed successfully
-2024-12-03 14:39:18 - Races table recreation job completed
-2024-12-03 23:59:01 - Starting races table recreation job
-2024-12-03 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-03 23:59:07 - SQL script executed successfully
-2024-12-03 23:59:07 - Races table recreation job completed
-2024-12-04 10:50:32 - Starting races table recreation job
-2024-12-04 10:50:32 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-04 10:50:32 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-04 10:50:39 - SQL script executed successfully
-2024-12-04 10:50:39 - Races table recreation job completed
-2024-12-04 23:59:01 - Starting races table recreation job
-2024-12-04 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-04 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container postgis_container_new
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-04 23:59:08 - SQL script executed successfully
-2024-12-04 23:59:08 - Races table recreation job completed
-2024-12-05 23:59:01 - Starting races table recreation job
-2024-12-05 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-05 23:59:01 - Docker container postgis_container_new is not running. Exiting.
-2024-12-06 11:23:57 - Starting races table recreation job
-2024-12-06 11:23:57 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-06 11:23:57 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-06 11:24:02 - SQL script executed successfully
-2024-12-06 11:24:02 - Races table recreation job completed
-2024-12-06 11:37:29 - Starting races table recreation job
-2024-12-06 11:37:29 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-06 11:37:29 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
-DROP VIEW
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-DROP TABLE
-2024-12-06 11:37:33 - SQL script executed successfully
-2024-12-06 11:37:33 - Races table recreation job completed
+2024-12-08 14:14:27 - SQL script executed successfully
+2024-12-08 14:14:27 - Races table recreation job completed

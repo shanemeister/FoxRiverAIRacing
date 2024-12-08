@@ -1,293 +1,36 @@
-2024-11-28 11:12:17 - Starting races table recreation job
-2024-11-28 11:12:17 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-28 11:12:17 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+2024-12-08 14:14:05 - Starting races table recreation job
+2024-12-08 14:14:05 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-08 14:14:05 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
 CREATE VIEW
 CREATE TABLE AS
 ALTER TABLE
 ALTER TABLE
-INSERT 0 149706
-psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
-psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
-psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
+INSERT 0 180071
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
-2024-11-28 11:12:20 - SQL script executed successfully
-2024-11-28 11:12:20 - Races table recreation job completed
-2024-11-29 06:30:01 - Starting races table recreation job
-2024-11-29 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-29 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+2024-12-08 14:14:16 - SQL script executed successfully
+2024-12-08 14:14:16 - Races table recreation job completed
+2024-12-08 14:14:42 - Starting races table recreation job
+2024-12-08 14:14:42 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-08 14:14:42 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
 CREATE VIEW
 CREATE TABLE AS
 ALTER TABLE
 ALTER TABLE
-INSERT 0 149782
-psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
-psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
-psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
+INSERT 0 180071
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
-2024-11-29 06:30:04 - SQL script executed successfully
-2024-11-29 06:30:04 - Races table recreation job completed
-2024-11-30 06:30:01 - Starting races table recreation job
-2024-11-30 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-11-30 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
 ALTER TABLE
 ALTER TABLE
-INSERT 0 149933
-psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
-psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
-psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
 ALTER TABLE
 ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-11-30 06:30:03 - SQL script executed successfully
-2024-11-30 06:30:03 - Races table recreation job completed
-2024-12-01 06:30:01 - Starting races table recreation job
-2024-12-01 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-01 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179310
-psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
-psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
-psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-01 06:30:03 - SQL script executed successfully
-2024-12-01 06:30:03 - Races table recreation job completed
-2024-12-02 06:30:01 - Starting races table recreation job
-2024-12-02 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-02 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179356
-psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
-psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
-psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-02 06:30:06 - SQL script executed successfully
-2024-12-02 06:30:06 - Races table recreation job completed
-2024-12-03 13:53:44 - Starting races table recreation job
-2024-12-03 13:53:44 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 13:53:44 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179400
-psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
-psql:/sql_scripts/recreate_races.sql:84: ERROR:  insert or update on table "gpspoint_aqu" violates foreign key constraint "gpspoint_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
-psql:/sql_scripts/recreate_races.sql:95: ERROR:  insert or update on table "sectionals_aqu" violates foreign key constraint "sectionals_races_fkey"
-DETAIL:  Key (course_cd, race_date, race_number)=(AQU, 2024-10-25, 1) is not present in table "races".
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-03 13:53:46 - SQL script executed successfully
-2024-12-03 13:53:46 - Races table recreation job completed
-2024-12-03 14:04:15 - Starting races table recreation job
-2024-12-03 14:04:15 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:04:15 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179400
-psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
-ALTER TABLE
-psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-03 14:04:29 - SQL script executed successfully
-2024-12-03 14:04:29 - Races table recreation job completed
-2024-12-03 14:12:47 - Starting races table recreation job
-2024-12-03 14:12:47 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:12:47 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179400
-psql:/sql_scripts/recreate_races.sql:77: ERROR:  constraint "gpspoint_race_list_fkey" of relation "gpspoint" does not exist
-ALTER TABLE
-psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "sectionals_race_list_fkey" of relation "sectionals" does not exist
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-03 14:13:00 - SQL script executed successfully
-2024-12-03 14:13:00 - Races table recreation job completed
-2024-12-03 14:33:46 - Starting races table recreation job
-2024-12-03 14:33:46 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:33:46 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179400
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-03 14:33:58 - SQL script executed successfully
-2024-12-03 14:33:58 - Races table recreation job completed
-2024-12-03 14:38:31 - Starting races table recreation job
-2024-12-03 14:38:31 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:38:31 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179400
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-03 14:38:44 - SQL script executed successfully
-2024-12-03 14:38:44 - Races table recreation job completed
-2024-12-03 14:39:30 - Starting races table recreation job
-2024-12-03 14:39:30 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-03 14:39:30 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179400
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-03 14:39:43 - SQL script executed successfully
-2024-12-03 14:39:43 - Races table recreation job completed
-2024-12-04 06:30:01 - Starting races table recreation job
-2024-12-04 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-04 06:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179400
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-04 06:30:16 - SQL script executed successfully
-2024-12-04 06:30:16 - Races table recreation job completed
-2024-12-05 06:30:02 - Starting races table recreation job
-2024-12-05 06:30:02 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-05 06:30:02 - Running SQL script: /sql_scripts/recreate_races.sql inside container postgis_container_new
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179670
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-05 06:30:14 - SQL script executed successfully
-2024-12-05 06:30:14 - Races table recreation job completed
-2024-12-06 06:30:01 - Starting races table recreation job
-2024-12-06 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-06 06:30:01 - Docker container postgis_container_new is not running. Exiting.
-2024-12-06 11:12:57 - Starting races table recreation job
-2024-12-06 11:12:57 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-06 11:12:57 - Docker container postgis_container_new is not running. Exiting.
-2024-12-06 11:13:10 - Starting races table recreation job
-2024-12-06 11:13:10 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-06 11:13:10 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
-psql: error: /sql_scripts/recreate_races.sql: No such file or directory
-2024-12-06 11:13:10 - SQL script failed with exit code 1
-2024-12-06 11:24:43 - Starting races table recreation job
-2024-12-06 11:24:43 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-06 11:24:43 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179830
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-06 11:24:56 - SQL script executed successfully
-2024-12-06 11:24:56 - Races table recreation job completed
-2024-12-06 12:48:37 - Starting races table recreation job
-2024-12-06 12:48:37 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-06 12:48:37 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
-CREATE VIEW
-CREATE TABLE AS
-ALTER TABLE
-ALTER TABLE
-INSERT 0 179847
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-06 12:48:48 - SQL script executed successfully
-2024-12-06 12:48:48 - Races table recreation job completed
+2024-12-08 14:14:54 - SQL script executed successfully
+2024-12-08 14:14:54 - Races table recreation job completed

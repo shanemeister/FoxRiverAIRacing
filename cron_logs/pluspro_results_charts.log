@@ -130,3 +130,39 @@
 2024-12-06 11:49:36 - Job completed
 2024-12-06 11:41:15 - Results: 522 files, PlusPro: 82 files, Backup: Success
 2024-12-06 11:49:36 - Job completed
+2024-12-07 02:00:01 - Starting ingestion job
+2024-12-07 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-07 02:00:01 - Starting download job
+2024-12-07 02:06:52 - Download job succeeded
+2024-12-07 02:06:52 - Results files downloaded: 538
+2024-12-07 02:06:52 - PlusPro files downloaded: 85
+2024-12-07 02:06:52 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-12-07 02:09:54 - Sync to S3 succeeded
+2024-12-07 02:09:54 - Job completed
+2024-12-07 02:00:01 - Results: 538 files, PlusPro: 85 files, Backup: Success
+2024-12-07 02:09:54 - Job completed
+2024-12-08 02:00:01 - Starting ingestion job
+2024-12-08 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-08 02:00:01 - Starting download job
+2024-12-08 02:05:57 - Download job succeeded
+2024-12-08 02:05:57 - Results files downloaded: 545
+2024-12-08 02:05:57 - PlusPro files downloaded: 92
+2024-12-08 02:05:57 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-12-08 02:08:52 - Sync to S3 succeeded
+2024-12-08 02:08:52 - Job completed
+2024-12-08 02:00:01 - Results: 545 files, PlusPro: 92 files, Backup: Success
+2024-12-08 02:08:52 - Job completed
+2024-12-08 13:14:29 - Starting ingestion job
+2024-12-08 13:14:29 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-08 13:14:29 - Starting download job
+2024-12-08 13:18:45 - Starting ingestion job
+2024-12-08 13:18:45 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-08 13:18:45 - Starting download job
+2024-12-08 13:21:49 - Download job succeeded
+2024-12-08 13:21:49 - Results files downloaded: 535
+2024-12-08 13:21:49 - PlusPro files downloaded: 81
+2024-12-08 13:21:49 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-12-08 13:24:23 - Sync to S3 succeeded
+2024-12-08 13:24:23 - Job completed
+2024-12-08 13:14:29 - Results: 535 files, PlusPro: 81 files, Backup: Success
+2024-12-08 13:24:23 - Job completed
