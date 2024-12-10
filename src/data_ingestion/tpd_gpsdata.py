@@ -57,7 +57,7 @@ def process_tpd_gpsdata(conn, data, course_cd, race_date, post_time, race_number
                     longitude, latitude  # For location as ST_MakePoint
                 ))
                 conn.commit()
-                logging.info(f"Successfully inserted record for saddle_cloth_number: {saddle_cloth_number}, time_stamp: {time_stamp}")
+                # logging.info(f"Successfully inserted record for saddle_cloth_number: {saddle_cloth_number}, time_stamp: {time_stamp}")
             except psycopg2.Error as e:
                 has_rejections = True  # Track if any records were rejected
                 logging.error(f"Error inserting GPS data in file {filename}: {e}")

@@ -179,7 +179,7 @@ def process_raceresults_file(xml_file, conn, cursor, xsd_schema_path):
                         footnotes
                     ))
                     conn.commit()  # Commit after successful insertion
-                    logging.info(f"Inserted race result for course {course_cd}, date {race_date}, race number {race_number}")
+                    #logging.info(f"Inserted race result for course {course_cd}, date {race_date}, race number {race_number}")
                 except Exception as race_error:
                     has_rejections = True
                     logging.error(f"Error inserting race {race_number}: {race_error}")

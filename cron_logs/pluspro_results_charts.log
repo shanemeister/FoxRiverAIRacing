@@ -166,3 +166,14 @@
 2024-12-08 13:24:23 - Job completed
 2024-12-08 13:14:29 - Results: 535 files, PlusPro: 81 files, Backup: Success
 2024-12-08 13:24:23 - Job completed
+2024-12-09 10:33:24 - Starting ingestion job
+2024-12-09 10:33:24 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-09 10:33:24 - Starting download job
+2024-12-09 10:39:14 - Download job succeeded
+2024-12-09 10:39:14 - Results files downloaded: 530
+2024-12-09 10:39:14 - PlusPro files downloaded: 67
+2024-12-09 10:39:14 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2024-12-09 10:41:42 - Sync to S3 succeeded
+2024-12-09 10:41:42 - Job completed
+2024-12-09 10:33:24 - Results: 530 files, PlusPro: 67 files, Backup: Success
+2024-12-09 10:41:42 - Job completed

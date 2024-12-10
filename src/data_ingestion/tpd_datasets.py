@@ -12,7 +12,9 @@ from src.data_ingestion.tpd_gpsdata import process_tpd_gpsdata
 def process_tpd_data(conn, directory_path, error_log_file, processed_files, data_type):
     cursor = conn.cursor()
     try:
+        cutoff_num = 0
         skipped = 0
+        bad_course_cd = 0
         with open(error_log_file, 'a') as error_log:
             # Collect and group files by course, date, and time
             files_by_course_date = {}
@@ -45,6 +47,7 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
                 try:
                     course_cd = extract_course_code(filename)
                     if course_cd is None or len(course_cd) != 3 or course_cd == 'XXX' or course_cd == 'UNK':
+                        bad_course_cd += 1
                         #logging.info(f"Skipping file {filename} due to invalid course_cd: {course_cd}")
                         continue
 
@@ -54,7 +57,8 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
 
                     # Filter out files with race_date earlier than cutoff_date
                     if race_date < cutoff_date:
-                        # logging.info(f"Skipping file {filename} due to race_date before cutoff: {race_date}")
+                        #logging.info(f"Skipping file {filename} due to race_date before cutoff: {race_date}")
+                        cutoff_num += 1
                         continue
 
                     # Group files by (course_cd, race_date) for sorting and race number assignment
@@ -71,6 +75,8 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
                     continue
 
             logging.info(f"Total number of files skipped: {skipped}")
+            logging.info(f"Total number of files skipped due to cutoff date: {cutoff_num}")
+            logging.info(f"Total number of files skipped due to bad course_cd: {bad_course_cd}")
 
             # Process files sorted by post_time for each group
             for (course_cd, race_date), file_info_list in files_by_course_date.items():

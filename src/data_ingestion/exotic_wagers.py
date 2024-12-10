@@ -14,7 +14,7 @@ def process_exotic_wagers_file(xml_file, conn, cursor, xsd_schema_path):
     if not validate_xml(xml_file, xsd_schema_path):
         logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
         return False # Skip processing this file
-
+    bad_course_cd = 0
     has_rejections = False
     
     try:
@@ -22,15 +22,21 @@ def process_exotic_wagers_file(xml_file, conn, cursor, xsd_schema_path):
         root = tree.getroot()
         
         # Initialize variables for logging in case of an exception
-        course_cd = course_name = race_date = race_number = None
+        course_cd = course_name = race_date = race_number = None        
         
-        # Extract course_cd and course_name
-        course_cd = eqb_tpd_codes_to_course_cd.get(get_text(root.find('./TRACK/CODE')), 'EQE')
-        course_name = get_text(root.find('./TRACK/NAME'))
         race_date = parse_date(root.get("RACE_DATE"))  # Get race date directly from attribute
 
         # Iterate over each RACE element to extract race-specific details
         for race_elem in root.findall('RACE'):
+            # Extract course_cd and course_name
+            course_cd = eqb_tpd_codes_to_course_cd.get(get_text(root.find('./TRACK/CODE')), 'EQE')
+            course_name = get_text(root.find('./TRACK/NAME'))         
+            
+            if course_cd is None or len(course_cd) != 3 or course_cd == 'XXX' or course_cd == 'UNK':
+                bad_course_cd += 1
+                logging.info(f"Skipping file {race_elem} due to invalid course_cd: {course_cd}")
+                continue
+
             race_number = safe_numeric_int(race_elem.get("NUMBER"), 'race_number')  # Attribute, so direct access is fine
             post_time = parse_time(get_text(race_elem.find('POST_TIME'))) or datetime.strptime("00:00", "%H:%M").time()
             

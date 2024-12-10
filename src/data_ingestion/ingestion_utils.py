@@ -54,6 +54,39 @@ def parse_filename(filename):
         logging.error(f"Error parsing filename {filename}: {e}")
         raise
 
+import re
+import logging
+
+def convert_gate_name(gate_name):
+    """
+    Convert gate_name to a float. Special case for "Finish" gate.
+    
+    Parameters:
+    gate_name (str): The gate name to convert
+    
+    Returns:
+    float: The numeric representation of the gate name
+    """
+    if gate_name.lower() == "finish":
+        return 9999.0
+    
+    gate_name = gate_name.lower().strip()
+    
+    # Check for furlong format (e.g., "6f", "5.5f")
+    furlong_match = re.match(r'^([0-9]+(\.[0-9]+)?)f$', gate_name)
+    if furlong_match:
+        return float(furlong_match.group(1))
+    
+    # Check for furlong and feet format (e.g., "6f5ft", "5.5f5.5ft")
+    furlong_feet_match = re.match(r'^([0-9]+(\.[0-9]+)?)f([0-9]+(\.[0-9]+)?)ft$', gate_name)
+    if furlong_feet_match:
+        furlong_component = float(furlong_feet_match.group(1))
+        feet_component = float(furlong_feet_match.group(3))
+        return furlong_component + (feet_component / 660.0)
+    
+    logging.error(f"Invalid gate name: {gate_name}")
+    return None
+    
 def translate_course_code(course_code):
     """Translate an EQB course code to a standardized course code."""
     standardized_code = eqb_tpd_codes_to_course_cd.get(course_code)

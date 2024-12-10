@@ -100,3 +100,10 @@
 2024-12-08 13:34:50 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
 2024-12-08 13:34:50 - Starting database backup
 context canceled
+2024-12-09 10:57:01 - Starting database backup job
+2024-12-09 10:57:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-09 10:57:01 - Starting database backup
+2024-12-09 10:58:07 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2024-12-09_foxriverai.sql
+2024-12-09 10:58:07 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2024-12-09 11:00:11 - Sync to S3 succeeded
+2024-12-09 11:00:11 - Job completed

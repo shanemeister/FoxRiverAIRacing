@@ -62,7 +62,7 @@ def process_results_earnings_file(xml_file, conn, cursor, xsd_schema_path):
                                 course_cd, race_date, race_number, split_num, earnings
                             ))
                             conn.commit()
-                            logging.info(f"Inserted earnings for race {race_number}, split {split_num}")
+                            # logging.info(f"Inserted earnings for race {race_number}, split {split_num}")
                         else:
                             # Handle the case where earnings is None
                             has_rejections = True

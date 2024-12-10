@@ -4,12 +4,14 @@ from pyspark.sql.functions import (
     expr, abs,
     min as spark_min,
     sum as spark_sum,
-    date_format
+    date_format, count, when, udf
 )
 from pyspark.sql.window import Window
 from pyspark.sql.types import TimestampType
-from pyspark.sql.functions import udf
 from datetime import timedelta
+from pyspark.sql import SparkSession
+from src.data_preprocessing.data_utils import save_parquet
+from pyspark.sql import DataFrame
 
 # Define the UDF to add seconds (including fractional seconds) to a timestamp
 def add_seconds(ts, seconds):
@@ -104,7 +106,49 @@ def merge_sectionals(sectionals_df, race_id_cols, first_time_df, gps_df):
 
     return sectionals_df
 
-def merge_gps_sectionals(spark, results_df, sectionals_df, gps_df):
+def dup_check(df: DataFrame, cols: list) -> DataFrame:
+    """
+    Check for duplicate rows based on the specified columns and provide information on missing values.
+    
+    Parameters:
+    df (DataFrame): Input DataFrame
+    cols (list): List of columns to check for duplicates
+    
+    Returns:
+    DataFrame: DataFrame with duplicates removed
+    """
+    # Check for duplicates based on the primary key
+    duplicates_df = df.groupBy(cols) \
+        .agg(count("*").alias("count")) \
+        .filter(col("count") > 1)
+
+    num_duplicates = duplicates_df.count()
+    print(f"Number of duplicate rows based on primary key: {num_duplicates}")
+
+    # Check for duplicates based on sec_time_stamp
+    sec_time_stamp_duplicates_df = df.groupBy("sec_time_stamp") \
+        .agg(count("*").alias("count")) \
+        .filter(col("count") > 1)
+
+    num_sec_time_stamp_duplicates = sec_time_stamp_duplicates_df.count()
+    print(f"Number of duplicate rows based on sec_time_stamp: {num_sec_time_stamp_duplicates}")
+
+    # Check for missing data in matched_df
+    missing_data_df = df.select([count(when(col(c).isNull(), c)).alias(c) for c in df.columns])
+
+    print("Missing data in matched_df:")
+    missing_data_df.show(n=10, truncate=False)  # Display only the first 10 rows without truncating long strings
+
+    # Display a sample of the DataFrame
+    print("Sample of matched_df:")
+    df.show(n=10, truncate=False)  # Display only the first 10 rows without truncating long strings
+
+    # Remove duplicates based on the specified columns
+    df = df.dropDuplicates(cols)
+
+    return df
+
+def merge_gps_sectionals(spark, results_df, sectionals_df, gps_df, parquet_dir):
     """
     Merge GPS and sectional data with results data.
     
@@ -132,4 +176,9 @@ def merge_gps_sectionals(spark, results_df, sectionals_df, gps_df):
     
     matched_df = join_matched_df(gps_df, sectionals)
     
-    return matched_df
+    # Check for duplicates based on the primary key
+    primary_key_columns = ["course_cd", "race_date", "race_number", "saddle_cloth_number", "time_stamp"]
+    matched_df_de_dup = dup_check(matched_df, primary_key_columns)
+    save_parquet(spark, matched_df_de_dup, "matched_df", parquet_dir)
+    
+    return matched_df_de_dup

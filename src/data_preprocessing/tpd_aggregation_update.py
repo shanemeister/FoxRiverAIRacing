@@ -295,7 +295,7 @@ def main():
         try:
             # List of update functions to execute
             update_functions = [
-                update_sectionals_aggregated,
+                # update_sectionals_aggregated,
                 # update_tpd_features,
                 update_net_sentiment
             ]

@@ -134,7 +134,7 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                                 jock_key, train_key
                                 ))
                             conn.commit()  # Commit after successful insertion
-                            logging.info(f"Inserted entry for result_entries: {course_cd}")    
+                            # logging.info(f"Inserted entry for result_entries: {course_cd}")    
                         except Exception as entries_error:
                             has_rejections = True
                             logging.error(f"Error processing race {race_number}: {entries_error}")
@@ -189,7 +189,7 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
                                 axciskey, horse_name, sex
                                 ))
                             conn.commit()  # Commit after successful insertion
-                            logging.info(f"Inserted entry for horse: {axciskey}")
+                            # logging.info(f"Inserted entry for horse: {axciskey}")
                         except Exception as horse_error:
                             has_rejections = True
                             logging.error(f"Error processing horse {axciskey}: {horse_error}")
