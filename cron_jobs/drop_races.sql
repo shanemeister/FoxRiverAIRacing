@@ -9,9 +9,9 @@ ALTER TABLE public.gpspoint
 DROP CONSTRAINT IF EXISTS gpspoint_races_fkey;
 
 alter table public.gpspoint 
-ADD constraint gpspoint_race_list_fkey 
+ADD constraint gpspoint_race_results_fkey 
 FOREIGN KEY (course_cd, race_date, race_number) 
-REFERENCES public.race_list(course_cd, race_date, race_number) 
+REFERENCES public.race_results(course_cd, race_date, race_number) 
 ON DELETE RESTRICT 
 ON UPDATE RESTRICT;
 
@@ -21,9 +21,9 @@ ALTER TABLE public.sectionals
 DROP CONSTRAINT IF EXISTS sectionals_races_fkey;
 
 ALTER TABLE public.sectionals 
-ADD CONSTRAINT sectionals_race_list_fkey 
+ADD CONSTRAINT sectionals_race_results_fkey 
 FOREIGN KEY (course_cd, race_date, race_number) 
-REFERENCES public.race_list(course_cd, race_date, race_number) 
+REFERENCES public.race_results(course_cd, race_date, race_number) 
 ON DELETE RESTRICT 
 ON UPDATE RESTRICT;
 

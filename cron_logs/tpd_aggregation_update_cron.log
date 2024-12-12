@@ -4400,3 +4400,36 @@ KeyboardInterrupt
 2024-12-09 10:56:12 - INFO - All updates completed with some errors.
 2024-12-09 10:56:12 - Python script succeeded
 2024-12-09 10:56:12 - Job completed
+2024-12-10 05:00:01 - Starting stat_type_update job
+2024-12-10 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-10 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+2024-12-10 05:00:01 - INFO - Logging has been set up successfully.
+2024-12-10 05:00:01 - INFO - Password found in configuration. Using provided password for authentication.
+2024-12-10 05:00:01 - INFO - Connection pool created successfully.
+2024-12-10 05:00:01 - INFO - Updating net_sentiment beginning...
+2024-12-10 05:00:29 - INFO - Net sentiment updated successfully in 27.63 seconds.
+2024-12-10 05:00:29 - INFO - All updates completed with some errors.
+2024-12-10 05:00:29 - Python script succeeded
+2024-12-10 05:00:29 - Job completed
+2024-12-11 05:00:01 - Starting stat_type_update job
+2024-12-11 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-11 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+2024-12-11 05:00:01 - INFO - Logging has been set up successfully.
+2024-12-11 05:00:01 - INFO - Password found in configuration. Using provided password for authentication.
+2024-12-11 05:00:01 - INFO - Connection pool created successfully.
+2024-12-11 05:00:01 - INFO - Updating net_sentiment beginning...
+2024-12-11 05:00:30 - INFO - Net sentiment updated successfully in 28.30 seconds.
+2024-12-11 05:00:30 - INFO - All updates completed with some errors.
+2024-12-11 05:00:30 - Python script succeeded
+2024-12-11 05:00:30 - Job completed
+2024-12-12 13:55:26 - Starting stat_type_update job
+2024-12-12 13:55:26 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-12 13:55:26 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+2024-12-12 13:55:26 - INFO - Logging has been set up successfully.
+2024-12-12 13:55:26 - INFO - Password found in configuration. Using provided password for authentication.
+2024-12-12 13:55:26 - INFO - Connection pool created successfully.
+2024-12-12 13:55:26 - INFO - Updating net_sentiment beginning...
+2024-12-12 13:55:42 - INFO - Net sentiment updated successfully in 15.38 seconds.
+2024-12-12 13:55:42 - INFO - All updates completed with some errors.
+2024-12-12 13:55:42 - Python script succeeded
+2024-12-12 13:55:42 - Job completed

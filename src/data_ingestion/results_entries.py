@@ -1,3 +1,4 @@
+import os
 import xml.etree.ElementTree as ET
 import json
 import logging
@@ -15,16 +16,21 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
     """
     # Validate the XML file first
     if not validate_xml(xml_file, xsd_schema_path):
-        logging.error(f"XML validation failed for file {xml_file}. Skipping processing.")
+        logging.error(f"XML validation failed. Deleting file {xml_file}. ")
+        print(f"Error validating XML file {xml_file}: {e}")
+        os.remove(xml_file)
         update_ingestion_status(conn, xml_file, "error", "validation error on results_entries")  # Record error status
         return False
-
+    
     has_rejections = False  # Track if any records were rejected
     rejected_record = {}  # Store rejected records for logging
     try:
         tree = ET.parse(xml_file)
         root = tree.getroot()
         course_cd = eqb_tpd_codes_to_course_cd.get(root.find('./TRACK/CODE').text, 'EQE')
+        if course_cd in ('EQE', 'EQW'):
+            logging.error(f"Validation error due to course_cd being {course_cd}")
+            raise ValueError(f"Validation error due to course_cd being {course_cd}")
         course_name = root.find('./TRACK/NAME').text
         race_date = parse_date(root.get("RACE_DATE"))  # Get race date directly from attribute
 
@@ -206,6 +212,12 @@ def process_results_entries_file(xml_file, conn, cursor, xsd_schema_path):
 
         return not has_rejections  # Returns True if no rejections, otherwise False
 
+    except ValueError as e:
+        logging.error(f"Unused course code {xml_file}: {e}")
+        print(f"Unused course code {xml_file}: {e}")
+        os.remove(xml_file)
+        update_ingestion_status(conn, xml_file, "error", "Unknown course code")
+        return True    
     except Exception as e:
-        logging.error(f"Critical error processing horse data file {xml_file}: {e}")
-        return False
+            logging.error(f"Critical error processing horse data file {xml_file}: {e}")
+            return False

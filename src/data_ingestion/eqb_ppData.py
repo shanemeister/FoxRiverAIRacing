@@ -154,7 +154,7 @@ def process_pluspro_data(conn, pluspro_dir, xsd_schema_path, error_log, processe
     """
     try:
         # Specify the year or directory to process (e.g., 2022PP)
-        year_dirs = ['Daily'] # ['2022PP', '2023PP', '2024PP', 'Daily']  # Extend this list for more years or other directories
+        year_dirs = ['2022PP', '2023PP', '2024PP', 'Daily']  # Extend this list for more years or other directories
         
         for year_dir in year_dirs:
             pp_data_path = os.path.join(pluspro_dir, year_dir)

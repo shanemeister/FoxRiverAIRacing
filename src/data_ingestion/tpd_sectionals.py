@@ -65,21 +65,21 @@ def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filena
                     distance_ran, number_of_strides, gate_numeric
                 ))
                 conn.commit()
-                #logging.info(f"Successfully inserted record for sectionals: {course_cd}")
+                logging.info(f"Successfully inserted record for sectionals: {course_cd}")
             except psycopg2.Error as e:
                 has_rejections = True  # Track if any records were rejected
                 logging.error(f"Error inserting sectional data in file {filename}: {e}")
                 conn.rollback()
-                update_ingestion_status(conn, filename, str(e), "Sectionals")
+                #update_ingestion_status(conn, filename, str(e), "Sectionals")
     
     except KeyError as e:
         has_rejections = True
         logging.error(f"Missing key {e} in sectional data from file {filename}")
-        update_ingestion_status(conn, filename, f"Missing key {e}", "Sectionals")
+        #update_ingestion_status(conn, filename, f"Missing key {e}", "Sectionals")
     except TypeError as e:
         has_rejections = True
         logging.error(f"Type error in sectional data from file {filename}: {e}")
-        update_ingestion_status(conn, filename, f"Type error: {e}", "Sectionals")
+        #update_ingestion_status(conn, filename, f"Type error: {e}", "Sectionals")
     finally:
         
         return not has_rejections  # Returns True if no rejections, otherwise False

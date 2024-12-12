@@ -45,7 +45,7 @@ mkdir -p "$BACKUP_DIR"
 echo "$(date +'%Y-%m-%d %H:%M:%S') - Starting database backup" >> "$LOG_FILE"
 
 # Run pg_dump inside the Docker container
-/usr/bin/docker exec -i dff8dd78f94c pg_dump -U $DB_USER -d $DB_NAME --clean --if-exists > "$BACKUP_FILE" 2>> "$LOG_FILE"
+/usr/bin/docker exec -i c188a793099b pg_dump -U $DB_USER -d $DB_NAME --clean --if-exists > "$BACKUP_FILE" 2>> "$LOG_FILE"
 
 # Check if backup succeeded
 if [ $? -eq 0 ]; then

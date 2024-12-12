@@ -95,7 +95,7 @@ eqb_tpd_codes_to_course_cd = {
     "71": "TGG",  # GOLDEN GATE FIELDS -- Route to GG
     "GG": "TGG",  # GOLDEN GATE FIELDS -- Route to GG
     "94": "TSA",  # SANTA ANITA PARK -- Route to TSA
-    "SA": "TSA",  # SANTA ANITA PARK -- Route to TSA
+    "SA": "TSA",  # SANTA ANITA PARK -- Route to TS
     "ARP": "ARP",  # ARAPAHOE PARK
     "DEL": "DEL",  # DELAWARE PARK
     "WNT": "WNT",  # WINTERTHUR
@@ -127,8 +127,8 @@ eqb_tpd_codes_to_course_cd = {
     "FAN": "FAN",  # FanDuel Sportsbook and Horse Racing
     "HAW": "HAW",  # HAWTHORNE
     "SPT": "SPT",  # SPORTSMANS PARK
-    #"88": "HOO",  # HOOSIER PARK -- Route to HOO
-    #"HOO": "HOO",  # HOOSIER PARK
+    "88": "HOO",  # HOOSIER PARK -- Route to HOO
+    "HOO": "HOO",  # HOOSIER PARK
     "89": "IND",  # HORSESHOE INDIANAPOLIS -- Route to IND
     "IND": "IND",  # HORSESHOE INDIANAPOLIS -- Route to IND
     "ANF": "ANF",  # ANTHONY DOWNS
@@ -206,8 +206,8 @@ eqb_tpd_codes_to_course_cd = {
     "ATL": "ATL",  # ATLANTIC CITY
     "FH": "TFH",  # FAR HILLS
     "RB": "TRB",  # RED BANK
-    #"87": "MED",  # MEADOWLANDS -- Route to MED
-    #"MED": "MED",  # MEADOWLANDS
+    "87": "MED",  # MEADOWLANDS -- Route to MED
+    "MED": "MED",  # MEADOWLANDS
     "84": "MTH",  # MONMOUTH PARK   -- Route to MTH
     "MTH": "MTH",  # MONMOUTH PARK -- Route to MTH
     "ALB": "ALB",  # ALBUQUERQUE
@@ -308,6 +308,6 @@ eqb_tpd_codes_to_course_cd = {
     "PM": "TPM",  # PORTLAND MEADOWS
     "WW": "TWW",  # WALLA WALLA
     "YM": "TYM",  # YAKIMA MEADOWS
-    # "91": "XXX",  # Mowhawk Park -- Route to XXX
+    #"91": "XXX",  # Mowhawk Park -- Route to XXX
     "UNK": "UNK",  # UNKNOWN
 }

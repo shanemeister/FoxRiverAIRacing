@@ -74,7 +74,7 @@ SELECT * FROM public.v_races;
 
 -- Modify foreign key constraints for gpspoint
 alter table public.gpspoint 
-drop constraint gpspoint_race_list_fkey;
+drop constraint gpspoint_race_results_fkey;
 
 ALTER TABLE public.gpspoint 
 ADD CONSTRAINT gpspoint_races_fkey 
@@ -85,7 +85,7 @@ ON UPDATE RESTRICT;
 
 -- Modify foreign key constraints for sectionals
 ALTER TABLE public.sectionals 
-drop CONSTRAINT sectionals_race_list_fkey;
+drop CONSTRAINT sectionals_race_results_fkey;
 
 ALTER TABLE public.sectionals 
 ADD CONSTRAINT sectionals_races_fkey 

@@ -1,13 +1,12 @@
-# model_data_gps_prep.py
-
 import os
 import logging
 import argparse
-from pyspark.sql.functions import col
-from src.data_preprocessing.data_loader import load_data_from_postgresql, reload_parquet_files
-from src.data_preprocessing.sql_queries import sql_queries
-from src.data_preprocessing.merge_gps_sectional import merge_gps_sectionals
-from src.data_preprocessing.data_utils import (save_parquet, gather_statistics, initialize_environment,
+from pyspark.sql.functions import col, upper, trim, row_number
+from pyspark.sql.window import Window
+from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql, reload_parquet_files
+from src.data_preprocessing.data_prep1.sql_queries import sql_queries
+from src.data_preprocessing.data_prep1.merge_gps_sectional import merge_gps_sectionals
+from src.data_preprocessing.data_prep1.data_utils import (save_parquet, gather_statistics, initialize_environment,
                                                load_config, initialize_logging, initialize_spark, drop_duplicates_with_tolerance,
                                                identify_and_impute_outliers, identify_and_remove_outliers,
                                                identify_missing_and_outliers)
@@ -86,22 +85,38 @@ def merge_results(spark, parquet_dir):
     """
     results_df = spark.read.parquet(os.path.join(parquet_dir, "results.parquet"))
     results_df.printSchema()
+    print("Results DataFrame count: {}".format(results_df.count()))
     master_df = spark.read.parquet(os.path.join(parquet_dir, "master_df.parquet"))
-    # Merge results_df with master_df
-    # Perform the join
-    master_results_df = master_df.join(
-        results_df.select(
-            "horse_id", "official_fin", "course_cd", "race_date", "race_number",
-            "saddle_cloth_number", "post_pos", "speed_rating",
-            "turf_mud_mark", "weight", "morn_odds", "avgspd", "surface", "trk_cond",
-            "class_rating", "weather", "wps_pool", "stk_clm_md", "todays_cls", "net_sentiment"
-        ),
-        on=["course_cd", "race_date", "race_number", "saddle_cloth_number"],
-        how="left"
+    master_df.printSchema()
+    print("Master DataFrame count: {}".format(master_df.count()))
+    
+    # Ensure saddle_cloth_number is properly formatted
+    master_df = master_df.withColumn("saddle_cloth_number", upper(trim(col("saddle_cloth_number"))))
+    results_df = results_df.withColumn("saddle_cloth_number", upper(trim(col("saddle_cloth_number"))))
+    
+    # Select relevant columns from results_df
+    results_subset = results_df.select(
+        "horse_id", "official_fin", "course_cd", "race_date", "race_number",
+        "saddle_cloth_number", "post_pos", "speed_rating", "turf_mud_mark",
+        "weight", "morn_odds", "avgspd", "surface", "trk_cond", "class_rating",
+        "weather", "wps_pool", "stk_clm_md", "todays_cls", "net_sentiment"
     )
+    
+    join_keys = ["course_cd", "race_date", "race_number", "saddle_cloth_number"]
+    
+    # Define a window specification to rank rows based on time_stamp
+    window_spec = Window.partitionBy(*join_keys).orderBy(col("time_stamp").asc())
+    
+    # Add a row number based on the window specification
+    master_df = master_df.withColumn("row_number", row_number().over(window_spec))
+    
+    # Perform the join
+    master_results_df = master_df.join(results_subset, on=join_keys, how="left")
+    
     # Save merged_df as Parquet
     save_parquet(spark, master_results_df, "master_results_df", parquet_dir)
-    master_results_df.printSchema()    
+    master_results_df.printSchema()   
+    print("Master Results DataFrame count: {}".format(master_results_df.count()))
     
 def main():
     spark = None

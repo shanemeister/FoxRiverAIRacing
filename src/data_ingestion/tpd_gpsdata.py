@@ -60,18 +60,19 @@ def process_tpd_gpsdata(conn, data, course_cd, race_date, post_time, race_number
                 # logging.info(f"Successfully inserted record for saddle_cloth_number: {saddle_cloth_number}, time_stamp: {time_stamp}")
             except psycopg2.Error as e:
                 has_rejections = True  # Track if any records were rejected
-                logging.error(f"Error inserting GPS data in file {filename}: {e}")
+                #logging.error(f"Error inserting GPS data in file {filename}: {e}")
                 conn.rollback()
-                update_ingestion_status(conn, filename, str(e), "GPSData")
+                return not has_rejections
+                #update_ingestion_status(conn, filename, str(e), "GPSData")
     
     except KeyError as e:
         has_rejections = True
-        logging.error(f"Missing key {e} in GPS data from file {filename}")
-        update_ingestion_status(conn, filename, f"Missing key {e}", "GPSData")
+        #logging.error(f"Missing key {e} in GPS data from file {filename}")
+        #update_ingestion_status(conn, filename, f"Missing key {e}", "GPSData")
     except TypeError as e:
         has_rejections = True
-        logging.error(f"Type error in GPS data from file {filename}: {e}")
-        update_ingestion_status(conn, filename, f"Type error: {e}", "GPSData")
+        #logging.error(f"Type error in GPS data from file {filename}: {e}")
+        #update_ingestion_status(conn, filename, f"Type error: {e}", "GPSData")
     finally:
         cursor.close()
         return not has_rejections  # Returns True if no rejections, otherwise False

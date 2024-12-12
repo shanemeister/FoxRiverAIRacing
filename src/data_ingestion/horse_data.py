@@ -40,12 +40,7 @@ def process_horsedata_file(xml_file, xsd_file_path, conn, cursor):
                     insert_query = """
                         INSERT INTO horse (axciskey, horse_name, foal_date, sex, wh_foaled, color)
                         VALUES (%s, %s, %s, %s, %s, %s)
-                        ON CONFLICT (axciskey) DO UPDATE 
-                        SET horse_name = EXCLUDED.horse_name,
-                            foal_date = EXCLUDED.foal_date,
-                            sex = EXCLUDED.sex,
-                            wh_foaled = EXCLUDED.wh_foaled,
-                            color = EXCLUDED.color
+                        ON CONFLICT (axciskey) DO NOTHING
                     """
                     
                     try:

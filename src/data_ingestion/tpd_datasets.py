@@ -99,9 +99,11 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
                                 results = process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filename, post_time)
                                 try:
                                     if results:
+                                        logging.info(f"Successfully processed: filename: {filename} course_cd: {course_cd}")
                                         update_ingestion_status(conn, filename, "processed", "Sectionals")
                                         processed_files.add((filename, "processed", data_type))
                                     else:
+                                        logging.error(f"Error processing: filename: {filename} course_cd: {course_cd}")
                                         update_ingestion_status(conn, filename, "error", "Sectionals")
                                 except Exception as section_error:
                                     logging.error(f"Error processing: filename: {filename} course_cd: {course_cd}")
@@ -110,15 +112,17 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
                                 results = process_tpd_gpsdata(conn, data, course_cd, race_date, post_time, race_number, filename)
                                 try:
                                     if results:
+                                        logging.info(f"Successfully processed: filename: {filename} course_cd: {course_cd}")
                                         update_ingestion_status(conn, filename, "processed", "GPSData")
                                         processed_files.add((filename, "processed", data_type))
                                     else:
+                                        logging.error(f"Error processing: filename: {filename} course_cd: {course_cd}")
                                         update_ingestion_status(conn, filename, "error", "GPSData")
                                 except Exception as section_error:
-                                    logging.error(f"Error processing: filename: {filename} course_cd: {course_cd}")
+                                    #logging.error(f"Error processing: filename: {filename} course_cd: {course_cd}")
                                     update_ingestion_status(conn, filename, str(section_error), "GPSData")
                             else:
-                                logging.error(f"Unknown data type: {data_type}")
+                                #logging.error(f"Unknown data type: {data_type}")
                                 continue
 
                     except json.JSONDecodeError as e:

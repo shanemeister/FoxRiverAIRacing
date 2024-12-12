@@ -10,7 +10,7 @@ from pyspark.sql.window import Window
 from pyspark.sql.types import TimestampType
 from datetime import timedelta
 from pyspark.sql import SparkSession
-from src.data_preprocessing.data_utils import save_parquet
+from src.data_preprocessing.data_prep1.data_utils import save_parquet
 from pyspark.sql import DataFrame
 
 # Define the UDF to add seconds (including fractional seconds) to a timestamp
@@ -50,9 +50,16 @@ def join_matched_df(gps_df, sectionals_df):
         sectionals_with_ms["sec_time_stamp"],
         sectionals_with_ms["gate_numeric"],
         sectionals_with_ms["gate_name"],
-        sectionals_with_ms["sectional_time"]
+        sectionals_with_ms["sectional_time"],
+        sectionals_with_ms["length_to_finish"],
+        sectionals_with_ms["running_time"],
+        sectionals_with_ms["distance_back"],
+        sectionals_with_ms["number_of_strides"]
     )
-
+    
+    print("matched_df schema after joining gps_with_ms and sectionals_with_ms [RVS]:")
+    matched_df.printSchema()
+    
     return matched_df
 
 def merge_sectionals(sectionals_df, race_id_cols, first_time_df, gps_df):
@@ -67,7 +74,6 @@ def merge_sectionals(sectionals_df, race_id_cols, first_time_df, gps_df):
 
     # Step 5: Compute cumulative sum of 'sectional_time' for each race
     # Step 6: Define the UDF to add seconds (including fractional seconds) to a timestamp
-
     """
     # Register the UDF
     add_seconds_udf = udf(add_seconds, TimestampType())
@@ -103,7 +109,8 @@ def merge_sectionals(sectionals_df, race_id_cols, first_time_df, gps_df):
     
     # Step 8: Drop intermediate columns if no longer needed
     sectionals_df = sectionals_df.drop("earliest_time_stamp", "cumulative_sectional_time")
-
+    print("sectionals_df schema after merging with first_time_df [RVS]:")
+    sectionals_df.printSchema()
     return sectionals_df
 
 def dup_check(df: DataFrame, cols: list) -> DataFrame:

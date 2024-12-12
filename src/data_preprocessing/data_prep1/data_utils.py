@@ -1,11 +1,10 @@
 import os
 import logging
-from pyspark.sql.functions import col, count, row_number, abs, unix_timestamp, mean, when
+from pyspark.sql.functions import col, count, row_number, abs, unix_timestamp, mean, when, lit, min as spark_min, max as spark_max , row_number, mean, countDistinct
 import configparser
 from pyspark.sql import SparkSession
-from src.data_preprocessing.sql_queries import sql_queries
+from src.data_preprocessing.data_prep1.sql_queries import sql_queries
 from pyspark.sql.window import Window
-from pyspark.sql.functions import row_number, mean
 from pyspark.sql import DataFrame, Window
 
 def save_parquet(spark, df, name, parquet_dir):
@@ -76,11 +75,11 @@ def gather_statistics(df, df_name):
     
     if num_gps_time_stamp_duplicates > 0:
         logging.info("Sample of sec_time_stamp mapping to multiple gps time_stamp:")
-        gps_time_stamp_duplicates.show(truncate=False)
+        gps_time_stamp_duplicates.show(10, truncate=False)
     
     # Summary statistics
     logging.info(f"Summary statistics for {df_name}:")
-    df.describe().show()
+    #df.describe().show()
     
 def drop_duplicates_with_tolerance(df, tolerance=0.5):
     # Separate null and non-null sec_time_stamp rows
@@ -307,7 +306,7 @@ def identify_missing_and_outliers(spark, parquet_dir, df, cols):
         logging.info(f"Number of outliers in {column}: {num_outliers}")
         if num_outliers > 0:
             logging.info(f"Sample of outliers in {column}:")
-            outliers_df.show(truncate=False)
+            #outliers_df.select(cols).show(10, truncate=False)
 
 def identify_outliers(df: DataFrame, column: str) -> DataFrame:
     """
@@ -339,3 +338,51 @@ def identify_outliers(df: DataFrame, column: str) -> DataFrame:
     outliers_df = df.filter((col(column) < lower_bound) | (col(column) > upper_bound))
     
     return outliers_df
+
+def detect_cardinality_columns(df, threshold, cardinality_type):
+    """
+    Detects and prints columns in a DataFrame based on their cardinality.
+    
+    :param df: PySpark DataFrame to analyze.
+    :param threshold: Cardinality threshold to classify columns.
+    :param cardinality_type: Either "high", "low", or "both" types.
+    :return: Dictionary containing high and low cardinality columns.
+    """
+    cardinality = None
+    high_cardinality_columns = []
+    low_cardinality_columns = []
+    for col_name in df.columns:
+        cardinality = df.select(countDistinct(col_name).alias("cardinality")).collect()[0]["cardinality"]
+        # Categorize the column based on the threshold
+        if cardinality > threshold:
+            high_cardinality_columns.append((col_name, cardinality))
+        else:
+            low_cardinality_columns.append((col_name, cardinality))
+
+    # Filter results based on the cardinality_type argument
+    if cardinality_type == "high":
+        print("\n--- High Cardinality Columns ---")
+        for col_name, cardinality in high_cardinality_columns:
+            print(f"Column: {col_name}, Cardinality: {cardinality}")
+    elif cardinality_type == "low":
+        print("\n--- Low Cardinality Columns ---")
+        for col_name, cardinality in low_cardinality_columns:
+            print(f"Column: {col_name}, Cardinality: {cardinality}")
+    elif cardinality_type == "both":
+        # Display both types if no specific type is requested
+        print("\n--- High Cardinality Columns ---")
+        for col_name, cardinality in high_cardinality_columns:
+            print(f"Column: {col_name}, Cardinality: {cardinality}")
+        if not high_cardinality_columns:
+            print("No high cardinality columns found.")
+        
+        print("\n--- Low Cardinality Columns ---")
+        for col_name, cardinality in low_cardinality_columns:
+            print(f"Column: {col_name}, Cardinality: {cardinality}")
+        if not low_cardinality_columns:
+            print("No low cardinality columns found.")
+    else:
+        raise ValueError("Invalid cardinality_type. Use 'high', 'low', or 'both'.")
+
+    # Return a dictionary for further processing
+    return 

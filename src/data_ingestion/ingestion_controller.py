@@ -184,7 +184,7 @@ def main():
         
         # Argument parser to allow selective processing of datasets via command line
         parser = argparse.ArgumentParser(description="Run EQB and TPD ingestion pipeline.")
-        parser.add_argument('--ppData', action='store_true', help="Process only ppData.")
+        parser.add_argument('--pluspro', action='store_true', help="Process only ppData.")
         parser.add_argument('--resultsCharts', action='store_true', help="Process only resultsCharts.")
         parser.add_argument('--tpdRacelist', action='store_true', help="Process only TPD Racelist.")
         parser.add_argument('--tpdSectionals', action='store_true', help="Process only TPD Sectionals.")
@@ -194,7 +194,7 @@ def main():
 
         # Create a set of datasets to process based on user-specified arguments
         datasets_to_process = set()
-        if args.ppData:
+        if args.pluspro:
             datasets_to_process.add('PlusPro')
         if args.resultsCharts:
             datasets_to_process.add('ResultsCharts')
