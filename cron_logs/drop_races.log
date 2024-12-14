@@ -1,16 +1,12 @@
-2024-12-12 13:49:36 - Starting races table recreation job
-2024-12-12 13:49:36 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-12 13:49:36 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+2024-12-14 12:21:15 - Starting races table recreation job
+2024-12-14 12:21:15 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-14 12:21:15 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
 DROP VIEW
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
 DROP TABLE
-2024-12-12 13:49:38 - SQL script executed successfully
-2024-12-12 13:49:38 - Races table recreation job completed
+2024-12-14 12:21:16 - SQL script executed successfully
+2024-12-14 12:21:16 - Races table recreation job completed

@@ -6,147 +6,139 @@ from pyspark.sql.window import Window
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql, reload_parquet_files
 from src.data_preprocessing.data_prep1.sql_queries import sql_queries
 from src.data_preprocessing.data_prep1.merge_gps_sectional import merge_gps_sectionals
-from src.data_preprocessing.data_prep1.data_utils import (save_parquet, gather_statistics, initialize_environment,
-                                               load_config, initialize_logging, initialize_spark, drop_duplicates_with_tolerance,
-                                               identify_and_impute_outliers, identify_and_remove_outliers,
-                                               identify_missing_and_outliers)
+from src.data_preprocessing.data_prep1.data_utils import (
+    save_parquet, gather_statistics, initialize_environment,
+    load_config, initialize_logging, initialize_spark, drop_duplicates_with_tolerance,
+    identify_and_impute_outliers, identify_and_remove_outliers,
+    identify_missing_and_outliers
+)
 
 def load_postgresql_data(spark, jdbc_url, jdbc_properties, queries, parquet_dir):
-    """
-    Load data from PostgreSQL and save as Parquet.
-    """
     load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
-
-    # Reload Parquet files into Spark DataFrames for processing
-    results_df, sectionals_df, gps_df = reload_parquet_files(spark, parquet_dir)
-    # Display schema of each DataFrame
+    sectional_results, results, gpspoint = reload_parquet_files(spark, parquet_dir)
+    print("Sectional Results DataFrame Schema:")
+    sectional_results.printSchema()
     print("Results DataFrame Schema:")
-    results_df.printSchema()
-    print("Sectionals DataFrame Schema:")
-    sectionals_df.printSchema()
+    results.printSchema()
     print("GPS DataFrame Schema:")
-    gps_df.printSchema()
-    
-    matched_df = merge_gps_sectionals(spark, results_df, sectionals_df, gps_df, parquet_dir)
-    # Save DataFrames as Parquet files
-    save_parquet(spark, matched_df, "matched_df", parquet_dir)
-    return matched_df
+    gpspoint.printSchema()
 
+    return merge_gps_sectionals(spark, sectional_results, gpspoint, parquet_dir)
+    
 def rebuild_master_df(spark, parquet_dir):
-    """
-    Rebuild the master DataFrame from Parquet files.
-    """
-    results_df, sectionals_df, gps_df = reload_parquet_files(spark, parquet_dir)
-    matched_df = merge_gps_sectionals(spark, results_df, sectionals_df, gps_df, parquet_dir)
+    sectional_results_df, gps_df = reload_parquet_files(spark, parquet_dir)
+    matched_df = merge_gps_sectionals(spark, sectional_results_df, gps_df, parquet_dir)
     save_parquet(spark, matched_df, "matched_df", parquet_dir)
     return matched_df
 
-def process_data(spark, parquet_dir):
+def process_data(spark, parquet_dir, df_name):
     """
-    Load master_df and process data to remove duplicates where sec_time_stamp maps to multiple gps time_stamp.
+    Process data to remove duplicates where sec_time_stamp maps to multiple gps_time_stamp.
+    df_name: Name of the DataFrame parquet file to process (without .parquet extension).
     """
-    matched_df = spark.read.parquet(os.path.join(parquet_dir, "matched_df.parquet"))
-    # gather_statistics(matched_df, "matched_df")
-    # Drop duplicates where sec_time_stamp maps to multiple gps time_stamp
-    master_df = drop_duplicates_with_tolerance(matched_df)
-    
+    df_path = os.path.join(parquet_dir, f"{df_name}.parquet")
+    df = spark.read.parquet(df_path)
+
+    master_df = drop_duplicates_with_tolerance(df)
     gather_statistics(master_df, "master_df")
     save_parquet(spark, master_df, "master_df", parquet_dir)
     return master_df
 
-def manage_outliers_and_missing_data(spark, parquet_dir, cols, handle_outliers='impute'):
+def manage_outliers_and_missing_data(spark, parquet_dir, df_name, cols, handle_outliers):
     """
-    Load matched_df and process data to identify and handle outliers and missing data.
-    
-    Parameters:
-    cols (list): List of columns to check for outliers and missing data
-    handle_outliers (str): Method to handle outliers ('remove' or 'impute')
+    manage_outliers usage:
+    python main_model_data_prep.py --manage_outliers df_name col1 col2 ... action
     """
-    master_df = spark.read.parquet(os.path.join(parquet_dir, "master_df.parquet"))
-    # Identify and handle outliers and missing data for specific columns
+    df_path = os.path.join(parquet_dir, f"{df_name}.parquet")
+    df = spark.read.parquet(df_path)
+
     for column in cols:
         if handle_outliers == 'remove':
-            master_df = identify_and_remove_outliers(master_df, column)
+            df = identify_and_remove_outliers(df, column)
         elif handle_outliers == 'impute':
-            print(f"Imputing outliers for column: {column}############################################")
-            master_df = identify_and_impute_outliers(master_df, column)
-    
-    # After imputing
-    save_parquet(spark, master_df, "master_df", parquet_dir)
-    # Re-load master_df after overwrite to get a clean reference
+            logging.info(f"Imputing outliers for column: {column}")
+            df = identify_and_impute_outliers(df, column)
+
+    save_parquet(spark, df, "master_df", parquet_dir)
     spark.catalog.clearCache()
-    # master_df = spark.read.parquet(os.path.join(parquet_dir, "master_stride_df.parquet"))
-    #identify_missing_and_outliers(spark, parquet_dir, master_df, cols)
-    #gather_statistics(master_df, "master_df")
-    
+
+def identify_columns(spark, parquet_dir, df_name, cols):
+    """
+    identify usage:
+    python main_model_data_prep.py --identify df_name col1 col2 col3 ...
+    """
+    df_path = os.path.join(parquet_dir, f"{df_name}.parquet")
+    df = spark.read.parquet(df_path)
+    identify_missing_and_outliers(spark, parquet_dir, df, cols)
+
 def merge_results(spark, parquet_dir):
-    """
-    Merge results_df with master_df.
-    """
-    results_df = spark.read.parquet(os.path.join(parquet_dir, "results.parquet"))
-    results_df.printSchema()
-    print("Results DataFrame count: {}".format(results_df.count()))
-    master_df = spark.read.parquet(os.path.join(parquet_dir, "master_df.parquet"))
-    master_df.printSchema()
-    print("Master DataFrame count: {}".format(master_df.count()))
+    sectionals_results = spark.read.parquet(os.path.join(parquet_dir, "sectionals_results.parquet"))
+    sectionals_results.printSchema()
+    print("Sectional Results DataFrame count: {}".format(sectionals_results.count()))
+    gpspoint = spark.read.parquet(os.path.join(parquet_dir, "gpspoint.parquet"))
+    gpspoint.printSchema()
+    print("GPS DataFrame count: {}".format(gpspoint.count()))
     
-    # Ensure saddle_cloth_number is properly formatted
-    master_df = master_df.withColumn("saddle_cloth_number", upper(trim(col("saddle_cloth_number"))))
-    results_df = results_df.withColumn("saddle_cloth_number", upper(trim(col("saddle_cloth_number"))))
-    
-    # Select relevant columns from results_df
-    results_subset = results_df.select(
+    gpspoint = gpspoint.withColumn("saddle_cloth_number", upper(trim(col("saddle_cloth_number"))))
+    sectionals_results = sectionals_results.withColumn("saddle_cloth_number", upper(trim(col("saddle_cloth_number"))))
+
+    sectionals_results_subset = sectionals_results.select(
         "horse_id", "official_fin", "course_cd", "race_date", "race_number",
         "saddle_cloth_number", "post_pos", "speed_rating", "turf_mud_mark",
         "weight", "morn_odds", "avgspd", "surface", "trk_cond", "class_rating",
         "weather", "wps_pool", "stk_clm_md", "todays_cls", "net_sentiment"
     )
-    
+
     join_keys = ["course_cd", "race_date", "race_number", "saddle_cloth_number"]
-    
-    # Define a window specification to rank rows based on time_stamp
     window_spec = Window.partitionBy(*join_keys).orderBy(col("time_stamp").asc())
-    
-    # Add a row number based on the window specification
-    master_df = master_df.withColumn("row_number", row_number().over(window_spec))
-    
-    # Perform the join
-    master_results_df = master_df.join(results_subset, on=join_keys, how="left")
-    
-    # Save merged_df as Parquet
-    save_parquet(spark, master_results_df, "master_results_df", parquet_dir)
-    master_results_df.printSchema()   
-    print("Master Results DataFrame count: {}".format(master_results_df.count()))
-    
+    gpspoint = gpspoint.withColumn("row_number", row_number().over(window_spec))
+
+    matched_df = gpspoint.join(sectionals_results_subset, on=join_keys, how="left")
+    save_parquet(spark, matched_df, "matched_df", parquet_dir)
+    matched_df.printSchema()   
+    print("Matched Results DataFrame count: {}".format(matched_df.count()))
+
 def main():
     spark = None
-    # Set global references to None
     master_df = None
     matched_df = None
 
     spark, jdbc_url, jdbc_properties, queries, parquet_dir, log_file = initialize_environment()
-    
-    # Argument parser to allow selective processing of datasets via command line
+
     parser = argparse.ArgumentParser(description="Run EQB and TPD ingestion pipeline.")
-    parser.add_argument('--rebuild', action='store_true', help="Rebuild master DataFrame.") # Rebuild from saved Parquet files
-    parser.add_argument('--process', action='store_true', help="Process data to remove sec_time_stamp duplicates.") # Process data to remove duplicates
-    parser.add_argument('--identify', nargs='+', help="Columns to identify missing and outlier data.") # Identify missing and outlier data -- does not change the data just identifies missing and outlier data
-    parser.add_argument('--manage_outliers', nargs='+', help="Columns to check for outliers and missing data, followed by method (remove or impute).") # to run this command, use the following command: python main_model_data_prep.py --manage_outliers col1 col2 col3 impute -- remove has not been tested
-    parser.add_argument('--results', action='store_true', help="Merge Results with Master_df.") # Merge results_df with master_df
-    args = parser.parse_args() # Load from Postgres by default
+    parser.add_argument('--rebuild', action='store_true', help="Rebuild master DataFrame.")
+    parser.add_argument('--process', nargs=1, help="Process data on a specified df_name to remove sec_time_stamp duplicates. Usage: --process df_name")
+    parser.add_argument('--identify', nargs='+', help="Usage: --identify df_name col1 col2 col3 ...")
+    parser.add_argument('--manage_outliers', nargs='+', help="Usage: --manage_outliers df_name col1 col2 col3 ... impute/remove")
+    parser.add_argument('--results', action='store_true', help="Merge Sectional Results with Matched_df.")
+    args = parser.parse_args()
 
     if args.rebuild:
         matched_df = rebuild_master_df(spark, parquet_dir)
     elif args.process:
-        master_df = process_data(spark, parquet_dir)
+        # args.process should be a single-element list containing df_name
+        if len(args.process) != 1:
+            print("Error: --process requires exactly one argument: df_name")
+            exit(1)
+        df_name = args.process[0]
+        process_data(spark, parquet_dir, df_name=df_name)
     elif args.identify:
-        cols = args.identify  # Directly use the list of columns
-        master_df = spark.read.parquet(os.path.join(parquet_dir, "master_df.parquet"))
-        identify_missing_and_outliers(spark, parquet_dir, master_df, cols)
+        # args.identify: [df_name, col1, col2, ...]
+        if len(args.identify) < 2:
+            print("Error: --identify requires at least df_name and one column.")
+            exit(1)
+        df_name = args.identify[0]
+        cols = args.identify[1:]
+        identify_columns(spark, parquet_dir, df_name, cols)
     elif args.manage_outliers:
-        cols = args.manage_outliers[:-1]
-        method = args.manage_outliers[-1]
-        manage_outliers_and_missing_data(spark, parquet_dir, cols, handle_outliers=method)
+        # args.manage_outliers: [df_name, col1, col2, ..., action]
+        if len(args.manage_outliers) < 3:
+            print("Error: --manage_outliers requires at least df_name, one column, and an action (impute/remove).")
+            exit(1)
+        df_name = args.manage_outliers[0]
+        action = args.manage_outliers[-1]
+        cols = args.manage_outliers[1:-1]
+        manage_outliers_and_missing_data(spark, parquet_dir, df_name, cols, handle_outliers=action)
     elif args.results:
         merge_results(spark, parquet_dir)
     else:
@@ -157,5 +149,4 @@ def main():
 
 if __name__ == "__main__":
     spark = main()
-    # Stop the Spark session
     spark.stop()

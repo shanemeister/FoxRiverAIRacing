@@ -1,18 +1,21 @@
-2024-12-12 13:49:40 - Starting races table recreation job
-2024-12-12 13:49:40 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-12 13:49:40 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+2024-12-14 12:21:34 - Starting races table recreation job
+2024-12-14 12:21:34 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-14 12:21:34 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
 CREATE VIEW
 CREATE TABLE AS
 ALTER TABLE
 ALTER TABLE
-INSERT 0 180514
+INSERT 0 180969
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-2024-12-12 13:49:44 - SQL script executed successfully
-2024-12-12 13:49:44 - Races table recreation job completed
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-14 12:21:36 - SQL script executed successfully
+2024-12-14 12:21:36 - Races table recreation job completed

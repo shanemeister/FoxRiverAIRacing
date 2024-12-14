@@ -1,8 +1,7 @@
-2024-12-12 10:09:58 - INFO - Logging has been set up successfully.
-2024-12-12 10:09:58 - INFO - Setting up logging for ResultsCharts
-2024-12-12 10:09:58 - INFO - Starting ingestion job
-2024-12-12 10:09:58 - INFO - Starting ingestion for: ResultsCharts
-2024-12-12 10:09:58 - INFO - Completed ResultsCharts data ingestion.
-2024-12-12 10:09:58 - INFO - Ingestion for ResultsCharts succeeded
-2024-12-12 10:09:58 - INFO - Database connection closed.
-2024-12-12 10:09:58 - INFO - Ingestion job succeeded
+2024-12-14 10:57:07 - INFO - Logging has been set up successfully.
+2024-12-14 10:57:07 - INFO - Setting up logging for ResultsCharts
+2024-12-14 10:57:07 - INFO - Starting ingestion job
+2024-12-14 10:57:07 - INFO - Starting ingestion for: ResultsCharts
+2024-12-14 10:57:07 - INFO - Completed ResultsCharts data ingestion.
+2024-12-14 10:57:07 - INFO - Ingestion for ResultsCharts succeeded
+2024-12-14 10:57:07 - INFO - Setting up logging for Racelist

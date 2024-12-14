@@ -176,6 +176,7 @@ def initialize_logging(log_file):
 def initialize_spark(jdbc_driver_path):
     spark = SparkSession.builder \
         .appName("Horse Racing Data Processing") \
+        .master("local[*]") \
         .config("spark.driver.extraClassPath", jdbc_driver_path) \
         .config("spark.executor.extraClassPath", jdbc_driver_path) \
         .config("spark.driver.memory", "64g") \
@@ -217,9 +218,6 @@ def identify_and_remove_outliers(df, column):
     df_no_outliers = df.filter((col(column) >= lower_bound) & (col(column) <= upper_bound))
     
     return df_no_outliers
-
-from pyspark.sql import DataFrame, Window
-from pyspark.sql.functions import col, abs, unix_timestamp, mean, when
 
 def identify_and_impute_outliers(df: DataFrame, column: str, tolerance=0.05) -> DataFrame:
     """
@@ -294,7 +292,7 @@ def identify_missing_and_outliers(spark, parquet_dir, df, cols):
     cols (list): List of columns to check for outliers and missing data
     """
 
-    gather_statistics(df, "master_df")
+    gather_statistics(df, "your_df")
     
     # Identify missing and outlier data for specific columns
     for column in cols:

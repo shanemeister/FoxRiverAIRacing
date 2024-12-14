@@ -126,3 +126,17 @@ Error response from daemon: No such container: dff8dd78f94c
 2024-12-12 13:56:59 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
 2024-12-12 13:57:55 - Sync to S3 succeeded
 2024-12-12 13:57:55 - Job completed
+2024-12-13 06:00:01 - Starting database backup job
+2024-12-13 06:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-13 06:00:01 - Starting database backup
+2024-12-13 06:01:53 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2024-12-13_foxriverai.sql
+2024-12-13 06:01:53 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2024-12-13 06:02:54 - Sync to S3 succeeded
+2024-12-13 06:02:54 - Job completed
+2024-12-14 06:00:01 - Starting database backup job
+2024-12-14 06:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-14 06:00:01 - Starting database backup
+2024-12-14 06:01:11 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2024-12-14_foxriverai.sql
+2024-12-14 06:01:11 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2024-12-14 06:02:15 - Sync to S3 succeeded
+2024-12-14 06:02:15 - Job completed

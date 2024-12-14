@@ -113,11 +113,11 @@ def update_sectionals_aggregated(conn, batch_size=1000):
     start_time = time.time()
     try:
         with conn.cursor() as cursor:
-            # Retrieve distinct group keys including gate_name
+            # Retrieve distinct group keys
             cursor.execute("""
-                SELECT DISTINCT course_cd, race_date, race_number, saddle_cloth_number, gate_name
+                SELECT DISTINCT course_cd, race_date, race_number, saddle_cloth_number
                 FROM sectionals
-                ORDER BY course_cd, race_date, race_number, saddle_cloth_number, gate_name;
+                ORDER BY course_cd, race_date, race_number, saddle_cloth_number;
             """)
             groups = cursor.fetchall()
             total_groups = len(groups)
@@ -131,7 +131,7 @@ def update_sectionals_aggregated(conn, batch_size=1000):
                 conditions = []
                 params = []
                 for group in batch:
-                    conditions.append("(s.course_cd = %s AND s.race_date = %s AND s.race_number = %s AND s.saddle_cloth_number = %s AND s.gate_name = %s)")
+                    conditions.append("(s.course_cd = %s AND s.race_date = %s AND s.race_number = %s AND s.saddle_cloth_number = %s)")
                     params.extend(group)
                 where_clause = " OR ".join(conditions)
                 
@@ -140,7 +140,7 @@ def update_sectionals_aggregated(conn, batch_size=1000):
                         course_cd, race_date, race_number, saddle_cloth_number,
                         early_pace_time, late_pace_time, total_race_time,
                         pace_differential, total_strides, avg_stride_length,
-                        gate_name
+                        first_quarter_time, second_quarter_time, third_quarter_time, fourth_quarter_time
                     )
                     SELECT
                         s.course_cd,
@@ -153,19 +153,30 @@ def update_sectionals_aggregated(conn, batch_size=1000):
                         MAX(s.running_time) - MIN(CASE WHEN s.gate_numeric = 0.5 THEN s.running_time END) AS pace_differential,
                         SUM(s.number_of_strides) AS total_strides,
                         AVG(s.distance_ran / NULLIF(s.number_of_strides, 0)) AS avg_stride_length,
-                        s.gate_name  -- Use the actual gate_name from data
+                        MIN(CASE WHEN s.gate_numeric = 1 THEN s.running_time END) AS first_quarter_time,
+                        MIN(CASE WHEN s.gate_numeric = 2 THEN s.running_time END) AS second_quarter_time,
+                        MIN(CASE WHEN s.gate_numeric = 3 THEN s.running_time END) AS third_quarter_time,
+                        MIN(CASE WHEN s.gate_numeric = 4 THEN s.running_time END) AS fourth_quarter_time
                     FROM sectionals s
+                    JOIN runners r ON s.course_cd = r.course_cd
+                        AND s.race_date = r.race_date
+                        AND s.race_number = r.race_number
+                        AND s.saddle_cloth_number = r.saddle_cloth_number
                     WHERE {where_clause}
-                    GROUP BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number, s.gate_numeric, s.gate_name
-                    ORDER BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number, s.gate_numeric
-                    ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number, gate_name)
+                    GROUP BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number
+                    ORDER BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number
+                    ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number)
                     DO UPDATE SET
                         early_pace_time = EXCLUDED.early_pace_time,
                         late_pace_time = EXCLUDED.late_pace_time,
                         total_race_time = EXCLUDED.total_race_time,
                         pace_differential = EXCLUDED.pace_differential,
                         total_strides = EXCLUDED.total_strides,
-                        avg_stride_length = EXCLUDED.avg_stride_length;
+                        avg_stride_length = EXCLUDED.avg_stride_length,
+                        first_quarter_time = EXCLUDED.first_quarter_time,
+                        second_quarter_time = EXCLUDED.second_quarter_time,
+                        third_quarter_time = EXCLUDED.third_quarter_time,
+                        fourth_quarter_time = EXCLUDED.fourth_quarter_time;
                 """).format(where_clause=sql.SQL(where_clause))
                 
                 cursor.execute(batch_sql, params)
@@ -177,7 +188,7 @@ def update_sectionals_aggregated(conn, batch_size=1000):
         raise
     elapsed_total = time.time() - start_time
     logging.info(f"sectionals_aggregated updated successfully in {elapsed_total:.2f} seconds.")
-
+    
 def update_tpd_features(conn, batch_size=1000):
     """Updates the tpd_features table in batches."""
     logging.info("Updating tpd_features beginning...")
@@ -295,7 +306,7 @@ def main():
         try:
             # List of update functions to execute
             update_functions = [
-                # update_sectionals_aggregated,
+                update_sectionals_aggregated,
                 # update_tpd_features,
                 update_net_sentiment
             ]

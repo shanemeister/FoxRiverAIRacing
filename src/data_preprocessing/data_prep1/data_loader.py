@@ -21,8 +21,8 @@ def load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet
 
 def reload_parquet_files(spark, parquet_dir):
     logging.info("Reloading Parquet files into Spark DataFrames for transformation...")
-    results_df = spark.read.parquet(os.path.join(parquet_dir, "results.parquet"))
-    sectionals_df = spark.read.parquet(os.path.join(parquet_dir, "sectionals.parquet"))
-    gps_df = spark.read.parquet(os.path.join(parquet_dir, "gpspoint.parquet"))
+    sectional_results = spark.read.parquet(os.path.join(parquet_dir, "sectional_results.parquet"))
+    results = spark.read.parquet(os.path.join(parquet_dir, "results.parquet"))
+    gpspoint = spark.read.parquet(os.path.join(parquet_dir, "gpspoint.parquet"))
     logging.info("Parquet files reloaded successfully.")
-    return results_df, sectionals_df, gps_df
+    return sectional_results, results, gpspoint

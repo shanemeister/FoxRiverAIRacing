@@ -1,2 +1,8 @@
-2024-12-11 12:31:21,309 - INFO - Environment setup initialized.
-2024-12-11 12:31:21,314 - INFO - Spark session created successfully.
+2024-12-14 00:52:33,955 - INFO - Environment setup initialized.
+2024-12-14 00:52:33,958 - INFO - Spark session created successfully.
+2024-12-14 00:54:23,495 - INFO - Saving results_pan DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/results_pan.parquet...
+2024-12-14 00:54:23,496 - INFO - Schema of results_pan DataFrame:
+2024-12-14 00:54:30,568 - INFO - results_pan DataFrame saved successfully.
+2024-12-14 00:55:27,807 - INFO - Saving processed_data DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/processed_data.parquet...
+2024-12-14 00:55:27,808 - INFO - Schema of processed_data DataFrame:
+2024-12-14 00:55:46,127 - INFO - processed_data DataFrame saved successfully.

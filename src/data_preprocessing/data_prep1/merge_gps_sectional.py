@@ -19,34 +19,34 @@ def add_seconds(ts, seconds):
         return None
     return ts + timedelta(seconds=seconds)
 
-def join_matched_df(gps_df, sectionals_df):
+def join_matched_df(gpspoint, sectionals):
     # Step 9: Convert 'time_stamp' and 'sec_time_stamp' to milliseconds since epoch to preserve sub-second precision
-    gps_with_ms = gps_df.withColumn(
+    gpspoint_with_ms = gpspoint.withColumn(
         "time_stamp_ms",
         (col("time_stamp").cast("double") * 1000).cast("long")
     )
 
-    sectionals_with_ms = sectionals_df.withColumn(
+    sectionals_with_ms = sectionals.withColumn(
         "sec_time_stamp_ms",
         (col("sec_time_stamp").cast("double") * 1000).cast("long")
     )
 
     # Step 10: Define the join condition with time window (±1000 milliseconds)
     join_condition = (
-        (gps_with_ms.course_cd == sectionals_with_ms.course_cd) &
-        (gps_with_ms.race_date == sectionals_with_ms.race_date) &
-        (gps_with_ms.race_number == sectionals_with_ms.race_number) &
-        (gps_with_ms.saddle_cloth_number == sectionals_with_ms.saddle_cloth_number) &
-        (abs(gps_with_ms.time_stamp_ms - sectionals_with_ms.sec_time_stamp_ms) <= 500)
+        (gpspoint_with_ms.course_cd == sectionals_with_ms.course_cd) &
+        (gpspoint_with_ms.race_date == sectionals_with_ms.race_date) &
+        (gpspoint_with_ms.race_number == sectionals_with_ms.race_number) &
+        (gpspoint_with_ms.saddle_cloth_number == sectionals_with_ms.saddle_cloth_number) &
+        (abs(gpspoint_with_ms.time_stamp_ms - sectionals_with_ms.sec_time_stamp_ms) <= 250)
     )
 
     # Step 11: Perform the left join based on the join condition
-    matched_df = gps_with_ms.join(
+    matched_df = gpspoint_with_ms.join(
         sectionals_with_ms,
         on=join_condition,
         how="left"
     ).select(
-        gps_with_ms["*"],
+        gpspoint_with_ms["*"],
         sectionals_with_ms["sec_time_stamp"],
         sectionals_with_ms["gate_numeric"],
         sectionals_with_ms["gate_name"],
@@ -54,7 +54,23 @@ def join_matched_df(gps_df, sectionals_df):
         sectionals_with_ms["length_to_finish"],
         sectionals_with_ms["running_time"],
         sectionals_with_ms["distance_back"],
-        sectionals_with_ms["number_of_strides"]
+        sectionals_with_ms["number_of_strides"],
+        sectionals_with_ms["horse_id"], 
+        sectionals_with_ms["official_fin"],
+        sectionals_with_ms["post_pos"],
+        sectionals_with_ms["speed_rating"],
+        sectionals_with_ms["turf_mud_mark"],
+        sectionals_with_ms["weight"],
+        sectionals_with_ms["morn_odds"],
+        sectionals_with_ms["avgspd"],
+        sectionals_with_ms["surface"],
+        sectionals_with_ms["trk_cond"],
+        sectionals_with_ms["class_rating"],
+        sectionals_with_ms["weather"],
+        sectionals_with_ms["wps_pool"],
+        sectionals_with_ms["stk_clm_md"],
+        sectionals_with_ms["todays_cls"],
+        sectionals_with_ms["net_sentiment"]   
     )
     
     print("matched_df schema after joining gps_with_ms and sectionals_with_ms [RVS]:")
@@ -62,7 +78,7 @@ def join_matched_df(gps_df, sectionals_df):
     
     return matched_df
 
-def merge_sectionals(sectionals_df, race_id_cols, first_time_df, gps_df):
+def merge_sectionals(sectional_results, race_id_cols, first_time_df, gpspoint):
     """
     # Step 2: Join 'first_time_df' with 'sectionals_df' to associate each sectional with the race's start time
 
@@ -78,21 +94,21 @@ def merge_sectionals(sectionals_df, race_id_cols, first_time_df, gps_df):
     # Register the UDF
     add_seconds_udf = udf(add_seconds, TimestampType())
 
-    # Step 2: Join 'first_time_df' with 'sectionals_df' to associate each sectional with the race's start time
-    sectionals_df = sectionals_df.join(
+    # Step 2: Join 'first_time_df' with 'sectional_results' to associate each sectional with the race's start time
+    sectional_results = sectional_results.join(
         first_time_df,
         on=race_id_cols,
         how="left"
     )
 
-    # Step 3: Sort 'sectionals_df' by 'gate_numeric' to ensure correct order of gates
-    sectionals_df = sectionals_df.orderBy(*race_id_cols, "gate_numeric")
+    # Step 3: Sort 'sectional_results' by 'gate_numeric' to ensure correct order of gates
+    sectional_results = sectional_results.orderBy(*race_id_cols, "gate_numeric")
 
     # Step 4: Define the window specification for cumulative sum
     window_spec = Window.partitionBy(*race_id_cols).orderBy("gate_numeric").rowsBetween(Window.unboundedPreceding, 0)
 
     # Step 5: Compute cumulative sum of 'sectional_time' for each race
-    sectionals_df = sectionals_df.withColumn(
+    sectional_results = sectional_results.withColumn(
         "cumulative_sectional_time",
         spark_sum("sectional_time").over(window_spec)
     )
@@ -102,16 +118,16 @@ def merge_sectionals(sectionals_df, race_id_cols, first_time_df, gps_df):
     add_seconds_udf = udf(add_seconds, TimestampType())
     
     # Step 7: Create 'sec_time_stamp' by adding 'cumulative_sectional_time' to 'earliest_time_stamp' using the UDF
-    sectionals_df = sectionals_df.withColumn(
+    sectional_results = sectional_results.withColumn(
         "sec_time_stamp",
         add_seconds_udf(col("earliest_time_stamp"), col("cumulative_sectional_time"))
     )
     
     # Step 8: Drop intermediate columns if no longer needed
-    sectionals_df = sectionals_df.drop("earliest_time_stamp", "cumulative_sectional_time")
-    print("sectionals_df schema after merging with first_time_df [RVS]:")
-    sectionals_df.printSchema()
-    return sectionals_df
+    sectional_results = sectional_results.drop("earliest_time_stamp", "cumulative_sectional_time")
+    print("sectional_results schema after merging with first_time_df [RVS]:")
+    sectional_results.printSchema()
+    return sectional_results
 
 def dup_check(df: DataFrame, cols: list) -> DataFrame:
     """
@@ -155,33 +171,30 @@ def dup_check(df: DataFrame, cols: list) -> DataFrame:
 
     return df
 
-def merge_gps_sectionals(spark, results_df, sectionals_df, gps_df, parquet_dir):
+def merge_gps_sectionals(spark, sectional_results, gpspoint, parquet_dir):
     """
-    Merge GPS and sectional data with results data.
+    Merge GPS and sectional results data into one -- master_df.
     
     Parameters:
     spark (SparkSession): Spark session object
-    results_df (DataFrame): Results data
-    sectionals_df (DataFrame): Sectional data
-    gps_df (DataFrame): GPS data
+    sectionals_results (DataFrame): Sectional Results data
+    gpspoint (DataFrame): GPS data
     
      # Step 1: Calculate the earliest 'time_stamp' for each race
     
     Returns:
     DataFrame: Merged DataFrame
     """
-   
-    race_id_cols = ["course_cd", "race_date", "race_number", "saddle_cloth_number"]
 
     # Step 1: Calculate the earliest 'time_stamp' for each race
     race_id_cols = ["course_cd", "race_date", "race_number", "saddle_cloth_number"]
 
-    first_time_df = gps_df.groupBy(*race_id_cols).agg(
+    first_time_df = gpspoint.groupBy(*race_id_cols).agg(
         spark_min("time_stamp").alias("earliest_time_stamp")
     )
-    sectionals = merge_sectionals(sectionals_df, race_id_cols, first_time_df, gps_df)
+    sectionals = merge_sectionals(sectional_results, race_id_cols, first_time_df, gpspoint)
     
-    matched_df = join_matched_df(gps_df, sectionals)
+    matched_df = join_matched_df(gpspoint, sectionals)
     
     # Check for duplicates based on the primary key
     primary_key_columns = ["course_cd", "race_date", "race_number", "saddle_cloth_number", "time_stamp"]

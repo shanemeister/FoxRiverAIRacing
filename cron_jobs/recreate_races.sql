@@ -72,28 +72,6 @@ ON DELETE RESTRICT;
 INSERT INTO public.races
 SELECT * FROM public.v_races;
 
--- Modify foreign key constraints for gpspoint
-alter table public.gpspoint 
-drop constraint gpspoint_race_results_fkey;
-
-ALTER TABLE public.gpspoint 
-ADD CONSTRAINT gpspoint_races_fkey 
-FOREIGN KEY (course_cd, race_date, race_number) 
-REFERENCES public.races(course_cd, race_date, race_number) 
-ON DELETE RESTRICT 
-ON UPDATE RESTRICT;
-
--- Modify foreign key constraints for sectionals
-ALTER TABLE public.sectionals 
-drop CONSTRAINT sectionals_race_results_fkey;
-
-ALTER TABLE public.sectionals 
-ADD CONSTRAINT sectionals_races_fkey 
-FOREIGN KEY (course_cd, race_date, race_number) 
-REFERENCES public.races(course_cd, race_date, race_number) 
-ON DELETE RESTRICT 
-ON UPDATE RESTRICT;
-
 -- Modify foreign key constraints for runners
 ALTER TABLE public.runners 
 drop CONSTRAINT fk_racedata_runners;
@@ -116,3 +94,58 @@ FOREIGN KEY (course_cd, race_date, race_number)
 REFERENCES public.races(course_cd, race_date, race_number) 
 ON DELETE RESTRICT 
 ON UPDATE RESTRICT;
+
+CREATE or REPLACE VIEW v_gpspoint AS
+SELECT * FROM gpspoint
+WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
+and race_date > '2021-12-31';
+
+
+CREATE or REPLACE VIEW v_sectionals_agg AS
+SELECT * FROM sectionals_aggregated 
+WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
+and race_date > '2021-12-31';
+
+
+CREATE or REPLACE VIEW v_races AS
+SELECT * FROM races
+WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
+and race_date > '2021-12-31';
+
+-- Create a view with data from shared tracks only
+CREATE or REPLACE VIEW v_results_entries AS
+SELECT * FROM results_entries 
+WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP');
+
+-- Create a view with data from shared tracks only
+CREATE or REPLACE VIEW v_exotic_wagers AS
+SELECT * FROM exotic_wagers ew 
+WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
+and race_date > '2021-12-31';
+
+-- Create a view with data from shared tracks only
+CREATE or REPLACE VIEW v_runners AS
+SELECT * FROM runners 
+WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
+and race_date > '2021-12-31';
+
+-- Create a view with data from shared tracks only
+CREATE or REPLACE VIEW v_results_earnings AS
+SELECT * FROM results_earnings 
+WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
+and race_date > '2021-12-31';
+

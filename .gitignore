@@ -25,3 +25,5 @@ logs/ingestion.log
 /home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data/*
 /home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data/*
 /home/exx/myCode/horse-racing/FoxRiverAIRacing/notebooks/data/*
+# Specific large files
+logs/sectionals_ingestion.log/ingestion.log
