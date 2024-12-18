@@ -1,15 +1,97 @@
-2024-12-14 12:21:34 - Starting races table recreation job
-2024-12-14 12:21:34 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-14 12:21:34 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+2024-12-16 22:51:20 - Starting races table recreation job
+2024-12-16 22:51:20 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 22:51:20 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+psql:/sql_scripts/recreate_races.sql:52: ERROR:  column rd.age_restriction does not exist
+LINE 10:     rd.age_restriction as age_restriction,
+             ^
+psql:/sql_scripts/recreate_races.sql:57: ERROR:  relation "public.v_races" does not exist
+LINE 2: SELECT * FROM public.v_races
+                      ^
+psql:/sql_scripts/recreate_races.sql:60: ERROR:  relation "races" does not exist
+psql:/sql_scripts/recreate_races.sql:69: ERROR:  relation "public.races" does not exist
+psql:/sql_scripts/recreate_races.sql:73: ERROR:  relation "public.races" does not exist
+LINE 1: INSERT INTO public.races
+                    ^
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:84: ERROR:  relation "public.races" does not exist
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:96: ERROR:  relation "public.races" does not exist
+CREATE VIEW
+CREATE VIEW
+psql:/sql_scripts/recreate_races.sql:119: ERROR:  relation "races" does not exist
+LINE 2: SELECT * FROM races
+                      ^
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-16 22:51:20 - SQL script executed successfully
+2024-12-16 22:51:20 - Races table recreation job completed
+2024-12-16 22:52:33 - Starting races table recreation job
+2024-12-16 22:52:33 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 22:52:33 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+psql:/sql_scripts/recreate_races.sql:52: ERROR:  column rd.trk_cond does not exist
+LINE 12:     rd.trk_cond AS trk_cond,
+             ^
+HINT:  Perhaps you meant to reference the column "rr.trk_cond".
+psql:/sql_scripts/recreate_races.sql:57: ERROR:  relation "public.v_races" does not exist
+LINE 2: SELECT * FROM public.v_races
+                      ^
+psql:/sql_scripts/recreate_races.sql:60: ERROR:  relation "races" does not exist
+psql:/sql_scripts/recreate_races.sql:69: ERROR:  relation "public.races" does not exist
+psql:/sql_scripts/recreate_races.sql:73: ERROR:  relation "public.races" does not exist
+LINE 1: INSERT INTO public.races
+                    ^
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:84: ERROR:  relation "public.races" does not exist
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:96: ERROR:  relation "public.races" does not exist
+CREATE VIEW
+CREATE VIEW
+psql:/sql_scripts/recreate_races.sql:119: ERROR:  relation "races" does not exist
+LINE 2: SELECT * FROM races
+                      ^
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-16 22:52:33 - SQL script executed successfully
+2024-12-16 22:52:33 - Races table recreation job completed
+2024-12-16 22:58:48 - Starting races table recreation job
+2024-12-16 22:58:48 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 22:58:48 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
 CREATE VIEW
 CREATE TABLE AS
 ALTER TABLE
 ALTER TABLE
-INSERT 0 180969
+INSERT 0 139252
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-16 22:58:50 - SQL script executed successfully
+2024-12-16 22:58:50 - Races table recreation job completed
+2024-12-16 22:59:19 - Starting races table recreation job
+2024-12-16 22:59:19 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 22:59:19 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
 ALTER TABLE
+ALTER TABLE
+INSERT 0 139252
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
 CREATE VIEW
 CREATE VIEW
 CREATE VIEW
@@ -17,5 +99,27 @@ CREATE VIEW
 CREATE VIEW
 CREATE VIEW
 CREATE VIEW
-2024-12-14 12:21:36 - SQL script executed successfully
-2024-12-14 12:21:36 - Races table recreation job completed
+2024-12-16 22:59:21 - SQL script executed successfully
+2024-12-16 22:59:21 - Races table recreation job completed
+2024-12-17 07:30:01 - Starting races table recreation job
+2024-12-17 07:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-17 07:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 139318
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-17 07:30:03 - SQL script executed successfully
+2024-12-17 07:30:03 - Races table recreation job completed

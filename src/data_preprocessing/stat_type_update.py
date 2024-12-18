@@ -6,7 +6,6 @@ import datetime
 import decimal
 import configparser
 from collections import defaultdict
-
 import psycopg2
 from psycopg2 import sql
 
@@ -22,7 +21,7 @@ from src.data_ingestion.ingestion_utils import (
 
 
 def setup_logging(script_dir, log_dir=None):
-    """Sets up logging configuration to write logs to a file and the console."""
+    """Sets up logging configuration to write logs to a file."""
     try:
         # Default log directory
         if not log_dir:
@@ -34,7 +33,7 @@ def setup_logging(script_dir, log_dir=None):
 
         # Clear the log file by opening it in write mode
         with open(log_file, 'w'):
-            pass  # This will truncate the file without writing anything
+            pass  # truncate file
 
         # Create a logger and clear existing handlers
         logger = logging.getLogger()
@@ -47,21 +46,14 @@ def setup_logging(script_dir, log_dir=None):
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
-        # Create console handler
-        #console_handler = logging.StreamHandler()
-        #console_handler.setLevel(logging.INFO)
-
         # Define a common format
         formatter = logging.Formatter(
             '%(asctime)s - %(levelname)s - %(message)s',
             datefmt='%Y-%m-%d %H:%M:%S'
         )
         file_handler.setFormatter(formatter)
-        #console_handler.setFormatter(formatter)
 
-        # Add handlers to the logger
         logger.addHandler(file_handler)
-        #logger.addHandler(console_handler)
 
         logger.info("Logging has been set up successfully.")
     except Exception as e:
@@ -88,29 +80,39 @@ def read_config(script_dir):
 def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, min_distance=None, filter_condition=None):
     """
     Processes a specific stat type and updates the horse_accum_stats table.
-    Returns the last race_date processed.
+    For ALL_RACES stat_type, no surface or filter conditions are applied.
     """
     last_race_date_processed = None
     try:
         # Ensure the stat_type exists in stat_type_code
         ensure_stat_type_exists(conn, stat_type)
-        #logging.debug(f"Ensured stat_type {stat_type} exists in stat_type_code.")
 
         # Get the last_processed date
         last_processed_date = get_last_processed_date(conn, stat_type)
         logging.info(f"Last processed date for {stat_type}: {last_processed_date}")
 
-        # Construct the query conditionally based on last_processed_date
-        if last_processed_date:
-            start_date_condition = "AND rr.race_date > %s"
-            params = [stat_type, surface, last_processed_date]
-            #logging.debug(f"Fetching race_dates after {last_processed_date}.")
-        else:
-            start_date_condition = ""
-            params = [stat_type, surface]
-            #logging.debug("Fetching all race_dates.")
+        # Build the conditions for fetching race_dates
+        conditions = []
+        params = [stat_type]  # always have stat_type for ingestion_files check
 
-        # Fetch race dates that haven't been processed for this stat_type
+        # Only check ingestion_files for processed race_dates for this stat_type
+        # If last_processed_date is given, fetch only after that date
+        if last_processed_date:
+            conditions.append("rr.race_date > %s")
+            params.append(last_processed_date)
+
+        # If surface is specified (not ALL_RACES), add surface condition
+        if surface is not None:
+            conditions.append("rr.surface = %s")
+            params.append(surface)
+
+        # Add filter_condition if provided
+        # (Not currently used to filter race_dates directly, but you could if needed)
+        
+        where_clause = ""
+        if conditions:
+            where_clause = "WHERE " + " AND ".join(conditions)
+
         query = f"""
             SELECT DISTINCT rr.race_date
             FROM race_results rr
@@ -118,11 +120,11 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
                 ON rr.race_date::text = if2.file_name
                 AND if2.message = %s
                 AND if2.status = 'processed'
-            WHERE rr.surface = %s
-            {start_date_condition}
+            {where_clause}
             AND if2.file_name IS NULL
             ORDER BY rr.race_date ASC
         """
+
         cursor.execute(query, tuple(params))
         race_dates = [row[0] for row in cursor.fetchall()]
         logging.info(f"Fetched {len(race_dates)} race_dates for {stat_type}.")
@@ -147,8 +149,23 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
                 cursor.execute("SAVEPOINT before_race_date_processing;")
                 logging.info(f"Processing race_date: {race_date} for stat_type: {stat_type}")
 
-                # Fetch all horses that actually ran the race
-                cursor.execute("""
+                # Fetch all horses that actually ran the race for this stat_type
+                # If surface is specified, filter by surface and possibly filter_condition
+                # If surface is None (ALL_RACES), do not restrict by surface
+                race_conditions = []
+                race_params = [race_date]
+
+                if surface is not None:
+                    race_conditions.append("rr.surface = %s")
+                    race_params.append(surface)
+                if filter_condition:
+                    race_conditions.append(filter_condition)
+
+                race_where = ""
+                if race_conditions:
+                    race_where = "AND " + " AND ".join(race_conditions)
+
+                cursor.execute(f"""
                     SELECT DISTINCT re.axciskey
                     FROM results_entries re
                     JOIN race_results rr ON
@@ -156,8 +173,8 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
                         AND re.race_date = rr.race_date
                         AND re.race_number = rr.race_number
                     WHERE rr.race_date = %s
-                    AND rr.surface = %s
-                """, (race_date, surface))
+                    {race_where}
+                """, tuple(race_params))
                 actual_horses = [row[0] for row in cursor.fetchall()]
                 logging.info(f"Race_date {race_date}: {len(actual_horses)} actual_horses found.")
                 if not actual_horses:
@@ -168,7 +185,12 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
                 for horse in actual_horses:
                     try:
                         # Fetch all races before or on the current race date for this horse
-                        cursor.execute("""
+                        # If we are ALL_RACES, no conditions; else filter by surface and condition if needed
+                        # Actually, we just fetch all races anyway because we are calculating cumulative stats
+                        # for that specific stat_type definition. The script is currently not filtering by surface
+                        # in this section, which might be desired for stat_type-specific accumulation.
+                        # For ALL_RACES, we don't filter by surface or condition here at all.
+                        base_query = """
                             SELECT
                                 rr.race_date,
                                 re.official_fin,
@@ -185,10 +207,27 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
                                 AND re.official_fin = re2.split_num
                             WHERE re.axciskey = %s
                             AND rr.race_date <= %s
-                            ORDER BY rr.race_date ASC
-                        """, (horse, race_date))
+                        """
+
+                        filters = []
+                        filter_params = [horse, race_date]
+
+                        # If stat_type is not ALL_RACES, and we have defined conditions:
+                        if stat_type != 'ALL_RACES':
+                            if surface is not None:
+                                filters.append("rr.surface = %s")
+                                filter_params.append(surface)
+                            if filter_condition:
+                                filters.append(filter_condition)
+
+                        if filters:
+                            base_query += " AND " + " AND ".join(filters)
+
+                        base_query += " ORDER BY rr.race_date ASC"
+
+                        cursor.execute(base_query, tuple(filter_params))
                         all_races = cursor.fetchall()
-                        logging.debug(f"Race_date {race_date}, horse {horse}: {len(all_races)} races found.")
+                        logging.debug(f"Race_date {race_date}, horse {horse}: {len(all_races)} races found for stat_type {stat_type}.")
 
                         if not all_races:
                             # Insert initial record with zeros if no previous races exist
@@ -207,10 +246,9 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
                                 ON CONFLICT (axciskey, stat_type, as_of_date)
                                 DO NOTHING;
                             """, (horse, stat_type, race_date))
-                            logging.info(f"Inserted initial horse_accum_stats for horse {horse} on date {race_date} with zeros.")
+                            logging.info(f"Inserted initial horse_accum_stats for horse {horse} on date {race_date} with zeros for stat_type {stat_type}.")
                             continue
 
-                        # Accumulate stats excluding the current race
                         cumulative_stats = {
                             'starts': 0,
                             'win': 0,
@@ -233,7 +271,7 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
                                 cumulative_stats['fourth'] += 1
                             cumulative_stats['earnings'] += decimal.Decimal(earnings)
 
-                        logging.debug(f"Cumulative stats for horse {horse} up to {race_date}: {cumulative_stats}")
+                        logging.debug(f"Cumulative stats for horse {horse} up to {race_date} for stat_type {stat_type}: {cumulative_stats}")
 
                         # Insert cumulative stats for the current race date
                         cursor.execute("""
@@ -267,10 +305,10 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
                             cumulative_stats['fourth'],
                             float(cumulative_stats['earnings'])
                         ))
-                        logging.info(f"Updated horse_accum_stats for horse {horse} on date {race_date}.")
+                        logging.info(f"Updated horse_accum_stats for horse {horse} on date {race_date} stat_type {stat_type}.")
 
                     except Exception as e:
-                        logging.error(f"Error processing horse {horse} for race date {race_date}: {e}")
+                        logging.error(f"Error processing horse {horse} for race date {race_date} stat_type {stat_type}: {e}")
                         traceback.print_exc()
                         # Roll back to the savepoint to continue processing other horses
                         cursor.execute("ROLLBACK TO SAVEPOINT before_race_date_processing;")
@@ -290,13 +328,12 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
             # After processing all entries for the race_date, mark it as processed
             try:
                 update_ingestion_status(conn, str(race_date), "processed", stat_type)
-                logging.info(f"Marked race_date {race_date} as processed for stat type {stat_type}.")
+                logging.info(f"Marked race_date {race_date} as processed for stat_type {stat_type}.")
             except Exception as e:
-                logging.error(f"Error updating ingestion status for race date {race_date} and stat type {stat_type}: {e}")
+                logging.error(f"Error updating ingestion status for race date {race_date} and stat_type {stat_type}: {e}")
                 traceback.print_exc()
                 conn.rollback()
 
-            # Update last_race_date_processed
             last_race_date_processed = race_date
 
     except Exception as e:
@@ -308,20 +345,21 @@ def process_stat_type(conn, cursor, stat_type, surface=None, max_distance=None, 
 
 
 def update_horse_accum_stats(script_dir):
-    """Main function to update horse_accum_stats for multiple stat types."""
+    """Main function to update horse_accum_stats for multiple stat types, including ALL_RACES."""
     try:
         setup_logging(script_dir)
         config = read_config(script_dir)
         conn = get_db_connection(config)
         cursor = conn.cursor()
 
-        # Define stat types to process
+        # Add ALL_RACES stat type with no conditions
         stat_types = [
+            ('ALL_RACES', None, None, None, None),
             # Dirt
             ('DIRT_SPRNT', 'D', None, 700, None),
             ('DIRT_RTE', 'D', 701, None, None),
-            ('MUDDY_SPRNT', 'D', None, 700, "rr.track_condition = 'Muddy'"),
-            ('MUDDY_RTE', 'D', 701, None, "rr.track_condition = 'Muddy'"),
+            ('MUDDY_SPRNT', 'D', None, 700, "trk_cond = 'Muddy'"),
+            ('MUDDY_RTE', 'D', 701, None, "trk_cond = 'Muddy'"),
             
             # Turf
             ('TURF_SPRNT', 'T', None, 700, None),
@@ -377,7 +415,7 @@ def update_horse_accum_stats(script_dir):
 
         # Commit all changes
         conn.commit()
-        logging.info("Successfully updated horse_accum_stats for all stat types.")
+        logging.info("Successfully updated horse_accum_stats for all stat types, including ALL_RACES.")
     except Exception as e:
         logging.error(f"An error occurred: {e}")
         traceback.print_exc()

@@ -84,8 +84,8 @@ def main():
         df = spark.read.parquet(df_path)
         detect_cardinality_columns(df, threshold=card, cardinality_type=type)    
     else:
-        master_df = spark.read.parquet(os.path.join(parquet_dir, "master_df.parquet"))
-        healthcheck_report = time_series_data_healthcheck(master_df)
+        results = spark.read.parquet(os.path.join(parquet_dir, "results.parquet"))
+        healthcheck_report = time_series_data_healthcheck(results)
         pprint.pprint(healthcheck_report)
         #results_df = spark.read.parquet(os.path.join(parquet_dir, "results.parquet"))
         #results_df.count()

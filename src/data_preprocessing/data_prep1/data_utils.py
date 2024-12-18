@@ -1,11 +1,14 @@
 import os
 import logging
-from pyspark.sql.functions import col, count, row_number, abs, unix_timestamp, mean, when, lit, min as spark_min, max as spark_max , row_number, mean, countDistinct
+from pyspark.sql.functions import col, count, row_number, abs, unix_timestamp, mean, when, lit, min as spark_min, max as spark_max , row_number, mean, countDistinct, expr, datediff, when, trim
 import configparser
 from pyspark.sql import SparkSession
 from src.data_preprocessing.data_prep1.sql_queries import sql_queries
 from pyspark.sql.window import Window
 from pyspark.sql import DataFrame, Window
+from pyspark.ml.feature import StringIndexer, OneHotEncoder, VectorAssembler, StandardScaler
+from pyspark.ml import Pipeline
+import datetime
 
 def save_parquet(spark, df, name, parquet_dir):
     """
@@ -384,3 +387,247 @@ def detect_cardinality_columns(df, threshold, cardinality_type):
 
     # Return a dictionary for further processing
     return 
+
+def process_merged_results_sectionals(spark, df, parquet_dir):
+    """
+    Process merged results and sectionals DataFrame to remove duplicates, impute missing values, convert data types, OHE, and gather statistics.
+    
+    Parameters:
+    df (DataFrame): The merged DataFrame to process
+    
+    Returns:
+    DataFrame: The processed DataFrame
+    """
+# 1 Check for duplicates ========================================================================================
+    # Drop duplicates with a tolerance of 0.5 seconds
+    primary_keys = ["course_cd", "race_date", "race_number", "saddle_cloth_number", "sectionals_gate_name"]
+
+    duplicates = df.groupBy(*primary_keys) \
+                   .agg(count("*").alias("cnt")) \
+                   .filter(col("cnt") > 1)
+
+    dup_count = duplicates.count()
+
+    try:
+        if dup_count > 0:
+            print(f"Found {dup_count} duplicate primary key combinations.")
+            duplicates.show()
+            raise ValueError(f"Duplicates found -- write function to dedup -- duplicates found: {dup_count}")
+        else:
+            print("No duplicates found.")
+    except ValueError as e:
+        print(f"Duplicates error: {e}")
+        exit(1)
+    
+    print("1. Duplicates checked.")
+
+    
+# 2 furlong = 201.168 meters -- Convert distance to meters ========================================================================================
+    conversion_factor = 201.168
+    df = df \
+        .withColumn("distance_meters", col("distance") * lit(conversion_factor)) \
+        .drop("dist_unit")
+    print("2. Distance column converted to meters.")
+
+# 3 Convert decimal columns to double ========================================================================================
+    decimal_cols = ["weight", "distance", "power", "morn_odds", "all_earnings", "cond_earnings"]
+    for col_name in decimal_cols:
+        df = df.withColumn(col_name, col(col_name).cast("double")) 
+    print("3. Decimal columns converted to double.")    
+# 4 Impute missing values ========================================================================================
+# 4a Impute date_of_birth with the median date_of_birth ========================================================================================
+    # Convert date_of_birth to a numeric timestamp for median calculation
+    df = df.withColumn("date_of_birth_ts", col("date_of_birth").cast("timestamp").cast("long"))
+
+    # Calculate the median of date_of_birth
+    median_window = Window.orderBy("date_of_birth_ts")
+    row_count = df.filter(col("date_of_birth_ts").isNotNull()).count()
+
+    if row_count % 2 == 0:  # Even number of rows
+        median_row_1 = row_count // 2
+        median_row_2 = median_row_1 + 1
+        median_ts = df.filter(col("date_of_birth_ts").isNotNull()) \
+            .select("date_of_birth_ts") \
+            .withColumn("row_num", expr("row_number() over (ORDER BY date_of_birth_ts)")) \
+            .filter((col("row_num") == median_row_1) | (col("row_num") == median_row_2)) \
+            .groupBy().agg(expr("avg(date_of_birth_ts)").alias("median_ts")) \
+            .collect()[0]["median_ts"]
+    else:  # Odd number of rows
+        median_row = (row_count + 1) // 2
+        median_ts = df.filter(col("date_of_birth_ts").isNotNull()) \
+            .select("date_of_birth_ts") \
+            .withColumn("row_num", expr("row_number() over (ORDER BY date_of_birth_ts)")) \
+            .filter(col("row_num") == median_row) \
+            .collect()[0]["date_of_birth_ts"]
+
+    # Convert median timestamp back to date
+    median_date = lit(expr(f"CAST(FROM_UNIXTIME({median_ts}) AS DATE)"))
+
+    # Fill missing values with the global median date
+    df = df.withColumn(
+        "date_of_birth",
+        when(col("date_of_birth").isNull(), median_date).otherwise(col("date_of_birth"))
+    ).drop("date_of_birth_ts")
+    print("4a. Missing date_of_birth values imputed with the median date_of_birth.")
+#4b Convert date_of_birth to age ========================================================================================
+    # Ensure both date_of_birth and race_date are in date format
+    df = df.withColumn("date_of_birth", col("date_of_birth").cast("date"))
+    df = df.withColumn("race_date", col("race_date").cast("date"))
+
+    # Calculate age in days, then convert to years
+    df = df.withColumn(
+        "age_at_race_day",
+        datediff(col("race_date"), col("date_of_birth")) / 365.25  # Convert days to years
+    )
+    print("4b. Converted date_of_birth to Age")
+#4c Impute missing weather values ========================================================================================
+    df = df.fillna({"weather": "Clear"})
+    print("4c. Missing weather values imputed with 'Clear'.")
+    
+#4d Impute missing wps_pool values ========================================================================================
+    # Calculate the mean of the 'wps_pool' column, excluding nulls
+    mean_value = df.select(mean(col("wps_pool")).alias("mean_wps_pool")).collect()[0]["mean_wps_pool"]
+
+    # Replace null values in 'wps_pool' with the calculated mean
+    df = df.withColumn(
+        "wps_pool",
+        when(col("wps_pool").isNull(), mean_value).otherwise(col("wps_pool"))
+    )
+
+    # Show the updated DataFrame
+    df.filter(col("wps_pool").isNull()).count()
+    print("4d. Missing wps_pool values imputed with the mean wps_pool. wps_pool null count: ", df.filter(col("wps_pool").isNull()).count())
+    
+#4e Impute missing equip values ========================================================================================    
+    df = df.fillna({"equip": "No_Equip"})
+    print("4e. Missing equip values imputed with 'No_Equip'.")
+    
+#4f Impute missing trk_cond values ========================================================================================
+    cols = ["trk_cond", "trk_cond_desc"] 
+    df.select(cols).distinct().count()
+    distinct_value_counts = df.groupBy(cols).count()
+    # Fill missing values with "MISSING" for the specified columns
+    df = df.fillna({col: "MISSING" for col in cols})
+    print("4f. Missing trk_cond values imputed with 'MISSING'.")
+    
+# 5 Create the label column ========================================================================================
+    # 1. Binary Classification (Top-4 Finish):
+    #    Label = 1 if official_fin <= 4 else 0.
+    df = df.withColumn("label", when(col("official_fin") <= 4, 1).otherwise(0))
+    # 2.	Winning Probability (Single-Class):
+    #     Label = 1 if official_fin == 1 (win), else 0.
+    # df = df.withColumn("label", when(col("official_fin") == 1, lit(1)).otherwise(lit(0)))
+    # 3. Ordinal Outcome (Exact Finish Position):
+    # The label is just the finishing position itself. If official_fin is already a numeric column, you can assign it directly:
+    # df = df.withColumn("label", col("official_fin"))
+    # 4. Regression (Winning Time Prediction):
+    # The label is the winning time in seconds. If winning_time is already a numeric column, you can assign it directly:
+    # df = df.withColumn("label", col("winning_time"))
+    # 5. Multi-Class (Exact Finish Bracket):
+    # Define classes as:
+    # •	Class 0: Win (finish == 1)
+	# •	Class 1: Top-3 but not win (2 ≤ finish ≤ 3)
+	# •	Class 2: Top-4 but not top-3 (finish == 4)
+	# •	Class 3: Outside top-4 (finish > 4)
+    # df = df.withColumn("label",
+    #     when(col("official_fin") == 1, lit(0))                          # Win
+    #     .when((col("official_fin") >= 2) & (col("official_fin") <= 3), lit(1))  # Top-3 but not win
+    #     .when(col("official_fin") == 4, lit(2))                         # Top-4 but not top-3
+    #     .otherwise(lit(3))                                              # Outside top-4
+    # )
+    print("5. Created the label column: <=4 = 1, >4 = 0.")
+    
+#6 OHE and Prep Spark Pipeline ========================================================================================
+    # Took out course_cd to see if it would help identify other predictive features.
+    # Categorical columns equip, surface, trk_cond, weather, dist_unit, race_type 
+    categorical_cols = ["course_cd", "equip", "surface", "trk_cond", "weather", "race_type", "sex" , "med", "stk_clm_md", "turf_mud_mark"]
+    indexers = [StringIndexer(inputCol=c, outputCol=c+"_index", handleInvalid="keep") for c in categorical_cols]
+    encoders = [OneHotEncoder(inputCols=[c+"_index"], outputCols=[c+"_ohe"]) for c in categorical_cols]
+    print("6. OneHotEncoded categorical columns.")
+    
+    for c in categorical_cols:
+        empty_count = df.filter((col(c) == "") | (col(c).isNull())).count()
+        if empty_count > 0:
+            print(f"Warning: {c} has {empty_count} rows with empty or null values.")
+            
+    # for c in categorical_cols:
+    #     distinct_values = df.select(c).distinct().collect()
+    #     print(c, [row[c] for row in distinct_values])
+    df = df.withColumn("turf_mud_mark", when(col("turf_mud_mark") == "", "MISSING").otherwise(col("turf_mud_mark")))     
+    df = df.withColumn("med", when(col("med") == "", "MISSING").otherwise(col("med")))
+#7 Assemble Features ========================================================================================
+    jock_indexer = StringIndexer(inputCol="jock_key", outputCol="jock_key_index", handleInvalid="keep")
+    train_indexer = StringIndexer(inputCol="train_key", outputCol="train_key_index", handleInvalid="keep")
+    # Numeric columns
+    # Removing "race_number" 
+    numeric_cols = ["morn_odds", "age_at_race_day",  "purse", "weight", "start_position", 
+                    "claimprice", "power", "avgspd", "class_rating", "net_sentiment","weight", 
+                    "distance", "power", "all_earnings", "cond_earnings", "avg_spd_sd", 
+                    "ave_cl_sd", "hi_spd_sd", "pstyerl", "all_starts", 
+                "all_win", "all_place", "all_show", "all_fourth", "cond_starts", 
+                    "cond_win", "cond_place", "cond_show", "cond_fourth"]
+    # Add later to numeric cols after normalization: "jock_key_index", "train_key_index", 
+    
+    #Spark Pipeline
+        # Create a pipeline to transform data
+    preprocessing_stages = [jock_indexer, train_indexer] + indexers + encoders
+    pipeline = Pipeline(stages=preprocessing_stages)
+    model = pipeline.fit(df)
+    df_transformed = model.transform(df)
+    
+    ohe_cols = [c+"_ohe" for c in categorical_cols]
+    
+    assembler = VectorAssembler(inputCols=numeric_cols + ohe_cols, outputCol="raw_features")
+    df_assembled = assembler.transform(df_transformed)
+    
+    # 1.	Assemble Numeric Features Into a Vector:
+    # First, use a VectorAssembler to combine all numeric columns into a single feature vector:
+    # Normalize Numeric Values
+    # numeric_cols defined as above
+    numeric_assembler = VectorAssembler(
+        inputCols=numeric_cols,
+        outputCol="numeric_vector"
+    )
+    df_with_numeric_vector = numeric_assembler.transform(df_assembled)  # df_assembled is your DataFrame with numeric_cols
+    # 2.	Apply StandardScaler:
+    # Using StandardScaler with withMean=True and withStd=True ensures zero mean and unit variance scaling.
+    scaler = StandardScaler(
+    inputCol="numeric_vector",
+    outputCol="numeric_scaled",
+    withMean=True,  # center the data with mean
+    withStd=True    # scale to unit variance
+    )
+    scaler_model = scaler.fit(df_with_numeric_vector)
+    df_scaled = scaler_model.transform(df_with_numeric_vector)
+
+    # 3. Replace Original Numeric Features with Scaled Vector:
+    # Now df_scaled has a new column numeric_scaled that contains the scaled versions of your numeric features. 
+    # You can drop the original numeric columns if you no longer need them, or keep them for reference. When building 
+    # your final features vector for the model, include numeric_scaled vector instead of individual numeric columns.
+    # Suppose you have categorical OHE columns in ohe_cols
+    # Combine numeric_scaled with ohe_cols
+    final_assembler = VectorAssembler(
+        inputCols=["numeric_scaled"] + ohe_cols,
+        outputCol="features"
+    )
+    df_final = final_assembler.transform(df_scaled)
+
+    # Now df_final contains 'features' that has normalized numeric features plus OHE columns.
+    scaler = StandardScaler(inputCol="raw_features", outputCol="features", withMean=True, withStd=True)
+    scaler_model = scaler.fit(df_assembled)
+    df_final = scaler_model.transform(df_assembled)
+    
+    print("7. Assembled features.")
+    
+#8 Drop unneeded columns that are now part of features or OHE ========================================================================================
+    drop_cols = ["wps_pool","distance","course_cd","equip","surface","trk_cond","weather","dist_unit","race_type","sex","med","stk_clm_md","turf_mud_mark",
+                 "course_cd_index","equip_index","surface_index","trk_cond_index","weather_index","race_type_index","sex_index","med_index","stk_clm_md_index",
+                 "turf_mud_mark_index","jock_key","train_key","date_of_birth","raw_features","age_at_race_day","race_number","purse","weight","start_position","claimprice",
+                 "power","morn_odds","avgspd","jock_key_index","train_key_index","class_rating","net_sentiment","avg_spd_sd","ave_cl_sd","hi_spd_sd","pstyerl","all_starts",
+                 "all_win","all_place","all_show","all_fourth","all_earnings","cond_starts","cond_win","cond_place","cond_show","cond_fourth","cond_earnings"]
+    
+    df_final = df_final.drop(*drop_cols)
+    
+    df_final.printSchema()
+    
+    return df_final

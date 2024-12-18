@@ -52,6 +52,10 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                     if not axciskey:
                         logging.warning(f"Missing axciskey for horse in race {race_number} from file {xml_file}. Skipping runner data.")
                         continue
+                    avg_spd_sd = safe_float(get_text(horse.find('avg_spd_sd'), '0.0'))
+                    ave_cl_sd = safe_float(get_text(horse.find('ave_cl_sd'), '0.0'))
+                    hi_spd_sd = safe_float(get_text(horse.find('hi_spd_sd'), '0.0'))
+                    pstyerl = safe_float(get_text(horse.find('pstyerl'), '0.0'))
 
                     # Extract fields
                     post_position = safe_int(get_text(horse.find('pp')))
@@ -93,11 +97,11 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                             price, bought_fr, power, med, equip,
                             morn_odds, breeder, ae_flag, power_symb, horse_comm,
                             breed_type, lst_salena, lst_salepr, lst_saleda, claimprice,
-                            avgspd, avgcls, apprweight, jock_key, train_key     
+                            avgspd, avgcls, apprweight, jock_key, train_key , avg_spd_sd, ave_cl_sd, hi_spd_sd, pstyerl    
                         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                                   %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
                                   %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
-                                  %s, %s, %s, %s, %s)
+                                  %s, %s, %s, %s, %s, %s, %s, %s, %s)
                         ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number) DO UPDATE 
                         SET country = EXCLUDED.country,
                             axciskey = EXCLUDED.axciskey,
@@ -128,7 +132,11 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                             avgcls = EXCLUDED.avgcls,
                             apprweight = EXCLUDED.apprweight,
                             jock_key = EXCLUDED.jock_key,
-                            train_key = EXCLUDED.train_key
+                            train_key = EXCLUDED.train_key,
+                            avg_spd_sd = EXCLUDED.avg_spd_sd,
+                            ave_cl_sd = EXCLUDED.ave_cl_sd,
+                            hi_spd_sd = EXCLUDED.hi_spd_sd,
+                            pstyerl = EXCLUDED.pstyerl
                     """
                     try:
                         # Execute the query
@@ -139,7 +147,7 @@ def process_runners_file(xml_file, xsd_file_path, conn, cursor):
                             price, bought_fr, power, med, equip,
                             morn_odds, breeder, ae_flag, power_symb, horse_comm,
                             breed_type, lst_salena, lst_salepr, lst_saleda, claimprice,
-                            avgspd, avgcls, apprweight, jock_key, train_key          
+                            avgspd, avgcls, apprweight, jock_key, train_key , avg_spd_sd, ave_cl_sd, hi_spd_sd, pstyerl          
                         ))
                         conn.commit()  # Commit the transaction
 

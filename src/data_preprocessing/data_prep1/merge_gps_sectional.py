@@ -170,7 +170,7 @@ def dup_check(df: DataFrame, cols: list) -> DataFrame:
     df = df.dropDuplicates(cols)
 
     return df
-
+    merge_gps_sectionals(spark, loaded_parquet_dfs[0], loaded_parquet_dfs[1], parquet_dir)
 def merge_gps_sectionals(spark, sectional_results, gpspoint, parquet_dir):
     """
     Merge GPS and sectional results data into one -- master_df.

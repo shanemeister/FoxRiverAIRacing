@@ -14,16 +14,22 @@ from src.data_preprocessing.data_prep1.data_utils import (
 )
 
 def load_postgresql_data(spark, jdbc_url, jdbc_properties, queries, parquet_dir):
+    """
+    Main function to load data from PostgreSQL, write to parquet, reload, and print schemas.
+    This uses the dictionary of queries to handle all data frames dynamically.
+    """
+    # Load and write data to parquet
     load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
-    sectional_results, results, gpspoint = reload_parquet_files(spark, parquet_dir)
-    print("Sectional Results DataFrame Schema:")
-    sectional_results.printSchema()
-    print("Results DataFrame Schema:")
-    results.printSchema()
-    print("GPS DataFrame Schema:")
-    gpspoint.printSchema()
 
-    return merge_gps_sectionals(spark, sectional_results, gpspoint, parquet_dir)
+    # Reload data from parquet
+    reloaded_dfs = reload_parquet_files(spark, parquet_dir, queries)
+
+    # Print schemas dynamically
+    for name, df in reloaded_dfs.items():
+        print(f"DataFrame '{name}' Schema:")
+        df.printSchema()
+
+    return reloaded_dfs
     
 def rebuild_master_df(spark, parquet_dir):
     sectional_results_df, gps_df = reload_parquet_files(spark, parquet_dir)
@@ -142,7 +148,7 @@ def main():
     elif args.results:
         merge_results(spark, parquet_dir)
     else:
-        matched_df = load_postgresql_data(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
+        load_postgresql_data(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
     
     logging.info("Ingestion job succeeded")
     return spark

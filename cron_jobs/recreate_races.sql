@@ -5,7 +5,7 @@ select distinct
     COALESCE(rr.course_cd, rd.course_cd, rl.course_cd) AS course_cd,
     COALESCE(rr.race_date, rd.race_date, rl.race_date) AS race_date,
     COALESCE(rr.race_number, rd.race_number, rl.race_number) AS race_number,
-    rr.course_name AS rr_course_name,  -- Columns from race_results (alias rr)
+    c.track_name AS c_track_name, 
     rr.type as race_type,
     rr.purse AS purse,
     rd.purse AS rd_purse,
@@ -49,7 +49,9 @@ FULL OUTER JOIN
 FULL OUTER JOIN
     race_list rl ON COALESCE(rr.course_cd, rd.course_cd) = rl.course_cd
                  AND COALESCE(rr.race_date, rd.race_date) = rl.race_date
-                 AND COALESCE(rr.race_number, rd.race_number) = rl.race_number;
+                 AND COALESCE(rr.race_number, rd.race_number) = rl.race_number
+JOIN 
+    course c ON rd.course_cd = c.course_cd;
 
 -- Create the races table without copying data
 CREATE TABLE IF NOT EXISTS public.races AS

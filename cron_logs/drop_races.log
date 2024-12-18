@@ -1,12 +1,71 @@
-2024-12-14 12:21:15 - Starting races table recreation job
-2024-12-14 12:21:15 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2024-12-14 12:21:15 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+2024-12-16 22:50:49 - Starting races table recreation job
+2024-12-16 22:50:49 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 22:50:49 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+psql:/sql_scripts/drop_races.sql:2: NOTICE:  view "v_races" does not exist, skipping
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:5: ERROR:  relation "public.races" does not exist
+psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "fk_races_runners" of relation "runners" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:20: NOTICE:  constraint "fk_races_results_entries" of relation "results_entries" does not exist, skipping
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:30: ERROR:  table "races" does not exist
+2024-12-16 22:50:50 - SQL script executed successfully
+2024-12-16 22:50:50 - Races table recreation job completed
+2024-12-16 22:52:28 - Starting races table recreation job
+2024-12-16 22:52:28 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 22:52:28 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+psql:/sql_scripts/drop_races.sql:2: NOTICE:  view "v_races" does not exist, skipping
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:5: ERROR:  relation "public.races" does not exist
+psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "fk_races_runners" of relation "runners" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:20: NOTICE:  constraint "fk_races_results_entries" of relation "results_entries" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:30: ERROR:  table "races" does not exist
+2024-12-16 22:52:29 - SQL script executed successfully
+2024-12-16 22:52:29 - Races table recreation job completed
+2024-12-16 22:58:45 - Starting races table recreation job
+2024-12-16 22:58:45 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 22:58:45 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:2: NOTICE:  view "v_races" does not exist, skipping
+psql:/sql_scripts/drop_races.sql:5: ERROR:  relation "public.races" does not exist
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:9: NOTICE:  constraint "fk_races_runners" of relation "runners" does not exist, skipping
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:20: NOTICE:  constraint "fk_races_results_entries" of relation "results_entries" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:30: ERROR:  table "races" does not exist
+2024-12-16 22:58:46 - SQL script executed successfully
+2024-12-16 22:58:46 - Races table recreation job completed
+2024-12-16 22:59:16 - Starting races table recreation job
+2024-12-16 22:59:16 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 22:59:16 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
 DROP VIEW
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
 ALTER TABLE
+psql:/sql_scripts/drop_races.sql:20: NOTICE:  constraint "fk_races_results_entries" of relation "results_entries" does not exist, skipping
 ALTER TABLE
 DROP TABLE
-2024-12-14 12:21:16 - SQL script executed successfully
-2024-12-14 12:21:16 - Races table recreation job completed
+2024-12-16 22:59:17 - SQL script executed successfully
+2024-12-16 22:59:17 - Races table recreation job completed
+2024-12-16 23:59:01 - Starting races table recreation job
+2024-12-16 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-16 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+DROP VIEW
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/drop_races.sql:20: NOTICE:  constraint "fk_races_results_entries" of relation "results_entries" does not exist, skipping
+ALTER TABLE
+DROP TABLE
+2024-12-16 23:59:01 - SQL script executed successfully
+2024-12-16 23:59:01 - Races table recreation job completed

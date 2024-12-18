@@ -2,59 +2,107 @@
 def sql_queries():
     # Define SQL queries without trailing semicolons
     queries = {
-        "sectional_results": """
-                SELECT h.horse_id, vre.official_fin, s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number, s.gate_name , s.gate_numeric , s.length_to_finish , s.sectional_time , s.running_time , s.distance_back , s.distance_ran , s.number_of_strides ,vre.post_pos,
-                        vre.speed_rating, vr.turf_mud_mark , vr.weight , vr.morn_odds , vr.avgspd , r.surface , r.trk_cond , r.class_rating ,  r.weather , r.wps_pool ,  r.stk_clm_md , r.todays_cls , vr.net_sentiment  
-                    FROM sectionals s 
-                    left join v_results_entries vre on s.course_cd = vre.course_cd 
-                        and s.race_date = vre.race_date 
-                        and s.race_number = vre.race_number 
-                        and s.saddle_cloth_number = vre.program_num 
-                    left JOIN v_runners vr 
-                        ON vre.course_cd = vr.course_cd
-                        AND vre.race_date = vr.race_date
-                        AND vre.race_number = vr.race_number
-                        AND vre.program_num = vr.saddle_cloth_number
-                    join v_races r on vre.course_cd = r.course_cd
-                        AND vre.race_date = r.race_date
-                        AND vre.race_number = r.race_number
-                    JOIN horse h 
-                        ON vre.axciskey = h.axciskey
-                    WHERE vre.breed = 'TB'
-           """,
            "results": """
-                    select h.horse_id , re.course_cd , re.race_date , re.race_number , re.program_num  as saddle_cloth_number, re.official_fin , re2.split_num, re2.earnings , r.purse , r.wps_pool , re.dollar_odds ,
-                        re.weight , h.foal_date as date_of_birth, h.sex, re.horse_name , re.start_position , re.equip ,re.claim_price , r.surface , ts.surface_type_description , r.trk_cond , tc.description as trk_cond_desc , r.weather , r.distance , r.dist_unit ,
-                        r2.morn_odds as derived_favorite, r.race_type , r.class_rating , re.speed_rating, vs.total_race_time, vs.total_strides, vs.avg_stride_length, r2.net_sentiment , r.stk_clm_md , r2.turf_mud_mark, j.jock_id, j.jock_name, t.train_id, t.train_name
-                    from v_races r
-                    left join v_results_entries re on r.course_cd = re.course_cd 
-                        and r.race_date = re.race_date 
-                        and r.race_number = re.race_number
-                    left join v_runners r2 on re.course_cd = r2.course_cd 
-                        and re.race_date = r2.race_date 
-                        and re.race_number = r2.race_number
-                        and re.program_num = r2.saddle_cloth_number 
-                    left join v_sectionals_agg vs ON re.course_cd = vs.course_cd 
-                        and re.race_date = vs.race_date 
-                        and re.race_number = vs.race_number
-                        and re.program_num = vs.saddle_cloth_number
-                    left join jockey j on re.jock_key = j.jock_key 
-                    left join trainer t on re.train_key = t.train_key
-                    left join track_conditions tc on r.trk_cond = tc.code 
-                    left join track_surface ts on r.surface = ts.surface_type_code 
-                    left join horse h on re.axciskey = h.axciskey 
-                    left join v_results_earnings re2 on re.course_cd = re2.course_cd 
-                        and re.race_date = re2.race_date 
-                        and re.race_number = re2.race_number 
-                        and re.official_fin = re2.split_num 
-                    where re.official_fin > 0
-                    and re.breed = 'TB'
-                    order by re.official_fin
-                    """,
+                    SELECT r.course_cd,
+                        r.race_date,
+                        r.race_number,
+                        r2.saddle_cloth_number,
+                        re.official_fin,
+                        r.purse,
+                        r.wps_pool,
+                        r2.weight,
+                        h.foal_date AS date_of_birth,
+                        h.sex,
+                        r2.post_position AS start_position,
+                        r2.equip,
+                        r2.claimprice,
+                        r.surface,
+                        ts.surface_type_description,
+                        r.trk_cond,
+                        tc.description AS trk_cond_desc,
+                        r.weather,
+                        r.distance,
+                        r.dist_unit,
+                        r2.power,
+                        r2.med,
+                        r2.morn_odds,
+                        r2.avgspd,
+                        r2.jock_key,
+                        r2.train_key,
+                        r.race_type,
+                        r.class_rating,
+                        r2.net_sentiment,
+                        r.stk_clm_md,
+                        r2.turf_mud_mark,
+                        r2.avg_spd_sd,
+                        r2.ave_cl_sd,
+                        r2.hi_spd_sd,
+                        r2.pstyerl,
+                        -- ALL_RACES cumulative stats (prefix with all_ for clarity)
+                        has_all.starts AS all_starts,
+                        has_all.win AS all_win,
+                        has_all.place AS all_place,
+                        has_all.show AS all_show,
+                        has_all.fourth AS all_fourth,
+                        has_all.earnings AS all_earnings,
+                        -- Condition-specific cumulative stats (prefix with cond_ for clarity)
+                        has_cond.starts AS cond_starts,
+                        has_cond.win AS cond_win,
+                        has_cond.place AS cond_place,
+                        has_cond.show AS cond_show,
+                        has_cond.fourth AS cond_fourth,
+                        has_cond.earnings AS cond_earnings
+                    FROM races r
+                    LEFT JOIN runners r2 ON r.course_cd = r2.course_cd
+                    AND r.race_date = r2.race_date
+                    AND r.race_number = r2.race_number
+                    JOIN results_entries re ON r2.course_cd = re.course_cd
+                    AND r2.race_date = re.race_date
+                    AND r2.race_number = re.race_number
+                    AND r2.saddle_cloth_number = re.program_num
+                    and r2.axciskey = re.axciskey 
+                    LEFT JOIN jockey j ON r2.jock_key = j.jock_key
+                    LEFT JOIN trainer t ON r2.train_key = t.train_key
+                    LEFT JOIN track_conditions tc ON r.trk_cond = tc.code
+                    LEFT JOIN track_surface ts ON r.surface = ts.surface_type_code
+                    JOIN horse h ON re.axciskey = h.axciskey
+                    -- Join ALL_RACES stats
+                    JOIN horse_accum_stats has_all ON has_all.axciskey = re.axciskey
+                    AND has_all.as_of_date = r.race_date
+                    AND has_all.stat_type = 'ALL_RACES'
+                    -- Join condition-specific stats
+                    LEFT JOIN horse_accum_stats has_cond ON has_cond.axciskey = re.axciskey
+                    AND has_cond.as_of_date = r.race_date
+                    AND has_cond.stat_type = CASE
+                        WHEN r.surface = 'D' AND r.trk_cond = 'Muddy' AND r.distance < 700 THEN 'MUDDY_SPRNT'
+                        WHEN r.surface = 'D' AND r.trk_cond = 'Muddy' AND r.distance >= 700 THEN 'MUDDY_RTE'
+                        WHEN r.surface = 'D' AND r.distance <= 700 THEN 'DIRT_SPRNT'
+                        WHEN r.surface = 'D' AND r.distance > 700 THEN 'DIRT_RTE'
+                        WHEN r.surface = 'T' AND r.distance <= 700 THEN 'TURF_SPRNT'
+                        WHEN r.surface = 'T' AND r.distance > 700 THEN 'TURF_RTE'
+                        WHEN r.surface = 'A' AND r.distance <= 700 THEN 'ALL_WEATHER_SPRNT'
+                        WHEN r.surface = 'A' AND r.distance > 700 THEN 'ALL_WEATHER_RTE'
+                        WHEN r.surface = 'D' AND r.race_type = 'Allowance' AND r.distance <= 700 THEN 'ALLOWANCE_SPRNT'
+                        WHEN r.surface = 'D' AND r.race_type = 'Allowance' AND r.distance > 700 THEN 'ALLOWANCE_RTE'
+                        WHEN r.surface = 'D' AND r.race_type = 'Claiming' AND r.distance <= 700 THEN 'CLAIMING_SPRNT'
+                        WHEN r.surface = 'D' AND r.race_type = 'Claiming' AND r.distance > 700 THEN 'CLAIMING_RTE'
+                        WHEN r.surface = 'D' AND r.race_type = 'Stakes' AND r.distance <= 700 THEN 'STAKES_SPRNT'
+                        WHEN r.surface = 'D' AND r.race_type = 'Stakes' AND r.distance > 700 THEN 'STAKES_RTE'
+                        ELSE NULL
+                        END
+                    WHERE r2.breed_type = 'TB'
+                    AND re.official_fin IS NOT null
+        """,
         "gpspoint": """
             SELECT course_cd, race_date, race_number, saddle_cloth_number, time_stamp, 
                 longitude, latitude, speed, progress, stride_frequency, post_time, location
-            FROM v_gpspoint
+            FROM gpspoint
+        """,
+        "sectionals": """
+            SELECT course_cd, race_date, race_number, saddle_cloth_number, gate_name, gate_numeric,
+                length_to_finish, sectional_time, running_time, distance_back, distance_ran,
+                number_of_strides, post_time
+            FROM sectionals
         """
     }
     return queries

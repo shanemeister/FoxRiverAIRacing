@@ -1,7 +1,226 @@
-2024-12-14 10:57:07 - INFO - Logging has been set up successfully.
-2024-12-14 10:57:07 - INFO - Setting up logging for ResultsCharts
-2024-12-14 10:57:07 - INFO - Starting ingestion job
-2024-12-14 10:57:07 - INFO - Starting ingestion for: ResultsCharts
-2024-12-14 10:57:07 - INFO - Completed ResultsCharts data ingestion.
-2024-12-14 10:57:07 - INFO - Ingestion for ResultsCharts succeeded
-2024-12-14 10:57:07 - INFO - Setting up logging for Racelist
+2024-12-17 03:00:28 - INFO - Logging has been set up successfully.
+2024-12-17 03:00:28 - INFO - Setting up logging for ResultsCharts
+2024-12-17 03:00:28 - INFO - Starting ingestion job
+2024-12-17 03:00:28 - INFO - Starting ingestion for: ResultsCharts
+2024-12-17 03:00:28 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:28 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml.
+2024-12-17 03:00:28 - INFO - Processing xml file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml, conn: <connection object at 0x7f809b205580; dsn: 'host=192.168.4.25 user=rshane port=5433 dbname=foxriverai', closed: 0>, cursor: <cursor object at 0x7f80987d2b60; closed: 0>, xsd_schema_path: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd
+2024-12-17 03:00:28 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:28 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml.
+2024-12-17 03:00:28 - INFO - Processing race results file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml, Course: TUP, Date: 2024-12-16
+2024-12-17 03:00:28 - INFO - Found 8 races in file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml
+2024-12-17 03:00:28 - INFO - Processing race number: 1
+2024-12-17 03:00:28 - INFO - Processing race number: 2
+2024-12-17 03:00:28 - INFO - Processing race number: 3
+2024-12-17 03:00:28 - INFO - Processing race number: 4
+2024-12-17 03:00:28 - INFO - Processing race number: 5
+2024-12-17 03:00:28 - INFO - Processing race number: 6
+2024-12-17 03:00:28 - INFO - Processing race number: 7
+2024-12-17 03:00:28 - INFO - Processing race number: 8
+2024-12-17 03:00:28 - INFO - Successfully processed race_results in file tup20241216tch.xml
+2024-12-17 03:00:28 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:28 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml.
+2024-12-17 03:00:28 - INFO - Successfully processed jockey_current in file tup20241216tch.xml
+2024-12-17 03:00:28 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:28 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml.
+2024-12-17 03:00:28 - INFO - Successfully processed trainer_current in file tup20241216tch.xml
+2024-12-17 03:00:28 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:28 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_entries in file tup20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_earnings in file tup20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/tup20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed exotic_wagers in file tup20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml.
+2024-12-17 03:00:29 - INFO - Processing xml file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml, conn: <connection object at 0x7f809b205580; dsn: 'host=192.168.4.25 user=rshane port=5433 dbname=foxriverai', closed: 0>, cursor: <cursor object at 0x7f80987d2b60; closed: 0>, xsd_schema_path: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml.
+2024-12-17 03:00:29 - INFO - Processing race results file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml, Course: CMR, Date: 2024-12-13
+2024-12-17 03:00:29 - INFO - Found 7 races in file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml
+2024-12-17 03:00:29 - INFO - Processing race number: 1
+2024-12-17 03:00:29 - INFO - Processing race number: 2
+2024-12-17 03:00:29 - INFO - Processing race number: 3
+2024-12-17 03:00:29 - INFO - Processing race number: 4
+2024-12-17 03:00:29 - INFO - Processing race number: 5
+2024-12-17 03:00:29 - INFO - Processing race number: 6
+2024-12-17 03:00:29 - INFO - Processing race number: 7
+2024-12-17 03:00:29 - INFO - Successfully processed race_results in file cmr20241213tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed jockey_current in file cmr20241213tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed trainer_current in file cmr20241213tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_entries in file cmr20241213tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_earnings in file cmr20241213tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241213tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed exotic_wagers in file cmr20241213tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Processing xml file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml, conn: <connection object at 0x7f809b205580; dsn: 'host=192.168.4.25 user=rshane port=5433 dbname=foxriverai', closed: 0>, cursor: <cursor object at 0x7f80987d2b60; closed: 0>, xsd_schema_path: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Processing race results file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml, Course: MVR, Date: 2024-12-16
+2024-12-17 03:00:29 - INFO - Found 8 races in file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml
+2024-12-17 03:00:29 - INFO - Processing race number: 1
+2024-12-17 03:00:29 - INFO - Processing race number: 2
+2024-12-17 03:00:29 - INFO - Processing race number: 3
+2024-12-17 03:00:29 - INFO - Processing race number: 4
+2024-12-17 03:00:29 - INFO - Processing race number: 5
+2024-12-17 03:00:29 - INFO - Processing race number: 6
+2024-12-17 03:00:29 - INFO - Processing race number: 7
+2024-12-17 03:00:29 - INFO - Processing race number: 8
+2024-12-17 03:00:29 - INFO - Successfully processed race_results in file mvr20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed jockey_current in file mvr20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed trainer_current in file mvr20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_entries in file mvr20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_earnings in file mvr20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/mvr20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed exotic_wagers in file mvr20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Processing xml file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml, conn: <connection object at 0x7f809b205580; dsn: 'host=192.168.4.25 user=rshane port=5433 dbname=foxriverai', closed: 0>, cursor: <cursor object at 0x7f80987d2b60; closed: 0>, xsd_schema_path: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Processing race results file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml, Course: ZIA, Date: 2024-12-16
+2024-12-17 03:00:29 - INFO - Found 10 races in file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml
+2024-12-17 03:00:29 - INFO - Processing race number: 1
+2024-12-17 03:00:29 - INFO - Processing race number: 2
+2024-12-17 03:00:29 - INFO - Processing race number: 3
+2024-12-17 03:00:29 - INFO - Processing race number: 4
+2024-12-17 03:00:29 - INFO - Processing race number: 5
+2024-12-17 03:00:29 - INFO - Processing race number: 6
+2024-12-17 03:00:29 - INFO - Processing race number: 7
+2024-12-17 03:00:29 - INFO - Processing race number: 8
+2024-12-17 03:00:29 - INFO - Processing race number: 9
+2024-12-17 03:00:29 - INFO - Processing race number: 10
+2024-12-17 03:00:29 - INFO - Successfully processed race_results in file zia20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed jockey_current in file zia20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed trainer_current in file zia20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_entries in file zia20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_earnings in file zia20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/zia20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed exotic_wagers in file zia20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml.
+2024-12-17 03:00:29 - INFO - Processing xml file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml, conn: <connection object at 0x7f809b205580; dsn: 'host=192.168.4.25 user=rshane port=5433 dbname=foxriverai', closed: 0>, cursor: <cursor object at 0x7f80987d2b60; closed: 0>, xsd_schema_path: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml.
+2024-12-17 03:00:29 - INFO - Processing race results file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml, Course: CMR, Date: 2024-12-14
+2024-12-17 03:00:29 - INFO - Found 7 races in file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml
+2024-12-17 03:00:29 - INFO - Processing race number: 1
+2024-12-17 03:00:29 - INFO - Processing race number: 2
+2024-12-17 03:00:29 - INFO - Processing race number: 3
+2024-12-17 03:00:29 - INFO - Processing race number: 4
+2024-12-17 03:00:29 - INFO - Processing race number: 5
+2024-12-17 03:00:29 - INFO - Processing race number: 6
+2024-12-17 03:00:29 - INFO - Processing race number: 7
+2024-12-17 03:00:29 - INFO - Successfully processed race_results in file cmr20241214tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed jockey_current in file cmr20241214tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed trainer_current in file cmr20241214tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_entries in file cmr20241214tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_earnings in file cmr20241214tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/cmr20241214tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed exotic_wagers in file cmr20241214tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Processing xml file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml, conn: <connection object at 0x7f809b205580; dsn: 'host=192.168.4.25 user=rshane port=5433 dbname=foxriverai', closed: 0>, cursor: <cursor object at 0x7f80987d2b60; closed: 0>, xsd_schema_path: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Processing race results file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml, Course: TFG, Date: 2024-12-16
+2024-12-17 03:00:29 - INFO - Found 8 races in file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml
+2024-12-17 03:00:29 - INFO - Processing race number: 1
+2024-12-17 03:00:29 - INFO - Processing race number: 2
+2024-12-17 03:00:29 - INFO - Processing race number: 3
+2024-12-17 03:00:29 - INFO - Processing race number: 4
+2024-12-17 03:00:29 - INFO - Processing race number: 5
+2024-12-17 03:00:29 - INFO - Processing race number: 6
+2024-12-17 03:00:29 - INFO - Processing race number: 7
+2024-12-17 03:00:29 - INFO - Processing race number: 8
+2024-12-17 03:00:29 - INFO - Successfully processed race_results in file fg20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed jockey_current in file fg20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed trainer_current in file fg20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_entries in file fg20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_earnings in file fg20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/fg20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed exotic_wagers in file fg20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Processing xml file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml, conn: <connection object at 0x7f809b205580; dsn: 'host=192.168.4.25 user=rshane port=5433 dbname=foxriverai', closed: 0>, cursor: <cursor object at 0x7f80987d2b60; closed: 0>, xsd_schema_path: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Processing race results file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml, Course: PRX, Date: 2024-12-16
+2024-12-17 03:00:29 - INFO - Found 10 races in file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml
+2024-12-17 03:00:29 - INFO - Processing race number: 1
+2024-12-17 03:00:29 - INFO - Processing race number: 2
+2024-12-17 03:00:29 - INFO - Processing race number: 3
+2024-12-17 03:00:29 - INFO - Processing race number: 4
+2024-12-17 03:00:29 - INFO - Processing race number: 5
+2024-12-17 03:00:29 - INFO - Processing race number: 6
+2024-12-17 03:00:29 - INFO - Processing race number: 7
+2024-12-17 03:00:29 - INFO - Processing race number: 8
+2024-12-17 03:00:29 - INFO - Processing race number: 9
+2024-12-17 03:00:29 - INFO - Processing race number: 10
+2024-12-17 03:00:29 - INFO - Successfully processed race_results in file prx20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed jockey_current in file prx20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed trainer_current in file prx20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_entries in file prx20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed results_earnings in file prx20241216tch.xml
+2024-12-17 03:00:29 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/tchSchema.xsd...
+2024-12-17 03:00:29 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/ResultsCharts/Daily/prx20241216tch.xml.
+2024-12-17 03:00:29 - INFO - Successfully processed exotic_wagers in file prx20241216tch.xml
+2024-12-17 03:00:29 - INFO - Completed ResultsCharts data ingestion.
+2024-12-17 03:00:29 - INFO - Ingestion for ResultsCharts succeeded
+2024-12-17 03:00:29 - INFO - Setting up logging for Racelist
