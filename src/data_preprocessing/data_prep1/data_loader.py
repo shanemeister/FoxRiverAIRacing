@@ -3,6 +3,8 @@
 import os
 import logging
 from pyspark.sql.functions import col
+from pyspark.sql.window import Window
+from pyspark.sql.functions import row_number
 
 def load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir):
     """
@@ -13,6 +15,7 @@ def load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet
     for name, query in queries.items():
         logging.info(f"Loading {name} data from PostgreSQL...")
         try:
+            print(f"JDBC URL: {jdbc_url}*******************************************************************")
             df = spark.read.jdbc(
                 url=jdbc_url,
                 table=f"({query}) AS subquery",
@@ -79,8 +82,15 @@ def merge_results_sectionals(spark, results_df, sectionals_df, parquet_dir):
     # Perform the join and select from results plus renamed sectionals columns
     merged_df = results_df.join(sectionals_df, condition, "inner") \
                           .select(results_df["*"], *sectionals_selected)
-
-    output_path = os.path.join(parquet_dir, "merged_results_sectionals.parquet")
-    merged_df.write.mode("overwrite").parquet(output_path)
+                          
+    # Assigns a sequential gate_index based on the sorted sectionals_gate_numeric for each race and horse.
+    # Define the race identifier columns
+    race_id_cols = ["course_cd", "race_date", "race_number", "horse_id"]
+    
+    # Define window specification partitioned by race and horse, ordered by sectionals_gate_numeric
+    window_spec = Window.partitionBy(*race_id_cols).orderBy("sectionals_gate_numeric")
+    
+    # Assign a sequential gate_index
+    merged_df = merged_df.withColumn("gate_index", row_number().over(window_spec))
 
     return merged_df

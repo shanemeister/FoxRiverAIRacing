@@ -7,6 +7,8 @@ def sql_queries():
                         r.race_date,
                         r.race_number,
                         r2.saddle_cloth_number,
+                        h.horse_id,
+                        h.horse_name,
                         re.official_fin,
                         r.purse,
                         r.wps_pool,
@@ -53,10 +55,10 @@ def sql_queries():
                         has_cond.fourth AS cond_fourth,
                         has_cond.earnings AS cond_earnings
                     FROM races r
-                    LEFT JOIN runners r2 ON r.course_cd = r2.course_cd
+                    LEFT JOIN v_runners r2 ON r.course_cd = r2.course_cd
                     AND r.race_date = r2.race_date
                     AND r.race_number = r2.race_number
-                    JOIN results_entries re ON r2.course_cd = re.course_cd
+                    JOIN v_results_entries re ON r2.course_cd = re.course_cd
                     AND r2.race_date = re.race_date
                     AND r2.race_number = re.race_number
                     AND r2.saddle_cloth_number = re.program_num
@@ -96,13 +98,17 @@ def sql_queries():
         "gpspoint": """
             SELECT course_cd, race_date, race_number, saddle_cloth_number, time_stamp, 
                 longitude, latitude, speed, progress, stride_frequency, post_time, location
-            FROM gpspoint
+            FROM v_gpspoint
         """,
         "sectionals": """
             SELECT course_cd, race_date, race_number, saddle_cloth_number, gate_name, gate_numeric,
                 length_to_finish, sectional_time, running_time, distance_back, distance_ran,
                 number_of_strides, post_time
-            FROM sectionals
+            FROM v_sectionals
+        """,
+        "routes": """
+            SELECT course_cd,line_type, track_name, line_name, coordinates
+            FROM routes
         """
     }
     return queries

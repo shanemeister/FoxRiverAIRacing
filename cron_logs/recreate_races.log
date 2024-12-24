@@ -123,3 +123,386 @@ CREATE VIEW
 CREATE VIEW
 2024-12-17 07:30:03 - SQL script executed successfully
 2024-12-17 07:30:03 - Races table recreation job completed
+2024-12-18 07:30:01 - Starting races table recreation job
+2024-12-18 07:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-18 07:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 139371
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-18 07:30:03 - SQL script executed successfully
+2024-12-18 07:30:03 - Races table recreation job completed
+2024-12-18 09:41:42 - Starting races table recreation job
+2024-12-18 09:41:42 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-18 09:41:42 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 139371
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-18 09:41:44 - SQL script executed successfully
+2024-12-18 09:41:44 - Races table recreation job completed
+2024-12-18 09:42:50 - Starting races table recreation job
+2024-12-18 09:42:50 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-18 09:42:50 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+psql:/sql_scripts/recreate_races.sql:59: NOTICE:  relation "races" already exists, skipping
+psql:/sql_scripts/recreate_races.sql:62: ERROR:  multiple primary keys for table "races" are not allowed
+psql:/sql_scripts/recreate_races.sql:71: ERROR:  constraint "races_fk_course" for relation "races" already exists
+psql:/sql_scripts/recreate_races.sql:75: ERROR:  duplicate key value violates unique constraint "races_pk"
+DETAIL:  Key (course_cd, race_date, race_number)=(TWO, 2022-04-23, 2) already exists.
+psql:/sql_scripts/recreate_races.sql:79: ERROR:  constraint "fk_racedata_runners" of relation "runners" does not exist
+psql:/sql_scripts/recreate_races.sql:86: ERROR:  constraint "fk_races_runners" for relation "runners" already exists
+psql:/sql_scripts/recreate_races.sql:91: ERROR:  constraint "fk_race_results_results_entries" of relation "results_entries" does not exist
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-18 09:42:51 - SQL script executed successfully
+2024-12-18 09:42:51 - Races table recreation job completed
+2024-12-18 09:47:49 - Starting races table recreation job
+2024-12-18 09:47:49 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-18 09:47:49 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 139371
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-18 09:47:51 - SQL script executed successfully
+2024-12-18 09:47:51 - Races table recreation job completed
+2024-12-19 07:30:01 - Starting races table recreation job
+2024-12-19 07:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-19 07:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 139447
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-19 07:30:04 - SQL script executed successfully
+2024-12-19 07:30:04 - Races table recreation job completed
+2024-12-19 08:43:52 - Starting races table recreation job
+2024-12-19 08:43:52 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-19 08:43:52 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 139447
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  insert or update on table "results_entries" violates foreign key constraint "fk_races_results_entries"
+DETAIL:  Key (course_cd, race_date, race_number)=(AIK, 2022-03-26, 2) is not present in table "races".
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-19 08:43:54 - SQL script executed successfully
+2024-12-19 08:43:54 - Races table recreation job completed
+2024-12-19 08:45:12 - Starting races table recreation job
+2024-12-19 08:45:12 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-19 08:45:12 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 181236
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-19 08:45:15 - SQL script executed successfully
+2024-12-19 08:45:15 - Races table recreation job completed
+2024-12-20 07:30:01 - Starting races table recreation job
+2024-12-20 07:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-20 07:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 181322
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-20 07:30:03 - SQL script executed successfully
+2024-12-20 07:30:03 - Races table recreation job completed
+2024-12-20 19:52:26 - Starting races table recreation job
+2024-12-20 19:52:26 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-20 19:52:26 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 181322
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-20 19:52:28 - SQL script executed successfully
+2024-12-20 19:52:28 - Races table recreation job completed
+2024-12-20 20:14:16 - Starting races table recreation job
+2024-12-20 20:14:16 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-20 20:14:16 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+psql:/sql_scripts/recreate_races.sql:59: NOTICE:  relation "races" already exists, skipping
+psql:/sql_scripts/recreate_races.sql:62: ERROR:  multiple primary keys for table "races" are not allowed
+psql:/sql_scripts/recreate_races.sql:71: ERROR:  constraint "races_fk_course" for relation "races" already exists
+psql:/sql_scripts/recreate_races.sql:75: ERROR:  duplicate key value violates unique constraint "races_pk"
+DETAIL:  Key (course_cd, race_date, race_number)=(TWO, 2022-04-23, 2) already exists.
+psql:/sql_scripts/recreate_races.sql:79: ERROR:  constraint "fk_racedata_runners" of relation "runners" does not exist
+psql:/sql_scripts/recreate_races.sql:86: ERROR:  constraint "fk_races_runners" for relation "runners" already exists
+psql:/sql_scripts/recreate_races.sql:91: ERROR:  constraint "fk_race_results_results_entries" of relation "results_entries" does not exist
+psql:/sql_scripts/recreate_races.sql:98: ERROR:  constraint "fk_races_results_entries" for relation "results_entries" already exists
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-20 20:14:17 - SQL script executed successfully
+2024-12-20 20:14:17 - Races table recreation job completed
+2024-12-20 20:15:28 - Starting races table recreation job
+2024-12-20 20:15:28 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-20 20:15:28 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 181322
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-20 20:15:30 - SQL script executed successfully
+2024-12-20 20:15:30 - Races table recreation job completed
+2024-12-21 07:30:01 - Starting races table recreation job
+2024-12-21 07:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-21 07:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 181401
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-21 07:30:03 - SQL script executed successfully
+2024-12-21 07:30:03 - Races table recreation job completed
+2024-12-22 07:30:01 - Starting races table recreation job
+2024-12-22 07:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-22 07:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+psql:/sql_scripts/recreate_races.sql:59: NOTICE:  relation "races" already exists, skipping
+psql:/sql_scripts/recreate_races.sql:62: ERROR:  multiple primary keys for table "races" are not allowed
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:75: ERROR:  duplicate key value violates unique constraint "races_pk"
+DETAIL:  Key (course_cd, race_date, race_number)=(TWO, 2022-04-23, 2) already exists.
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:86: ERROR:  insert or update on table "runners" violates foreign key constraint "fk_races_runners"
+DETAIL:  Key (course_cd, race_date, race_number)=(DED, 2024-12-27, 1) is not present in table "races".
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-22 07:30:01 - SQL script executed successfully
+2024-12-22 07:30:01 - Races table recreation job completed
+2024-12-22 10:43:50 - Starting races table recreation job
+2024-12-22 10:43:50 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-22 10:43:50 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+psql:/sql_scripts/recreate_races.sql:59: NOTICE:  relation "races" already exists, skipping
+psql:/sql_scripts/recreate_races.sql:62: ERROR:  multiple primary keys for table "races" are not allowed
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:75: ERROR:  duplicate key value violates unique constraint "races_pk"
+DETAIL:  Key (course_cd, race_date, race_number)=(TWO, 2022-04-23, 2) already exists.
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:86: ERROR:  insert or update on table "runners" violates foreign key constraint "fk_races_runners"
+DETAIL:  Key (course_cd, race_date, race_number)=(DED, 2024-12-27, 1) is not present in table "races".
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-22 10:43:51 - SQL script executed successfully
+2024-12-22 10:43:51 - Races table recreation job completed
+2024-12-22 10:45:24 - Starting races table recreation job
+2024-12-22 10:45:24 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-22 10:45:24 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+psql:/sql_scripts/recreate_races.sql:59: NOTICE:  relation "races" already exists, skipping
+psql:/sql_scripts/recreate_races.sql:62: ERROR:  multiple primary keys for table "races" are not allowed
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:75: ERROR:  duplicate key value violates unique constraint "races_pk"
+DETAIL:  Key (course_cd, race_date, race_number)=(TWO, 2022-04-23, 2) already exists.
+ALTER TABLE
+psql:/sql_scripts/recreate_races.sql:86: ERROR:  insert or update on table "runners" violates foreign key constraint "fk_races_runners"
+DETAIL:  Key (course_cd, race_date, race_number)=(DED, 2024-12-27, 1) is not present in table "races".
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-22 10:45:25 - SQL script executed successfully
+2024-12-22 10:45:25 - Races table recreation job completed
+2024-12-22 10:50:38 - Starting races table recreation job
+2024-12-22 10:50:38 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-22 10:50:38 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 181455
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-22 10:50:40 - SQL script executed successfully
+2024-12-22 10:50:40 - Races table recreation job completed
+2024-12-23 07:30:01 - Starting races table recreation job
+2024-12-23 07:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-23 07:30:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 181565
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2024-12-23 07:30:03 - SQL script executed successfully
+2024-12-23 07:30:03 - Races table recreation job completed

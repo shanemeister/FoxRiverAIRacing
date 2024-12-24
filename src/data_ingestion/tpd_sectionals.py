@@ -22,7 +22,8 @@ def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filena
             if saddle_cloth_number.startswith('0'):
                 saddle_cloth_number = saddle_cloth_number[1:]  # Remove leading '0' if present
             # Map each field to the relevant table column
-            gate_name = sec_info.get('G', '')
+            gate_name = sec_info.get('G', '').strip()
+            gate_name = gate_name.lower()  # Ensure a consistent lowercase form
             gate_numeric = convert_gate_name(gate_name)
             length_to_finish = sec_info.get('L', None)
             sectional_time = sec_info.get('S', None)

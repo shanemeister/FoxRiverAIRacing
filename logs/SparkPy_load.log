@@ -1,9 +1,3 @@
-2024-12-17 20:21:33,977 - INFO - Environment setup initialized.
-2024-12-17 20:21:35,770 - INFO - Spark session created successfully.
-2024-12-17 20:21:43,314 - INFO - Saving final_aggregated_df DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/final_aggregated_df.parquet...
-2024-12-17 20:21:43,314 - INFO - Schema of final_aggregated_df DataFrame:
-2024-12-17 20:22:02,891 - INFO - final_aggregated_df DataFrame saved successfully.
-2024-12-17 20:23:24,292 - INFO - Saving merged_df DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/merged_df.parquet...
-2024-12-17 20:23:24,292 - INFO - Schema of merged_df DataFrame:
-2024-12-17 20:23:40,358 - INFO - merged_df DataFrame saved successfully.
-2024-12-17 20:26:08,502 - INFO - Closing down clientserver connection
+2024-12-23 18:25:57,087 - INFO - Environment setup initialized.
+2024-12-23 18:26:12,699 - INFO - Ingestion job succeeded
+2024-12-23 18:26:13,062 - INFO - Closing down clientserver connection

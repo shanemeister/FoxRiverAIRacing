@@ -1,5 +1,3 @@
--- Drop the view if it exists
-DROP VIEW IF EXISTS public.v_races CASCADE;
 
 ALTER TABLE public.races
 DROP CONSTRAINT races_fk_course;
@@ -26,5 +24,7 @@ REFERENCES public.race_results(course_cd, race_date, race_number)
 ON DELETE RESTRICT 
 ON UPDATE RESTRICT;
 
+-- Drop the view if it exists
+DROP VIEW IF EXISTS public.v_races CASCADE;
 
-drop table races;
+drop table races cascade;

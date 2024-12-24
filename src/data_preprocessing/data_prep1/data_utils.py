@@ -5,10 +5,17 @@ import configparser
 from pyspark.sql import SparkSession
 from src.data_preprocessing.data_prep1.sql_queries import sql_queries
 from pyspark.sql.window import Window
-from pyspark.sql import DataFrame, Window
+from pyspark.sql import DataFrame
 from pyspark.ml.feature import StringIndexer, OneHotEncoder, VectorAssembler, StandardScaler
 from pyspark.ml import Pipeline
 import datetime
+from sedona.register import SedonaRegistrator
+from sedona.utils import SedonaKryoRegistrator
+from sedona.core.SpatialRDD import PointRDD
+from sedona.core.enums import FileDataSplitter
+from pyspark.sql import SparkSession
+from sedona.register import SedonaRegistrator
+from sedona.utils import KryoSerializer, SedonaKryoRegistrator
 
 def save_parquet(spark, df, name, parquet_dir):
     """
@@ -140,7 +147,7 @@ def initialize_environment():
     db_port = config['database']['port']
     db_name = config['database']['dbname']
     db_user = config['database']['user']
-    # db_password = os.getenv("DB_PASSWORD", "SparkPy24!")  # Ensure DB_PASSWORD is set
+    # db_password = os.getenv("DB_PASSWORD", "sdfsdfhhjgfj!")  # Ensure DB_PASSWORD is set
 
     # Validate database password
     #if not db_password:
@@ -153,11 +160,28 @@ def initialize_environment():
         #"password": db_password,
         "driver": "org.postgresql.Driver"
     }
+    
+    # Initialize Spark session
+    jdbc_driver_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/jdbc/postgresql-42.7.4.jar"
+    sedona_jar_abs_path = "/home/exx/sedona/apache-sedona-1.7.0-bin/sedona-spark-shaded-3.4_2.12-1.7.0.jar"
+    
+    # Paths to GeoTools JAR files
+    geotools_jar_paths = [
+        "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pyspark/jars/geotools-wrapper-1.1.0-25.2.jar",
+        "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pyspark/jars/sedona-python-adapter-3.0_2.12-1.2.0-incubating.jar",
+        "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pyspark/jars/sedona-viz-3.0_2.12-1.2.0-incubating.jar",
+    ]
+
     # Initialize logging
     initialize_logging(log_file)
     queries = sql_queries()
     # Initialize Spark session
-    spark = initialize_spark(jdbc_driver_path)
+    
+    print("Initializing Spark session...")
+    
+    # input("Press Enter to continue... getting ready to initialize spark")
+    
+    spark = initialize_spark(jdbc_driver_path, sedona_jar_abs_path, geotools_jar_paths)
     return spark, jdbc_url, jdbc_properties, queries, parquet_dir, log_file
 
 def load_config(config_path):
@@ -176,22 +200,31 @@ def initialize_logging(log_file):
     )
     logging.info("Environment setup initialized.")
 
-def initialize_spark(jdbc_driver_path):
+# Initialize Spark session
+def initialize_spark(jdbc_driver_path, sedona_jar_path, geotools_jar_paths):
     spark = SparkSession.builder \
         .appName("Horse Racing Data Processing") \
         .master("local[*]") \
-        .config("spark.driver.extraClassPath", jdbc_driver_path) \
-        .config("spark.executor.extraClassPath", jdbc_driver_path) \
         .config("spark.driver.memory", "64g") \
         .config("spark.executor.memory", "32g") \
         .config("spark.executor.memoryOverhead", "8g") \
         .config("spark.sql.debug.maxToStringFields", "1000") \
         .config("spark.sql.adaptive.enabled", "true") \
-        .config("spark.sql.legacy.parquet.datetimeRebaseModeInWrite", "LEGACY") \
-        .config("spark.sql.legacy.parquet.int96RebaseModeInWrite", "LEGACY") \
+        .config("spark.sql.parquet.datetimeRebaseModeInWrite", "LEGACY") \
+        .config("spark.sql.parquet.int96RebaseModeInWrite", "LEGACY") \
+        .config("spark.jars", f"{jdbc_driver_path},{sedona_jar_path},{','.join(geotools_jar_paths)}") \
+        .config("spark.serializer", KryoSerializer.getName) \
+        .config("spark.kryo.registrator", SedonaKryoRegistrator.getName) \
+        .config("spark.kryo.buffer", "64k") \
+        .config("spark.kryo.buffer.max", "512m") \
         .getOrCreate()
+    
+    # Register Sedona functions and types
+    SedonaRegistrator.registerAll(spark)
+    
+    # Set log level to ERROR to reduce verbosity
     spark.sparkContext.setLogLevel("ERROR")
-    logging.info("Spark session created successfully.")
+    print("Spark session created successfully with Sedona and GeoTools integrated.")
     return spark
 
 def identify_and_remove_outliers(df, column):
@@ -391,10 +424,8 @@ def detect_cardinality_columns(df, threshold, cardinality_type):
 def process_merged_results_sectionals(spark, df, parquet_dir):
     """
     Process merged results and sectionals DataFrame to remove duplicates, impute missing values, convert data types, OHE, and gather statistics.
-    
     Parameters:
     df (DataFrame): The merged DataFrame to process
-    
     Returns:
     DataFrame: The processed DataFrame
     """
@@ -420,22 +451,14 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
         exit(1)
     
     print("1. Duplicates checked.")
-
     
-# 2 furlong = 201.168 meters -- Convert distance to meters ========================================================================================
-    conversion_factor = 201.168
-    df = df \
-        .withColumn("distance_meters", col("distance") * lit(conversion_factor)) \
-        .drop("dist_unit")
-    print("2. Distance column converted to meters.")
-
-# 3 Convert decimal columns to double ========================================================================================
-    decimal_cols = ["weight", "distance", "power", "morn_odds", "all_earnings", "cond_earnings"]
+# 2 Convert decimal columns to double ========================================================================================
+    decimal_cols = ["weight", "power", "morn_odds", "all_earnings", "cond_earnings"]
     for col_name in decimal_cols:
         df = df.withColumn(col_name, col(col_name).cast("double")) 
     print("3. Decimal columns converted to double.")    
-# 4 Impute missing values ========================================================================================
-# 4a Impute date_of_birth with the median date_of_birth ========================================================================================
+# 3 Impute missing values ========================================================================================
+# 3a Impute date_of_birth with the median date_of_birth ========================================================================================
     # Convert date_of_birth to a numeric timestamp for median calculation
     df = df.withColumn("date_of_birth_ts", col("date_of_birth").cast("timestamp").cast("long"))
 
@@ -469,7 +492,7 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
         when(col("date_of_birth").isNull(), median_date).otherwise(col("date_of_birth"))
     ).drop("date_of_birth_ts")
     print("4a. Missing date_of_birth values imputed with the median date_of_birth.")
-#4b Convert date_of_birth to age ========================================================================================
+#4a Convert date_of_birth to age ========================================================================================
     # Ensure both date_of_birth and race_date are in date format
     df = df.withColumn("date_of_birth", col("date_of_birth").cast("date"))
     df = df.withColumn("race_date", col("race_date").cast("date"))
@@ -480,11 +503,11 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
         datediff(col("race_date"), col("date_of_birth")) / 365.25  # Convert days to years
     )
     print("4b. Converted date_of_birth to Age")
-#4c Impute missing weather values ========================================================================================
+#4b Impute missing weather values ========================================================================================
     df = df.fillna({"weather": "Clear"})
     print("4c. Missing weather values imputed with 'Clear'.")
     
-#4d Impute missing wps_pool values ========================================================================================
+#4c Impute missing wps_pool values ========================================================================================
     # Calculate the mean of the 'wps_pool' column, excluding nulls
     mean_value = df.select(mean(col("wps_pool")).alias("mean_wps_pool")).collect()[0]["mean_wps_pool"]
 
@@ -498,11 +521,11 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
     df.filter(col("wps_pool").isNull()).count()
     print("4d. Missing wps_pool values imputed with the mean wps_pool. wps_pool null count: ", df.filter(col("wps_pool").isNull()).count())
     
-#4e Impute missing equip values ========================================================================================    
+#4d Impute missing equip values ========================================================================================    
     df = df.fillna({"equip": "No_Equip"})
     print("4e. Missing equip values imputed with 'No_Equip'.")
     
-#4f Impute missing trk_cond values ========================================================================================
+#4e Impute missing trk_cond values ========================================================================================
     cols = ["trk_cond", "trk_cond_desc"] 
     df.select(cols).distinct().count()
     distinct_value_counts = df.groupBy(cols).count()
@@ -562,7 +585,7 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
     # Removing "race_number" 
     numeric_cols = ["morn_odds", "age_at_race_day",  "purse", "weight", "start_position", 
                     "claimprice", "power", "avgspd", "class_rating", "net_sentiment","weight", 
-                    "distance", "power", "all_earnings", "cond_earnings", "avg_spd_sd", 
+                    "distance_meters", "power", "all_earnings", "cond_earnings", "avg_spd_sd", 
                     "ave_cl_sd", "hi_spd_sd", "pstyerl", "all_starts", 
                 "all_win", "all_place", "all_show", "all_fourth", "cond_starts", 
                     "cond_win", "cond_place", "cond_show", "cond_fourth"]
@@ -620,7 +643,7 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
     print("7. Assembled features.")
     
 #8 Drop unneeded columns that are now part of features or OHE ========================================================================================
-    drop_cols = ["wps_pool","distance","course_cd","equip","surface","trk_cond","weather","dist_unit","race_type","sex","med","stk_clm_md","turf_mud_mark",
+    drop_cols = ["wps_pool","distance_meters","course_cd","equip","surface","trk_cond","weather","dist_unit","race_type","sex","med","stk_clm_md","turf_mud_mark",
                  "course_cd_index","equip_index","surface_index","trk_cond_index","weather_index","race_type_index","sex_index","med_index","stk_clm_md_index",
                  "turf_mud_mark_index","jock_key","train_key","date_of_birth","raw_features","age_at_race_day","race_number","purse","weight","start_position","claimprice",
                  "power","morn_odds","avgspd","jock_key_index","train_key_index","class_rating","net_sentiment","avg_spd_sd","ave_cl_sd","hi_spd_sd","pstyerl","all_starts",

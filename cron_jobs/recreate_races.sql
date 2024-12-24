@@ -50,7 +50,7 @@ FULL OUTER JOIN
     race_list rl ON COALESCE(rr.course_cd, rd.course_cd) = rl.course_cd
                  AND COALESCE(rr.race_date, rd.race_date) = rl.race_date
                  AND COALESCE(rr.race_number, rd.race_number) = rl.race_number
-JOIN 
+LEFT JOIN 
     course c ON rd.course_cd = c.course_cd;
 
 -- Create the races table without copying data
@@ -107,6 +107,13 @@ and race_date > '2021-12-31';
 
 CREATE or REPLACE VIEW v_sectionals_agg AS
 SELECT * FROM sectionals_aggregated 
+WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
+and race_date > '2021-12-31';
+
+CREATE or REPLACE VIEW v_sectionals AS
+SELECT * FROM sectionals 
 WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
                     'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
                     'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
