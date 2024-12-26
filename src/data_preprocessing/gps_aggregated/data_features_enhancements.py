@@ -13,6 +13,7 @@ from src.data_preprocessing.data_prep1.data_utils import (
     save_parquet, 
     # other utils...
 )
+from src.data_preprocessing.data_prep1.data_utils import haversine_udf
 
 #######################################
 # 1) HELPER UDF / UTILITY FUNCTIONS
@@ -167,37 +168,32 @@ def calculate_fatigue_factor(df: DataFrame) -> DataFrame:
 #######################################
 def calculate_ground_loss_from_gps(spark: SparkSession, parquet_dir: str) -> DataFrame:
     """
-    Loads raw gpspoint data, uses geometry in 'location' to compute actual distance traveled,
+    Loads raw gpspoint data, uses latitude and longitude to compute actual distance traveled,
     and returns total_distance_run_m for each (course_cd, race_date, race_number, saddle_cloth_number).
     """
     gps_df = spark.read.parquet(os.path.join(parquet_dir, "gpspoint.parquet"))
     
-    # Convert 'location' from WKB or WKT into geometry
-    gps_df = gps_df.withColumn(
-        "location_geom",
-        expr("ST_GeomFromWKB(unhex(location))")
-        # If location is WKT: expr("ST_GeomFromWKT(location)")
-    )
+    # Extract latitude and longitude from 'location' (assuming 'location' is in WKB format)
+    gps_df = gps_df.withColumn("latitude", expr("CAST(unhex(location) AS STRING)").cast("double")) \
+                   .withColumn("longitude", expr("CAST(unhex(location) AS STRING)").cast("double"))
     
     race_cols = ["course_cd", "race_date", "race_number", "saddle_cloth_number"]
     w_time = Window.partitionBy(*race_cols).orderBy("time_stamp")
     
-    # LAG location_geom
-    gps_df = gps_df.withColumn(
-        "prev_location_geom",
-        lag("location_geom").over(w_time)
-    )
+    # LAG latitude and longitude
+    gps_df = gps_df.withColumn("prev_latitude", lag("latitude").over(w_time)) \
+                   .withColumn("prev_longitude", lag("longitude").over(w_time))
     
-    # Distance between consecutive geometry points
+    # Distance between consecutive points using Haversine function
     gps_df = gps_df.withColumn(
         "segment_distance",
         when(
-            col("prev_location_geom").isNotNull(),
-            expr("ST_Distance(location_geom, prev_location_geom)")
+            (col("prev_latitude").isNotNull()) & (col("prev_longitude").isNotNull()),
+            haversine_udf(col("latitude"), col("longitude"), col("prev_latitude"), col("prev_longitude"))
         ).otherwise(lit(0.0))
     )
     
-    # Cumulative sum
+    # Cumulative sum of distances
     gps_df = gps_df.withColumn(
         "cumulative_distance",
         F_sum("segment_distance").over(w_time)

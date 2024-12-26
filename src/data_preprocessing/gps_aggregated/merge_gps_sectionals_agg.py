@@ -1,13 +1,14 @@
 from pyspark.sql.functions import (
     col, abs, min as spark_min, sum as spark_sum, mean as spark_mean, max as spark_max, count, when, upper, trim,
-    udf, lit, row_number, lag, first, last, expr
+    udf, lit, row_number, lag, first, last, expr, unhex
 )
 import os
+import logging
 from pyspark.sql.window import Window
-from pyspark.sql.types import TimestampType
+from pyspark.sql.types import TimestampType, DoubleType
 from datetime import timedelta
 from pyspark.sql import DataFrame
-from src.data_preprocessing.data_prep1.data_utils import save_parquet
+from src.data_preprocessing.data_prep1.data_utils import save_parquet, haversine_udf
 
 # UDF to add fractional seconds to a timestamp
 def add_seconds(ts, seconds):
@@ -35,14 +36,14 @@ def merge_gps_sectionals(spark, parquet_dir):
     gps_earliest_df = gpspoint.groupBy(*race_id_cols).agg(
         spark_min("time_stamp").alias("earliest_time_stamp_gps")
     )
-
+    #input("Press Enter to continue...1 Compute earliest GPS time per")
     ############################################################################
     # 2) Sort the sectional data by gate_index
     ############################################################################
     # Just ensure sectionals are ordered by gate_index. 
     # We'll do cumulative sums after we join with earliest_time.
     sectionals_sorted = sectionals.orderBy(*race_id_cols, "saddle_cloth_number", "gate_index")
- 
+    #input("Press Enter to continue...2 Sort the sectional data by gate_index")
     ######################################
     # 3) Join the earliest GPS time with sectionals
     ######################################
@@ -51,7 +52,7 @@ def merge_gps_sectionals(spark, parquet_dir):
         on=race_id_cols,
         how="inner"
     )
-    
+    # input("Press Enter to continue...3 Join the earliest GPS time with sectionals")
     ######################################
     # 4) Compute sec_time_stamp in sectionals
     #
@@ -71,7 +72,7 @@ def merge_gps_sectionals(spark, parquet_dir):
 
     print("Computed sec_time_stamp by adding cumulative_sectional_time to earliest GPS timestamp.")
     sectionals_with_sec_time.printSchema()
-
+    # input("Press Enter to continue...4 Compute sec_time_stamp in sectionals")
     ######################################
     # 5) Create a temporary view to inspect the data
     #
@@ -84,7 +85,7 @@ def merge_gps_sectionals(spark, parquet_dir):
 
     view_name = "sectionals_with_sec_time_view"
     view_df.createOrReplaceTempView(view_name)
-    
+    # input("Press Enter to continue...5 Create a temporary view to inspect the data")
     ################################################
     #  6) To aggregate GPS data for the interval leading up to each gate, you need a 
     # start_time and an end_time for that interval. A common approach:
@@ -123,7 +124,7 @@ def merge_gps_sectionals(spark, parquet_dir):
     sectionals_intervals.select(
         *race_id_cols, "saddle_cloth_number", "gate_index", "start_time", "end_time"
     ).show(10, truncate=False)
-
+    # input("Press Enter to continue...6 To aggregate GPS data for the interval leading up to each gate")
     ##############################################
     # 7) Join GPS data with sectionals_intervals
     # 	1.	Join on (course_cd, race_date, race_number, saddle_cloth_number) 
@@ -139,7 +140,8 @@ def merge_gps_sectionals(spark, parquet_dir):
         (col("time_stamp") >= col("start_time")) &
         (col("time_stamp") <= col("end_time"))
     )
-     
+    
+    # input("Press Enter to continue...7 Join GPS data with sectionals_intervals")
     ############################################################################################
     # 8) Aggregate GPS data for each interval
     # After the filter, you have all rows that satisfy:
@@ -170,39 +172,50 @@ def merge_gps_sectionals(spark, parquet_dir):
         last("location").alias("gps_last_location"),
         count("*").alias("gps_num_points")  # how many points fell in the interval
     )
-    
+    # input("Press Enter to continue...8 Aggregate GPS data for each interval")
     ############################################################################################
     # 9) Rejoin Aggregates Back to Sectionals
     ############################################################################################
+    
     final_df = sectionals_intervals.join(
         aggregated,
         on=[*race_id_cols, "saddle_cloth_number", "gate_index"],  # same grouping key
         how="inner"  # or 'inner' if you only want intervals that had GPS data
     )
     
-    # Since 'gps_first_location' and 'gps_last_location' are not WKT but rather hex-encoded WKB (EWKB)
-    final_df = final_df \
-    .withColumn("gps_first_location_geom", expr("ST_GeomFromWKB(unhex(gps_first_location))")) \
-    .withColumn("gps_last_location_geom", expr("ST_GeomFromWKB(unhex(gps_last_location))"))
+    # Assuming 'gps_first_lat', 'gps_first_lon', 'gps_last_lat', 'gps_last_lon' are the columns with lat/lon values
+    try:
+        final_df = final_df \
+            .withColumn("gps_first_lat", expr("CAST(unhex(gps_first_location) AS STRING)").cast(DoubleType())) \
+            .withColumn("gps_first_lon", expr("CAST(unhex(gps_first_location) AS STRING)").cast(DoubleType())) \
+            .withColumn("gps_last_lat", expr("CAST(unhex(gps_last_location) AS STRING)").cast(DoubleType())) \
+            .withColumn("gps_last_lon", expr("CAST(unhex(gps_last_location) AS STRING)").cast(DoubleType())) \
+            .withColumn("gate_distance_km", haversine_udf(col("gps_first_lat"), col("gps_first_lon"), col("gps_last_lat"), col("gps_last_lon")))
 
+        print("GPS data processed successfully.")
+    except Exception as e:
+        print(f"Error during merging GPS data: {e}")
+        logging.error(f"Error during merging GPS data: {e}")
+        
+    # input("Press Enter to continue...9 Rejoin Aggregates Back to Sectionals")
     ############################################################################################
     # 10) How Many Intervals Have No GPS Data?
     #
     ############################################################################################
 
+    # Additional processing
     missing_count = final_df.filter("gps_num_points IS NULL").count()
     print("Number of intervals with no GPS data:", missing_count)
-    
+
     # If your gps_num_points is NULL or 0, you want to mark gps_coverage=False, otherwise True:
     final_df = final_df.withColumn(
         "gps_coverage",
         when((col("gps_num_points").isNotNull()) & (col("gps_num_points") > 0), lit(True))
         .otherwise(lit(False))
     )
-    
+
     print("Marked intervals with no GPS data as 'gps_coverage=False'.")
-    input("Press Enter to continue...")
-    ############################################################################################
+    # input("Press Enter to continue...")
     # 11a.) Convert distance from Furlongs (F) to meters if dist_unit is F
     #    1 Furlong ≈ 201.168 meters.
     #    Then change dist_unit to 'm'.
@@ -210,22 +223,21 @@ def merge_gps_sectionals(spark, parquet_dir):
     final_df = final_df.withColumn(
         "distance_meters",
         when(upper(trim(col("dist_unit"))) == "F", ((col("distance") / 100)) * lit(201.168))
-        .otherwise(lit(None)))
+        .otherwise(lit(None))
+    )
     # Now final_df has "distance_meters" instead of "distance" / "dist_unit"
 
     final_df.printSchema()
     final_df.select("distance", "dist_unit", "distance_meters").show(10, truncate=False)
- 
+
     # Step 2: (Optional) drop the old columns
     final_df = final_df.drop("distance", "dist_unit")
 
-
-    # 11) Save the final_df to parquet
+    # 11b) Save the final_df to parquet
     ############################################################################################
-    
+
     # Now you can save
     save_parquet(spark, final_df, "merge_gps_sectionals_agg", parquet_dir)
-    
+
     return final_df
-    
-    
+        

@@ -1,3 +1,4 @@
+from pyspark.sql import SparkSession
 import os
 import logging
 import pprint
@@ -157,7 +158,6 @@ def prep_data_action(spark, parquet_dir):
             print(f"Error: '{merged_df_path}' does not exist.")
             logging.error(f"Parquet file '{merged_df_path}' not found.")
             return None
-        
         merged_df = spark.read.parquet(merged_df_path)
         processed_data = process_merged_results_sectionals(spark, merged_df, parquet_dir)
         save_parquet(spark, processed_data, "processed_data", parquet_dir)
@@ -256,7 +256,7 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
                         processed_data = prep_data_action(spark, parquet_dir)
                         if processed_data is not None:
                             print("Data preparation completed successfully.")
-                            input("\nPress Enter to continue...")
+                            # input("\nPress Enter to continue...")
                             break  # Exit the inner loop to return to main menu    
 
                     except Exception as e:
@@ -274,12 +274,9 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
     return spark
 
 def main():
-    """
-    Initializes the environment and starts the data processing.
-    """
-    spark = None
     try:
         spark, jdbc_url, jdbc_properties, queries, parquet_dir, log_file = initialize_environment()
+        # input("Press Enter to continue...")
         spark = process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
     except Exception as e:
         print(f"An error occurred during initialization: {e}")
@@ -290,4 +287,4 @@ def main():
             print("Spark session stopped.")
 
 if __name__ == "__main__":
-    main()
+  main()

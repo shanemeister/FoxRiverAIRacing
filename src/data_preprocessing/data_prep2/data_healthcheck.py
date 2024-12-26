@@ -2,7 +2,7 @@ from pyspark.sql.functions import col, count, when, isnan
 from pyspark.sql.types import StringType, NumericType
 from pyspark.ml.feature import StringIndexer
 from pyspark.ml.linalg import VectorUDT
-from pyspark.sql.functions import col, count, when, isnan, sum as spark_sum
+from pyspark.sql.functions import col, count, when, isnan, sum as spark_sum, trim, length
 from pyspark.sql.types import NumericType, DecimalType, DateType, TimestampType, StringType
 
 def time_series_data_healthcheck(data, datetime_col=None):
@@ -32,12 +32,22 @@ def time_series_data_healthcheck(data, datetime_col=None):
     # 2. Missing values
     missing_value_counts = {}
     for col_name, dtype in data.dtypes:
-        if dtype in ["double", "float"]:  # Numeric columns
-            missing_value_counts[col_name] = data.filter(isnan(col(col_name)) | col(col_name).isNull()).count()
-        else:  # Other columns
-            missing_value_counts[col_name] = data.filter(col(col_name).isNull()).count()
-    healthcheck_report["missing_values"] = {k: v for k, v in missing_value_counts.items() if v > 0}
+        if dtype in ["double", "float"]:
+            missing_value_counts[col_name] = data.filter(
+                isnan(col(col_name)) | col(col_name).isNull()
+            ).count()
+        elif dtype == "string":
+            missing_value_counts[col_name] = data.filter(
+                col(col_name).isNull() | (length(trim(col(col_name))) == 0)
+            ).count()
+        else:
+            missing_value_counts[col_name] = data.filter(
+                col(col_name).isNull()
+            ).count()
 
+    healthcheck_report["missing_values"] = {
+        k: v for k, v in missing_value_counts.items() if v > 0
+    }
     # 3. Decimal Columns
     decimal_columns = [col_name for col_name, dtype in data.dtypes if isinstance(data.schema[col_name].dataType, DecimalType)]
     healthcheck_report["decimal_columns"] = {
