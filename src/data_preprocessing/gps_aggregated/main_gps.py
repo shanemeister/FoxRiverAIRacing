@@ -163,6 +163,8 @@ def prep_data_action(spark, parquet_dir):
         save_parquet(spark, processed_data, "processed_data", parquet_dir)
         print("Processed DataFrame saved.")
         logging.info("Data preparation succeeded")
+        processed_data.printSchema()
+        input("\nPress Enter to continue...")
         return processed_data
     except Exception as e:
         print(f"Error during data preparation: {e}")
@@ -256,7 +258,6 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
                         processed_data = prep_data_action(spark, parquet_dir)
                         if processed_data is not None:
                             print("Data preparation completed successfully.")
-                            # input("\nPress Enter to continue...")
                             break  # Exit the inner loop to return to main menu    
 
                     except Exception as e:

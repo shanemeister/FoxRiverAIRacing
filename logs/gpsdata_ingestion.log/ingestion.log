@@ -1,11 +1,71 @@
-2024-12-26 03:00:02 - INFO - Logging has been set up successfully.
-2024-12-26 03:00:02 - INFO - Setting up logging for GPSData
-2024-12-26 03:00:02 - INFO - Starting ingestion job
-2024-12-26 03:00:02 - INFO - Starting ingestion for: GPSData
-2024-12-26 03:00:02 - INFO - Total number of files in the directory: 91138
-2024-12-26 03:00:02 - INFO - Number of valid files matching the pattern: 91135
-2024-12-26 03:00:03 - INFO - Total number of files skipped: 55249
-2024-12-26 03:00:03 - INFO - Total number of files skipped due to cutoff date: 27482
-2024-12-26 03:00:03 - INFO - Total number of files skipped due to bad course_cd: 8404
-2024-12-26 03:00:03 - INFO - Ingestion for GPSData succeeded
-2024-12-26 03:00:03 - INFO - Setting up logging for Routes
+2024-12-27 03:00:51 - INFO - Logging has been set up successfully.
+2024-12-27 03:00:51 - INFO - Setting up logging for GPSData
+2024-12-27 03:00:51 - INFO - Starting ingestion job
+2024-12-27 03:00:51 - INFO - Starting ingestion for: GPSData
+2024-12-27 03:00:51 - INFO - Total number of files in the directory: 91180
+2024-12-27 03:00:51 - INFO - Number of valid files matching the pattern: 91177
+2024-12-27 03:00:51 - INFO - Total number of files skipped: 55249
+2024-12-27 03:00:51 - INFO - Total number of files skipped due to cutoff date: 27482
+2024-12-27 03:00:51 - INFO - Total number of files skipped due to bad course_cd: 8416
+2024-12-27 03:00:51 - INFO - Processing GPSData data from file 86202412261220
+2024-12-27 03:00:51 - INFO - Successfully processed: filename: 86202412261220 course_cd: TTP
+2024-12-27 03:00:51 - INFO - Processing GPSData data from file 86202412261255
+2024-12-27 03:00:51 - INFO - Successfully processed: filename: 86202412261255 course_cd: TTP
+2024-12-27 03:00:51 - INFO - Processing GPSData data from file 86202412261330
+2024-12-27 03:00:51 - INFO - Successfully processed: filename: 86202412261330 course_cd: TTP
+2024-12-27 03:00:51 - INFO - Processing GPSData data from file 86202412261405
+2024-12-27 03:00:51 - INFO - Successfully processed: filename: 86202412261405 course_cd: TTP
+2024-12-27 03:00:51 - INFO - Processing GPSData data from file 86202412261440
+2024-12-27 03:00:51 - INFO - Successfully processed: filename: 86202412261440 course_cd: TTP
+2024-12-27 03:00:51 - INFO - Processing GPSData data from file 86202412261510
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 86202412261510 course_cd: TTP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 86202412261540
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 86202412261540 course_cd: TTP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 86202412261610
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 86202412261610 course_cd: TTP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 86202412261640
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 86202412261640 course_cd: TTP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 86202412261710
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 86202412261710 course_cd: TTP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 95202412261755
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 95202412261755 course_cd: TGP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 95202412261825
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 95202412261825 course_cd: TGP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 95202412261855
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 95202412261855 course_cd: TGP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 95202412261925
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 95202412261925 course_cd: TGP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 95202412261955
+2024-12-27 03:00:52 - INFO - Successfully processed: filename: 95202412261955 course_cd: TGP
+2024-12-27 03:00:52 - INFO - Processing GPSData data from file 95202412262025
+2024-12-27 03:00:53 - INFO - Successfully processed: filename: 95202412262025 course_cd: TGP
+2024-12-27 03:00:53 - INFO - Processing GPSData data from file 95202412262055
+2024-12-27 03:00:53 - INFO - Successfully processed: filename: 95202412262055 course_cd: TGP
+2024-12-27 03:00:53 - INFO - Processing GPSData data from file 95202412262125
+2024-12-27 03:00:53 - INFO - Successfully processed: filename: 95202412262125 course_cd: TGP
+2024-12-27 03:00:53 - INFO - Processing GPSData data from file 95202412262155
+2024-12-27 03:00:53 - INFO - Successfully processed: filename: 95202412262155 course_cd: TGP
+2024-12-27 03:00:53 - INFO - Processing GPSData data from file 94202412261100
+2024-12-27 03:00:53 - INFO - Successfully processed: filename: 94202412261100 course_cd: TTP
+2024-12-27 03:00:53 - INFO - Processing GPSData data from file 94202412261130
+2024-12-27 03:00:53 - INFO - Successfully processed: filename: 94202412261130 course_cd: TTP
+2024-12-27 03:00:53 - INFO - Processing GPSData data from file 94202412261202
+2024-12-27 03:00:53 - INFO - Successfully processed: filename: 94202412261202 course_cd: TTP
+2024-12-27 03:00:53 - INFO - Processing GPSData data from file 94202412261232
+2024-12-27 03:00:53 - INFO - Successfully processed: filename: 94202412261232 course_cd: TTP
+2024-12-27 03:00:53 - INFO - Processing GPSData data from file 94202412261302
+2024-12-27 03:00:54 - INFO - Successfully processed: filename: 94202412261302 course_cd: TTP
+2024-12-27 03:00:54 - INFO - Processing GPSData data from file 94202412261333
+2024-12-27 03:00:54 - INFO - Successfully processed: filename: 94202412261333 course_cd: TTP
+2024-12-27 03:00:54 - INFO - Processing GPSData data from file 94202412261403
+2024-12-27 03:00:54 - INFO - Successfully processed: filename: 94202412261403 course_cd: TTP
+2024-12-27 03:00:54 - INFO - Processing GPSData data from file 94202412261436
+2024-12-27 03:00:54 - INFO - Successfully processed: filename: 94202412261436 course_cd: TTP
+2024-12-27 03:00:54 - INFO - Processing GPSData data from file 94202412261508
+2024-12-27 03:00:54 - INFO - Successfully processed: filename: 94202412261508 course_cd: TTP
+2024-12-27 03:00:54 - INFO - Processing GPSData data from file 94202412261540
+2024-12-27 03:00:54 - INFO - Successfully processed: filename: 94202412261540 course_cd: TTP
+2024-12-27 03:00:54 - INFO - Processing GPSData data from file 94202412261612
+2024-12-27 03:00:54 - INFO - Successfully processed: filename: 94202412261612 course_cd: TTP
+2024-12-27 03:00:54 - INFO - Ingestion for GPSData succeeded
+2024-12-27 03:00:54 - INFO - Setting up logging for Routes
