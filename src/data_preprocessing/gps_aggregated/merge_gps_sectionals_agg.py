@@ -42,12 +42,12 @@ def merge_gps_sectionals(spark, parquet_dir):
     ############################################################################
     # Just ensure sectionals are ordered by gate_index. 
     # We'll do cumulative sums after we join with earliest_time.
-    sectionals_sorted = sectionals.orderBy(*race_id_cols, "saddle_cloth_number", "gate_index")
+    sec_sorted = sectionals.orderBy(*race_id_cols, "saddle_cloth_number", "gate_index")
     #input("Press Enter to continue...2 Sort the sectional data by gate_index")
     ######################################
     # 3) Join the earliest GPS time with sectionals
     ######################################
-    sectionals_with_earliest = sectionals_sorted.join(
+    sec_with_earliest = sec_sorted.join(
         gps_earliest_df,
         on=race_id_cols,
         how="inner"
@@ -59,19 +59,19 @@ def merge_gps_sectionals(spark, parquet_dir):
     # First, compute cumulative_sectional_time per race/horse ordered by gate_index.
     ######################################
     window_spec = Window.partitionBy(*race_id_cols, "saddle_cloth_number").orderBy("gate_index").rowsBetween(Window.unboundedPreceding, 0)
-    sectionals_with_cum = sectionals_with_earliest.withColumn(
+    sec_with_cum = sec_with_earliest.withColumn(
         "cumulative_sectional_time",
-        spark_sum("sectionals_sectional_time").over(window_spec)
+        spark_sum("sec_sectional_time").over(window_spec)
     )
 
     # Now add earliest_time_stamp_gps to cumulative_sectional_time to get sec_time_stamp
-    sectionals_with_sec_time = sectionals_with_cum.withColumn(
+    sec_with_sec_time = sec_with_cum.withColumn(
         "sec_time_stamp",
         add_seconds_udf(col("earliest_time_stamp_gps"), col("cumulative_sectional_time"))
     )
 
     print("Computed sec_time_stamp by adding cumulative_sectional_time to earliest GPS timestamp.")
-    sectionals_with_sec_time.printSchema()
+    sec_with_sec_time.printSchema()
     # input("Press Enter to continue...4 Compute sec_time_stamp in sectionals")
     ######################################
     # 5) Create a temporary view to inspect the data
@@ -79,11 +79,11 @@ def merge_gps_sectionals(spark, parquet_dir):
     # We'll select a subset of columns that are essential for inspection:
     # course_cd, race_date, race_number, saddle_cloth_number, gate_name, gate_index, sec_time_stamp
     ######################################
-    view_df = sectionals_with_sec_time.select(
-    "course_cd", "race_date", "race_number", "saddle_cloth_number", "sectionals_gate_name", "sectionals_sectional_time","gate_index", "sec_time_stamp"
+    view_df = sec_with_sec_time.select(
+    "course_cd", "race_date", "race_number", "saddle_cloth_number", "sec_gate_name", "sec_sectional_time","gate_index", "sec_time_stamp"
     ).orderBy(*race_id_cols, "gate_index")
 
-    view_name = "sectionals_with_sec_time_view"
+    view_name = "sec_with_sec_time_view"
     view_df.createOrReplaceTempView(view_name)
     # input("Press Enter to continue...5 Create a temporary view to inspect the data")
     ################################################
@@ -104,7 +104,7 @@ def merge_gps_sectionals(spark, parquet_dir):
     # Window for each horse, ordered by gate_index
     w = Window.partitionBy("course_cd", "race_date", "race_number", "saddle_cloth_number").orderBy("gate_index")
 
-    sectionals_intervals = sectionals_with_sec_time \
+    sec_intervals = sec_with_sec_time \
         .withColumn("start_time",
             lag("sec_time_stamp").over(w)
         )
@@ -112,16 +112,16 @@ def merge_gps_sectionals(spark, parquet_dir):
     # If start_time is null (i.e., this is the first gate), default to earliest_time_stamp_gps 
     # or the same sec_time_stamp
 
-    sectionals_intervals = sectionals_intervals.withColumn(
+    sec_intervals = sec_intervals.withColumn(
         "start_time",
         when(col("start_time").isNull(), col("earliest_time_stamp_gps"))
         .otherwise(col("start_time"))
     )
 
     # The "end_time" is simply this row's sec_time_stamp
-    sectionals_intervals = sectionals_intervals.withColumn("end_time", col("sec_time_stamp"))
+    sec_intervals = sec_intervals.withColumn("end_time", col("sec_time_stamp"))
 
-    sectionals_intervals.select(
+    sec_intervals.select(
         *race_id_cols, "saddle_cloth_number", "gate_index", "start_time", "end_time"
     ).show(10, truncate=False)
     # input("Press Enter to continue...6 To aggregate GPS data for the interval leading up to each gate")
@@ -133,7 +133,7 @@ def merge_gps_sectionals(spark, parquet_dir):
     ##############################################
 
     interval_join = gpspoint.join(
-        sectionals_intervals,
+        sec_intervals,
         on=["course_cd", "race_date", "race_number", "saddle_cloth_number"],
         how="inner"  # or 'left', if you want all intervals even if no GPS data
     ).filter(
@@ -177,7 +177,7 @@ def merge_gps_sectionals(spark, parquet_dir):
     # 9) Rejoin Aggregates Back to Sectionals
     ############################################################################################
     
-    final_df = sectionals_intervals.join(
+    final_df = sec_intervals.join(
         aggregated,
         on=[*race_id_cols, "saddle_cloth_number", "gate_index"],  # same grouping key
         how="inner"  # or 'inner' if you only want intervals that had GPS data
@@ -237,7 +237,7 @@ def merge_gps_sectionals(spark, parquet_dir):
     ############################################################################################
 
     # Now you can save
-    save_parquet(spark, final_df, "merge_gps_sectionals_agg", parquet_dir)
+    save_parquet(spark, final_df, "merge_gps_sec_agg", parquet_dir)
 
     return final_df
         

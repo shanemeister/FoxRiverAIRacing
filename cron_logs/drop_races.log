@@ -376,3 +376,16 @@ psql:/sql_scripts/drop_races.sql:30: NOTICE:  drop cascades to view v_results
 DROP TABLE
 2024-12-28 23:59:01 - SQL script executed successfully
 2024-12-28 23:59:01 - Races table recreation job completed
+2024-12-29 23:59:01 - Starting races table recreation job
+2024-12-29 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-29 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:30: NOTICE:  drop cascades to view v_results
+DROP TABLE
+2024-12-29 23:59:01 - SQL script executed successfully
+2024-12-29 23:59:01 - Races table recreation job completed

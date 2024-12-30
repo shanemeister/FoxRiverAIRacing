@@ -32,15 +32,15 @@ add_seconds_udf = udf(add_seconds, TimestampType())
 #######################################
 def data_enhancements(spark: SparkSession, parquet_dir: str) -> DataFrame:
     """
-    Main entry point to load the 'merge_gps_sectionals_agg' DataFrame and apply
+    Main entry point to load the 'merge_gps_sec_agg' DataFrame and apply
     advanced GPS-based metrics (fastest/slowest gates, fatigue factor, ground loss, etc.),
     excluding route-based geometry computations.
 
-    NOTE: We preserve ALL existing columns in `merge_gps_sectionals_agg` and only append new ones.
+    NOTE: We preserve ALL existing columns in `merge_gps_sec_agg` and only append new ones.
     """
     # 1. LOAD BASE DATA
-    merged_df = spark.read.parquet(os.path.join(parquet_dir, "merge_gps_sectionals_agg.parquet"))
-    logging.info(f"Loaded 'merge_gps_sectionals_agg' with {merged_df.count()} rows")
+    merged_df = spark.read.parquet(os.path.join(parquet_dir, "merge_gps_sec_agg.parquet"))
+    logging.info(f"Loaded 'merge_gps_sec_agg' with {merged_df.count()} rows")
 
     # 2. CALCULATE INSTANTANEOUS ACCELERATION
     merged_df = calculate_instantaneous_acceleration(merged_df)
@@ -67,10 +67,6 @@ def data_enhancements(spark: SparkSession, parquet_dir: str) -> DataFrame:
         col("gl.total_distance_run_m").alias("actual_distance_run_m")
     )
 
-    # 6. SAVE AND RETURN
-    save_parquet(spark, final_df, "enriched_data", parquet_dir)
-    logging.info("Enrichment job succeeded. Final DataFrame includes all original plus appended columns.")
-
     return final_df
 
 
@@ -95,7 +91,7 @@ def calculate_instantaneous_acceleration(df: DataFrame) -> DataFrame:
     #    Assume sectionals_sectional_time is the time from previous gate -> this gate
     df = df.withColumn(
         "time_diff_s",
-        col("sectionals_sectional_time")  
+        col("sec_sectional_time")  
     )
 
     # 3. Instantaneous acceleration = (speed_i - speed_{i-1}) / time_diff

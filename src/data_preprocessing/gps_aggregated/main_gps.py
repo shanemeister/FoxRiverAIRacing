@@ -79,7 +79,7 @@ def load_postgresql_data(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
         load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
     
         # Reload data from parquet
-        reloaded_dfs = reload_parquet_files(spark, parquet_dir, queries)
+        reloaded_dfs = reload_parquet_files(spark, parquet_dir)
     
         # Print schemas dynamically
         for name, df in reloaded_dfs.items():
@@ -242,6 +242,8 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
                     try:
                         merged_df = data_enhancements(spark, parquet_dir)
                         if merged_df is not None:
+                            save_parquet(spark, merged_df, "enriched_data", parquet_dir)
+                            logging.info("Enrichment job succeeded. Final DataFrame includes all original plus appended columns.")
                             print("Data enrichment completed successfully.")
                     except Exception as e:
                         print(f"Error during data enrichment: {e}")

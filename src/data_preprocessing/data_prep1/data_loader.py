@@ -102,7 +102,7 @@ def merge_results_sectionals(spark, results_df, sectionals_df, parquet_dir):
     race_id_cols = ["course_cd", "race_date", "race_number", "saddle_cloth_number"]
     
     # Define window specification partitioned by race and horse, ordered by sectionals_gate_numeric
-    window_spec = Window.partitionBy(*race_id_cols).orderBy("sectionals_gate_numeric")
+    window_spec = Window.partitionBy(*race_id_cols).orderBy("sec_gate_numeric")
     
     # Assign a sequential gate_index
     merged_df = merged_df.withColumn("gate_index", row_number().over(window_spec))

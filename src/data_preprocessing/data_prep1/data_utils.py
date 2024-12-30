@@ -423,11 +423,11 @@ def aggregate_gates_to_race_level(df: DataFrame) -> DataFrame:
         F.first("final_speed").alias("final_speed_agg"),
         F.avg("acceleration_m_s2").alias("avg_accel_agg"),
         F.avg("fatigue_factor").alias("fatigue_agg"),
-        F.avg("sectionals_sectional_time").alias("sectional_time_agg"),
-        F.avg("sectionals_running_time").alias("running_time_agg"),
-        F.avg("sectionals_distance_back").alias("distance_back_agg"),
-        F.avg("sectionals_distance_ran").alias("distance_ran_agg"),
-        F.avg("sectionals_number_of_strides").alias("strides_agg"),
+        F.avg("sec_sectional_time").alias("sectional_time_agg"),
+        F.avg("sec_running_time").alias("running_time_agg"),
+        F.avg("sec_distance_back").alias("distance_back_agg"),
+        F.avg("sec_distance_ran").alias("distance_ran_agg"),
+        F.avg("sec_number_of_strides").alias("strides_agg"),
         F.max("max_speed_overall").alias("max_speed_overall"),
         F.min("min_speed_overall").alias("min_speed_overall")
     ]
@@ -521,7 +521,7 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
     print("1. No duplicates found.")
        
     # 2. Convert Decimal Columns to Double
-    decimal_cols = ["weight", "power", "morn_odds", "all_earnings", "cond_earnings"]
+    decimal_cols = ["weight", "power", "morn_odds", "all_earnings", "cond_earnings", "wps_pool"]
     for col_name in decimal_cols:
         df = df.withColumn(col_name, F.col(col_name).cast("double"))
     print("2. Decimal columns converted to double.")
@@ -541,18 +541,26 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
     
     categorical_defaults = {"weather": "UNKNOWN", "med": "NONE", "turf_mud_mark": "MISSING"}
     numeric_impute_cols = ["acceleration_m_s2", "gps_section_avg_stride_freq", 
-                           "prev_speed", "sectionals_distance_back", "sectionals_number_of_strides"]
+                           "prev_speed", "sec_distance_back", "sec_number_of_strides"]
 
     df = df.select([F.col(c).alias(c.strip()) for c in df.columns])
     
     df = df.withColumn("turf_mud_mark", F.when(F.col("turf_mud_mark") == "", "MISSING").otherwise(F.col("turf_mud_mark")))
     
-    # input("Press Enter to continue...")
-    
+    # Calculate the mean of the 'wps_pool' column, excluding nulls
+    mean_value = df.select(mean(col("wps_pool")).alias("mean_wps_pool")).collect()[0]["mean_wps_pool"]
+    # Replace null values in 'wps_pool' with the calculated mean
+    df = df.withColumn(
+    "wps_pool",
+    when(col("wps_pool").isNull(), mean_value).otherwise(col("wps_pool"))
+    )
+
     df = df.fillna(categorical_defaults)
     
     df = df.withColumn("med", F.when(F.col("med").isNull(), "UNK").otherwise(F.when(F.col("med") == "", "UNK").otherwise(F.col("med"))))  
-         
+    
+    df = df.withColumn("trk_cond", F.when(F.col("trk_cond").isNull(), "UNK").otherwise(F.when(F.col("trk_cond") == "", "UNK").otherwise(F.col("trk_cond")))) 
+    
     for col_name in numeric_impute_cols:
         df = df.withColumn(f"{col_name}_was_missing", F.when(F.col(col_name).isNull(), 1).otherwise(0))
     df = df.fillna({col_name: 0.0 for col_name in numeric_impute_cols})
@@ -560,28 +568,30 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
     
     # 4. Create Label Column
     # Set label to binary (1 for 1st place, 0 otherwise)
-    df = df.withColumn("label", when(col("official_fin") == 1, 1).otherwise(0))
+    #df = df.withColumn("label", when(col("official_fin") == 1, 1).otherwise(0))
 
     # Check label distribution
-    df.groupBy("label").count().show()
+    #df.groupBy("label").count().show()
     # Set label as the exact finishing position
     # df = df.withColumn("label", col("official_fin").cast("int"))
 
     # # Check label distribution
     # df.groupBy("label").count().show()
+    
+    df = df.withColumn(
+        "label",
+        F.when(F.col("official_fin") == 1, 0)  # Win
+         .when(F.col("official_fin") == 2, 1)  # Place
+         .when(F.col("official_fin") == 3, 2)  # Show
+         .when(F.col("official_fin") == 4, 3)  # Fourth
+         .when(F.col("official_fin") == 5, 4)  # Fifth
+         .when(F.col("official_fin") == 6, 5)  # Sixth
+         .when(F.col("official_fin") == 7, 6)  # Seventh
+         .otherwise(7)                         # Outside top-7
+    )
+    df.groupBy("label").count().show()
     print("4. Created label column.")
     input("Press Enter to continue...")
-    
-    
-    # df = df.withColumn(
-    #     "label",
-    #     F.when(F.col("official_fin") == 1, 0)  # Win
-    #      .when(F.col("official_fin") == 2, 1)  # Place
-    #      .when(F.col("official_fin") == 3, 2)  # Show
-    #      .when(F.col("official_fin") == 4, 3)  # Fourth
-    #      .otherwise(4)                         # Outside top-4
-    # )
-    print("4. Created label column.")
 
     # print("4. Creating label column...")
     # input("Press Enter to continue...")
@@ -593,8 +603,8 @@ def process_merged_results_sectionals(spark, df, parquet_dir):
     # 6. OHE, preprocess_and_sequence_data 
     train_cutoff = '2023-06-30'
     val_cutoff = '2024-03-31'
-    min_seq_len = 3
-    max_seq_len = 5
+    min_seq_len = 5
+    max_seq_len = 10
     
     # troubleshoot_missing_values(df)
     df = preprocess_and_sequence_data(df, parquet_dir, train_cutoff, val_cutoff, min_seq_len, max_seq_len, pad=True)
