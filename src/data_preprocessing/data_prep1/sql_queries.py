@@ -3,10 +3,10 @@ def sql_queries():
     # Define SQL queries without trailing semicolons
     queries = {
            "results": """
-                    SELECT r.course_cd,
+                    SELECT REGEXP_REPLACE(TRIM(UPPER(r.course_cd)), '\s+$', '') AS course_cd,
                         r.race_date,
                         r.race_number,
-                        r2.saddle_cloth_number,
+                        REGEXP_REPLACE(TRIM(UPPER(r2.saddle_cloth_number)), '\s+$', '') AS saddle_cloth_number,
                         h.horse_id,
                         h.horse_name,
                         re.official_fin,
@@ -14,28 +14,28 @@ def sql_queries():
                         r.wps_pool,
                         r2.weight,
                         h.foal_date AS date_of_birth,
-                        h.sex,
+                        TRIM(h.sex) AS sex,
                         r2.post_position AS start_position,
-                        r2.equip,
+                        TRIM(r2.equip) AS equip,
                         r2.claimprice,
-                        r.surface,
+                        TRIM(r.surface) AS surface,
                         ts.surface_type_description,
-                        r.trk_cond,
+                        TRIM(r.trk_cond) AS trk_cond,
                         tc.description AS trk_cond_desc,
-                        r.weather,
+                        TRIM(r.weather) AS weather,
                         r.distance,
                         r.dist_unit,
                         r2.power,
-                        r2.med,
+                        TRIM(r2.med) AS med,
                         r2.morn_odds,
                         r2.avgspd,
                         r2.jock_key,
                         r2.train_key,
-                        r.race_type,
+                        TRIM(r.race_type) AS race_type,
                         r.class_rating,
                         r2.net_sentiment,
-                        r.stk_clm_md,
-                        r2.turf_mud_mark,
+                        TRIM(r.stk_clm_md) AS stk_clm_md,
+                        TRIM(r2.turf_mud_mark) AS turf_mud_mark,
                         r2.avg_spd_sd,
                         r2.ave_cl_sd,
                         r2.hi_spd_sd,
@@ -96,12 +96,12 @@ def sql_queries():
                     AND re.official_fin IS NOT null
         """,
         "gpspoint": """
-            SELECT course_cd, race_date, race_number, saddle_cloth_number, time_stamp, 
+            SELECT REGEXP_REPLACE(TRIM(UPPER(r.course_cd)), '\s+$', '') AS course_cd, race_date, race_number, REGEXP_REPLACE(TRIM(UPPER(r2.saddle_cloth_number)), '\s+$', '') AS saddle_cloth_number, time_stamp, 
                 longitude, latitude, speed, progress, stride_frequency, post_time, location
             FROM v_gpspoint
         """,
         "sectionals": """
-            SELECT course_cd, race_date, race_number, saddle_cloth_number, gate_name, gate_numeric,
+            SELECT REGEXP_REPLACE(TRIM(UPPER(r.course_cd)), '\s+$', '') AS course_cd, race_date, race_number, REGEXP_REPLACE(TRIM(UPPER(r2.saddle_cloth_number)), '\s+$', '') AS saddle_cloth_number, gate_name, gate_numeric,
                 length_to_finish, sectional_time, running_time, distance_back, distance_ran,
                 number_of_strides, post_time
             FROM v_sectionals

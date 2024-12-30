@@ -27,7 +27,7 @@ from src.data_preprocessing.gps_aggregated.merge_gps_sectionals_agg import (
 )
 from src.data_preprocessing.data_prep1.data_utils import (
     save_parquet, gather_statistics, initialize_environment,
-    load_config, initialize_logging, initialize_spark, drop_duplicates_with_tolerance,
+    load_config, initialize_logging, initialize_spark, 
     identify_and_impute_outliers, identify_and_remove_outliers, process_merged_results_sectionals,
     identify_missing_and_outliers
 )
@@ -277,6 +277,7 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
 def main():
     try:
         spark, jdbc_url, jdbc_properties, queries, parquet_dir, log_file = initialize_environment()
+        spark.catalog.clearCache()
         # input("Press Enter to continue...")
         spark = process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
     except Exception as e:

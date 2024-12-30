@@ -81,7 +81,6 @@ def process_tpd_data(conn, directory_path, error_log_file, processed_files, data
             # Process files sorted by post_time for each group
             for (course_cd, race_date), file_info_list in files_by_course_date.items():
                 sorted_files = sorted(file_info_list, key=lambda x: x[1])  # Sort by post_time
-                course_cd = extract_course_code(filename)
                 if course_cd is None or len(course_cd) != 3 or course_cd == 'XXX' or course_cd == 'UNK':
                     #logging.info(f"Skipping file {filename} due to invalid course_cd: {course_cd}")
                     continue

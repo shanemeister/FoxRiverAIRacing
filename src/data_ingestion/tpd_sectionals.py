@@ -8,6 +8,7 @@ from src.data_ingestion.ingestion_utils import (update_ingestion_status, parse_t
 from src.data_ingestion.mappings_dictionaries import eqb_tpd_codes_to_course_cd
 
 def process_tpd_sectionals(conn, data, course_cd, race_date, race_number, filename, post_time):
+    logging.info(f"Course code: {course_cd}+++++++++++++++++++++++++++++")
     has_rejections = False  # Track if any records were rejected
     # logging.info(f"Processing sectionals data from file {filename}")
     cursor = conn.cursor()

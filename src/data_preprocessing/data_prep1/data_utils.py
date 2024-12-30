@@ -7,16 +7,15 @@ import configparser
 import math
 from pyspark.sql import SparkSession
 from src.data_preprocessing.data_prep1.sql_queries import sql_queries
-from pyspark.sql.window import Window
-from pyspark.sql import DataFrame
 from pyspark.ml import Pipeline
 from pyspark.sql.types import StringType, DoubleType, IntegerType, ArrayType
 import pandas as pd
 import numpy as np
 from pyspark.ml.feature import StringIndexer, OneHotEncoder, MinMaxScaler, StandardScaler, VectorAssembler
-from pyspark.sql import functions as F
 from pyspark.sql import DataFrame, Window
 from pyspark.ml.linalg import VectorUDT
+import pyspark.sql.functions as F
+from pyspark.ml.functions import vector_to_array
 
 def haversine(lat1, lon1, lat2, lon2):
     """
@@ -56,7 +55,7 @@ def save_parquet(spark, df, name, parquet_dir):
     output_path = os.path.join(parquet_dir, f"{name}.parquet")
     logging.info(f"Saving {name} DataFrame to Parquet at {output_path}...")
     logging.info(f"Schema of {name} DataFrame:")
-    # df.printSchema()
+    df.printSchema()
     df.write.mode("overwrite").parquet(output_path)  
     spark.catalog.clearCache()
     logging.info(f"{name} DataFrame saved successfully.")
@@ -116,43 +115,6 @@ def gather_statistics(df, df_name):
     
     # Summary statistics
     logging.info(f"Summary statistics for {df_name}:")
-    #df.describe().show()
-    
-def drop_duplicates_with_tolerance(df, tolerance=0.5):
-    # Separate null and non-null sec_time_stamp rows
-    df_null_sec = df.filter(col("sec_time_stamp").isNull())
-    df_non_null = df.filter(col("sec_time_stamp").isNotNull())
-    
-    # Compute time_diff and filter by tolerance
-    df_non_null = df_non_null.withColumn(
-        "time_diff", abs(unix_timestamp("sec_time_stamp") - unix_timestamp("time_stamp"))
-    )
-    
-    df_non_null = df_non_null.filter(col("time_diff") <= tolerance)
-    
-    # Window specification: pick the best match (lowest time_diff, then earliest time_stamp)
-    window_spec = Window.partitionBy("course_cd", "race_date", "race_number", "saddle_cloth_number", "sec_time_stamp") \
-                       .orderBy(col("time_diff").asc(), col("time_stamp").asc())
-    
-    df_non_null = df_non_null.withColumn("row_number", row_number().over(window_spec)) \
-                             .filter(col("row_number") == 1) \
-                             .drop("time_diff", "row_number")
-    
-    # Combine non-null processed rows with null sec_time_stamp rows
-    df_result = df_non_null.unionByName(df_null_sec)
-    
-    # FINAL STEP: Ensure uniqueness at (course_cd, race_date, race_number, saddle_cloth_number, time_stamp)
-    # Add a flag column: 1 if sec_time_stamp is not null, 0 if null
-    df_result = df_result.withColumn("sec_ts_flag", (col("sec_time_stamp").isNotNull()).cast("integer"))
-
-    final_window = Window.partitionBy("course_cd", "race_date", "race_number", "saddle_cloth_number", "time_stamp") \
-                         .orderBy(col("sec_ts_flag").desc())
-
-    df_result = df_result.withColumn("final_row_number", row_number().over(final_window)) \
-                         .filter(col("final_row_number") == 1) \
-                         .drop("sec_ts_flag", "final_row_number")
-    
-    return df_result
 
 def initialize_environment():
     # Paths and configurations
@@ -192,21 +154,11 @@ def initialize_environment():
     jdbc_driver_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/jdbc/postgresql-42.7.4.jar"
     sedona_jar_abs_path = "/home/exx/sedona/apache-sedona-1.7.0-bin/sedona-spark-shaded-3.4_2.12-1.7.0.jar"
     
-    # # Paths to GeoTools JAR files
-    # geotools_jar_paths = [
-    #     "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pyspark/jars/geotools-wrapper-1.1.0-25.2.jar",
-    #     "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pyspark/jars/sedona-python-adapter-3.0_2.12-1.2.0-incubating.jar",
-    #     "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pyspark/jars/sedona-viz-3.0_2.12-1.2.0-incubating.jar",
-    # ]
-    
     # Initialize logging
     initialize_logging(log_file)
     queries = sql_queries()
     # Initialize Spark session
-    
-    
-    # input("Press Enter to continue... getting ready to initialize spark")
-    
+   
     spark = initialize_spark(jdbc_driver_path)
     return spark, jdbc_url, jdbc_properties, queries, parquet_dir, log_file
 
@@ -232,6 +184,7 @@ from sedona.spark import SedonaContext
 def initialize_spark(jdbc_driver_path):
     """
     Initializes Spark without Sedona and GeoTools.
+    Configures Spark to store temporary files in /home/exx/myCode/data/spark_tmp.
     """
     try:
         spark = (
@@ -246,9 +199,10 @@ def initialize_spark(jdbc_driver_path):
             .config("spark.sql.parquet.datetimeRebaseModeInWrite", "LEGACY")
             .config("spark.sql.parquet.int96RebaseModeInWrite", "LEGACY")
             .config("spark.jars", jdbc_driver_path)
+            .config("spark.local.dir", "/home/exx/myCode/data/spark_tmp")  # Set custom tmp directory
             .getOrCreate()
         )
-
+        
         # Optional: reduce verbosity
         spark.sparkContext.setLogLevel("ERROR")
 
@@ -455,110 +409,13 @@ def detect_cardinality_columns(df, threshold, cardinality_type):
     # Return a dictionary for further processing
     return 
 
-def drop_unnecessary_columns(df: DataFrame, additional_columns_to_keep: list = None) -> DataFrame:
-    """
-    Drops unnecessary columns from a DataFrame, retaining essential ones like OHE, features, labels, and sequences.
-
-    Parameters:
-    -----------
-    df                       : DataFrame, input Spark DataFrame.
-    additional_columns_to_keep: list, additional columns to retain beyond the essential ones (optional).
-
-    Returns:
-    --------
-    DataFrame: A new DataFrame with only the specified columns retained.
-    """
-    # Define essential columns dynamically
-    essential_columns = [
-        col for col in df.columns 
-        if col.endswith("_ohe") or col in ["features", "label", "scaled_features", "sequence"]
-    ]
-
-    # Include additional columns specified by the user
-    if additional_columns_to_keep:
-        essential_columns.extend(additional_columns_to_keep)
-
-    # Ensure the list is unique
-    essential_columns = list(set(essential_columns))
-
-    # Identify columns to drop
-    columns_to_drop = [col for col in df.columns if col not in essential_columns]
-
-    # Drop columns
-    df_cleaned = df.drop(*columns_to_drop)
-    return df_cleaned
-
-def split_train_val_data(df):
-    # 1. Split Data by Date
-    train_cutoff = "2023-06-30"
-    val_cutoff = "2024-03-31"
-
-    train_df = df.filter(F.col("race_date") <= F.lit(train_cutoff))
-    val_df = df.filter((F.col("race_date") > F.lit(train_cutoff)) & (F.col("race_date") <= F.lit(val_cutoff)))
-    test_df = df.filter(F.col("race_date") > F.lit(val_cutoff))
-
-    print(f"Train: {train_df.count()}, Validation: {val_df.count()}, Test: {test_df.count()}")
-    
-    assert train_df.count() > 0, "Training set is empty."
-    assert val_df.count() > 0, "Validation set is empty."
-    assert test_df.count() > 0, "Test set is empty."
-
-    return train_df, val_df, test_df
-
-def prepare_lstm_data(train_df, val_df, test_df):
-    """
-    Prepares data for LSTM training, validation, and testing with embedded features.
-    
-    Args:
-        spark (SparkSession): The Spark session.
-        df (Sorted DataFrame): The input DataFrame.
-        train_df: Train data split using split_train_val_data function.
-        val_df: Validation data using split_train_val_data function.
-        test_df: Test data set using split_train_val_data function.
-        
-    Returns:
-        train_df, val_df, test_df: DataFrames with embedded features and sequences.
-    """
-
-    # Step 1: Define numeric columns and OHE columns
-    numeric_cols = [
-        "morn_odds", "gate_index", "age_at_race_day", "purse", "weight", 
-        "start_position", "claimprice", "power", "avgspd", "class_rating", 
-        "net_sentiment", "all_earnings", "cond_earnings", "avg_spd_sd", 
-        "ave_cl_sd", "hi_spd_sd", "pstyerl", "all_starts", "all_win", 
-        "all_place", "all_show", "all_fourth", "cond_starts", "cond_win", 
-        "cond_place", "cond_show", "cond_fourth",
-        "sectional_time_agg", "running_time_agg", "distance_back_agg",
-        "distance_ran_agg", "strides_agg", "max_speed_agg", 
-        "avg_speed_agg", "avg_stride_freq_agg",  
-        "distance_meters", "avg_accel_agg", "max_speed_overall", "min_speed_overall", 
-        "final_speed_agg", "fatigue_agg", 
-        "jock_key_index", "train_key_index"
-    ]
-    num_cols = len(numeric_cols)
-    
-    # Step 3: Scale Features (Train Only)
-    assembler = VectorAssembler(inputCols=numeric_cols, outputCol="raw_features")
-    train_assembled = assembler.transform(train_df)
-    
-    scaler = MinMaxScaler(inputCol="raw_features", outputCol="scaled_features")
-    scaler_model = scaler.fit(train_assembled)
-    
-    # Apply scaling to train, val, test
-    train_scaled = scaler_model.transform(train_assembled).drop("raw_features")
-    val_scaled = scaler_model.transform(assembler.transform(val_df)).drop("raw_features")
-    test_scaled = scaler_model.transform(assembler.transform(test_df)).drop("raw_features")
-
-    return train_scaled, val_scaled, test_scaled, num_cols
-
 def aggregate_gates_to_race_level(df: DataFrame) -> DataFrame:
     """
     For each (course_cd, race_date, race_number, horse_id),
     produce exactly one row that aggregates gate-level metrics.
-    We'll also keep the label and the static columns from that race.
     """
-    # 1) Example aggregator dict. Replace these with whichever gate-level columns you want to summarize.
-    #    E.g. average speed, max speed, final speed, average acceleration, etc.
+
+    # 1. Aggregation for gate-level metrics
     aggregations = [
         F.avg("gps_section_avg_speed").alias("avg_speed_agg"),
         F.max("gps_section_avg_speed").alias("max_speed_agg"),
@@ -575,8 +432,7 @@ def aggregate_gates_to_race_level(df: DataFrame) -> DataFrame:
         F.min("min_speed_overall").alias("min_speed_overall")
     ]
 
-    # 2) Also gather the label and static race-level data (distance, race_type, etc.)
-    #    using FIRST, because it’s the same for all gates in the same race–horse anyway
+    # 2. Static race-level data
     static_cols = [
         F.first("label").alias("label"),
         F.first("distance_meters").alias("distance_meters"),
@@ -620,386 +476,415 @@ def aggregate_gates_to_race_level(df: DataFrame) -> DataFrame:
         F.first("cond_earnings").alias("cond_earnings"),
         F.first("age_at_race_day").alias("age_at_race_day"),
         F.last("gate_index").alias("gate_index")
-        ]
+    ]
 
-    # 3) Group by horse + race, do the aggregator
-    grouped = (
+    # 3. Perform Aggregation
+    return (
         df.groupBy("course_cd", "race_date", "race_number", "horse_id")
           .agg(*aggregations, *static_cols)
     )
 
-    return grouped
+def process_merged_results_sectionals(spark, df, parquet_dir):
+    """
+    Process merged results and sectionals DataFrame to:
+    1. Check and handle duplicates
+    2. Convert decimal columns to doubles
+    3. Impute missing values
+    4. Create age_at_race_day
+    5. Add missing value flags for numeric columns
+    6. Create labels for multi-class classification
+    7. Aggregate gate-level metrics to race-level data
+    
+    Parameters:
+    -----------
+    spark : SparkSession
+    df    : DataFrame, the merged DataFrame to process
+    
+    Returns:
+    --------
+    Processed DataFrame ready for feature engineering.
+    """
 
-from pyspark.sql import DataFrame, Window
-import pyspark.sql.functions as F
+    # 1. Check for Duplicates
+    primary_keys = ["course_cd", "race_date", "race_number", "horse_id", "gate_index"]
+    duplicates = (
+        df.groupBy(*primary_keys)
+          .agg(F.count("*").alias("cnt"))
+          .filter(F.col("cnt") > 1)
+    )
 
-from pyspark.sql import DataFrame, Window
-import pyspark.sql.functions as F
+    dup_count = duplicates.count()
+    if dup_count > 0:
+        print(f"Found {dup_count} duplicate primary key combinations.")
+        duplicates.show()
+        raise ValueError(f"Duplicates found: {dup_count}. Deduplication required.")
+    print("1. No duplicates found.")
+       
+    # 2. Convert Decimal Columns to Double
+    decimal_cols = ["weight", "power", "morn_odds", "all_earnings", "cond_earnings"]
+    for col_name in decimal_cols:
+        df = df.withColumn(col_name, F.col(col_name).cast("double"))
+    print("2. Decimal columns converted to double.")
+    
+    # 3. Impute Missing Values
+    # 3a. Impute date_of_birth with Median
+    df = impute_date_of_birth_with_median(df)
 
-from pyspark.sql import DataFrame, Window
-import pyspark.sql.functions as F
+    # 3b. Create age_at_race_day
+    df = df.withColumn(
+        "age_at_race_day",
+        F.datediff(F.col("race_date"), F.col("date_of_birth")) / 365.25
+    )
+    print("3b. Created age_at_race_day.")
+
+    # 3c. Impute categorical and numeric columns -- ensure no whitespace in categorical columns
+    
+    categorical_defaults = {"weather": "UNKNOWN", "med": "NONE", "turf_mud_mark": "MISSING"}
+    numeric_impute_cols = ["acceleration_m_s2", "gps_section_avg_stride_freq", 
+                           "prev_speed", "sectionals_distance_back", "sectionals_number_of_strides"]
+
+    df = df.select([F.col(c).alias(c.strip()) for c in df.columns])
+    
+    df = df.withColumn("turf_mud_mark", F.when(F.col("turf_mud_mark") == "", "MISSING").otherwise(F.col("turf_mud_mark")))
+    
+    # input("Press Enter to continue...")
+    
+    df = df.fillna(categorical_defaults)
+    
+    df = df.withColumn("med", F.when(F.col("med").isNull(), "UNK").otherwise(F.when(F.col("med") == "", "UNK").otherwise(F.col("med"))))  
+         
+    for col_name in numeric_impute_cols:
+        df = df.withColumn(f"{col_name}_was_missing", F.when(F.col(col_name).isNull(), 1).otherwise(0))
+    df = df.fillna({col_name: 0.0 for col_name in numeric_impute_cols})
+    print("3c. Imputed missing values.")
+    
+    # 4. Create Label Column
+    # Set label to binary (1 for 1st place, 0 otherwise)
+    df = df.withColumn("label", when(col("official_fin") == 1, 1).otherwise(0))
+
+    # Check label distribution
+    df.groupBy("label").count().show()
+    # Set label as the exact finishing position
+    # df = df.withColumn("label", col("official_fin").cast("int"))
+
+    # # Check label distribution
+    # df.groupBy("label").count().show()
+    print("4. Created label column.")
+    input("Press Enter to continue...")
+    
+    
+    # df = df.withColumn(
+    #     "label",
+    #     F.when(F.col("official_fin") == 1, 0)  # Win
+    #      .when(F.col("official_fin") == 2, 1)  # Place
+    #      .when(F.col("official_fin") == 3, 2)  # Show
+    #      .when(F.col("official_fin") == 4, 3)  # Fourth
+    #      .otherwise(4)                         # Outside top-4
+    # )
+    print("4. Created label column.")
+
+    # print("4. Creating label column...")
+    # input("Press Enter to continue...")
+    
+    # 5. Aggregate Gate-Level Metrics to Race-Level
+    df = aggregate_gates_to_race_level(df)
+    print("5. Aggregated gate-level metrics to race-level.")
+    
+    # 6. OHE, preprocess_and_sequence_data 
+    train_cutoff = '2023-06-30'
+    val_cutoff = '2024-03-31'
+    min_seq_len = 3
+    max_seq_len = 5
+    
+    # troubleshoot_missing_values(df)
+    df = preprocess_and_sequence_data(df, parquet_dir, train_cutoff, val_cutoff, min_seq_len, max_seq_len, pad=True)
+    
+    return df
+
+def impute_date_of_birth_with_median(df):
+    """
+    Impute date_of_birth with the median value (or a default if no data exists).
+    """
+    df = df.withColumn("date_of_birth_ts", F.col("date_of_birth").cast("timestamp").cast("long"))
+    median_window = Window.orderBy("date_of_birth_ts")
+
+    median_ts = df.filter(F.col("date_of_birth_ts").isNotNull()).approxQuantile("date_of_birth_ts", [0.5], 0)[0]
+    if median_ts is None:
+        median_date = F.lit("2000-01-01").cast("date")
+    else:
+        median_date = F.from_unixtime(F.lit(median_ts)).cast("date")
+
+    df = df.withColumn(
+        "date_of_birth",
+        F.when(F.col("date_of_birth").isNull(), median_date).otherwise(F.col("date_of_birth"))
+    ).drop("date_of_birth_ts")
+    print("3a. Missing date_of_birth values imputed with median date.")
+    return df
+
+def preprocess_and_sequence_data(df, parquet_dir, train_cutoff, val_cutoff, min_seq_len, max_seq_len, pad=True):
+    """
+    End-to-end pipeline for preprocessing and sequencing data for LSTM.
+
+    Steps:
+    1. One-Hot Encode and Index categorical columns
+    2. Add embedding column for horse_id
+    3. Sort data for train/test splitting and sequencing
+    4. Split data into train, validation, and test sets based on time
+    5. Scale features on the training set
+    6. Create sequences with aggregated and scaled features
+    7. Retain only essential columns
+    8. Save train, validation, and test datasets
+
+    Parameters:
+    ----------
+    df             : DataFrame, processed DataFrame after gate-level aggregation
+    parquet_dir    : str, directory to save parquet files
+    train_cutoff   : str, date cutoff for training set
+    val_cutoff     : str, date cutoff for validation set
+    min_seq_len    : int, minimum sequence length for sequence creation
+    max_seq_len    : int, maximum sequence length for sequence creation
+    pad            : bool, whether to pad sequences to max_seq_len
+    
+    Returns:
+    --------
+    sorted_df : DataFrame, fully processed and sorted DataFrame
+    """    
+    # Step 1: One-Hot Encode and Index Categorical Columns
+    categorical_cols = ["course_cd", "equip", "surface", "trk_cond", "weather", 
+                        "med", "stk_clm_md", "turf_mud_mark", "race_type"]
+    for col in categorical_cols:
+        if col not in df.columns:
+            raise ValueError(f"Column '{col}' is missing in the input DataFrame.")
+
+    indexers = [StringIndexer(inputCol=c, outputCol=f"{c}_index", handleInvalid="keep") for c in categorical_cols]
+    encoders = [OneHotEncoder(inputCols=[f"{c}_index"], outputCols=[f"{c}_ohe"]) for c in categorical_cols]
+
+    # Jockey and trainer keys
+    jock_indexer = StringIndexer(inputCol="jock_key", outputCol="jock_key_index", handleInvalid="keep")
+    train_indexer = StringIndexer(inputCol="train_key", outputCol="train_key_index", handleInvalid="keep")
+
+    # Build and apply pipeline
+    preprocessing_stages = [jock_indexer, train_indexer] + indexers + encoders
+    
+    for stage in preprocessing_stages:
+        print(stage)
+    # print("Check preprocessing stages")
+    # input("Press Enter to continue...")
+    
+    
+    pipeline = Pipeline(stages=preprocessing_stages)
+
+    try:
+        model = pipeline.fit(df)
+        df_transformed = model.transform(df)
+        print("1. Completed OHE and indexing for categorical columns.")
+    except Exception as e:
+        print(f"Pipeline transformation failed: {e}")
+        raise
+
+    # Step 2: Add Embedding Column
+    embedding_col = "horse_id"
+    if embedding_col not in df_transformed.columns:
+        df_transformed = df_transformed.withColumn(embedding_col, F.col(embedding_col))
+    print(f"2. Added embedding column: {embedding_col}.")
+
+    # Step 3: Sort Data for Sequencing and Splitting
+    sorted_df = df_transformed.orderBy(["course_cd", "race_date", "race_number", "horse_id", "gate_index"])
+    print("3. Sorted data for train/test splitting and sequencing.")
+
+    # Step 4: Time-Based Train/Validation/Test Split
+    train_df, val_df, test_df = split_train_val_data(sorted_df, train_cutoff, val_cutoff)
+    print(f"4. Data split: Train = {train_df.count()}, Validation = {val_df.count()}, Test = {test_df.count()}.")
+
+    # Step 5: Scale Features
+    train_scaled, val_scaled, test_scaled, num_cols = prepare_lstm_data(train_df, val_df, test_df)
+    print("5. Features scaled on the training set.")
+
+    # Step 6: Create Sequences
+    train_sequences = create_past_race_sequences_variable(train_scaled, min_seq_len, max_seq_len, pad)
+    val_sequences = create_past_race_sequences_variable(val_scaled, min_seq_len, max_seq_len, pad)
+    test_sequences = create_past_race_sequences_variable(test_scaled, min_seq_len, max_seq_len, pad)
+    print("6. Created sequences with min/max length and padding.")
+
+    # Step 7: Retain Only Essential Columns
+    columns_to_keep = [
+        "race_date", "race_number", "horse_id", "gate_index", "label", 
+        "scaled_features", "features", "past_races_sequence", "aggregated_struct"
+    ]
+    train_sequences = drop_unnecessary_columns(train_sequences, columns_to_keep)
+    val_sequences = drop_unnecessary_columns(val_sequences, columns_to_keep)
+    test_sequences = drop_unnecessary_columns(test_sequences, columns_to_keep)
+    print("7. Retained only essential columns.")
+
+    # Step 8: Save Datasets
+    train_sequences.write.parquet(f"{parquet_dir}/train_sequences.parquet", mode="overwrite")
+    val_sequences.write.parquet(f"{parquet_dir}/val_sequences.parquet", mode="overwrite")
+    test_sequences.write.parquet(f"{parquet_dir}/test_sequences.parquet", mode="overwrite")
+    sorted_df.write.parquet(f"{parquet_dir}/sorted_data.parquet", mode="overwrite")
+    print("8. Saved train, validation, test, and sorted data.")
+
+    return sorted_df
+
+def split_train_val_data(df, train_cutoff, val_cutoff):
+    train_df = df.filter(F.col("race_date") <= F.lit(train_cutoff))
+    val_df = df.filter((F.col("race_date") > F.lit(train_cutoff)) & (F.col("race_date") <= F.lit(val_cutoff)))
+    test_df = df.filter(F.col("race_date") > F.lit(val_cutoff))
+    return train_df, val_df, test_df
+
+def prepare_lstm_data(train_df, val_df, test_df):
+    numeric_cols = [
+        "morn_odds", "gate_index", "age_at_race_day", "purse", "weight", 
+        "start_position", "claimprice", "power", "avgspd", "class_rating", 
+        "net_sentiment", "all_earnings", "cond_earnings", "avg_spd_sd", 
+        "ave_cl_sd", "hi_spd_sd", "pstyerl", "all_starts", "all_win", 
+        "all_place", "all_show", "all_fourth", "cond_starts", "cond_win", 
+        "cond_place", "cond_show", "cond_fourth", "sectional_time_agg", 
+        "running_time_agg", "distance_back_agg", "distance_ran_agg", 
+        "strides_agg", "max_speed_agg", "avg_speed_agg", "avg_stride_freq_agg",  
+        "distance_meters", "avg_accel_agg", "max_speed_overall", "min_speed_overall",
+        "final_speed_agg", "fatigue_agg", "jock_key_index", "train_key_index"
+    ]
+    assembler = VectorAssembler(inputCols=numeric_cols, outputCol="raw_features")
+    train_assembled = assembler.transform(train_df)
+    scaler = MinMaxScaler(inputCol="raw_features", outputCol="scaled_features")
+    scaler_model = scaler.fit(train_assembled)
+    train_scaled = scaler_model.transform(train_assembled).drop("raw_features")
+    val_scaled = scaler_model.transform(assembler.transform(val_df)).drop("raw_features")
+    test_scaled = scaler_model.transform(assembler.transform(test_df)).drop("raw_features")
+    return train_scaled, val_scaled, test_scaled, len(numeric_cols)
 
 def create_past_race_sequences_variable(
     df: DataFrame,
     min_seq_len: int,
     max_seq_len: int,
     pad: bool = True,
-    scaled_features_dim: int = 40  # <-- specify how many elements in scaled_features
 ) -> DataFrame:
     """
-    Collects between min_seq_len and max_seq_len past races (aggregated_struct)
-    into 'past_races_sequence' for each (horse, race).
-
-    If pad=True, we pad any sequence shorter than max_seq_len with a numeric sentinel
-    (-999 for doubles, and a zero or sentinel array for 'scaled_features') so that
-    the final length is exactly max_seq_len.
-
-    :param df: DataFrame with aggregator columns, one row per (horse_id, race_date, race_number).
-    :param min_seq_len: minimum number of past races required
-    :param max_seq_len: maximum number of past races to collect
-    :param pad: if True, pad shorter sequences up to max_seq_len
-    :param scaled_features_dim: the dimension of your scaled_features vector
-    :return: DataFrame with new column 'past_races_sequence'
+    Collects between min_seq_len and max_seq_len past races into 'past_races_sequence'.
+    Includes both `ohe_flat` and `aggregator doubles`.
     """
-
-    # Columns you want to collect in the aggregator struct
+    # Aggregator double columns
     aggregator_cols = [
-        "avg_speed_agg",
-        "max_speed_agg",
-        "final_speed_agg",
-        "avg_accel_agg",
-        "fatigue_agg",
-        "sectional_time_agg",
-        "running_time_agg",
-        "distance_back_agg",
-        "distance_ran_agg",
-        "strides_agg",
-        "max_speed_overall",
-        "min_speed_overall",
-        "scaled_features",
+        "avg_speed_agg", "max_speed_agg", "final_speed_agg", "avg_accel_agg", 
+        "fatigue_agg", "sectional_time_agg", "running_time_agg", "distance_back_agg", 
+        "distance_ran_agg", "strides_agg", "max_speed_overall", "min_speed_overall"
     ]
-    
-    # Window partitioned by horse, ordered by date + race_number
+
+    # OHE columns (VECTOR type)
+    ohe_cols = [
+        "course_cd_ohe", "equip_ohe", "surface_ohe", "trk_cond_ohe", "weather_ohe",
+        "med_ohe", "stk_clm_md_ohe", "turf_mud_mark_ohe", "race_type_ohe"
+    ]
+
+    # Convert OHE columns to ARRAY<DOUBLE>
+    for col_name in ohe_cols:
+        df = df.withColumn(col_name, vector_to_array(col(col_name)))
+
+    # Combine OHE columns into a single flat array
+    df = df.withColumn(
+        "ohe_flat",
+        array(*[col(c) for c in ohe_cols])
+    )
+
+    # Define window for past races
     windowSpec = (
         Window.partitionBy("horse_id")
               .orderBy("race_date", "race_number")
     )
 
-    # 1) Create an aggregator struct for each row
+    # Create aggregated_struct with `ohe_flat` and `aggregator_cols`
     df = df.withColumn(
         "aggregated_struct",
-        F.struct(*[F.col(c).alias(c) for c in aggregator_cols])
+        F.struct(
+            F.flatten(F.col("ohe_flat")).alias("ohe_flat"),  # Flatten combined OHE arrays
+            *[F.col(c).alias(c) for c in aggregator_cols]
+        )
     )
 
-    # 2) Collect up to max_seq_len past races
+    # Collect up to `max_seq_len` past races
     df = df.withColumn(
         "past_races_sequence",
         F.collect_list("aggregated_struct").over(windowSpec.rowsBetween(-max_seq_len, -1))
     )
 
-    # 3) Filter out rows that have fewer than min_seq_len items
+    # Filter rows with fewer than `min_seq_len`
     df = df.filter(F.size(F.col("past_races_sequence")) >= min_seq_len)
 
-    # 4) If pad=True, pad sequences up to exactly max_seq_len
+    # Add padding if required
     if pad:
-        # (A) Build a numeric sentinel for aggregator columns (double fields)
-        # We'll store an array of -999 for each aggregator double.
-        # For scaled_features, we can store an array of -999 or 0.0 of length scaled_features_dim.
-        # Let's demonstrate with 0.0 for each element in scaled_features, but you can do -999 if you prefer.
-
-        # sentinel array for scaled_features (size = scaled_features_dim)
-        sentinel_scaled_array = F.array([F.lit(0.0) for _ in range(scaled_features_dim)])
-
-        # Now create a struct for the aggregator columns + sentinel scaled_features.
-        # For aggregator doubles, we do -999.  For scaled_features, we do the zero array.
-        df = df.withColumn(
-            "padding_struct",
-            F.struct(
-                F.lit(-999.0).cast("double").alias("avg_speed_agg"),
-                F.lit(-999.0).cast("double").alias("max_speed_agg"),
-                F.lit(-999.0).cast("double").alias("final_speed_agg"),
-                F.lit(-999.0).cast("double").alias("avg_accel_agg"),
-                F.lit(-999.0).cast("double").alias("fatigue_agg"),
-                F.lit(-999.0).cast("double").alias("sectional_time_agg"),
-                F.lit(-999.0).cast("double").alias("running_time_agg"),
-                F.lit(-999.0).cast("double").alias("distance_back_agg"),
-                F.lit(-999.0).cast("double").alias("distance_ran_agg"),
-                F.lit(-999.0).cast("double").alias("strides_agg"),
-                F.lit(-999.0).cast("double").alias("max_speed_overall"),
-                F.lit(-999.0).cast("double").alias("min_speed_overall"),
-                # For scaled_features (vector), let's store the zero array 
-                # This will become an array<double> in Spark 
-                # (you can convert to a vector later if needed)
-                sentinel_scaled_array.alias("scaled_features")
-            )
+        # Define padding struct
+        padding_struct = F.struct(
+            F.array([F.lit(0.0)] * sum(len(c) for c in ohe_cols)).alias("ohe_flat"),
+            *[F.lit(-999.0).alias(c) for c in aggregator_cols]
         )
-
-        # (B) Calculate current sequence length
-        df = df.withColumn("sequence_len", F.size("past_races_sequence"))
-
-        # (C) If sequence_len < max_seq_len, array_repeat the sentinel
+        df = df.withColumn("sequence_len", F.size(F.col("past_races_sequence")))
         df = df.withColumn(
             "past_races_sequence",
             F.when(
                 F.col("sequence_len") < max_seq_len,
                 F.concat(
                     F.col("past_races_sequence"),
-                    F.array_repeat(
-                        F.col("padding_struct"),
-                        F.lit(max_seq_len) - F.col("sequence_len")
-                    )
+                    F.array_repeat(padding_struct, F.lit(max_seq_len) - F.col("sequence_len"))
                 )
             ).otherwise(F.col("past_races_sequence"))
         )
 
         # Drop helper columns
-        df = df.drop("padding_struct", "sequence_len")
+        df = df.drop("sequence_len")
 
     return df
 
-def process_merged_results_sectionals(spark, df, parquet_dir):
+def drop_unnecessary_columns(df: DataFrame, additional_columns_to_keep: list = None) -> DataFrame:
     """
-    Process merged results and sectionals DataFrame to remove duplicates, impute missing values,
-    convert data types, OHE, and gather statistics. Retains horse_id for embedding.
-    
+    Drops unnecessary columns from the DataFrame, retaining essential ones for training.
+
     Parameters:
-    -----------
-    spark      : SparkSession
-    df         : DataFrame, the merged DataFrame to process
-    parquet_dir: str, directory to save parquet data if needed
-    
+    ----------
+    df                       : DataFrame, input Spark DataFrame.
+    additional_columns_to_keep: list, additional columns to retain beyond essential ones.
+
     Returns:
     --------
-    DataFrame: The processed DataFrame with final 'features' and 'label' columns,
-               plus 'horse_id' retained for embedding.
+    DataFrame with only specified columns retained.
     """
-    # 1) Check for duplicates ================================================================================
-    primary_keys = ["course_cd", "race_date", "race_number", "horse_id", "gate_index"]
-
-    duplicates = (
-        df.groupBy(*primary_keys)
-          .agg(count("*").alias("cnt"))
-          .filter(col("cnt") > 1)
-    )
-    dup_count = duplicates.count()
-    
-    if dup_count > 0:
-        print(f"Found {dup_count} duplicate primary key combinations.")
-        duplicates.show()
-        raise ValueError(f"Duplicates found: {dup_count}. Dedup function needed.")
-    else:
-        print("No duplicates found.")
-    
-    print("1. Duplicates checked.")
-    
-    # 2) Convert decimal columns to double ===================================================================
-    decimal_cols = ["weight", "power", "morn_odds", "all_earnings", "cond_earnings"]
-    for col_name in decimal_cols:
-        df = df.withColumn(col_name, col(col_name).cast("double"))
-    print("2. Decimal columns converted to double.")
-    
-    # 3) Impute missing values ================================================================================
-    # 3a) Impute date_of_birth with the median date_of_birth
-    df = df.withColumn("date_of_birth_ts", col("date_of_birth").cast("timestamp").cast("long"))
-    
-    median_window = Window.orderBy("date_of_birth_ts")
-    row_count = df.filter(col("date_of_birth_ts").isNotNull()).count()
-
-    if row_count > 0:
-        if row_count % 2 == 0:  # Even
-            median_row_1 = row_count // 2
-            median_row_2 = median_row_1 + 1
-            median_ts = (
-                df.filter(col("date_of_birth_ts").isNotNull())
-                  .select("date_of_birth_ts")
-                  .withColumn("row_num", row_number().over(median_window))
-                  .filter((col("row_num") == median_row_1) | (col("row_num") == median_row_2))
-                  .groupBy()
-                  .agg(expr("avg(date_of_birth_ts) as median_ts"))
-                  .collect()[0]["median_ts"]
-            )
-        else:  # Odd
-            median_row = (row_count + 1) // 2
-            median_ts = (
-                df.filter(col("date_of_birth_ts").isNotNull())
-                  .select("date_of_birth_ts")
-                  .withColumn("row_num", row_number().over(median_window))
-                  .filter(col("row_num") == median_row)
-                  .collect()[0]["date_of_birth_ts"]
-            )
-        median_date = lit(expr(f"CAST(FROM_UNIXTIME({median_ts}) AS DATE)"))
-    else:
-        # If no valid date_of_birth at all, fallback to some default
-        median_date = lit(expr("CAST('2000-01-01' AS DATE)"))
-
-    df = df.withColumn(
-        "date_of_birth",
-        when(col("date_of_birth").isNull(), median_date).otherwise(col("date_of_birth"))
-    ).drop("date_of_birth_ts")
-    print("3a. Missing date_of_birth values imputed with median date.")
-    
-    # 3b) Convert date_of_birth to age in years
-    df = df.withColumn("date_of_birth", col("date_of_birth").cast("date"))
-    df = df.withColumn("race_date", col("race_date").cast("date"))
-    df = df.withColumn(
-        "age_at_race_day",
-        datediff(col("race_date"), col("date_of_birth")) / 365.25
-    )
-    print("3b. Created age_at_race_day from date_of_birth.")
-    
-    # 3c) Impute missing weather with 'UNKNOWN'
-    df = df.fillna({"weather": "UNKNOWN"})
-    print("3c. weather -> UNKNOWN where missing.")
-    
-    # 3d) Impute missing wps_pool with mean
-    mean_value = df.select(mean(col("wps_pool")).alias("mean_wps_pool")).collect()[0]["mean_wps_pool"]
-    df = df.withColumn("wps_pool", when(col("wps_pool").isNull(), mean_value).otherwise(col("wps_pool")))
-    print("3d. wps_pool -> mean where missing.")
-
-    # 3e) Impute equip with 'No_Equip'
-    df = df.withColumn(
-        "med",
-        when(length(trim(col("med"))) == 0, lit("MISSING"))
-        .otherwise(col("med"))
-    )
-    
-    # 3f) Impute trk_cond/trk_cond_desc with 'MISSING'
-    df = df.withColumn(
-        "turf_mud_mark",
-        when(length(trim(col("turf_mud_mark"))) == 0, lit("MISSING"))
-        .otherwise(col("turf_mud_mark"))
-    )
-
-    # 3g) Numeric columns: add missing flags + fill with 0
-    numeric_impute_cols = ["acceleration_m_s2", "gps_section_avg_stride_freq", "prev_speed", "sectionals_distance_back", "sectionals_number_of_strides"]
-    for c in numeric_impute_cols:
-        df = df.withColumn(f"{c}_was_missing", when(col(c).isNull(), lit(1)).otherwise(lit(0)))
-    df = df.fillna({col_: 0.0 for col_ in numeric_impute_cols})
-    print("Imputed numeric columns with 0 and added missing flags.")
-    
-    # 4) Create label column ================================================================================
-    # Example: multi-class finish bracket (0=win,1=place,2=show,3=fourth,4=outside top4)
-    df = df.withColumn(
-        "label",
-        when(col("official_fin") == 1, lit(0))      # Win
-        .when(col("official_fin") == 2, lit(1))     # Place
-        .when(col("official_fin") == 3, lit(2))     # Show
-        .when(col("official_fin") == 4, lit(3))     # Fourth
-        .otherwise(lit(4))                          # Outside top-4
-    )
-    print("4. Created label column (multi-class based on official_fin).")
-    
-    # 4a. The aggregation step
-    df.printSchema()
-    # input("Press Enter to continue...4a")
-    
-    df = aggregate_gates_to_race_level (df)
-    # input("Press Enter to continue...4b")
-    # 5) One-Hot Encode (and StringIndex) the relevant categorical columns ===================================
-    categorical_cols = ["course_cd", "equip", "surface", "trk_cond", "weather", "med", "stk_clm_md", "turf_mud_mark", "race_type" ]
-    # Build indexers and encoders for categorical columns
-    indexers = [
-        StringIndexer(inputCol=c, outputCol=f"{c}_index", handleInvalid="keep")
-        for c in categorical_cols
-    ]
-    encoders = [
-        OneHotEncoder(inputCols=[f"{c}_index"], outputCols=[f"{c}_ohe"])
-        for c in categorical_cols
+    # Essential columns based on suffixes and explicit column names
+    essential_columns = [
+        col for col in df.columns 
+        if col.endswith("_ohe") or col in ["features", "label", "scaled_features", "sequence", "past_races_sequence"]
     ]
 
-    # Handle jock_key and train_key
-    jock_indexer = StringIndexer(inputCol="jock_key", outputCol="jock_key_index", handleInvalid="keep")
-    train_indexer = StringIndexer(inputCol="train_key", outputCol="train_key_index", handleInvalid="keep")
+    # Include user-specified columns
+    if additional_columns_to_keep:
+        essential_columns.extend(additional_columns_to_keep)
 
-    # Combine all stages into a pipeline
-    preprocessing_stages = [jock_indexer, train_indexer] + indexers + encoders
-    pipeline = Pipeline(stages=preprocessing_stages)
+    # Ensure unique list
+    essential_columns = list(set(essential_columns))
 
-    # Fit and transform the pipeline
-    model = pipeline.fit(df)
-    df_transformed = model.transform(df)
-    print("6. Completed StringIndex + OneHotEncode for categorical columns.")
+    # Drop columns not in essential_columns
+    columns_to_drop = [col for col in df.columns if col not in essential_columns]
+    return df.drop(*columns_to_drop)
 
-    # 6A - Drop original categorical columns
-    df_transformed = df_transformed.drop(*categorical_cols)
-    print("6A. Dropped original categorical columns.")
+def troubleshoot_missing_values(df):
     
-    #6B - Drop jock_key and train_key
-    df_transformed = df_transformed.drop("jock_key", "train_key")
-    print("6B. Dropped jock_key and train_key.")
+    # Step 1: One-Hot Encode and Index Categorical Columns
+    categorical_cols = ["course_cd", "equip", "surface", "trk_cond", "weather", 
+                        "med", "stk_clm_md", "turf_mud_mark", "race_type"]
     
-    # 6C - Assign embedding column
-    embedding_col = "horse_id"
-    # Check if the embedding column already exists
-    if embedding_col not in df_transformed.columns:
-        df_transformed = df_transformed.select("*", embedding_col)
-    print(f"6C. Assigned embedding column: {embedding_col}")
+    print("Columns in DataFrame:", df.columns)
+    assert all(col.strip() != "" for col in df.columns), "DataFrame contains columns with empty names."
     
-    df_transformed.printSchema()
+    for col in ["course_cd", "equip", "surface", "trk_cond", "weather", 
+            "med", "stk_clm_md", "turf_mud_mark", "race_type", "jock_key", "train_key"]:
+            null_count = df.filter((F.col(col).isNull()) | (F.col(col) == "")).count()
+            print(f"Column '{col}': {null_count} null or empty values.")
+            
     
-    # input("Press Enter to continue...6c")
-    # 7 - Setup Strict Time-based Train/Test Sorting and Split Data ===========================================
-    # Sort the dataset for sequencing
-    sorted_df = df_transformed.orderBy(["course_cd", "race_date", "race_number", "horse_id", "gate_index"])
-    # input("Press Enter to continue...7")
-    
-    train_df, val_df, test_df = split_train_val_data(sorted_df)
-    # input("Press Enter to continue...7")
-    
-    # 8. Scale Features on Training Set =======================================================================
-    train_scaled, val_scaled, test_scaled, num_cols = prepare_lstm_data(train_df, val_df, test_df)
-    # input("Press Enter to continue...8")
-    
-    #9 - Sequence Creation: Use create_sequence function to create sequences of length 10 ======================
-    min_seq_len = 1
-    max_seq_len = 10
-    
-    # Create sequences
-    train_sequences = create_past_race_sequences_variable(train_scaled, min_seq_len, max_seq_len, pad=True, scaled_features_dim=num_cols)
-    print("Train Sequences: ", train_sequences.filter(size(col("past_races_sequence")) != 10).count())
-    train_sequences.printSchema()
-    input("Press Enter to continue...9")
-    
-    val_sequences = create_past_race_sequences_variable(val_scaled, min_seq_len, max_seq_len, pad=True, scaled_features_dim=num_cols)
-    print("Validation Sequences: ", val_sequences.filter(size(col("past_races_sequence")) != 10).count())
-    val_sequences.printSchema()
-    input("Press Enter to continue...10")
-    
-    test_sequences = create_past_race_sequences_variable(test_scaled, min_seq_len, max_seq_len, pad=True, scaled_features_dim=num_cols)
-    print("Test Sequences: ", test_sequences.filter(size(col("past_races_sequence")) != 10).count())
-    test_sequences.printSchema()
-    input("Press Enter to continue...11")
-    
-    print(f"Train Sequences: {train_sequences.count()}, Validation Sequences: {val_sequences.count()}, Test Sequences: {test_sequences.count()}")
-
-    input("Press Enter to continue...11")
-    
-    # Retain Important Columns
-    columns_to_keep = [
-        "race_date", "race_number", "horse_id", "gate_index", "label", 
-        "scaled_features", "features", "past_races_sequence", "aggregated_struct"
-    ]
-
-    train_sequences = drop_unnecessary_columns(train_sequences, columns_to_keep)
-    train_sequences.printSchema()
-    input("Press Enter to continue...12")   
-    
-    val_sequences = drop_unnecessary_columns(val_sequences, columns_to_keep)
-    val_sequences.printSchema()
-    input("Press Enter to continue...13")
-    
-    test_sequences = drop_unnecessary_columns(test_sequences, columns_to_keep)
-    test_sequences.printSchema()
-    input("Press Enter to continue...14")
-    
-    # Write sequences to parquet
-    train_sequences.write.parquet(f"{parquet_dir}/train_sequences.parquet", mode="overwrite")
-    val_sequences.write.parquet(f"{parquet_dir}/val_sequences.parquet", mode="overwrite")
-    test_sequences.write.parquet(f"{parquet_dir}/test_sequences.parquet", mode="overwrite")
-
-    sorted_df.printSchema()
-    # input("Press Enter to continue...12")
-    print("Data preparation complete. Train, Validation, and Test datasets saved.")
-    final_df = drop_unnecessary_columns(sorted_df, columns_to_keep)
-    print("Final DataFrame columns: ", final_df.columns)
-    return final_df
+    for col in df.columns:
+        if col.strip() == "":
+            print(f"Empty or whitespace-only column name detected: '{col}'")
+            
+    for col in ["turf_mud_mark", "med", "equip", "surface"]:
+        empty_count = df.filter(F.col(col) == "").count()
+        print(f"Column '{col}': {empty_count} empty string values.")
+        
+    input("Press Enter to continue...")

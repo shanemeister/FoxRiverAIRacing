@@ -4484,3 +4484,1503 @@
 2024-12-27 06:31:12 - INFO - All updates completed with some errors.
 2024-12-27 06:31:12 - Python script succeeded
 2024-12-27 06:31:12 - Job completed
+2024-12-28 06:30:01 - Starting stat_type_update job
+2024-12-28 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-28 06:30:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+2024-12-28 06:30:01 - INFO - Logging has been set up successfully.
+2024-12-28 06:30:01 - INFO - Password found in configuration. Using provided password for authentication.
+2024-12-28 06:30:01 - INFO - Connection pool created successfully.
+2024-12-28 06:30:01 - INFO - Updating sectionals_aggregated beginning...
+2024-12-28 06:30:02 - INFO - Total groups to process: 367019
+2024-12-28 06:30:02 - INFO - Processing batch 1: Groups 1 to 1000
+2024-12-28 06:30:02 - INFO - Batch 1 processed successfully.
+2024-12-28 06:30:02 - INFO - Processing batch 2: Groups 1001 to 2000
+2024-12-28 06:30:02 - INFO - Batch 2 processed successfully.
+2024-12-28 06:30:02 - INFO - Processing batch 3: Groups 2001 to 3000
+2024-12-28 06:30:02 - INFO - Batch 3 processed successfully.
+2024-12-28 06:30:02 - INFO - Processing batch 4: Groups 3001 to 4000
+2024-12-28 06:30:02 - INFO - Batch 4 processed successfully.
+2024-12-28 06:30:02 - INFO - Processing batch 5: Groups 4001 to 5000
+2024-12-28 06:30:03 - INFO - Batch 5 processed successfully.
+2024-12-28 06:30:03 - INFO - Processing batch 6: Groups 5001 to 6000
+2024-12-28 06:30:03 - INFO - Batch 6 processed successfully.
+2024-12-28 06:30:03 - INFO - Processing batch 7: Groups 6001 to 7000
+2024-12-28 06:30:03 - INFO - Batch 7 processed successfully.
+2024-12-28 06:30:03 - INFO - Processing batch 8: Groups 7001 to 8000
+2024-12-28 06:30:03 - INFO - Batch 8 processed successfully.
+2024-12-28 06:30:03 - INFO - Processing batch 9: Groups 8001 to 9000
+2024-12-28 06:30:03 - INFO - Batch 9 processed successfully.
+2024-12-28 06:30:03 - INFO - Processing batch 10: Groups 9001 to 10000
+2024-12-28 06:30:03 - INFO - Batch 10 processed successfully.
+2024-12-28 06:30:03 - INFO - Processing batch 11: Groups 10001 to 11000
+2024-12-28 06:30:04 - INFO - Batch 11 processed successfully.
+2024-12-28 06:30:04 - INFO - Processing batch 12: Groups 11001 to 12000
+2024-12-28 06:30:04 - INFO - Batch 12 processed successfully.
+2024-12-28 06:30:04 - INFO - Processing batch 13: Groups 12001 to 13000
+2024-12-28 06:30:04 - INFO - Batch 13 processed successfully.
+2024-12-28 06:30:04 - INFO - Processing batch 14: Groups 13001 to 14000
+2024-12-28 06:30:04 - INFO - Batch 14 processed successfully.
+2024-12-28 06:30:04 - INFO - Processing batch 15: Groups 14001 to 15000
+2024-12-28 06:30:04 - INFO - Batch 15 processed successfully.
+2024-12-28 06:30:04 - INFO - Processing batch 16: Groups 15001 to 16000
+2024-12-28 06:30:04 - INFO - Batch 16 processed successfully.
+2024-12-28 06:30:04 - INFO - Processing batch 17: Groups 16001 to 17000
+2024-12-28 06:30:05 - INFO - Batch 17 processed successfully.
+2024-12-28 06:30:05 - INFO - Processing batch 18: Groups 17001 to 18000
+2024-12-28 06:30:05 - INFO - Batch 18 processed successfully.
+2024-12-28 06:30:05 - INFO - Processing batch 19: Groups 18001 to 19000
+2024-12-28 06:30:05 - INFO - Batch 19 processed successfully.
+2024-12-28 06:30:05 - INFO - Processing batch 20: Groups 19001 to 20000
+2024-12-28 06:30:05 - INFO - Batch 20 processed successfully.
+2024-12-28 06:30:05 - INFO - Processing batch 21: Groups 20001 to 21000
+2024-12-28 06:30:05 - INFO - Batch 21 processed successfully.
+2024-12-28 06:30:05 - INFO - Processing batch 22: Groups 21001 to 22000
+2024-12-28 06:30:05 - INFO - Batch 22 processed successfully.
+2024-12-28 06:30:05 - INFO - Processing batch 23: Groups 22001 to 23000
+2024-12-28 06:30:05 - INFO - Batch 23 processed successfully.
+2024-12-28 06:30:05 - INFO - Processing batch 24: Groups 23001 to 24000
+2024-12-28 06:30:05 - INFO - Batch 24 processed successfully.
+2024-12-28 06:30:05 - INFO - Processing batch 25: Groups 24001 to 25000
+2024-12-28 06:30:06 - INFO - Batch 25 processed successfully.
+2024-12-28 06:30:06 - INFO - Processing batch 26: Groups 25001 to 26000
+2024-12-28 06:30:06 - INFO - Batch 26 processed successfully.
+2024-12-28 06:30:06 - INFO - Processing batch 27: Groups 26001 to 27000
+2024-12-28 06:30:06 - INFO - Batch 27 processed successfully.
+2024-12-28 06:30:06 - INFO - Processing batch 28: Groups 27001 to 28000
+2024-12-28 06:30:06 - INFO - Batch 28 processed successfully.
+2024-12-28 06:30:06 - INFO - Processing batch 29: Groups 28001 to 29000
+2024-12-28 06:30:06 - INFO - Batch 29 processed successfully.
+2024-12-28 06:30:06 - INFO - Processing batch 30: Groups 29001 to 30000
+2024-12-28 06:30:06 - INFO - Batch 30 processed successfully.
+2024-12-28 06:30:06 - INFO - Processing batch 31: Groups 30001 to 31000
+2024-12-28 06:30:06 - INFO - Batch 31 processed successfully.
+2024-12-28 06:30:06 - INFO - Processing batch 32: Groups 31001 to 32000
+2024-12-28 06:30:06 - INFO - Batch 32 processed successfully.
+2024-12-28 06:30:06 - INFO - Processing batch 33: Groups 32001 to 33000
+2024-12-28 06:30:07 - INFO - Batch 33 processed successfully.
+2024-12-28 06:30:07 - INFO - Processing batch 34: Groups 33001 to 34000
+2024-12-28 06:30:07 - INFO - Batch 34 processed successfully.
+2024-12-28 06:30:07 - INFO - Processing batch 35: Groups 34001 to 35000
+2024-12-28 06:30:07 - INFO - Batch 35 processed successfully.
+2024-12-28 06:30:07 - INFO - Processing batch 36: Groups 35001 to 36000
+2024-12-28 06:30:07 - INFO - Batch 36 processed successfully.
+2024-12-28 06:30:07 - INFO - Processing batch 37: Groups 36001 to 37000
+2024-12-28 06:30:07 - INFO - Batch 37 processed successfully.
+2024-12-28 06:30:07 - INFO - Processing batch 38: Groups 37001 to 38000
+2024-12-28 06:30:07 - INFO - Batch 38 processed successfully.
+2024-12-28 06:30:07 - INFO - Processing batch 39: Groups 38001 to 39000
+2024-12-28 06:30:08 - INFO - Batch 39 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 40: Groups 39001 to 40000
+2024-12-28 06:30:08 - INFO - Batch 40 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 41: Groups 40001 to 41000
+2024-12-28 06:30:08 - INFO - Batch 41 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 42: Groups 41001 to 42000
+2024-12-28 06:30:08 - INFO - Batch 42 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 43: Groups 42001 to 43000
+2024-12-28 06:30:08 - INFO - Batch 43 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 44: Groups 43001 to 44000
+2024-12-28 06:30:08 - INFO - Batch 44 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 45: Groups 44001 to 45000
+2024-12-28 06:30:08 - INFO - Batch 45 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 46: Groups 45001 to 46000
+2024-12-28 06:30:08 - INFO - Batch 46 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 47: Groups 46001 to 47000
+2024-12-28 06:30:08 - INFO - Batch 47 processed successfully.
+2024-12-28 06:30:08 - INFO - Processing batch 48: Groups 47001 to 48000
+2024-12-28 06:30:09 - INFO - Batch 48 processed successfully.
+2024-12-28 06:30:09 - INFO - Processing batch 49: Groups 48001 to 49000
+2024-12-28 06:30:09 - INFO - Batch 49 processed successfully.
+2024-12-28 06:30:09 - INFO - Processing batch 50: Groups 49001 to 50000
+2024-12-28 06:30:09 - INFO - Batch 50 processed successfully.
+2024-12-28 06:30:09 - INFO - Processing batch 51: Groups 50001 to 51000
+2024-12-28 06:30:09 - INFO - Batch 51 processed successfully.
+2024-12-28 06:30:09 - INFO - Processing batch 52: Groups 51001 to 52000
+2024-12-28 06:30:09 - INFO - Batch 52 processed successfully.
+2024-12-28 06:30:09 - INFO - Processing batch 53: Groups 52001 to 53000
+2024-12-28 06:30:09 - INFO - Batch 53 processed successfully.
+2024-12-28 06:30:09 - INFO - Processing batch 54: Groups 53001 to 54000
+2024-12-28 06:30:09 - INFO - Batch 54 processed successfully.
+2024-12-28 06:30:09 - INFO - Processing batch 55: Groups 54001 to 55000
+2024-12-28 06:30:10 - INFO - Batch 55 processed successfully.
+2024-12-28 06:30:10 - INFO - Processing batch 56: Groups 55001 to 56000
+2024-12-28 06:30:10 - INFO - Batch 56 processed successfully.
+2024-12-28 06:30:10 - INFO - Processing batch 57: Groups 56001 to 57000
+2024-12-28 06:30:10 - INFO - Batch 57 processed successfully.
+2024-12-28 06:30:10 - INFO - Processing batch 58: Groups 57001 to 58000
+2024-12-28 06:30:10 - INFO - Batch 58 processed successfully.
+2024-12-28 06:30:10 - INFO - Processing batch 59: Groups 58001 to 59000
+2024-12-28 06:30:10 - INFO - Batch 59 processed successfully.
+2024-12-28 06:30:10 - INFO - Processing batch 60: Groups 59001 to 60000
+2024-12-28 06:30:10 - INFO - Batch 60 processed successfully.
+2024-12-28 06:30:10 - INFO - Processing batch 61: Groups 60001 to 61000
+2024-12-28 06:30:10 - INFO - Batch 61 processed successfully.
+2024-12-28 06:30:10 - INFO - Processing batch 62: Groups 61001 to 62000
+2024-12-28 06:30:10 - INFO - Batch 62 processed successfully.
+2024-12-28 06:30:10 - INFO - Processing batch 63: Groups 62001 to 63000
+2024-12-28 06:30:11 - INFO - Batch 63 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 64: Groups 63001 to 64000
+2024-12-28 06:30:11 - INFO - Batch 64 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 65: Groups 64001 to 65000
+2024-12-28 06:30:11 - INFO - Batch 65 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 66: Groups 65001 to 66000
+2024-12-28 06:30:11 - INFO - Batch 66 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 67: Groups 66001 to 67000
+2024-12-28 06:30:11 - INFO - Batch 67 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 68: Groups 67001 to 68000
+2024-12-28 06:30:11 - INFO - Batch 68 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 69: Groups 68001 to 69000
+2024-12-28 06:30:11 - INFO - Batch 69 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 70: Groups 69001 to 70000
+2024-12-28 06:30:11 - INFO - Batch 70 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 71: Groups 70001 to 71000
+2024-12-28 06:30:11 - INFO - Batch 71 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 72: Groups 71001 to 72000
+2024-12-28 06:30:11 - INFO - Batch 72 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 73: Groups 72001 to 73000
+2024-12-28 06:30:11 - INFO - Batch 73 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 74: Groups 73001 to 74000
+2024-12-28 06:30:11 - INFO - Batch 74 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 75: Groups 74001 to 75000
+2024-12-28 06:30:11 - INFO - Batch 75 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 76: Groups 75001 to 76000
+2024-12-28 06:30:11 - INFO - Batch 76 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 77: Groups 76001 to 77000
+2024-12-28 06:30:11 - INFO - Batch 77 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 78: Groups 77001 to 78000
+2024-12-28 06:30:11 - INFO - Batch 78 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 79: Groups 78001 to 79000
+2024-12-28 06:30:11 - INFO - Batch 79 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 80: Groups 79001 to 80000
+2024-12-28 06:30:11 - INFO - Batch 80 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 81: Groups 80001 to 81000
+2024-12-28 06:30:11 - INFO - Batch 81 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 82: Groups 81001 to 82000
+2024-12-28 06:30:11 - INFO - Batch 82 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 83: Groups 82001 to 83000
+2024-12-28 06:30:11 - INFO - Batch 83 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 84: Groups 83001 to 84000
+2024-12-28 06:30:11 - INFO - Batch 84 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 85: Groups 84001 to 85000
+2024-12-28 06:30:11 - INFO - Batch 85 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 86: Groups 85001 to 86000
+2024-12-28 06:30:11 - INFO - Batch 86 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 87: Groups 86001 to 87000
+2024-12-28 06:30:11 - INFO - Batch 87 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 88: Groups 87001 to 88000
+2024-12-28 06:30:11 - INFO - Batch 88 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 89: Groups 88001 to 89000
+2024-12-28 06:30:11 - INFO - Batch 89 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 90: Groups 89001 to 90000
+2024-12-28 06:30:11 - INFO - Batch 90 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 91: Groups 90001 to 91000
+2024-12-28 06:30:11 - INFO - Batch 91 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 92: Groups 91001 to 92000
+2024-12-28 06:30:11 - INFO - Batch 92 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 93: Groups 92001 to 93000
+2024-12-28 06:30:11 - INFO - Batch 93 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 94: Groups 93001 to 94000
+2024-12-28 06:30:11 - INFO - Batch 94 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 95: Groups 94001 to 95000
+2024-12-28 06:30:11 - INFO - Batch 95 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 96: Groups 95001 to 96000
+2024-12-28 06:30:11 - INFO - Batch 96 processed successfully.
+2024-12-28 06:30:11 - INFO - Processing batch 97: Groups 96001 to 97000
+2024-12-28 06:30:12 - INFO - Batch 97 processed successfully.
+2024-12-28 06:30:12 - INFO - Processing batch 98: Groups 97001 to 98000
+2024-12-28 06:30:12 - INFO - Batch 98 processed successfully.
+2024-12-28 06:30:12 - INFO - Processing batch 99: Groups 98001 to 99000
+2024-12-28 06:30:12 - INFO - Batch 99 processed successfully.
+2024-12-28 06:30:12 - INFO - Processing batch 100: Groups 99001 to 100000
+2024-12-28 06:30:12 - INFO - Batch 100 processed successfully.
+2024-12-28 06:30:12 - INFO - Processing batch 101: Groups 100001 to 101000
+2024-12-28 06:30:12 - INFO - Batch 101 processed successfully.
+2024-12-28 06:30:12 - INFO - Processing batch 102: Groups 101001 to 102000
+2024-12-28 06:30:12 - INFO - Batch 102 processed successfully.
+2024-12-28 06:30:12 - INFO - Processing batch 103: Groups 102001 to 103000
+2024-12-28 06:30:12 - INFO - Batch 103 processed successfully.
+2024-12-28 06:30:12 - INFO - Processing batch 104: Groups 103001 to 104000
+2024-12-28 06:30:13 - INFO - Batch 104 processed successfully.
+2024-12-28 06:30:13 - INFO - Processing batch 105: Groups 104001 to 105000
+2024-12-28 06:30:13 - INFO - Batch 105 processed successfully.
+2024-12-28 06:30:13 - INFO - Processing batch 106: Groups 105001 to 106000
+2024-12-28 06:30:13 - INFO - Batch 106 processed successfully.
+2024-12-28 06:30:13 - INFO - Processing batch 107: Groups 106001 to 107000
+2024-12-28 06:30:13 - INFO - Batch 107 processed successfully.
+2024-12-28 06:30:13 - INFO - Processing batch 108: Groups 107001 to 108000
+2024-12-28 06:30:13 - INFO - Batch 108 processed successfully.
+2024-12-28 06:30:13 - INFO - Processing batch 109: Groups 108001 to 109000
+2024-12-28 06:30:13 - INFO - Batch 109 processed successfully.
+2024-12-28 06:30:13 - INFO - Processing batch 110: Groups 109001 to 110000
+2024-12-28 06:30:13 - INFO - Batch 110 processed successfully.
+2024-12-28 06:30:13 - INFO - Processing batch 111: Groups 110001 to 111000
+2024-12-28 06:30:14 - INFO - Batch 111 processed successfully.
+2024-12-28 06:30:14 - INFO - Processing batch 112: Groups 111001 to 112000
+2024-12-28 06:30:14 - INFO - Batch 112 processed successfully.
+2024-12-28 06:30:14 - INFO - Processing batch 113: Groups 112001 to 113000
+2024-12-28 06:30:14 - INFO - Batch 113 processed successfully.
+2024-12-28 06:30:14 - INFO - Processing batch 114: Groups 113001 to 114000
+2024-12-28 06:30:14 - INFO - Batch 114 processed successfully.
+2024-12-28 06:30:14 - INFO - Processing batch 115: Groups 114001 to 115000
+2024-12-28 06:30:14 - INFO - Batch 115 processed successfully.
+2024-12-28 06:30:14 - INFO - Processing batch 116: Groups 115001 to 116000
+2024-12-28 06:30:14 - INFO - Batch 116 processed successfully.
+2024-12-28 06:30:14 - INFO - Processing batch 117: Groups 116001 to 117000
+2024-12-28 06:30:15 - INFO - Batch 117 processed successfully.
+2024-12-28 06:30:15 - INFO - Processing batch 118: Groups 117001 to 118000
+2024-12-28 06:30:15 - INFO - Batch 118 processed successfully.
+2024-12-28 06:30:15 - INFO - Processing batch 119: Groups 118001 to 119000
+2024-12-28 06:30:15 - INFO - Batch 119 processed successfully.
+2024-12-28 06:30:15 - INFO - Processing batch 120: Groups 119001 to 120000
+2024-12-28 06:30:15 - INFO - Batch 120 processed successfully.
+2024-12-28 06:30:15 - INFO - Processing batch 121: Groups 120001 to 121000
+2024-12-28 06:30:15 - INFO - Batch 121 processed successfully.
+2024-12-28 06:30:15 - INFO - Processing batch 122: Groups 121001 to 122000
+2024-12-28 06:30:15 - INFO - Batch 122 processed successfully.
+2024-12-28 06:30:15 - INFO - Processing batch 123: Groups 122001 to 123000
+2024-12-28 06:30:16 - INFO - Batch 123 processed successfully.
+2024-12-28 06:30:16 - INFO - Processing batch 124: Groups 123001 to 124000
+2024-12-28 06:30:16 - INFO - Batch 124 processed successfully.
+2024-12-28 06:30:16 - INFO - Processing batch 125: Groups 124001 to 125000
+2024-12-28 06:30:16 - INFO - Batch 125 processed successfully.
+2024-12-28 06:30:16 - INFO - Processing batch 126: Groups 125001 to 126000
+2024-12-28 06:30:16 - INFO - Batch 126 processed successfully.
+2024-12-28 06:30:16 - INFO - Processing batch 127: Groups 126001 to 127000
+2024-12-28 06:30:16 - INFO - Batch 127 processed successfully.
+2024-12-28 06:30:16 - INFO - Processing batch 128: Groups 127001 to 128000
+2024-12-28 06:30:16 - INFO - Batch 128 processed successfully.
+2024-12-28 06:30:16 - INFO - Processing batch 129: Groups 128001 to 129000
+2024-12-28 06:30:16 - INFO - Batch 129 processed successfully.
+2024-12-28 06:30:16 - INFO - Processing batch 130: Groups 129001 to 130000
+2024-12-28 06:30:16 - INFO - Batch 130 processed successfully.
+2024-12-28 06:30:16 - INFO - Processing batch 131: Groups 130001 to 131000
+2024-12-28 06:30:17 - INFO - Batch 131 processed successfully.
+2024-12-28 06:30:17 - INFO - Processing batch 132: Groups 131001 to 132000
+2024-12-28 06:30:17 - INFO - Batch 132 processed successfully.
+2024-12-28 06:30:17 - INFO - Processing batch 133: Groups 132001 to 133000
+2024-12-28 06:30:17 - INFO - Batch 133 processed successfully.
+2024-12-28 06:30:17 - INFO - Processing batch 134: Groups 133001 to 134000
+2024-12-28 06:30:17 - INFO - Batch 134 processed successfully.
+2024-12-28 06:30:17 - INFO - Processing batch 135: Groups 134001 to 135000
+2024-12-28 06:30:17 - INFO - Batch 135 processed successfully.
+2024-12-28 06:30:17 - INFO - Processing batch 136: Groups 135001 to 136000
+2024-12-28 06:30:17 - INFO - Batch 136 processed successfully.
+2024-12-28 06:30:17 - INFO - Processing batch 137: Groups 136001 to 137000
+2024-12-28 06:30:17 - INFO - Batch 137 processed successfully.
+2024-12-28 06:30:17 - INFO - Processing batch 138: Groups 137001 to 138000
+2024-12-28 06:30:18 - INFO - Batch 138 processed successfully.
+2024-12-28 06:30:18 - INFO - Processing batch 139: Groups 138001 to 139000
+2024-12-28 06:30:18 - INFO - Batch 139 processed successfully.
+2024-12-28 06:30:18 - INFO - Processing batch 140: Groups 139001 to 140000
+2024-12-28 06:30:18 - INFO - Batch 140 processed successfully.
+2024-12-28 06:30:18 - INFO - Processing batch 141: Groups 140001 to 141000
+2024-12-28 06:30:18 - INFO - Batch 141 processed successfully.
+2024-12-28 06:30:18 - INFO - Processing batch 142: Groups 141001 to 142000
+2024-12-28 06:30:18 - INFO - Batch 142 processed successfully.
+2024-12-28 06:30:18 - INFO - Processing batch 143: Groups 142001 to 143000
+2024-12-28 06:30:18 - INFO - Batch 143 processed successfully.
+2024-12-28 06:30:18 - INFO - Processing batch 144: Groups 143001 to 144000
+2024-12-28 06:30:18 - INFO - Batch 144 processed successfully.
+2024-12-28 06:30:18 - INFO - Processing batch 145: Groups 144001 to 145000
+2024-12-28 06:30:19 - INFO - Batch 145 processed successfully.
+2024-12-28 06:30:19 - INFO - Processing batch 146: Groups 145001 to 146000
+2024-12-28 06:30:19 - INFO - Batch 146 processed successfully.
+2024-12-28 06:30:19 - INFO - Processing batch 147: Groups 146001 to 147000
+2024-12-28 06:30:19 - INFO - Batch 147 processed successfully.
+2024-12-28 06:30:19 - INFO - Processing batch 148: Groups 147001 to 148000
+2024-12-28 06:30:19 - INFO - Batch 148 processed successfully.
+2024-12-28 06:30:19 - INFO - Processing batch 149: Groups 148001 to 149000
+2024-12-28 06:30:19 - INFO - Batch 149 processed successfully.
+2024-12-28 06:30:19 - INFO - Processing batch 150: Groups 149001 to 150000
+2024-12-28 06:30:19 - INFO - Batch 150 processed successfully.
+2024-12-28 06:30:19 - INFO - Processing batch 151: Groups 150001 to 151000
+2024-12-28 06:30:20 - INFO - Batch 151 processed successfully.
+2024-12-28 06:30:20 - INFO - Processing batch 152: Groups 151001 to 152000
+2024-12-28 06:30:20 - INFO - Batch 152 processed successfully.
+2024-12-28 06:30:20 - INFO - Processing batch 153: Groups 152001 to 153000
+2024-12-28 06:30:20 - INFO - Batch 153 processed successfully.
+2024-12-28 06:30:20 - INFO - Processing batch 154: Groups 153001 to 154000
+2024-12-28 06:30:20 - INFO - Batch 154 processed successfully.
+2024-12-28 06:30:20 - INFO - Processing batch 155: Groups 154001 to 155000
+2024-12-28 06:30:20 - INFO - Batch 155 processed successfully.
+2024-12-28 06:30:20 - INFO - Processing batch 156: Groups 155001 to 156000
+2024-12-28 06:30:20 - INFO - Batch 156 processed successfully.
+2024-12-28 06:30:20 - INFO - Processing batch 157: Groups 156001 to 157000
+2024-12-28 06:30:21 - INFO - Batch 157 processed successfully.
+2024-12-28 06:30:21 - INFO - Processing batch 158: Groups 157001 to 158000
+2024-12-28 06:30:21 - INFO - Batch 158 processed successfully.
+2024-12-28 06:30:21 - INFO - Processing batch 159: Groups 158001 to 159000
+2024-12-28 06:30:21 - INFO - Batch 159 processed successfully.
+2024-12-28 06:30:21 - INFO - Processing batch 160: Groups 159001 to 160000
+2024-12-28 06:30:21 - INFO - Batch 160 processed successfully.
+2024-12-28 06:30:21 - INFO - Processing batch 161: Groups 160001 to 161000
+2024-12-28 06:30:21 - INFO - Batch 161 processed successfully.
+2024-12-28 06:30:21 - INFO - Processing batch 162: Groups 161001 to 162000
+2024-12-28 06:30:21 - INFO - Batch 162 processed successfully.
+2024-12-28 06:30:21 - INFO - Processing batch 163: Groups 162001 to 163000
+2024-12-28 06:30:22 - INFO - Batch 163 processed successfully.
+2024-12-28 06:30:22 - INFO - Processing batch 164: Groups 163001 to 164000
+2024-12-28 06:30:22 - INFO - Batch 164 processed successfully.
+2024-12-28 06:30:22 - INFO - Processing batch 165: Groups 164001 to 165000
+2024-12-28 06:30:22 - INFO - Batch 165 processed successfully.
+2024-12-28 06:30:22 - INFO - Processing batch 166: Groups 165001 to 166000
+2024-12-28 06:30:22 - INFO - Batch 166 processed successfully.
+2024-12-28 06:30:22 - INFO - Processing batch 167: Groups 166001 to 167000
+2024-12-28 06:30:22 - INFO - Batch 167 processed successfully.
+2024-12-28 06:30:22 - INFO - Processing batch 168: Groups 167001 to 168000
+2024-12-28 06:30:22 - INFO - Batch 168 processed successfully.
+2024-12-28 06:30:22 - INFO - Processing batch 169: Groups 168001 to 169000
+2024-12-28 06:30:22 - INFO - Batch 169 processed successfully.
+2024-12-28 06:30:22 - INFO - Processing batch 170: Groups 169001 to 170000
+2024-12-28 06:30:22 - INFO - Batch 170 processed successfully.
+2024-12-28 06:30:22 - INFO - Processing batch 171: Groups 170001 to 171000
+2024-12-28 06:30:23 - INFO - Batch 171 processed successfully.
+2024-12-28 06:30:23 - INFO - Processing batch 172: Groups 171001 to 172000
+2024-12-28 06:30:23 - INFO - Batch 172 processed successfully.
+2024-12-28 06:30:23 - INFO - Processing batch 173: Groups 172001 to 173000
+2024-12-28 06:30:23 - INFO - Batch 173 processed successfully.
+2024-12-28 06:30:23 - INFO - Processing batch 174: Groups 173001 to 174000
+2024-12-28 06:30:23 - INFO - Batch 174 processed successfully.
+2024-12-28 06:30:23 - INFO - Processing batch 175: Groups 174001 to 175000
+2024-12-28 06:30:23 - INFO - Batch 175 processed successfully.
+2024-12-28 06:30:23 - INFO - Processing batch 176: Groups 175001 to 176000
+2024-12-28 06:30:23 - INFO - Batch 176 processed successfully.
+2024-12-28 06:30:23 - INFO - Processing batch 177: Groups 176001 to 177000
+2024-12-28 06:30:24 - INFO - Batch 177 processed successfully.
+2024-12-28 06:30:24 - INFO - Processing batch 178: Groups 177001 to 178000
+2024-12-28 06:30:24 - INFO - Batch 178 processed successfully.
+2024-12-28 06:30:24 - INFO - Processing batch 179: Groups 178001 to 179000
+2024-12-28 06:30:24 - INFO - Batch 179 processed successfully.
+2024-12-28 06:30:24 - INFO - Processing batch 180: Groups 179001 to 180000
+2024-12-28 06:30:24 - INFO - Batch 180 processed successfully.
+2024-12-28 06:30:24 - INFO - Processing batch 181: Groups 180001 to 181000
+2024-12-28 06:30:24 - INFO - Batch 181 processed successfully.
+2024-12-28 06:30:24 - INFO - Processing batch 182: Groups 181001 to 182000
+2024-12-28 06:30:24 - INFO - Batch 182 processed successfully.
+2024-12-28 06:30:24 - INFO - Processing batch 183: Groups 182001 to 183000
+2024-12-28 06:30:24 - INFO - Batch 183 processed successfully.
+2024-12-28 06:30:24 - INFO - Processing batch 184: Groups 183001 to 184000
+2024-12-28 06:30:25 - INFO - Batch 184 processed successfully.
+2024-12-28 06:30:25 - INFO - Processing batch 185: Groups 184001 to 185000
+2024-12-28 06:30:25 - INFO - Batch 185 processed successfully.
+2024-12-28 06:30:25 - INFO - Processing batch 186: Groups 185001 to 186000
+2024-12-28 06:30:25 - INFO - Batch 186 processed successfully.
+2024-12-28 06:30:25 - INFO - Processing batch 187: Groups 186001 to 187000
+2024-12-28 06:30:25 - INFO - Batch 187 processed successfully.
+2024-12-28 06:30:25 - INFO - Processing batch 188: Groups 187001 to 188000
+2024-12-28 06:30:25 - INFO - Batch 188 processed successfully.
+2024-12-28 06:30:25 - INFO - Processing batch 189: Groups 188001 to 189000
+2024-12-28 06:30:25 - INFO - Batch 189 processed successfully.
+2024-12-28 06:30:25 - INFO - Processing batch 190: Groups 189001 to 190000
+2024-12-28 06:30:25 - INFO - Batch 190 processed successfully.
+2024-12-28 06:30:25 - INFO - Processing batch 191: Groups 190001 to 191000
+2024-12-28 06:30:25 - INFO - Batch 191 processed successfully.
+2024-12-28 06:30:25 - INFO - Processing batch 192: Groups 191001 to 192000
+2024-12-28 06:30:26 - INFO - Batch 192 processed successfully.
+2024-12-28 06:30:26 - INFO - Processing batch 193: Groups 192001 to 193000
+2024-12-28 06:30:26 - INFO - Batch 193 processed successfully.
+2024-12-28 06:30:26 - INFO - Processing batch 194: Groups 193001 to 194000
+2024-12-28 06:30:26 - INFO - Batch 194 processed successfully.
+2024-12-28 06:30:26 - INFO - Processing batch 195: Groups 194001 to 195000
+2024-12-28 06:30:26 - INFO - Batch 195 processed successfully.
+2024-12-28 06:30:26 - INFO - Processing batch 196: Groups 195001 to 196000
+2024-12-28 06:30:26 - INFO - Batch 196 processed successfully.
+2024-12-28 06:30:26 - INFO - Processing batch 197: Groups 196001 to 197000
+2024-12-28 06:30:26 - INFO - Batch 197 processed successfully.
+2024-12-28 06:30:26 - INFO - Processing batch 198: Groups 197001 to 198000
+2024-12-28 06:30:26 - INFO - Batch 198 processed successfully.
+2024-12-28 06:30:26 - INFO - Processing batch 199: Groups 198001 to 199000
+2024-12-28 06:30:27 - INFO - Batch 199 processed successfully.
+2024-12-28 06:30:27 - INFO - Processing batch 200: Groups 199001 to 200000
+2024-12-28 06:30:27 - INFO - Batch 200 processed successfully.
+2024-12-28 06:30:27 - INFO - Processing batch 201: Groups 200001 to 201000
+2024-12-28 06:30:27 - INFO - Batch 201 processed successfully.
+2024-12-28 06:30:27 - INFO - Processing batch 202: Groups 201001 to 202000
+2024-12-28 06:30:27 - INFO - Batch 202 processed successfully.
+2024-12-28 06:30:27 - INFO - Processing batch 203: Groups 202001 to 203000
+2024-12-28 06:30:27 - INFO - Batch 203 processed successfully.
+2024-12-28 06:30:27 - INFO - Processing batch 204: Groups 203001 to 204000
+2024-12-28 06:30:27 - INFO - Batch 204 processed successfully.
+2024-12-28 06:30:27 - INFO - Processing batch 205: Groups 204001 to 205000
+2024-12-28 06:30:27 - INFO - Batch 205 processed successfully.
+2024-12-28 06:30:27 - INFO - Processing batch 206: Groups 205001 to 206000
+2024-12-28 06:30:28 - INFO - Batch 206 processed successfully.
+2024-12-28 06:30:28 - INFO - Processing batch 207: Groups 206001 to 207000
+2024-12-28 06:30:28 - INFO - Batch 207 processed successfully.
+2024-12-28 06:30:28 - INFO - Processing batch 208: Groups 207001 to 208000
+2024-12-28 06:30:28 - INFO - Batch 208 processed successfully.
+2024-12-28 06:30:28 - INFO - Processing batch 209: Groups 208001 to 209000
+2024-12-28 06:30:28 - INFO - Batch 209 processed successfully.
+2024-12-28 06:30:28 - INFO - Processing batch 210: Groups 209001 to 210000
+2024-12-28 06:30:28 - INFO - Batch 210 processed successfully.
+2024-12-28 06:30:28 - INFO - Processing batch 211: Groups 210001 to 211000
+2024-12-28 06:30:28 - INFO - Batch 211 processed successfully.
+2024-12-28 06:30:28 - INFO - Processing batch 212: Groups 211001 to 212000
+2024-12-28 06:30:28 - INFO - Batch 212 processed successfully.
+2024-12-28 06:30:28 - INFO - Processing batch 213: Groups 212001 to 213000
+2024-12-28 06:30:29 - INFO - Batch 213 processed successfully.
+2024-12-28 06:30:29 - INFO - Processing batch 214: Groups 213001 to 214000
+2024-12-28 06:30:29 - INFO - Batch 214 processed successfully.
+2024-12-28 06:30:29 - INFO - Processing batch 215: Groups 214001 to 215000
+2024-12-28 06:30:29 - INFO - Batch 215 processed successfully.
+2024-12-28 06:30:29 - INFO - Processing batch 216: Groups 215001 to 216000
+2024-12-28 06:30:29 - INFO - Batch 216 processed successfully.
+2024-12-28 06:30:29 - INFO - Processing batch 217: Groups 216001 to 217000
+2024-12-28 06:30:29 - INFO - Batch 217 processed successfully.
+2024-12-28 06:30:29 - INFO - Processing batch 218: Groups 217001 to 218000
+2024-12-28 06:30:29 - INFO - Batch 218 processed successfully.
+2024-12-28 06:30:29 - INFO - Processing batch 219: Groups 218001 to 219000
+2024-12-28 06:30:29 - INFO - Batch 219 processed successfully.
+2024-12-28 06:30:29 - INFO - Processing batch 220: Groups 219001 to 220000
+2024-12-28 06:30:30 - INFO - Batch 220 processed successfully.
+2024-12-28 06:30:30 - INFO - Processing batch 221: Groups 220001 to 221000
+2024-12-28 06:30:30 - INFO - Batch 221 processed successfully.
+2024-12-28 06:30:30 - INFO - Processing batch 222: Groups 221001 to 222000
+2024-12-28 06:30:30 - INFO - Batch 222 processed successfully.
+2024-12-28 06:30:30 - INFO - Processing batch 223: Groups 222001 to 223000
+2024-12-28 06:30:30 - INFO - Batch 223 processed successfully.
+2024-12-28 06:30:30 - INFO - Processing batch 224: Groups 223001 to 224000
+2024-12-28 06:30:30 - INFO - Batch 224 processed successfully.
+2024-12-28 06:30:30 - INFO - Processing batch 225: Groups 224001 to 225000
+2024-12-28 06:30:30 - INFO - Batch 225 processed successfully.
+2024-12-28 06:30:30 - INFO - Processing batch 226: Groups 225001 to 226000
+2024-12-28 06:30:30 - INFO - Batch 226 processed successfully.
+2024-12-28 06:30:30 - INFO - Processing batch 227: Groups 226001 to 227000
+2024-12-28 06:30:31 - INFO - Batch 227 processed successfully.
+2024-12-28 06:30:31 - INFO - Processing batch 228: Groups 227001 to 228000
+2024-12-28 06:30:31 - INFO - Batch 228 processed successfully.
+2024-12-28 06:30:31 - INFO - Processing batch 229: Groups 228001 to 229000
+2024-12-28 06:30:31 - INFO - Batch 229 processed successfully.
+2024-12-28 06:30:31 - INFO - Processing batch 230: Groups 229001 to 230000
+2024-12-28 06:30:31 - INFO - Batch 230 processed successfully.
+2024-12-28 06:30:31 - INFO - Processing batch 231: Groups 230001 to 231000
+2024-12-28 06:30:31 - INFO - Batch 231 processed successfully.
+2024-12-28 06:30:31 - INFO - Processing batch 232: Groups 231001 to 232000
+2024-12-28 06:30:31 - INFO - Batch 232 processed successfully.
+2024-12-28 06:30:31 - INFO - Processing batch 233: Groups 232001 to 233000
+2024-12-28 06:30:32 - INFO - Batch 233 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 234: Groups 233001 to 234000
+2024-12-28 06:30:32 - INFO - Batch 234 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 235: Groups 234001 to 235000
+2024-12-28 06:30:32 - INFO - Batch 235 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 236: Groups 235001 to 236000
+2024-12-28 06:30:32 - INFO - Batch 236 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 237: Groups 236001 to 237000
+2024-12-28 06:30:32 - INFO - Batch 237 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 238: Groups 237001 to 238000
+2024-12-28 06:30:32 - INFO - Batch 238 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 239: Groups 238001 to 239000
+2024-12-28 06:30:32 - INFO - Batch 239 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 240: Groups 239001 to 240000
+2024-12-28 06:30:32 - INFO - Batch 240 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 241: Groups 240001 to 241000
+2024-12-28 06:30:32 - INFO - Batch 241 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 242: Groups 241001 to 242000
+2024-12-28 06:30:32 - INFO - Batch 242 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 243: Groups 242001 to 243000
+2024-12-28 06:30:32 - INFO - Batch 243 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 244: Groups 243001 to 244000
+2024-12-28 06:30:32 - INFO - Batch 244 processed successfully.
+2024-12-28 06:30:32 - INFO - Processing batch 245: Groups 244001 to 245000
+2024-12-28 06:30:33 - INFO - Batch 245 processed successfully.
+2024-12-28 06:30:33 - INFO - Processing batch 246: Groups 245001 to 246000
+2024-12-28 06:30:33 - INFO - Batch 246 processed successfully.
+2024-12-28 06:30:33 - INFO - Processing batch 247: Groups 246001 to 247000
+2024-12-28 06:30:33 - INFO - Batch 247 processed successfully.
+2024-12-28 06:30:33 - INFO - Processing batch 248: Groups 247001 to 248000
+2024-12-28 06:30:33 - INFO - Batch 248 processed successfully.
+2024-12-28 06:30:33 - INFO - Processing batch 249: Groups 248001 to 249000
+2024-12-28 06:30:33 - INFO - Batch 249 processed successfully.
+2024-12-28 06:30:33 - INFO - Processing batch 250: Groups 249001 to 250000
+2024-12-28 06:30:33 - INFO - Batch 250 processed successfully.
+2024-12-28 06:30:33 - INFO - Processing batch 251: Groups 250001 to 251000
+2024-12-28 06:30:34 - INFO - Batch 251 processed successfully.
+2024-12-28 06:30:34 - INFO - Processing batch 252: Groups 251001 to 252000
+2024-12-28 06:30:34 - INFO - Batch 252 processed successfully.
+2024-12-28 06:30:34 - INFO - Processing batch 253: Groups 252001 to 253000
+2024-12-28 06:30:34 - INFO - Batch 253 processed successfully.
+2024-12-28 06:30:34 - INFO - Processing batch 254: Groups 253001 to 254000
+2024-12-28 06:30:34 - INFO - Batch 254 processed successfully.
+2024-12-28 06:30:34 - INFO - Processing batch 255: Groups 254001 to 255000
+2024-12-28 06:30:34 - INFO - Batch 255 processed successfully.
+2024-12-28 06:30:34 - INFO - Processing batch 256: Groups 255001 to 256000
+2024-12-28 06:30:34 - INFO - Batch 256 processed successfully.
+2024-12-28 06:30:34 - INFO - Processing batch 257: Groups 256001 to 257000
+2024-12-28 06:30:35 - INFO - Batch 257 processed successfully.
+2024-12-28 06:30:35 - INFO - Processing batch 258: Groups 257001 to 258000
+2024-12-28 06:30:35 - INFO - Batch 258 processed successfully.
+2024-12-28 06:30:35 - INFO - Processing batch 259: Groups 258001 to 259000
+2024-12-28 06:30:35 - INFO - Batch 259 processed successfully.
+2024-12-28 06:30:35 - INFO - Processing batch 260: Groups 259001 to 260000
+2024-12-28 06:30:35 - INFO - Batch 260 processed successfully.
+2024-12-28 06:30:35 - INFO - Processing batch 261: Groups 260001 to 261000
+2024-12-28 06:30:35 - INFO - Batch 261 processed successfully.
+2024-12-28 06:30:35 - INFO - Processing batch 262: Groups 261001 to 262000
+2024-12-28 06:30:35 - INFO - Batch 262 processed successfully.
+2024-12-28 06:30:35 - INFO - Processing batch 263: Groups 262001 to 263000
+2024-12-28 06:30:35 - INFO - Batch 263 processed successfully.
+2024-12-28 06:30:35 - INFO - Processing batch 264: Groups 263001 to 264000
+2024-12-28 06:30:36 - INFO - Batch 264 processed successfully.
+2024-12-28 06:30:36 - INFO - Processing batch 265: Groups 264001 to 265000
+2024-12-28 06:30:36 - INFO - Batch 265 processed successfully.
+2024-12-28 06:30:36 - INFO - Processing batch 266: Groups 265001 to 266000
+2024-12-28 06:30:36 - INFO - Batch 266 processed successfully.
+2024-12-28 06:30:36 - INFO - Processing batch 267: Groups 266001 to 267000
+2024-12-28 06:30:36 - INFO - Batch 267 processed successfully.
+2024-12-28 06:30:36 - INFO - Processing batch 268: Groups 267001 to 268000
+2024-12-28 06:30:36 - INFO - Batch 268 processed successfully.
+2024-12-28 06:30:36 - INFO - Processing batch 269: Groups 268001 to 269000
+2024-12-28 06:30:36 - INFO - Batch 269 processed successfully.
+2024-12-28 06:30:36 - INFO - Processing batch 270: Groups 269001 to 270000
+2024-12-28 06:30:37 - INFO - Batch 270 processed successfully.
+2024-12-28 06:30:37 - INFO - Processing batch 271: Groups 270001 to 271000
+2024-12-28 06:30:37 - INFO - Batch 271 processed successfully.
+2024-12-28 06:30:37 - INFO - Processing batch 272: Groups 271001 to 272000
+2024-12-28 06:30:37 - INFO - Batch 272 processed successfully.
+2024-12-28 06:30:37 - INFO - Processing batch 273: Groups 272001 to 273000
+2024-12-28 06:30:37 - INFO - Batch 273 processed successfully.
+2024-12-28 06:30:37 - INFO - Processing batch 274: Groups 273001 to 274000
+2024-12-28 06:30:37 - INFO - Batch 274 processed successfully.
+2024-12-28 06:30:37 - INFO - Processing batch 275: Groups 274001 to 275000
+2024-12-28 06:30:37 - INFO - Batch 275 processed successfully.
+2024-12-28 06:30:37 - INFO - Processing batch 276: Groups 275001 to 276000
+2024-12-28 06:30:38 - INFO - Batch 276 processed successfully.
+2024-12-28 06:30:38 - INFO - Processing batch 277: Groups 276001 to 277000
+2024-12-28 06:30:38 - INFO - Batch 277 processed successfully.
+2024-12-28 06:30:38 - INFO - Processing batch 278: Groups 277001 to 278000
+2024-12-28 06:30:38 - INFO - Batch 278 processed successfully.
+2024-12-28 06:30:38 - INFO - Processing batch 279: Groups 278001 to 279000
+2024-12-28 06:30:38 - INFO - Batch 279 processed successfully.
+2024-12-28 06:30:38 - INFO - Processing batch 280: Groups 279001 to 280000
+2024-12-28 06:30:38 - INFO - Batch 280 processed successfully.
+2024-12-28 06:30:38 - INFO - Processing batch 281: Groups 280001 to 281000
+2024-12-28 06:30:38 - INFO - Batch 281 processed successfully.
+2024-12-28 06:30:38 - INFO - Processing batch 282: Groups 281001 to 282000
+2024-12-28 06:30:39 - INFO - Batch 282 processed successfully.
+2024-12-28 06:30:39 - INFO - Processing batch 283: Groups 282001 to 283000
+2024-12-28 06:30:39 - INFO - Batch 283 processed successfully.
+2024-12-28 06:30:39 - INFO - Processing batch 284: Groups 283001 to 284000
+2024-12-28 06:30:39 - INFO - Batch 284 processed successfully.
+2024-12-28 06:30:39 - INFO - Processing batch 285: Groups 284001 to 285000
+2024-12-28 06:30:39 - INFO - Batch 285 processed successfully.
+2024-12-28 06:30:39 - INFO - Processing batch 286: Groups 285001 to 286000
+2024-12-28 06:30:39 - INFO - Batch 286 processed successfully.
+2024-12-28 06:30:39 - INFO - Processing batch 287: Groups 286001 to 287000
+2024-12-28 06:30:39 - INFO - Batch 287 processed successfully.
+2024-12-28 06:30:39 - INFO - Processing batch 288: Groups 287001 to 288000
+2024-12-28 06:30:40 - INFO - Batch 288 processed successfully.
+2024-12-28 06:30:40 - INFO - Processing batch 289: Groups 288001 to 289000
+2024-12-28 06:30:40 - INFO - Batch 289 processed successfully.
+2024-12-28 06:30:40 - INFO - Processing batch 290: Groups 289001 to 290000
+2024-12-28 06:30:40 - INFO - Batch 290 processed successfully.
+2024-12-28 06:30:40 - INFO - Processing batch 291: Groups 290001 to 291000
+2024-12-28 06:30:40 - INFO - Batch 291 processed successfully.
+2024-12-28 06:30:40 - INFO - Processing batch 292: Groups 291001 to 292000
+2024-12-28 06:30:40 - INFO - Batch 292 processed successfully.
+2024-12-28 06:30:40 - INFO - Processing batch 293: Groups 292001 to 293000
+2024-12-28 06:30:40 - INFO - Batch 293 processed successfully.
+2024-12-28 06:30:40 - INFO - Processing batch 294: Groups 293001 to 294000
+2024-12-28 06:30:40 - INFO - Batch 294 processed successfully.
+2024-12-28 06:30:40 - INFO - Processing batch 295: Groups 294001 to 295000
+2024-12-28 06:30:40 - INFO - Batch 295 processed successfully.
+2024-12-28 06:30:40 - INFO - Processing batch 296: Groups 295001 to 296000
+2024-12-28 06:30:41 - INFO - Batch 296 processed successfully.
+2024-12-28 06:30:41 - INFO - Processing batch 297: Groups 296001 to 297000
+2024-12-28 06:30:41 - INFO - Batch 297 processed successfully.
+2024-12-28 06:30:41 - INFO - Processing batch 298: Groups 297001 to 298000
+2024-12-28 06:30:41 - INFO - Batch 298 processed successfully.
+2024-12-28 06:30:41 - INFO - Processing batch 299: Groups 298001 to 299000
+2024-12-28 06:30:41 - INFO - Batch 299 processed successfully.
+2024-12-28 06:30:41 - INFO - Processing batch 300: Groups 299001 to 300000
+2024-12-28 06:30:41 - INFO - Batch 300 processed successfully.
+2024-12-28 06:30:41 - INFO - Processing batch 301: Groups 300001 to 301000
+2024-12-28 06:30:41 - INFO - Batch 301 processed successfully.
+2024-12-28 06:30:41 - INFO - Processing batch 302: Groups 301001 to 302000
+2024-12-28 06:30:42 - INFO - Batch 302 processed successfully.
+2024-12-28 06:30:42 - INFO - Processing batch 303: Groups 302001 to 303000
+2024-12-28 06:30:42 - INFO - Batch 303 processed successfully.
+2024-12-28 06:30:42 - INFO - Processing batch 304: Groups 303001 to 304000
+2024-12-28 06:30:42 - INFO - Batch 304 processed successfully.
+2024-12-28 06:30:42 - INFO - Processing batch 305: Groups 304001 to 305000
+2024-12-28 06:30:42 - INFO - Batch 305 processed successfully.
+2024-12-28 06:30:42 - INFO - Processing batch 306: Groups 305001 to 306000
+2024-12-28 06:30:42 - INFO - Batch 306 processed successfully.
+2024-12-28 06:30:42 - INFO - Processing batch 307: Groups 306001 to 307000
+2024-12-28 06:30:42 - INFO - Batch 307 processed successfully.
+2024-12-28 06:30:42 - INFO - Processing batch 308: Groups 307001 to 308000
+2024-12-28 06:30:42 - INFO - Batch 308 processed successfully.
+2024-12-28 06:30:42 - INFO - Processing batch 309: Groups 308001 to 309000
+2024-12-28 06:30:43 - INFO - Batch 309 processed successfully.
+2024-12-28 06:30:43 - INFO - Processing batch 310: Groups 309001 to 310000
+2024-12-28 06:30:43 - INFO - Batch 310 processed successfully.
+2024-12-28 06:30:43 - INFO - Processing batch 311: Groups 310001 to 311000
+2024-12-28 06:30:43 - INFO - Batch 311 processed successfully.
+2024-12-28 06:30:43 - INFO - Processing batch 312: Groups 311001 to 312000
+2024-12-28 06:30:43 - INFO - Batch 312 processed successfully.
+2024-12-28 06:30:43 - INFO - Processing batch 313: Groups 312001 to 313000
+2024-12-28 06:30:43 - INFO - Batch 313 processed successfully.
+2024-12-28 06:30:43 - INFO - Processing batch 314: Groups 313001 to 314000
+2024-12-28 06:30:43 - INFO - Batch 314 processed successfully.
+2024-12-28 06:30:43 - INFO - Processing batch 315: Groups 314001 to 315000
+2024-12-28 06:30:43 - INFO - Batch 315 processed successfully.
+2024-12-28 06:30:43 - INFO - Processing batch 316: Groups 315001 to 316000
+2024-12-28 06:30:44 - INFO - Batch 316 processed successfully.
+2024-12-28 06:30:44 - INFO - Processing batch 317: Groups 316001 to 317000
+2024-12-28 06:30:44 - INFO - Batch 317 processed successfully.
+2024-12-28 06:30:44 - INFO - Processing batch 318: Groups 317001 to 318000
+2024-12-28 06:30:44 - INFO - Batch 318 processed successfully.
+2024-12-28 06:30:44 - INFO - Processing batch 319: Groups 318001 to 319000
+2024-12-28 06:30:44 - INFO - Batch 319 processed successfully.
+2024-12-28 06:30:44 - INFO - Processing batch 320: Groups 319001 to 320000
+2024-12-28 06:30:44 - INFO - Batch 320 processed successfully.
+2024-12-28 06:30:44 - INFO - Processing batch 321: Groups 320001 to 321000
+2024-12-28 06:30:44 - INFO - Batch 321 processed successfully.
+2024-12-28 06:30:44 - INFO - Processing batch 322: Groups 321001 to 322000
+2024-12-28 06:30:44 - INFO - Batch 322 processed successfully.
+2024-12-28 06:30:44 - INFO - Processing batch 323: Groups 322001 to 323000
+2024-12-28 06:30:45 - INFO - Batch 323 processed successfully.
+2024-12-28 06:30:45 - INFO - Processing batch 324: Groups 323001 to 324000
+2024-12-28 06:30:45 - INFO - Batch 324 processed successfully.
+2024-12-28 06:30:45 - INFO - Processing batch 325: Groups 324001 to 325000
+2024-12-28 06:30:45 - INFO - Batch 325 processed successfully.
+2024-12-28 06:30:45 - INFO - Processing batch 326: Groups 325001 to 326000
+2024-12-28 06:30:45 - INFO - Batch 326 processed successfully.
+2024-12-28 06:30:45 - INFO - Processing batch 327: Groups 326001 to 327000
+2024-12-28 06:30:45 - INFO - Batch 327 processed successfully.
+2024-12-28 06:30:45 - INFO - Processing batch 328: Groups 327001 to 328000
+2024-12-28 06:30:45 - INFO - Batch 328 processed successfully.
+2024-12-28 06:30:45 - INFO - Processing batch 329: Groups 328001 to 329000
+2024-12-28 06:30:46 - INFO - Batch 329 processed successfully.
+2024-12-28 06:30:46 - INFO - Processing batch 330: Groups 329001 to 330000
+2024-12-28 06:30:46 - INFO - Batch 330 processed successfully.
+2024-12-28 06:30:46 - INFO - Processing batch 331: Groups 330001 to 331000
+2024-12-28 06:30:46 - INFO - Batch 331 processed successfully.
+2024-12-28 06:30:46 - INFO - Processing batch 332: Groups 331001 to 332000
+2024-12-28 06:30:46 - INFO - Batch 332 processed successfully.
+2024-12-28 06:30:46 - INFO - Processing batch 333: Groups 332001 to 333000
+2024-12-28 06:30:46 - INFO - Batch 333 processed successfully.
+2024-12-28 06:30:46 - INFO - Processing batch 334: Groups 333001 to 334000
+2024-12-28 06:30:46 - INFO - Batch 334 processed successfully.
+2024-12-28 06:30:46 - INFO - Processing batch 335: Groups 334001 to 335000
+2024-12-28 06:30:46 - INFO - Batch 335 processed successfully.
+2024-12-28 06:30:46 - INFO - Processing batch 336: Groups 335001 to 336000
+2024-12-28 06:30:47 - INFO - Batch 336 processed successfully.
+2024-12-28 06:30:47 - INFO - Processing batch 337: Groups 336001 to 337000
+2024-12-28 06:30:47 - INFO - Batch 337 processed successfully.
+2024-12-28 06:30:47 - INFO - Processing batch 338: Groups 337001 to 338000
+2024-12-28 06:30:47 - INFO - Batch 338 processed successfully.
+2024-12-28 06:30:47 - INFO - Processing batch 339: Groups 338001 to 339000
+2024-12-28 06:30:47 - INFO - Batch 339 processed successfully.
+2024-12-28 06:30:47 - INFO - Processing batch 340: Groups 339001 to 340000
+2024-12-28 06:30:47 - INFO - Batch 340 processed successfully.
+2024-12-28 06:30:47 - INFO - Processing batch 341: Groups 340001 to 341000
+2024-12-28 06:30:47 - INFO - Batch 341 processed successfully.
+2024-12-28 06:30:47 - INFO - Processing batch 342: Groups 341001 to 342000
+2024-12-28 06:30:47 - INFO - Batch 342 processed successfully.
+2024-12-28 06:30:47 - INFO - Processing batch 343: Groups 342001 to 343000
+2024-12-28 06:30:48 - INFO - Batch 343 processed successfully.
+2024-12-28 06:30:48 - INFO - Processing batch 344: Groups 343001 to 344000
+2024-12-28 06:30:48 - INFO - Batch 344 processed successfully.
+2024-12-28 06:30:48 - INFO - Processing batch 345: Groups 344001 to 345000
+2024-12-28 06:30:48 - INFO - Batch 345 processed successfully.
+2024-12-28 06:30:48 - INFO - Processing batch 346: Groups 345001 to 346000
+2024-12-28 06:30:48 - INFO - Batch 346 processed successfully.
+2024-12-28 06:30:48 - INFO - Processing batch 347: Groups 346001 to 347000
+2024-12-28 06:30:48 - INFO - Batch 347 processed successfully.
+2024-12-28 06:30:48 - INFO - Processing batch 348: Groups 347001 to 348000
+2024-12-28 06:30:48 - INFO - Batch 348 processed successfully.
+2024-12-28 06:30:48 - INFO - Processing batch 349: Groups 348001 to 349000
+2024-12-28 06:30:48 - INFO - Batch 349 processed successfully.
+2024-12-28 06:30:48 - INFO - Processing batch 350: Groups 349001 to 350000
+2024-12-28 06:30:49 - INFO - Batch 350 processed successfully.
+2024-12-28 06:30:49 - INFO - Processing batch 351: Groups 350001 to 351000
+2024-12-28 06:30:49 - INFO - Batch 351 processed successfully.
+2024-12-28 06:30:49 - INFO - Processing batch 352: Groups 351001 to 352000
+2024-12-28 06:30:49 - INFO - Batch 352 processed successfully.
+2024-12-28 06:30:49 - INFO - Processing batch 353: Groups 352001 to 353000
+2024-12-28 06:30:49 - INFO - Batch 353 processed successfully.
+2024-12-28 06:30:49 - INFO - Processing batch 354: Groups 353001 to 354000
+2024-12-28 06:30:49 - INFO - Batch 354 processed successfully.
+2024-12-28 06:30:49 - INFO - Processing batch 355: Groups 354001 to 355000
+2024-12-28 06:30:49 - INFO - Batch 355 processed successfully.
+2024-12-28 06:30:49 - INFO - Processing batch 356: Groups 355001 to 356000
+2024-12-28 06:30:50 - INFO - Batch 356 processed successfully.
+2024-12-28 06:30:50 - INFO - Processing batch 357: Groups 356001 to 357000
+2024-12-28 06:30:50 - INFO - Batch 357 processed successfully.
+2024-12-28 06:30:50 - INFO - Processing batch 358: Groups 357001 to 358000
+2024-12-28 06:30:50 - INFO - Batch 358 processed successfully.
+2024-12-28 06:30:50 - INFO - Processing batch 359: Groups 358001 to 359000
+2024-12-28 06:30:50 - INFO - Batch 359 processed successfully.
+2024-12-28 06:30:50 - INFO - Processing batch 360: Groups 359001 to 360000
+2024-12-28 06:30:50 - INFO - Batch 360 processed successfully.
+2024-12-28 06:30:50 - INFO - Processing batch 361: Groups 360001 to 361000
+2024-12-28 06:30:50 - INFO - Batch 361 processed successfully.
+2024-12-28 06:30:50 - INFO - Processing batch 362: Groups 361001 to 362000
+2024-12-28 06:30:51 - INFO - Batch 362 processed successfully.
+2024-12-28 06:30:51 - INFO - Processing batch 363: Groups 362001 to 363000
+2024-12-28 06:30:51 - INFO - Batch 363 processed successfully.
+2024-12-28 06:30:51 - INFO - Processing batch 364: Groups 363001 to 364000
+2024-12-28 06:30:51 - INFO - Batch 364 processed successfully.
+2024-12-28 06:30:51 - INFO - Processing batch 365: Groups 364001 to 365000
+2024-12-28 06:30:51 - INFO - Batch 365 processed successfully.
+2024-12-28 06:30:51 - INFO - Processing batch 366: Groups 365001 to 366000
+2024-12-28 06:30:51 - INFO - Batch 366 processed successfully.
+2024-12-28 06:30:51 - INFO - Processing batch 367: Groups 366001 to 367000
+2024-12-28 06:30:51 - INFO - Batch 367 processed successfully.
+2024-12-28 06:30:51 - INFO - Processing batch 368: Groups 367001 to 367019
+2024-12-28 06:30:51 - INFO - Batch 368 processed successfully.
+2024-12-28 06:30:51 - INFO - sectionals_aggregated updated successfully in 50.56 seconds.
+2024-12-28 06:30:51 - INFO - Updating net_sentiment beginning...
+2024-12-28 06:31:14 - INFO - Net sentiment updated successfully in 22.48 seconds.
+2024-12-28 06:31:14 - INFO - All updates completed with some errors.
+2024-12-28 06:31:14 - Python script succeeded
+2024-12-28 06:31:14 - Job completed
+2024-12-29 06:30:01 - Starting stat_type_update job
+2024-12-29 06:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-29 06:30:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+2024-12-29 06:30:01 - INFO - Logging has been set up successfully.
+2024-12-29 06:30:01 - INFO - Password found in configuration. Using provided password for authentication.
+2024-12-29 06:30:01 - INFO - Connection pool created successfully.
+2024-12-29 06:30:01 - INFO - Updating sectionals_aggregated beginning...
+2024-12-29 06:30:02 - INFO - Total groups to process: 367599
+2024-12-29 06:30:02 - INFO - Processing batch 1: Groups 1 to 1000
+2024-12-29 06:30:02 - INFO - Batch 1 processed successfully.
+2024-12-29 06:30:02 - INFO - Processing batch 2: Groups 1001 to 2000
+2024-12-29 06:30:02 - INFO - Batch 2 processed successfully.
+2024-12-29 06:30:02 - INFO - Processing batch 3: Groups 2001 to 3000
+2024-12-29 06:30:02 - INFO - Batch 3 processed successfully.
+2024-12-29 06:30:02 - INFO - Processing batch 4: Groups 3001 to 4000
+2024-12-29 06:30:02 - INFO - Batch 4 processed successfully.
+2024-12-29 06:30:02 - INFO - Processing batch 5: Groups 4001 to 5000
+2024-12-29 06:30:02 - INFO - Batch 5 processed successfully.
+2024-12-29 06:30:02 - INFO - Processing batch 6: Groups 5001 to 6000
+2024-12-29 06:30:03 - INFO - Batch 6 processed successfully.
+2024-12-29 06:30:03 - INFO - Processing batch 7: Groups 6001 to 7000
+2024-12-29 06:30:03 - INFO - Batch 7 processed successfully.
+2024-12-29 06:30:03 - INFO - Processing batch 8: Groups 7001 to 8000
+2024-12-29 06:30:03 - INFO - Batch 8 processed successfully.
+2024-12-29 06:30:03 - INFO - Processing batch 9: Groups 8001 to 9000
+2024-12-29 06:30:03 - INFO - Batch 9 processed successfully.
+2024-12-29 06:30:03 - INFO - Processing batch 10: Groups 9001 to 10000
+2024-12-29 06:30:03 - INFO - Batch 10 processed successfully.
+2024-12-29 06:30:03 - INFO - Processing batch 11: Groups 10001 to 11000
+2024-12-29 06:30:03 - INFO - Batch 11 processed successfully.
+2024-12-29 06:30:03 - INFO - Processing batch 12: Groups 11001 to 12000
+2024-12-29 06:30:04 - INFO - Batch 12 processed successfully.
+2024-12-29 06:30:04 - INFO - Processing batch 13: Groups 12001 to 13000
+2024-12-29 06:30:04 - INFO - Batch 13 processed successfully.
+2024-12-29 06:30:04 - INFO - Processing batch 14: Groups 13001 to 14000
+2024-12-29 06:30:04 - INFO - Batch 14 processed successfully.
+2024-12-29 06:30:04 - INFO - Processing batch 15: Groups 14001 to 15000
+2024-12-29 06:30:04 - INFO - Batch 15 processed successfully.
+2024-12-29 06:30:04 - INFO - Processing batch 16: Groups 15001 to 16000
+2024-12-29 06:30:04 - INFO - Batch 16 processed successfully.
+2024-12-29 06:30:04 - INFO - Processing batch 17: Groups 16001 to 17000
+2024-12-29 06:30:04 - INFO - Batch 17 processed successfully.
+2024-12-29 06:30:04 - INFO - Processing batch 18: Groups 17001 to 18000
+2024-12-29 06:30:04 - INFO - Batch 18 processed successfully.
+2024-12-29 06:30:04 - INFO - Processing batch 19: Groups 18001 to 19000
+2024-12-29 06:30:05 - INFO - Batch 19 processed successfully.
+2024-12-29 06:30:05 - INFO - Processing batch 20: Groups 19001 to 20000
+2024-12-29 06:30:05 - INFO - Batch 20 processed successfully.
+2024-12-29 06:30:05 - INFO - Processing batch 21: Groups 20001 to 21000
+2024-12-29 06:30:05 - INFO - Batch 21 processed successfully.
+2024-12-29 06:30:05 - INFO - Processing batch 22: Groups 21001 to 22000
+2024-12-29 06:30:05 - INFO - Batch 22 processed successfully.
+2024-12-29 06:30:05 - INFO - Processing batch 23: Groups 22001 to 23000
+2024-12-29 06:30:05 - INFO - Batch 23 processed successfully.
+2024-12-29 06:30:05 - INFO - Processing batch 24: Groups 23001 to 24000
+2024-12-29 06:30:05 - INFO - Batch 24 processed successfully.
+2024-12-29 06:30:05 - INFO - Processing batch 25: Groups 24001 to 25000
+2024-12-29 06:30:05 - INFO - Batch 25 processed successfully.
+2024-12-29 06:30:05 - INFO - Processing batch 26: Groups 25001 to 26000
+2024-12-29 06:30:06 - INFO - Batch 26 processed successfully.
+2024-12-29 06:30:06 - INFO - Processing batch 27: Groups 26001 to 27000
+2024-12-29 06:30:06 - INFO - Batch 27 processed successfully.
+2024-12-29 06:30:06 - INFO - Processing batch 28: Groups 27001 to 28000
+2024-12-29 06:30:06 - INFO - Batch 28 processed successfully.
+2024-12-29 06:30:06 - INFO - Processing batch 29: Groups 28001 to 29000
+2024-12-29 06:30:06 - INFO - Batch 29 processed successfully.
+2024-12-29 06:30:06 - INFO - Processing batch 30: Groups 29001 to 30000
+2024-12-29 06:30:06 - INFO - Batch 30 processed successfully.
+2024-12-29 06:30:06 - INFO - Processing batch 31: Groups 30001 to 31000
+2024-12-29 06:30:06 - INFO - Batch 31 processed successfully.
+2024-12-29 06:30:06 - INFO - Processing batch 32: Groups 31001 to 32000
+2024-12-29 06:30:06 - INFO - Batch 32 processed successfully.
+2024-12-29 06:30:06 - INFO - Processing batch 33: Groups 32001 to 33000
+2024-12-29 06:30:07 - INFO - Batch 33 processed successfully.
+2024-12-29 06:30:07 - INFO - Processing batch 34: Groups 33001 to 34000
+2024-12-29 06:30:07 - INFO - Batch 34 processed successfully.
+2024-12-29 06:30:07 - INFO - Processing batch 35: Groups 34001 to 35000
+2024-12-29 06:30:07 - INFO - Batch 35 processed successfully.
+2024-12-29 06:30:07 - INFO - Processing batch 36: Groups 35001 to 36000
+2024-12-29 06:30:07 - INFO - Batch 36 processed successfully.
+2024-12-29 06:30:07 - INFO - Processing batch 37: Groups 36001 to 37000
+2024-12-29 06:30:07 - INFO - Batch 37 processed successfully.
+2024-12-29 06:30:07 - INFO - Processing batch 38: Groups 37001 to 38000
+2024-12-29 06:30:07 - INFO - Batch 38 processed successfully.
+2024-12-29 06:30:07 - INFO - Processing batch 39: Groups 38001 to 39000
+2024-12-29 06:30:08 - INFO - Batch 39 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 40: Groups 39001 to 40000
+2024-12-29 06:30:08 - INFO - Batch 40 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 41: Groups 40001 to 41000
+2024-12-29 06:30:08 - INFO - Batch 41 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 42: Groups 41001 to 42000
+2024-12-29 06:30:08 - INFO - Batch 42 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 43: Groups 42001 to 43000
+2024-12-29 06:30:08 - INFO - Batch 43 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 44: Groups 43001 to 44000
+2024-12-29 06:30:08 - INFO - Batch 44 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 45: Groups 44001 to 45000
+2024-12-29 06:30:08 - INFO - Batch 45 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 46: Groups 45001 to 46000
+2024-12-29 06:30:08 - INFO - Batch 46 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 47: Groups 46001 to 47000
+2024-12-29 06:30:08 - INFO - Batch 47 processed successfully.
+2024-12-29 06:30:08 - INFO - Processing batch 48: Groups 47001 to 48000
+2024-12-29 06:30:09 - INFO - Batch 48 processed successfully.
+2024-12-29 06:30:09 - INFO - Processing batch 49: Groups 48001 to 49000
+2024-12-29 06:30:09 - INFO - Batch 49 processed successfully.
+2024-12-29 06:30:09 - INFO - Processing batch 50: Groups 49001 to 50000
+2024-12-29 06:30:09 - INFO - Batch 50 processed successfully.
+2024-12-29 06:30:09 - INFO - Processing batch 51: Groups 50001 to 51000
+2024-12-29 06:30:09 - INFO - Batch 51 processed successfully.
+2024-12-29 06:30:09 - INFO - Processing batch 52: Groups 51001 to 52000
+2024-12-29 06:30:09 - INFO - Batch 52 processed successfully.
+2024-12-29 06:30:09 - INFO - Processing batch 53: Groups 52001 to 53000
+2024-12-29 06:30:09 - INFO - Batch 53 processed successfully.
+2024-12-29 06:30:09 - INFO - Processing batch 54: Groups 53001 to 54000
+2024-12-29 06:30:09 - INFO - Batch 54 processed successfully.
+2024-12-29 06:30:09 - INFO - Processing batch 55: Groups 54001 to 55000
+2024-12-29 06:30:10 - INFO - Batch 55 processed successfully.
+2024-12-29 06:30:10 - INFO - Processing batch 56: Groups 55001 to 56000
+2024-12-29 06:30:10 - INFO - Batch 56 processed successfully.
+2024-12-29 06:30:10 - INFO - Processing batch 57: Groups 56001 to 57000
+2024-12-29 06:30:10 - INFO - Batch 57 processed successfully.
+2024-12-29 06:30:10 - INFO - Processing batch 58: Groups 57001 to 58000
+2024-12-29 06:30:10 - INFO - Batch 58 processed successfully.
+2024-12-29 06:30:10 - INFO - Processing batch 59: Groups 58001 to 59000
+2024-12-29 06:30:10 - INFO - Batch 59 processed successfully.
+2024-12-29 06:30:10 - INFO - Processing batch 60: Groups 59001 to 60000
+2024-12-29 06:30:10 - INFO - Batch 60 processed successfully.
+2024-12-29 06:30:10 - INFO - Processing batch 61: Groups 60001 to 61000
+2024-12-29 06:30:10 - INFO - Batch 61 processed successfully.
+2024-12-29 06:30:10 - INFO - Processing batch 62: Groups 61001 to 62000
+2024-12-29 06:30:11 - INFO - Batch 62 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 63: Groups 62001 to 63000
+2024-12-29 06:30:11 - INFO - Batch 63 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 64: Groups 63001 to 64000
+2024-12-29 06:30:11 - INFO - Batch 64 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 65: Groups 64001 to 65000
+2024-12-29 06:30:11 - INFO - Batch 65 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 66: Groups 65001 to 66000
+2024-12-29 06:30:11 - INFO - Batch 66 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 67: Groups 66001 to 67000
+2024-12-29 06:30:11 - INFO - Batch 67 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 68: Groups 67001 to 68000
+2024-12-29 06:30:11 - INFO - Batch 68 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 69: Groups 68001 to 69000
+2024-12-29 06:30:11 - INFO - Batch 69 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 70: Groups 69001 to 70000
+2024-12-29 06:30:11 - INFO - Batch 70 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 71: Groups 70001 to 71000
+2024-12-29 06:30:11 - INFO - Batch 71 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 72: Groups 71001 to 72000
+2024-12-29 06:30:11 - INFO - Batch 72 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 73: Groups 72001 to 73000
+2024-12-29 06:30:11 - INFO - Batch 73 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 74: Groups 73001 to 74000
+2024-12-29 06:30:11 - INFO - Batch 74 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 75: Groups 74001 to 75000
+2024-12-29 06:30:11 - INFO - Batch 75 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 76: Groups 75001 to 76000
+2024-12-29 06:30:11 - INFO - Batch 76 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 77: Groups 76001 to 77000
+2024-12-29 06:30:11 - INFO - Batch 77 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 78: Groups 77001 to 78000
+2024-12-29 06:30:11 - INFO - Batch 78 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 79: Groups 78001 to 79000
+2024-12-29 06:30:11 - INFO - Batch 79 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 80: Groups 79001 to 80000
+2024-12-29 06:30:11 - INFO - Batch 80 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 81: Groups 80001 to 81000
+2024-12-29 06:30:11 - INFO - Batch 81 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 82: Groups 81001 to 82000
+2024-12-29 06:30:11 - INFO - Batch 82 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 83: Groups 82001 to 83000
+2024-12-29 06:30:11 - INFO - Batch 83 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 84: Groups 83001 to 84000
+2024-12-29 06:30:11 - INFO - Batch 84 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 85: Groups 84001 to 85000
+2024-12-29 06:30:11 - INFO - Batch 85 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 86: Groups 85001 to 86000
+2024-12-29 06:30:11 - INFO - Batch 86 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 87: Groups 86001 to 87000
+2024-12-29 06:30:11 - INFO - Batch 87 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 88: Groups 87001 to 88000
+2024-12-29 06:30:11 - INFO - Batch 88 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 89: Groups 88001 to 89000
+2024-12-29 06:30:11 - INFO - Batch 89 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 90: Groups 89001 to 90000
+2024-12-29 06:30:11 - INFO - Batch 90 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 91: Groups 90001 to 91000
+2024-12-29 06:30:11 - INFO - Batch 91 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 92: Groups 91001 to 92000
+2024-12-29 06:30:11 - INFO - Batch 92 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 93: Groups 92001 to 93000
+2024-12-29 06:30:11 - INFO - Batch 93 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 94: Groups 93001 to 94000
+2024-12-29 06:30:11 - INFO - Batch 94 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 95: Groups 94001 to 95000
+2024-12-29 06:30:11 - INFO - Batch 95 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 96: Groups 95001 to 96000
+2024-12-29 06:30:11 - INFO - Batch 96 processed successfully.
+2024-12-29 06:30:11 - INFO - Processing batch 97: Groups 96001 to 97000
+2024-12-29 06:30:12 - INFO - Batch 97 processed successfully.
+2024-12-29 06:30:12 - INFO - Processing batch 98: Groups 97001 to 98000
+2024-12-29 06:30:12 - INFO - Batch 98 processed successfully.
+2024-12-29 06:30:12 - INFO - Processing batch 99: Groups 98001 to 99000
+2024-12-29 06:30:12 - INFO - Batch 99 processed successfully.
+2024-12-29 06:30:12 - INFO - Processing batch 100: Groups 99001 to 100000
+2024-12-29 06:30:12 - INFO - Batch 100 processed successfully.
+2024-12-29 06:30:12 - INFO - Processing batch 101: Groups 100001 to 101000
+2024-12-29 06:30:12 - INFO - Batch 101 processed successfully.
+2024-12-29 06:30:12 - INFO - Processing batch 102: Groups 101001 to 102000
+2024-12-29 06:30:12 - INFO - Batch 102 processed successfully.
+2024-12-29 06:30:12 - INFO - Processing batch 103: Groups 102001 to 103000
+2024-12-29 06:30:13 - INFO - Batch 103 processed successfully.
+2024-12-29 06:30:13 - INFO - Processing batch 104: Groups 103001 to 104000
+2024-12-29 06:30:13 - INFO - Batch 104 processed successfully.
+2024-12-29 06:30:13 - INFO - Processing batch 105: Groups 104001 to 105000
+2024-12-29 06:30:13 - INFO - Batch 105 processed successfully.
+2024-12-29 06:30:13 - INFO - Processing batch 106: Groups 105001 to 106000
+2024-12-29 06:30:13 - INFO - Batch 106 processed successfully.
+2024-12-29 06:30:13 - INFO - Processing batch 107: Groups 106001 to 107000
+2024-12-29 06:30:13 - INFO - Batch 107 processed successfully.
+2024-12-29 06:30:13 - INFO - Processing batch 108: Groups 107001 to 108000
+2024-12-29 06:30:13 - INFO - Batch 108 processed successfully.
+2024-12-29 06:30:13 - INFO - Processing batch 109: Groups 108001 to 109000
+2024-12-29 06:30:13 - INFO - Batch 109 processed successfully.
+2024-12-29 06:30:13 - INFO - Processing batch 110: Groups 109001 to 110000
+2024-12-29 06:30:14 - INFO - Batch 110 processed successfully.
+2024-12-29 06:30:14 - INFO - Processing batch 111: Groups 110001 to 111000
+2024-12-29 06:30:14 - INFO - Batch 111 processed successfully.
+2024-12-29 06:30:14 - INFO - Processing batch 112: Groups 111001 to 112000
+2024-12-29 06:30:14 - INFO - Batch 112 processed successfully.
+2024-12-29 06:30:14 - INFO - Processing batch 113: Groups 112001 to 113000
+2024-12-29 06:30:14 - INFO - Batch 113 processed successfully.
+2024-12-29 06:30:14 - INFO - Processing batch 114: Groups 113001 to 114000
+2024-12-29 06:30:14 - INFO - Batch 114 processed successfully.
+2024-12-29 06:30:14 - INFO - Processing batch 115: Groups 114001 to 115000
+2024-12-29 06:30:14 - INFO - Batch 115 processed successfully.
+2024-12-29 06:30:14 - INFO - Processing batch 116: Groups 115001 to 116000
+2024-12-29 06:30:14 - INFO - Batch 116 processed successfully.
+2024-12-29 06:30:14 - INFO - Processing batch 117: Groups 116001 to 117000
+2024-12-29 06:30:15 - INFO - Batch 117 processed successfully.
+2024-12-29 06:30:15 - INFO - Processing batch 118: Groups 117001 to 118000
+2024-12-29 06:30:15 - INFO - Batch 118 processed successfully.
+2024-12-29 06:30:15 - INFO - Processing batch 119: Groups 118001 to 119000
+2024-12-29 06:30:15 - INFO - Batch 119 processed successfully.
+2024-12-29 06:30:15 - INFO - Processing batch 120: Groups 119001 to 120000
+2024-12-29 06:30:15 - INFO - Batch 120 processed successfully.
+2024-12-29 06:30:15 - INFO - Processing batch 121: Groups 120001 to 121000
+2024-12-29 06:30:15 - INFO - Batch 121 processed successfully.
+2024-12-29 06:30:15 - INFO - Processing batch 122: Groups 121001 to 122000
+2024-12-29 06:30:15 - INFO - Batch 122 processed successfully.
+2024-12-29 06:30:15 - INFO - Processing batch 123: Groups 122001 to 123000
+2024-12-29 06:30:16 - INFO - Batch 123 processed successfully.
+2024-12-29 06:30:16 - INFO - Processing batch 124: Groups 123001 to 124000
+2024-12-29 06:30:16 - INFO - Batch 124 processed successfully.
+2024-12-29 06:30:16 - INFO - Processing batch 125: Groups 124001 to 125000
+2024-12-29 06:30:16 - INFO - Batch 125 processed successfully.
+2024-12-29 06:30:16 - INFO - Processing batch 126: Groups 125001 to 126000
+2024-12-29 06:30:16 - INFO - Batch 126 processed successfully.
+2024-12-29 06:30:16 - INFO - Processing batch 127: Groups 126001 to 127000
+2024-12-29 06:30:16 - INFO - Batch 127 processed successfully.
+2024-12-29 06:30:16 - INFO - Processing batch 128: Groups 127001 to 128000
+2024-12-29 06:30:16 - INFO - Batch 128 processed successfully.
+2024-12-29 06:30:16 - INFO - Processing batch 129: Groups 128001 to 129000
+2024-12-29 06:30:16 - INFO - Batch 129 processed successfully.
+2024-12-29 06:30:16 - INFO - Processing batch 130: Groups 129001 to 130000
+2024-12-29 06:30:17 - INFO - Batch 130 processed successfully.
+2024-12-29 06:30:17 - INFO - Processing batch 131: Groups 130001 to 131000
+2024-12-29 06:30:17 - INFO - Batch 131 processed successfully.
+2024-12-29 06:30:17 - INFO - Processing batch 132: Groups 131001 to 132000
+2024-12-29 06:30:17 - INFO - Batch 132 processed successfully.
+2024-12-29 06:30:17 - INFO - Processing batch 133: Groups 132001 to 133000
+2024-12-29 06:30:17 - INFO - Batch 133 processed successfully.
+2024-12-29 06:30:17 - INFO - Processing batch 134: Groups 133001 to 134000
+2024-12-29 06:30:17 - INFO - Batch 134 processed successfully.
+2024-12-29 06:30:17 - INFO - Processing batch 135: Groups 134001 to 135000
+2024-12-29 06:30:17 - INFO - Batch 135 processed successfully.
+2024-12-29 06:30:17 - INFO - Processing batch 136: Groups 135001 to 136000
+2024-12-29 06:30:17 - INFO - Batch 136 processed successfully.
+2024-12-29 06:30:17 - INFO - Processing batch 137: Groups 136001 to 137000
+2024-12-29 06:30:18 - INFO - Batch 137 processed successfully.
+2024-12-29 06:30:18 - INFO - Processing batch 138: Groups 137001 to 138000
+2024-12-29 06:30:18 - INFO - Batch 138 processed successfully.
+2024-12-29 06:30:18 - INFO - Processing batch 139: Groups 138001 to 139000
+2024-12-29 06:30:18 - INFO - Batch 139 processed successfully.
+2024-12-29 06:30:18 - INFO - Processing batch 140: Groups 139001 to 140000
+2024-12-29 06:30:18 - INFO - Batch 140 processed successfully.
+2024-12-29 06:30:18 - INFO - Processing batch 141: Groups 140001 to 141000
+2024-12-29 06:30:18 - INFO - Batch 141 processed successfully.
+2024-12-29 06:30:18 - INFO - Processing batch 142: Groups 141001 to 142000
+2024-12-29 06:30:18 - INFO - Batch 142 processed successfully.
+2024-12-29 06:30:18 - INFO - Processing batch 143: Groups 142001 to 143000
+2024-12-29 06:30:18 - INFO - Batch 143 processed successfully.
+2024-12-29 06:30:18 - INFO - Processing batch 144: Groups 143001 to 144000
+2024-12-29 06:30:19 - INFO - Batch 144 processed successfully.
+2024-12-29 06:30:19 - INFO - Processing batch 145: Groups 144001 to 145000
+2024-12-29 06:30:19 - INFO - Batch 145 processed successfully.
+2024-12-29 06:30:19 - INFO - Processing batch 146: Groups 145001 to 146000
+2024-12-29 06:30:19 - INFO - Batch 146 processed successfully.
+2024-12-29 06:30:19 - INFO - Processing batch 147: Groups 146001 to 147000
+2024-12-29 06:30:19 - INFO - Batch 147 processed successfully.
+2024-12-29 06:30:19 - INFO - Processing batch 148: Groups 147001 to 148000
+2024-12-29 06:30:19 - INFO - Batch 148 processed successfully.
+2024-12-29 06:30:19 - INFO - Processing batch 149: Groups 148001 to 149000
+2024-12-29 06:30:19 - INFO - Batch 149 processed successfully.
+2024-12-29 06:30:19 - INFO - Processing batch 150: Groups 149001 to 150000
+2024-12-29 06:30:20 - INFO - Batch 150 processed successfully.
+2024-12-29 06:30:20 - INFO - Processing batch 151: Groups 150001 to 151000
+2024-12-29 06:30:20 - INFO - Batch 151 processed successfully.
+2024-12-29 06:30:20 - INFO - Processing batch 152: Groups 151001 to 152000
+2024-12-29 06:30:20 - INFO - Batch 152 processed successfully.
+2024-12-29 06:30:20 - INFO - Processing batch 153: Groups 152001 to 153000
+2024-12-29 06:30:20 - INFO - Batch 153 processed successfully.
+2024-12-29 06:30:20 - INFO - Processing batch 154: Groups 153001 to 154000
+2024-12-29 06:30:20 - INFO - Batch 154 processed successfully.
+2024-12-29 06:30:20 - INFO - Processing batch 155: Groups 154001 to 155000
+2024-12-29 06:30:20 - INFO - Batch 155 processed successfully.
+2024-12-29 06:30:20 - INFO - Processing batch 156: Groups 155001 to 156000
+2024-12-29 06:30:21 - INFO - Batch 156 processed successfully.
+2024-12-29 06:30:21 - INFO - Processing batch 157: Groups 156001 to 157000
+2024-12-29 06:30:21 - INFO - Batch 157 processed successfully.
+2024-12-29 06:30:21 - INFO - Processing batch 158: Groups 157001 to 158000
+2024-12-29 06:30:21 - INFO - Batch 158 processed successfully.
+2024-12-29 06:30:21 - INFO - Processing batch 159: Groups 158001 to 159000
+2024-12-29 06:30:21 - INFO - Batch 159 processed successfully.
+2024-12-29 06:30:21 - INFO - Processing batch 160: Groups 159001 to 160000
+2024-12-29 06:30:21 - INFO - Batch 160 processed successfully.
+2024-12-29 06:30:21 - INFO - Processing batch 161: Groups 160001 to 161000
+2024-12-29 06:30:21 - INFO - Batch 161 processed successfully.
+2024-12-29 06:30:21 - INFO - Processing batch 162: Groups 161001 to 162000
+2024-12-29 06:30:22 - INFO - Batch 162 processed successfully.
+2024-12-29 06:30:22 - INFO - Processing batch 163: Groups 162001 to 163000
+2024-12-29 06:30:22 - INFO - Batch 163 processed successfully.
+2024-12-29 06:30:22 - INFO - Processing batch 164: Groups 163001 to 164000
+2024-12-29 06:30:22 - INFO - Batch 164 processed successfully.
+2024-12-29 06:30:22 - INFO - Processing batch 165: Groups 164001 to 165000
+2024-12-29 06:30:22 - INFO - Batch 165 processed successfully.
+2024-12-29 06:30:22 - INFO - Processing batch 166: Groups 165001 to 166000
+2024-12-29 06:30:22 - INFO - Batch 166 processed successfully.
+2024-12-29 06:30:22 - INFO - Processing batch 167: Groups 166001 to 167000
+2024-12-29 06:30:22 - INFO - Batch 167 processed successfully.
+2024-12-29 06:30:22 - INFO - Processing batch 168: Groups 167001 to 168000
+2024-12-29 06:30:22 - INFO - Batch 168 processed successfully.
+2024-12-29 06:30:22 - INFO - Processing batch 169: Groups 168001 to 169000
+2024-12-29 06:30:23 - INFO - Batch 169 processed successfully.
+2024-12-29 06:30:23 - INFO - Processing batch 170: Groups 169001 to 170000
+2024-12-29 06:30:23 - INFO - Batch 170 processed successfully.
+2024-12-29 06:30:23 - INFO - Processing batch 171: Groups 170001 to 171000
+2024-12-29 06:30:23 - INFO - Batch 171 processed successfully.
+2024-12-29 06:30:23 - INFO - Processing batch 172: Groups 171001 to 172000
+2024-12-29 06:30:23 - INFO - Batch 172 processed successfully.
+2024-12-29 06:30:23 - INFO - Processing batch 173: Groups 172001 to 173000
+2024-12-29 06:30:23 - INFO - Batch 173 processed successfully.
+2024-12-29 06:30:23 - INFO - Processing batch 174: Groups 173001 to 174000
+2024-12-29 06:30:23 - INFO - Batch 174 processed successfully.
+2024-12-29 06:30:23 - INFO - Processing batch 175: Groups 174001 to 175000
+2024-12-29 06:30:23 - INFO - Batch 175 processed successfully.
+2024-12-29 06:30:23 - INFO - Processing batch 176: Groups 175001 to 176000
+2024-12-29 06:30:24 - INFO - Batch 176 processed successfully.
+2024-12-29 06:30:24 - INFO - Processing batch 177: Groups 176001 to 177000
+2024-12-29 06:30:24 - INFO - Batch 177 processed successfully.
+2024-12-29 06:30:24 - INFO - Processing batch 178: Groups 177001 to 178000
+2024-12-29 06:30:24 - INFO - Batch 178 processed successfully.
+2024-12-29 06:30:24 - INFO - Processing batch 179: Groups 178001 to 179000
+2024-12-29 06:30:24 - INFO - Batch 179 processed successfully.
+2024-12-29 06:30:24 - INFO - Processing batch 180: Groups 179001 to 180000
+2024-12-29 06:30:24 - INFO - Batch 180 processed successfully.
+2024-12-29 06:30:24 - INFO - Processing batch 181: Groups 180001 to 181000
+2024-12-29 06:30:24 - INFO - Batch 181 processed successfully.
+2024-12-29 06:30:24 - INFO - Processing batch 182: Groups 181001 to 182000
+2024-12-29 06:30:24 - INFO - Batch 182 processed successfully.
+2024-12-29 06:30:24 - INFO - Processing batch 183: Groups 182001 to 183000
+2024-12-29 06:30:25 - INFO - Batch 183 processed successfully.
+2024-12-29 06:30:25 - INFO - Processing batch 184: Groups 183001 to 184000
+2024-12-29 06:30:25 - INFO - Batch 184 processed successfully.
+2024-12-29 06:30:25 - INFO - Processing batch 185: Groups 184001 to 185000
+2024-12-29 06:30:25 - INFO - Batch 185 processed successfully.
+2024-12-29 06:30:25 - INFO - Processing batch 186: Groups 185001 to 186000
+2024-12-29 06:30:25 - INFO - Batch 186 processed successfully.
+2024-12-29 06:30:25 - INFO - Processing batch 187: Groups 186001 to 187000
+2024-12-29 06:30:25 - INFO - Batch 187 processed successfully.
+2024-12-29 06:30:25 - INFO - Processing batch 188: Groups 187001 to 188000
+2024-12-29 06:30:25 - INFO - Batch 188 processed successfully.
+2024-12-29 06:30:25 - INFO - Processing batch 189: Groups 188001 to 189000
+2024-12-29 06:30:25 - INFO - Batch 189 processed successfully.
+2024-12-29 06:30:25 - INFO - Processing batch 190: Groups 189001 to 190000
+2024-12-29 06:30:26 - INFO - Batch 190 processed successfully.
+2024-12-29 06:30:26 - INFO - Processing batch 191: Groups 190001 to 191000
+2024-12-29 06:30:26 - INFO - Batch 191 processed successfully.
+2024-12-29 06:30:26 - INFO - Processing batch 192: Groups 191001 to 192000
+2024-12-29 06:30:26 - INFO - Batch 192 processed successfully.
+2024-12-29 06:30:26 - INFO - Processing batch 193: Groups 192001 to 193000
+2024-12-29 06:30:26 - INFO - Batch 193 processed successfully.
+2024-12-29 06:30:26 - INFO - Processing batch 194: Groups 193001 to 194000
+2024-12-29 06:30:26 - INFO - Batch 194 processed successfully.
+2024-12-29 06:30:26 - INFO - Processing batch 195: Groups 194001 to 195000
+2024-12-29 06:30:26 - INFO - Batch 195 processed successfully.
+2024-12-29 06:30:26 - INFO - Processing batch 196: Groups 195001 to 196000
+2024-12-29 06:30:27 - INFO - Batch 196 processed successfully.
+2024-12-29 06:30:27 - INFO - Processing batch 197: Groups 196001 to 197000
+2024-12-29 06:30:27 - INFO - Batch 197 processed successfully.
+2024-12-29 06:30:27 - INFO - Processing batch 198: Groups 197001 to 198000
+2024-12-29 06:30:27 - INFO - Batch 198 processed successfully.
+2024-12-29 06:30:27 - INFO - Processing batch 199: Groups 198001 to 199000
+2024-12-29 06:30:27 - INFO - Batch 199 processed successfully.
+2024-12-29 06:30:27 - INFO - Processing batch 200: Groups 199001 to 200000
+2024-12-29 06:30:27 - INFO - Batch 200 processed successfully.
+2024-12-29 06:30:27 - INFO - Processing batch 201: Groups 200001 to 201000
+2024-12-29 06:30:27 - INFO - Batch 201 processed successfully.
+2024-12-29 06:30:27 - INFO - Processing batch 202: Groups 201001 to 202000
+2024-12-29 06:30:27 - INFO - Batch 202 processed successfully.
+2024-12-29 06:30:27 - INFO - Processing batch 203: Groups 202001 to 203000
+2024-12-29 06:30:27 - INFO - Batch 203 processed successfully.
+2024-12-29 06:30:27 - INFO - Processing batch 204: Groups 203001 to 204000
+2024-12-29 06:30:28 - INFO - Batch 204 processed successfully.
+2024-12-29 06:30:28 - INFO - Processing batch 205: Groups 204001 to 205000
+2024-12-29 06:30:28 - INFO - Batch 205 processed successfully.
+2024-12-29 06:30:28 - INFO - Processing batch 206: Groups 205001 to 206000
+2024-12-29 06:30:28 - INFO - Batch 206 processed successfully.
+2024-12-29 06:30:28 - INFO - Processing batch 207: Groups 206001 to 207000
+2024-12-29 06:30:28 - INFO - Batch 207 processed successfully.
+2024-12-29 06:30:28 - INFO - Processing batch 208: Groups 207001 to 208000
+2024-12-29 06:30:28 - INFO - Batch 208 processed successfully.
+2024-12-29 06:30:28 - INFO - Processing batch 209: Groups 208001 to 209000
+2024-12-29 06:30:28 - INFO - Batch 209 processed successfully.
+2024-12-29 06:30:28 - INFO - Processing batch 210: Groups 209001 to 210000
+2024-12-29 06:30:28 - INFO - Batch 210 processed successfully.
+2024-12-29 06:30:28 - INFO - Processing batch 211: Groups 210001 to 211000
+2024-12-29 06:30:29 - INFO - Batch 211 processed successfully.
+2024-12-29 06:30:29 - INFO - Processing batch 212: Groups 211001 to 212000
+2024-12-29 06:30:29 - INFO - Batch 212 processed successfully.
+2024-12-29 06:30:29 - INFO - Processing batch 213: Groups 212001 to 213000
+2024-12-29 06:30:29 - INFO - Batch 213 processed successfully.
+2024-12-29 06:30:29 - INFO - Processing batch 214: Groups 213001 to 214000
+2024-12-29 06:30:29 - INFO - Batch 214 processed successfully.
+2024-12-29 06:30:29 - INFO - Processing batch 215: Groups 214001 to 215000
+2024-12-29 06:30:29 - INFO - Batch 215 processed successfully.
+2024-12-29 06:30:29 - INFO - Processing batch 216: Groups 215001 to 216000
+2024-12-29 06:30:29 - INFO - Batch 216 processed successfully.
+2024-12-29 06:30:29 - INFO - Processing batch 217: Groups 216001 to 217000
+2024-12-29 06:30:30 - INFO - Batch 217 processed successfully.
+2024-12-29 06:30:30 - INFO - Processing batch 218: Groups 217001 to 218000
+2024-12-29 06:30:30 - INFO - Batch 218 processed successfully.
+2024-12-29 06:30:30 - INFO - Processing batch 219: Groups 218001 to 219000
+2024-12-29 06:30:30 - INFO - Batch 219 processed successfully.
+2024-12-29 06:30:30 - INFO - Processing batch 220: Groups 219001 to 220000
+2024-12-29 06:30:30 - INFO - Batch 220 processed successfully.
+2024-12-29 06:30:30 - INFO - Processing batch 221: Groups 220001 to 221000
+2024-12-29 06:30:30 - INFO - Batch 221 processed successfully.
+2024-12-29 06:30:30 - INFO - Processing batch 222: Groups 221001 to 222000
+2024-12-29 06:30:30 - INFO - Batch 222 processed successfully.
+2024-12-29 06:30:30 - INFO - Processing batch 223: Groups 222001 to 223000
+2024-12-29 06:30:30 - INFO - Batch 223 processed successfully.
+2024-12-29 06:30:30 - INFO - Processing batch 224: Groups 223001 to 224000
+2024-12-29 06:30:31 - INFO - Batch 224 processed successfully.
+2024-12-29 06:30:31 - INFO - Processing batch 225: Groups 224001 to 225000
+2024-12-29 06:30:31 - INFO - Batch 225 processed successfully.
+2024-12-29 06:30:31 - INFO - Processing batch 226: Groups 225001 to 226000
+2024-12-29 06:30:31 - INFO - Batch 226 processed successfully.
+2024-12-29 06:30:31 - INFO - Processing batch 227: Groups 226001 to 227000
+2024-12-29 06:30:31 - INFO - Batch 227 processed successfully.
+2024-12-29 06:30:31 - INFO - Processing batch 228: Groups 227001 to 228000
+2024-12-29 06:30:31 - INFO - Batch 228 processed successfully.
+2024-12-29 06:30:31 - INFO - Processing batch 229: Groups 228001 to 229000
+2024-12-29 06:30:31 - INFO - Batch 229 processed successfully.
+2024-12-29 06:30:31 - INFO - Processing batch 230: Groups 229001 to 230000
+2024-12-29 06:30:31 - INFO - Batch 230 processed successfully.
+2024-12-29 06:30:31 - INFO - Processing batch 231: Groups 230001 to 231000
+2024-12-29 06:30:32 - INFO - Batch 231 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 232: Groups 231001 to 232000
+2024-12-29 06:30:32 - INFO - Batch 232 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 233: Groups 232001 to 233000
+2024-12-29 06:30:32 - INFO - Batch 233 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 234: Groups 233001 to 234000
+2024-12-29 06:30:32 - INFO - Batch 234 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 235: Groups 234001 to 235000
+2024-12-29 06:30:32 - INFO - Batch 235 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 236: Groups 235001 to 236000
+2024-12-29 06:30:32 - INFO - Batch 236 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 237: Groups 236001 to 237000
+2024-12-29 06:30:32 - INFO - Batch 237 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 238: Groups 237001 to 238000
+2024-12-29 06:30:32 - INFO - Batch 238 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 239: Groups 238001 to 239000
+2024-12-29 06:30:32 - INFO - Batch 239 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 240: Groups 239001 to 240000
+2024-12-29 06:30:32 - INFO - Batch 240 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 241: Groups 240001 to 241000
+2024-12-29 06:30:32 - INFO - Batch 241 processed successfully.
+2024-12-29 06:30:32 - INFO - Processing batch 242: Groups 241001 to 242000
+2024-12-29 06:30:33 - INFO - Batch 242 processed successfully.
+2024-12-29 06:30:33 - INFO - Processing batch 243: Groups 242001 to 243000
+2024-12-29 06:30:33 - INFO - Batch 243 processed successfully.
+2024-12-29 06:30:33 - INFO - Processing batch 244: Groups 243001 to 244000
+2024-12-29 06:30:33 - INFO - Batch 244 processed successfully.
+2024-12-29 06:30:33 - INFO - Processing batch 245: Groups 244001 to 245000
+2024-12-29 06:30:33 - INFO - Batch 245 processed successfully.
+2024-12-29 06:30:33 - INFO - Processing batch 246: Groups 245001 to 246000
+2024-12-29 06:30:33 - INFO - Batch 246 processed successfully.
+2024-12-29 06:30:33 - INFO - Processing batch 247: Groups 246001 to 247000
+2024-12-29 06:30:33 - INFO - Batch 247 processed successfully.
+2024-12-29 06:30:33 - INFO - Processing batch 248: Groups 247001 to 248000
+2024-12-29 06:30:34 - INFO - Batch 248 processed successfully.
+2024-12-29 06:30:34 - INFO - Processing batch 249: Groups 248001 to 249000
+2024-12-29 06:30:34 - INFO - Batch 249 processed successfully.
+2024-12-29 06:30:34 - INFO - Processing batch 250: Groups 249001 to 250000
+2024-12-29 06:30:34 - INFO - Batch 250 processed successfully.
+2024-12-29 06:30:34 - INFO - Processing batch 251: Groups 250001 to 251000
+2024-12-29 06:30:34 - INFO - Batch 251 processed successfully.
+2024-12-29 06:30:34 - INFO - Processing batch 252: Groups 251001 to 252000
+2024-12-29 06:30:34 - INFO - Batch 252 processed successfully.
+2024-12-29 06:30:34 - INFO - Processing batch 253: Groups 252001 to 253000
+2024-12-29 06:30:34 - INFO - Batch 253 processed successfully.
+2024-12-29 06:30:34 - INFO - Processing batch 254: Groups 253001 to 254000
+2024-12-29 06:30:35 - INFO - Batch 254 processed successfully.
+2024-12-29 06:30:35 - INFO - Processing batch 255: Groups 254001 to 255000
+2024-12-29 06:30:35 - INFO - Batch 255 processed successfully.
+2024-12-29 06:30:35 - INFO - Processing batch 256: Groups 255001 to 256000
+2024-12-29 06:30:35 - INFO - Batch 256 processed successfully.
+2024-12-29 06:30:35 - INFO - Processing batch 257: Groups 256001 to 257000
+2024-12-29 06:30:35 - INFO - Batch 257 processed successfully.
+2024-12-29 06:30:35 - INFO - Processing batch 258: Groups 257001 to 258000
+2024-12-29 06:30:35 - INFO - Batch 258 processed successfully.
+2024-12-29 06:30:35 - INFO - Processing batch 259: Groups 258001 to 259000
+2024-12-29 06:30:35 - INFO - Batch 259 processed successfully.
+2024-12-29 06:30:35 - INFO - Processing batch 260: Groups 259001 to 260000
+2024-12-29 06:30:35 - INFO - Batch 260 processed successfully.
+2024-12-29 06:30:35 - INFO - Processing batch 261: Groups 260001 to 261000
+2024-12-29 06:30:36 - INFO - Batch 261 processed successfully.
+2024-12-29 06:30:36 - INFO - Processing batch 262: Groups 261001 to 262000
+2024-12-29 06:30:36 - INFO - Batch 262 processed successfully.
+2024-12-29 06:30:36 - INFO - Processing batch 263: Groups 262001 to 263000
+2024-12-29 06:30:36 - INFO - Batch 263 processed successfully.
+2024-12-29 06:30:36 - INFO - Processing batch 264: Groups 263001 to 264000
+2024-12-29 06:30:36 - INFO - Batch 264 processed successfully.
+2024-12-29 06:30:36 - INFO - Processing batch 265: Groups 264001 to 265000
+2024-12-29 06:30:36 - INFO - Batch 265 processed successfully.
+2024-12-29 06:30:36 - INFO - Processing batch 266: Groups 265001 to 266000
+2024-12-29 06:30:36 - INFO - Batch 266 processed successfully.
+2024-12-29 06:30:36 - INFO - Processing batch 267: Groups 266001 to 267000
+2024-12-29 06:30:36 - INFO - Batch 267 processed successfully.
+2024-12-29 06:30:36 - INFO - Processing batch 268: Groups 267001 to 268000
+2024-12-29 06:30:37 - INFO - Batch 268 processed successfully.
+2024-12-29 06:30:37 - INFO - Processing batch 269: Groups 268001 to 269000
+2024-12-29 06:30:37 - INFO - Batch 269 processed successfully.
+2024-12-29 06:30:37 - INFO - Processing batch 270: Groups 269001 to 270000
+2024-12-29 06:30:37 - INFO - Batch 270 processed successfully.
+2024-12-29 06:30:37 - INFO - Processing batch 271: Groups 270001 to 271000
+2024-12-29 06:30:37 - INFO - Batch 271 processed successfully.
+2024-12-29 06:30:37 - INFO - Processing batch 272: Groups 271001 to 272000
+2024-12-29 06:30:37 - INFO - Batch 272 processed successfully.
+2024-12-29 06:30:37 - INFO - Processing batch 273: Groups 272001 to 273000
+2024-12-29 06:30:37 - INFO - Batch 273 processed successfully.
+2024-12-29 06:30:37 - INFO - Processing batch 274: Groups 273001 to 274000
+2024-12-29 06:30:38 - INFO - Batch 274 processed successfully.
+2024-12-29 06:30:38 - INFO - Processing batch 275: Groups 274001 to 275000
+2024-12-29 06:30:38 - INFO - Batch 275 processed successfully.
+2024-12-29 06:30:38 - INFO - Processing batch 276: Groups 275001 to 276000
+2024-12-29 06:30:38 - INFO - Batch 276 processed successfully.
+2024-12-29 06:30:38 - INFO - Processing batch 277: Groups 276001 to 277000
+2024-12-29 06:30:38 - INFO - Batch 277 processed successfully.
+2024-12-29 06:30:38 - INFO - Processing batch 278: Groups 277001 to 278000
+2024-12-29 06:30:38 - INFO - Batch 278 processed successfully.
+2024-12-29 06:30:38 - INFO - Processing batch 279: Groups 278001 to 279000
+2024-12-29 06:30:39 - INFO - Batch 279 processed successfully.
+2024-12-29 06:30:39 - INFO - Processing batch 280: Groups 279001 to 280000
+2024-12-29 06:30:39 - INFO - Batch 280 processed successfully.
+2024-12-29 06:30:39 - INFO - Processing batch 281: Groups 280001 to 281000
+2024-12-29 06:30:39 - INFO - Batch 281 processed successfully.
+2024-12-29 06:30:39 - INFO - Processing batch 282: Groups 281001 to 282000
+2024-12-29 06:30:39 - INFO - Batch 282 processed successfully.
+2024-12-29 06:30:39 - INFO - Processing batch 283: Groups 282001 to 283000
+2024-12-29 06:30:39 - INFO - Batch 283 processed successfully.
+2024-12-29 06:30:39 - INFO - Processing batch 284: Groups 283001 to 284000
+2024-12-29 06:30:39 - INFO - Batch 284 processed successfully.
+2024-12-29 06:30:39 - INFO - Processing batch 285: Groups 284001 to 285000
+2024-12-29 06:30:40 - INFO - Batch 285 processed successfully.
+2024-12-29 06:30:40 - INFO - Processing batch 286: Groups 285001 to 286000
+2024-12-29 06:30:40 - INFO - Batch 286 processed successfully.
+2024-12-29 06:30:40 - INFO - Processing batch 287: Groups 286001 to 287000
+2024-12-29 06:30:40 - INFO - Batch 287 processed successfully.
+2024-12-29 06:30:40 - INFO - Processing batch 288: Groups 287001 to 288000
+2024-12-29 06:30:40 - INFO - Batch 288 processed successfully.
+2024-12-29 06:30:40 - INFO - Processing batch 289: Groups 288001 to 289000
+2024-12-29 06:30:40 - INFO - Batch 289 processed successfully.
+2024-12-29 06:30:40 - INFO - Processing batch 290: Groups 289001 to 290000
+2024-12-29 06:30:40 - INFO - Batch 290 processed successfully.
+2024-12-29 06:30:40 - INFO - Processing batch 291: Groups 290001 to 291000
+2024-12-29 06:30:41 - INFO - Batch 291 processed successfully.
+2024-12-29 06:30:41 - INFO - Processing batch 292: Groups 291001 to 292000
+2024-12-29 06:30:41 - INFO - Batch 292 processed successfully.
+2024-12-29 06:30:41 - INFO - Processing batch 293: Groups 292001 to 293000
+2024-12-29 06:30:41 - INFO - Batch 293 processed successfully.
+2024-12-29 06:30:41 - INFO - Processing batch 294: Groups 293001 to 294000
+2024-12-29 06:30:41 - INFO - Batch 294 processed successfully.
+2024-12-29 06:30:41 - INFO - Processing batch 295: Groups 294001 to 295000
+2024-12-29 06:30:41 - INFO - Batch 295 processed successfully.
+2024-12-29 06:30:41 - INFO - Processing batch 296: Groups 295001 to 296000
+2024-12-29 06:30:41 - INFO - Batch 296 processed successfully.
+2024-12-29 06:30:41 - INFO - Processing batch 297: Groups 296001 to 297000
+2024-12-29 06:30:41 - INFO - Batch 297 processed successfully.
+2024-12-29 06:30:41 - INFO - Processing batch 298: Groups 297001 to 298000
+2024-12-29 06:30:41 - INFO - Batch 298 processed successfully.
+2024-12-29 06:30:41 - INFO - Processing batch 299: Groups 298001 to 299000
+2024-12-29 06:30:42 - INFO - Batch 299 processed successfully.
+2024-12-29 06:30:42 - INFO - Processing batch 300: Groups 299001 to 300000
+2024-12-29 06:30:42 - INFO - Batch 300 processed successfully.
+2024-12-29 06:30:42 - INFO - Processing batch 301: Groups 300001 to 301000
+2024-12-29 06:30:42 - INFO - Batch 301 processed successfully.
+2024-12-29 06:30:42 - INFO - Processing batch 302: Groups 301001 to 302000
+2024-12-29 06:30:42 - INFO - Batch 302 processed successfully.
+2024-12-29 06:30:42 - INFO - Processing batch 303: Groups 302001 to 303000
+2024-12-29 06:30:42 - INFO - Batch 303 processed successfully.
+2024-12-29 06:30:42 - INFO - Processing batch 304: Groups 303001 to 304000
+2024-12-29 06:30:42 - INFO - Batch 304 processed successfully.
+2024-12-29 06:30:42 - INFO - Processing batch 305: Groups 304001 to 305000
+2024-12-29 06:30:42 - INFO - Batch 305 processed successfully.
+2024-12-29 06:30:42 - INFO - Processing batch 306: Groups 305001 to 306000
+2024-12-29 06:30:43 - INFO - Batch 306 processed successfully.
+2024-12-29 06:30:43 - INFO - Processing batch 307: Groups 306001 to 307000
+2024-12-29 06:30:43 - INFO - Batch 307 processed successfully.
+2024-12-29 06:30:43 - INFO - Processing batch 308: Groups 307001 to 308000
+2024-12-29 06:30:43 - INFO - Batch 308 processed successfully.
+2024-12-29 06:30:43 - INFO - Processing batch 309: Groups 308001 to 309000
+2024-12-29 06:30:43 - INFO - Batch 309 processed successfully.
+2024-12-29 06:30:43 - INFO - Processing batch 310: Groups 309001 to 310000
+2024-12-29 06:30:43 - INFO - Batch 310 processed successfully.
+2024-12-29 06:30:43 - INFO - Processing batch 311: Groups 310001 to 311000
+2024-12-29 06:30:43 - INFO - Batch 311 processed successfully.
+2024-12-29 06:30:43 - INFO - Processing batch 312: Groups 311001 to 312000
+2024-12-29 06:30:44 - INFO - Batch 312 processed successfully.
+2024-12-29 06:30:44 - INFO - Processing batch 313: Groups 312001 to 313000
+2024-12-29 06:30:44 - INFO - Batch 313 processed successfully.
+2024-12-29 06:30:44 - INFO - Processing batch 314: Groups 313001 to 314000
+2024-12-29 06:30:44 - INFO - Batch 314 processed successfully.
+2024-12-29 06:30:44 - INFO - Processing batch 315: Groups 314001 to 315000
+2024-12-29 06:30:44 - INFO - Batch 315 processed successfully.
+2024-12-29 06:30:44 - INFO - Processing batch 316: Groups 315001 to 316000
+2024-12-29 06:30:44 - INFO - Batch 316 processed successfully.
+2024-12-29 06:30:44 - INFO - Processing batch 317: Groups 316001 to 317000
+2024-12-29 06:30:44 - INFO - Batch 317 processed successfully.
+2024-12-29 06:30:44 - INFO - Processing batch 318: Groups 317001 to 318000
+2024-12-29 06:30:44 - INFO - Batch 318 processed successfully.
+2024-12-29 06:30:44 - INFO - Processing batch 319: Groups 318001 to 319000
+2024-12-29 06:30:45 - INFO - Batch 319 processed successfully.
+2024-12-29 06:30:45 - INFO - Processing batch 320: Groups 319001 to 320000
+2024-12-29 06:30:45 - INFO - Batch 320 processed successfully.
+2024-12-29 06:30:45 - INFO - Processing batch 321: Groups 320001 to 321000
+2024-12-29 06:30:45 - INFO - Batch 321 processed successfully.
+2024-12-29 06:30:45 - INFO - Processing batch 322: Groups 321001 to 322000
+2024-12-29 06:30:45 - INFO - Batch 322 processed successfully.
+2024-12-29 06:30:45 - INFO - Processing batch 323: Groups 322001 to 323000
+2024-12-29 06:30:45 - INFO - Batch 323 processed successfully.
+2024-12-29 06:30:45 - INFO - Processing batch 324: Groups 323001 to 324000
+2024-12-29 06:30:45 - INFO - Batch 324 processed successfully.
+2024-12-29 06:30:45 - INFO - Processing batch 325: Groups 324001 to 325000
+2024-12-29 06:30:46 - INFO - Batch 325 processed successfully.
+2024-12-29 06:30:46 - INFO - Processing batch 326: Groups 325001 to 326000
+2024-12-29 06:30:46 - INFO - Batch 326 processed successfully.
+2024-12-29 06:30:46 - INFO - Processing batch 327: Groups 326001 to 327000
+2024-12-29 06:30:46 - INFO - Batch 327 processed successfully.
+2024-12-29 06:30:46 - INFO - Processing batch 328: Groups 327001 to 328000
+2024-12-29 06:30:46 - INFO - Batch 328 processed successfully.
+2024-12-29 06:30:46 - INFO - Processing batch 329: Groups 328001 to 329000
+2024-12-29 06:30:46 - INFO - Batch 329 processed successfully.
+2024-12-29 06:30:46 - INFO - Processing batch 330: Groups 329001 to 330000
+2024-12-29 06:30:46 - INFO - Batch 330 processed successfully.
+2024-12-29 06:30:46 - INFO - Processing batch 331: Groups 330001 to 331000
+2024-12-29 06:30:46 - INFO - Batch 331 processed successfully.
+2024-12-29 06:30:46 - INFO - Processing batch 332: Groups 331001 to 332000
+2024-12-29 06:30:47 - INFO - Batch 332 processed successfully.
+2024-12-29 06:30:47 - INFO - Processing batch 333: Groups 332001 to 333000
+2024-12-29 06:30:47 - INFO - Batch 333 processed successfully.
+2024-12-29 06:30:47 - INFO - Processing batch 334: Groups 333001 to 334000
+2024-12-29 06:30:47 - INFO - Batch 334 processed successfully.
+2024-12-29 06:30:47 - INFO - Processing batch 335: Groups 334001 to 335000
+2024-12-29 06:30:47 - INFO - Batch 335 processed successfully.
+2024-12-29 06:30:47 - INFO - Processing batch 336: Groups 335001 to 336000
+2024-12-29 06:30:47 - INFO - Batch 336 processed successfully.
+2024-12-29 06:30:47 - INFO - Processing batch 337: Groups 336001 to 337000
+2024-12-29 06:30:47 - INFO - Batch 337 processed successfully.
+2024-12-29 06:30:47 - INFO - Processing batch 338: Groups 337001 to 338000
+2024-12-29 06:30:47 - INFO - Batch 338 processed successfully.
+2024-12-29 06:30:47 - INFO - Processing batch 339: Groups 338001 to 339000
+2024-12-29 06:30:48 - INFO - Batch 339 processed successfully.
+2024-12-29 06:30:48 - INFO - Processing batch 340: Groups 339001 to 340000
+2024-12-29 06:30:48 - INFO - Batch 340 processed successfully.
+2024-12-29 06:30:48 - INFO - Processing batch 341: Groups 340001 to 341000
+2024-12-29 06:30:48 - INFO - Batch 341 processed successfully.
+2024-12-29 06:30:48 - INFO - Processing batch 342: Groups 341001 to 342000
+2024-12-29 06:30:48 - INFO - Batch 342 processed successfully.
+2024-12-29 06:30:48 - INFO - Processing batch 343: Groups 342001 to 343000
+2024-12-29 06:30:48 - INFO - Batch 343 processed successfully.
+2024-12-29 06:30:48 - INFO - Processing batch 344: Groups 343001 to 344000
+2024-12-29 06:30:48 - INFO - Batch 344 processed successfully.
+2024-12-29 06:30:48 - INFO - Processing batch 345: Groups 344001 to 345000
+2024-12-29 06:30:48 - INFO - Batch 345 processed successfully.
+2024-12-29 06:30:48 - INFO - Processing batch 346: Groups 345001 to 346000
+2024-12-29 06:30:49 - INFO - Batch 346 processed successfully.
+2024-12-29 06:30:49 - INFO - Processing batch 347: Groups 346001 to 347000
+2024-12-29 06:30:49 - INFO - Batch 347 processed successfully.
+2024-12-29 06:30:49 - INFO - Processing batch 348: Groups 347001 to 348000
+2024-12-29 06:30:49 - INFO - Batch 348 processed successfully.
+2024-12-29 06:30:49 - INFO - Processing batch 349: Groups 348001 to 349000
+2024-12-29 06:30:49 - INFO - Batch 349 processed successfully.
+2024-12-29 06:30:49 - INFO - Processing batch 350: Groups 349001 to 350000
+2024-12-29 06:30:49 - INFO - Batch 350 processed successfully.
+2024-12-29 06:30:49 - INFO - Processing batch 351: Groups 350001 to 351000
+2024-12-29 06:30:49 - INFO - Batch 351 processed successfully.
+2024-12-29 06:30:49 - INFO - Processing batch 352: Groups 351001 to 352000
+2024-12-29 06:30:50 - INFO - Batch 352 processed successfully.
+2024-12-29 06:30:50 - INFO - Processing batch 353: Groups 352001 to 353000
+2024-12-29 06:30:50 - INFO - Batch 353 processed successfully.
+2024-12-29 06:30:50 - INFO - Processing batch 354: Groups 353001 to 354000
+2024-12-29 06:30:50 - INFO - Batch 354 processed successfully.
+2024-12-29 06:30:50 - INFO - Processing batch 355: Groups 354001 to 355000
+2024-12-29 06:30:50 - INFO - Batch 355 processed successfully.
+2024-12-29 06:30:50 - INFO - Processing batch 356: Groups 355001 to 356000
+2024-12-29 06:30:50 - INFO - Batch 356 processed successfully.
+2024-12-29 06:30:50 - INFO - Processing batch 357: Groups 356001 to 357000
+2024-12-29 06:30:50 - INFO - Batch 357 processed successfully.
+2024-12-29 06:30:50 - INFO - Processing batch 358: Groups 357001 to 358000
+2024-12-29 06:30:51 - INFO - Batch 358 processed successfully.
+2024-12-29 06:30:51 - INFO - Processing batch 359: Groups 358001 to 359000
+2024-12-29 06:30:51 - INFO - Batch 359 processed successfully.
+2024-12-29 06:30:51 - INFO - Processing batch 360: Groups 359001 to 360000
+2024-12-29 06:30:51 - INFO - Batch 360 processed successfully.
+2024-12-29 06:30:51 - INFO - Processing batch 361: Groups 360001 to 361000
+2024-12-29 06:30:51 - INFO - Batch 361 processed successfully.
+2024-12-29 06:30:51 - INFO - Processing batch 362: Groups 361001 to 362000
+2024-12-29 06:30:51 - INFO - Batch 362 processed successfully.
+2024-12-29 06:30:51 - INFO - Processing batch 363: Groups 362001 to 363000
+2024-12-29 06:30:51 - INFO - Batch 363 processed successfully.
+2024-12-29 06:30:51 - INFO - Processing batch 364: Groups 363001 to 364000
+2024-12-29 06:30:52 - INFO - Batch 364 processed successfully.
+2024-12-29 06:30:52 - INFO - Processing batch 365: Groups 364001 to 365000
+2024-12-29 06:30:52 - INFO - Batch 365 processed successfully.
+2024-12-29 06:30:52 - INFO - Processing batch 366: Groups 365001 to 366000
+2024-12-29 06:30:52 - INFO - Batch 366 processed successfully.
+2024-12-29 06:30:52 - INFO - Processing batch 367: Groups 366001 to 367000
+2024-12-29 06:30:52 - INFO - Batch 367 processed successfully.
+2024-12-29 06:30:52 - INFO - Processing batch 368: Groups 367001 to 367599
+2024-12-29 06:30:52 - INFO - Batch 368 processed successfully.
+2024-12-29 06:30:52 - INFO - sectionals_aggregated updated successfully in 51.41 seconds.
+2024-12-29 06:30:52 - INFO - Updating net_sentiment beginning...
+2024-12-29 06:31:21 - INFO - Net sentiment updated successfully in 29.17 seconds.
+2024-12-29 06:31:21 - INFO - All updates completed with some errors.
+2024-12-29 06:31:21 - Python script succeeded
+2024-12-29 06:31:21 - Job completed
