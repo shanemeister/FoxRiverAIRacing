@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the log file for this cron job
-LOG_FILE="/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/stat_type_update.log"
+LOG_FILE="/home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_logs/stat_type_cron_job.log"
 
 # Start time and log the start of the job
 START_TIME=$(date +'%Y-%m-%d %H:%M:%S')

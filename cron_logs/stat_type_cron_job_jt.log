@@ -1,0 +1,5 @@
+2025-01-06 06:15:01 - Starting stat_type_update job
+2025-01-06 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-06 06:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/bin/python: can't open file '/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py': [Errno 2] No such file or directory
+2025-01-06 06:15:01 - Python script failed with exit code 2

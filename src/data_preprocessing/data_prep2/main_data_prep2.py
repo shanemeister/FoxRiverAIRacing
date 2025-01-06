@@ -8,7 +8,7 @@ from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgre
 from src.data_preprocessing.data_prep1.sql_queries import sql_queries
 from src.data_preprocessing.data_prep1.merge_gps_sectional import merge_gps_sectionals
 from src.data_preprocessing.data_prep1.data_utils import (save_parquet, gather_statistics, initialize_environment,
-                                               load_config, initialize_logging, initialize_spark,
+                                               load_config, initialize_spark,
                                                identify_and_impute_outliers, identify_and_remove_outliers, detect_cardinality_columns,
                                                identify_missing_and_outliers)
 from src.data_preprocessing.data_prep2.data_healthcheck import time_series_data_healthcheck, dataframe_summary
@@ -43,7 +43,7 @@ def main():
     # Set global references to None
     master_results_df = None
     results_df = None
-    spark, jdbc_url, jdbc_properties, queries, parquet_dir, log_file = initialize_environment()
+    spark, jdbc_url, jdbc_properties, parquet_dir, log_file = initialize_environment()
     spark.catalog.clearCache()
    # Argument parser setup
     parser = argparse.ArgumentParser(description="Run EQB and TPD ingestion pipeline.")
@@ -84,8 +84,8 @@ def main():
         df = spark.read.parquet(df_path)
         detect_cardinality_columns(df, threshold=card, cardinality_type=type)    
     else:
-        train_scaled = spark.read.parquet(os.path.join(parquet_dir, "processed_data.parquet"))
-        healthcheck_report = time_series_data_healthcheck(train_scaled)
+        race_df_p1 = spark.read.parquet(os.path.join(parquet_dir, "race_df_p1.parquet"))
+        healthcheck_report = time_series_data_healthcheck(race_df_p1)
         pprint.pprint(healthcheck_report)
         #results_df = spark.read.parquet(os.path.join(parquet_dir, "results.parquet"))
         #results_df.count()

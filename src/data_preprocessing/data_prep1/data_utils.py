@@ -43,6 +43,28 @@ def haversine(lat1, lon1, lat2, lon2):
 
 haversine_udf = udf(haversine, DoubleType())
 
+def convert_processed_spark_to_pandas(spark, parquet_dir):
+    """
+    Reads the final 'processed_data' from parquet,
+    does any final Spark-based transformations or filtering,
+    then collects to Pandas for use in classic ML frameworks.
+    """
+    processed_path = os.path.join(parquet_dir, "processed_data.parquet")
+    if not os.path.exists(processed_path):
+        print(f"Error: '{processed_path}' does not exist.")
+        return None
+    
+    df_spark = spark.read.parquet(processed_path)
+    
+    # Example: we assume 'label' is an integer for multi-class classification.
+    # Suppose features are all columns except label, or you have a known subset
+    # that you want to use.
+
+    # Convert spark -> pandas
+    df_pandas = df_spark.toPandas()
+
+    return df_pandas
+
 def save_parquet(spark, df, name, parquet_dir):
     """
     Save a PySpark DataFrame as a Parquet file.
@@ -155,19 +177,16 @@ def initialize_environment():
     sedona_jar_abs_path = "/home/exx/sedona/apache-sedona-1.7.0-bin/sedona-spark-shaded-3.4_2.12-1.7.0.jar"
     
     # Initialize logging
-    initialize_logging(log_file)
-    queries = sql_queries()
+    # queries = sql_queries()
     # Initialize Spark session
    
     spark = initialize_spark(jdbc_driver_path)
-    return spark, jdbc_url, jdbc_properties, queries, parquet_dir, log_file
+    return spark, jdbc_url, jdbc_properties, parquet_dir, log_file
 
 def load_config(config_path):
     config = configparser.ConfigParser()
     config.read(config_path)
     return config
-
-def initialize_logging(log_file):
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
@@ -177,9 +196,6 @@ def initialize_logging(log_file):
         ]
     )
     logging.info("Environment setup initialized.")
-
-# Initialize Spark session
-from sedona.spark import SedonaContext
 
 def initialize_spark(jdbc_driver_path):
     """
@@ -484,6 +500,221 @@ def aggregate_gates_to_race_level(df: DataFrame) -> DataFrame:
           .agg(*aggregations, *static_cols)
     )
 
+def process_columnar_data(spark, df, parquet_dir):
+    """
+    Process merged results, sectionals, and gps DataFrame columnar to:
+    1. Check and handle duplicates
+    2. Convert decimal columns to doubles
+    3. Impute missing values
+    4. Create age_at_race_day
+    5. Add missing value flags for numeric columns
+    6. Create labels for multi-class classification
+    7. Aggregate gate-level metrics to race-level data
+    
+    Parameters:
+    -----------
+    spark : SparkSession
+    df    : DataFrame, the merged DataFrame to process
+    
+    Returns:
+    --------
+    Processed DataFrame ready for feature engineering.
+    """
+
+    # 1. Check for Duplicates
+    primary_keys = ["course_cd", "race_date", "race_number", "horse_id", "gate_index"]
+    duplicates = (
+        df.groupBy(*primary_keys)
+          .agg(F.count("*").alias("cnt"))
+          .filter(F.col("cnt") > 1)
+    )
+
+    dup_count = duplicates.count()
+    if dup_count > 0:
+        print(f"Found {dup_count} duplicate primary key combinations.")
+        duplicates.show()
+        raise ValueError(f"Duplicates found: {dup_count}. Deduplication required.")
+    print("1. No duplicates found.")
+       
+    # 2. Convert Decimal Columns to Double
+    decimal_cols = ["weight", "power", "morn_odds", "all_earnings", "cond_earnings", "wps_pool"]
+    for col_name in decimal_cols:
+        df = df.withColumn(col_name, F.col(col_name).cast("double"))
+    print("2. Decimal columns converted to double.")
+    
+    # 3. Impute Missing Values
+    # 3a. Impute date_of_birth with Median
+    df = impute_date_of_birth_with_median(df)
+
+    # 3b. Create age_at_race_day
+    df = df.withColumn(
+        "age_at_race_day",
+        F.datediff(F.col("race_date"), F.col("date_of_birth")) / 365.25
+    )
+    print("3b. Created age_at_race_day.")
+
+    # 3c. Impute categorical and numeric columns -- ensure no whitespace in categorical columns
+    categorical_defaults = {"weather": "UNKNOWN", "med": "NONE", "turf_mud_mark": "MISSING"}
+    numeric_impute_cols = [
+        "acceleration_m_s2", "gps_section_avg_stride_freq",
+        "prev_speed", "sec_distance_back", "sec_number_of_strides"
+    ]
+
+    # Remove whitespace in column names
+    df = df.select([F.col(c).alias(c.strip()) for c in df.columns])
+
+    # Impute missing categorical column "turf_mud_mark"
+    df = df.withColumn(
+        "turf_mud_mark",
+        F.when(F.col("turf_mud_mark") == "", "MISSING").otherwise(F.col("turf_mud_mark"))
+    )
+
+    # Calculate the mean of the 'wps_pool' column, excluding nulls
+    mean_value = df.select(F.mean(F.col("wps_pool")).alias("mean_wps_pool")).collect()[0]["mean_wps_pool"]
+
+    # Replace null values in 'wps_pool' with the calculated mean
+    df = df.withColumn(
+        "wps_pool",
+        F.when(F.col("wps_pool").isNull(), mean_value).otherwise(F.col("wps_pool"))
+    )
+
+    # Fill missing values for categorical defaults
+    df = df.fillna(categorical_defaults)
+
+    # Ensure "med" and "trk_cond" have no null or empty values
+    df = df.withColumn(
+        "med",
+        F.when(F.col("med").isNull(), "UNK")
+        .otherwise(F.when(F.col("med") == "", "UNK").otherwise(F.col("med")))
+    )
+
+    df = df.withColumn(
+        "trk_cond",
+        F.when(F.col("trk_cond").isNull(), "UNK")
+        .otherwise(F.when(F.col("trk_cond") == "", "UNK").otherwise(F.col("trk_cond")))
+    )
+
+    # Create flags for numeric columns that were missing and fill them with 0.0
+    for col_name in numeric_impute_cols:
+        df = df.withColumn(f"{col_name}_was_missing", F.when(F.col(col_name).isNull(), 1).otherwise(0))
+
+    df = df.fillna({col_name: 0.0 for col_name in numeric_impute_cols})
+
+    print("3c. Imputed missing values.")
+    # 4. Create Label Column
+    # Set label to binary (1 for 1st place, 0 otherwise)
+    #df = df.withColumn("label", when(col("official_fin") == 1, 1).otherwise(0))
+
+    # Check label distribution
+    #df.groupBy("label").count().show()
+    # Set label as the exact finishing position
+    # df = df.withColumn("label", col("official_fin").cast("int"))
+
+    # # Check label distribution
+    # df.groupBy("label").count().show()
+    
+    df = df.withColumn(
+        "label",
+        F.when(F.col("official_fin") == 1, 0)  # Win
+         .when(F.col("official_fin") == 2, 1)  # Place
+         .when(F.col("official_fin") == 3, 2)  # Show
+         .when(F.col("official_fin") == 4, 3)  # Fourth
+         .when(F.col("official_fin") == 5, 4)  # Fifth
+         .when(F.col("official_fin") == 6, 5)  # Sixth
+         .when(F.col("official_fin") == 7, 6)  # Seventh
+         .otherwise(7)                         # Outside top-7
+    )
+    df.groupBy("label").count().show()
+    print("4. Created label column.")
+    input("Press Enter to continue...")
+
+    # print("4. Creating label column...")
+    # input("Press Enter to continue...")
+    
+    # 5. Aggregate Gate-Level Metrics to Race-Level
+    df = aggregate_gates_to_race_level(df)
+    print("5. Aggregated gate-level metrics to race-level.")
+      
+    # Step 1: One-Hot Encode and Index Categorical Columns
+    categorical_cols = ["course_cd", "equip", "surface", "trk_cond", "weather", 
+                        "med", "stk_clm_md", "turf_mud_mark", "race_type"]
+    for col in categorical_cols:
+        if col not in df.columns:
+            raise ValueError(f"Column '{col}' is missing in the input DataFrame.")
+
+    indexers = [StringIndexer(inputCol=c, outputCol=f"{c}_index", handleInvalid="keep") for c in categorical_cols]
+    encoders = [OneHotEncoder(inputCols=[f"{c}_index"], outputCols=[f"{c}_ohe"]) for c in categorical_cols]
+
+    # Jockey and trainer keys
+    jock_indexer = StringIndexer(inputCol="jock_key", outputCol="jock_key_index", handleInvalid="keep")
+    train_indexer = StringIndexer(inputCol="train_key", outputCol="train_key_index", handleInvalid="keep")
+
+    # Build and apply pipeline
+    preprocessing_stages = [jock_indexer, train_indexer] + indexers + encoders
+    
+    for stage in preprocessing_stages:
+        print(stage)
+    
+    pipeline = Pipeline(stages=preprocessing_stages)
+
+    try:
+        model = pipeline.fit(df)
+        df_transformed = model.transform(df)
+        print("1. Completed OHE and indexing for categorical columns.")
+    except Exception as e:
+        print(f"Pipeline transformation failed: {e}")
+        raise
+
+    # Sort Data for Splitting
+    sorted_df = df_transformed.orderBy(["course_cd", "race_date", "race_number", "horse_id", "gate_index"])
+    print("3. Sorted data for train/test splitting.")
+
+    # Scale numerics columns
+    sorted_df = scaled_features_for_pca_or_correlation_analysis(sorted_df)
+    
+    # Step 4: Time-Based Train/Validation/Test Split
+    train_cutoff = '2023-06-30'
+    val_cutoff = '2024-03-31'
+    train_df, val_df, test_df = split_train_val_data(sorted_df, train_cutoff, val_cutoff)
+    print(f"4. Data split: Train = {train_df.count()}, Validation = {val_df.count()}, Test = {test_df.count()}.")
+
+    # Save Datasets
+    train_df.write.parquet(f"{parquet_dir}/train_df.parquet", mode="overwrite")
+    val_df.write.parquet(f"{parquet_dir}/val_df.parquet", mode="overwrite")
+    test_df.write.parquet(f"{parquet_dir}/test_df.parquet", mode="overwrite")
+    sorted_df.write.parquet(f"{parquet_dir}/sorted_data.parquet", mode="overwrite")
+    print("8. Saved train, validation, test, and sorted data.")
+
+    return df
+    
+def scaled_features_for_pca_or_correlation_analysis(df):
+    # Numeric features to scale
+    numeric_features = [
+        "avg_speed_agg", "max_speed_agg", "avg_stride_freq_agg", "final_speed_agg",
+        "avg_accel_agg", "fatigue_agg", "sectional_time_agg", "running_time_agg",
+        "distance_back_agg", "distance_ran_agg", "strides_agg", "max_speed_overall",
+        "min_speed_overall", "distance_meters", "purse", "wps_pool", "weight",
+        "claimprice", "power", "morn_odds", "avgspd", "class_rating", "net_sentiment",
+        "avg_spd_sd", "ave_cl_sd", "hi_spd_sd", "pstyerl", "all_starts", "all_win",
+        "all_place", "all_show", "all_fourth", "all_earnings", "cond_starts",
+        "cond_win", "cond_place", "cond_show", "cond_fourth", "cond_earnings",
+        "age_at_race_day"
+    ]
+
+    # Assemble numeric features into a vector
+    assembler = VectorAssembler(inputCols=numeric_features, outputCol="numeric_features")
+    assembled_df = assembler.transform(df)
+
+    # Scale the features
+    scaler = StandardScaler(inputCol="numeric_features", outputCol="scaled_features", withStd=True, withMean=True)
+    scaler_model = scaler.fit(assembled_df)
+    scaled_df = scaler_model.transform(assembled_df)
+
+    # Drop intermediate columns if no longer needed
+    train_df = scaled_df.drop("numeric_features")
+    
+    return train_df
+    
 def process_merged_results_sectionals(spark, df, parquet_dir):
     """
     Process merged results and sectionals DataFrame to:
@@ -707,7 +938,7 @@ def preprocess_and_sequence_data(df, parquet_dir, train_cutoff, val_cutoff, min_
     print(f"4. Data split: Train = {train_df.count()}, Validation = {val_df.count()}, Test = {test_df.count()}.")
 
     # Step 5: Scale Features
-    train_scaled, val_scaled, test_scaled, num_cols = prepare_lstm_data(train_df, val_df, test_df)
+    train_scaled, val_scaled, test_scaled, num_cols = prepare_lstm_data(sorted_df)
     print("5. Features scaled on the training set.")
 
     # Step 6: Create Sequences
@@ -741,28 +972,70 @@ def split_train_val_data(df, train_cutoff, val_cutoff):
     test_df = df.filter(F.col("race_date") > F.lit(val_cutoff))
     return train_df, val_df, test_df
 
-def prepare_lstm_data(train_df, val_df, test_df):
-    numeric_cols = [
-        "morn_odds", "gate_index", "age_at_race_day", "purse", "weight", 
-        "start_position", "claimprice", "power", "avgspd", "class_rating", 
-        "net_sentiment", "all_earnings", "cond_earnings", "avg_spd_sd", 
-        "ave_cl_sd", "hi_spd_sd", "pstyerl", "all_starts", "all_win", 
-        "all_place", "all_show", "all_fourth", "cond_starts", "cond_win", 
-        "cond_place", "cond_show", "cond_fourth", "sectional_time_agg", 
-        "running_time_agg", "distance_back_agg", "distance_ran_agg", 
-        "strides_agg", "max_speed_agg", "avg_speed_agg", "avg_stride_freq_agg",  
-        "distance_meters", "avg_accel_agg", "max_speed_overall", "min_speed_overall",
-        "final_speed_agg", "fatigue_agg", "jock_key_index", "train_key_index"
-    ]
-    assembler = VectorAssembler(inputCols=numeric_cols, outputCol="raw_features")
-    train_assembled = assembler.transform(train_df)
-    scaler = MinMaxScaler(inputCol="raw_features", outputCol="scaled_features")
-    scaler_model = scaler.fit(train_assembled)
-    train_scaled = scaler_model.transform(train_assembled).drop("raw_features")
-    val_scaled = scaler_model.transform(assembler.transform(val_df)).drop("raw_features")
-    test_scaled = scaler_model.transform(assembler.transform(test_df)).drop("raw_features")
-    return train_scaled, val_scaled, test_scaled, len(numeric_cols)
+from pyspark.ml.feature import VectorAssembler, MinMaxScaler
 
+def prepare_lstm_data(df):
+    """
+    Prepare data for LSTM model by scaling numerical features or using precomputed scaled features.
+    If scaled_features already exist, remove individual numeric columns to avoid redundancy.
+    
+    Args:
+        df (DataFrame): Spark DataFrame to be prepared.
+
+    Returns:
+        DataFrame: Transformed DataFrame ready for LSTM input.
+    """
+    # Check if "scaled_features" column exists
+    if "scaled_features" in df.columns:
+        print("Using precomputed 'scaled_features'. Dropping individual numerical columns...")
+        # Identify numeric columns in the DataFrame
+        numeric_cols = [
+            "avg_speed_agg", "max_speed_agg", "avg_stride_freq_agg", "final_speed_agg",
+            "avg_accel_agg", "fatigue_agg", "sectional_time_agg", "running_time_agg",
+            "distance_back_agg", "distance_ran_agg", "strides_agg", "max_speed_overall",
+            "min_speed_overall", "distance_meters", "purse", "wps_pool", "weight",
+            "claimprice", "power", "morn_odds", "avgspd", "class_rating", "net_sentiment",
+            "avg_spd_sd", "ave_cl_sd", "hi_spd_sd", "pstyerl", "all_starts", "all_win",
+            "all_place", "all_show", "all_fourth", "all_earnings", "cond_starts",
+            "cond_win", "cond_place", "cond_show", "cond_fourth", "cond_earnings",
+            "age_at_race_day"
+        ]
+        
+        # Drop numeric columns as "scaled_features" replaces them
+        df_cleaned = df.drop(*[col for col in numeric_cols if col in df.columns])
+        return df_cleaned
+    
+    else:
+        print("No 'scaled_features' column found. Creating scaled features from numeric columns...")
+        
+        # Define numeric columns for scaling
+        numeric_cols = [
+            "avg_speed_agg", "max_speed_agg", "avg_stride_freq_agg", "final_speed_agg",
+            "avg_accel_agg", "fatigue_agg", "sectional_time_agg", "running_time_agg",
+            "distance_back_agg", "distance_ran_agg", "strides_agg", "max_speed_overall",
+            "min_speed_overall", "distance_meters", "purse", "wps_pool", "weight",
+            "claimprice", "power", "morn_odds", "avgspd", "class_rating", "net_sentiment",
+            "avg_spd_sd", "ave_cl_sd", "hi_spd_sd", "pstyerl", "all_starts", "all_win",
+            "all_place", "all_show", "all_fourth", "all_earnings", "cond_starts",
+            "cond_win", "cond_place", "cond_show", "cond_fourth", "cond_earnings",
+            "age_at_race_day"
+        ]
+
+        # Assemble numerical features
+        assembler = VectorAssembler(inputCols=numeric_cols, outputCol="numerical_features")
+        df_assembled = assembler.transform(df)
+
+        # Scale features
+        scaler = MinMaxScaler(inputCol="numerical_features", outputCol="scaled_features")
+        scaler_model = scaler.fit(df_assembled)
+        df_scaled = scaler_model.transform(df_assembled)
+
+        # Drop intermediate columns if no longer needed
+        df_scaled = df_scaled.drop("numerical_features")
+        # Drop numeric columns as "scaled_features" replaces them
+        df_cleaned = df_scaled.drop(*[col for col in numeric_cols if col in df.columns])
+        return df_cleaned
+        
 def create_past_race_sequences_variable(
     df: DataFrame,
     min_seq_len: int,

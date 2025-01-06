@@ -1,0 +1,17 @@
+2025-01-06 09:34:39 - INFO - Logging initialized.
+2025-01-06 09:34:39 - INFO - Using password authentication.
+2025-01-06 09:34:39 - INFO - Connection pool created successfully.
+2025-01-06 09:34:41 - INFO - Loading races data from PostgreSQL...
+2025-01-06 09:34:43 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
+2025-01-06 09:34:48 - INFO - races data loaded and saved successfully.
+2025-01-06 09:34:48 - INFO - Loading workouts data from PostgreSQL...
+2025-01-06 09:34:48 - INFO - Saving workouts DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/workouts.parquet...
+2025-01-06 09:35:06 - INFO - workouts data loaded and saved successfully.
+2025-01-06 09:35:06 - INFO - DataFrame 'races' loaded. Schema:
+2025-01-06 09:35:06 - INFO - DataFrame 'workouts' loaded. Schema:
+2025-01-06 09:35:06 - INFO - Starting compute_recent_form_metrics (row-based).
+2025-01-06 09:35:06 - INFO - Writing final per-race form metrics to horse_recent_form ...
+2025-01-06 09:35:19 - INFO - Finished writing row-based recent form metrics.
+2025-01-06 09:35:19 - INFO - Spark session stopped.
+2025-01-06 09:35:19 - INFO - DB connection pool closed.
+2025-01-06 09:35:19 - INFO - Closing down clientserver connection

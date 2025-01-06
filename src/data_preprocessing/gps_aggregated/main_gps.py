@@ -29,12 +29,14 @@ from src.data_preprocessing.data_prep1.data_utils import (
     save_parquet, gather_statistics, initialize_environment,
     load_config, initialize_logging, initialize_spark, 
     identify_and_impute_outliers, identify_and_remove_outliers, process_merged_results_sectionals,
-    identify_missing_and_outliers
+    identify_missing_and_outliers, process_columnar_data
 )
+
 
 def clear_screen():
     """Clears the terminal screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
+
 
 def get_valid_input(prompt, valid_options, allow_exit=True):
     """
@@ -57,6 +59,7 @@ def get_valid_input(prompt, valid_options, allow_exit=True):
             return user_input
         else:
             print(f"Invalid input. Please enter one of the following: {', '.join(valid_options)} or type 'exit' to quit.")
+
 
 def load_postgresql_data(spark, jdbc_url, jdbc_properties, queries, parquet_dir):
     """
@@ -92,6 +95,7 @@ def load_postgresql_data(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
         print(f"Error during loading data from PostgreSQL: {e}")
         logging.error(f"Error during loading data from PostgreSQL: {e}")
         return {}
+
 
 def merge_results_sectionals_action(spark, parquet_dir):
     """
@@ -140,9 +144,40 @@ def merge_results_sectionals_action(spark, parquet_dir):
         logging.error(f"Error during merging results and sectionals: {e}")
         return None
 
+
+def columnar_processing_action(spark, parquet_dir):
+    """
+    Processes the 'enriched_data.parquet' into a columnar format 
+    using process_columnar_data, then saves it as 'processed_data.parquet'.
+    """
+    try:
+        merged_df_path = os.path.join(parquet_dir, "enriched_data.parquet")
+        if not os.path.exists(merged_df_path):
+            print(f"Error: '{merged_df_path}' does not exist.")
+            logging.error(f"Parquet file '{merged_df_path}' not found.")
+            return None
+        
+        merged_df = spark.read.parquet(merged_df_path)
+        columnar_data = process_columnar_data(spark, merged_df, parquet_dir)
+        
+        # Save the processed columnar data
+        save_parquet(spark, columnar_data, "columnar_data", parquet_dir)
+        print("Processed DataFrame saved.")
+        logging.info("Data preparation succeeded")
+        
+        columnar_data.printSchema()
+        input("\nPress Enter to continue...")
+        
+        return columnar_data
+    except Exception as e:
+        print(f"Error during data preparation: {e}")
+        logging.error(f"Error during data preparation: {e}")
+        return None
+
+
 def prep_data_action(spark, parquet_dir):
     """
-    Prepares the merged DataFrame for processing.
+    Prepares the merged DataFrame for processing in a time-series manner.
     
     Args:
         spark (SparkSession): The Spark session.
@@ -151,25 +186,31 @@ def prep_data_action(spark, parquet_dir):
     Returns:
         DataFrame: The processed DataFrame.
     """
-    print("Preparing merged DataFrame for processing...")
+    print("Preparing merged DataFrame for time-series/sequence processing...")
     try:
         merged_df_path = os.path.join(parquet_dir, "enriched_data.parquet")
         if not os.path.exists(merged_df_path):
             print(f"Error: '{merged_df_path}' does not exist.")
             logging.error(f"Parquet file '{merged_df_path}' not found.")
             return None
+        
         merged_df = spark.read.parquet(merged_df_path)
         processed_data = process_merged_results_sectionals(spark, merged_df, parquet_dir)
+        
+        # Save processed data
         save_parquet(spark, processed_data, "processed_data", parquet_dir)
         print("Processed DataFrame saved.")
         logging.info("Data preparation succeeded")
+        
         processed_data.printSchema()
         input("\nPress Enter to continue...")
+        
         return processed_data
     except Exception as e:
         print(f"Error during data preparation: {e}")
         logging.error(f"Error during data preparation: {e}")
         return None
+
 
 def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_dir):
     """
@@ -189,12 +230,14 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
         clear_screen()
         print("Select an action:")
         print("1) Load data with queries (from PostgreSQL and write to parquet)")
-        print("2) Load data from parquet files and process data for time series analysis")
-        print("3) Exit")
+        print("2) Load data from parquet files and process data for columnar analysis")
+        print("3) Load data from parquet files and process data for time series analysis")
+        print("4) Exit")
     
-        choice = get_valid_input("Enter your choice (1, 2, or 3): ", ["1", "2", "3"])
+        choice = get_valid_input("Enter your choice (1, 2, 3, or 4): ", ["1", "2", "3", "4"])
     
         if choice == "1":
+            # Option 1: Load from PostgreSQL, write to parquet, and reload
             try:
                 reloaded_dfs = load_postgresql_data(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
                 print("Keys in reloaded_dfs:", list(reloaded_dfs.keys()))
@@ -204,7 +247,7 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
             input("\nPress Enter to continue...")
     
         elif choice == "2":
-            # Option 2: Load data from parquet and process
+            # Option 2: Columnar processing route
             while True:
                 merge_choice = get_valid_input("Merge results with sectionals? (Y/N): ", ["y", "n"])
                 if merge_choice == "y":
@@ -219,9 +262,8 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
                         break
                 else:
                     print("Skipping merging results with sectionals.")
-                    merge_results_sectionals_df = None
     
-                gps_merge_choice = get_valid_input("Merge Results and Sectionals with GPS data? (Y/N): ", ["y", "n"])
+                gps_merge_choice = get_valid_input("Merge GPS data? (Y/N): ", ["y", "n"])
                 if gps_merge_choice == "y":
                     try:
                         merged_df = merge_gps_sectionals(spark, parquet_dir)
@@ -234,47 +276,65 @@ def process_data_interactive(spark, jdbc_url, jdbc_properties, queries, parquet_
                         print(f"Error during merging GPS data: {e}")
                         logging.error(f"Error during merging GPS data: {e}")
                         break
-                else: 
-                    print("Skipping merging GPS data.")  
-                                      
-                dataprep_choice = get_valid_input("Do you want to populate enhanced features (must have a merged_df from previous step)? (Y/N): ", ["y", "n"])
+                else:
+                    print("Skipping merging GPS data.")
+                    
+                # Data enhancements
+                dataprep_choice = get_valid_input("Do you want to populate enhanced features (Y/N): ", ["y", "n"])
                 if dataprep_choice == "y":
                     try:
-                        merged_df = data_enhancements(spark, parquet_dir)
-                        if merged_df is not None:
-                            save_parquet(spark, merged_df, "enriched_data", parquet_dir)
-                            logging.info("Enrichment job succeeded. Final DataFrame includes all original plus appended columns.")
+                        enhanced_df = data_enhancements(spark, parquet_dir)
+                        if enhanced_df is not None:
+                            save_parquet(spark, enhanced_df, "enriched_data", parquet_dir)
+                            logging.info("Enrichment job succeeded.")
                             print("Data enrichment completed successfully.")
                     except Exception as e:
                         print(f"Error during data enrichment: {e}")
                         logging.error(f"Error during data enrichment: {e}")
                 else:
                     print("Data enrichment skipped.")
-    
-                dataprep_choice = get_valid_input(
-                    "Do you want to prep merged_df DataFrame for processing? (Y/N): ", 
-                        ["y", "n"]
-                )
-                if dataprep_choice == "y":
+               
+                # Columnar processing 
+                columnar_choice = get_valid_input("Do you want to structure this data for columnar processing? (Y/N): ", ["y", "n"])
+                if columnar_choice == "y":
                     try:
-                        processed_data = prep_data_action(spark, parquet_dir)
-                        if processed_data is not None:
-                            print("Data preparation completed successfully.")
-                            break  # Exit the inner loop to return to main menu    
-
+                        columnar_data = columnar_processing_action(spark, parquet_dir)
+                        if columnar_data is not None:
+                            print("Columnar data processing completed successfully.")
                     except Exception as e:
-                        print(f"Error during data preparation: {e}")
-                        logging.error(f"Error during data preparation: {e}")
+                        print(f"Error during data processing: {e}")
+                        logging.error(f"Error during data processing: {e}")
                 else:
-                    print("Data preparation skipped.")   
-            else:
-                print("No merged DataFrame available for preparation.")
+                    print("Columnar processing skipped.")
+
+                # Once done, break out to main menu
+                break
+            input("\nPress Enter to return to main menu...")
     
         elif choice == "3":
+            # Option 3: Time series analysis
+            dataprep_choice = get_valid_input(
+                "Do you want to prep sequences and segments for time series analysis? (Y/N): ", 
+                ["y", "n"]
+            )
+            if dataprep_choice == "y":
+                try:
+                    processed_data = prep_data_action(spark, parquet_dir)
+                    if processed_data is not None:
+                        print("Time-series data preparation completed successfully.")
+                except Exception as e:
+                    print(f"Error during data preparation: {e}")
+                    logging.error(f"Error during data preparation: {e}")
+            else:
+                print("Data preparation skipped.")
+            input("\nPress Enter to return to main menu...")
+
+        elif choice == "4":
             print("Exiting the program. Goodbye!")
             break
     
     return spark
+
 
 def main():
     try:
@@ -291,4 +351,4 @@ def main():
             print("Spark session stopped.")
 
 if __name__ == "__main__":
-  main()
+    main()

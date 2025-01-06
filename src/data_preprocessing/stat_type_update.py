@@ -29,7 +29,7 @@ def setup_logging(script_dir, log_dir=None):
         
         # Ensure the log directory exists
         os.makedirs(log_dir, exist_ok=True)
-        log_file = os.path.join(log_dir, 'ingestion.log')
+        log_file = os.path.join(log_dir, 'stat_type_update.log')
 
         # Clear the log file by opening it in write mode
         with open(log_file, 'w'):

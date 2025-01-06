@@ -1,0 +1,27 @@
+2025-01-05 10:15:50,931 - INFO - Logging initialized in /home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/stat_type_update_jy.log
+2025-01-05 10:15:50,939 - INFO - === Begin processing for ALL_RACES_J (All races stats for jockey) ===
+2025-01-05 10:15:50,941 - INFO - Last processed date for ALL_RACES_J is 2025-01-04
+2025-01-05 10:15:50,944 - INFO - No new race_dates to process for ALL_RACES_J.
+2025-01-05 10:15:50,944 - INFO - === Done processing ALL_RACES_J, last_date=None ===
+2025-01-05 10:15:50,944 - INFO - === Begin processing for ALL_RACES_JT (All races stats for jockey-trainer) ===
+2025-01-05 10:15:50,944 - INFO - Last processed date for ALL_RACES_JT is 2025-01-04
+2025-01-05 10:15:50,944 - INFO - No new race_dates to process for ALL_RACES_JT.
+2025-01-05 10:15:50,944 - INFO - === Done processing ALL_RACES_JT, last_date=None ===
+2025-01-05 10:15:50,944 - INFO - === Begin processing for ALL_RACES_T (All races stats for trainer) ===
+2025-01-05 10:15:50,945 - INFO - Last processed date for ALL_RACES_T is 2025-01-04
+2025-01-05 10:15:50,945 - INFO - No new race_dates to process for ALL_RACES_T.
+2025-01-05 10:15:50,945 - INFO - === Done processing ALL_RACES_T, last_date=None ===
+2025-01-05 10:15:50,945 - INFO - === Begin processing for ALL_RACES_J_TRACK (All races stats for jockey by track) ===
+2025-01-05 10:15:50,945 - INFO - Last processed date for ALL_RACES_J_TRACK is 2025-01-04
+2025-01-05 10:15:50,945 - INFO - No new race_dates to process for ALL_RACES_J_TRACK.
+2025-01-05 10:15:50,945 - INFO - === Done processing ALL_RACES_J_TRACK, last_date=None ===
+2025-01-05 10:15:50,945 - INFO - === Begin processing for ALL_RACES_T_TRACK (All races stats for trainer by track) ===
+2025-01-05 10:15:50,945 - INFO - Last processed date for ALL_RACES_T_TRACK is 2025-01-04
+2025-01-05 10:15:50,946 - INFO - No new race_dates to process for ALL_RACES_T_TRACK.
+2025-01-05 10:15:50,946 - INFO - === Done processing ALL_RACES_T_TRACK, last_date=None ===
+2025-01-05 10:15:50,946 - INFO - === Begin processing for ALL_RACES_JT_TRACK (All races stats for jockey-trainer by track) ===
+2025-01-05 10:15:50,946 - INFO - Last processed date for ALL_RACES_JT_TRACK is 2025-01-04
+2025-01-05 10:15:50,946 - INFO - No new race_dates to process for ALL_RACES_JT_TRACK.
+2025-01-05 10:15:50,946 - INFO - === Done processing ALL_RACES_JT_TRACK, last_date=None ===
+2025-01-05 10:15:50,946 - INFO - All stat_types processed successfully.
+2025-01-05 10:15:50,946 - INFO - Database connection closed.

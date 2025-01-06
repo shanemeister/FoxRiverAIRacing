@@ -2,24 +2,32 @@ import logging
 import os
 import sys
 import traceback
+import time
+import configparser
+import pandas as pd
 import psycopg2
 from psycopg2 import sql, pool, DatabaseError
-from datetime import date
-from src.data_ingestion.ingestion_utils import get_db_connection, update_ingestion_status
-import configparser
-import time
 
-def setup_logging(script_dir, log_dir=None):
+from pyspark.sql import SparkSession, Window
+from pyspark.sql.functions import (
+    col, min as F_min, max as F_max, sum as F_sum, avg as F_avg,
+    when, count, first, last, expr, ntile, lag, lead, stddev, stddev_samp
+)
+
+from src.data_preprocessing.tpd_agg_queries import tpd_sql_queries
+# If needed for merges or advanced windowing
+# from pyspark.sql.window import Window
+
+# -------------
+# Local imports
+# -------------
+from src.data_ingestion.ingestion_utils import update_ingestion_status
+from src.data_preprocessing.data_prep1.data_utils import initialize_environment
+from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql, reload_parquet_files
+
+def setup_logging(script_dir, log_file):
     """Sets up logging configuration to write logs to a file and the console."""
     try:
-        # Default log directory
-        if not log_dir:
-            log_dir = '/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs'
-        
-        # Ensure the log directory exists
-        os.makedirs(log_dir, exist_ok=True)
-        log_file = os.path.join(log_dir, 'tpd_aggregation_update.log')
-
         # Clear the log file by opening it in write mode
         with open(log_file, 'w'):
             pass  # This will truncate the file without writing anything
@@ -36,8 +44,8 @@ def setup_logging(script_dir, log_dir=None):
         file_handler.setLevel(logging.INFO)
 
         # Create console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
+        #console_handler = logging.StreamHandler()
+        #console_handler.setLevel(logging.INFO)
 
         # Define a common format
         formatter = logging.Formatter(
@@ -45,20 +53,21 @@ def setup_logging(script_dir, log_dir=None):
             datefmt='%Y-%m-%d %H:%M:%S'
         )
         file_handler.setFormatter(formatter)
-        console_handler.setFormatter(formatter)
+        #console_handler.setFormatter(formatter)
 
         # Add handlers to the logger
         logger.addHandler(file_handler)
-        logger.addHandler(console_handler)
+        #logger.addHandler(console_handler)
 
         logger.info("Logging has been set up successfully.")
     except Exception as e:
         print(f"Failed to set up logging: {e}", file=sys.stderr)
         sys.exit(1)
 
-
 def read_config(script_dir, config_relative_path='../../config.ini'):
-    """Reads the configuration file and returns the configuration object."""
+    """
+    Reads the configuration file and returns the configuration object.
+    """
     try:
         config = configparser.ConfigParser()
         config_file_path = os.path.abspath(os.path.join(script_dir, config_relative_path))
@@ -72,8 +81,11 @@ def read_config(script_dir, config_relative_path='../../config.ini'):
         logging.error(f"Error reading configuration file: {e}")
         sys.exit(1)
 
+
 def get_db_pool(config):
-    """Creates a connection pool."""
+    """
+    Creates a connection pool to PostgreSQL.
+    """
     try:
         db_pool_args = {
             'user': config['database']['user'],
@@ -82,13 +94,12 @@ def get_db_pool(config):
             'database': config['database']['dbname']
         }
         
-        # Attempt to get 'password' from config, default to None if not present
         password = config['database'].get('password')
         if password:
             db_pool_args['password'] = password
-            logging.info("Password found in configuration. Using provided password for authentication.")
+            logging.info("Password found in configuration. Using provided password.")
         else:
-            logging.info("No password found in configuration. Attempting to use .pgpass for authentication.")
+            logging.info("No password in config. Attempting .pgpass or other authentication.")
 
         db_pool = pool.SimpleConnectionPool(
             1, 20,  # min and max connections
@@ -107,167 +118,11 @@ def get_db_pool(config):
         logging.error(f"Unexpected error creating connection pool: {e}")
         sys.exit(1)
 
-def update_sectionals_aggregated(conn, batch_size=1000):
-    """Updates the sectionals_aggregated table in batches based on unique group keys."""
-    logging.info("Updating sectionals_aggregated beginning...")
-    start_time = time.time()
-    try:
-        with conn.cursor() as cursor:
-            # Retrieve distinct group keys
-            cursor.execute("""
-                SELECT DISTINCT course_cd, race_date, race_number, saddle_cloth_number
-                FROM sectionals
-                ORDER BY course_cd, race_date, race_number, saddle_cloth_number;
-            """)
-            groups = cursor.fetchall()
-            total_groups = len(groups)
-            logging.info(f"Total groups to process: {total_groups}")
-
-            for i in range(0, total_groups, batch_size):
-                batch = groups[i:i + batch_size]
-                logging.info(f"Processing batch {i // batch_size + 1}: Groups {i + 1} to {i + len(batch)}")
-                
-                # Construct WHERE clause for current batch
-                conditions = []
-                params = []
-                for group in batch:
-                    conditions.append("(s.course_cd = %s AND s.race_date = %s AND s.race_number = %s AND s.saddle_cloth_number = %s)")
-                    params.extend(group)
-                where_clause = " OR ".join(conditions)
-                
-                batch_sql = sql.SQL("""
-                    INSERT INTO sectionals_aggregated (
-                        course_cd, race_date, race_number, saddle_cloth_number,
-                        early_pace_time, late_pace_time, total_race_time,
-                        pace_differential, total_strides, avg_stride_length,
-                        first_quarter_time, second_quarter_time, third_quarter_time, fourth_quarter_time
-                    )
-                    SELECT
-                        s.course_cd,
-                        s.race_date,
-                        s.race_number,
-                        s.saddle_cloth_number,
-                        MIN(CASE WHEN s.gate_numeric = 0.5 THEN s.running_time END) AS early_pace_time,
-                        MIN(CASE WHEN s.gate_numeric = 9999 THEN s.running_time END) AS late_pace_time,
-                        MAX(s.running_time) - MIN(s.running_time) AS total_race_time,
-                        MAX(s.running_time) - MIN(CASE WHEN s.gate_numeric = 0.5 THEN s.running_time END) AS pace_differential,
-                        SUM(s.number_of_strides) AS total_strides,
-                        AVG(s.distance_ran / NULLIF(s.number_of_strides, 0)) AS avg_stride_length,
-                        MIN(CASE WHEN s.gate_numeric = 1 THEN s.running_time END) AS first_quarter_time,
-                        MIN(CASE WHEN s.gate_numeric = 2 THEN s.running_time END) AS second_quarter_time,
-                        MIN(CASE WHEN s.gate_numeric = 3 THEN s.running_time END) AS third_quarter_time,
-                        MIN(CASE WHEN s.gate_numeric = 4 THEN s.running_time END) AS fourth_quarter_time
-                    FROM sectionals s
-                    JOIN runners r ON s.course_cd = r.course_cd
-                        AND s.race_date = r.race_date
-                        AND s.race_number = r.race_number
-                        AND s.saddle_cloth_number = r.saddle_cloth_number
-                    WHERE {where_clause}
-                    GROUP BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number
-                    ORDER BY s.course_cd, s.race_date, s.race_number, s.saddle_cloth_number
-                    ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number)
-                    DO UPDATE SET
-                        early_pace_time = EXCLUDED.early_pace_time,
-                        late_pace_time = EXCLUDED.late_pace_time,
-                        total_race_time = EXCLUDED.total_race_time,
-                        pace_differential = EXCLUDED.pace_differential,
-                        total_strides = EXCLUDED.total_strides,
-                        avg_stride_length = EXCLUDED.avg_stride_length,
-                        first_quarter_time = EXCLUDED.first_quarter_time,
-                        second_quarter_time = EXCLUDED.second_quarter_time,
-                        third_quarter_time = EXCLUDED.third_quarter_time,
-                        fourth_quarter_time = EXCLUDED.fourth_quarter_time;
-                """).format(where_clause=sql.SQL(where_clause))
-                
-                cursor.execute(batch_sql, params)
-                conn.commit()
-                logging.info(f"Batch {i // batch_size + 1} processed successfully.")
-    except Exception as e:
-        logging.error(f"Error updating sectionals_aggregated: {e}")
-        conn.rollback()
-        raise
-    elapsed_total = time.time() - start_time
-    logging.info(f"sectionals_aggregated updated successfully in {elapsed_total:.2f} seconds.")
-    
-def update_tpd_features(conn, batch_size=1000):
-    """Updates the tpd_features table in batches."""
-    logging.info("Updating tpd_features beginning...")
-    start_time = time.time()
-    try:
-        with conn.cursor() as cursor:
-            # Fetch distinct group keys from gps_aggregated_results
-            cursor.execute("""
-                SELECT course_cd, race_date, race_number, saddle_cloth_number
-                FROM gps_aggregated_results
-                ORDER BY course_cd, race_date, race_number, saddle_cloth_number;
-            """)
-            groups = cursor.fetchall()
-            total_groups = len(groups)
-            logging.info(f"Total groups to process: {total_groups}")
-
-            for i in range(0, total_groups, batch_size):
-                batch = groups[i:i + batch_size]
-                logging.info(f"Processing batch {i // batch_size + 1}: Groups {i + 1} to {i + len(batch)}")
-                
-                # Construct WHERE clause for current batch
-                conditions = []
-                params = []
-                for group in batch:
-                    conditions.append("(g.course_cd = %s AND g.race_date = %s AND g.race_number = %s AND g.saddle_cloth_number = %s)")
-                    params.extend(group)
-                where_clause = " OR ".join(conditions)
-                
-                batch_sql = sql.SQL("""
-                    INSERT INTO tpd_features (
-                        course_cd, race_date, race_number, saddle_cloth_number,
-                        avg_speed, max_speed, min_speed, avg_acceleration,
-                        max_acceleration, avg_stride_freq, max_stride_freq,
-                        early_pace_time, late_pace_time, pace_differential,
-                        total_race_time, total_strides, avg_stride_length
-                    )
-                    SELECT
-                        g.course_cd, g.race_date, g.race_number, g.saddle_cloth_number,
-                        g.avg_speed, g.max_speed, g.min_speed, g.avg_acceleration,
-                        g.max_acceleration, g.avg_stride_freq, g.max_stride_freq,
-                        s.early_pace_time, s.late_pace_time, s.pace_differential,
-                        s.total_race_time, s.total_strides, s.avg_stride_length
-                    FROM gps_aggregated_results g
-                    LEFT JOIN sectionals_aggregated s
-                    ON g.course_cd = s.course_cd
-                    AND g.race_date = s.race_date
-                    AND g.race_number = s.race_number
-                    AND g.saddle_cloth_number = s.saddle_cloth_number
-                    AND g.gate_name = s.gate_name  -- Ensure matching gate_name
-                    WHERE {where_clause}
-                    ON CONFLICT (course_cd, race_date, race_number, saddle_cloth_number, gate_name)
-                    DO UPDATE SET
-                        avg_speed = EXCLUDED.avg_speed,
-                        max_speed = EXCLUDED.max_speed,
-                        min_speed = EXCLUDED.min_speed,
-                        avg_acceleration = EXCLUDED.avg_acceleration,
-                        max_acceleration = EXCLUDED.max_acceleration,
-                        avg_stride_freq = EXCLUDED.avg_stride_freq,
-                        max_stride_freq = EXCLUDED.max_stride_freq,
-                        early_pace_time = EXCLUDED.early_pace_time,
-                        late_pace_time = EXCLUDED.late_pace_time,
-                        pace_differential = EXCLUDED.pace_differential,
-                        total_race_time = EXCLUDED.total_race_time,
-                        total_strides = EXCLUDED.total_strides,
-                        avg_stride_length = EXCLUDED.avg_stride_length;
-                """).format(where_clause=sql.SQL(where_clause))
-                
-                cursor.execute(batch_sql, params)
-                conn.commit()
-                logging.info(f"Batch {i // batch_size + 1} processed successfully.")
-    except Exception as e:
-        logging.error(f"Error updating tpd_features: {e}")
-        conn.rollback()
-        raise
-    elapsed_total = time.time() - start_time
-    logging.info(f"tpd_features updated successfully in {elapsed_total:.2f} seconds.")
-
 def update_net_sentiment(conn):
-    """Updates net sentiment for horses based on runner comments."""
+    """
+    Example function that updates net_sentiment in `runners` table
+    based on textual comments in runner records.
+    """
     logging.info("Updating net_sentiment beginning...")
     start_time = time.time()
     try:
@@ -278,8 +133,9 @@ def update_net_sentiment(conn):
                 FROM (
                     SELECT
                         r1.axciskey,
-                        COUNT(CASE WHEN r1.horse_comm LIKE '%[+%' THEN 1 END) -
-                        COUNT(CASE WHEN r1.horse_comm LIKE '%[-%' THEN 1 END) AS sentiment_diff
+                        COUNT(CASE WHEN r1.horse_comm LIKE '%[+%' THEN 1 END)
+                        - COUNT(CASE WHEN r1.horse_comm LIKE '%[-%' THEN 1 END) 
+                        AS sentiment_diff
                     FROM runners r1
                     GROUP BY r1.axciskey
                 ) AS sentiment_counts
@@ -293,41 +149,390 @@ def update_net_sentiment(conn):
         conn.rollback()
         raise
 
-def main():
-    """Main function to execute all updates."""
-    
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    setup_logging(script_dir)
-    config = read_config(script_dir)
-    db_pool = get_db_pool(config)
+def calculate_gps_metrics_quartile_and_write(
+    spark,
+    df,
+    jdbc_url,
+    jdbc_properties,
+    conn=None
+):
+    """
+    Calculates GPS-derived metrics (acceleration, jerk, distance covered, etc.)
+    for each horse in each race, broken down by quartiles, and writes the result
+    to 'gps_aggregated'.
 
+    The final DataFrame has both:
+      - quartile-specific columns (speed_q1, speed_q2, etc.)
+      - overall metrics (avg_acceleration, distance_covered, etc.)
+
+    :param spark: SparkSession
+    :param df: Spark DataFrame with columns:
+               [course_cd, race_date, race_number, saddle_cloth_number,
+                time_stamp, speed, stride_frequency, progress, ...]
+    :param jdbc_url: JDBC URL to write final output
+    :param jdbc_properties: dict with keys user, password, driver, etc.
+    :param conn: optional psycopg2 connection for direct DB ops
+    :return: None
+    """
+
+    import logging
+    import time
+    from pyspark.sql.functions import (
+        col, when, lag, first, last, avg as F_avg, stddev_samp, sum as F_sum,
+        max as F_max, min as F_min, ntile
+    )
+    from pyspark.sql import Window
+
+    logging.info("Starting quartile-based GPS metrics calculation...")
+
+    start_time = time.time()
+
+    # ----------------------------------------------------------------------
+    # 1) Validate columns
+    # ----------------------------------------------------------------------
+    required_cols = [
+        "course_cd", "race_date", "race_number",
+        "saddle_cloth_number", "time_stamp",
+        "speed", "stride_frequency", "progress"
+    ]
+    for rc in required_cols:
+        if rc not in df.columns:
+            raise ValueError(f"Missing required column: {rc}")
+
+    # ----------------------------------------------------------------------
+    # 2) Filter invalid rows
+    # ----------------------------------------------------------------------
+    filtered_df = df.filter(
+        (col("stride_frequency").isNotNull()) &
+        (col("progress") != 0)
+    )
+
+    # ----------------------------------------------------------------------
+    # 3) Sort data, compute time deltas
+    # ----------------------------------------------------------------------
+    gps_window = Window.partitionBy(
+        "course_cd", "race_date", "race_number", "saddle_cloth_number"
+    ).orderBy("time_stamp")
+
+    df_sorted = filtered_df.withColumn(
+        "prev_ts", lag(col("time_stamp").cast("long")).over(gps_window)
+    )
+
+    df_sorted = df_sorted.withColumn(
+        "delta_t",
+        (col("time_stamp").cast("long") - col("prev_ts")).cast("double")
+    )
+
+    # ----------------------------------------------------------------------
+    # 4) Calculate acceleration / jerk
+    # ----------------------------------------------------------------------
+    df_sorted = df_sorted.withColumn("prev_speed", lag("speed").over(gps_window))
+
+    df_sorted = df_sorted.withColumn(
+        "acceleration",
+        when(
+            (col("delta_t") > 0) & col("prev_speed").isNotNull(),
+            (col("speed") - col("prev_speed")) / col("delta_t")
+        )
+    )
+
+    df_sorted = df_sorted.withColumn("prev_acc", lag("acceleration").over(gps_window))
+    df_sorted = df_sorted.withColumn(
+        "jerk",
+        when(
+            (col("delta_t") > 0) & col("prev_acc").isNotNull(),
+            (col("acceleration") - col("prev_acc")) / col("delta_t")
+        )
+    )
+
+    # ----------------------------------------------------------------------
+    # 5) Distance covered segment
+    # ----------------------------------------------------------------------
+    df_sorted = df_sorted.withColumn(
+        "dist_segment",
+        when(
+            (col("delta_t") > 0) & col("speed").isNotNull(),
+            col("speed") * col("delta_t")
+        ).otherwise(0.0)
+    )
+
+    # ----------------------------------------------------------------------
+    # 6) Quartile assignment with ntile(4)
+    # ----------------------------------------------------------------------
+    df_with_q = df_sorted.withColumn(
+        "quartile",
+        ntile(4).over(gps_window)
+    )
+
+    # ----------------------------------------------------------------------
+    # 7) For each (horse + quartile), aggregate metrics
+    # ----------------------------------------------------------------------
+    quartile_agg = df_with_q.groupBy(
+        "course_cd", "race_date", "race_number", "saddle_cloth_number", "quartile"
+    ).agg(
+        F_avg("speed").alias("avg_speed_q"),
+        F_avg("acceleration").alias("avg_accel_q"),
+        F_avg("jerk").alias("avg_jerk_q"),
+        F_sum("dist_segment").alias("sum_dist_q"),
+        F_avg("stride_frequency").alias("avg_strfreq_q")
+    )
+
+    # Pivot to get columns: speed_q1, speed_q2, etc.
+    pivoted_quart = (
+        quartile_agg
+        .groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number")
+        .pivot("quartile", [1, 2, 3, 4])
+        .agg(
+            F_min("avg_speed_q").alias("avg_speed"),
+            F_min("avg_accel_q").alias("avg_accel"),
+            F_min("avg_jerk_q").alias("avg_jerk"),
+            F_min("sum_dist_q").alias("sum_dist"),
+            F_min("avg_strfreq_q").alias("avg_strfreq")
+        )
+    )
+
+    for q in [1, 2, 3, 4]:
+        pivoted_quart = (
+            pivoted_quart
+            .withColumnRenamed(f"{q}_avg_speed",      f"speed_q{q}")
+            .withColumnRenamed(f"{q}_avg_accel",      f"accel_q{q}")
+            .withColumnRenamed(f"{q}_avg_jerk",       f"jerk_q{q}")
+            .withColumnRenamed(f"{q}_sum_dist",       f"dist_q{q}")
+            .withColumnRenamed(f"{q}_avg_strfreq",    f"strfreq_q{q}")
+        )
+
+    # ----------------------------------------------------------------------
+    # 8) Overall (whole-race) aggregator
+    # ----------------------------------------------------------------------
+    race_horse = Window.partitionBy(
+        "course_cd", "race_date", "race_number", "saddle_cloth_number"
+    )
+    df_sorted = df_sorted.withColumn(
+        "speed_variability",
+        stddev_samp("speed").over(race_horse)
+    )
+
+    overall_agg = df_sorted.groupBy(
+        "course_cd", "race_date", "race_number", "saddle_cloth_number"
+    ).agg(
+        F_avg("acceleration").alias("avg_acceleration"),
+        F_max("acceleration").alias("max_acceleration"),
+        F_avg("jerk").alias("avg_jerk"),
+        F_max("jerk").alias("max_jerk"),
+        F_sum("dist_segment").alias("total_dist_covered"),
+        F_avg("speed_variability").alias("speed_var"),
+        F_avg(
+            when(col("stride_frequency") > 0, col("speed") / col("stride_frequency"))
+        ).alias("avg_stride_length"),
+        F_avg("speed").alias("avg_speed_fullrace"),
+    )
+
+    df_sorted = df_sorted.withColumn(
+        "first_progress",
+        first("progress").over(race_horse.rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing))
+    ).withColumn(
+        "last_progress",
+        last("progress").over(race_horse.rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing))
+    )
+
+    net_progress_df = df_sorted.groupBy(
+        "course_cd", "race_date", "race_number", "saddle_cloth_number"
+    ).agg(
+        (F_max("last_progress") - F_max("first_progress")).alias("net_progress_gain")
+    )
+
+    overall_agg2 = overall_agg.join(
+        net_progress_df,
+        on=["course_cd", "race_date", "race_number", "saddle_cloth_number"],
+        how="left"
+    )
+
+    # ----------------------------------------------------------------------
+    # 9) Combine quartile pivot with overall aggregator
+    # ----------------------------------------------------------------------
+    final_result = pivoted_quart.join(
+        overall_agg2,
+        on=["course_cd", "race_date", "race_number", "saddle_cloth_number"],
+        how="left"
+    )
+
+    # ----------------------------------------------------------------------
+    # 10) Write final_result to gps_aggregated
+    # ----------------------------------------------------------------------
+    staging_table = "gps_aggregated"
+    logging.info(f"Writing quartile + overall GPS metrics to {staging_table} ...")
+
+    (
+        final_result.write.format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", staging_table)
+        .option("user", jdbc_properties["user"])
+        .option("driver", jdbc_properties["driver"])
+        .mode("overwrite")
+        .save()
+    )
+
+    elapsed = time.time() - start_time
+    logging.info(f"GPS quartile metrics aggregated and written in {elapsed:.2f} seconds.")
+
+    if conn:
+        conn.close()
+   
+def spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties):
+    """
+    1) Reads raw `sectionals` data via Spark JDBC or from parquet.
+    2) Aggregates to produce early/late pace times, total_race_time, etc.
+    3) Writes results back into `sectionals_aggregated` using Overwrite or Upsert logic.
+
+    NOTE:
+      - Adjust column references for gating/quarter times if needed.
+      - Possibly join to `results_entries` if you only want matching records.
+    """
+    logging.info("Starting Spark-based aggregation for sectionals...")
+    start_time = time.time()
+
+    # Step 1: Count the number of gates for each race
+    gate_counts = df.groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number").agg(
+        count("gate_numeric").alias("num_gates")
+    )
+    
+    # Step 2: Join the gate counts back to the original DataFrame
+    df_with_counts = df.join(gate_counts, on=["course_cd", "race_date", "race_number", "saddle_cloth_number"])
+
+    # Step 3: Divide the gates into four parts using ntile
+    df_with_ntile = df_with_counts.withColumn("quartile", ntile(4).over(Window.partitionBy("course_cd", "race_date", "race_number", "saddle_cloth_number").orderBy("gate_numeric")))
+    
+    # Step 4: Calculate the total distance_ran for each group
+    total_distance_ran = df_with_ntile.groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number").agg(
+    F_sum("distance_ran").alias("total_distance_ran"),
+    F_sum("sectional_time").alias("running_time"))
+    
+    # Step 5: Calculate the aggregates for each quartile
+    quartile_aggregates = df_with_ntile.groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number", "quartile").agg(
+        F_avg("sectional_time").alias("avg_running_time"),
+        last("distance_back").alias("distance_back"),
+        F_sum("number_of_strides").alias("number_of_strides")
+    )
+    
+    # Step 6: Pivot the quartile aggregates to get the desired columns
+    # result1 = quartile_aggregates.groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number").pivot("quartile").agg(
+    #     first("avg_running_time").alias("avg_time_per_gate"),
+    #     first("distance_back").alias("distance_back"),
+    #     first("number_of_strides").alias("number_of_strides")
+    # ).withColumnRenamed("first_quarter_pace","1").withColumnRenamed("second_quarter_pace", "2").withColumnRenamed("third_quarter_pace", "3").withColumnRenamed("fourth_quarter_pace", "4")
+
+    result1 = quartile_aggregates.groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number").pivot("quartile").agg(
+        first("avg_running_time").alias("avg_time_per_gate"),
+        first("distance_back").alias("distance_back"),
+        first("number_of_strides").alias("number_of_strides")
+    )
+
+    # Rename the columns to place the quartile number after the name
+    result1 = result1.withColumnRenamed("1_avg_time_per_gate", "avgtime_gate1") \
+                    .withColumnRenamed("1_distance_back", "dist_bk_gate1") \
+                    .withColumnRenamed("1_number_of_strides", "numstrides_gate1") \
+                    .withColumnRenamed("2_avg_time_per_gate", "avgtime_gate2") \
+                    .withColumnRenamed("2_distance_back", "dist_bk_gate2") \
+                    .withColumnRenamed("2_number_of_strides", "numstrides_gate2") \
+                    .withColumnRenamed("3_avg_time_per_gate", "avgtime_gate3") \
+                    .withColumnRenamed("3_distance_back", "dist_bk_gate3") \
+                    .withColumnRenamed("3_number_of_strides", "numstrides_gate3") \
+                    .withColumnRenamed("4_avg_time_per_gate", "avgtime_gate4") \
+                    .withColumnRenamed("4_distance_back", "dist_bk_gate4") \
+                    .withColumnRenamed("4_number_of_strides", "numstrides_gate4")
+
+
+    # Step 7: Join the total distance_ran back to the result
+    result = result1.join(total_distance_ran, on=["course_cd", "race_date", "race_number", "saddle_cloth_number"])
+
+    # ---------------
+    # Write to `sectionals_aggregated`
+    # ---------------
+    staging_table = "sectionals_aggregated"
+
+    logging.info("Writing aggregated results to staging table (overwrite)...")
+    # Overwrite the staging table
+    (
+        result.write.format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", staging_table)
+        .option("user", jdbc_properties["user"])
+        .option("driver", jdbc_properties["driver"])
+        .mode("overwrite")
+        .save()
+    )
+    logging.info(f"Staging table {staging_table} written successfully.")
+
+    if conn:
+        conn.close()
+
+    elapsed = time.time() - start_time
+    logging.info(f"Spark-based sectionals aggregation and write completed in {elapsed:.2f} seconds.")
+
+def main():
+    """
+    Main function to:
+      - Initialize environment
+      - Create SparkSession
+      - Create DB connection pool
+      - Run Spark-based sectionals aggregation
+      - Run net sentiment update
+    """
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config = read_config(script_dir)
+
+    # 1) Create DB pool
+    db_pool = get_db_pool(config)
+    
+    # 2) Initialize Spark
+    try:
+        spark, jdbc_url, jdbc_properties, parquet_dir, log_file = initialize_environment()
+        
+        setup_logging(script_dir, log_file)
+
+        # Load and write data to parquet
+        queries = tpd_sql_queries()
+        dfs = load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
+    
+        # Print schemas dynamically
+        for name, df in dfs.items():
+            print(f"DataFrame '{name}' Schema:")
+            if name == "sectionals":
+                conn = db_pool.getconn()
+                try:
+                    spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties)
+                finally:
+                    db_pool.putconn(conn)
+            if name == "gpspoint":
+                conn = db_pool.getconn()
+                try:
+                    calculate_gps_metrics_quartile_and_write(conn, df, jdbc_url, jdbc_properties)
+                finally:
+                    db_pool.putconn(conn)        
+        logging.info("Ingestion job succeeded")
+        spark.catalog.clearCache()
+    except Exception as e:
+        logging.error(f"Error during Spark initialization: {e}")
+        sys.exit(1)
+
+    # # 4) net sentiment update
+    # # Optionally run your net_sentiment update logic
     try:
         conn = db_pool.getconn()
         try:
-            # List of update functions to execute
-            update_functions = [
-                update_sectionals_aggregated,
-                # update_tpd_features,
-                update_net_sentiment
-            ]
-            
-            for func in update_functions:
-                try:
-                    func(conn)
-                except Exception as e:
-                    logging.error(f"Error in {func.__name__}: {e}")
-                    traceback.print_exc()
-                    # Continue with the next function despite the error
-                    continue
-            logging.info("All updates completed with some errors.")
+            update_net_sentiment(conn)
         finally:
             db_pool.putconn(conn)
     except Exception as e:
-        logging.error(f"An unexpected error occurred: {e}")
+        logging.error(f"Error updating net sentiment: {e}")
         traceback.print_exc()
-    finally:
-        if db_pool:
-            db_pool.closeall()
+
+    # 5) Cleanup
+    if db_pool:
+        db_pool.closeall()
+    spark.stop()
+    logging.info("All tasks completed. Spark session stopped and DB pool closed.")
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     main()

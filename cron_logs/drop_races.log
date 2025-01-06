@@ -389,3 +389,90 @@ psql:/sql_scripts/drop_races.sql:30: NOTICE:  drop cascades to view v_results
 DROP TABLE
 2024-12-29 23:59:01 - SQL script executed successfully
 2024-12-29 23:59:01 - Races table recreation job completed
+2024-12-30 23:59:01 - Starting races table recreation job
+2024-12-30 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-30 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+DROP TABLE
+2024-12-30 23:59:02 - SQL script executed successfully
+2024-12-30 23:59:02 - Races table recreation job completed
+2024-12-31 23:59:01 - Starting races table recreation job
+2024-12-31 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2024-12-31 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+DROP TABLE
+2024-12-31 23:59:01 - SQL script executed successfully
+2024-12-31 23:59:01 - Races table recreation job completed
+2025-01-01 23:59:01 - Starting races table recreation job
+2025-01-01 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-01 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+DROP TABLE
+2025-01-01 23:59:11 - SQL script executed successfully
+2025-01-01 23:59:11 - Races table recreation job completed
+2025-01-02 23:59:01 - Starting races table recreation job
+2025-01-02 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-02 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:30: NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to constraint race_list_course_cd_race_date_race_number_fkey on table race_list
+drop cascades to constraint racedata_course_cd_race_date_race_number_fkey on table racedata
+DROP TABLE
+2025-01-02 23:59:01 - SQL script executed successfully
+2025-01-02 23:59:01 - Races table recreation job completed
+2025-01-03 23:59:01 - Starting races table recreation job
+2025-01-03 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-03 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+DROP TABLE
+2025-01-03 23:59:02 - SQL script executed successfully
+2025-01-03 23:59:02 - Races table recreation job completed
+2025-01-04 23:59:01 - Starting races table recreation job
+2025-01-04 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-04 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+DROP TABLE
+2025-01-04 23:59:02 - SQL script executed successfully
+2025-01-04 23:59:02 - Races table recreation job completed
+2025-01-05 23:59:01 - Starting races table recreation job
+2025-01-05 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-05 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+DROP TABLE
+2025-01-05 23:59:01 - SQL script executed successfully
+2025-01-05 23:59:01 - Races table recreation job completed
