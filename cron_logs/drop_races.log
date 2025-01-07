@@ -476,3 +476,15 @@ DROP VIEW
 DROP TABLE
 2025-01-05 23:59:01 - SQL script executed successfully
 2025-01-05 23:59:01 - Races table recreation job completed
+2025-01-06 23:59:01 - Starting races table recreation job
+2025-01-06 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-06 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+DROP TABLE
+2025-01-06 23:59:02 - SQL script executed successfully
+2025-01-06 23:59:02 - Races table recreation job completed

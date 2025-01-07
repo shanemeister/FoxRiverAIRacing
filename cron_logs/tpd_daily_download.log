@@ -5669,3 +5669,36 @@ sectionals/96202501051608
 
 sent 7,927,646 bytes  received 2,199 bytes  15,859,690.00 bytes/sec
 total size is 663,411,554  speedup is 83.66
+2025-01-07 01:00:31 - Python script ran successfully.
+sending incremental file list
+fixtures/
+fixtures/2025-01-07
+gpsData/
+gpsData/91202501061830
+gpsData/91202501061903
+gpsData/91202501061926
+gpsData/91202501061949
+gpsData/91202501062012
+gpsData/91202501062035
+gpsData/91202501062058
+gpsData/91202501062121
+gpsData/91202501062144
+gpsData/91202501062207
+gpsData/91202501062230
+racelist/
+racelist/2025-01-07
+sectionals/
+sectionals/91202501061830
+sectionals/91202501061903
+sectionals/91202501061926
+sectionals/91202501061949
+sectionals/91202501062012
+sectionals/91202501062035
+sectionals/91202501062058
+sectionals/91202501062121
+sectionals/91202501062144
+sectionals/91202501062207
+sectionals/91202501062230
+
+sent 2,217,747 bytes  received 515 bytes  4,436,524.00 bytes/sec
+total size is 665,295,413  speedup is 299.92

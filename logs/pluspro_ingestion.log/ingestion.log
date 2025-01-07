@@ -1,505 +1,336 @@
-2025-01-06 03:00:01 - INFO - Logging has been set up successfully.
-2025-01-06 03:00:01 - INFO - Setting up logging for PlusPro
-2025-01-06 03:00:01 - INFO - Starting ingestion job
-2025-01-06 03:00:01 - INFO - Starting ingestion for: PlusPro
-2025-01-06 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:02 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:02 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:02 - INFO - Normalized XML tags to lowercase.
-2025-01-06 03:00:02 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:02 - INFO - Successfully inserted/updated race number 1 on 2025-01-10.
-2025-01-06 03:00:02 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:02 - INFO - Successfully inserted/updated race number 2 on 2025-01-10.
-2025-01-06 03:00:02 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:02 - INFO - Successfully inserted/updated race number 3 on 2025-01-10.
-2025-01-06 03:00:02 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:02 - INFO - Successfully inserted/updated race number 4 on 2025-01-10.
-2025-01-06 03:00:02 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:02 - INFO - Successfully inserted/updated race number 5 on 2025-01-10.
-2025-01-06 03:00:02 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:02 - INFO - Successfully inserted/updated race number 6 on 2025-01-10.
-2025-01-06 03:00:02 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:02 - INFO - Successfully inserted/updated race number 7 on 2025-01-10.
-2025-01-06 03:00:02 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:02 - INFO - Successfully inserted/updated race number 8 on 2025-01-10.
-2025-01-06 03:00:02 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:02 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:02 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:03 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:03 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:03 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:03 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:03 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:03 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:04 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:04 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:04 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:04 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:04 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml
-2025-01-06 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:04 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250110plusXML.xml.
-2025-01-06 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:04 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:05 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:05 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:05 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:05 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:05 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:05 - INFO - Normalized XML tags to lowercase.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 1 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 2 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 3 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 4 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 5 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 6 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 7 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 8 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 9 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Determined course_cd: TOP for track_code: op
-2025-01-06 03:00:05 - INFO - Successfully inserted/updated race number 10 on 2025-01-10.
-2025-01-06 03:00:05 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:05 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:05 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:05 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:05 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:05 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:06 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:06 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:06 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:06 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:06 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:06 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:07 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:07 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:07 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:07 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:07 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:07 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:07 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:07 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:07 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:08 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:08 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:08 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:08 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:08 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:08 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:09 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:09 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml
-2025-01-06 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250110plusXML.xml.
-2025-01-06 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:09 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:09 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:09 - INFO - Normalized XML tags to lowercase.
-2025-01-06 03:00:09 - INFO - Determined course_cd: HOU for track_code: hou
-2025-01-06 03:00:09 - INFO - Successfully inserted/updated race number 1 on 2025-01-11.
-2025-01-06 03:00:09 - INFO - Determined course_cd: HOU for track_code: hou
-2025-01-06 03:00:09 - INFO - Successfully inserted/updated race number 2 on 2025-01-11.
-2025-01-06 03:00:09 - INFO - Determined course_cd: HOU for track_code: hou
-2025-01-06 03:00:09 - INFO - Successfully inserted/updated race number 3 on 2025-01-11.
-2025-01-06 03:00:09 - INFO - Determined course_cd: HOU for track_code: hou
-2025-01-06 03:00:09 - INFO - Successfully inserted/updated race number 4 on 2025-01-11.
-2025-01-06 03:00:09 - INFO - Determined course_cd: HOU for track_code: hou
-2025-01-06 03:00:09 - INFO - Successfully inserted/updated race number 5 on 2025-01-11.
-2025-01-06 03:00:09 - INFO - Determined course_cd: HOU for track_code: hou
-2025-01-06 03:00:09 - INFO - Successfully inserted/updated race number 6 on 2025-01-11.
-2025-01-06 03:00:09 - INFO - Determined course_cd: HOU for track_code: hou
-2025-01-06 03:00:09 - INFO - Successfully inserted/updated race number 7 on 2025-01-11.
-2025-01-06 03:00:09 - INFO - Determined course_cd: HOU for track_code: hou
-2025-01-06 03:00:09 - INFO - Successfully inserted/updated race number 8 on 2025-01-11.
-2025-01-06 03:00:09 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:10 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:10 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:10 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:10 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:10 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:10 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:10 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:10 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:10 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:10 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:10 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:10 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:10 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:10 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:10 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:11 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:11 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:11 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:11 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:11 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:11 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml
-2025-01-06 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/hou20250111plusXML.xml.
-2025-01-06 03:00:12 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:12 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:12 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:12 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:12 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:12 - INFO - Normalized XML tags to lowercase.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 1 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 2 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 3 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 4 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 5 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 6 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 7 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 8 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Determined course_cd: TFG for track_code: fg
-2025-01-06 03:00:12 - INFO - Successfully inserted/updated race number 9 on 2025-01-11.
-2025-01-06 03:00:12 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:12 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:12 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:12 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:13 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:13 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:13 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:13 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:13 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:13 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:14 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:14 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:14 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:14 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:14 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:14 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:14 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:14 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:14 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:14 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:14 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml
-2025-01-06 03:00:14 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:14 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/fg20250111plusXML.xml.
-2025-01-06 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:15 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:15 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:15 - INFO - Normalized XML tags to lowercase.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 1 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 2 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 3 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 4 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 5 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 6 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 7 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 8 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Determined course_cd: SUN for track_code: sun
-2025-01-06 03:00:15 - INFO - Successfully inserted/updated race number 9 on 2025-01-11.
-2025-01-06 03:00:15 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:15 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:16 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:16 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:16 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:16 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:16 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:16 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:17 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:17 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:17 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:17 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml
-2025-01-06 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/sun20250111plusXML.xml.
-2025-01-06 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:18 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:18 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:18 - INFO - Normalized XML tags to lowercase.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 1 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 2 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 3 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 4 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 5 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 6 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 7 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 8 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Determined course_cd: TGP for track_code: gp
-2025-01-06 03:00:18 - INFO - Successfully inserted/updated race number 9 on 2025-01-09.
-2025-01-06 03:00:18 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:18 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:18 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:18 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:18 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:19 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:19 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:19 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:19 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:19 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:19 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:19 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml
-2025-01-06 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250109plusXML.xml.
-2025-01-06 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:20 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:20 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:20 - INFO - Normalized XML tags to lowercase.
-2025-01-06 03:00:20 - INFO - Determined course_cd: LAD for track_code: lad
-2025-01-06 03:00:20 - INFO - Successfully inserted/updated race number 1 on 2025-01-11.
-2025-01-06 03:00:20 - INFO - Determined course_cd: LAD for track_code: lad
-2025-01-06 03:00:20 - INFO - Successfully inserted/updated race number 2 on 2025-01-11.
-2025-01-06 03:00:20 - INFO - Determined course_cd: LAD for track_code: lad
-2025-01-06 03:00:20 - INFO - Successfully inserted/updated race number 3 on 2025-01-11.
-2025-01-06 03:00:20 - INFO - Determined course_cd: LAD for track_code: lad
-2025-01-06 03:00:20 - INFO - Successfully inserted/updated race number 4 on 2025-01-11.
-2025-01-06 03:00:20 - INFO - Determined course_cd: LAD for track_code: lad
-2025-01-06 03:00:20 - INFO - Successfully inserted/updated race number 5 on 2025-01-11.
-2025-01-06 03:00:20 - INFO - Determined course_cd: LAD for track_code: lad
-2025-01-06 03:00:20 - INFO - Successfully inserted/updated race number 6 on 2025-01-11.
-2025-01-06 03:00:20 - INFO - Determined course_cd: LAD for track_code: lad
-2025-01-06 03:00:20 - INFO - Successfully inserted/updated race number 7 on 2025-01-11.
-2025-01-06 03:00:20 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:20 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:20 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:20 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:21 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:21 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:21 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:21 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:21 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:21 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:21 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:21 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:21 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:21 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:21 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:21 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:21 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:21 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:21 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:21 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:21 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:21 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:22 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:22 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:22 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:22 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml
-2025-01-06 03:00:22 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:22 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/lad20250111plusXML.xml.
-2025-01-06 03:00:22 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:22 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:22 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:22 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:22 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:22 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:22 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:22 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:22 - INFO - Normalized XML tags to lowercase.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 1 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 2 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 3 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 4 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 5 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 6 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 7 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 8 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Determined course_cd: TAM for track_code: tam
-2025-01-06 03:00:22 - INFO - Successfully inserted/updated race number 9 on 2025-01-08.
-2025-01-06 03:00:22 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:22 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:22 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:22 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:22 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:22 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:23 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:23 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:23 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:23 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:23 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:23 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:23 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:23 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:23 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:24 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:24 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:24 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:24 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:24 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:24 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:24 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:24 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:24 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:24 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:24 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:24 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:25 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:25 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:25 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:25 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:25 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:25 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:25 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml
-2025-01-06 03:00:25 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-01-06 03:00:25 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tam20250108plusXML.xml.
-2025-01-06 03:00:26 - INFO - PlusPro data ingestion completed successfully.
-2025-01-06 03:00:26 - INFO - Ingestion for PlusPro succeeded
-2025-01-06 03:00:26 - INFO - Setting up logging for ResultsCharts
+2025-01-07 03:00:01 - INFO - Logging has been set up successfully.
+2025-01-07 03:00:01 - INFO - Setting up logging for PlusPro
+2025-01-07 03:00:01 - INFO - Starting ingestion job
+2025-01-07 03:00:01 - INFO - Starting ingestion for: PlusPro
+2025-01-07 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:02 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:02 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:02 - INFO - Normalized XML tags to lowercase.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 1 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 2 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 3 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 4 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 5 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 6 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 7 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 8 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 9 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 10 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Determined course_cd: PRX for track_code: prx
+2025-01-07 03:00:02 - INFO - Successfully inserted/updated race number 11 on 2025-01-08.
+2025-01-07 03:00:02 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:02 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:03 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:03 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:03 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:03 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:03 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:04 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:04 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:04 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:04 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:04 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:04 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:04 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:04 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:05 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:05 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:05 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:05 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:05 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:05 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:05 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:06 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:06 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:06 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml
+2025-01-07 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:06 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/prx20250108plusXML.xml.
+2025-01-07 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:06 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:06 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:06 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:06 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:06 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:06 - INFO - Normalized XML tags to lowercase.
+2025-01-07 03:00:06 - INFO - Determined course_cd: TUP for track_code: tup
+2025-01-07 03:00:06 - INFO - Successfully inserted/updated race number 1 on 2025-01-09.
+2025-01-07 03:00:06 - INFO - Determined course_cd: TUP for track_code: tup
+2025-01-07 03:00:06 - INFO - Successfully inserted/updated race number 2 on 2025-01-09.
+2025-01-07 03:00:06 - INFO - Determined course_cd: TUP for track_code: tup
+2025-01-07 03:00:06 - INFO - Successfully inserted/updated race number 3 on 2025-01-09.
+2025-01-07 03:00:06 - INFO - Determined course_cd: TUP for track_code: tup
+2025-01-07 03:00:06 - INFO - Successfully inserted/updated race number 4 on 2025-01-09.
+2025-01-07 03:00:06 - INFO - Determined course_cd: TUP for track_code: tup
+2025-01-07 03:00:06 - INFO - Successfully inserted/updated race number 5 on 2025-01-09.
+2025-01-07 03:00:06 - INFO - Determined course_cd: TUP for track_code: tup
+2025-01-07 03:00:06 - INFO - Successfully inserted/updated race number 6 on 2025-01-09.
+2025-01-07 03:00:06 - INFO - Determined course_cd: TUP for track_code: tup
+2025-01-07 03:00:06 - INFO - Successfully inserted/updated race number 7 on 2025-01-09.
+2025-01-07 03:00:06 - INFO - Determined course_cd: TUP for track_code: tup
+2025-01-07 03:00:06 - INFO - Successfully inserted/updated race number 8 on 2025-01-09.
+2025-01-07 03:00:06 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:06 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:07 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:07 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:07 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:07 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:07 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:07 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:07 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:07 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:07 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:07 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:07 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:07 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:07 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:08 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:08 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:08 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:08 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:08 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:08 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:08 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:08 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:08 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:08 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:08 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:08 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:08 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:08 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:08 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:09 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:09 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml
+2025-01-07 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/tup20250109plusXML.xml.
+2025-01-07 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:09 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:09 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:09 - INFO - Normalized XML tags to lowercase.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 1 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 2 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 3 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 4 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 5 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 6 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 7 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 8 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 9 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Determined course_cd: TOP for track_code: op
+2025-01-07 03:00:09 - INFO - Successfully inserted/updated race number 10 on 2025-01-11.
+2025-01-07 03:00:09 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:09 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:09 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:10 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:10 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:10 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:10 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:10 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:10 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:10 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:10 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:11 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:11 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:11 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:11 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:11 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:12 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:12 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:12 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:12 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:12 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:12 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:12 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:13 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:13 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml
+2025-01-07 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/op20250111plusXML.xml.
+2025-01-07 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:13 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:13 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:13 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:14 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:14 - INFO - Normalized XML tags to lowercase.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 1 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 2 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 3 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 4 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 5 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 6 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 7 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 8 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 9 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 10 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 11 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 12 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Determined course_cd: TGP for track_code: gp
+2025-01-07 03:00:14 - INFO - Successfully inserted/updated race number 13 on 2025-01-08.
+2025-01-07 03:00:14 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:14 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:14 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:14 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:14 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:14 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:14 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:14 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:14 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:15 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:15 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:15 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:15 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:15 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:15 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:15 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:16 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:16 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:16 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:16 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml
+2025-01-07 03:00:16 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:16 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/gp20250108plusXML.xml.
+2025-01-07 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:17 - INFO - Processing racedata data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:17 - INFO - Parsed XML file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:17 - INFO - Normalized XML tags to lowercase.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 1 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 2 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 3 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 4 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 5 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 6 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 7 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 8 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 9 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Determined course_cd: MVR for track_code: mvr
+2025-01-07 03:00:17 - INFO - Successfully inserted/updated race number 10 on 2025-01-09.
+2025-01-07 03:00:17 - INFO - Processing horse_data data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:17 - INFO - Processing stat_horse data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:17 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:17 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:18 - INFO - Processing dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:18 - INFO - Processing stat_dam data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:18 - INFO - Processing sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:18 - INFO - Processing stat_sire data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:18 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:18 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:19 - INFO - Processing jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:19 - INFO - Processing stat_jockey data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:19 - INFO - Processing trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:19 - INFO - Processing stat_trainer data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:19 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:19 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:20 - INFO - Processing runners data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:20 - INFO - Processing workout data file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml
+2025-01-07 03:00:20 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-01-07 03:00:20 - INFO - Validation successful for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/mvr20250109plusXML.xml.
+2025-01-07 03:00:20 - INFO - PlusPro data ingestion completed successfully.
+2025-01-07 03:00:20 - INFO - Ingestion for PlusPro succeeded
+2025-01-07 03:00:20 - INFO - Setting up logging for ResultsCharts
