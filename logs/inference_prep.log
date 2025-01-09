@@ -1,0 +1,9 @@
+2025-01-08 16:31:35 - INFO - Logging has been set up successfully.
+2025-01-08 16:31:35 - INFO - Query training_data located and loading from PostgreSQL...
+2025-01-08 16:31:46 - INFO - Decimal columns converted to double.
+2025-01-08 16:31:46 - INFO - Created age_at_race_day.
+2025-01-08 16:47:10 - INFO - Ingestion job for training data succeeded
+2025-01-08 17:06:06 - INFO - Saving training_data DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/training_data.parquet...
+2025-01-08 17:06:06 - INFO - Schema of training_data DataFrame:
+2025-01-08 17:06:10 - INFO - training_data DataFrame saved successfully.
+2025-01-08 17:06:10 - INFO - Closing down clientserver connection

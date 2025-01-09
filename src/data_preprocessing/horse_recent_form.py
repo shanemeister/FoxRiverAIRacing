@@ -4,6 +4,7 @@ import sys
 import traceback
 import time
 import configparser
+from pyspark.sql.functions import to_date
 
 import pyspark.sql.functions as F
 from pyspark.sql import Window
@@ -13,7 +14,7 @@ from psycopg2 import pool, DatabaseError
 from pyspark.sql.functions import (
     col, when, lit, row_number, expr,
     min as F_min, max as F_max, datediff,
-    lag, count
+    lag, count, trim
 )
 
 # ------------------------------------------------
@@ -131,6 +132,8 @@ def compute_recent_form_metrics(
 
     # We'll define an ascending window by (horse_id, race_date),
     # so earlier races have smaller row_number => the current row is the "future" race
+    
+    race_df = race_df.withColumn("race_date", to_date("race_date"))
     window_race = Window.partitionBy("horse_id").orderBy("race_date")
 
     # Convert relevant columns to double if not already
@@ -194,6 +197,7 @@ def compute_recent_form_metrics(
             datediff(col("race_date"), col("prev_race_date"))
         )
     )
+    
     # layoff_cat
     race_df_asc = race_df_asc.withColumn(
         "layoff_cat",
@@ -229,6 +233,10 @@ def compute_recent_form_metrics(
 
     # 10) Write to horse_recent_form
     staging_table = "horse_recent_form"
+    # Cast columns to match database schema
+    final_df = final_df.withColumn("course_cd", trim(col("course_cd")).cast("string")) \
+                    .withColumn("saddle_cloth_number", trim(col("saddle_cloth_number")).cast("string"))
+
     logging.info(f"Writing final per-race form metrics to {staging_table} ...")
 
     (
@@ -290,7 +298,6 @@ def main():
         logging.warning("No 'workouts' DataFrame found. Using empty DF.")
         # Optionally create an empty DF with the same schema
         workouts_df = spark.createDataFrame([], race_df.schema)
-
     # 2) Compute
     compute_recent_form_metrics(
         spark=spark,

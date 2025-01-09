@@ -834,3 +834,45 @@ CREATE VIEW
 CREATE VIEW
 2025-01-07 08:30:05 - SQL script executed successfully
 2025-01-07 08:30:05 - Races table recreation job completed
+2025-01-07 20:42:47 - Starting races table recreation job
+2025-01-07 20:42:47 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-07 20:42:47 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 182733
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2025-01-07 20:42:49 - SQL script executed successfully
+2025-01-07 20:42:49 - Races table recreation job completed
+2025-01-08 04:45:01 - Starting races table recreation job
+2025-01-08 04:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-08 04:45:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+CREATE TABLE AS
+ALTER TABLE
+ALTER TABLE
+INSERT 0 182785
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2025-01-08 04:45:03 - SQL script executed successfully
+2025-01-08 04:45:03 - Races table recreation job completed

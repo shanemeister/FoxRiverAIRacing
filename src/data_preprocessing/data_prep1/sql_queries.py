@@ -129,7 +129,7 @@ def sql_queries():
                 ON r.course_cd = r2.course_cd
                 AND r.race_date = r2.race_date
                 AND r.race_number = r2.race_number
-            JOIN results_entries re
+            LEFT JOIN results_entries re
                 ON r2.course_cd = re.course_cd
                 AND r2.race_date = re.race_date
                 AND r2.race_number = re.race_number

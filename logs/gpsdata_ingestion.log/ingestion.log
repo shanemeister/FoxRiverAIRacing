@@ -1,11 +1,11 @@
-2025-01-07 03:00:21 - INFO - Logging has been set up successfully.
-2025-01-07 03:00:21 - INFO - Setting up logging for GPSData
-2025-01-07 03:00:21 - INFO - Starting ingestion job
-2025-01-07 03:00:21 - INFO - Starting ingestion for: GPSData
-2025-01-07 03:00:21 - INFO - Total number of files in the directory: 91759
-2025-01-07 03:00:21 - INFO - Number of valid files matching the pattern: 91756
-2025-01-07 03:00:21 - INFO - Total number of files skipped: 55783
-2025-01-07 03:00:21 - INFO - Total number of files skipped due to cutoff date: 27482
-2025-01-07 03:00:21 - INFO - Total number of files skipped due to bad course_cd: 8491
-2025-01-07 03:00:21 - INFO - Ingestion for GPSData succeeded
-2025-01-07 03:00:21 - INFO - Setting up logging for Routes
+2025-01-08 03:00:23 - INFO - Logging has been set up successfully.
+2025-01-08 03:00:23 - INFO - Setting up logging for GPSData
+2025-01-08 03:00:23 - INFO - Starting ingestion job
+2025-01-08 03:00:23 - INFO - Starting ingestion for: GPSData
+2025-01-08 03:00:23 - INFO - Total number of files in the directory: 91759
+2025-01-08 03:00:23 - INFO - Number of valid files matching the pattern: 91756
+2025-01-08 03:00:23 - INFO - Total number of files skipped: 55783
+2025-01-08 03:00:23 - INFO - Total number of files skipped due to cutoff date: 27482
+2025-01-08 03:00:23 - INFO - Total number of files skipped due to bad course_cd: 8491
+2025-01-08 03:00:23 - INFO - Ingestion for GPSData succeeded
+2025-01-08 03:00:23 - INFO - Setting up logging for Routes

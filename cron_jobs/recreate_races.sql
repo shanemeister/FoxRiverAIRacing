@@ -6,33 +6,29 @@ select distinct
     COALESCE(rr.race_date, rd.race_date, rl.race_date) AS race_date,
     COALESCE(rr.race_number, rd.race_number, rl.race_number) AS race_number,
     c.track_name AS c_track_name, 
-    rr.type as race_type,
-    rr.purse AS purse,
-    rd.purse AS rd_purse,
-    rr.race_text AS race_text,
-    rr.age_restr_cd as age_restriction,
-    rr.surface AS surface,
-    rd.surface AS rd_surface,
+    rd.stk_clm_md as race_type,
+    rd.purse AS purse,
+    rd.race_text AS race_text,
+    rd.age_restr as age_restriction,
+    rd.surface AS surface,
     rr.trk_cond AS trk_cond,
-    rr.class_rating as class_rating,
-    rd.todays_cls AS todays_cls,
-    rr.weather as weather,
+    rd.todays_cls as class_rating,
+    rr.weather as rr_weather,
     rd.post_time AS post_time,     -- Columns from racedata (alias rd)
     rr.post_time AS rr_post_time,
-	rr.win_time as win_time,
-	rr.par_time as par_time,
-	rr.pace_call1 as pace_call1,
-	rr.pace_call2 as pace_call2,
-    rr.fraction_1 as fraction1,
-	rr.fraction_2 as fraction2,
-	rr.fraction_3 as fraction3,
-	rr.fraction_4 as fraction4,
-	rr.fraction_5 as fraction5,
-	rr.pace_final as pace_final,
+	rr.win_time as rr_win_time,
+	rr.par_time as rr_par_time,
+	rr.pace_call1 as rr_pace_call1,
+	rr.pace_call2 as rr_pace_call2,
+    rr.fraction_1 as rr_fraction1,
+	rr.fraction_2 as rr_fraction2,
+	rr.fraction_3 as rr_fraction3,
+	rr.fraction_4 as rr_fraction4,
+	rr.fraction_5 as rr_fraction5,
+	rr.pace_final as rr_pace_final,
 	rr.wps_pool as wps_pool,
-	rr.distance as rr_distance,
-	rr.dist_unit as dist_unit,
-	rd.distance AS distance,
+	rd.distance as distance,
+	rd.dist_unit as dist_unit,
     rd.stkorclm as stkorclm,
     rd.stk_clm_md as stk_clm_md,
     rd.breed_cd as breed_cd,
@@ -41,11 +37,11 @@ select distinct
     rl.race_type AS rl_race_type,
     rl.race_length AS rl_race_length
 FROM
-    race_results rr
+    racedata rd
 FULL OUTER JOIN
-    racedata rd ON rr.course_cd = rd.course_cd
-                AND rr.race_date = rd.race_date
-                AND rr.race_number = rd.race_number
+     race_results rr ON rd.course_cd = rr.course_cd
+                AND rd.race_date = rr.race_date
+                AND rd.race_number = rr.race_number
 FULL OUTER JOIN
     race_list rl ON COALESCE(rr.course_cd, rd.course_cd) = rl.course_cd
                  AND COALESCE(rr.race_date, rd.race_date) = rl.race_date

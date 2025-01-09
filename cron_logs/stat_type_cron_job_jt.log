@@ -8,3 +8,8 @@
 2025-01-07 06:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
 2025-01-07 06:15:06 - Python script succeeded
 2025-01-07 06:15:06 - Job completed
+2025-01-08 04:15:01 - Starting stat_type_update job
+2025-01-08 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-08 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-01-08 04:15:02 - Python script succeeded
+2025-01-08 04:15:02 - Job completed

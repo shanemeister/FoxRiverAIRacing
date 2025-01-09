@@ -1,226 +1,0 @@
-2025-01-06 06:45:01 - Starting stat_type_update job
-2025-01-06 06:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-06 06:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/06 06:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/06 06:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-25/01/06 06:45:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/06 06:45:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/06 06:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/06 06:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/06 06:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/06 06:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-Spark session created successfully.
-Traceback (most recent call last):
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py", line 312, in <module>
-    main()
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py", line 271, in main
-    dfs = load_data_from_postgresql(
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/data_prep1/data_loader.py", line 26, in load_data_from_postgresql
-    df = spark.read.jdbc(
-         ^^^^^^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/pyspark/sql/readwriter.py", line 946, in jdbc
-    return self._df(self._jreader.jdbc(url, table, jprop))
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/py4j/java_gateway.py", line 1322, in __call__
-    return_value = get_return_value(
-                   ^^^^^^^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/pyspark/errors/exceptions/captured.py", line 179, in deco
-    return f(*a, **kw)
-           ^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/py4j/protocol.py", line 326, in get_return_value
-    raise Py4JJavaError(
-py4j.protocol.Py4JJavaError: An error occurred while calling o45.jdbc.
-: org.postgresql.util.PSQLException: ERROR: relation "races" does not exist
-  Position: 396
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
-	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
-	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
-	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
-	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRDD$.getQueryOutputSchema(JDBCRDD.scala:68)
-	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRDD$.resolveTable(JDBCRDD.scala:58)
-	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRelation$.getSchema(JDBCRelation.scala:241)
-	at org.apache.spark.sql.execution.datasources.jdbc.JdbcRelationProvider.createRelation(JdbcRelationProvider.scala:37)
-	at org.apache.spark.sql.execution.datasources.DataSource.resolveRelation(DataSource.scala:346)
-	at org.apache.spark.sql.DataFrameReader.loadV1Source(DataFrameReader.scala:229)
-	at org.apache.spark.sql.DataFrameReader.$anonfun$load$2(DataFrameReader.scala:211)
-	at scala.Option.getOrElse(Option.scala:189)
-	at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:211)
-	at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:172)
-	at org.apache.spark.sql.DataFrameReader.jdbc(DataFrameReader.scala:249)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
-	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
-	at py4j.Gateway.invoke(Gateway.java:282)
-	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
-	at py4j.commands.CallCommand.execute(CallCommand.java:79)
-	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
-	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-
-2025-01-06 06:45:04 - Python script failed with exit code 1
-2025-01-06 09:34:39 - Starting stat_type_update job
-2025-01-06 09:34:39 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-06 09:34:39 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/06 09:34:40 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/06 09:34:40 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-:: loading settings :: url = jar:file:/opt/spark-3.4.4-bin-hadoop3/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
-Ivy Default Cache set to: /home/exx/.ivy2/cache
-The jars for the packages stored in: /home/exx/.ivy2/jars
-ml.dmlc#xgboost4j-spark_2.12 added as a dependency
-:: resolving dependencies :: org.apache.spark#spark-submit-parent-f4a3b7f6-2d58-4b02-a6f6-53c7a7ddee63;1.0
-	confs: [default]
-	found ml.dmlc#xgboost4j-spark_2.12;1.7.5 in central
-	found ml.dmlc#xgboost4j_2.12;1.7.5 in central
-	found com.typesafe.akka#akka-actor_2.12;2.5.23 in central
-	found com.typesafe#config;1.3.3 in central
-	found org.scala-lang.modules#scala-java8-compat_2.12;0.8.0 in central
-	found com.esotericsoftware#kryo;4.0.2 in central
-	found com.esotericsoftware#reflectasm;1.11.3 in central
-	found org.ow2.asm#asm;5.0.4 in central
-	found com.esotericsoftware#minlog;1.3.0 in central
-	found org.objenesis#objenesis;2.5.1 in central
-	found org.scala-lang#scala-reflect;2.12.8 in central
-	found commons-logging#commons-logging;1.2 in central
-:: resolution report :: resolve 135ms :: artifacts dl 4ms
-	:: modules in use:
-	com.esotericsoftware#kryo;4.0.2 from central in [default]
-	com.esotericsoftware#minlog;1.3.0 from central in [default]
-	com.esotericsoftware#reflectasm;1.11.3 from central in [default]
-	com.typesafe#config;1.3.3 from central in [default]
-	com.typesafe.akka#akka-actor_2.12;2.5.23 from central in [default]
-	commons-logging#commons-logging;1.2 from central in [default]
-	ml.dmlc#xgboost4j-spark_2.12;1.7.5 from central in [default]
-	ml.dmlc#xgboost4j_2.12;1.7.5 from central in [default]
-	org.objenesis#objenesis;2.5.1 from central in [default]
-	org.ow2.asm#asm;5.0.4 from central in [default]
-	org.scala-lang#scala-reflect;2.12.8 from central in [default]
-	org.scala-lang.modules#scala-java8-compat_2.12;0.8.0 from central in [default]
-	---------------------------------------------------------------------
-	|                  |            modules            ||   artifacts   |
-	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
-	---------------------------------------------------------------------
-	|      default     |   12  |   0   |   0   |   0   ||   12  |   0   |
-	---------------------------------------------------------------------
-:: retrieving :: org.apache.spark#spark-submit-parent-f4a3b7f6-2d58-4b02-a6f6-53c7a7ddee63
-	confs: [default]
-	0 artifacts copied, 12 already retrieved (0kB/4ms)
-25/01/06 09:34:41 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/06 09:34:41 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/06 09:34:41 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/06 09:34:41 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/06 09:34:41 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/06 09:34:41 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1][Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                      (0 + 100) / 100][Stage 9:=====>                                                 (10 + 90) / 100][Stage 9:====================================>                  (67 + 33) / 100]                                                                                Spark session created successfully.
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- todays_cls: decimal(10,2) (nullable = true)
- |-- official_fin: integer (nullable = true)
- |-- speed_rating: integer (nullable = true)
- |-- running_time: double (nullable = true)
- |-- dist_bk_gate1: double (nullable = true)
- |-- dist_bk_gate2: double (nullable = true)
- |-- dist_bk_gate3: double (nullable = true)
- |-- dist_bk_gate4: double (nullable = true)
- |-- avg_speed_fullrace: double (nullable = true)
- |-- avg_stride_length: double (nullable = true)
- |-- strfreq_q1: double (nullable = true)
- |-- strfreq_q2: double (nullable = true)
- |-- strfreq_q3: double (nullable = true)
- |-- strfreq_q4: double (nullable = true)
-
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- worknum: double (nullable = true)
- |-- days_back: double (nullable = true)
- |-- worktext: string (nullable = true)
- |-- ranking: double (nullable = true)
- |-- rank_group: double (nullable = true)
-
-2025-01-06 09:35:20 - Python script succeeded
-2025-01-06 09:35:20 - Job completed
-2025-01-07 06:45:01 - Starting stat_type_update job
-2025-01-07 06:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-07 06:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/07 06:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/07 06:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-25/01/07 06:45:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/07 06:45:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/07 06:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/07 06:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-Spark session created successfully.
-Traceback (most recent call last):
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py", line 312, in <module>
-    main()
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py", line 271, in main
-    dfs = load_data_from_postgresql(
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/data_prep1/data_loader.py", line 26, in load_data_from_postgresql
-    df = spark.read.jdbc(
-         ^^^^^^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/pyspark/sql/readwriter.py", line 946, in jdbc
-    return self._df(self._jreader.jdbc(url, table, jprop))
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/py4j/java_gateway.py", line 1322, in __call__
-    return_value = get_return_value(
-                   ^^^^^^^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/pyspark/errors/exceptions/captured.py", line 179, in deco
-    return f(*a, **kw)
-           ^^^^^^^^^^^
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/py4j/protocol.py", line 326, in get_return_value
-    raise Py4JJavaError(
-py4j.protocol.Py4JJavaError: An error occurred while calling o45.jdbc.
-: org.postgresql.util.PSQLException: ERROR: relation "races" does not exist
-  Position: 396
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
-	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
-	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
-	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
-	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRDD$.getQueryOutputSchema(JDBCRDD.scala:68)
-	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRDD$.resolveTable(JDBCRDD.scala:58)
-	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRelation$.getSchema(JDBCRelation.scala:241)
-	at org.apache.spark.sql.execution.datasources.jdbc.JdbcRelationProvider.createRelation(JdbcRelationProvider.scala:37)
-	at org.apache.spark.sql.execution.datasources.DataSource.resolveRelation(DataSource.scala:346)
-	at org.apache.spark.sql.DataFrameReader.loadV1Source(DataFrameReader.scala:229)
-	at org.apache.spark.sql.DataFrameReader.$anonfun$load$2(DataFrameReader.scala:211)
-	at scala.Option.getOrElse(Option.scala:189)
-	at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:211)
-	at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:172)
-	at org.apache.spark.sql.DataFrameReader.jdbc(DataFrameReader.scala:249)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
-	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
-	at py4j.Gateway.invoke(Gateway.java:282)
-	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
-	at py4j.commands.CallCommand.execute(CallCommand.java:79)
-	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
-	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-
-2025-01-07 06:45:03 - Python script failed with exit code 1

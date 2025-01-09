@@ -1,10 +1,2 @@
-2025-01-05 21:31:43 - INFO - Logging initialized.
-2025-01-05 21:31:43 - INFO - Data prep logging ready
-2025-01-05 21:32:44 - INFO - Saving race_df_p1 DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/race_df_p1.parquet...
-2025-01-05 21:32:44 - INFO - Schema of race_df_p1 DataFrame:
-2025-01-05 21:32:56 - INFO - race_df_p1 DataFrame saved successfully.
-2025-01-05 21:36:53 - INFO - Saving race_df_p1 DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/race_df_p1.parquet...
-2025-01-05 21:36:53 - INFO - Schema of race_df_p1 DataFrame:
-2025-01-05 21:37:06 - INFO - race_df_p1 DataFrame saved successfully.
-2025-01-05 22:54:00 - ERROR - No such comm target registered: jupyter.widget.control
-2025-01-05 22:54:00 - WARNING - No such comm: e2db91de-646c-4d9b-8872-5a37d6171815
+2025-01-07 16:43:44 - INFO - Logging initialized.
+2025-01-07 16:43:44 - INFO - Data prep logging ready
