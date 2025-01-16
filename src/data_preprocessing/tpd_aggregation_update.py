@@ -117,7 +117,7 @@ def get_db_pool(config):
     except Exception as e:
         logging.error(f"Unexpected error creating connection pool: {e}")
         sys.exit(1)
-
+              
 def update_net_sentiment(conn):
     """
     Example function that updates net_sentiment in `runners` table
@@ -146,6 +146,132 @@ def update_net_sentiment(conn):
             logging.info(f"Net sentiment updated successfully in {elapsed:.2f} seconds.")
     except Exception as e:
         logging.error(f"Error updating net_sentiment: {e}")
+        conn.rollback()
+        raise
+
+def update_previous_race_data(conn):
+    """
+    Updates the `previous_distance`, `previous_surface`, and `off_finish_last_race` columns in the `runners` table
+    with data from the horse's previous race.
+    """
+    logging.info("Updating previous race data in runners beginning...")
+    start_time = time.time()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                WITH previous_race AS (
+                    SELECT
+                        r2.course_cd,
+                        r2.race_date,
+                        r2.race_number,
+                        r2.saddle_cloth_number,
+                        LAG(r.class_rating) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_class,
+                        LAG(r.distance_meters) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_distance,
+                        LAG(r.surface) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_surface,
+                        LAG(re.official_fin) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS off_finish_last_race
+                    FROM races r
+                    JOIN runners r2 ON r.course_cd = r2.course_cd
+                        AND r.race_date = r2.race_date
+                        AND r.race_number = r2.race_number
+                    JOIN results_entries re ON r2.course_cd = re.course_cd
+                        AND r2.race_date = re.race_date
+                        AND r2.race_number = re.race_number
+                        AND r2.saddle_cloth_number = re.program_num
+                    JOIN horse h ON r2.axciskey = h.axciskey
+                )
+                UPDATE runners r2
+                SET previous_class = pr.previous_class,
+                    previous_distance = pr.previous_distance,
+                    previous_surface = pr.previous_surface,
+                    off_finish_last_race = pr.off_finish_last_race
+                FROM previous_race pr
+                WHERE r2.course_cd = pr.course_cd
+                    AND r2.race_date = pr.race_date
+                    AND r2.race_number = pr.race_number
+                    AND r2.saddle_cloth_number = pr.saddle_cloth_number;
+            """)
+            conn.commit()
+            elapsed = time.time() - start_time
+            logging.info(f"Previous race data updated successfully in {elapsed:.2f} seconds.")
+    except Exception as e:
+        logging.error(f"Error updating previous race data: {e}")
+        conn.rollback()
+        raise
+
+def update_previous_race_data_and_race_count(conn):
+    """
+    Updates the `previous_distance`, 'previous_class', `previous_surface`, and `off_finish_last_race` columns in the `runners` table
+    with data from the horse's previous race. Also populates these columns with -1 for horses that have only run one race,
+    and adds a `race_count` column to store the number of races each horse has participated in.
+    """
+    logging.info("Updating previous race data and race count in runners beginning...")
+    start_time = time.time()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                WITH previous_race AS (
+                    SELECT
+                        r2.course_cd,
+                        r2.race_date,
+                        r2.race_number,
+                        r2.saddle_cloth_number,
+                        LAG(r.class_rating) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_class,
+                        LAG(r.distance_meters) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_distance,
+                        LAG(r.surface) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_surface,
+                        LAG(re.official_fin) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS off_finish_last_race,
+                        COUNT(*) OVER (PARTITION BY h.horse_id) AS race_count
+                    FROM races r
+                    JOIN runners r2 ON r.course_cd = r2.course_cd
+                        AND r.race_date = r2.race_date
+                        AND r.race_number = r2.race_number
+                    JOIN results_entries re ON r2.course_cd = re.course_cd
+                        AND r2.race_date = re.race_date
+                        AND r2.race_number = re.race_number
+                        AND r2.saddle_cloth_number = re.program_num
+                    JOIN horse h ON r2.axciskey = h.axciskey
+                )
+                UPDATE runners r2
+                SET previous_class = COALESCE(pr.previous_class, -1),
+                    previous_distance = COALESCE(pr.previous_distance, -1),
+                    previous_surface = COALESCE(pr.previous_surface, 'NONE'),
+                    off_finish_last_race = COALESCE(pr.off_finish_last_race, -1),
+                    race_count = pr.race_count
+                FROM previous_race pr
+                WHERE r2.course_cd = pr.course_cd
+                    AND r2.race_date = pr.race_date
+                    AND r2.race_number = pr.race_number
+                    AND r2.saddle_cloth_number = pr.saddle_cloth_number;
+            """)
+            conn.commit()
+            elapsed = time.time() - start_time
+            logging.info(f"Previous race data and race count updated successfully in {elapsed:.2f} seconds.")
+    except Exception as e:
+        logging.error(f"Error updating previous race data and race count: {e}")
+        conn.rollback()
+        raise
+        
+def update_distance_meters(conn):
+    """
+    Updates the `distance_meters` column in the `racedata` table by converting the `distance` and `dist_unit` columns.
+    """
+    logging.info("Updating distance_meters in racedata beginning...")
+    start_time = time.time()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                UPDATE racedata
+                SET distance_meters = CASE
+                    WHEN dist_unit = 'F' THEN (distance/100) * 201.168
+                    WHEN dist_unit = 'M' THEN distance
+                    WHEN dist_unit = 'Y' THEN distance * 0.9144
+                    ELSE NULL
+                END;
+            """)
+            conn.commit()
+            elapsed = time.time() - start_time
+            logging.info(f"Distance_meters updated successfully in {elapsed:.2f} seconds.")
+    except Exception as e:
+        logging.error(f"Error updating distance_meters: {e}")
         conn.rollback()
         raise
 
@@ -515,19 +641,33 @@ def main():
         logging.error(f"Error during Spark initialization: {e}")
         sys.exit(1)
 
-    # # 4) net sentiment update
-    # # Optionally run your net_sentiment update logic
+    # 4) net sentiment update
+    # Optionally run your net_sentiment update logic
     try:
         conn = db_pool.getconn()
         try:
-            update_net_sentiment(conn)
+            #update_net_sentiment(conn)
+            #update_distance_meters(conn)
+            update_previous_race_data_and_race_count(conn)
+            # update_previous_race_data(conn)
         finally:
             db_pool.putconn(conn)
     except Exception as e:
         logging.error(f"Error updating net sentiment: {e}")
         traceback.print_exc()
 
-    # 5) Cleanup
+    # 5) Update distance_meters
+    try:
+        conn = db_pool.getconn()
+        try:
+            update_distance_meters(conn)
+        finally:
+            db_pool.putconn(conn)
+    except Exception as e:
+        logging.error(f"Error updating distance_meters: {e}")
+        traceback.print_exc()
+
+    # 6) Cleanup
     if db_pool:
         db_pool.closeall()
     spark.stop()

@@ -29,6 +29,7 @@ select distinct
 	rr.wps_pool as wps_pool,
 	rd.distance as distance,
 	rd.dist_unit as dist_unit,
+    rd.distance_meters as distance_meters,
     rd.stkorclm as stkorclm,
     rd.stk_clm_md as stk_clm_md,
     rd.breed_cd as breed_cd,
@@ -93,21 +94,6 @@ REFERENCES public.races(course_cd, race_date, race_number)
 ON DELETE RESTRICT 
 ON UPDATE RESTRICT;
 
-CREATE or REPLACE VIEW v_gpspoint AS
-SELECT * FROM gpspoint
-WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
-                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
-                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
-and race_date > '2021-12-31';
-
-
-CREATE or REPLACE VIEW v_sectionals_agg AS
-SELECT * FROM sectionals_aggregated 
-WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
-                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
-                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
-and race_date > '2021-12-31';
-
 CREATE or REPLACE VIEW v_races AS
 SELECT * FROM races
 WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
@@ -145,4 +131,3 @@ WHERE course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE
                     'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
                     'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
 and race_date > '2021-12-31';
-

@@ -356,26 +356,26 @@ def update_horse_accum_stats(script_dir):
         stat_types = [
             ('ALL_RACES', None, None, None, None),
             # Dirt
-            ('DIRT_SPRNT', 'D', None, 700, None),
-            ('DIRT_RTE', 'D', 701, None, None),
-            ('MUDDY_SPRNT', 'D', None, 700, "trk_cond = 'Muddy'"),
-            ('MUDDY_RTE', 'D', 701, None, "trk_cond = 'Muddy'"),
+            ('DIRT_SPRNT', 'D', None, 1409, None),
+            ('DIRT_RTE', 'D', 1410, None, None),
+            ('MUDDY_SPRNT', 'D', None, 1409, "trk_cond = 'Muddy'"),
+            ('MUDDY_RTE', 'D', 1410, None, "trk_cond = 'Muddy'"),
             
             # Turf
-            ('TURF_SPRNT', 'T', None, 700, None),
-            ('TURF_RTE', 'T', 701, None, None),
+            ('TURF_SPRNT', 'T', None, 1409, None),
+            ('TURF_RTE', 'T', 1410, None, None),
             
             # All Weather
-            ('ALL_WEATHER_SPRNT', 'A', None, 700, None),
-            ('ALL_WEATHER_RTE', 'A', 701, None, None),
+            ('ALL_WEATHER_SPRNT', 'A', None, 1409, None),
+            ('ALL_WEATHER_RTE', 'A', 1410, None, None),
             
             # Race Types
-            ('ALLOWANCE_SPRNT', 'D', None, 701, "rr.type = 'Allowance'"),
-            ('ALLOWANCE_RTE', 'D', 701, None, "rr.type = 'Allowance'"),
-            ('CLAIMING_SPRNT', 'D', None, 701, "rr.type = 'Claiming'"),
-            ('CLAIMING_RTE', 'D', 701, None, "rr.type = 'Claiming'"),
-            ('STAKES_SPRNT', 'D', None, 701, "rr.type = 'Stakes'"),
-            ('STAKES_RTE', 'D', 701, None, "rr.type = 'Stakes'")
+            ('ALLOWANCE_SPRNT', 'D', None, 1410, "rr.type = 'Allowance'"),
+            ('ALLOWANCE_RTE', 'D', 1410, None, "rr.type = 'Allowance'"),
+            ('CLAIMING_SPRNT', 'D', None, 1410, "rr.type = 'Claiming'"),
+            ('CLAIMING_RTE', 'D', 1410, None, "rr.type = 'Claiming'"),
+            ('STAKES_SPRNT', 'D', None, 1410, "rr.type = 'Stakes'"),
+            ('STAKES_RTE', 'D', 1410, None, "rr.type = 'Stakes'")
         ]
         
         # Initialize stat types in the database

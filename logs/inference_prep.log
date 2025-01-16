@@ -1,9 +1,21 @@
-2025-01-08 16:31:35 - INFO - Logging has been set up successfully.
-2025-01-08 16:31:35 - INFO - Query training_data located and loading from PostgreSQL...
-2025-01-08 16:31:46 - INFO - Decimal columns converted to double.
-2025-01-08 16:31:46 - INFO - Created age_at_race_day.
-2025-01-08 16:47:10 - INFO - Ingestion job for training data succeeded
-2025-01-08 17:06:06 - INFO - Saving training_data DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/training_data.parquet...
-2025-01-08 17:06:06 - INFO - Schema of training_data DataFrame:
-2025-01-08 17:06:10 - INFO - training_data DataFrame saved successfully.
-2025-01-08 17:06:10 - INFO - Closing down clientserver connection
+2025-01-15 14:24:32 - INFO - Logging has been set up successfully.
+2025-01-15 14:24:32 - INFO - Query training_data located and loading from PostgreSQL...
+2025-01-15 14:24:33 - INFO - Data loaded from PostgreSQL in 1.16 seconds.
+2025-01-15 14:32:15 - INFO - Data loaded from PostgreSQL. Count: 395226
+2025-01-15 14:32:15 - INFO - Row count: 395226
+2025-01-15 14:32:15 - INFO - Count operation completed in 463.36 seconds.
+2025-01-15 14:32:15 - INFO - Checking for duplicates on primary keys...
+2025-01-15 14:32:16 - INFO - Number of duplicate records found: 0
+2025-01-15 14:32:16 - INFO - No duplicate records found.
+2025-01-15 14:32:16 - INFO - Convert Decimal Columns to Double.
+2025-01-15 14:32:16 - INFO - Decimal columns converted to double.
+2025-01-15 14:32:16 - INFO - Imputing date_of_birth with median date.
+2025-01-15 14:32:16 - INFO - Created age_at_race_day.
+2025-01-15 14:32:16 - INFO - Imputing categorical and numeric columns.
+2025-01-15 14:32:16 - INFO - Filling missing values for columns.
+2025-01-15 14:32:17 - INFO - Numeric columns cast to double.
+2025-01-15 14:32:19 - INFO - Starting the write to parquet.
+2025-01-15 14:32:25 - INFO - Data written to Parquet in 5.78 seconds
+2025-01-15 14:32:25 - INFO - Data cleansing complete. train_df being returned.
+2025-01-15 14:32:35 - INFO - Ingestion job for training data succeeded
+2025-01-15 14:32:35 - INFO - Closing down clientserver connection

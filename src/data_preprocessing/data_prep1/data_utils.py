@@ -16,6 +16,7 @@ from pyspark.sql import DataFrame, Window
 from pyspark.ml.linalg import VectorUDT
 import pyspark.sql.functions as F
 from pyspark.ml.functions import vector_to_array
+from datetime import datetime
 
 def haversine(lat1, lon1, lat2, lon2):
     """
@@ -78,11 +79,21 @@ def save_parquet(spark, df, name, parquet_dir):
     logging.info(f"Saving {name} DataFrame to Parquet at {output_path}...")
     logging.info(f"Schema of {name} DataFrame:")
     df.printSchema()
-    df.write.mode("overwrite").parquet(output_path)  
+    
+    # Repartition the DataFrame to an optimal number of partitions
+    df = df.repartition(8)  # Adjust the number based on your system's capabilities
+    
+    # Set Parquet block size
+    spark.conf.set("parquet.block.size", 256 * 1024 * 1024)  # Set block size to 256 MB
+    
+    # Write the DataFrame to Parquet with Snappy compression
+    df.write.mode("overwrite").option("compression", "snappy").parquet(output_path)
+    
+    # Clear Spark cache
     spark.catalog.clearCache()
+    
     logging.info(f"{name} DataFrame saved successfully.")
     return None
-
 
 def gather_statistics(df, df_name):
     """
@@ -230,6 +241,33 @@ def initialize_spark(jdbc_driver_path):
         logging.error(f"An error occurred during Spark initialization: {e}")
         return None
 
+def save_predictions(pred_data, model_name):
+    """
+    Save model predictions to a directory based on today's date.
+
+    :param pred_data: DataFrame containing the predictions
+    :param model_name: Name of the model (e.g., 'xgb', 'lgb', 'cat')
+    """
+    # Define the base directory
+    base_dir = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/predictions"
+
+    # Get today's date in YYYYMMDD format
+    today_date = datetime.today().strftime('%Y%m%d')
+
+    # Create the directory path
+    dir_path = os.path.join(base_dir, today_date)
+
+    # Check if the directory exists, create it if it doesn't
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+
+    # Define the file path
+    file_path = os.path.join(dir_path, f"{model_name}_predictions.csv")
+
+    # Save the DataFrame to CSV
+    pred_data.to_csv(file_path, index=False)
+
+    logging.info(f"Predictions saved to {file_path}")
 
 def identify_and_remove_outliers(df, column):
     """
@@ -1170,4 +1208,3 @@ def troubleshoot_missing_values(df):
         empty_count = df.filter(F.col(col) == "").count()
         print(f"Column '{col}': {empty_count} empty string values.")
         
-    input("Press Enter to continue...")

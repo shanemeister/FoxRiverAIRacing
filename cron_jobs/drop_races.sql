@@ -27,4 +27,8 @@ ON UPDATE RESTRICT;
 -- Drop the view if it exists
 DROP VIEW IF EXISTS public.v_races CASCADE;
 
+DROP VIEW IF EXISTS public.v_sectionals_agg CASCADE;
+
+DROP VIEW IF EXISTS public.v_gpspoint CASCADE;
+
 drop table races cascade;

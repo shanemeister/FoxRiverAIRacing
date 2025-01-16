@@ -16,6 +16,9 @@ from pyspark.sql.functions import (
     min as F_min, max as F_max, datediff,
     lag, count, trim
 )
+from src.data_preprocessing.data_prep1.data_utils import initialize_environment
+from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
+from src.data_preprocessing.horse_recent_form_queries import form_sql_queries
 
 # ------------------------------------------------
 # 1) Basic logging
@@ -101,12 +104,13 @@ def get_db_pool(config):
 # 3) The main "recent form" logic
 # ------------------------------------------------
 def compute_recent_form_metrics(
-    spark,
     race_df,
     workouts_df,
     jdbc_url,
     jdbc_properties,
-    conn=None
+    staging_table,
+    conn=None,
+    db_pool=None
 ):
     """
     For each row in race_df (each (horse_id, race_date, ...)),
@@ -231,8 +235,7 @@ def compute_recent_form_metrics(
         how="left"
     )
 
-    # 10) Write to horse_recent_form
-    staging_table = "horse_recent_form"
+    # 10) Write to horse_recent_form -- staging_table
     # Cast columns to match database schema
     final_df = final_df.withColumn("course_cd", trim(col("course_cd")).cast("string")) \
                     .withColumn("saddle_cloth_number", trim(col("saddle_cloth_number")).cast("string"))
@@ -249,10 +252,168 @@ def compute_recent_form_metrics(
         .save()
     )
 
-    logging.info("Finished writing row-based recent form metrics.")
+    add_pk_and_indexes(db_pool, staging_table)
+    logging.info(f"Finished writing aggregated form per horse per race {staging_table}.")
     if conn:
         conn.close()
 
+def add_pk_and_indexes(db_pool, output_table):
+        try:
+            if output_table == "horse_form_agg":    
+                ddl_statements = [
+                    f"ALTER TABLE {output_table} ADD PRIMARY KEY (horse_id, as_of_date)",
+                    f"CREATE INDEX idx_{output_table}_horse_id ON {output_table} (horse_id)",
+                    f"CREATE INDEX idx_{output_table}_as_of_date ON {output_table} (as_of_date)"
+                ]
+            elif output_table == "horse_recent_form":
+                ddl_statements = [
+                    f"ALTER TABLE {output_table} ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)",
+                    f"CREATE INDEX idx_{output_table}_horse_id ON {output_table} (horse_id)"
+                    ]
+            else:
+                logging.error(f"Unknown table name: {output_table}")
+                return
+                
+            conn = None
+            # Borrow a connection from the pool
+            conn = db_pool.getconn()
+            conn.autocommit = True
+            with conn.cursor() as cursor:
+                for ddl in ddl_statements:
+                    print(f"Executing: {ddl}")
+                    cursor.execute(ddl)
+                    # no results, just a command
+                print("DDL statements executed successfully.")            
+        except Exception as e:
+            print(f"Error executing DDL: {e}")
+        finally:
+            if conn:
+                db_pool.putconn(conn)
+            
+def compute_horse_form_agg(
+    spark,
+    jdbc_url,
+    jdbc_properties,
+    conn=None,
+    output_table="horse_form_agg",
+    db_pool=None
+):
+    """
+    Reads from 'horse_recent_form' (already built by compute_recent_form_metrics),
+    and for each (horse_id, race_date) row, aggregates:
+      - last 5 races' finishing position, speed rating, etc.
+      - picks the single 'most recent' race info for prev_speed, days_off, etc.
+    Writes the final DataFrame to `horse_form_agg` (or a specified table).
+    """
+
+    # 1) Load the entire 'horse_recent_form' from Postgres
+    horse_rf_df = (
+        spark.read.format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", "horse_recent_form")  # or schema.horse_recent_form
+        .option("user", jdbc_properties["user"])
+        .option("driver", jdbc_properties["driver"])
+        .load()
+    )
+
+    # Convert race_date to actual date type
+    horse_rf_df = horse_rf_df.withColumn("race_date", F.to_date(F.col("race_date")))
+
+    # 2) We'll define a Window partitioned by (horse_id) and ordered by race_date ascending
+    #    so for each row, we can find the "up to 5 prior races"
+    w_asc = Window.partitionBy("horse_id").orderBy("race_date")
+
+    # a) row_number -> ascending by date
+    #    So row_number=1 is the earliest race, row_number=2 next, etc.
+    df_asc = horse_rf_df.withColumn("rn_asc", F.row_number().over(w_asc))
+
+    # b) We'll define another window for "the last 5 races up to (and including) the current row."
+    #    rowBetween(-4, 0) => the current row plus 4 preceding
+    w_last_5 = w_asc.rowsBetween(-4, 0)
+
+    # c) Compute aggregates over the last 5 (including current race). 
+    #    If you strictly want "prior 5 races (excluding this one)," use rowsBetween(-5, -1).
+    df_agg_5 = (
+        df_asc
+        .withColumn("count_races_5", F.count("*").over(w_last_5))
+        .withColumn("avg_fin_5", F.avg("official_fin").over(w_last_5))
+        .withColumn("avg_speed_5", F.avg("speed_rating").over(w_last_5))
+        .withColumn("best_speed_5", F.max("speed_rating").over(w_last_5))
+        .withColumn("avg_beaten_len_5", F.avg("beaten_len").over(w_last_5))
+        .withColumn("min_race_date_5", F.min("race_date").over(w_last_5))
+        .withColumn("max_race_date_5", F.max("race_date").over(w_last_5))
+
+        .withColumn("avg_dist_bk_gate1_5", F.avg("dist_bk_gate1").over(w_last_5))
+        .withColumn("avg_dist_bk_gate2_5", F.avg("dist_bk_gate2").over(w_last_5))
+        .withColumn("avg_dist_bk_gate3_5", F.avg("dist_bk_gate3").over(w_last_5))
+        .withColumn("avg_dist_bk_gate4_5", F.avg("dist_bk_gate4").over(w_last_5))
+        .withColumn("avg_speed_fullrace_5", F.avg("avg_speed_fullrace").over(w_last_5))
+        .withColumn("avg_stride_length_5", F.avg("avg_stride_length").over(w_last_5))
+        .withColumn("avg_strfreq_q1_5", F.avg("strfreq_q1").over(w_last_5))
+        .withColumn("avg_strfreq_q2_5", F.avg("strfreq_q2").over(w_last_5))
+        .withColumn("avg_strfreq_q3_5", F.avg("strfreq_q3").over(w_last_5))
+        .withColumn("avg_strfreq_q4_5", F.avg("strfreq_q4").over(w_last_5))
+    )
+
+    # 3) The single "most recent race" info for prev_speed, speed_improvement, days_off, etc.
+    #    Actually, in each row, that info is *already* from this row in horse_recent_form,
+    #    so we can just rename or keep them. We'll treat "race_date" as the "as_of_date."
+
+    # 4) We'll select the columns we want in the final table, using the "as_of_date = race_date" approach
+    final_cols = [
+        "horse_id",
+        F.col("race_date").alias("as_of_date"),
+
+        # 5-race aggregates
+        F.col("count_races_5").alias("total_races_5"),
+        "avg_fin_5",
+        "avg_speed_5",
+        F.col("best_speed_5").alias("best_speed"),
+        "avg_beaten_len_5",
+        F.col("min_race_date_5").alias("first_race_date_5"),
+        F.col("max_race_date_5").alias("most_recent_race_5"),
+
+        "avg_dist_bk_gate1_5",
+        "avg_dist_bk_gate2_5",
+        "avg_dist_bk_gate3_5",
+        "avg_dist_bk_gate4_5",
+        "avg_speed_fullrace_5",
+        "avg_stride_length_5",
+        "avg_strfreq_q1_5",
+        "avg_strfreq_q2_5",
+        "avg_strfreq_q3_5",
+        "avg_strfreq_q4_5",
+
+        # Single-race columns from this row
+        "prev_speed",
+        "speed_improvement",
+        "prev_race_date",
+        "days_off",
+        "layoff_cat",
+        "avg_workout_rank_3",
+        "count_workouts_3"
+    ]
+
+    final_df = df_agg_5.select(*final_cols)
+
+    # 5) Write out to Postgres table "horse_form_agg" (or a name you pass in)
+    logging.info(f"Writing aggregated horse form to {output_table} ...")
+
+    (
+        final_df.write.format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", output_table)
+        .option("user", jdbc_properties["user"])
+        .option("driver", jdbc_properties["driver"])
+        .mode("overwrite")  # or "append"
+        .save()
+    )
+
+    add_pk_and_indexes(db_pool, output_table)
+    logging.info(f"Finished writing aggregated form to {output_table}.")
+    if conn:
+        conn.close()
+        
 # ------------------------------------------------
 # 4) main
 # ------------------------------------------------
@@ -266,10 +427,6 @@ def main():
     db_pool = get_db_pool(config)
 
     # 1) Initialize your SparkSession and load data
-    from src.data_preprocessing.data_prep1.data_utils import initialize_environment
-    from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
-    from src.data_preprocessing.horse_recent_form_queries import form_sql_queries
-
     spark, jdbc_url, jdbc_properties, parquet_dir, _ = initialize_environment()
 
     # Suppose we have a dictionary of queries
@@ -300,14 +457,24 @@ def main():
         workouts_df = spark.createDataFrame([], race_df.schema)
     # 2) Compute
     compute_recent_form_metrics(
-        spark=spark,
         race_df=race_df,
         workouts_df=workouts_df,
         jdbc_url=jdbc_url,
         jdbc_properties=jdbc_properties,
-        conn=None
+        staging_table="horse_recent_form",
+        conn=None,
+        db_pool=db_pool
     )
 
+    compute_horse_form_agg(
+        spark,
+        jdbc_url=jdbc_url,
+        jdbc_properties=jdbc_properties,
+        conn=None,
+        output_table="horse_form_agg",
+        db_pool=db_pool
+    )
+    
     # 3) Cleanup
     spark.stop()
     logging.info("Spark session stopped.")

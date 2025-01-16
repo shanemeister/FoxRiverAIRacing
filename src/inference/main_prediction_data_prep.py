@@ -6,12 +6,13 @@ import argparse
 from datetime import datetime
 import configparser
 from src.data_preprocessing.data_prep2.data_healthcheck import time_series_data_healthcheck, dataframe_summary
-from src.data_preprocessing.data_prep1.data_utils import (
-    save_parquet
-)
+from src.data_preprocessing.data_prep1.data_utils import save_parquet
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment
 from src.inference.load_prediction_data import load_base_inference_data
 from src.inference.load_training_data import load_base_training_data
+from src.inference.make_predictions_cat import make_cat_predictions
+from catboost import CatBoostRanker
+
 def setup_logging():
     """Sets up logging configuration to write logs to a file and the console."""
     try:
@@ -87,29 +88,63 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     print(f"Script_dir: {script_dir}")
 
-    # Figure out which modes to run
-    # If no arguments => run both
-    # If "prediction" => run prediction steps
-    # If "train" => run training steps
-    args = sys.argv[1:]
-    run_prediction = False
-    run_train = False
+    # Parse arguments
+    args = sys.argv[1:]  # excluding script name
+    num_args = len(args)
 
-    if not args:
-        # No arguments => run both
-        run_prediction = True
-        run_train = True
-    else:
-        # Parse each argument
-        for arg in args:
-            arg_lower = arg.lower()
-            if arg_lower == "prediction":
-                run_prediction = True
-            elif arg_lower == "train":
-                run_train = True
+    # Booleans to control logic
+    do_train_data = False
+    do_pred_data = False
+    predict_cat = False
+
+    # 1) No arguments => run train_data only
+    if num_args == 0:
+        do_train_data = True
+
+    # 2) Exactly 1 argument => must be "train_data" or "pred_data"
+    elif num_args == 1:
+        arg_lower = args[0].lower()
+        if arg_lower == "train_data":
+            do_train_data = True
+        elif arg_lower == "pred_data":
+            do_pred_data = True
+        else:
+            print(f"ERROR: Invalid single argument '{args[0]}'. "
+                  f"Must be 'train_data' or 'pred_data'.")
+            sys.exit(1)
+
+    # 3) Exactly 2 arguments => must be "predict" + a number (1 or 2)
+    elif num_args == 2:
+        arg1_lower = args[0].lower()
+        arg2_lower = args[1].lower()
+
+        # Must be "predict" + ("1" or "2")
+        if arg1_lower == "predict":
+            # If second arg == "1" => XGB; if "2" => CatBoost
+            if arg2_lower == "1":
+                do_pred_data = True
+                predict_xgb = True
+            elif arg2_lower == "2":
+                do_pred_data = True
+                predict_cat = True
             else:
-                print(f"Unknown argument: {arg}. Valid arguments are 'prediction' or 'train'.")
+                print(f"ERROR: Invalid second argument '{args[1]}'. "
+                      f"When first arg is 'predict', second must be '1' or '2' for XGB/LGB or CAT.")
                 sys.exit(1)
+        else:
+            print(f"ERROR: Invalid arguments '{args[0]} {args[1]}'. "
+                  f"Must be 'predict 1' or 'predict 2'.")
+            sys.exit(1)
+
+    # More than 2 arguments => error
+    else:
+        print("ERROR: Too many arguments. Usage examples:")
+        print("  no args -> runs train_data")
+        print("  train_data")
+        print("  pred_data")
+        print("  predict 1  (XGB)")
+        print("  predict 2  (CATBoost)")
+        sys.exit(1)
 
     spark = None
     try:
@@ -120,22 +155,36 @@ def main():
             spark.catalog.clearCache()
             setup_logging()
 
-            # 1) If asked to do "prediction" or if no args => run inference data load
-            if run_prediction:
-                predict = load_base_inference_data(spark, jdbc_url, jdbc_properties, parquet_dir)
-                healthcheck_report = time_series_data_healthcheck(predict)
-                pprint.pprint(healthcheck_report)
-                logging.info("Ingestion job for predictions succeeded")
-                save_parquet(spark, predict, "predict", parquet_dir)
-
-            # 2) If asked to do "train" or if no args => run training data load
-            if run_train:
+            # If user requested train_data or no args => run training data ingestion
+            if do_train_data:
+                print("Running training data ingestion steps...")
                 training_data = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
                 healthcheck_report = time_series_data_healthcheck(training_data)
                 pprint.pprint(healthcheck_report)
                 logging.info("Ingestion job for training data succeeded")
-                input("Press Enter to continue...")
-                save_parquet(spark, training_data, "training_data", parquet_dir)
+                # Possibly call some function: save_parquet(...) if needed
+                # input("Press Enter to continue...") # if you want a pause
+
+            # If user requested pred_data => run inference data ingestion
+            if do_pred_data:
+                print("Running pred_data ingestion steps...")
+                upcoming_races = load_base_inference_data(spark, jdbc_url, jdbc_properties, parquet_dir)
+                healthcheck_report = time_series_data_healthcheck(upcoming_races)
+                pprint.pprint(healthcheck_report)
+                logging.info("Ingestion job for pred_data succeeded")
+                save_parquet(spark, upcoming_races, "upcoming_races", parquet_dir)
+
+            # If user requested "predict 2" => run CatBoost predictions
+            if predict_cat:
+                upcoming_races = upcoming_races.toPandas()
+                    # Load the saved CatBoost model
+                final_model = CatBoostRanker()
+                final_model.load_model(
+                    "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/models/catboost_984316_2025-01-12_final.cbm",
+                    format="cbm"
+                )
+
+                make_cat_predictions(upcoming_races, final_model)
 
         except Exception as e:
             print(f"An error occurred during initialization: {e}")
@@ -147,6 +196,7 @@ def main():
         if spark:
             spark.stop()
             print("Spark session stopped.")
+
 
 if __name__ == "__main__":
     main()
