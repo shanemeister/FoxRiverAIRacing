@@ -2,6 +2,7 @@
 ./data
 /data/
 .env
+*.cbm
 config.ini
 ./cron_logs
 ./cron_logs/*
