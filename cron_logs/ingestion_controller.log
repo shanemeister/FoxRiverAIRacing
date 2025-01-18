@@ -2140,3 +2140,39 @@ Skipping MultiLineString
 2025-01-16 03:01:03 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
 2025-01-16 03:01:59 - Sync to S3 succeeded
 2025-01-16 03:01:59 - Job completed
+2025-01-17 03:00:01 - Starting ingestion job
+2025-01-17 03:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-17 03:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+INFO:root:Password found in configuration. Using provided password.
+INFO:root:Connection pool created successfully.
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py:202: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  speed = pd.read_sql_query(query, conn)
+Script_dir: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion
+2025-01-17 03:00:02 - Python script succeeded
+2025-01-17 03:00:02 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-01-17 03:00:55 - Sync to S3 succeeded
+2025-01-17 03:00:55 - Job completed
+2025-01-18 03:00:01 - Starting ingestion job
+2025-01-18 03:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-18 03:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+INFO:root:Password found in configuration. Using provided password.
+INFO:root:Connection pool created successfully.
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py:202: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  speed = pd.read_sql_query(query, conn)
+Script_dir: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion
+2025-01-18 03:00:02 - Python script succeeded
+2025-01-18 03:00:02 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-01-18 03:00:55 - Sync to S3 succeeded
+2025-01-18 03:00:55 - Job completed
+2025-01-18 11:29:11 - Starting ingestion job
+2025-01-18 11:29:11 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-18 11:29:11 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+INFO:root:Password found in configuration. Using provided password.
+INFO:root:Connection pool created successfully.
+/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py:202: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  speed = pd.read_sql_query(query, conn)
+Script_dir: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion
+2025-01-18 11:29:12 - Python script succeeded
+2025-01-18 11:29:12 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-01-18 11:30:05 - Sync to S3 succeeded
+2025-01-18 11:30:05 - Job completed

@@ -66,6 +66,27 @@ def convert_processed_spark_to_pandas(spark, parquet_dir):
 
     return df_pandas
 
+def save_pandas_parquet(df, name, parquet_dir):
+    """
+    Save a pandas DataFrame as a Parquet file.
+    
+    :param df: pandas DataFrame to save
+    :param name: Name of the DataFrame (used for the file name)
+    :param parquet_dir: Directory to save the Parquet file
+    :return: None
+    """
+    output_path = os.path.join(parquet_dir, f"{name}.parquet")
+    logging.info(f"Saving {name} DataFrame to Parquet at {output_path}...")
+    logging.info(f"Schema of {name} DataFrame:")
+    logging.info(df.dtypes)
+    
+    # Write the DataFrame to Parquet with Snappy compression
+    df.to_parquet(output_path, compression='snappy', index=False)
+    
+    logging.info(f"{name} DataFrame saved successfully.")
+    return None
+
+
 def save_parquet(spark, df, name, parquet_dir):
     """
     Save a PySpark DataFrame as a Parquet file.
@@ -156,10 +177,6 @@ def initialize_environment():
     jdbc_driver_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/jdbc/postgresql-42.7.4.jar"
     parquet_dir = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/"
     os.makedirs(parquet_dir, exist_ok=True)
-    
-    # Clear the log file by opening it in write mode
-    with open(log_file, 'w'):
-        pass  # This will truncate the file without writing anything
     
     # Load configuration
     config = load_config(config_path)

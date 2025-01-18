@@ -584,3 +584,36 @@
 2025-01-16 02:08:10 - Job completed
 2025-01-16 02:00:01 - Results: 385 files, PlusPro: 56 files, Backup: Success
 2025-01-16 02:08:10 - Job completed
+2025-01-17 02:00:01 - Starting ingestion job
+2025-01-17 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-17 02:00:01 - Starting download job
+2025-01-17 02:04:49 - Download job succeeded
+2025-01-17 02:04:49 - Results files downloaded: 385
+2025-01-17 02:04:49 - PlusPro files downloaded: 75
+2025-01-17 02:04:49 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-01-17 02:09:09 - Sync to S3 succeeded
+2025-01-17 02:09:09 - Job completed
+2025-01-17 02:00:01 - Results: 385 files, PlusPro: 75 files, Backup: Success
+2025-01-17 02:09:09 - Job completed
+2025-01-18 02:00:01 - Starting ingestion job
+2025-01-18 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-18 02:00:01 - Starting download job
+2025-01-18 02:04:56 - Download job succeeded
+2025-01-18 02:04:56 - Results files downloaded: 394
+2025-01-18 02:04:56 - PlusPro files downloaded: 93
+2025-01-18 02:04:56 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-01-18 02:07:54 - Sync to S3 succeeded
+2025-01-18 02:07:54 - Job completed
+2025-01-18 02:00:01 - Results: 394 files, PlusPro: 93 files, Backup: Success
+2025-01-18 02:07:54 - Job completed
+2025-01-18 11:19:42 - Starting ingestion job
+2025-01-18 11:19:42 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-18 11:19:42 - Starting download job
+2025-01-18 11:25:15 - Download job succeeded
+2025-01-18 11:25:15 - Results files downloaded: 389
+2025-01-18 11:25:15 - PlusPro files downloaded: 88
+2025-01-18 11:25:15 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-01-18 11:28:11 - Sync to S3 succeeded
+2025-01-18 11:28:11 - Job completed
+2025-01-18 11:19:42 - Results: 389 files, PlusPro: 88 files, Backup: Success
+2025-01-18 11:28:11 - Job completed

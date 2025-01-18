@@ -1,8 +1,5 @@
-# Define SQL queries without trailing semicolons
-def full_query_df():
-    # Define SQL queries without trailing semicolons
-    queries = {
-        "speed_figure": """
+2025-01-18 11:30:24 - INFO - Logging has been set up successfully.
+2025-01-18 11:30:24 - ERROR - Error during data processing: Execution failed on sql '
     SELECT 
         c.course_cd,
         c.track_name,
@@ -53,6 +50,8 @@ def full_query_df():
         AND r.course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
                             'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
                             'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
-        """
-    }
-    return queries
+        ': relation "v_races" does not exist
+LINE 20:         v_races r
+                 ^
+
+2025-01-18 11:30:24 - INFO - All tasks completed. DB pool closed.
