@@ -1,320 +1,322 @@
-2025-01-16 01:10:10 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: YetiRank:top=1
-2025-01-16 01:10:10 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:10:26 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: YetiRank:top=1
-2025-01-16 01:10:26 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:10:38 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: YetiRank:top=1
-2025-01-16 01:10:38 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:10:51 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: YetiRank:top=1
-2025-01-16 01:10:51 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:11:07 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: YetiRank:top=1
-2025-01-16 01:11:07 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:11:36 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: YetiRank:top=1
-2025-01-16 01:11:36 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:11:45 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: YetiRank:top=1
-2025-01-16 01:11:45 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:11:58 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: YetiRank:top=1
-2025-01-16 01:11:58 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:12:34 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: YetiRank:top=1
-2025-01-16 01:12:34 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:12:56 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: YetiRank:top=1
-2025-01-16 01:12:56 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:13:11 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: YetiRank:top=1
-2025-01-16 01:13:11 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:13:27 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: YetiRank:top=1
-2025-01-16 01:13:27 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:13:37 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: YetiRank:top=1
-2025-01-16 01:13:37 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:13:47 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: YetiRank:top=1
-2025-01-16 01:13:47 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:14:14 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: YetiRank:top=1
-2025-01-16 01:14:14 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:14:29 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: YetiRank:top=1
-2025-01-16 01:14:29 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:14:38 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: YetiRank:top=1
-2025-01-16 01:14:38 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:14:54 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: YetiRank:top=1
-2025-01-16 01:14:54 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:15:05 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: YetiRank:top=1
-2025-01-16 01:15:05 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:15:31 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: YetiRank:top=1
-2025-01-16 01:15:31 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:19:14 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: YetiRank:top=2
-2025-01-16 01:19:14 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:19:23 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: YetiRank:top=2
-2025-01-16 01:19:23 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:19:26 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: YetiRank:top=2
-2025-01-16 01:19:26 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:19:46 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: YetiRank:top=2
-2025-01-16 01:19:46 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:20:07 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: YetiRank:top=2
-2025-01-16 01:20:07 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:20:19 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: YetiRank:top=2
-2025-01-16 01:20:19 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:20:41 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: YetiRank:top=2
-2025-01-16 01:20:41 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:20:58 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: YetiRank:top=2
-2025-01-16 01:20:58 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:21:17 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: YetiRank:top=2
-2025-01-16 01:21:17 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:21:34 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: YetiRank:top=2
-2025-01-16 01:21:34 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:22:00 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: YetiRank:top=2
-2025-01-16 01:22:00 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:22:10 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: YetiRank:top=2
-2025-01-16 01:22:10 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:22:12 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: YetiRank:top=2
-2025-01-16 01:22:12 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:22:17 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: YetiRank:top=2
-2025-01-16 01:22:17 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:22:24 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: YetiRank:top=2
-2025-01-16 01:22:24 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:22:39 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: YetiRank:top=2
-2025-01-16 01:22:39 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:22:48 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: YetiRank:top=2
-2025-01-16 01:22:48 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:22:57 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: YetiRank:top=2
-2025-01-16 01:22:57 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:23:14 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: YetiRank:top=2
-2025-01-16 01:23:14 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:23:25 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: YetiRank:top=2
-2025-01-16 01:23:25 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:25:18 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: YetiRank:top=3
-2025-01-16 01:25:18 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:25:31 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: YetiRank:top=3
-2025-01-16 01:25:31 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:26:02 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: YetiRank:top=3
-2025-01-16 01:26:02 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:26:14 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: YetiRank:top=3
-2025-01-16 01:26:14 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:26:33 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: YetiRank:top=3
-2025-01-16 01:26:33 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:27:00 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: YetiRank:top=3
-2025-01-16 01:27:00 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:27:16 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: YetiRank:top=3
-2025-01-16 01:27:16 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:27:43 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: YetiRank:top=3
-2025-01-16 01:27:43 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:28:02 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: YetiRank:top=3
-2025-01-16 01:28:02 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:28:19 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: YetiRank:top=3
-2025-01-16 01:28:19 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:28:50 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: YetiRank:top=3
-2025-01-16 01:28:50 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:28:58 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: YetiRank:top=3
-2025-01-16 01:28:58 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:29:26 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: YetiRank:top=3
-2025-01-16 01:29:26 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:29:45 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: YetiRank:top=3
-2025-01-16 01:29:45 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:30:01 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: YetiRank:top=3
-2025-01-16 01:30:01 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:30:19 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: YetiRank:top=3
-2025-01-16 01:30:19 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:30:38 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: YetiRank:top=3
-2025-01-16 01:30:38 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:30:43 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: YetiRank:top=3
-2025-01-16 01:30:43 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:30:55 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: YetiRank:top=3
-2025-01-16 01:30:55 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:31:17 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: YetiRank:top=3
-2025-01-16 01:31:17 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:34:24 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: YetiRank:top=4
-2025-01-16 01:34:24 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:34:33 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: YetiRank:top=4
-2025-01-16 01:34:33 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:34:57 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: YetiRank:top=4
-2025-01-16 01:34:57 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:35:19 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: YetiRank:top=4
-2025-01-16 01:35:19 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:35:40 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: YetiRank:top=4
-2025-01-16 01:35:40 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:35:52 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: YetiRank:top=4
-2025-01-16 01:35:52 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:36:04 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: YetiRank:top=4
-2025-01-16 01:36:04 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:36:30 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: YetiRank:top=4
-2025-01-16 01:36:30 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:36:39 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: YetiRank:top=4
-2025-01-16 01:36:39 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:37:07 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: YetiRank:top=4
-2025-01-16 01:37:07 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:37:20 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: YetiRank:top=4
-2025-01-16 01:37:20 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:37:32 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: YetiRank:top=4
-2025-01-16 01:37:32 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:38:00 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: YetiRank:top=4
-2025-01-16 01:38:00 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:38:15 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: YetiRank:top=4
-2025-01-16 01:38:15 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:38:28 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: YetiRank:top=4
-2025-01-16 01:38:28 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:38:35 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: YetiRank:top=4
-2025-01-16 01:38:35 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:38:58 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: YetiRank:top=4
-2025-01-16 01:38:58 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:39:10 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: YetiRank:top=4
-2025-01-16 01:39:10 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:39:24 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: YetiRank:top=4
-2025-01-16 01:39:24 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:39:40 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: YetiRank:top=4
-2025-01-16 01:39:40 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 01:41:54 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: QueryRMSE
-2025-01-16 01:41:54 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:42:01 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: QueryRMSE
-2025-01-16 01:42:01 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:42:10 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: QueryRMSE
-2025-01-16 01:42:10 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:42:27 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: QueryRMSE
-2025-01-16 01:42:27 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:42:32 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: QueryRMSE
-2025-01-16 01:42:32 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:42:53 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: QueryRMSE
-2025-01-16 01:42:53 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:43:04 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: QueryRMSE
-2025-01-16 01:43:04 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:43:19 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: QueryRMSE
-2025-01-16 01:43:19 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:43:38 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: QueryRMSE
-2025-01-16 01:43:38 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:43:49 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: QueryRMSE
-2025-01-16 01:43:49 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:43:59 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: QueryRMSE
-2025-01-16 01:43:59 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:44:07 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: QueryRMSE
-2025-01-16 01:44:07 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:44:14 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: QueryRMSE
-2025-01-16 01:44:14 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:44:26 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: QueryRMSE
-2025-01-16 01:44:26 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:44:41 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: QueryRMSE
-2025-01-16 01:44:41 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:44:53 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: QueryRMSE
-2025-01-16 01:44:53 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:45:02 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: QueryRMSE
-2025-01-16 01:45:02 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:45:14 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: QueryRMSE
-2025-01-16 01:45:14 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:45:25 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: QueryRMSE
-2025-01-16 01:45:25 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:45:41 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: QueryRMSE
-2025-01-16 01:45:41 - INFO - Eval Metric: NDCG:top=1
-2025-01-16 01:47:01 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: QueryRMSE
-2025-01-16 01:47:01 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:47:14 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: QueryRMSE
-2025-01-16 01:47:14 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:47:22 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: QueryRMSE
-2025-01-16 01:47:22 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:47:28 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: QueryRMSE
-2025-01-16 01:47:28 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:47:43 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: QueryRMSE
-2025-01-16 01:47:43 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:47:49 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: QueryRMSE
-2025-01-16 01:47:49 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:48:01 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: QueryRMSE
-2025-01-16 01:48:01 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:48:18 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: QueryRMSE
-2025-01-16 01:48:18 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:48:26 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: QueryRMSE
-2025-01-16 01:48:26 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:48:33 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: QueryRMSE
-2025-01-16 01:48:33 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:48:42 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: QueryRMSE
-2025-01-16 01:48:42 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:48:51 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: QueryRMSE
-2025-01-16 01:48:51 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:48:58 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: QueryRMSE
-2025-01-16 01:48:58 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:49:18 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: QueryRMSE
-2025-01-16 01:49:18 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:49:32 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: QueryRMSE
-2025-01-16 01:49:32 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:49:51 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: QueryRMSE
-2025-01-16 01:49:51 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:50:05 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: QueryRMSE
-2025-01-16 01:50:05 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:50:18 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: QueryRMSE
-2025-01-16 01:50:18 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:50:38 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: QueryRMSE
-2025-01-16 01:50:38 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:51:05 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: QueryRMSE
-2025-01-16 01:51:05 - INFO - Eval Metric: NDCG:top=2
-2025-01-16 01:54:28 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: QueryRMSE
-2025-01-16 01:54:28 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:54:38 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: QueryRMSE
-2025-01-16 01:54:38 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:54:45 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: QueryRMSE
-2025-01-16 01:54:45 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:54:53 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: QueryRMSE
-2025-01-16 01:54:53 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:54:59 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: QueryRMSE
-2025-01-16 01:54:59 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:55:14 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: QueryRMSE
-2025-01-16 01:55:14 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:55:25 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: QueryRMSE
-2025-01-16 01:55:25 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:55:44 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: QueryRMSE
-2025-01-16 01:55:44 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:55:54 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: QueryRMSE
-2025-01-16 01:55:54 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:56:01 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: QueryRMSE
-2025-01-16 01:56:01 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:56:13 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: QueryRMSE
-2025-01-16 01:56:13 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:56:35 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: QueryRMSE
-2025-01-16 01:56:35 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:56:55 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: QueryRMSE
-2025-01-16 01:56:55 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:57:17 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: QueryRMSE
-2025-01-16 01:57:17 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:57:31 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: QueryRMSE
-2025-01-16 01:57:31 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:57:47 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: QueryRMSE
-2025-01-16 01:57:47 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:58:04 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: QueryRMSE
-2025-01-16 01:58:04 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:58:16 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: QueryRMSE
-2025-01-16 01:58:16 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:58:26 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: QueryRMSE
-2025-01-16 01:58:26 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 01:58:35 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: QueryRMSE
-2025-01-16 01:58:35 - INFO - Eval Metric: NDCG:top=3
-2025-01-16 02:00:41 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: QueryRMSE
-2025-01-16 02:00:41 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:00:58 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: QueryRMSE
-2025-01-16 02:00:58 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:01:12 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: QueryRMSE
-2025-01-16 02:01:12 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:01:20 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: QueryRMSE
-2025-01-16 02:01:20 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:01:35 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: QueryRMSE
-2025-01-16 02:01:35 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:01:48 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: QueryRMSE
-2025-01-16 02:01:48 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:02:02 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: QueryRMSE
-2025-01-16 02:02:02 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:02:11 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: QueryRMSE
-2025-01-16 02:02:11 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:02:26 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: QueryRMSE
-2025-01-16 02:02:26 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:02:35 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: QueryRMSE
-2025-01-16 02:02:35 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:02:49 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: QueryRMSE
-2025-01-16 02:02:49 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:02:57 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: QueryRMSE
-2025-01-16 02:02:57 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:03:08 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: QueryRMSE
-2025-01-16 02:03:08 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:03:17 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: QueryRMSE
-2025-01-16 02:03:17 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:03:30 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: QueryRMSE
-2025-01-16 02:03:30 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:03:53 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: QueryRMSE
-2025-01-16 02:03:53 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:04:03 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: QueryRMSE
-2025-01-16 02:04:03 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:04:26 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: QueryRMSE
-2025-01-16 02:04:26 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:04:35 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: QueryRMSE
-2025-01-16 02:04:35 - INFO - Eval Metric: NDCG:top=4
-2025-01-16 02:05:03 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: QueryRMSE
-2025-01-16 02:05:03 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 19:39:01 - INFO - Logging has been set up successfully.
+2025-01-18 19:39:09 - INFO - Logging set up for CAT Model Training
+2025-01-18 19:40:27 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: YetiRank:top=1
+2025-01-18 19:40:27 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:40:58 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: YetiRank:top=1
+2025-01-18 19:40:58 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:41:28 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: YetiRank:top=1
+2025-01-18 19:41:28 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:41:44 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: YetiRank:top=1
+2025-01-18 19:41:44 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:41:57 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: YetiRank:top=1
+2025-01-18 19:41:57 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:42:13 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: YetiRank:top=1
+2025-01-18 19:42:13 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:42:16 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: YetiRank:top=1
+2025-01-18 19:42:16 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:42:30 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: YetiRank:top=1
+2025-01-18 19:42:30 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:42:45 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: YetiRank:top=1
+2025-01-18 19:42:45 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:43:11 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: YetiRank:top=1
+2025-01-18 19:43:11 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:43:24 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: YetiRank:top=1
+2025-01-18 19:43:24 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:43:35 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: YetiRank:top=1
+2025-01-18 19:43:35 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:44:12 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: YetiRank:top=1
+2025-01-18 19:44:12 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:44:38 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: YetiRank:top=1
+2025-01-18 19:44:38 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:45:11 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: YetiRank:top=1
+2025-01-18 19:45:11 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:45:28 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: YetiRank:top=1
+2025-01-18 19:45:28 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:46:02 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: YetiRank:top=1
+2025-01-18 19:46:02 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:46:26 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: YetiRank:top=1
+2025-01-18 19:46:26 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:46:56 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: YetiRank:top=1
+2025-01-18 19:46:56 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:47:02 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: YetiRank:top=1
+2025-01-18 19:47:02 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 19:53:07 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: YetiRank:top=2
+2025-01-18 19:53:07 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:53:20 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: YetiRank:top=2
+2025-01-18 19:53:20 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:53:51 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: YetiRank:top=2
+2025-01-18 19:53:51 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:54:09 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: YetiRank:top=2
+2025-01-18 19:54:09 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:54:38 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: YetiRank:top=2
+2025-01-18 19:54:38 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:54:52 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: YetiRank:top=2
+2025-01-18 19:54:52 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:55:13 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: YetiRank:top=2
+2025-01-18 19:55:13 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:55:31 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: YetiRank:top=2
+2025-01-18 19:55:31 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:55:45 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: YetiRank:top=2
+2025-01-18 19:55:45 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:56:10 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: YetiRank:top=2
+2025-01-18 19:56:10 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:56:28 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: YetiRank:top=2
+2025-01-18 19:56:28 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:56:34 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: YetiRank:top=2
+2025-01-18 19:56:34 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:57:02 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: YetiRank:top=2
+2025-01-18 19:57:02 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:57:19 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: YetiRank:top=2
+2025-01-18 19:57:19 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:57:29 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: YetiRank:top=2
+2025-01-18 19:57:29 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:57:57 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: YetiRank:top=2
+2025-01-18 19:57:57 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:58:10 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: YetiRank:top=2
+2025-01-18 19:58:10 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:58:36 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: YetiRank:top=2
+2025-01-18 19:58:36 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:58:39 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: YetiRank:top=2
+2025-01-18 19:58:39 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 19:58:53 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: YetiRank:top=2
+2025-01-18 19:58:53 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:01:48 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: YetiRank:top=3
+2025-01-18 20:01:48 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:02:07 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: YetiRank:top=3
+2025-01-18 20:02:07 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:02:12 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: YetiRank:top=3
+2025-01-18 20:02:12 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:02:14 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: YetiRank:top=3
+2025-01-18 20:02:14 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:02:34 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: YetiRank:top=3
+2025-01-18 20:02:34 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:02:42 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: YetiRank:top=3
+2025-01-18 20:02:42 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:03:16 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: YetiRank:top=3
+2025-01-18 20:03:16 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:03:30 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: YetiRank:top=3
+2025-01-18 20:03:30 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:03:52 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: YetiRank:top=3
+2025-01-18 20:03:52 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:04:21 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: YetiRank:top=3
+2025-01-18 20:04:21 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:04:31 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: YetiRank:top=3
+2025-01-18 20:04:31 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:04:45 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: YetiRank:top=3
+2025-01-18 20:04:45 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:04:59 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: YetiRank:top=3
+2025-01-18 20:04:59 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:05:17 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: YetiRank:top=3
+2025-01-18 20:05:17 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:05:31 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: YetiRank:top=3
+2025-01-18 20:05:31 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:05:33 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: YetiRank:top=3
+2025-01-18 20:05:33 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:05:55 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: YetiRank:top=3
+2025-01-18 20:05:55 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:06:04 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: YetiRank:top=3
+2025-01-18 20:06:04 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:06:07 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: YetiRank:top=3
+2025-01-18 20:06:07 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:06:24 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: YetiRank:top=3
+2025-01-18 20:06:24 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:10:32 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: YetiRank:top=4
+2025-01-18 20:10:32 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:10:41 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: YetiRank:top=4
+2025-01-18 20:10:41 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:10:55 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: YetiRank:top=4
+2025-01-18 20:10:55 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:11:10 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: YetiRank:top=4
+2025-01-18 20:11:10 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:11:13 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: YetiRank:top=4
+2025-01-18 20:11:13 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:11:27 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: YetiRank:top=4
+2025-01-18 20:11:27 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:11:43 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: YetiRank:top=4
+2025-01-18 20:11:43 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:12:03 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: YetiRank:top=4
+2025-01-18 20:12:03 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:12:19 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: YetiRank:top=4
+2025-01-18 20:12:19 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:12:30 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: YetiRank:top=4
+2025-01-18 20:12:30 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:12:50 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: YetiRank:top=4
+2025-01-18 20:12:50 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:12:59 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: YetiRank:top=4
+2025-01-18 20:12:59 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:13:08 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: YetiRank:top=4
+2025-01-18 20:13:08 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:13:30 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: YetiRank:top=4
+2025-01-18 20:13:30 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:13:41 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: YetiRank:top=4
+2025-01-18 20:13:41 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:13:52 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: YetiRank:top=4
+2025-01-18 20:13:52 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:14:09 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: YetiRank:top=4
+2025-01-18 20:14:09 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:14:20 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: YetiRank:top=4
+2025-01-18 20:14:20 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:14:30 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: YetiRank:top=4
+2025-01-18 20:14:30 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:14:45 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: YetiRank:top=4
+2025-01-18 20:14:45 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:17:08 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: QueryRMSE
+2025-01-18 20:17:08 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:17:27 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: QueryRMSE
+2025-01-18 20:17:27 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:17:36 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: QueryRMSE
+2025-01-18 20:17:36 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:17:44 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: QueryRMSE
+2025-01-18 20:17:44 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:17:56 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: QueryRMSE
+2025-01-18 20:17:56 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:18:06 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: QueryRMSE
+2025-01-18 20:18:06 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:18:22 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: QueryRMSE
+2025-01-18 20:18:22 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:18:34 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: QueryRMSE
+2025-01-18 20:18:34 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:18:42 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: QueryRMSE
+2025-01-18 20:18:42 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:18:54 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: QueryRMSE
+2025-01-18 20:18:54 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:19:05 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: QueryRMSE
+2025-01-18 20:19:05 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:19:11 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: QueryRMSE
+2025-01-18 20:19:11 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:19:20 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: QueryRMSE
+2025-01-18 20:19:20 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:19:28 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: QueryRMSE
+2025-01-18 20:19:28 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:19:41 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: QueryRMSE
+2025-01-18 20:19:41 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:20:03 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: QueryRMSE
+2025-01-18 20:20:03 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:20:18 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: QueryRMSE
+2025-01-18 20:20:18 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:20:40 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: QueryRMSE
+2025-01-18 20:20:40 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:20:52 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: QueryRMSE
+2025-01-18 20:20:52 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:21:09 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: QueryRMSE
+2025-01-18 20:21:09 - INFO - Eval Metric: NDCG:top=1
+2025-01-18 20:23:08 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: QueryRMSE
+2025-01-18 20:23:08 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:23:14 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: QueryRMSE
+2025-01-18 20:23:14 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:23:21 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: QueryRMSE
+2025-01-18 20:23:21 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:23:36 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: QueryRMSE
+2025-01-18 20:23:36 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:23:43 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: QueryRMSE
+2025-01-18 20:23:43 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:24:02 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: QueryRMSE
+2025-01-18 20:24:02 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:24:19 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: QueryRMSE
+2025-01-18 20:24:19 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:24:28 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: QueryRMSE
+2025-01-18 20:24:28 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:24:43 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: QueryRMSE
+2025-01-18 20:24:43 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:25:08 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: QueryRMSE
+2025-01-18 20:25:08 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:25:17 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: QueryRMSE
+2025-01-18 20:25:17 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:25:36 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: QueryRMSE
+2025-01-18 20:25:36 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:25:47 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: QueryRMSE
+2025-01-18 20:25:47 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:25:57 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: QueryRMSE
+2025-01-18 20:25:57 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:26:06 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: QueryRMSE
+2025-01-18 20:26:06 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:26:29 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: QueryRMSE
+2025-01-18 20:26:29 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:26:43 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: QueryRMSE
+2025-01-18 20:26:43 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:26:54 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: QueryRMSE
+2025-01-18 20:26:54 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:27:01 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: QueryRMSE
+2025-01-18 20:27:01 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:27:09 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: QueryRMSE
+2025-01-18 20:27:09 - INFO - Eval Metric: NDCG:top=2
+2025-01-18 20:30:31 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: QueryRMSE
+2025-01-18 20:30:31 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:30:50 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: QueryRMSE
+2025-01-18 20:30:50 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:30:58 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: QueryRMSE
+2025-01-18 20:30:58 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:31:05 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: QueryRMSE
+2025-01-18 20:31:05 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:31:15 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: QueryRMSE
+2025-01-18 20:31:15 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:31:46 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: QueryRMSE
+2025-01-18 20:31:46 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:31:57 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: QueryRMSE
+2025-01-18 20:31:57 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:32:22 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: QueryRMSE
+2025-01-18 20:32:22 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:32:32 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: QueryRMSE
+2025-01-18 20:32:32 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:32:43 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: QueryRMSE
+2025-01-18 20:32:43 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:33:09 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: QueryRMSE
+2025-01-18 20:33:09 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:33:19 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: QueryRMSE
+2025-01-18 20:33:19 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:33:27 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: QueryRMSE
+2025-01-18 20:33:27 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:33:37 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: QueryRMSE
+2025-01-18 20:33:37 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:33:46 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: QueryRMSE
+2025-01-18 20:33:46 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:33:48 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: QueryRMSE
+2025-01-18 20:33:48 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:34:00 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: QueryRMSE
+2025-01-18 20:34:00 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:34:14 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: QueryRMSE
+2025-01-18 20:34:14 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:34:33 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: QueryRMSE
+2025-01-18 20:34:33 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:34:44 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: QueryRMSE
+2025-01-18 20:34:44 - INFO - Eval Metric: NDCG:top=3
+2025-01-18 20:36:09 - INFO - Starting Optuna Training of CAT Boosting model: 0, with objective: QueryRMSE
+2025-01-18 20:36:09 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:36:18 - INFO - Starting Optuna Training of CAT Boosting model: 1, with objective: QueryRMSE
+2025-01-18 20:36:18 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:36:37 - INFO - Starting Optuna Training of CAT Boosting model: 2, with objective: QueryRMSE
+2025-01-18 20:36:37 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:36:49 - INFO - Starting Optuna Training of CAT Boosting model: 3, with objective: QueryRMSE
+2025-01-18 20:36:49 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:37:05 - INFO - Starting Optuna Training of CAT Boosting model: 4, with objective: QueryRMSE
+2025-01-18 20:37:05 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:37:22 - INFO - Starting Optuna Training of CAT Boosting model: 5, with objective: QueryRMSE
+2025-01-18 20:37:22 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:37:35 - INFO - Starting Optuna Training of CAT Boosting model: 6, with objective: QueryRMSE
+2025-01-18 20:37:35 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:37:44 - INFO - Starting Optuna Training of CAT Boosting model: 7, with objective: QueryRMSE
+2025-01-18 20:37:44 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:38:01 - INFO - Starting Optuna Training of CAT Boosting model: 8, with objective: QueryRMSE
+2025-01-18 20:38:01 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:38:07 - INFO - Starting Optuna Training of CAT Boosting model: 9, with objective: QueryRMSE
+2025-01-18 20:38:07 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:38:15 - INFO - Starting Optuna Training of CAT Boosting model: 10, with objective: QueryRMSE
+2025-01-18 20:38:15 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:38:27 - INFO - Starting Optuna Training of CAT Boosting model: 11, with objective: QueryRMSE
+2025-01-18 20:38:27 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:38:32 - INFO - Starting Optuna Training of CAT Boosting model: 12, with objective: QueryRMSE
+2025-01-18 20:38:32 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:38:47 - INFO - Starting Optuna Training of CAT Boosting model: 13, with objective: QueryRMSE
+2025-01-18 20:38:47 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:39:12 - INFO - Starting Optuna Training of CAT Boosting model: 14, with objective: QueryRMSE
+2025-01-18 20:39:12 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:39:24 - INFO - Starting Optuna Training of CAT Boosting model: 15, with objective: QueryRMSE
+2025-01-18 20:39:24 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:39:49 - INFO - Starting Optuna Training of CAT Boosting model: 16, with objective: QueryRMSE
+2025-01-18 20:39:49 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:40:02 - INFO - Starting Optuna Training of CAT Boosting model: 17, with objective: QueryRMSE
+2025-01-18 20:40:02 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:40:24 - INFO - Starting Optuna Training of CAT Boosting model: 18, with objective: QueryRMSE
+2025-01-18 20:40:24 - INFO - Eval Metric: NDCG:top=4
+2025-01-18 20:40:35 - INFO - Starting Optuna Training of CAT Boosting model: 19, with objective: QueryRMSE
+2025-01-18 20:40:35 - INFO - Eval Metric: NDCG:top=4

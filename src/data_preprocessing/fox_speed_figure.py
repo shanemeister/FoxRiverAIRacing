@@ -119,7 +119,19 @@ def create_custom_speed_figure(df: pd.DataFrame) -> pd.DataFrame:
     Then we feed these columns into a CatBoostRegressor to learn a single numeric figure.
     """
     df = df.toPandas()
-
+    # Create race_id for grouping
+    df["race_number"] = df["race_number"].astype(float)
+    df["race_id"] = (
+        df["course_cd"].astype(str) + "_" +
+        df["race_date"].astype(str) + "_" +
+        df["race_number"].astype(str)
+    )
+    
+    df["group_id"] = df["race_id"].astype("category").cat.codes
+    # Sort by race_id for consistency
+    df = df.sort_values("group_id", ascending=True)
+    df.reset_index(drop=True, inplace=True)
+    
     # Convert decimal to doubles:
     decimal_cols = ['distance_meters', 'class_rating', 'previous_class', 'power', 'horse_itm_percentage',
                     'starts', 'official_fin', 'time_behind', 'pace_delta_time']
@@ -161,11 +173,8 @@ def create_custom_speed_figure(df: pd.DataFrame) -> pd.DataFrame:
         "starts",
         "horse_itm_percentage"
     ]
-
-    # *categorical* columns (like track_conditions?)
-    df["horse_id_original"] = df["horse_id"]
     
-    cat_cols = ["horse_id", "course_cd", "track_conditions"]
+    cat_cols = ["course_cd", "track_conditions"]
     # Encode categorical columns
     for c in cat_cols:
         lbl = LabelEncoder()
@@ -243,6 +252,7 @@ def main():
         top_4_move_up = spark_df.filter(
             (spark_df["official_fin"] <= 4) & (spark_df["class_rating"] >= spark_df["previous_class"])
         ).select(
+            "race_id",
             "horse_id", 
             "official_fin", 
             "class_rating", 
@@ -257,6 +267,7 @@ def main():
         top_4_move_down = spark_df.filter(
             (spark_df["official_fin"] <= 4) & (spark_df["class_rating"] <= spark_df["previous_class"])
         ).select(
+            "race_id",
             "horse_id", 
             "official_fin", 
             "class_rating", 
@@ -271,6 +282,7 @@ def main():
         botton_move_up = spark_df.filter(
             (spark_df["official_fin"] >= 5) & (spark_df["class_rating"] >= spark_df["previous_class"])
         ).select(
+            "race_id",
             "horse_id", 
             "official_fin", 
             "class_rating", 
@@ -285,6 +297,7 @@ def main():
         bottom_move_down = spark_df.filter(
             (spark_df["official_fin"] <= 5) & (spark_df["class_rating"] <= spark_df["previous_class"])
         ).select(
+            "race_id",
             "horse_id", 
             "official_fin", 
             "class_rating", 

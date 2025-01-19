@@ -4,7 +4,7 @@ def full_query_df():
     queries = {
         "speed_figure": """
     SELECT 
-        c.course_cd,
+        UPPER(TRIM(r.course_cd)) AS course_cd,
         c.track_name,
         r.race_date,
         r.race_number,
@@ -21,7 +21,7 @@ def full_query_df():
         has.itm_percentage AS horse_itm_percentage, 
         tc.description AS track_conditions 
     FROM 
-        v_races r
+        races r
     JOIN 
         results_entries re ON r.course_cd = re.course_cd 
         AND r.race_date = re.race_date
@@ -37,7 +37,7 @@ def full_query_df():
         AND re.race_number = sa.race_number 
         AND re.program_num = sa.saddle_cloth_number
     JOIN 
-        horse h ON re.axciskey = h.axciskey 
+        horse h ON r2.axciskey = h.axciskey 
     JOIN 
         horse_accum_stats has ON h.axciskey = has.axciskey
         AND r.race_date = has.as_of_date 
@@ -50,9 +50,9 @@ def full_query_df():
         re.breed = 'TB'
         AND r.rr_par_time <> 0
         AND r.rr_par_time IS NOT NULL
-        AND r.course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
-                            'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
-                            'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
+		AND r.course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
+                    'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
+                    'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'TOP')
         """
     }
     return queries

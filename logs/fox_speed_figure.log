@@ -1,57 +1,39 @@
-2025-01-18 11:30:24 - INFO - Logging has been set up successfully.
-2025-01-18 11:30:24 - ERROR - Error during data processing: Execution failed on sql '
-    SELECT 
-        c.course_cd,
-        c.track_name,
-        r.race_date,
-        r.race_number,
-        h.horse_id,
-        r.distance_meters,
-        re.official_fin, 
-        ROUND(sa.running_time - r.rr_win_time) AS time_behind,
-        sa.running_time - r.rr_par_time AS pace_delta_time,
-        re.speed_rating, 
-        r.class_rating, 
-        r2.previous_class,  
-        r2.power,
-        has.starts, 
-        has.itm_percentage AS horse_itm_percentage, 
-        tc.description AS track_conditions 
-    FROM 
-        v_races r
-    JOIN 
-        results_entries re ON r.course_cd = re.course_cd 
-        AND r.race_date = re.race_date
-        AND r.race_number = re.race_number
-    JOIN 
-        runners r2 ON re.course_cd = r2.course_cd 
-        AND re.race_date = r2.race_date 
-        AND re.race_number = r2.race_number 
-        AND re.program_num = r2.saddle_cloth_number
-    JOIN 
-        sectionals_aggregated sa ON re.course_cd = sa.course_cd 
-        AND re.race_date = sa.race_date 
-        AND re.race_number = sa.race_number 
-        AND re.program_num = sa.saddle_cloth_number
-    JOIN 
-        horse h ON re.axciskey = h.axciskey 
-    JOIN 
-        horse_accum_stats has ON h.axciskey = has.axciskey
-        AND r.race_date = has.as_of_date 
-        AND has.stat_type = 'ALL_RACES'
-    JOIN 
-        track_conditions tc ON r.trk_cond = tc.code
-    JOIN 
-        course c ON r.course_cd = c.course_cd 
-    WHERE 
-        re.breed = 'TB'
-        AND r.rr_par_time <> 0
-        AND r.rr_par_time IS NOT NULL
-        AND r.course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
-                            'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
-                            'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP')
-        ': relation "v_races" does not exist
-LINE 20:         v_races r
-                 ^
-
-2025-01-18 11:30:24 - INFO - All tasks completed. DB pool closed.
+2025-01-18 18:34:43 - INFO - Logging has been set up successfully.
+2025-01-18 18:34:43 - INFO - Password found in configuration. Using provided password.
+2025-01-18 18:34:43 - INFO - Connection pool created successfully.
+2025-01-18 18:34:45 - INFO - Loading speed_figure data from PostgreSQL...
+2025-01-18 18:34:46 - INFO - Saving speed_figure DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet...
+2025-01-18 18:34:51 - INFO - speed_figure data loaded and saved successfully.
+2025-01-18 18:34:51 - INFO - DataFrame 'speed_figure' loaded. Schema:
+2025-01-18 18:34:51 - INFO - DataFrame 'speed_figure' loaded. Schema:
+2025-01-18 18:34:58 - INFO - Decimal columns converted to float and filled NaN with 0.
+2025-01-18 18:34:58 - INFO - Columns: course_cd                object
+track_name               object
+race_date                object
+race_number             float64
+horse_id                  int32
+distance_meters         float64
+official_fin            float64
+time_behind             float64
+pace_delta_time         float64
+speed_rating              int32
+class_rating            float64
+previous_class          float64
+power                   float64
+starts                  float64
+horse_itm_percentage    float64
+track_conditions         object
+race_id                  object
+group_id                  int32
+dtype: object
+2025-01-18 18:35:22 - INFO - Top 5 finishers with moving up in class: None
+2025-01-18 18:35:22 - INFO - Top 5 finishers with moving up in class: None
+2025-01-18 18:35:22 - INFO - Top 5 finishers with moving up in class: None
+2025-01-18 18:35:22 - INFO - Top 5 finishers with moving up in class: None
+2025-01-18 18:35:22 - INFO - Saving speed_figure DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet...
+2025-01-18 18:35:22 - INFO - Schema of speed_figure DataFrame:
+2025-01-18 18:35:24 - INFO - speed_figure DataFrame saved successfully.
+2025-01-18 18:35:24 - INFO - Ingestion job succeeded
+2025-01-18 18:35:24 - INFO - Spark session stopped.
+2025-01-18 18:35:24 - INFO - DB connection pool closed.
+2025-01-18 18:35:24 - INFO - Closing down clientserver connection
