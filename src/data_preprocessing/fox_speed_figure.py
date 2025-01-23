@@ -128,7 +128,6 @@ def create_custom_speed_figure(df):
     ]
     for col_name in decimal_cols:
         df[col_name] = df[col_name].astype(float)
-    
     # Fill NaNs
     df[decimal_cols] = df[decimal_cols].fillna(0)
     
