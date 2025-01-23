@@ -1,600 +1,1093 @@
-2025-01-22 04:00:01 - INFO - Logging has been set up successfully.
-2025-01-22 04:00:01 - INFO - Initializing stat types in stat_type_code table...
-2025-01-22 04:00:01 - INFO - Stat types initialized successfully.
-2025-01-22 04:00:01 - INFO - Unprocessed stat types: ['ALL_WEATHR', 'FAST_TRACK', 'MUDDY_TRACK', 'FIRM_TURF', 'SOFT_TURF', 'CLAIMING', 'ALLOWANCE', 'STAKE_HCP', 'MAIDEN', 'UP_IN_CLASS', 'DOWN_IN_CLASS', 'FAVORITE', 'LONGSHOT', 'TWO_YEAR_OLD', 'FIRST_TIME', 'LAST_OUT_WINNER', 'JOCK_TRAIN_COMBO', 'FAVORITE_SPRNT', 'FAVORITE_RTE', 'ALL_WEATHER_SPRNT', 'ALL_WEATHER_RTE', '1_7OFF', 'LAST30', '31_60OFF', '61_180OFF', 'TY_TURF', 'AT_DST_CRS', 'AT_DST_D', 'LY_SOFT', 'AT_TRK_CRS', 'TY_ALLWTHR', 'TY_JUMP', 'AT_TRKDIRT', 'MUD', 'AT_TRKTURF', 'AT_TRK_DRT', 'MSW2MCL', 'ODDSGT5', 'ODDSLE5', 'ROUTE2SPRT', 'SCND60_180', 'SCND180_UP', 'SPRT2ROUTE', 'SYN2TURF', 'TURF2DIRT', 'TURF2SYN', '2YEAR_OLD', 'UP_INCLASS', 'WON_LAST', 'SHRT_LAY34', 'SHRT_LAY12', 'THIS_YEAR', 'TURF', 'TY_MUD', 'TY_SOFT', 'ALL_RACES_J', 'ALL_RACES_JT', 'ALL_RACES_T', 'ALL_RACES', 'ALL_RACES_J_TRACK', 'TRAN_HORSE', 'ALL_RACES_T_TRACK', 'ALL_RACES_JT_TRACK', 'MUDDY_SPRNT', 'MUDDY_RTE', 'TY_DIRT', 'AT_TRK_DSP', 'AT_TRKDSTT', 'AT_TRKDSTD', 'AT_TRK_TSP', 'DIRT_SPRNT', 'AT_TRK', 'JUMP', 'AT_TRKSOFT', 'AT_TRKMUD', 'DIST_SURF', 'JOCK_HORSE', 'LONG_LAY34', 'LY_ALLWTHR', 'LY_JUMP', 'LY_MUD', 'LY_TURF', 'OFF_CLM1', 'OFF_CLM2', 'AT_DST_T', 'AT_TRK_TRT', 'DIRT', 'STAKES', 'Allowance_SPRNT', 'Allowance_RTE', 'Maiden_SPRNT', 'Maiden_RTE', '180_UPOFF', 'AFTER_60', 'AFTER_CLM', 'BLINKOFF', 'BLINKON', 'DIRT2TURF', 'DOWNCLASS', 'FRSTBLINK', 'FRSTLASIX', 'FRSTTURF', 'LAST10', 'MCLDEBUT', 'MCLRACE', 'MSWRACE', 'JOCK_TRAN', 'LIFETIME', 'LONG_LAY12', 'LY_DIRT', 'LAST_YEAR', 'AT_TRKSURF', 'STAKES_SPRNT', 'STAKES_RTE', 'DIRT_RTE', 'TURF_SPRNT', 'TURF_RTE', 'ALLOWANCE_SPRNT', 'ALLOWANCE_RTE', 'CLAIMING_SPRNT', 'CLAIMING_RTE']
-2025-01-22 04:00:01 - INFO - Starting processing for stat type: ALL_RACES
-2025-01-22 04:00:01 - INFO - Last processed date for ALL_RACES: 2025-01-20
-2025-01-22 04:00:01 - INFO - Fetched 1 race_dates for ALL_RACES.
-2025-01-22 04:00:01 - INFO - Processing stat type: ALL_RACES for 1 new race dates.
-2025-01-22 04:00:01 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-21 for stat_type: ALL_RACES
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-21: 61 actual_horses found.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 071073050053054062063058 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051060060060055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052053061061059 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050056053062060056 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057053063063 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052055060054055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051057062061063 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050053053059057060 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049055050051061058054060 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057053062058 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053053056062061059 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051059054061055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053054058059054059 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052061059054056 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051055060055062 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052059057062055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052055053056056 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052061053055064 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051060061061061 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050057052058058057 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052060061060061 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053053056061063062 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051060059054057 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052060056057054064 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050052054055058062 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050060059058055057 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050051057056062058 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050051056059062061 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050053052062057055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052051056061058058064 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052057058061058 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051053054061057 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052058062054064 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050052060056057059 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052055061062063055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052061059058057 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050053052056057055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051057060063061 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049054050051056062057059 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051054060063055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049055050052055055056060 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052059057058060 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052053052054063056 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052055061062062064 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049056050052058062062056 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051058053062058 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052056053054058 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052056054062060 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051059059055059 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052056055063062 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052053053055063 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052053056062060 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081051059055053058056055 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052054052058062063061 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081051057057056054063057 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052056055056060060 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050052055055059057 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 070049050055060053055060 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057060060061 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051060057063062 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052051055054060063 on date 2025-01-21 stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Marked race_date 2025-01-21 as processed for stat_type ALL_RACES.
-2025-01-22 04:00:01 - INFO - Updated last processed date for stat type: ALL_RACES to 2025-01-21
-2025-01-22 04:00:01 - INFO - Starting processing for stat type: DIRT_SPRNT
-2025-01-22 04:00:01 - INFO - Last processed date for DIRT_SPRNT: 2025-01-20
-2025-01-22 04:00:01 - INFO - Fetched 1 race_dates for DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Processing stat type: DIRT_SPRNT for 1 new race dates.
-2025-01-22 04:00:01 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-21 for stat_type: DIRT_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-21: 61 actual_horses found.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 071073050053054062063058 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051060060060055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052053061061059 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050056053062060056 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057053063063 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052055060054055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051057062061063 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050053053059057060 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049055050051061058054060 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057053062058 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053053056062061059 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051059054061055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053054058059054059 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052061059054056 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051055060055062 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052059057062055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052055053056056 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052061053055064 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051060061061061 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050057052058058057 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052060061060061 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053053056061063062 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051060059054057 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052060056057054064 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050052054055058062 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050060059058055057 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050051057056062058 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050051056059062061 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050053052062057055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052051056061058058064 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052057058061058 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051053054061057 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052058062054064 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050052060056057059 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052055061062063055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052061059058057 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050053052056057055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051057060063061 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049054050051056062057059 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051054060063055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049055050052055055056060 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052059057058060 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052053052054063056 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052055061062062064 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049056050052058062062056 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051058053062058 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052056053054058 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052056054062060 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051059059055059 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052056055063062 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052053053055063 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052053056062060 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081051059055053058056055 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052054052058062063061 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081051057057056054063057 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052056055056060060 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050052055055059057 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 070049050055060053055060 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057060060061 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051060057063062 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052051055054060063 on date 2025-01-21 stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Marked race_date 2025-01-21 as processed for stat_type DIRT_SPRNT.
-2025-01-22 04:00:01 - INFO - Updated last processed date for stat type: DIRT_SPRNT to 2025-01-21
-2025-01-22 04:00:01 - INFO - Starting processing for stat type: DIRT_RTE
-2025-01-22 04:00:01 - INFO - Last processed date for DIRT_RTE: 2025-01-20
-2025-01-22 04:00:01 - INFO - Fetched 1 race_dates for DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Processing stat type: DIRT_RTE for 1 new race dates.
-2025-01-22 04:00:01 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-21 for stat_type: DIRT_RTE
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-21: 61 actual_horses found.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 071073050053054062063058 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051060060060055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052053061061059 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050056053062060056 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057053063063 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052055060054055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051057062061063 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050053053059057060 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049055050051061058054060 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057053062058 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053053056062061059 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051059054061055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053054058059054059 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052061059054056 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051055060055062 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052059057062055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052055053056056 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052061053055064 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051060061061061 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050057052058058057 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052060061060061 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052053053056061063062 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051060059054057 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052060056057054064 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050052054055058062 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050060059058055057 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050051057056062058 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050051056059062061 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050053052062057055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052051056061058058064 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052057058061058 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051053054061057 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052058062054064 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049057050052060056057059 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052055061062063055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052061059058057 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050053052056057055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051057060063061 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049054050051056062057059 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051054060063055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049055050052055055056060 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052059057058060 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052053052054063056 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052055061062062064 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049056050052058062062056 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050051058053062058 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050052056053054058 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052056054062060 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051059059055059 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052056055063062 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050050050052053053055063 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050052053056062060 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081051059055053058056055 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052054052058062063061 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081051057057056054063057 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052056055056060060 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052050052055055059057 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 070049050055060053055060 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 049058050051057060060061 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 050049050051060057063062 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated horse_accum_stats for horse 081052052051055054060063 on date 2025-01-21 stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Marked race_date 2025-01-21 as processed for stat_type DIRT_RTE.
-2025-01-22 04:00:01 - INFO - Updated last processed date for stat type: DIRT_RTE to 2025-01-21
-2025-01-22 04:00:01 - INFO - Starting processing for stat type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Last processed date for MUDDY_SPRNT: None
-2025-01-22 04:00:01 - INFO - Fetched 36 race_dates for MUDDY_SPRNT.
-2025-01-22 04:00:01 - INFO - Processing stat type: MUDDY_SPRNT for 36 new race dates.
-2025-01-22 04:00:01 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-17 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-17: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-17. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-18 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-18: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-18. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-19 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-19: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-19. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-20 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-20: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-20. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-21 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-21: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-21. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-22 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-22: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-22. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-23 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-23: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-23. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-24 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-24: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-24. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-25 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-25: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-25. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-26 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-26: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-26. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-27 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-27: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-27. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-28 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-28: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-28. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-29 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-29: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-29. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-30 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-30: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-30. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2024-12-31 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2024-12-31: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-31. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-01 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-01: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-01. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-02 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-02: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-02. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-03 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-03: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-03. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-04 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-04: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-04. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-05 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-05: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-05. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-06 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-06: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-06. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-07 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-07: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-07. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-08 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-08: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-08. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-09 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-09: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-09. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-10 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-10: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-10. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-11 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-11: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-11. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-12 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-12: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-12. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-13 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-13: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-13. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-14 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-14: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-14. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-15 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-15: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-15. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-16 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-16: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-16. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-17 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-17: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-17. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-18 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-18: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-18. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-19 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-19: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-19. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-20 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-20: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
-2025-01-22 04:00:01 - INFO - Processing race_date: 2025-01-21 for stat_type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Race_date 2025-01-21: 0 actual_horses found.
-2025-01-22 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
-2025-01-22 04:00:01 - INFO - No race dates were processed for stat type: MUDDY_SPRNT
-2025-01-22 04:00:01 - INFO - Starting processing for stat type: MUDDY_RTE
-2025-01-22 04:00:01 - INFO - Last processed date for MUDDY_RTE: None
-2025-01-22 04:00:02 - INFO - Fetched 36 race_dates for MUDDY_RTE.
-2025-01-22 04:00:02 - INFO - Processing stat type: MUDDY_RTE for 36 new race dates.
-2025-01-22 04:00:02 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-17 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-17: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-17. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-18 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-18: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-18. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-19 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-19: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-19. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-20 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-20: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-20. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-21 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-21: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-21. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-22 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-22: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-22. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-23 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-23: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-23. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-24 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-24: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-24. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-25 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-25: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-25. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-26 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-26: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-26. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-27 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-27: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-27. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-28 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-28: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-28. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-29 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-29: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-29. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-30 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-30: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-30. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2024-12-31 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2024-12-31: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-31. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-01 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-01: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-01. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-02 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-02: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-02. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-03 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-03: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-03. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-04 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-04: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-04. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-05 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-05: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-05. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-06 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-06: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-06. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-07 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-07: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-07. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-08 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-08: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-08. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-09 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-09: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-09. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-10 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-10: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-10. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-11 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-11: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-11. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-12 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-12: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-12. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-13 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-13: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-13. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-14 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-14: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-14. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-15 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-15: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-15. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-16 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-16: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-16. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-17 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-17: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-17. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-18 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-18: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-18. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-19 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-19: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-19. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-20 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-20: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-21: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
-2025-01-22 04:00:02 - INFO - No race dates were processed for stat type: MUDDY_RTE
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: TURF_SPRNT
-2025-01-22 04:00:02 - INFO - Last processed date for TURF_SPRNT: 2025-01-20
-2025-01-22 04:00:02 - INFO - Fetched 0 race_dates for TURF_SPRNT.
-2025-01-22 04:00:02 - INFO - No new race dates to process for stat type: TURF_SPRNT.
-2025-01-22 04:00:02 - INFO - No race dates were processed for stat type: TURF_SPRNT
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: TURF_RTE
-2025-01-22 04:00:02 - INFO - Last processed date for TURF_RTE: 2025-01-20
-2025-01-22 04:00:02 - INFO - Fetched 0 race_dates for TURF_RTE.
-2025-01-22 04:00:02 - INFO - No new race dates to process for stat type: TURF_RTE.
-2025-01-22 04:00:02 - INFO - No race dates were processed for stat type: TURF_RTE
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: ALL_WEATHER_SPRNT
-2025-01-22 04:00:02 - INFO - Last processed date for ALL_WEATHER_SPRNT: None
-2025-01-22 04:00:02 - INFO - Fetched 0 race_dates for ALL_WEATHER_SPRNT.
-2025-01-22 04:00:02 - INFO - No new race dates to process for stat type: ALL_WEATHER_SPRNT.
-2025-01-22 04:00:02 - INFO - No race dates were processed for stat type: ALL_WEATHER_SPRNT
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: ALL_WEATHER_RTE
-2025-01-22 04:00:02 - INFO - Last processed date for ALL_WEATHER_RTE: None
-2025-01-22 04:00:02 - INFO - Fetched 0 race_dates for ALL_WEATHER_RTE.
-2025-01-22 04:00:02 - INFO - No new race dates to process for stat type: ALL_WEATHER_RTE.
-2025-01-22 04:00:02 - INFO - No race dates were processed for stat type: ALL_WEATHER_RTE
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: ALLOWANCE_SPRNT
-2025-01-22 04:00:02 - INFO - Last processed date for ALLOWANCE_SPRNT: 2025-01-20
-2025-01-22 04:00:02 - INFO - Fetched 1 race_dates for ALLOWANCE_SPRNT.
-2025-01-22 04:00:02 - INFO - Processing stat type: ALLOWANCE_SPRNT for 1 new race dates.
-2025-01-22 04:00:02 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: ALLOWANCE_SPRNT
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-21: 6 actual_horses found.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057062055 on date 2025-01-21 stat_type ALLOWANCE_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053061061059 on date 2025-01-21 stat_type ALLOWANCE_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057053062058 on date 2025-01-21 stat_type ALLOWANCE_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052061053055064 on date 2025-01-21 stat_type ALLOWANCE_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057060063061 on date 2025-01-21 stat_type ALLOWANCE_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052056053054058 on date 2025-01-21 stat_type ALLOWANCE_SPRNT.
-2025-01-22 04:00:02 - INFO - Marked race_date 2025-01-21 as processed for stat_type ALLOWANCE_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated last processed date for stat type: ALLOWANCE_SPRNT to 2025-01-21
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: ALLOWANCE_RTE
-2025-01-22 04:00:02 - INFO - Last processed date for ALLOWANCE_RTE: 2025-01-20
-2025-01-22 04:00:02 - INFO - Fetched 1 race_dates for ALLOWANCE_RTE.
-2025-01-22 04:00:02 - INFO - Processing stat type: ALLOWANCE_RTE for 1 new race dates.
-2025-01-22 04:00:02 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: ALLOWANCE_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-21: 6 actual_horses found.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057062055 on date 2025-01-21 stat_type ALLOWANCE_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053061061059 on date 2025-01-21 stat_type ALLOWANCE_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057053062058 on date 2025-01-21 stat_type ALLOWANCE_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052061053055064 on date 2025-01-21 stat_type ALLOWANCE_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057060063061 on date 2025-01-21 stat_type ALLOWANCE_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052056053054058 on date 2025-01-21 stat_type ALLOWANCE_RTE.
-2025-01-22 04:00:02 - INFO - Marked race_date 2025-01-21 as processed for stat_type ALLOWANCE_RTE.
-2025-01-22 04:00:02 - INFO - Updated last processed date for stat type: ALLOWANCE_RTE to 2025-01-21
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: CLAIMING_SPRNT
-2025-01-22 04:00:02 - INFO - Last processed date for CLAIMING_SPRNT: 2025-01-20
-2025-01-22 04:00:02 - INFO - Fetched 1 race_dates for CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Processing stat type: CLAIMING_SPRNT for 1 new race dates.
-2025-01-22 04:00:02 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: CLAIMING_SPRNT
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-21: 32 actual_horses found.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 071073050053054062063058 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051060060060055 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051056059062061 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052062057055 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057053063063 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051056061058058064 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052057058061058 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055060054055 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057062061063 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050053053059057060 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060056057059 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049055050051061058054060 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052055061062063055 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052053053056062061059 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052061059058057 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050051056062057059 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052053054058059054059 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049055050052055055056060 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052053052054063056 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052058062062056 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055053056056 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051060061061061 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052056055063062 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052053053055063 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052060061060061 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081051057057056054063057 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052050052055055059057 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052060056057054064 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057060060061 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051060057063062 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052054055058062 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052050060059058055057 on date 2025-01-21 stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Marked race_date 2025-01-21 as processed for stat_type CLAIMING_SPRNT.
-2025-01-22 04:00:02 - INFO - Updated last processed date for stat type: CLAIMING_SPRNT to 2025-01-21
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: CLAIMING_RTE
-2025-01-22 04:00:02 - INFO - Last processed date for CLAIMING_RTE: 2025-01-20
-2025-01-22 04:00:02 - INFO - Fetched 1 race_dates for CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Processing stat type: CLAIMING_RTE for 1 new race dates.
-2025-01-22 04:00:02 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: CLAIMING_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-21: 32 actual_horses found.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 071073050053054062063058 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051060060060055 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051056059062061 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052062057055 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057053063063 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051056061058058064 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052057058061058 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055060054055 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057062061063 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050053053059057060 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060056057059 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049055050051061058054060 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052055061062063055 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052053053056062061059 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052061059058057 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050051056062057059 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052053054058059054059 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049055050052055055056060 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052053052054063056 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052058062062056 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055053056056 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051060061061061 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052056055063062 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052053053055063 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052060061060061 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081051057057056054063057 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052050052055055059057 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052060056057054064 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057060060061 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051060057063062 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052054055058062 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated horse_accum_stats for horse 081052050060059058055057 on date 2025-01-21 stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Marked race_date 2025-01-21 as processed for stat_type CLAIMING_RTE.
-2025-01-22 04:00:02 - INFO - Updated last processed date for stat type: CLAIMING_RTE to 2025-01-21
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: STAKES_SPRNT
-2025-01-22 04:00:02 - INFO - Last processed date for STAKES_SPRNT: 2025-01-19
-2025-01-22 04:00:02 - INFO - Fetched 2 race_dates for STAKES_SPRNT.
-2025-01-22 04:00:02 - INFO - Processing stat type: STAKES_SPRNT for 2 new race dates.
-2025-01-22 04:00:02 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-20 for stat_type: STAKES_SPRNT
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-20: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: STAKES_SPRNT
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-21: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
-2025-01-22 04:00:02 - INFO - No race dates were processed for stat type: STAKES_SPRNT
-2025-01-22 04:00:02 - INFO - Starting processing for stat type: STAKES_RTE
-2025-01-22 04:00:02 - INFO - Last processed date for STAKES_RTE: 2025-01-19
-2025-01-22 04:00:02 - INFO - Fetched 2 race_dates for STAKES_RTE.
-2025-01-22 04:00:02 - INFO - Processing stat type: STAKES_RTE for 2 new race dates.
-2025-01-22 04:00:02 - INFO - Total horses fetched from 'horse' table: 113417.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-20 for stat_type: STAKES_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-20: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
-2025-01-22 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: STAKES_RTE
-2025-01-22 04:00:02 - INFO - Race_date 2025-01-21: 0 actual_horses found.
-2025-01-22 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
-2025-01-22 04:00:02 - INFO - No race dates were processed for stat type: STAKES_RTE
-2025-01-22 04:00:02 - INFO - Successfully updated horse_accum_stats for all stat types, including ALL_RACES.
-2025-01-22 04:00:02 - INFO - Database connection closed.
+2025-01-23 04:00:01 - INFO - Logging has been set up successfully.
+2025-01-23 04:00:01 - INFO - Initializing stat types in stat_type_code table...
+2025-01-23 04:00:01 - INFO - Stat types initialized successfully.
+2025-01-23 04:00:01 - INFO - Unprocessed stat types: ['ALL_WEATHR', 'FAST_TRACK', 'MUDDY_TRACK', 'FIRM_TURF', 'SOFT_TURF', 'CLAIMING', 'ALLOWANCE', 'STAKE_HCP', 'MAIDEN', 'UP_IN_CLASS', 'DOWN_IN_CLASS', 'FAVORITE', 'LONGSHOT', 'TWO_YEAR_OLD', 'FIRST_TIME', 'LAST_OUT_WINNER', 'JOCK_TRAIN_COMBO', 'FAVORITE_SPRNT', 'FAVORITE_RTE', 'ALL_WEATHER_SPRNT', 'ALL_WEATHER_RTE', '1_7OFF', 'LAST30', '31_60OFF', '61_180OFF', 'TY_TURF', 'AT_DST_CRS', 'AT_DST_D', 'LY_SOFT', 'AT_TRK_CRS', 'TY_ALLWTHR', 'TY_JUMP', 'AT_TRKDIRT', 'MUD', 'AT_TRKTURF', 'AT_TRK_DRT', 'MSW2MCL', 'ODDSGT5', 'ODDSLE5', 'ROUTE2SPRT', 'SCND60_180', 'SCND180_UP', 'SPRT2ROUTE', 'SYN2TURF', 'TURF2DIRT', 'TURF2SYN', '2YEAR_OLD', 'UP_INCLASS', 'WON_LAST', 'SHRT_LAY34', 'SHRT_LAY12', 'THIS_YEAR', 'TURF', 'TY_MUD', 'TY_SOFT', 'ALL_RACES', 'ALL_RACES_J', 'ALL_RACES_JT', 'ALL_RACES_T', 'TRAN_HORSE', 'DIRT_SPRNT', 'ALL_RACES_J_TRACK', 'ALL_RACES_T_TRACK', 'ALL_RACES_JT_TRACK', 'MUDDY_SPRNT', 'MUDDY_RTE', 'TY_DIRT', 'AT_TRK_DSP', 'AT_TRKDSTT', 'AT_TRKDSTD', 'AT_TRK_TSP', 'AT_TRK', 'JUMP', 'AT_TRKSOFT', 'AT_TRKMUD', 'DIST_SURF', 'JOCK_HORSE', 'LONG_LAY34', 'LY_ALLWTHR', 'LY_JUMP', 'LY_MUD', 'LY_TURF', 'OFF_CLM1', 'OFF_CLM2', 'AT_DST_T', 'AT_TRK_TRT', 'DIRT', 'STAKES', 'Allowance_SPRNT', 'Allowance_RTE', 'Maiden_SPRNT', 'Maiden_RTE', '180_UPOFF', 'AFTER_60', 'AFTER_CLM', 'BLINKOFF', 'BLINKON', 'DIRT2TURF', 'DOWNCLASS', 'FRSTBLINK', 'FRSTLASIX', 'FRSTTURF', 'LAST10', 'MCLDEBUT', 'MCLRACE', 'MSWRACE', 'JOCK_TRAN', 'LIFETIME', 'LONG_LAY12', 'LY_DIRT', 'LAST_YEAR', 'AT_TRKSURF', 'DIRT_RTE', 'ALLOWANCE_SPRNT', 'ALLOWANCE_RTE', 'CLAIMING_SPRNT', 'CLAIMING_RTE', 'STAKES_SPRNT', 'STAKES_RTE', 'TURF_SPRNT', 'TURF_RTE']
+2025-01-23 04:00:01 - INFO - Starting processing for stat type: ALL_RACES
+2025-01-23 04:00:01 - INFO - Last processed date for ALL_RACES: 2025-01-21
+2025-01-23 04:00:01 - INFO - Fetched 1 race_dates for ALL_RACES.
+2025-01-23 04:00:01 - INFO - Processing stat type: ALL_RACES for 1 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: ALL_RACES
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 196 actual_horses found.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 070049050055059057060062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058058056057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051057060054054063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052056056057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051057054061060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052058055055058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055055059061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058058058063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050051053056059064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052056062056059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052056055062062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060062059062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055058058056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052058054058059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055060055055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052061059056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052061063056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051061053057056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057055062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051057058058063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051060058062056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053057063061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051053057058060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052059058058057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052057062062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052057059055060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054056059058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054059057056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052056058063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059059059060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054055059055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052053058056062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056057054063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055060055055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057062054055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061055062063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058057057062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052059062058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053059054058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053062061061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061063062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051055054056055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051059057059064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051054059063055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050053052060057062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057054063062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058062058058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051060057063064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058055062062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053060056057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058055059057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052058059056060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054054059064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051061062061055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052056057061056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049055050051060059060059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051058060060064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056058062061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057056058057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054055057061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052060062056061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051056054060058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057053055059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052056057062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058059061064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058060058058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061062057063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059056061062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054061058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055055055057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054059056059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052050053052055057056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053056058064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061057058057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059061058062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060061063056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061060063057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052052056058057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052052053056063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055057056059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060055057064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054056056059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060054055059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051059059061057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052058056057057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056056060062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053059055058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056054057057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056053056055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052055057058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052061059058063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061059064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061055055058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055059055064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055058055058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055057062057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060059062062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057055061057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053058062062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051054053057055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056053054058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060061056055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053061062056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056054060063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055059058061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054061056061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055062059056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052061060063055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058059055062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059055060056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052060062058062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052052059054061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057060061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054059058060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052057058060057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059062054064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054053058064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051055060056063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061062059063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053062062063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052060054061058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059054055059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052055054062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056054063058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052052057058055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050053052053059064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054061059056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055056055064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051052058058061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059060056062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051057059058061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053053056059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054055061062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052053058062058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053054055059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052053053055059061063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051052057063062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051058056063057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057057062063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052061054059064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051052062059064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051059053058057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058054060055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051058058062059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055062062060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053058054062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053054056058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054061058061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057062060064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052055063058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052054060053056055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051051052060062064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054062057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051052062062063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051059056057058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055053063058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054063063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054054059059 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052055053055057063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051055061058064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051054058063055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060060054058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055060056060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052054058056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052053060057055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054060058055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056062061056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060059059063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056060058055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081051058058058054063056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051058056057063060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053062063061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051052058058056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051055053057056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059055054056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061053058061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055059058056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058053056058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055056063061 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061053058058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055053057056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052057055062060 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052062058057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057056063055 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051054054061057 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061056057063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 070049050055058061057063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051058056057063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058056063064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052053055056063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052059054054056 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052056059060062 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054058061058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050052061054058063 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052059054056064 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052056056061058 on date 2025-01-22 stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Marked race_date 2025-01-22 as processed for stat_type ALL_RACES.
+2025-01-23 04:00:02 - INFO - Updated last processed date for stat type: ALL_RACES to 2025-01-22
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: DIRT_SPRNT
+2025-01-23 04:00:02 - INFO - Last processed date for DIRT_SPRNT: 2025-01-21
+2025-01-23 04:00:02 - INFO - Fetched 1 race_dates for DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Processing stat type: DIRT_SPRNT for 1 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: DIRT_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 196 actual_horses found.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 070049050055059057060062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058058056057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051057060054054063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052056056057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051057054061060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052058055055058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055055059061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058058058063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050051053056059064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052056062056059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052056055062062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060062059062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055058058056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052058054058059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055060055055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052061059056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052061063056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051061053057056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057055062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051057058058063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051060058062056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053057063061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051053057058060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052059058058057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052057062062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052057059055060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054056059058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054059057056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052056058063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059059059060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054055059055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052053058056062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056057054063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055060055055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057062054055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061055062063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058057057062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052059062058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053059054058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053062061061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061063062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051055054056055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051059057059064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051054059063055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050053052060057062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057054063062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058062058058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051060057063064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058055062062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053060056057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058055059057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052058059056060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054054059064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051061062061055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052056057061056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049055050051060059060059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051058060060064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056058062061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057056058057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054055057061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052060062056061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051056054060058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057053055059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052056057062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058059061064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058060058058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061062057063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059056061062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054061058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055055055057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054059056059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052050053052055057056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053056058064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061057058057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059061058062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060061063056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061060063057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052052056058057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052052053056063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055057056059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060055057064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054056056059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060054055059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051059059061057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052058056057057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056056060062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053059055058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056054057057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056053056055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052055057058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052061059058063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061059064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061055055058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055059055064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055058055058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055057062057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060059062062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057055061057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053058062062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051054053057055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056053054058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060061056055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053061062056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056054060063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055059058061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054061056061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055062059056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052061060063055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058059055062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059055060056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052060062058062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052052059054061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057060061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054059058060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052057058060057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059062054064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054053058064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051055060056063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061062059063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053062062063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052060054061058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059054055059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052055054062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056054063058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052052057058055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050053052053059064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054061059056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055056055064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051052058058061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059060056062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051057059058061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053053056059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054055061062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052053058062058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053054055059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052053053055059061063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051052057063062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051058056063057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057057062063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052061054059064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051052062059064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051059053058057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058054060055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051058058062059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055062062060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053058054062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053054056058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054061058061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057062060064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052055063058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052054060053056055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051051052060062064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054062057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051052062062063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051059056057058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055053063058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054063063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054054059059 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052055053055057063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051055061058064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051054058063055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060060054058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055060056060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052054058056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052053060057055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054060058055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056062061056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060059059063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056060058055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081051058058058054063056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051058056057063060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053062063061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051052058058056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051055053057056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059055054056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061053058061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055059058056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058053056058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055056063061 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061053058058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055053057056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052057055062060 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052062058057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057056063055 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051054054061057 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061056057063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 070049050055058061057063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051058056057063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058056063064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052053055056063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052059054054056 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052056059060062 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054058061058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050052061054058063 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052059054056064 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052056056061058 on date 2025-01-22 stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Marked race_date 2025-01-22 as processed for stat_type DIRT_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated last processed date for stat type: DIRT_SPRNT to 2025-01-22
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: DIRT_RTE
+2025-01-23 04:00:02 - INFO - Last processed date for DIRT_RTE: 2025-01-21
+2025-01-23 04:00:02 - INFO - Fetched 1 race_dates for DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Processing stat type: DIRT_RTE for 1 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: DIRT_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 196 actual_horses found.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 070049050055059057060062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058058056057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051057060054054063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052056056057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051057054061060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052058055055058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055055059061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058058058063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050051053056059064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052056062056059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052056055062062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060062059062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055058058056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052058054058059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055060055055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052061059056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052061063056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051061053057056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057055062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051057058058063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051060058062056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053057063061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051053057058060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052059058058057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052057062062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052057059055060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054056059058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054059057056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052056058063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059059059060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054055059055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052053058056062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056057054063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055060055055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057062054055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061055062063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058057057062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052059062058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053059054058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053062061061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061063062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051055054056055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051059057059064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051054059063055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050053052060057062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057054063062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058062058058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051060057063064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058055062062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053060056057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058055059057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052058059056060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054054059064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051061062061055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052056057061056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049055050051060059060059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051058060060064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056058062061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057056058057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054055057061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052060062056061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051056054060058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057053055059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052056057062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058059061064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058060058058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061062057063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059056061062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054061058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055055055057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054059056059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052050053052055057056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053056058064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061057058057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059061058062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060061063056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061060063057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052052056058057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052052053056063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055057056059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060055057064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054056056059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060054055059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051059059061057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052058056057057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056056060062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053059055058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056054057057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056053056055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052055057058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052061059058063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061059064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061055055058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055059055064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055058055058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055057062057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060059062062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057055061057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053058062062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051054053057055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056053054058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051060061056055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053061062056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056054060063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055059058061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054061056061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055062059056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052061060063055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058059055062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059055060056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052060062058062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052052059054061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057060061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054059058060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052057058060057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059062054064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054053058064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051055060056063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061062059063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053062062063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052060054061058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059054055059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052055054062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056054063058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052052057058055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050053052053059064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054061059056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055056055064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051052058058061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059060056062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051057059058061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053053056059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054055061062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052053058062058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053054055059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052053053055059061063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051052057063062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051058056063057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052057057062063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052061054059064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051052062059064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051059053058057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058054060055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051058058062059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055062062060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053058054062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053054056058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054061058061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057062060064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052055063058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052054060053056055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051051052060062064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054062057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051052062062063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051059056057058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051055053063058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054063063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054054059059 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052055053055057063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051055061058064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051054058063055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060060054058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052055060056060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052054058056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052053060057055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051054060058055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056062061056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052060059059063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056060058055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081051058058058054063056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051058056057063060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053062063061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051052058058056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050051055053057056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059055054056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061053058061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055059058056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058053056058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055056063061 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061053058058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055053057056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052057055062060 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052062058057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057056063055 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051054054061057 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061056057063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 070049050055058061057063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051058056057063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058056063064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052053055056063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052059054054056 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052056059060062 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050051050052054058061058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050052061054058063 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052059054056064 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052056056061058 on date 2025-01-22 stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Marked race_date 2025-01-22 as processed for stat_type DIRT_RTE.
+2025-01-23 04:00:02 - INFO - Updated last processed date for stat type: DIRT_RTE to 2025-01-22
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Last processed date for MUDDY_SPRNT: None
+2025-01-23 04:00:02 - INFO - Fetched 37 race_dates for MUDDY_SPRNT.
+2025-01-23 04:00:02 - INFO - Processing stat type: MUDDY_SPRNT for 37 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-17 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-17: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-17. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-18 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-18: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-18. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-19 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-19: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-19. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-20 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-20: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-20. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-21 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-21: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-21. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-22 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-22: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-22. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-23 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-23: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-23. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-24 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-24: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-24. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-25 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-25: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-25. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-26 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-26: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-26. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-27 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-27: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-27. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-28 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-28: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-28. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-29 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-29: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-29. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-30 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-30: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-30. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-31 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-31: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-31. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-01 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-01: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-01. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-02 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-02: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-02. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-03 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-03: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-03. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-04 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-04: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-04. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-05 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-05: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-05. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-06 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-06: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-06. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-07 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-07: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-07. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-08 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-08: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-08. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-09 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-09: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-09. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-10 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-10: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-10. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-11 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-11: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-11. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-12 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-12: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-12. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-13 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-13: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-13. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-14 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-14: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-14. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-15 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-15: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-15. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-16 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-16: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-16. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-17 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-17: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-17. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-18 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-18: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-18. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-19 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-19: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-19. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-20 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-20: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-21: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-22. Skipping.
+2025-01-23 04:00:02 - INFO - No race dates were processed for stat type: MUDDY_SPRNT
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Last processed date for MUDDY_RTE: None
+2025-01-23 04:00:02 - INFO - Fetched 37 race_dates for MUDDY_RTE.
+2025-01-23 04:00:02 - INFO - Processing stat type: MUDDY_RTE for 37 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-17 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-17: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-17. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-18 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-18: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-18. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-19 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-19: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-19. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-20 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-20: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-20. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-21 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-21: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-21. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-22 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-22: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-22. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-23 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-23: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-23. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-24 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-24: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-24. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-25 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-25: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-25. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-26 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-26: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-26. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-27 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-27: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-27. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-28 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-28: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-28. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-29 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-29: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-29. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-30 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-30: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-30. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2024-12-31 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2024-12-31: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-31. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-01 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-01: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-01. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-02 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-02: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-02. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-03 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-03: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-03. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-04 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-04: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-04. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-05 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-05: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-05. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-06 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-06: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-06. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-07 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-07: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-07. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-08 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-08: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-08. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-09 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-09: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-09. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-10 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-10: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-10. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-11 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-11: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-11. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-12 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-12: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-12. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-13 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-13: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-13. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-14 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-14: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-14. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-15 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-15: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-15. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-16 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-16: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-16. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-17 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-17: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-17. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-18 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-18: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-18. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-19 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-19: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-19. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-20 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-20: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-21: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 0 actual_horses found.
+2025-01-23 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-22. Skipping.
+2025-01-23 04:00:02 - INFO - No race dates were processed for stat type: MUDDY_RTE
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: TURF_SPRNT
+2025-01-23 04:00:02 - INFO - Last processed date for TURF_SPRNT: 2025-01-20
+2025-01-23 04:00:02 - INFO - Fetched 0 race_dates for TURF_SPRNT.
+2025-01-23 04:00:02 - INFO - No new race dates to process for stat type: TURF_SPRNT.
+2025-01-23 04:00:02 - INFO - No race dates were processed for stat type: TURF_SPRNT
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: TURF_RTE
+2025-01-23 04:00:02 - INFO - Last processed date for TURF_RTE: 2025-01-20
+2025-01-23 04:00:02 - INFO - Fetched 0 race_dates for TURF_RTE.
+2025-01-23 04:00:02 - INFO - No new race dates to process for stat type: TURF_RTE.
+2025-01-23 04:00:02 - INFO - No race dates were processed for stat type: TURF_RTE
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: ALL_WEATHER_SPRNT
+2025-01-23 04:00:02 - INFO - Last processed date for ALL_WEATHER_SPRNT: None
+2025-01-23 04:00:02 - INFO - Fetched 0 race_dates for ALL_WEATHER_SPRNT.
+2025-01-23 04:00:02 - INFO - No new race dates to process for stat type: ALL_WEATHER_SPRNT.
+2025-01-23 04:00:02 - INFO - No race dates were processed for stat type: ALL_WEATHER_SPRNT
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: ALL_WEATHER_RTE
+2025-01-23 04:00:02 - INFO - Last processed date for ALL_WEATHER_RTE: None
+2025-01-23 04:00:02 - INFO - Fetched 0 race_dates for ALL_WEATHER_RTE.
+2025-01-23 04:00:02 - INFO - No new race dates to process for stat type: ALL_WEATHER_RTE.
+2025-01-23 04:00:02 - INFO - No race dates were processed for stat type: ALL_WEATHER_RTE
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: ALLOWANCE_SPRNT
+2025-01-23 04:00:02 - INFO - Last processed date for ALLOWANCE_SPRNT: 2025-01-21
+2025-01-23 04:00:02 - INFO - Fetched 1 race_dates for ALLOWANCE_SPRNT.
+2025-01-23 04:00:02 - INFO - Processing stat type: ALLOWANCE_SPRNT for 1 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: ALLOWANCE_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 6 actual_horses found.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059059059060 on date 2025-01-22 stat_type ALLOWANCE_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052056056057 on date 2025-01-22 stat_type ALLOWANCE_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057056058057 on date 2025-01-22 stat_type ALLOWANCE_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056054063058 on date 2025-01-22 stat_type ALLOWANCE_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057056063055 on date 2025-01-22 stat_type ALLOWANCE_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061059064 on date 2025-01-22 stat_type ALLOWANCE_SPRNT.
+2025-01-23 04:00:02 - INFO - Marked race_date 2025-01-22 as processed for stat_type ALLOWANCE_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated last processed date for stat type: ALLOWANCE_SPRNT to 2025-01-22
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: ALLOWANCE_RTE
+2025-01-23 04:00:02 - INFO - Last processed date for ALLOWANCE_RTE: 2025-01-21
+2025-01-23 04:00:02 - INFO - Fetched 1 race_dates for ALLOWANCE_RTE.
+2025-01-23 04:00:02 - INFO - Processing stat type: ALLOWANCE_RTE for 1 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: ALLOWANCE_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 6 actual_horses found.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059059059060 on date 2025-01-22 stat_type ALLOWANCE_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050053052056056057 on date 2025-01-22 stat_type ALLOWANCE_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057056058057 on date 2025-01-22 stat_type ALLOWANCE_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051056054063058 on date 2025-01-22 stat_type ALLOWANCE_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057056063055 on date 2025-01-22 stat_type ALLOWANCE_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061059064 on date 2025-01-22 stat_type ALLOWANCE_RTE.
+2025-01-23 04:00:02 - INFO - Marked race_date 2025-01-22 as processed for stat_type ALLOWANCE_RTE.
+2025-01-23 04:00:02 - INFO - Updated last processed date for stat type: ALLOWANCE_RTE to 2025-01-22
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: CLAIMING_SPRNT
+2025-01-23 04:00:02 - INFO - Last processed date for CLAIMING_SPRNT: 2025-01-21
+2025-01-23 04:00:02 - INFO - Fetched 1 race_dates for CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Processing stat type: CLAIMING_SPRNT for 1 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: CLAIMING_SPRNT
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 70 actual_horses found.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051057060054054063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057055061057 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058058058063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053058062062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050051053056059064 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051054053057055 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050052056055062062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060062059062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052058054058059 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052055060055055 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051061053057056 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057055062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055059058061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053057063061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051053057058060 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054061056061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055062059056 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052061060063055 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059055060056 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052060062058062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052059057060061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052056058063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051057062054055 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061055062063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051055060056063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061062059063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058057057062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053062062063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052055054062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052058061063062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049056050051057059058061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053053056059 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052054055061062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052053053055059061063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051053060056057 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051058060060064 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055062062060 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052053054056058 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052057062060064 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052055063058 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052060062056061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052054060053056055 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051051052060062064 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051059056057058 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056054063063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052052055053055057063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050051055061058064 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051052054058056 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051056060058055 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052050053052055057056 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081051058058058054063056 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051058056057063060 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051059061058062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050051053062063061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061060063057 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051055057056059 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050052060055057064 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050052061053058061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058053056058 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052055056063061 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052054056056059 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052055053057056 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056056060062 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052056054057057 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051061056057063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052058056063064 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052052055057058 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050052061054058063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050050050052061059058063 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049058050052059054056064 on date 2025-01-22 stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Marked race_date 2025-01-22 as processed for stat_type CLAIMING_SPRNT.
+2025-01-23 04:00:02 - INFO - Updated last processed date for stat type: CLAIMING_SPRNT to 2025-01-22
+2025-01-23 04:00:02 - INFO - Starting processing for stat type: CLAIMING_RTE
+2025-01-23 04:00:02 - INFO - Last processed date for CLAIMING_RTE: 2025-01-21
+2025-01-23 04:00:02 - INFO - Fetched 1 race_dates for CLAIMING_RTE.
+2025-01-23 04:00:02 - INFO - Processing stat type: CLAIMING_RTE for 1 new race dates.
+2025-01-23 04:00:02 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: CLAIMING_RTE
+2025-01-23 04:00:02 - INFO - Race_date 2025-01-22: 70 actual_horses found.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 081052051057060054054063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051057055061057 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 050049050051058058058063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049057050051053058062062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:02 - INFO - Updated horse_accum_stats for horse 049054050051053056059064 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050051054053057055 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049056050052056055062062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049057050052060062059062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049057050052058054058059 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052055060055055 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049056050051061053057056 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052059057055062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050051055059058061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049057050051053057063061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050051053057058060 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052054061056061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050051055062059056 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050052061060063055 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050051059055060056 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050052060062058062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052059057060061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050051052056058063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050051057062054055 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052061055062063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049057050051055060056063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052061062059063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052058057057062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052053062062063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050051052055054062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052058061063062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049056050051057059058061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050051053053056059 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052054055061062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 081052053053055059061063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050051053060056057 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050051058060060064 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052055062062060 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052053054056058 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050052057062060064 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052052055063058 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052060062056061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 081052052054060053056055 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 081052051051052060062064 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049057050051059056057058 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050051056054063063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 081052052055053055057063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050051055061058064 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050051052054058056 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050051056060058055 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 081052050053052055057056 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 081051058058058054063056 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 081052051058056057063060 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050051059061058062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050051053062063061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052061060063057 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050051055057056059 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049057050052060055057064 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050052061053058061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052058053056058 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050052055056063061 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052054056056059 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052055053057056 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050052056056060062 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050052056054057057 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050049050051061056057063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052058056063064 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052052055057058 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049054050052061054058063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 050050050052061059058063 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated horse_accum_stats for horse 049058050052059054056064 on date 2025-01-22 stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Marked race_date 2025-01-22 as processed for stat_type CLAIMING_RTE.
+2025-01-23 04:00:03 - INFO - Updated last processed date for stat type: CLAIMING_RTE to 2025-01-22
+2025-01-23 04:00:03 - INFO - Starting processing for stat type: STAKES_SPRNT
+2025-01-23 04:00:03 - INFO - Last processed date for STAKES_SPRNT: 2025-01-19
+2025-01-23 04:00:03 - INFO - Fetched 3 race_dates for STAKES_SPRNT.
+2025-01-23 04:00:03 - INFO - Processing stat type: STAKES_SPRNT for 3 new race dates.
+2025-01-23 04:00:03 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:03 - INFO - Processing race_date: 2025-01-20 for stat_type: STAKES_SPRNT
+2025-01-23 04:00:03 - INFO - Race_date 2025-01-20: 0 actual_horses found.
+2025-01-23 04:00:03 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
+2025-01-23 04:00:03 - INFO - Processing race_date: 2025-01-21 for stat_type: STAKES_SPRNT
+2025-01-23 04:00:03 - INFO - Race_date 2025-01-21: 0 actual_horses found.
+2025-01-23 04:00:03 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
+2025-01-23 04:00:03 - INFO - Processing race_date: 2025-01-22 for stat_type: STAKES_SPRNT
+2025-01-23 04:00:03 - INFO - Race_date 2025-01-22: 0 actual_horses found.
+2025-01-23 04:00:03 - WARNING - No actual_horses found for race_date 2025-01-22. Skipping.
+2025-01-23 04:00:03 - INFO - No race dates were processed for stat type: STAKES_SPRNT
+2025-01-23 04:00:03 - INFO - Starting processing for stat type: STAKES_RTE
+2025-01-23 04:00:03 - INFO - Last processed date for STAKES_RTE: 2025-01-19
+2025-01-23 04:00:03 - INFO - Fetched 3 race_dates for STAKES_RTE.
+2025-01-23 04:00:03 - INFO - Processing stat type: STAKES_RTE for 3 new race dates.
+2025-01-23 04:00:03 - INFO - Total horses fetched from 'horse' table: 113489.
+2025-01-23 04:00:03 - INFO - Processing race_date: 2025-01-20 for stat_type: STAKES_RTE
+2025-01-23 04:00:03 - INFO - Race_date 2025-01-20: 0 actual_horses found.
+2025-01-23 04:00:03 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
+2025-01-23 04:00:03 - INFO - Processing race_date: 2025-01-21 for stat_type: STAKES_RTE
+2025-01-23 04:00:03 - INFO - Race_date 2025-01-21: 0 actual_horses found.
+2025-01-23 04:00:03 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
+2025-01-23 04:00:03 - INFO - Processing race_date: 2025-01-22 for stat_type: STAKES_RTE
+2025-01-23 04:00:03 - INFO - Race_date 2025-01-22: 0 actual_horses found.
+2025-01-23 04:00:03 - WARNING - No actual_horses found for race_date 2025-01-22. Skipping.
+2025-01-23 04:00:03 - INFO - No race dates were processed for stat type: STAKES_RTE
+2025-01-23 04:00:03 - INFO - Successfully updated horse_accum_stats for all stat types, including ALL_RACES.
+2025-01-23 04:00:03 - INFO - Database connection closed.

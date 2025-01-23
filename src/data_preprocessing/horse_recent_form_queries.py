@@ -12,7 +12,7 @@ def form_sql_queries():
                 and r2.race_date = re.race_date 
                 and r2.race_number = re.race_number
                 and r2.saddle_cloth_number = re.program_num 
-            join sectionals_aggregated sa on r.course_cd = sa.course_cd 
+            join sectionals_aggregated sa on r2.course_cd = sa.course_cd 
                 and r2.race_date = sa.race_date 
                 and r2.race_number = sa.race_number 
                 and r2.saddle_cloth_number = sa.saddle_cloth_number 
@@ -22,6 +22,7 @@ def form_sql_queries():
                 and sa.saddle_cloth_number = ga.saddle_cloth_number 
             join horse h on r2.axciskey = h.axciskey 
             where r2.breed_type = 'TB'
+            and re.official_fin is not null
         """,
         "workouts": """
             SELECT w.course_cd, w.race_date, w.race_number, w.saddle_cloth_number, h.horse_id, w.worknum,days_back, w.worktext, w.ranking, w.rank_group

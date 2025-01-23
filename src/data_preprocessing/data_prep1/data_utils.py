@@ -314,6 +314,10 @@ def identify_and_remove_outliers(df, column):
     
     return df_no_outliers
 
+import logging
+from pyspark.sql import DataFrame, Window
+from pyspark.sql.functions import col, when, mean
+
 def identify_and_impute_outliers(df: DataFrame, column: str, tolerance=0.05) -> DataFrame:
     """
     Identify and impute missing and outlier values in a DataFrame column using the IQR method.
@@ -356,8 +360,6 @@ def identify_and_impute_outliers(df: DataFrame, column: str, tolerance=0.05) -> 
     df = df.withColumn(column,
         when(col(column).isNull(), col("imputed_value")).otherwise(col(column))
     )
-    print(f"Imputed values for {column}: ***************************************************************")
-    df.select("course_cd", "race_date", "race_number", "imputed_value", "stride_frequency", column).show(20, truncate=False)
     
     # Step 2: Cap outliers at lower_bound or upper_bound
     df = df.withColumn(column,
@@ -366,18 +368,12 @@ def identify_and_impute_outliers(df: DataFrame, column: str, tolerance=0.05) -> 
         .otherwise(col(column))
     )
     
-    print(f"Imputed values for {column}: ##################################################################")
-    
-    df.select("course_cd", "race_date", "race_number", "imputed_value", "stride_frequency", column).show(20, truncate=False)
-    
     # Log changes
     logging.info(f"Missing values and outliers in {column} have been imputed and capped.")
 
     # Clean up temporary columns
     df = df.drop("race_mean_stride_freq", "imputed_value")
-    df.select("course_cd", "race_date", "race_number", column).show(20, truncate=False)
     return df
-
 
 def identify_missing_and_outliers(spark, parquet_dir, df, cols):
     """

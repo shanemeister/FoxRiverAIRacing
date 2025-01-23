@@ -1,21 +1,21 @@
-2025-01-20 13:36:27 - INFO - Logging has been set up successfully.
-2025-01-20 13:36:27 - INFO - Query training_data located and loading from PostgreSQL...
-2025-01-20 13:36:28 - INFO - Data loaded from PostgreSQL in 1.25 seconds.
-2025-01-20 13:40:30 - INFO - Data loaded from PostgreSQL. Count: 327986
-2025-01-20 13:40:30 - INFO - Row count: 327986
-2025-01-20 13:40:30 - INFO - Count operation completed in 243.19 seconds.
-2025-01-20 13:40:30 - INFO - Checking for duplicates on primary keys...
-2025-01-20 13:40:31 - INFO - Number of duplicate records found: 0
-2025-01-20 13:40:31 - INFO - No duplicate records found.
-2025-01-20 13:40:31 - INFO - Convert Decimal Columns to Double.
-2025-01-20 13:40:31 - INFO - Decimal columns converted to double.
-2025-01-20 13:40:31 - INFO - Imputing date_of_birth with median date.
-2025-01-20 13:40:31 - INFO - Created age_at_race_day.
-2025-01-20 13:40:31 - INFO - Imputing categorical and numeric columns.
-2025-01-20 13:40:31 - INFO - Filling missing values for columns.
-2025-01-20 13:40:32 - INFO - Numeric columns cast to double.
-2025-01-20 13:40:35 - INFO - Starting the write to parquet.
-2025-01-20 13:40:41 - INFO - Data written to Parquet in 5.69 seconds
-2025-01-20 13:40:41 - INFO - Data cleansing complete. train_df being returned.
-2025-01-20 13:40:52 - INFO - Ingestion job for training data succeeded
-2025-01-20 13:40:52 - INFO - Closing down clientserver connection
+2025-01-23 15:29:17 - INFO - Logging has been set up successfully.
+2025-01-23 15:29:17 - INFO - Query training_data located and loading from PostgreSQL...
+2025-01-23 15:29:18 - INFO - Data loaded from PostgreSQL in 1.24 seconds.
+2025-01-23 15:33:26 - INFO - Data loaded from PostgreSQL. Count: 328184
+2025-01-23 15:33:26 - INFO - Row count: 328184
+2025-01-23 15:33:26 - INFO - Count operation completed in 248.94 seconds.
+2025-01-23 15:33:26 - INFO - Checking for duplicates on primary keys...
+2025-01-23 15:33:26 - INFO - Number of duplicate records found: 0
+2025-01-23 15:33:26 - INFO - No duplicate records found.
+2025-01-23 15:33:26 - INFO - Convert Decimal Columns to Double.
+2025-01-23 15:33:26 - INFO - Decimal columns converted to double.
+2025-01-23 15:33:26 - INFO - Imputing date_of_birth with median date.
+2025-01-23 15:33:26 - INFO - Created age_at_race_day.
+2025-01-23 15:33:26 - INFO - Imputing categorical and numeric columns.
+2025-01-23 15:33:27 - INFO - Filling missing values for columns.
+2025-01-23 15:33:27 - INFO - Numeric columns cast to double.
+2025-01-23 15:33:31 - INFO - Starting the write to parquet.
+2025-01-23 15:33:37 - INFO - Data written to Parquet in 6.21 seconds
+2025-01-23 15:33:37 - INFO - Data cleansing complete. train_df being returned.
+2025-01-23 15:33:48 - INFO - Ingestion job for training data succeeded
+2025-01-23 15:33:49 - INFO - Closing down clientserver connection

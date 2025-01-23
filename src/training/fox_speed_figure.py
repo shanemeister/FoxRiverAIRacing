@@ -8,97 +8,11 @@ import optuna
 from catboost import CatBoostRegressor, Pool
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.metrics import roc_auc_score, accuracy_score
-from psycopg2 import pool, DatabaseError
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-
 from src.data_preprocessing.data_prep1.data_utils import save_parquet, initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
-from src.inference.training_sql_queries import sql_queries
-
-def setup_logging(log_dir='/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs'):
-    """Sets up logging configuration to write logs to a file and the console."""
-    try:
-        if not log_dir:
-            log_dir = '/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs'
-        
-        os.makedirs(log_dir, exist_ok=True)
-        log_file = os.path.join(log_dir, 'fox_speed_figure.log')
-
-        # Clear the log file
-        with open(log_file, 'w'):
-            pass
-
-        logger = logging.getLogger()
-        if logger.hasHandlers():
-            logger.handlers.clear()
-
-        logger.setLevel(logging.INFO)
-
-        file_handler = logging.FileHandler(log_file)
-        file_handler.setLevel(logging.INFO)
-
-        formatter = logging.Formatter(
-            '%(asctime)s - %(levelname)s - %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
-        )
-        file_handler.setFormatter(formatter)
-
-        logger.addHandler(file_handler)
-
-        logger.info("Logging has been set up successfully.")
-    except Exception as e:
-        print(f"Failed to set up logging: {e}", file=sys.stderr)
-        sys.exit(1)
-
-def read_config(script_dir, config_relative_path='../../config.ini'):
-    """Reads the configuration file and returns the configuration object."""
-    try:
-        config = configparser.ConfigParser()
-        config_file_path = os.path.abspath(os.path.join(script_dir, config_relative_path))
-        if not os.path.exists(config_file_path):
-            raise FileNotFoundError(f"Configuration file '{config_file_path}' does not exist.")
-        config.read(config_file_path)
-        if 'database' not in config:
-            raise KeyError("The 'database' section is missing in the configuration file.")
-        return config
-    except Exception as e:
-        logging.error(f"Error reading configuration file: {e}")
-        sys.exit(1)
-
-def get_db_pool(config):
-    """Creates a connection pool to PostgreSQL."""
-    try:
-        db_pool_args = {
-            'user': config['database']['user'],
-            'host': config['database']['host'],
-            'port': config['database']['port'],
-            'database': config['database']['dbname']
-        }
-        
-        password = config['database'].get('password')
-        if password:
-            db_pool_args['password'] = password
-            logging.info("Password found in configuration. Using provided password.")
-        else:
-            logging.info("No password in config. Attempting .pgpass or other authentication.")
-
-        db_pool = pool.SimpleConnectionPool(
-            1, 20,  # min and max connections
-            **db_pool_args
-        )
-        if db_pool:
-            logging.info("Connection pool created successfully.")
-        return db_pool
-    except DatabaseError as e:
-        logging.error(f"Database error creating connection pool: {e}")
-        sys.exit(1)
-    except KeyError as e:
-        logging.error(f"Missing configuration key: {e}")
-        sys.exit(1)
-    except Exception as e:
-        logging.error(f"Unexpected error creating connection pool: {e}")
-        sys.exit(1)
+from src.training.training_sql_queries import sql_queries
 
 def create_custom_speed_figure(df):
     """
@@ -256,60 +170,3 @@ def create_custom_speed_figure(df):
     final_model.save_model("data/models/speed_figure_model/speed_figure_regressor_model_2025-01-21.cbm")
     
     return df
-
-def main():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    config = read_config(script_dir)
-    setup_logging()
-
-    # Create DB pool (optional)
-    db_pool = get_db_pool(config)
-
-    # 1) Initialize SparkSession and load data
-    spark, jdbc_url, jdbc_properties, parquet_dir, _ = initialize_environment()
-
-    queries = sql_queries()
-    dfs = load_data_from_postgresql(
-        spark, jdbc_url, jdbc_properties,
-        queries, parquet_dir
-    )
-
-    # Example: we read the training DataFrame from a Parquet
-    train_df = spark.read.parquet(
-        "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df"
-    )
-
-    # 2) Compute the custom speed figure
-    enhanced_df = create_custom_speed_figure(train_df)
-
-    # Convert back to Spark
-    spark_df = spark.createDataFrame(enhanced_df)
-
-    # Example filtering logic
-    spark_df.filter(
-        (spark_df["official_fin"] <= 4) & (spark_df["class_rating"] >= spark_df["previous_class"])
-    ).select(
-        "race_id",
-        "horse_id", 
-        "official_fin", 
-        "class_rating", 
-        "previous_class", 
-        "speed_rating", 
-        "horse_itm_percentage", 
-        "perf_target", 
-        "custom_speed_figure"
-    ).show(30)
-
-    # 3) Save the Spark DataFrame as a Parquet file
-    save_parquet(spark, spark_df, "speed_figure", "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet")
-    logging.info("Ingestion job succeeded")
-
-    # 4) Cleanup
-    spark.stop()
-    logging.info("Spark session stopped.")
-    if db_pool:
-        db_pool.closeall()
-        logging.info("DB connection pool closed.")
-
-if __name__ == "__main__":
-    main()

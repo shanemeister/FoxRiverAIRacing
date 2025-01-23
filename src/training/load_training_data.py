@@ -6,7 +6,7 @@ import pyspark.sql.functions as F
 from pyspark.sql.functions import (col, count, row_number, abs, unix_timestamp,  
                                    when, lit, min as F_min, max as F_max , upper, trim,
                                    row_number, mean as F_mean, countDistinct, last, first, when)
-from src.inference.training_sql_queries import sql_queries
+from src.training.training_sql_queries import sql_queries
 
 def impute_date_of_birth_with_median(df):
     """  
@@ -70,6 +70,17 @@ def fix_outliers(df):
         "days_off": (0, 365.0),
         "avgspd": (0, 120.0),
         "avg_workout_rank_3": (0, 60.0),
+        "time_behind": (0, 60),
+        "speed_improvement": (-20, 50),
+        "sire_starts": (0, 200),
+        "dam_win": (0, 54),
+        "dam_starts": (0, 240),
+        "dam_show": (0, 54),
+        "avg_dist_bk_gate4_5": (0,50),
+        "avg_dist_bk_gate3_5":(0,50),
+        "avg_dist_bk_gate2_5":(0,50),
+        "avg_dist_bk_gate1_5":(0,50),
+        "age_at_race_day":(1.5, 10),
     }
 
     for col_name, (min_val, max_val) in outlier_bounds.items():
@@ -165,8 +176,10 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     print("3b. Created age_at_race_day.")
 
     logging.info("Imputing categorical and numeric columns.")
+    
     # 3c. Impute categorical and numeric columns -- ensure no whitespace in categorical columns
-    categorical_defaults = { "turf_mud_mark": "MISSING", "layoff_cat": "MISSING", "trk_cond": "MISSING", "med": "NONE" , "surface": "MISSING", "previous_surface": "MISSING"}    
+    categorical_defaults = { "turf_mud_mark": "MISSING", "layoff_cat": "MISSING", "trk_cond": "MISSING", "med": "NONE" , 
+                            "surface": "MISSING", "previous_surface": "MISSING"}    
     # Fill missing values for categorical defaults
     train_df = train_df.fillna(categorical_defaults)
     # Impute med with NONE
@@ -222,16 +235,20 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
             )
         
     logging.info("Numeric columns cast to double.")
-    numeric_cols = ['race_number','horse_id','official_fin','purse','weight','claimprice','distance_meters','time_behind',
-                    'pace_delta_time','speed_rating','class_rating','previous_class','power','starts','morn_odds','avgspd',
-                    'net_sentiment','avg_spd_sd','ave_cl_sd','hi_spd_sd','pstyerl','all_starts','all_win','all_place','all_show',
-                    'all_fourth','all_earnings','cond_starts','cond_win','cond_place','cond_show','cond_fourth','cond_earnings',
-                    'total_races_5','avg_fin_5','avg_speed_5','best_speed','avg_beaten_len_5','avg_dist_bk_gate1_5','avg_dist_bk_gate2_5',
-                    'avg_dist_bk_gate3_5','avg_dist_bk_gate4_5','avg_speed_fullrace_5','avg_stride_length_5','avg_strfreq_q1_5','avg_strfreq_q2_5',
-                    'avg_strfreq_q3_5','avg_strfreq_q4_5','prev_speed','speed_improvement','days_off','avg_workout_rank_3','count_workouts_3',
-                    'previous_distance','off_finish_last_race','race_count','jock_win_percent','jock_itm_percent','trainer_win_percent',
-                    'trainer_itm_percent','jt_win_percent','jt_itm_percent','jock_win_track','jock_itm_track','trainer_win_track',
-                    'trainer_itm_track','jt_win_track','jt_itm_track','age_at_race_day','gps_present']
+    numeric_cols = ["race_number","horse_id","purse","weight","claimprice","distance_meters","time_behind","pace_delta_time",
+                    "class_rating","prev_speed_rating","previous_class","previous_distance",
+                    "off_finish_last_race","power","horse_itm_percentage","avgspd","net_sentiment","avg_spd_sd",
+                    "ave_cl_sd","hi_spd_sd","pstyerl","all_starts","all_win","all_place","all_show","all_fourth",
+                    "all_earnings","cond_starts","cond_win","cond_place","cond_show","cond_fourth","cond_earnings",
+                    "total_races_5","avg_fin_5","avg_speed_5","best_speed","avg_beaten_len_5",
+                    "avg_dist_bk_gate1_5","avg_dist_bk_gate2_5","avg_dist_bk_gate3_5",
+                    "avg_dist_bk_gate4_5","avg_speed_fullrace_5","avg_stride_length_5","avg_strfreq_q1_5",
+                    "avg_strfreq_q2_5","avg_strfreq_q3_5","avg_strfreq_q4_5","prev_speed","speed_improvement",
+                    "days_off","avg_workout_rank_3","count_workouts_3","race_count",
+                    "jock_win_percent","jock_itm_percent","trainer_win_percent","trainer_itm_percent","jt_win_percent",
+                    "jt_itm_percent","jock_win_track","jock_itm_track","trainer_win_track","trainer_itm_track","jt_win_track",
+                    "jt_itm_track","sire_starts","sire_win","sire_place","sire_show","dam_starts","dam_win",
+                    "dam_place","dam_show"]
     
     for col_name in numeric_cols:
         train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))
