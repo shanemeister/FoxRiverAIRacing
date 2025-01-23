@@ -119,7 +119,6 @@ def create_custom_speed_figure(df):
     
     df["group_id"] = df["race_id"].astype("category").cat.codes
     df = df.sort_values("group_id", ascending=True).reset_index(drop=True)
-
     # Convert decimal columns
     decimal_cols = [
         'distance_meters', 'class_rating', 'previous_class', 'power',
