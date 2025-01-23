@@ -158,8 +158,8 @@ def main():
             # If user requested train_data or no args => run training data ingestion
             if do_train_data:
                 print("Running training data ingestion steps...")
-                training_data = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
-                healthcheck_report = time_series_data_healthcheck(training_data)
+                training_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
+                healthcheck_report = time_series_data_healthcheck(training_df)
                 pprint.pprint(healthcheck_report)
                 logging.info("Ingestion job for training data succeeded")
                 # Possibly call some function: save_parquet(...) if needed

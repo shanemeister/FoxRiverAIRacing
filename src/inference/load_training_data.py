@@ -150,7 +150,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
                 "jock_win_percent", "jock_itm_percent", "trainer_itm_percent", 
                     "trainer_win_percent", "jt_win_percent", "jt_itm_percent",
                     "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
-                    "jt_win_track", "jt_itm_track", 'previous_distance' ]
+                    "jt_win_track", "jt_itm_track", 'previous_distance', 'horse_itm_percentage' ]
     for col_name in decimal_cols:
         train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))
     logging.info("Decimal columns converted to double.")
@@ -163,27 +163,34 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     )
     logging.info("Created age_at_race_day.")
     print("3b. Created age_at_race_day.")
-    
+
     logging.info("Imputing categorical and numeric columns.")
     # 3c. Impute categorical and numeric columns -- ensure no whitespace in categorical columns
-    categorical_defaults = { "turf_mud_mark": "MISSING", "layoff_cat": "MISSING", "med": "NONE" , "surface": "MISSING", "previous_surface": "MISSING"}    
+    categorical_defaults = { "turf_mud_mark": "MISSING", "layoff_cat": "MISSING", "trk_cond": "MISSING", "med": "NONE" , "surface": "MISSING", "previous_surface": "MISSING"}    
     # Fill missing values for categorical defaults
     train_df = train_df.fillna(categorical_defaults)
     # Impute med with NONE
     train_df = train_df.withColumn("med", when(col("med") == "", "NONE").otherwise(col("med")))
     # Impute turf_mud_mark with MISSING
     train_df = train_df.withColumn("turf_mud_mark",when(col("turf_mud_mark") == "", "MISSING").otherwise(col("turf_mud_mark")))
+
+    # Impute horse_itm_percentage with 0 when it is null
+    train_df = train_df.withColumn("horse_itm_percentage", when(col("horse_itm_percentage").isNull(), 0).otherwise(col("horse_itm_percentage")))
     
+    # Set empty values to 0 for prev_speed and count_workouts_3
+    train_df = train_df.withColumn("prev_speed", when(col("prev_speed").isNull(), 0).otherwise(col("prev_speed")))
+    train_df = train_df.withColumn("count_workouts_3", when(col("count_workouts_3").isNull(), 0).otherwise(col("count_workouts_3")))
+
     train_df = manage_sentinel_values(train_df)
-    
+
     columns_to_fill = [
         'all_earnings', 'all_fourth', 'all_place', 'all_show', 'all_starts', 'all_win', 
         'cond_earnings', 'cond_fourth', 'cond_place', 'cond_show', 'cond_starts', 'cond_win', 'days_off', 
         'jock_itm_percent', 'jock_itm_track', 'jock_win_percent', 'jock_win_track', 'jt_itm_percent', 
         'jt_itm_track', 'jt_win_percent', 'jt_win_track', 'trainer_itm_percent', 'trainer_itm_track', 
         'trainer_win_percent', 'trainer_win_track', 'net_sentiment','prev_race_date', 'first_race_date_5', 'most_recent_race_5', 
-        'avg_fin_5', 'avg_speed_5', 'avg_workout_rank_3', 
-        'best_speed', 'count_workouts_3', 'prev_speed', 'avg_beaten_len_5', 'total_races_5']
+        'avg_fin_5', 'avg_speed_5', 'avg_workout_rank_3',
+    ]
     logging.info("Filling missing values for columns.")
     for column in columns_to_fill:
         if column == 'prev_race_date':
@@ -215,16 +222,16 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
             )
         
     logging.info("Numeric columns cast to double.")
-    numeric_cols = ['race_number','horse_id','purse','weight','claimprice','power','morn_odds','avgspd','class_rating',
-                    'net_sentiment','avg_spd_sd','ave_cl_sd','hi_spd_sd','pstyerl','all_starts','all_win','all_place',
-                    'all_show','all_fourth','all_earnings','cond_starts','cond_win','cond_place','cond_show','cond_fourth',
-                    'cond_earnings','avg_speed_5','best_speed','avg_beaten_len_5','avg_dist_bk_gate1_5','avg_dist_bk_gate2_5',
-                    'avg_dist_bk_gate3_5','avg_dist_bk_gate4_5','avg_speed_fullrace_5','avg_stride_length_5','avg_strfreq_q1_5',
-                    'avg_strfreq_q2_5','avg_strfreq_q3_5','avg_strfreq_q4_5','prev_speed','speed_improvement','days_off',
-                    'avg_workout_rank_3','jock_win_percent','jock_itm_percent','trainer_win_percent','trainer_itm_percent',
-                    'jt_win_percent','jt_itm_percent','jock_win_track','jock_itm_track','trainer_win_track','trainer_itm_track',
-                    'jt_win_track','jt_itm_track','age_at_race_day','distance_meters', 'previous_distance', 'count_workouts_3',
-                    'off_finish_last_race', 'previous_class' , 'race_count' ]
+    numeric_cols = ['race_number','horse_id','official_fin','purse','weight','claimprice','distance_meters','time_behind',
+                    'pace_delta_time','speed_rating','class_rating','previous_class','power','starts','morn_odds','avgspd',
+                    'net_sentiment','avg_spd_sd','ave_cl_sd','hi_spd_sd','pstyerl','all_starts','all_win','all_place','all_show',
+                    'all_fourth','all_earnings','cond_starts','cond_win','cond_place','cond_show','cond_fourth','cond_earnings',
+                    'total_races_5','avg_fin_5','avg_speed_5','best_speed','avg_beaten_len_5','avg_dist_bk_gate1_5','avg_dist_bk_gate2_5',
+                    'avg_dist_bk_gate3_5','avg_dist_bk_gate4_5','avg_speed_fullrace_5','avg_stride_length_5','avg_strfreq_q1_5','avg_strfreq_q2_5',
+                    'avg_strfreq_q3_5','avg_strfreq_q4_5','prev_speed','speed_improvement','days_off','avg_workout_rank_3','count_workouts_3',
+                    'previous_distance','off_finish_last_race','race_count','jock_win_percent','jock_itm_percent','trainer_win_percent',
+                    'trainer_itm_percent','jt_win_percent','jt_itm_percent','jock_win_track','jock_itm_track','trainer_win_track',
+                    'trainer_itm_track','jt_win_track','jt_itm_track','age_at_race_day','gps_present']
     
     for col_name in numeric_cols:
         train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))
@@ -235,7 +242,6 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     logging.info("Starting the write to parquet.")
     start_time = time.time()
     train_df.write.mode("overwrite").parquet(f"{parquet_dir}/train_df")
-    #save_parquet(spark, training_data, "training_data", parquet_dir)
     logging.info(f"Data written to Parquet in {time.time() - start_time:.2f} seconds")
     logging.info("Data cleansing complete. train_df being returned.")
     

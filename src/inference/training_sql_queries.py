@@ -20,12 +20,19 @@ SELECT
             r2.claimprice,
             TRIM(r.surface)  AS surface,
             r.distance_meters,
-            r2.power,
+            ROUND(sa.running_time - r.rr_win_time) AS time_behind,
+			sa.running_time - r.rr_par_time AS pace_delta_time,
+			re.speed_rating, 
+			r.class_rating, 
+			r2.previous_class,  
+			r2.power,
+			has_all.starts, 
+			has_all.itm_percentage AS horse_itm_percentage, 
+			tc.code AS trk_cond ,
             TRIM(r2.med)    AS med,
             r2.morn_odds,
             r2.avgspd,
             TRIM(r.race_type) AS race_type,
-            r.class_rating,
             r2.net_sentiment,
             TRIM(r.stk_clm_md)     AS stk_clm_md,
             TRIM(r2.turf_mud_mark) AS turf_mud_mark,
@@ -69,7 +76,6 @@ SELECT
             hrf.layoff_cat,
             hrf.avg_workout_rank_3,
             hrf.count_workouts_3,
-            r2.previous_class, 
             r2.previous_distance, 
             r2.previous_surface, 
             r2.off_finish_last_race, 
@@ -85,7 +91,17 @@ SELECT
             ttrack.win_percentage  AS trainer_win_track,
             ttrack.itm_percentage  AS trainer_itm_track,
             jttrack.win_percentage AS jt_win_track,
-            jttrack.itm_percentage AS jt_itm_track
+            jttrack.itm_percentage AS jt_itm_track,
+            s.starts AS sire_starts,
+            s.wins AS sire_win,
+            s.places AS sire_place,
+            s.shows AS sire_show,
+            s.earnings AS 	s,
+            d.starts AS dam_starts,
+            d.wins AS dam_win,
+            d.places AS dam_place,
+            d.shows AS dam_show,
+            d.earnings AS dam_earnings
         FROM races r
         JOIN runners r2
             ON r.course_cd  = r2.course_cd
@@ -98,14 +114,23 @@ SELECT
             AND r2.saddle_cloth_number = re.program_num
             AND r2.axciskey = re.axciskey
         JOIN horse h ON r2.axciskey = h.axciskey
-		LEFT JOIN LATERAL (
+		JOIN LATERAL (
 			SELECT h2.*
 			FROM horse_form_agg h2
 			WHERE h2.horse_id = h.horse_id
 				AND h2.as_of_date <= r.race_date
 			ORDER BY h2.as_of_date DESC
 			LIMIT 1) hrf ON true
-        LEFT JOIN horse_accum_stats has_all
+		JOIN stat_sire s ON h.axciskey = s.axciskey
+			AND s.type = 'LIFETIME'
+		JOIN stat_dam d ON h.axciskey = d.axciskey
+			AND d.type = 'LIFETIME'
+       JOIN 
+			sectionals_aggregated sa ON re.course_cd = sa.course_cd 
+			AND re.race_date = sa.race_date 
+			AND re.race_number = sa.race_number 
+			AND re.program_num = sa.saddle_cloth_number
+        JOIN horse_accum_stats has_all
 				  ON has_all.axciskey  = r2.axciskey
 				  AND has_all.stat_type = 'ALL_RACES'
 				  AND has_all.as_of_date = (
@@ -118,8 +143,8 @@ SELECT
 		    ON has_cond.axciskey = r2.axciskey
 		    /* Use exactly the same CASE expression for the stat_type: */
 		    AND has_cond.stat_type = CASE
-		        WHEN r.surface = 'D' AND r.trk_cond = 'Muddy' AND r.distance_meters <= 1409  THEN 'MUDDY_SPRNT'
-		        WHEN r.surface = 'D' AND r.trk_cond = 'Muddy' AND r.distance_meters >= 1409 THEN 'MUDDY_RTE'
+		        WHEN r.surface = 'D' AND r.trk_cond = 'MY' AND r.distance_meters <= 1409  THEN 'MUDDY_SPRNT'
+		        WHEN r.surface = 'D' AND r.trk_cond = 'MY' AND r.distance_meters >= 1409 THEN 'MUDDY_RTE'
 		        WHEN r.surface = 'D' AND r.distance_meters <= 1409 THEN 'DIRT_SPRNT'
 		        WHEN r.surface = 'D' AND r.distance_meters > 1409  THEN 'DIRT_RTE'
 		        WHEN r.surface = 'T' AND r.distance_meters <= 1409 THEN 'TURF_SPRNT'
@@ -139,8 +164,8 @@ SELECT
 		        FROM horse_accum_stats a2
 		        WHERE a2.axciskey  = r2.axciskey
 		          AND a2.stat_type = CASE
-		              WHEN r.surface = 'D' AND r.trk_cond = 'Muddy' AND r.distance_meters <= 1409  THEN 'MUDDY_SPRNT'
-		              WHEN r.surface = 'D' AND r.trk_cond = 'Muddy' AND r.distance_meters >= 1409 THEN 'MUDDY_RTE'
+		              WHEN r.surface = 'D' AND r.trk_cond = 'MY' AND r.distance_meters <= 1409  THEN 'MUDDY_SPRNT'
+		              WHEN r.surface = 'D' AND r.trk_cond = 'MY' AND r.distance_meters >= 1409 THEN 'MUDDY_RTE'
 		              WHEN r.surface = 'D' AND r.distance_meters <= 1409 THEN 'DIRT_SPRNT'
 		              WHEN r.surface = 'D' AND r.distance_meters > 1409  THEN 'DIRT_RTE'
 		              WHEN r.surface = 'T' AND r.distance_meters <= 1409 THEN 'TURF_SPRNT'
@@ -230,6 +255,10 @@ SELECT
 		          AND a2.stat_type  = 'ALL_RACES_JT_TRACK'
 		          AND a2.as_of_date <= r.race_date
 		    )
+        LEFT JOIN 
+        	track_conditions tc ON r.trk_cond = tc.code
+    	JOIN 
+        	course c ON r.course_cd = c.course_cd 
         WHERE re.official_fin is not null
             AND r2.breed_type = 'TB'
 			AND r.course_cd IN ('CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 

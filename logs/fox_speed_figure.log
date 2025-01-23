@@ -1,39 +1,28 @@
-2025-01-18 18:34:43 - INFO - Logging has been set up successfully.
-2025-01-18 18:34:43 - INFO - Password found in configuration. Using provided password.
-2025-01-18 18:34:43 - INFO - Connection pool created successfully.
-2025-01-18 18:34:45 - INFO - Loading speed_figure data from PostgreSQL...
-2025-01-18 18:34:46 - INFO - Saving speed_figure DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet...
-2025-01-18 18:34:51 - INFO - speed_figure data loaded and saved successfully.
-2025-01-18 18:34:51 - INFO - DataFrame 'speed_figure' loaded. Schema:
-2025-01-18 18:34:51 - INFO - DataFrame 'speed_figure' loaded. Schema:
-2025-01-18 18:34:58 - INFO - Decimal columns converted to float and filled NaN with 0.
-2025-01-18 18:34:58 - INFO - Columns: course_cd                object
-track_name               object
-race_date                object
-race_number             float64
-horse_id                  int32
-distance_meters         float64
-official_fin            float64
-time_behind             float64
-pace_delta_time         float64
-speed_rating              int32
-class_rating            float64
-previous_class          float64
-power                   float64
-starts                  float64
-horse_itm_percentage    float64
-track_conditions         object
-race_id                  object
-group_id                  int32
-dtype: object
-2025-01-18 18:35:22 - INFO - Top 5 finishers with moving up in class: None
-2025-01-18 18:35:22 - INFO - Top 5 finishers with moving up in class: None
-2025-01-18 18:35:22 - INFO - Top 5 finishers with moving up in class: None
-2025-01-18 18:35:22 - INFO - Top 5 finishers with moving up in class: None
-2025-01-18 18:35:22 - INFO - Saving speed_figure DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet...
-2025-01-18 18:35:22 - INFO - Schema of speed_figure DataFrame:
-2025-01-18 18:35:24 - INFO - speed_figure DataFrame saved successfully.
-2025-01-18 18:35:24 - INFO - Ingestion job succeeded
-2025-01-18 18:35:24 - INFO - Spark session stopped.
-2025-01-18 18:35:24 - INFO - DB connection pool closed.
-2025-01-18 18:35:24 - INFO - Closing down clientserver connection
+2025-01-20 16:16:20 - INFO - Logging has been set up successfully.
+2025-01-20 16:16:20 - INFO - Password found in configuration. Using provided password.
+2025-01-20 16:16:20 - INFO - Connection pool created successfully.
+2025-01-20 16:16:22 - INFO - Loading training_data data from PostgreSQL...
+2025-01-20 16:16:23 - INFO - Saving training_data DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/training_data.parquet...
+2025-01-20 16:20:26 - INFO - training_data data loaded and saved successfully.
+2025-01-20 16:20:36 - INFO - Decimal columns converted to float and filled NaN with 0.
+2025-01-20 16:20:36 - INFO - Columns: course_cd               object
+race_date               object
+race_number            float64
+saddle_cloth_number     object
+horse_id               float64
+                        ...   
+dam_earnings            object
+age_at_race_day        float64
+gps_present            float64
+race_id                 object
+group_id                 int32
+Length: 101, dtype: object
+2025-01-20 16:23:24 - INFO - Best Hyperparameters: {'iterations': 1953, 'depth': 8, 'learning_rate': 0.061148047627932696, 'l2_leaf_reg': 0.0032571874393369418}
+2025-01-20 16:23:24 - INFO - Best RMSE: 1.6246221063056676
+2025-01-20 16:24:41 - INFO - Saving speed_figure DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet...
+2025-01-20 16:24:41 - INFO - Schema of speed_figure DataFrame:
+2025-01-20 16:24:43 - INFO - speed_figure DataFrame saved successfully.
+2025-01-20 16:24:43 - INFO - Ingestion job succeeded
+2025-01-20 16:24:43 - INFO - Spark session stopped.
+2025-01-20 16:24:43 - INFO - DB connection pool closed.
+2025-01-20 16:24:43 - INFO - Closing down clientserver connection

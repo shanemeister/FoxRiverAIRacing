@@ -1,155 +1,14 @@
-2025-01-12 21:28:41 - Starting stat_type_update job
-2025-01-12 21:28:41 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-12 21:28:41 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/12 21:28:42 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/12 21:28:42 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-:: loading settings :: url = jar:file:/opt/spark-3.4.4-bin-hadoop3/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
-Ivy Default Cache set to: /home/exx/.ivy2/cache
-The jars for the packages stored in: /home/exx/.ivy2/jars
-ml.dmlc#xgboost4j-spark_2.12 added as a dependency
-:: resolving dependencies :: org.apache.spark#spark-submit-parent-8139ad02-bd48-4678-ab04-7b1bc0399bb2;1.0
-	confs: [default]
-	found ml.dmlc#xgboost4j-spark_2.12;1.7.5 in central
-	found ml.dmlc#xgboost4j_2.12;1.7.5 in central
-	found com.typesafe.akka#akka-actor_2.12;2.5.23 in central
-	found com.typesafe#config;1.3.3 in central
-	found org.scala-lang.modules#scala-java8-compat_2.12;0.8.0 in central
-	found com.esotericsoftware#kryo;4.0.2 in central
-	found com.esotericsoftware#reflectasm;1.11.3 in central
-	found org.ow2.asm#asm;5.0.4 in central
-	found com.esotericsoftware#minlog;1.3.0 in central
-	found org.objenesis#objenesis;2.5.1 in central
-	found org.scala-lang#scala-reflect;2.12.8 in central
-	found commons-logging#commons-logging;1.2 in central
-:: resolution report :: resolve 138ms :: artifacts dl 4ms
-	:: modules in use:
-	com.esotericsoftware#kryo;4.0.2 from central in [default]
-	com.esotericsoftware#minlog;1.3.0 from central in [default]
-	com.esotericsoftware#reflectasm;1.11.3 from central in [default]
-	com.typesafe#config;1.3.3 from central in [default]
-	com.typesafe.akka#akka-actor_2.12;2.5.23 from central in [default]
-	commons-logging#commons-logging;1.2 from central in [default]
-	ml.dmlc#xgboost4j-spark_2.12;1.7.5 from central in [default]
-	ml.dmlc#xgboost4j_2.12;1.7.5 from central in [default]
-	org.objenesis#objenesis;2.5.1 from central in [default]
-	org.ow2.asm#asm;5.0.4 from central in [default]
-	org.scala-lang#scala-reflect;2.12.8 from central in [default]
-	org.scala-lang.modules#scala-java8-compat_2.12;0.8.0 from central in [default]
-	---------------------------------------------------------------------
-	|                  |            modules            ||   artifacts   |
-	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
-	---------------------------------------------------------------------
-	|      default     |   12  |   0   |   0   |   0   ||   12  |   0   |
-	---------------------------------------------------------------------
-:: retrieving :: org.apache.spark#spark-submit-parent-8139ad02-bd48-4678-ab04-7b1bc0399bb2
-	confs: [default]
-	0 artifacts copied, 12 already retrieved (0kB/4ms)
-25/01/12 21:28:42 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2025-01-20 05:45:01 - Starting stat_type_update job
+2025-01-20 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-20 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
+25/01/20 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/01/20 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/01/20 05:45:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/12 21:28:42 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/12 21:28:43 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/12 21:28:43 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/12 21:28:43 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/12 21:28:43 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/12 21:28:43 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:=>               (2 + 26) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                      (0 + 100) / 100][Stage 9:==================>                                    (34 + 66) / 100]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31]                                                                                Spark session created successfully.
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- todays_cls: long (nullable = true)
- |-- official_fin: integer (nullable = true)
- |-- speed_rating: integer (nullable = true)
- |-- running_time: double (nullable = true)
- |-- dist_bk_gate1: double (nullable = true)
- |-- dist_bk_gate2: double (nullable = true)
- |-- dist_bk_gate3: double (nullable = true)
- |-- dist_bk_gate4: double (nullable = true)
- |-- avg_speed_fullrace: double (nullable = true)
- |-- avg_stride_length: double (nullable = true)
- |-- strfreq_q1: double (nullable = true)
- |-- strfreq_q2: double (nullable = true)
- |-- strfreq_q3: double (nullable = true)
- |-- strfreq_q4: double (nullable = true)
-
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- worknum: double (nullable = true)
- |-- days_back: double (nullable = true)
- |-- worktext: string (nullable = true)
- |-- ranking: double (nullable = true)
- |-- rank_group: double (nullable = true)
-
-Error executing DDL: 'NoneType' object has no attribute 'getconn'
-Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
-Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
-Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
-DDL statements executed successfully.
-2025-01-12 21:29:33 - Python script succeeded
-2025-01-12 21:29:33 - Job completed
-2025-01-12 21:49:48 - Starting stat_type_update job
-2025-01-12 21:49:48 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-12 21:49:48 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/12 21:49:50 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/12 21:49:50 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-:: loading settings :: url = jar:file:/opt/spark-3.4.4-bin-hadoop3/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
-Ivy Default Cache set to: /home/exx/.ivy2/cache
-The jars for the packages stored in: /home/exx/.ivy2/jars
-ml.dmlc#xgboost4j-spark_2.12 added as a dependency
-:: resolving dependencies :: org.apache.spark#spark-submit-parent-a1d4237c-47cc-41e4-9ca4-f2e44388988d;1.0
-	confs: [default]
-	found ml.dmlc#xgboost4j-spark_2.12;1.7.5 in central
-	found ml.dmlc#xgboost4j_2.12;1.7.5 in central
-	found com.typesafe.akka#akka-actor_2.12;2.5.23 in central
-	found com.typesafe#config;1.3.3 in central
-	found org.scala-lang.modules#scala-java8-compat_2.12;0.8.0 in central
-	found com.esotericsoftware#kryo;4.0.2 in central
-	found com.esotericsoftware#reflectasm;1.11.3 in central
-	found org.ow2.asm#asm;5.0.4 in central
-	found com.esotericsoftware#minlog;1.3.0 in central
-	found org.objenesis#objenesis;2.5.1 in central
-	found org.scala-lang#scala-reflect;2.12.8 in central
-	found commons-logging#commons-logging;1.2 in central
-:: resolution report :: resolve 146ms :: artifacts dl 4ms
-	:: modules in use:
-	com.esotericsoftware#kryo;4.0.2 from central in [default]
-	com.esotericsoftware#minlog;1.3.0 from central in [default]
-	com.esotericsoftware#reflectasm;1.11.3 from central in [default]
-	com.typesafe#config;1.3.3 from central in [default]
-	com.typesafe.akka#akka-actor_2.12;2.5.23 from central in [default]
-	commons-logging#commons-logging;1.2 from central in [default]
-	ml.dmlc#xgboost4j-spark_2.12;1.7.5 from central in [default]
-	ml.dmlc#xgboost4j_2.12;1.7.5 from central in [default]
-	org.objenesis#objenesis;2.5.1 from central in [default]
-	org.ow2.asm#asm;5.0.4 from central in [default]
-	org.scala-lang#scala-reflect;2.12.8 from central in [default]
-	org.scala-lang.modules#scala-java8-compat_2.12;0.8.0 from central in [default]
-	---------------------------------------------------------------------
-	|                  |            modules            ||   artifacts   |
-	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
-	---------------------------------------------------------------------
-	|      default     |   12  |   0   |   0   |   0   ||   12  |   0   |
-	---------------------------------------------------------------------
-:: retrieving :: org.apache.spark#spark-submit-parent-a1d4237c-47cc-41e4-9ca4-f2e44388988d
-	confs: [default]
-	0 artifacts copied, 12 already retrieved (0kB/4ms)
-25/01/12 21:49:50 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/12 21:49:50 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/12 21:49:51 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/12 21:49:51 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/12 21:49:51 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/12 21:49:51 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/12 21:49:51 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:=>               (3 + 25) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                      (0 + 100) / 100][Stage 9:>                                                       (1 + 99) / 100][Stage 9:=====>                                                  (9 + 91) / 100]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31][Stage 12:=>                                                      (1 + 30) / 31][Stage 12:=====>                                                  (3 + 28) / 31][Stage 12:==================================================>     (28 + 3) / 31]                                                                                Spark session created successfully.
+25/01/20 05:45:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/01/20 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1][Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:=>               (3 + 25) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66][Stage 9:=>                                                       (2 + 64) / 66][Stage 9:============================================>           (53 + 13) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:=>                                                      (1 + 30) / 31]                                                                                Spark session created successfully.
 root
  |-- course_cd: string (nullable = true)
  |-- race_date: date (nullable = true)
@@ -190,23 +49,20 @@ Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
 Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
 Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
 DDL statements executed successfully.
-2025-01-12 21:50:42 - Python script succeeded
-2025-01-12 21:50:42 - Job completed
-2025-01-13 05:45:01 - Starting stat_type_update job
-2025-01-13 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-13 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/13 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/13 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-25/01/13 05:45:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2025-01-20 05:45:55 - Python script succeeded
+2025-01-20 05:45:55 - Job completed
+2025-01-21 05:45:01 - Starting stat_type_update job
+2025-01-21 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-21 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
+25/01/21 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/01/21 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/01/21 05:45:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/13 05:45:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/13 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/13 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/13 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/13 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/13 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66][Stage 9:================================>                       (38 + 28) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31]                                                                                Spark session created successfully.
+25/01/21 05:45:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/01/21 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/01/21 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66][Stage 9:========>                                               (10 + 56) / 66][Stage 9:=============================>                          (35 + 31) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31]                                                                                Spark session created successfully.
 root
  |-- course_cd: string (nullable = true)
  |-- race_date: date (nullable = true)
@@ -247,24 +103,20 @@ Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
 Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
 Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
 DDL statements executed successfully.
-2025-01-13 05:45:56 - Python script succeeded
-2025-01-13 05:45:56 - Job completed
-2025-01-14 05:45:01 - Starting stat_type_update job
-2025-01-14 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-14 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/14 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/14 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-25/01/14 05:45:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2025-01-21 05:45:56 - Python script succeeded
+2025-01-21 05:45:56 - Job completed
+2025-01-22 05:45:01 - Starting stat_type_update job
+2025-01-22 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-22 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
+25/01/22 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/01/22 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/01/22 05:45:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/14 05:45:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/14 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/14 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/14 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/14 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/14 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-25/01/14 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4045. Attempting port 4046.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:=>               (2 + 26) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31]                                                                                Spark session created successfully.
+25/01/22 05:45:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/01/22 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/01/22 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:==>              (4 + 24) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66][Stage 9:>                                                        (1 + 65) / 66][Stage 9:=>                                                       (2 + 64) / 66][Stage 9:====>                                                    (5 + 61) / 66][Stage 9:=====>                                                   (6 + 60) / 66][Stage 9:======>                                                  (7 + 59) / 66][Stage 9:========================>                               (29 + 37) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31][Stage 12:==============================>                        (17 + 14) / 31]                                                                                Spark session created successfully.
 root
  |-- course_cd: string (nullable = true)
  |-- race_date: date (nullable = true)
@@ -305,336 +157,5 @@ Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
 Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
 Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
 DDL statements executed successfully.
-2025-01-14 05:45:55 - Python script succeeded
-2025-01-14 05:45:55 - Job completed
-2025-01-15 05:45:01 - Starting stat_type_update job
-2025-01-15 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-15 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/15 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/15 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-25/01/15 05:45:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/15 05:45:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/15 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/15 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/15 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/15 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/15 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-25/01/15 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4045. Attempting port 4046.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66][Stage 9:>                                                        (1 + 65) / 66][Stage 9:===========>                                            (14 + 52) / 66][Stage 9:==========================================>             (50 + 16) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31][Stage 12:======================================================> (30 + 1) / 31]                                                                                Spark session created successfully.
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- todays_cls: long (nullable = true)
- |-- official_fin: integer (nullable = true)
- |-- speed_rating: integer (nullable = true)
- |-- running_time: double (nullable = true)
- |-- dist_bk_gate1: double (nullable = true)
- |-- dist_bk_gate2: double (nullable = true)
- |-- dist_bk_gate3: double (nullable = true)
- |-- dist_bk_gate4: double (nullable = true)
- |-- avg_speed_fullrace: double (nullable = true)
- |-- avg_stride_length: double (nullable = true)
- |-- strfreq_q1: double (nullable = true)
- |-- strfreq_q2: double (nullable = true)
- |-- strfreq_q3: double (nullable = true)
- |-- strfreq_q4: double (nullable = true)
-
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- worknum: double (nullable = true)
- |-- days_back: double (nullable = true)
- |-- worktext: string (nullable = true)
- |-- ranking: double (nullable = true)
- |-- rank_group: double (nullable = true)
-
-Executing: ALTER TABLE horse_recent_form ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
-Executing: CREATE INDEX idx_horse_recent_form_horse_id ON horse_recent_form (horse_id)
-DDL statements executed successfully.
-Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
-Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
-Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
-DDL statements executed successfully.
-2025-01-15 05:45:56 - Python script succeeded
-2025-01-15 05:45:56 - Job completed
-2025-01-16 05:45:01 - Starting stat_type_update job
-2025-01-16 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-16 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/16 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/16 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-25/01/16 05:45:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/16 05:45:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/16 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/16 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/16 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/16 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/16 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-25/01/16 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4045. Attempting port 4046.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1][Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66][Stage 9:=>                                                       (2 + 64) / 66][Stage 9:======>                                                  (8 + 58) / 66][Stage 9:=================================================>       (57 + 9) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31][Stage 12:==========>                                             (6 + 25) / 31]                                                                                Spark session created successfully.
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- todays_cls: long (nullable = true)
- |-- official_fin: integer (nullable = true)
- |-- speed_rating: integer (nullable = true)
- |-- running_time: double (nullable = true)
- |-- dist_bk_gate1: double (nullable = true)
- |-- dist_bk_gate2: double (nullable = true)
- |-- dist_bk_gate3: double (nullable = true)
- |-- dist_bk_gate4: double (nullable = true)
- |-- avg_speed_fullrace: double (nullable = true)
- |-- avg_stride_length: double (nullable = true)
- |-- strfreq_q1: double (nullable = true)
- |-- strfreq_q2: double (nullable = true)
- |-- strfreq_q3: double (nullable = true)
- |-- strfreq_q4: double (nullable = true)
-
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- worknum: double (nullable = true)
- |-- days_back: double (nullable = true)
- |-- worktext: string (nullable = true)
- |-- ranking: double (nullable = true)
- |-- rank_group: double (nullable = true)
-
-Executing: ALTER TABLE horse_recent_form ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
-Executing: CREATE INDEX idx_horse_recent_form_horse_id ON horse_recent_form (horse_id)
-DDL statements executed successfully.
-Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
-Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
-Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
-DDL statements executed successfully.
-2025-01-16 05:45:56 - Python script succeeded
-2025-01-16 05:45:56 - Job completed
-2025-01-17 05:45:01 - Starting stat_type_update job
-2025-01-17 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-17 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/17 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/17 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-25/01/17 05:45:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/17 05:45:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/17 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/17 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/17 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/17 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/17 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-25/01/17 05:45:02 WARN Utils: Service 'SparkUI' could not bind on port 4045. Attempting port 4046.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:============>    (21 + 7) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66][Stage 9:>                                                        (1 + 65) / 66][Stage 9:==>                                                      (3 + 63) / 66][Stage 9:=======>                                                 (9 + 57) / 66][Stage 9:===========>                                            (14 + 52) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31][Stage 12:==============>                                         (8 + 23) / 31]                                                                                Spark session created successfully.
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- todays_cls: long (nullable = true)
- |-- official_fin: integer (nullable = true)
- |-- speed_rating: integer (nullable = true)
- |-- running_time: double (nullable = true)
- |-- dist_bk_gate1: double (nullable = true)
- |-- dist_bk_gate2: double (nullable = true)
- |-- dist_bk_gate3: double (nullable = true)
- |-- dist_bk_gate4: double (nullable = true)
- |-- avg_speed_fullrace: double (nullable = true)
- |-- avg_stride_length: double (nullable = true)
- |-- strfreq_q1: double (nullable = true)
- |-- strfreq_q2: double (nullable = true)
- |-- strfreq_q3: double (nullable = true)
- |-- strfreq_q4: double (nullable = true)
-
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- worknum: double (nullable = true)
- |-- days_back: double (nullable = true)
- |-- worktext: string (nullable = true)
- |-- ranking: double (nullable = true)
- |-- rank_group: double (nullable = true)
-
-Executing: ALTER TABLE horse_recent_form ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
-Executing: CREATE INDEX idx_horse_recent_form_horse_id ON horse_recent_form (horse_id)
-DDL statements executed successfully.
-Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
-Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
-Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
-DDL statements executed successfully.
-2025-01-17 05:45:55 - Python script succeeded
-2025-01-17 05:45:55 - Job completed
-2025-01-18 05:45:01 - Starting stat_type_update job
-2025-01-18 05:45:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-18 05:45:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/18 05:45:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/18 05:45:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-25/01/18 05:45:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/18 05:45:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/18 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/18 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/18 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/18 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/18 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-25/01/18 05:45:03 WARN Utils: Service 'SparkUI' could not bind on port 4045. Attempting port 4046.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                        (0 + 66) / 66][Stage 9:==>                                                      (3 + 63) / 66][Stage 9:===========================>                            (32 + 34) / 66]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:===>                                                    (2 + 29) / 31]                                                                                Spark session created successfully.
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- todays_cls: long (nullable = true)
- |-- official_fin: integer (nullable = true)
- |-- speed_rating: integer (nullable = true)
- |-- running_time: double (nullable = true)
- |-- dist_bk_gate1: double (nullable = true)
- |-- dist_bk_gate2: double (nullable = true)
- |-- dist_bk_gate3: double (nullable = true)
- |-- dist_bk_gate4: double (nullable = true)
- |-- avg_speed_fullrace: double (nullable = true)
- |-- avg_stride_length: double (nullable = true)
- |-- strfreq_q1: double (nullable = true)
- |-- strfreq_q2: double (nullable = true)
- |-- strfreq_q3: double (nullable = true)
- |-- strfreq_q4: double (nullable = true)
-
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- worknum: double (nullable = true)
- |-- days_back: double (nullable = true)
- |-- worktext: string (nullable = true)
- |-- ranking: double (nullable = true)
- |-- rank_group: double (nullable = true)
-
-Executing: ALTER TABLE horse_recent_form ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
-Executing: CREATE INDEX idx_horse_recent_form_horse_id ON horse_recent_form (horse_id)
-DDL statements executed successfully.
-Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
-Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
-Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
-DDL statements executed successfully.
-2025-01-18 05:45:54 - Python script succeeded
-2025-01-18 05:45:54 - Job completed
-2025-01-18 11:49:52 - Starting stat_type_update job
-2025-01-18 11:49:52 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
-2025-01-18 11:49:52 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/horse_recent_form.py
-25/01/18 11:49:53 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
-25/01/18 11:49:53 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-:: loading settings :: url = jar:file:/opt/spark-3.4.4-bin-hadoop3/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
-Ivy Default Cache set to: /home/exx/.ivy2/cache
-The jars for the packages stored in: /home/exx/.ivy2/jars
-ml.dmlc#xgboost4j-spark_2.12 added as a dependency
-:: resolving dependencies :: org.apache.spark#spark-submit-parent-298985c8-4cc3-4c04-86ad-f6924210f3a0;1.0
-	confs: [default]
-	found ml.dmlc#xgboost4j-spark_2.12;1.7.5 in central
-	found ml.dmlc#xgboost4j_2.12;1.7.5 in central
-	found com.typesafe.akka#akka-actor_2.12;2.5.23 in central
-	found com.typesafe#config;1.3.3 in central
-	found org.scala-lang.modules#scala-java8-compat_2.12;0.8.0 in central
-	found com.esotericsoftware#kryo;4.0.2 in central
-	found com.esotericsoftware#reflectasm;1.11.3 in central
-	found org.ow2.asm#asm;5.0.4 in central
-	found com.esotericsoftware#minlog;1.3.0 in central
-	found org.objenesis#objenesis;2.5.1 in central
-	found org.scala-lang#scala-reflect;2.12.8 in central
-	found commons-logging#commons-logging;1.2 in central
-:: resolution report :: resolve 137ms :: artifacts dl 4ms
-	:: modules in use:
-	com.esotericsoftware#kryo;4.0.2 from central in [default]
-	com.esotericsoftware#minlog;1.3.0 from central in [default]
-	com.esotericsoftware#reflectasm;1.11.3 from central in [default]
-	com.typesafe#config;1.3.3 from central in [default]
-	com.typesafe.akka#akka-actor_2.12;2.5.23 from central in [default]
-	commons-logging#commons-logging;1.2 from central in [default]
-	ml.dmlc#xgboost4j-spark_2.12;1.7.5 from central in [default]
-	ml.dmlc#xgboost4j_2.12;1.7.5 from central in [default]
-	org.objenesis#objenesis;2.5.1 from central in [default]
-	org.ow2.asm#asm;5.0.4 from central in [default]
-	org.scala-lang#scala-reflect;2.12.8 from central in [default]
-	org.scala-lang.modules#scala-java8-compat_2.12;0.8.0 from central in [default]
-	---------------------------------------------------------------------
-	|                  |            modules            ||   artifacts   |
-	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
-	---------------------------------------------------------------------
-	|      default     |   12  |   0   |   0   |   0   ||   12  |   0   |
-	---------------------------------------------------------------------
-:: retrieving :: org.apache.spark#spark-submit-parent-298985c8-4cc3-4c04-86ad-f6924210f3a0
-	confs: [default]
-	0 artifacts copied, 12 already retrieved (0kB/4ms)
-25/01/18 11:49:53 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/01/18 11:49:53 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-25/01/18 11:49:54 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-25/01/18 11:49:54 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
-25/01/18 11:49:54 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
-25/01/18 11:49:54 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
-25/01/18 11:49:54 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
-25/01/18 11:49:54 WARN Utils: Service 'SparkUI' could not bind on port 4045. Attempting port 4046.
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (0 + 28) / 28][Stage 3:>                  (0 + 1) / 1][Stage 5:>                (1 + 27) / 28][Stage 3:>                                                          (0 + 1) / 1][Stage 9:>                                                      (0 + 100) / 100][Stage 9:===>                                                    (7 + 93) / 100][Stage 9:====================>                                  (38 + 62) / 100]                                                                                [Stage 10:>                                                         (0 + 1) / 1][Stage 12:>                                                       (0 + 31) / 31]                                                                                Spark session created successfully.
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- todays_cls: long (nullable = true)
- |-- official_fin: integer (nullable = true)
- |-- speed_rating: integer (nullable = true)
- |-- running_time: double (nullable = true)
- |-- dist_bk_gate1: double (nullable = true)
- |-- dist_bk_gate2: double (nullable = true)
- |-- dist_bk_gate3: double (nullable = true)
- |-- dist_bk_gate4: double (nullable = true)
- |-- avg_speed_fullrace: double (nullable = true)
- |-- avg_stride_length: double (nullable = true)
- |-- strfreq_q1: double (nullable = true)
- |-- strfreq_q2: double (nullable = true)
- |-- strfreq_q3: double (nullable = true)
- |-- strfreq_q4: double (nullable = true)
-
-root
- |-- course_cd: string (nullable = true)
- |-- race_date: date (nullable = true)
- |-- race_number: integer (nullable = true)
- |-- saddle_cloth_number: string (nullable = true)
- |-- horse_id: integer (nullable = true)
- |-- worknum: double (nullable = true)
- |-- days_back: double (nullable = true)
- |-- worktext: string (nullable = true)
- |-- ranking: double (nullable = true)
- |-- rank_group: double (nullable = true)
-
-Executing: ALTER TABLE horse_recent_form ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
-Executing: CREATE INDEX idx_horse_recent_form_horse_id ON horse_recent_form (horse_id)
-DDL statements executed successfully.
-Executing: ALTER TABLE horse_form_agg ADD PRIMARY KEY (horse_id, as_of_date)
-Executing: CREATE INDEX idx_horse_form_agg_horse_id ON horse_form_agg (horse_id)
-Executing: CREATE INDEX idx_horse_form_agg_as_of_date ON horse_form_agg (as_of_date)
-DDL statements executed successfully.
-2025-01-18 11:50:44 - Python script succeeded
-2025-01-18 11:50:44 - Job completed
+2025-01-22 05:45:56 - Python script succeeded
+2025-01-22 05:45:56 - Job completed

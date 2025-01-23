@@ -84,9 +84,15 @@ def main():
         df = spark.read.parquet(df_path)
         detect_cardinality_columns(df, threshold=card, cardinality_type=type)    
     else:
-        race_df_p1 = spark.read.parquet(os.path.join(parquet_dir, "race_df_p1.parquet"))
-        healthcheck_report = time_series_data_healthcheck(race_df_p1)
+        speed_figure = spark.read.parquet(os.path.join(parquet_dir, "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/CatBoost_Embedding_data_2025-01-20.parquet"))
+        healthcheck_report = time_series_data_healthcheck(speed_figure)
         pprint.pprint(healthcheck_report)
+        # Print health check report to a text file
+        with open("./src/data_preprocessing/data_prep2/healthcheck_report.txt", "w") as file:
+            pprint.pprint(healthcheck_report, stream=file)
+    
+        logging.info("Health check report saved to healthcheck_report.txt")
+        return spark
         #results_df = spark.read.parquet(os.path.join(parquet_dir, "results.parquet"))
         #results_df.count()
         #results_df.show(20, truncate=False)
