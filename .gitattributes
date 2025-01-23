@@ -1,3 +1,5 @@
 *.largefileextension filter=lfs diff=lfs merge=lfs -text
 *.cbm filter=lfs diff=lfs merge=lfs -text
 data/models/*.cbm filter=lfs diff=lfs merge=lfs -text
+data/models/catboost/*.cbm filter=lfs diff=lfs merge=lfs -text
+data/models/speed_figure_model/*.cbm filter=lfs diff=lfs merge=lfs -text
