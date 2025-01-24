@@ -2,7 +2,9 @@ import logging
 import os
 import sys
 import pprint
-import argparse
+import os
+import sys
+import configparser
 from datetime import datetime
 from psycopg2 import pool, DatabaseError
 import configparser
@@ -13,7 +15,7 @@ from src.inference.load_prediction_data import load_base_inference_data
 from src.training.load_training_data import load_base_training_data
 from src.inference.make_predictions_cat import make_cat_predictions
 from catboost import CatBoostRanker
-from src.training.fox_speed_figure create_custom_speed_figure
+from src.training.fox_speed_figure import create_custom_speed_figure
 
 def setup_logging():
     """Sets up logging configuration to write logs to a file and the console."""
@@ -139,30 +141,20 @@ def main():
     except Exception as e:
         print(f"An error occurred during initialization: {e}")
         logging.error(f"An error occurred during initialization: {e}")
-    
-    try:
-            
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        config = read_config(script_dir)
-        setup_logging()
-
-        # Create DB pool (optional)
-        db_pool = get_db_pool(config)
-
+    finally:
+        if spark:
+            spark.stop()
+            logging.info("Spark session stopped.")    
+    try:   
         # 1) Initialize SparkSession and load data
         spark, jdbc_url, jdbc_properties, parquet_dir, _ = initialize_environment()
-
-        queries = sql_queries()
-        dfs = load_data_from_postgresql(
-            spark, jdbc_url, jdbc_properties,
-            queries, parquet_dir
-        )
 
         # Example: we read the training DataFrame from a Parquet
         train_df = spark.read.parquet(
             "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df"
         )
-
+        train_df.printSchema()
+        
         # 2) Compute the custom speed figure
         enhanced_df = create_custom_speed_figure(train_df)
 
@@ -194,11 +186,8 @@ def main():
     finally:
         
         # 4) Cleanup
-        spark.stop()
-        logging.info("Spark session stopped.")
-        if db_pool:
-            db_pool.closeall()
-            logging.info("DB connection pool closed.")
 
+        logging.info("Spark session stopped.")
+ 
 if __name__ == "__main__":
     main()

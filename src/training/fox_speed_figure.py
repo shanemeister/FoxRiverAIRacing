@@ -1,4 +1,5 @@
 import logging
+import datetime
 import os
 import sys
 import configparser
@@ -8,8 +9,10 @@ import optuna
 from catboost import CatBoostRegressor, Pool
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.metrics import roc_auc_score, accuracy_score
+from psycopg2 import pool, DatabaseError
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
+
 from src.data_preprocessing.data_prep1.data_utils import save_parquet, initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
 from src.training.training_sql_queries import sql_queries
@@ -33,14 +36,20 @@ def create_custom_speed_figure(df):
     
     df["group_id"] = df["race_id"].astype("category").cat.codes
     df = df.sort_values("group_id", ascending=True).reset_index(drop=True)
+    
     # Convert decimal columns
     decimal_cols = [
         'distance_meters', 'class_rating', 'previous_class', 'power',
         'horse_itm_percentage', 'starts', 'official_fin',
         'time_behind', 'pace_delta_time'
     ]
-    for col_name in decimal_cols:
-        df[col_name] = df[col_name].astype(float)
+    
+    # Ensure 'starts' column is present
+    if 'starts' not in df.columns:
+        raise KeyError("Column 'starts' not found in DataFrame")
+
+    df[decimal_cols] = df[decimal_cols].astype(float)
+    
     # Fill NaNs
     df[decimal_cols] = df[decimal_cols].fillna(0)
     
@@ -67,17 +76,20 @@ def create_custom_speed_figure(df):
     }
 
     df["perf_target"] = df["official_fin"].map(rank_map).fillna(0).astype(int)
-
+    df["off_finish_last_race"] = df["off_finish_last_race"].map(rank_map).fillna(0).astype(int)
     # Features for CatBoost
     numeric_features = [
         "distance_meters",
         "time_behind",
         "pace_delta_time",
         "speed_rating",
+        "prev_speed_rating",
+        "off_finish_last_race",
         "class_rating",
         "previous_class",
         "power",
         "starts",
+        "age_at_race_day",
         "horse_itm_percentage",
     ]
 
@@ -167,6 +179,10 @@ def create_custom_speed_figure(df):
         corr = df[col].corr(df["custom_speed_figure"])
         print(f"Correlation between {col} and custom_speed_figure: {corr}")
 
-    final_model.save_model("data/models/speed_figure_model/speed_figure_regressor_model_2025-01-21.cbm")
-    
+    # Generate dynamic filename
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H%M")
+    model_filename = f"data/models/speed_figure_model/speed_figure_regressor_model_{current_time}.cbm"
+
+    # Save the model
+    final_model.save_model(model_filename)    
     return df
