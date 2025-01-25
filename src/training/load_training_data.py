@@ -72,10 +72,10 @@ def fix_outliers(df):
         "avg_workout_rank_3": (0, 60.0),
         "time_behind": (0, 60),
         "speed_improvement": (-20, 50),
-        "sire_starts": (0, 200),
-        "dam_win": (0, 54),
-        "dam_starts": (0, 240),
-        "dam_show": (0, 54),
+        "sire_itm_percentage": (0, 1),
+        "sire_roi": (-100, 10000),
+        "dam_itm_percentage": (0, 1),
+        "dam_roi": (-100, 5000),
         "avg_dist_bk_gate4_5": (0,50),
         "avg_dist_bk_gate3_5":(0,50),
         "avg_dist_bk_gate2_5":(0,50),
@@ -202,8 +202,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
         'jock_itm_percent', 'jock_itm_track', 'jock_win_percent', 'jock_win_track', 'jt_itm_percent', 
         'jt_itm_track', 'jt_win_percent', 'jt_win_track', 'trainer_itm_percent', 'trainer_itm_track', 
         'trainer_win_percent', 'trainer_win_track', 'net_sentiment','prev_race_date', 'first_race_date_5', 'most_recent_race_5', 
-        'avg_fin_5', 'avg_speed_5', 'avg_workout_rank_3',
-    ]
+        'avg_fin_5', 'avg_speed_5', 'avg_workout_rank_3', 'sire_roi', 'dam_roi', 'sire_itm_percentage', 'dam_itm_percentage']
     logging.info("Filling missing values for columns.")
     for column in columns_to_fill:
         if column == 'prev_race_date':
@@ -247,8 +246,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
                     "days_off","avg_workout_rank_3","count_workouts_3","race_count",
                     "jock_win_percent","jock_itm_percent","trainer_win_percent","trainer_itm_percent","jt_win_percent",
                     "jt_itm_percent","jock_win_track","jock_itm_track","trainer_win_track","trainer_itm_track","jt_win_track",
-                    "jt_itm_track","sire_starts","sire_win","sire_place","sire_show","dam_starts","dam_win",
-                    "dam_place","dam_show"]
+                    "jt_itm_track", "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"]
     
     for col_name in numeric_cols:
         train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))

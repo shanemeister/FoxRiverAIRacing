@@ -152,58 +152,84 @@ def update_net_sentiment(conn):
 
 def update_previous_race_data_and_race_count(conn):
     """
-    Updates the `previous_distance`, 'previous_class', `previous_surface`, and `off_finish_last_race` columns in the `runners` table
-    with data from the horse's previous race. Also populates these columns with -1 for horses that have only run one race,
-    and adds a `race_count` column to store the number of races each horse has participated in.
+    Updates the runners table so that each row has data about that horse's most recent PRIOR race:
+      - previous_class        (from the prior race's runners.todays_cls)
+      - previous_distance     (from races.distance_meters)
+      - previous_surface      (from races.surface)
+      - prev_speed_rating     (from results_entries.speed_rating)
+      - off_finish_last_race  (from results_entries.official_fin)
+      - race_count            (the total number of starts for that horse)
+
+    If a prior race doesn’t exist (e.g. only 1 career start),
+    set numeric fields to -1 and surface to 'NONE'.
     """
     logging.info("Updating previous race data and race count in runners beginning...")
     start_time = time.time()
     try:
         with conn.cursor() as cursor:
             cursor.execute("""
-                WITH previous_race AS (
+                WITH base AS (
                     SELECT
-                        r2.course_cd,
-                        r2.race_date,
-                        r2.race_number,
-                        r2.saddle_cloth_number,
-                        LAG(r.class_rating) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_class,
-                        LAG(r.distance_meters) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_distance,
-                        LAG(r.surface) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS previous_surface,
-                        LAG(re.official_fin) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS off_finish_last_race,
-                        LAG(re.speed_rating) OVER (PARTITION BY h.horse_id ORDER BY r.race_date) AS prev_speed_rating, 
+                        -- Identify the CURRENT row
+                        r2.course_cd           AS curr_course_cd,
+                        r2.race_date           AS curr_race_date,
+                        r2.race_number         AS curr_race_number,
+                        r2.saddle_cloth_number AS curr_saddle_cloth_number,
+
+                        -- Use LAG(...) over the horse's prior start to get previous race info:
+                        LAG(r2.todays_cls) OVER w           AS previous_class,
+                        LAG(r.distance_meters) OVER w       AS previous_distance,
+                        LAG(r.surface) OVER w               AS previous_surface,
+                        LAG(re.speed_rating) OVER w         AS prev_speed_rating,
+                        LAG(re.official_fin) OVER w         AS off_finish_last_race,
+
+                        -- Total # of starts (count of rows for that horse_id)
                         COUNT(*) OVER (PARTITION BY h.horse_id) AS race_count
-                    FROM races r
-                    JOIN runners r2 ON r.course_cd = r2.course_cd
-                        AND r.race_date = r2.race_date
-                        AND r.race_number = r2.race_number
-                    JOIN results_entries re ON r2.course_cd = re.course_cd
-                        AND r2.race_date = re.race_date
-                        AND r2.race_number = re.race_number
-                        AND r2.saddle_cloth_number = re.program_num
-                    JOIN horse h ON r2.axciskey = h.axciskey
+
+                    FROM runners r2
+                    JOIN races r 
+                        ON r2.course_cd = r.course_cd
+                       AND r2.race_date = r.race_date
+                       AND r2.race_number = r.race_number
+                    JOIN results_entries re
+                        ON r2.course_cd = re.course_cd
+                       AND r2.race_date = re.race_date
+                       AND r2.race_number = re.race_number
+                       AND r2.saddle_cloth_number = re.program_num
+                    JOIN horse h
+                        ON r2.axciskey = h.axciskey
+
+                    -- Window: partition by horse, sorted by ascending race_date & race_number
+                    WINDOW w AS (
+                      PARTITION BY h.horse_id
+                      ORDER BY r.race_date, r.race_number
+                    )
                 )
+
                 UPDATE runners r2
-                SET previous_class = COALESCE(pr.previous_class, -1),
-                    previous_distance = COALESCE(pr.previous_distance, -1),
-                    previous_surface = COALESCE(pr.previous_surface, 'NONE'),
-                    prev_speed_rating = COALESCE(pr.prev_speed_rating, -1),
-                    off_finish_last_race = COALESCE(pr.off_finish_last_race, -1),
-                    race_count = pr.race_count
-                FROM previous_race pr
-                WHERE r2.course_cd = pr.course_cd
-                    AND r2.race_date = pr.race_date
-                    AND r2.race_number = pr.race_number
-                    AND r2.saddle_cloth_number = pr.saddle_cloth_number;
+                SET
+                    previous_class       = COALESCE(base.previous_class, -1),
+                    previous_distance    = COALESCE(base.previous_distance, -1),
+                    previous_surface     = COALESCE(base.previous_surface, 'NONE'),
+                    prev_speed_rating    = COALESCE(base.prev_speed_rating, -1),
+                    off_finish_last_race = COALESCE(base.off_finish_last_race, -1),
+                    race_count           = base.race_count
+                FROM base
+                WHERE
+                    r2.course_cd           = base.curr_course_cd
+                    AND r2.race_date       = base.curr_race_date
+                    AND r2.race_number     = base.curr_race_number
+                    AND r2.saddle_cloth_number = base.curr_saddle_cloth_number
             """)
-            conn.commit()
-            print("Previous race Data and count updated successfully.")
-            elapsed = time.time() - start_time
-            logging.info(f"Previous race data and race count updated successfully in {elapsed:.2f} seconds.")
+        conn.commit()
+        logging.info("Previous race data and race count updated successfully.")
     except Exception as e:
         logging.error(f"Error updating previous race data and race count: {e}")
         conn.rollback()
         raise
+    finally:
+        end_time = time.time()
+        logging.info(f"Time taken to update previous race data and race count: {end_time - start_time} seconds")
         
 def update_distance_meters(conn):
     """
@@ -599,20 +625,12 @@ def main():
 
         # 4) net sentiment update
         # Optionally run your net_sentiment update logic
-        print("Should be running udpate_previous_race_data_and_race_count")
                     
         conn = db_pool.getconn()
         try:
             update_net_sentiment(conn)
-            #update_distance_meters(conn)
-            update_previous_race_data_and_race_count(conn)
-        finally:
-            db_pool.putconn(conn)
-    
-        # 5) Update distance_meters
-        conn = db_pool.getconn()
-        try:
             update_distance_meters(conn)
+            update_previous_race_data_and_race_count(conn)
         finally:
             db_pool.putconn(conn)
     except Exception as e:

@@ -1,21 +1,16 @@
+import os
+import sys
 import logging
-import os
-import sys
 import pprint
-import os
-import sys
+import argparse
 import configparser
-from datetime import datetime
-from psycopg2 import pool, DatabaseError
-import configparser
-from src.data_preprocessing.data_prep2.data_healthcheck import time_series_data_healthcheck, dataframe_summary
-from src.data_preprocessing.data_prep1.data_utils import save_parquet
-from src.data_preprocessing.data_prep1.data_utils import initialize_environment
-from src.inference.load_prediction_data import load_base_inference_data
+from psycopg2 import sql, pool, DatabaseError
+from pyspark.sql import SparkSession
 from src.training.load_training_data import load_base_training_data
-from src.inference.make_predictions_cat import make_cat_predictions
-from catboost import CatBoostRanker
 from src.training.fox_speed_figure import create_custom_speed_figure
+from src.data_preprocessing.data_prep2.data_healthcheck import time_series_data_healthcheck
+from src.data_preprocessing.data_prep1.data_utils import initialize_environment, save_parquet
+from src.training.embedding_horse_id import embed_and_train
 
 def setup_logging():
     """Sets up logging configuration to write logs to a file and the console."""
@@ -122,6 +117,12 @@ def get_db_pool(config):
 
 def main():
     """Main function to execute data ingestion tasks."""
+    # Parse command-line arguments
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="Run training or prediction tasks.")
+    parser.add_argument("mode", choices=["train", "predict"], help="Mode to run: train or predict")
+    args = parser.parse_args()
+
     # Determine the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
     print(f"Script_dir: {script_dir}")
@@ -132,62 +133,56 @@ def main():
         spark.catalog.clearCache()
         setup_logging()
 
-        # If user requested train_data or no args => run training data ingestion
-        print("Running training data ingestion steps...")
-        train_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
-        healthcheck_report = time_series_data_healthcheck(train_df)
-        pprint.pprint(healthcheck_report)
-        logging.info("Ingestion job for training data succeeded")
+        if args.mode == "train":
+            # # 1. Load Training data
+            # print("Running training data ingestion steps...")
+            # train_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
+            # healthcheck_report = time_series_data_healthcheck(train_df)
+            # pprint.pprint(healthcheck_report)
+            # logging.info("Ingestion job for training data succeeded")
+
+            # # 2. Compute the custom speed figure
+            # enhanced_df = create_custom_speed_figure(train_df)
+
+            # # Convert back to Spark
+            # spark_df = spark.createDataFrame(enhanced_df)
+
+            # # Example filtering logic
+            # spark_df.filter(
+            #     (spark_df["official_fin"] <= 4) & (spark_df["class_rating"] >= spark_df["previous_class"])
+            # ).select(
+            #     "race_id",
+            #     "horse_id", 
+            #     "official_fin", 
+            #     "class_rating", 
+            #     "previous_class", 
+            #     "speed_rating", 
+            #     "horse_itm_percentage", 
+            #     "perf_target", 
+            #     "custom_speed_figure"
+            # ).show(30)
+
+            # # Save the Spark DataFrame as a Parquet file
+            # save_parquet(spark, spark_df, "speed_figure", "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet")
+            # # logging.info("Ingestion job succeeded and Speed Figure Catboost model complete")
+            embed_and_train(spark, parquet_dir)
+            
+        elif args.mode == "predict":
+            # Prediction mode
+            print("Running prediction steps...")
+            # speed_figure = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet")
+            # horse_embedding_function(speed_figure)
+            # speed_figure.printSchema()
+            # logging.info("Prediction job succeeded")
+
     except Exception as e:
-        print(f"An error occurred during initialization: {e}")
-        logging.error(f"An error occurred during initialization: {e}")
+        print(f"An error occurred: {e}")
+        logging.error(f"An error occurred: {e}")
+
     finally:
         if spark:
             spark.stop()
-            logging.info("Spark session stopped.")    
-    try:   
-        # 1) Initialize SparkSession and load data
-        spark, jdbc_url, jdbc_properties, parquet_dir, _ = initialize_environment()
+            logging.info("Spark session stopped.")
 
-        # Example: we read the training DataFrame from a Parquet
-        train_df = spark.read.parquet(
-            "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df"
-        )
-        train_df.printSchema()
-        
-        # 2) Compute the custom speed figure
-        enhanced_df = create_custom_speed_figure(train_df)
-
-        # Convert back to Spark
-        spark_df = spark.createDataFrame(enhanced_df)
-
-        # Example filtering logic
-        spark_df.filter(
-            (spark_df["official_fin"] <= 4) & (spark_df["class_rating"] >= spark_df["previous_class"])
-        ).select(
-            "race_id",
-            "horse_id", 
-            "official_fin", 
-            "class_rating", 
-            "previous_class", 
-            "speed_rating", 
-            "horse_itm_percentage", 
-            "perf_target", 
-            "custom_speed_figure"
-        ).show(30)
-
-        # 3) Save the Spark DataFrame as a Parquet file
-        save_parquet(spark, spark_df, "speed_figure", "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet")
-        logging.info("Ingestion job succeeded")
-
-    except Exception as e:
-        print(f"An error occurred during speed_figure initialization: {e}")
-        logging.error(f"An error occurred during initialization: {e}")
-    finally:
-        
-        # 4) Cleanup
-
-        logging.info("Spark session stopped.")
- 
 if __name__ == "__main__":
     main()

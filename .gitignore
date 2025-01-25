@@ -30,3 +30,5 @@ logs/ingestion.log
 logs/sectionals_ingestion.log/ingestion.log
 /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/__pycache__
 /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/inference/__pycache__
+trial*
+./trial*

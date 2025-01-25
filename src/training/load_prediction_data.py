@@ -6,7 +6,7 @@ import pyspark.sql.functions as F
 from pyspark.sql.functions import (col, count, row_number, abs, unix_timestamp,  
                                    when, lit, min as F_min, max as F_max , upper, trim,
                                    row_number, mean as F_mean, countDistinct, last, first, when)
-from src.inference.inference_sql_queries import sql_queries
+from src.training.fox_query_speed_figure import sql_queries
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
 
 def impute_date_of_birth_with_median(df):

@@ -1,42 +1,4 @@
-2025-01-23 19:25:39 - INFO - Logging has been set up successfully.
-2025-01-23 19:25:39 - INFO - Query training_data located and loading from PostgreSQL...
-2025-01-23 19:25:40 - INFO - Data loaded from PostgreSQL in 1.25 seconds.
-2025-01-23 19:29:49 - INFO - Data loaded from PostgreSQL. Count: 328184
-2025-01-23 19:29:50 - INFO - Row count: 328184
-2025-01-23 19:29:50 - INFO - Count operation completed in 250.51 seconds.
-2025-01-23 19:29:50 - INFO - Checking for duplicates on primary keys...
-2025-01-23 19:29:50 - INFO - Number of duplicate records found: 0
-2025-01-23 19:29:50 - INFO - No duplicate records found.
-2025-01-23 19:29:50 - INFO - Convert Decimal Columns to Double.
-2025-01-23 19:29:50 - INFO - Decimal columns converted to double.
-2025-01-23 19:29:50 - INFO - Imputing date_of_birth with median date.
-2025-01-23 19:29:50 - INFO - Created age_at_race_day.
-2025-01-23 19:29:50 - INFO - Imputing categorical and numeric columns.
-2025-01-23 19:29:51 - INFO - Filling missing values for columns.
-2025-01-23 19:29:51 - INFO - Numeric columns cast to double.
-2025-01-23 19:29:55 - INFO - Starting the write to parquet.
-2025-01-23 19:30:02 - INFO - Data written to Parquet in 6.33 seconds
-2025-01-23 19:30:02 - INFO - Data cleansing complete. train_df being returned.
-2025-01-23 19:30:14 - INFO - Ingestion job for training data succeeded
-2025-01-23 19:30:14 - INFO - Spark session stopped.
-2025-01-23 19:30:23 - INFO - Decimal columns converted to float and filled NaN with 0.
-2025-01-23 19:30:23 - INFO - Columns: course_cd               object
-race_date               object
-race_number            float64
-saddle_cloth_number     object
-horse_id               float64
-                        ...   
-dam_earnings            object
-age_at_race_day        float64
-gps_present              int32
-race_id                 object
-group_id                 int32
-Length: 102, dtype: object
-2025-01-23 19:33:26 - INFO - Best Hyperparameters: {'iterations': 1997, 'depth': 8, 'learning_rate': 0.05810875290542724, 'l2_leaf_reg': 3.985342395456377}
-2025-01-23 19:33:26 - INFO - Best RMSE: 1.6178451909116573
-2025-01-23 19:34:41 - INFO - Saving speed_figure DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet...
-2025-01-23 19:34:41 - INFO - Schema of speed_figure DataFrame:
-2025-01-23 19:34:42 - INFO - speed_figure DataFrame saved successfully.
-2025-01-23 19:34:42 - INFO - Ingestion job succeeded
-2025-01-23 19:34:42 - INFO - Spark session stopped.
-2025-01-23 19:34:43 - INFO - Closing down clientserver connection
+2025-01-24 21:44:59 - INFO - Logging has been set up successfully.
+2025-01-24 21:45:09 - INFO - Number of horses: 51601
+2025-01-24 21:54:47 - INFO - Spark session stopped.
+2025-01-24 21:54:47 - INFO - Closing down clientserver connection

@@ -60,3 +60,24 @@ DataFrame 'gpspoint' Schema:
 DataFrame 'sectionals' Schema:
 2025-01-23 05:05:09 - Python script succeeded
 2025-01-23 05:05:09 - Job completed
+2025-01-24 05:00:01 - Starting stat_type_update job
+2025-01-24 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-24 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/01/24 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/01/24 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/01/24 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/01/24 05:00:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/01/24 05:00:02 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                Spark session created successfully.
+Remove # comment line 628
+DataFrame 'gpspoint' Schema:
+Remove # comment line 642
+DataFrame 'sectionals' Schema:
+Remove # comment line 636
+Should be running udpate_previous_race_data_and_race_count
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+2025-01-24 05:04:25 - Python script succeeded
+2025-01-24 05:04:25 - Job completed

@@ -15,14 +15,13 @@ from sklearn.model_selection import train_test_split
 
 from src.data_preprocessing.data_prep1.data_utils import save_parquet, initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
-from src.training.training_sql_queries import sql_queries
+from src.training.fox_query_speed_figure import full_query_df
 
 def create_custom_speed_figure(df):
     """
-    Build a custom speed figure using a CatBoostRegressor.
+    Load Parquet file used horse_embedding and custom_speed_figure
     """
-    # If df is a Spark DataFrame, convert to Pandas first:
-    # If it's already Pandas, comment out or remove the line below
+       
     df = df.toPandas()
 
     # Create race_id for grouping
@@ -36,22 +35,6 @@ def create_custom_speed_figure(df):
     
     df["group_id"] = df["race_id"].astype("category").cat.codes
     df = df.sort_values("group_id", ascending=True).reset_index(drop=True)
-    
-    # Convert decimal columns
-    decimal_cols = [
-        'distance_meters', 'class_rating', 'previous_class', 'power',
-        'horse_itm_percentage', 'starts', 'official_fin',
-        'time_behind', 'pace_delta_time'
-    ]
-    
-    # Ensure 'starts' column is present
-    if 'starts' not in df.columns:
-        raise KeyError("Column 'starts' not found in DataFrame")
-
-    df[decimal_cols] = df[decimal_cols].astype(float)
-    
-    # Fill NaNs
-    df[decimal_cols] = df[decimal_cols].fillna(0)
     
     logging.info("Decimal columns converted to float and filled NaN with 0.")
     logging.info(f"Columns: {df.dtypes}")
@@ -77,10 +60,14 @@ def create_custom_speed_figure(df):
 
     df["perf_target"] = df["official_fin"].map(rank_map).fillna(0).astype(int)
     df["off_finish_last_race"] = df["off_finish_last_race"].map(rank_map).fillna(0).astype(int)
+    
+    df = df.drop(columns=['date_of_birth', 'saddle_cloth_number'])
     # Features for CatBoost
     numeric_features = [
         "distance_meters",
+        "previous_distance",
         "time_behind",
+        "speed_improvement",
         "pace_delta_time",
         "speed_rating",
         "prev_speed_rating",
@@ -91,6 +78,10 @@ def create_custom_speed_figure(df):
         "starts",
         "age_at_race_day",
         "horse_itm_percentage",
+        "sire_itm_percentage",
+        "sire_roi",
+        "dam_itm_percentage",
+        "dam_roi"
     ]
 
     X = df[numeric_features]
