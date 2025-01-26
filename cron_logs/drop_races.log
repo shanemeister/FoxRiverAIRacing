@@ -46,3 +46,37 @@ psql:/sql_scripts/drop_races.sql:32: NOTICE:  view "v_gpspoint" does not exist, 
 DROP TABLE
 2025-01-23 23:59:02 - SQL script executed successfully
 2025-01-23 23:59:02 - Races table recreation job completed
+2025-01-24 23:59:01 - Starting races table recreation job
+2025-01-24 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-24 23:59:02 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:30: NOTICE:  view "v_sectionals_agg" does not exist, skipping
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:32: NOTICE:  view "v_gpspoint" does not exist, skipping
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:34: NOTICE:  drop cascades to view v_preds
+DROP TABLE
+2025-01-24 23:59:02 - SQL script executed successfully
+2025-01-24 23:59:02 - Races table recreation job completed
+2025-01-25 23:59:01 - Starting races table recreation job
+2025-01-25 23:59:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-25 23:59:01 - Running SQL script: /sql_scripts/drop_races.sql inside container rshane_pg16_prod
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DROP VIEW
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:30: NOTICE:  view "v_sectionals_agg" does not exist, skipping
+psql:/sql_scripts/drop_races.sql:32: NOTICE:  view "v_gpspoint" does not exist, skipping
+DROP VIEW
+psql:/sql_scripts/drop_races.sql:34: NOTICE:  drop cascades to view v_preds
+DROP TABLE
+2025-01-25 23:59:02 - SQL script executed successfully
+2025-01-25 23:59:02 - Races table recreation job completed

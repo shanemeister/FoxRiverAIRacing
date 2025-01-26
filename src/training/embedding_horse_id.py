@@ -9,6 +9,7 @@ import optuna
 import tensorflow as tf
 from optuna.integration import TFKerasPruningCallback
 from tensorflow import keras
+import io
 from tensorflow.keras import layers
 import joblib # Used for encoding horse_id
 from sklearn.model_selection import KFold
@@ -23,7 +24,7 @@ import pyspark.sql.functions as F
 from pyspark.sql.functions import (col, count, row_number, abs, unix_timestamp, mean, 
                                    when, lit, min as F_min, max as F_max , upper, trim,
                                    row_number, mean as F_mean, countDistinct, last, first, when)
-from src.data_preprocessing.data_prep1.data_utils import initialize_environment 
+from src.data_preprocessing.data_prep1.data_utils import save_parquet
 
 
 def embed_and_train(spark, parquet_dir):
@@ -131,9 +132,17 @@ def embed_and_train(spark, parquet_dir):
     # train_inputs, val_inputs for your dictionary inputs to the model
     # num_horses = number of distinct horse IDs
 
+
+    # Suppose we have these global data structures available:
+    #   X_num_train, X_horse_train, y_train
+    #   X_num_val,   X_horse_val,   y_val
+    #   train_inputs = {"numeric_input": X_num_train, "horse_id_input": X_horse_train}
+    #   val_inputs   = {"numeric_input": X_num_val,   "horse_id_input": X_horse_val}
+    #   num_horses, horse_id_to_idx, etc.
+
     def objective(trial):
         # -----------------------------
-        #  Hyperparameter Search Space
+        # 1) Hyperparameter Search Space
         # -----------------------------
         embedding_dim = trial.suggest_categorical("embedding_dim", [2, 4, 8, 16, 32, 64])
         n_hidden_layers = trial.suggest_int("n_hidden_layers", 1, 5)
@@ -141,16 +150,16 @@ def embed_and_train(spark, parquet_dir):
         activation = trial.suggest_categorical("activation", ["relu", "selu", "tanh", "gelu", "softplus"])
         learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-1, log=True)
         batch_size = trial.suggest_categorical("batch_size", [128, 256, 512, 1024])
-        epochs = trial.suggest_int("epochs", 5, 100, step=5)  # allow up to 100 for possibly more training
+        epochs = trial.suggest_int("epochs", 5, 100, step=5)  # up to 100
 
-        # OPTIONAL: dropout rate
+        # Dropout-related:
         use_dropout = trial.suggest_categorical("use_dropout", [False, True])
         dropout_rate = 0.0
         if use_dropout:
             dropout_rate = trial.suggest_float("dropout_rate", 0.1, 0.5, step=0.1)
 
         # -----------------------------
-        #  Build the Model
+        # 2) Build the Keras Model
         # -----------------------------
         # Horse ID input
         horse_id_input = keras.Input(shape=(), name="horse_id_input", dtype=tf.int32)
@@ -164,14 +173,13 @@ def embed_and_train(spark, parquet_dir):
             output_dim=embedding_dim,
             name="horse_embedding"
         )
-        horse_embedded = horse_embedding_layer(horse_id_input)  # shape: [batch, 1, embedding_dim]
-        horse_embedded = layers.Flatten()(horse_embedded)       # shape: [batch, embedding_dim]
+        horse_embedded = horse_embedding_layer(horse_id_input)  
+        horse_embedded = layers.Flatten()(horse_embedded)
 
         # Dense layers for numeric features
         x = numeric_input
         for _ in range(n_hidden_layers):
             x = layers.Dense(units, activation=activation)(x)
-            # Optional dropout
             if use_dropout:
                 x = layers.Dropout(dropout_rate)(x)
 
@@ -186,27 +194,23 @@ def embed_and_train(spark, parquet_dir):
         # Compile
         model.compile(
             optimizer=keras.optimizers.Adam(learning_rate=learning_rate),
-            loss="mse",    # target is MSE
+            loss="mse",   # or 'mae' or custom
             metrics=["mae"]
         )
 
         # -----------------------------
-        #  Callbacks
+        # 3) Keras Callbacks
         # -----------------------------
-        # Early stopping
         early_stopping = keras.callbacks.EarlyStopping(
             monitor="val_loss",
-            patience=5,                # allow more patience with potential deeper networks
-            restore_best_weights=True  # revert to best epoch
+            patience=5,
+            restore_best_weights=True
         )
 
-        # Keras pruning callback: 
-        #  - This will tell Optuna to prune (stop) if val_loss isn't improving enough.
         pruning_callback = TFKerasPruningCallback(trial, "val_loss")
 
-        # ModelCheckpoint callback to save the best epoch weights for this trial
-        # We'll store them in a subdir named after the trial number
-        trial_base_dir = "./data/trials"               # or an absolute path if you prefer
+        # Create a folder for each trial's checkpoints
+        trial_base_dir = "./data/trials"
         trial_dir = os.path.join(trial_base_dir, f"trial_{trial.number}")
         os.makedirs(trial_dir, exist_ok=True)
 
@@ -218,27 +222,27 @@ def embed_and_train(spark, parquet_dir):
             mode="min",
             save_best_only=True
         )
+
         # -----------------------------
-        #  Train
+        # 4) Train / Fit
         # -----------------------------
         history = model.fit(
-            train_inputs,   # {"numeric_input": X_num_train, "horse_id_input": X_horse_train}
+            train_inputs,
             y_train,
             validation_data=(val_inputs, y_val),
             epochs=epochs,
             batch_size=batch_size,
             callbacks=[early_stopping, pruning_callback, model_checkpoint],
-            verbose=2  # or 1/2 if you want more logs
+            verbose=2
         )
 
         # Evaluate on validation set
         val_loss, val_mae = model.evaluate(val_inputs, y_val, verbose=0)
 
-        # If you want to load the best weights from the checkpoint (they might 
-        # already be restored by EarlyStopping, but it's sometimes safer to do so):
+        # Load the best weights from checkpoint (just to be safe)
         model.load_weights(checkpoint_filepath)
 
-        # Return MSE as objective
+        # Return the validation MSE as the objective
         return val_loss
 
     def run_optuna_study():
@@ -246,19 +250,16 @@ def embed_and_train(spark, parquet_dir):
         sampler = optuna.samplers.TPESampler(seed=42)
         pruner = optuna.pruners.MedianPruner(n_warmup_steps=3)
 
-        # Use a persistent storage (SQLite file).
-        # If the file already exists, the study is resumed; else it's created new.
+        # Create a brand-new study with 500 trials (adjust as you like)
         study = optuna.create_study(
             study_name="horse_embedding_search",
             storage="sqlite:///my_optuna_study.db",
-            load_if_exists=True,
+            load_if_exists=False,  # Force a fresh study, if you want a new run each time
             direction="minimize",
             sampler=sampler,
             pruner=pruner
         )
 
-        # Increase n_trials if you can afford it. 
-        # Larger = deeper search, but longer time.
         study.optimize(objective, n_trials=500, timeout=None)
 
         print("Number of finished trials: ", len(study.trials))
@@ -268,21 +269,20 @@ def embed_and_train(spark, parquet_dir):
         for k, v in trial.params.items():
             print(f"    {k}: {v}")
 
-        # Save all results
+        # Save all results to CSV for record
         df = study.trials_dataframe()
         df.to_csv("optuna_study_results.csv", index=False)
 
         return study
 
-    study = run_optuna_study()        
-            
-    # 7) Train a Final Model with Best Hyperparams 
-    ######################################################
-    # After you find the best hyperparameters, you can build a final model using those hyperparams 
-    # and optionally train it on the combined (train+val) set or just the train set:
-    ######################################################
+    # ---------------
+    # Running it:
+    study = run_optuna_study()
 
+    # 5) Train Final Model With Best Hyperparams
     best_params = study.best_params
+    print("Best Params:\n", best_params)
+
     embedding_dim   = best_params["embedding_dim"]
     n_hidden_layers = best_params["n_hidden_layers"]
     units           = best_params["units_per_layer"]
@@ -292,13 +292,15 @@ def embed_and_train(spark, parquet_dir):
     epochs          = best_params["epochs"]
     use_dropout     = best_params["use_dropout"]
     dropout_rate    = 0.0
+    if use_dropout:
+        dropout_rate = best_params["dropout_rate"]
 
+    # Rebuild final model architecture
     horse_id_input = keras.Input(shape=(), name="horse_id_input", dtype=tf.int32)
     numeric_input  = keras.Input(shape=(X_num_train.shape[1],), name="numeric_input")
 
     horse_embedding_layer = layers.Embedding(input_dim=num_horses, output_dim=embedding_dim)
-    horse_embedded = horse_embedding_layer(horse_id_input)
-    horse_embedded = layers.Flatten()(horse_embedded)
+    horse_embedded = layers.Flatten()(horse_embedding_layer(horse_id_input))
 
     x = numeric_input
     for _ in range(n_hidden_layers):
@@ -316,6 +318,7 @@ def embed_and_train(spark, parquet_dir):
         metrics=["mae"]
     )
 
+    # Optionally use early stopping in final training, with train+val or just train
     early_stopping = keras.callbacks.EarlyStopping(
         monitor="val_loss",
         patience=5,
@@ -333,32 +336,22 @@ def embed_and_train(spark, parquet_dir):
 
     val_loss, val_mae = final_model.evaluate(val_inputs, y_val, verbose=0)
     print(f"Final Model - Val MSE: {val_loss:.4f}, Val MAE: {val_mae:.4f}")
-    
-    
-    # 8) Extract Embeddings
-    
-    # The embedding weights (shape: [num_horses, embedding_dim])
-    embedding_weights = horse_embedding_layer.get_weights()[0]
-    # This is a numpy array of shape (num_horses, embedding_dim)
 
+    # 6) Extract the Embeddings
+    embedding_weights = horse_embedding_layer.get_weights()[0]  # shape: (num_horses, embedding_dim)
 
-    # We already have a mapping from horse_id to the row index in that 
-    # embedding matrix (horse_id_to_idx). Let’s invert that dictionary 
-    # to reconstruct each horse’s embedding:
-
+    # Suppose we have a horse_id_to_idx = {horse_id: index}
     idx_to_horse_id = {v: k for k, v in horse_id_to_idx.items()}
 
-    embed_list = []
+    rows = []
     for i in range(num_horses):
         horse_id = idx_to_horse_id[i]
-        emb_vec = embedding_weights[i].tolist()  # convert to Python list
-        embed_list.append([horse_id] + emb_vec)
+        emb_vec = embedding_weights[i].tolist()
+        rows.append([horse_id] + emb_vec)
 
-    # Create a DataFrame with columns: ["horse_id", "embed_0", ..., "embed_7"]
     embed_cols = ["horse_id"] + [f"embed_{k}" for k in range(embedding_dim)]
-    embed_df = pd.DataFrame(embed_list, columns=embed_cols)
-
-    print(embed_df.head())
+    embed_df = pd.DataFrame(rows, columns=embed_cols)
+    print("Sample of final embeddings:\n", embed_df.head())
 
     # Merging Embeddings Back into Your Main Data
 
@@ -370,9 +363,14 @@ def embed_and_train(spark, parquet_dir):
         how="left"
     )
 
+    horse_embedding = spark.createDataFrame(df_final)
+    
+    horse_embedding.printSchema()
+    
         # Generate dynamic filename
     current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H%M")
-    model_filename = f"/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/CatBoost_Embedding_data-{current_time}.parquet"
-
-    # Save to Parquet or CSV
-    df_final.to_parquet(model_filename)
+    model_filename = f"horse_embedding_data-{current_time}"
+    
+    save_parquet(spark, horse_embedding, model_filename, parquet_dir)    
+    
+    return model_filename

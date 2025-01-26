@@ -11,6 +11,7 @@ from src.training.fox_speed_figure import create_custom_speed_figure
 from src.data_preprocessing.data_prep2.data_healthcheck import time_series_data_healthcheck
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment, save_parquet
 from src.training.embedding_horse_id import embed_and_train
+from src.training.build_cat_model import build_catboost_model
 
 def setup_logging():
     """Sets up logging configuration to write logs to a file and the console."""
@@ -25,7 +26,7 @@ def setup_logging():
         # Clear the log file by opening it in write mode
         with open(log_file, 'w'):
             pass  # This will truncate the file without writing anything
-
+        
         # Create a logger and clear existing handlers
         logger = logging.getLogger()
         if logger.hasHandlers():
@@ -161,11 +162,18 @@ def main():
             #     "perf_target", 
             #     "custom_speed_figure"
             # ).show(30)
-
+            
             # # Save the Spark DataFrame as a Parquet file
             # save_parquet(spark, spark_df, "speed_figure", "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet")
             # # logging.info("Ingestion job succeeded and Speed Figure Catboost model complete")
-            embed_and_train(spark, parquet_dir)
+            
+            # 3) Embed horse_id and compute custom_speed_figure
+            #   End product is a parquet file in panda format with horse embeddings and the custom_speed_figure
+            #model_filename = embed_and_train(spark, parquet_dir)
+            
+            # 4) Build CatBoost Model
+            
+            build_catboost_model(spark) #, parquet_dir, model_filename)
             
         elif args.mode == "predict":
             # Prediction mode
