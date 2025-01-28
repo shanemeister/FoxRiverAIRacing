@@ -173,7 +173,7 @@ def create_custom_speed_figure(df):
     # Generate dynamic filename
     current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H%M")
     model_filename = f"data/models/speed_figure_model/speed_figure_regressor_model_{current_time}.cbm"
-    
+
     # Save the model
     final_model.save_model(model_filename)    
     return df

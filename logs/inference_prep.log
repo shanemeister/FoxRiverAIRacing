@@ -1,26 +1,12 @@
-2025-01-26 12:24:52 - INFO - Logging has been set up successfully.
-2025-01-26 12:24:54 - INFO - Schema of horse_embedding_sdf:
-2025-01-26 12:24:55 - INFO - horse_embedding count: 328184
-2025-01-26 12:25:02 - INFO - Rows: 328184, Columns: 103
-2025-01-26 12:25:02 - INFO - Columns: ['axciskey', 'course_cd', 'race_date', 'race_number', 'horse_id', 'horse_name', 'official_fin', 'time_behind', 'pace_delta_time', 'speed_rating', 'prev_speed_rating', 'previous_class', 'purse', 'weight', 'sex', 'equip', 'claimprice', 'surface', 'distance_meters', 'class_rating', 'previous_distance', 'previous_surface', 'off_finish_last_race', 'power', 'trk_cond', 'med', 'morn_odds', 'avgspd', 'starts', 'race_type', 'net_sentiment', 'stk_clm_md', 'turf_mud_mark', 'avg_spd_sd', 'ave_cl_sd', 'hi_spd_sd', 'pstyerl', 'all_starts', 'all_win', 'all_place', 'all_show', 'all_fourth', 'all_earnings', 'horse_itm_percentage', 'cond_starts', 'cond_win', 'cond_place', 'cond_show', 'cond_fourth', 'cond_earnings', 'jock_win_percent', 'jock_itm_percent', 'trainer_win_percent', 'trainer_itm_percent', 'jt_win_percent', 'jt_itm_percent', 'jock_win_track', 'jock_itm_track', 'trainer_win_track', 'trainer_itm_track', 'jt_win_track', 'jt_itm_track', 'sire_itm_percentage', 'sire_roi', 'dam_itm_percentage', 'dam_roi', 'total_races_5', 'avg_fin_5', 'avg_speed_5', 'best_speed', 'avg_beaten_len_5', 'first_race_date_5', 'most_recent_race_5', 'avg_dist_bk_gate1_5', 'avg_dist_bk_gate2_5', 'avg_dist_bk_gate3_5', 'avg_dist_bk_gate4_5', 'avg_speed_fullrace_5', 'avg_stride_length_5', 'avg_strfreq_q1_5', 'avg_strfreq_q2_5', 'avg_strfreq_q3_5', 'avg_strfreq_q4_5', 'prev_speed', 'speed_improvement', 'prev_race_date', 'days_off', 'layoff_cat', 'avg_workout_rank_3', 'count_workouts_3', 'race_count', 'track_name', 'age_at_race_day', 'gps_present', 'race_id', 'group_id', 'perf_target', 'custom_speed_figure', 'horse_idx', 'embed_0', 'embed_1', 'embed_2', 'embed_3']
-2025-01-26 12:25:02 - INFO - Dtypes:
-axciskey        object
-course_cd       object
-race_date       object
-race_number    float64
-horse_id       float64
-                ...   
-horse_idx        int64
-embed_0        float64
-embed_1        float64
-embed_2        float64
-embed_3        float64
-Length: 103, dtype: object
-2025-01-26 12:25:03 - INFO - Train shape: (214541, 103)
-2025-01-26 12:25:03 - INFO - Valid shape: (58646, 103)
-2025-01-26 12:25:03 - INFO - Holdout shape: (54997, 103)
-2025-01-26 12:25:03 - INFO - Numeric Cols (train): ['race_number', 'horse_id', 'official_fin', 'time_behind', 'pace_delta_time', 'speed_rating', 'prev_speed_rating', 'previous_class', 'purse', 'weight', 'claimprice', 'distance_meters', 'class_rating', 'previous_distance', 'off_finish_last_race', 'power', 'morn_odds', 'avgspd', 'starts', 'net_sentiment', 'avg_spd_sd', 'ave_cl_sd', 'hi_spd_sd', 'pstyerl', 'all_starts', 'all_win', 'all_place', 'all_show', 'all_fourth', 'all_earnings', 'horse_itm_percentage', 'cond_starts', 'cond_win', 'cond_place', 'cond_show', 'cond_fourth', 'cond_earnings', 'jock_win_percent', 'jock_itm_percent', 'trainer_win_percent', 'trainer_itm_percent', 'jt_win_percent', 'jt_itm_percent', 'jock_win_track', 'jock_itm_track', 'trainer_win_track', 'trainer_itm_track', 'jt_win_track', 'jt_itm_track', 'sire_itm_percentage', 'sire_roi', 'dam_itm_percentage', 'dam_roi', 'total_races_5', 'avg_fin_5', 'avg_speed_5', 'best_speed', 'avg_beaten_len_5', 'avg_dist_bk_gate1_5', 'avg_dist_bk_gate2_5', 'avg_dist_bk_gate3_5', 'avg_dist_bk_gate4_5', 'avg_speed_fullrace_5', 'avg_stride_length_5', 'avg_strfreq_q1_5', 'avg_strfreq_q2_5', 'avg_strfreq_q3_5', 'avg_strfreq_q4_5', 'prev_speed', 'speed_improvement', 'days_off', 'avg_workout_rank_3', 'count_workouts_3', 'race_count', 'age_at_race_day', 'gps_present', 'group_id', 'custom_speed_figure', 'horse_idx', 'embed_0', 'embed_1', 'embed_2', 'embed_3', 'first_race_date_5_numeric', 'most_recent_race_5_numeric', 'prev_race_date_numeric']
-2025-01-26 12:25:04 - INFO - X_train shape: (214541, 97), y_train length: 214541
-2025-01-26 12:25:04 - INFO - X_valid shape: (58646, 97), y_valid length: 58646
-2025-01-26 12:25:04 - INFO - X_holdout shape: (54997, 97), y_holdout length: 54997
-2025-01-26 12:25:04 - INFO - === Starting Optuna search for YetiRank:top=3 / NDCG:top=3 ===
+2025-01-28 01:14:46 - INFO - Logging has been set up successfully.
+2025-01-28 01:14:59 - INFO - Number of horses: 51601
+2025-01-28 01:14:59 - INFO - Number of numeric features: 31
+2025-01-28 01:21:18 - INFO - Writing horse embeddings to table: horse_embedding
+2025-01-28 01:21:20 - INFO - Embeddings saved to DB table 'horse_embedding'.
+2025-01-28 01:22:22 - INFO - Saving horse_embedding_data-20250128_0122 DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250128_0122.parquet...
+2025-01-28 01:22:22 - INFO - Schema of horse_embedding_data-20250128_0122 DataFrame:
+2025-01-28 01:22:24 - INFO - horse_embedding_data-20250128_0122 DataFrame saved successfully.
+2025-01-28 01:22:24 - INFO - Final merged DataFrame saved as Parquet: horse_embedding_data-20250128_0122
+2025-01-28 01:22:24 - INFO - *** Horse embedding job completed successfully ***
+2025-01-28 01:22:25 - INFO - Spark session stopped.
+2025-01-28 01:22:25 - INFO - Closing down clientserver connection
