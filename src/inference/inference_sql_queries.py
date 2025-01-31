@@ -3,7 +3,6 @@ def full_query_df():
     # Define SQL queries without trailing semicolons
     queries = {
         "speed_figure": """
-        WITH past_races AS (
 WITH past_races AS (
             SELECT 
                 -- Pull axciskey so we can join to recent_data later:
@@ -298,6 +297,7 @@ WITH past_races AS (
             JOIN horse h ON r2.axciskey = h.axciskey
             JOIN course c ON r.course_cd = c.course_cd
             WHERE r.race_date >= CURRENT_DATE
+            and r2.breed_type = 'TB'
             order by r.race_date desc 
         )
         SELECT 

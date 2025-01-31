@@ -8,3 +8,50 @@
 2025-01-27 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
 2025-01-27 04:15:06 - Python script succeeded
 2025-01-27 04:15:06 - Job completed
+2025-01-28 04:15:01 - Starting stat_type_update job
+2025-01-28 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-28 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-01-28 04:15:04 - Python script succeeded
+2025-01-28 04:15:04 - Job completed
+2025-01-29 04:15:01 - Starting stat_type_update job
+2025-01-29 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-29 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-01-29 04:15:03 - Python script succeeded
+2025-01-29 04:15:03 - Job completed
+2025-01-30 04:15:01 - Starting stat_type_update job
+2025-01-30 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-30 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py", line 685, in process_stat_type
+    accumulate_jock_trainer_for_date(cursor, rd)
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py", line 369, in accumulate_jock_trainer_for_date
+    cur.execute("""
+psycopg2.errors.ForeignKeyViolation: insert or update on table "trainer_jockey_stats" violates foreign key constraint "trainer_jockey_stats_train_key_fkey"
+DETAIL:  Key (train_key)=(977713) is not present in table "trainer".
+
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py", line 683, in process_stat_type
+    accumulate_trainer_stats_for_date(cursor, rd)
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py", line 296, in accumulate_trainer_stats_for_date
+    cur.execute("""
+psycopg2.errors.ForeignKeyViolation: insert or update on table "trainer_accum_stats" violates foreign key constraint "trainer_accum_stats_train_key_fkey"
+DETAIL:  Key (train_key)=(977713) is not present in table "trainer".
+
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py", line 689, in process_stat_type
+    accumulate_trainer_for_date_by_track(cursor, rd)
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py", line 512, in accumulate_trainer_for_date_by_track
+    cur.execute("""
+psycopg2.errors.ForeignKeyViolation: insert or update on table "trainer_accum_stats_by_track" violates foreign key constraint "fk_train_accum_stats_by_track_jock"
+DETAIL:  Key (train_key)=(977713) is not present in table "trainer".
+
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py", line 691, in process_stat_type
+    accumulate_jock_trainer_for_date_by_track(cursor, rd)
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py", line 585, in accumulate_jock_trainer_for_date_by_track
+    cur.execute("""
+psycopg2.errors.ForeignKeyViolation: insert or update on table "jt_accum_stats_by_track" violates foreign key constraint "fk_jt_accum_stats_by_track_jock"
+DETAIL:  Key (train_key)=(977713) is not present in table "trainer".
+
+2025-01-30 04:15:04 - Python script succeeded
+2025-01-30 04:15:04 - Job completed

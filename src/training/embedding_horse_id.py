@@ -298,4 +298,4 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_f
     logging.info(f"Final merged DataFrame saved as Parquet: {model_filename}")
 
     logging.info("*** Horse embedding job completed successfully ***")
-    return df_final_spark
+    return model_filename

@@ -1,12 +1,602 @@
-2025-01-28 01:14:46 - INFO - Logging has been set up successfully.
-2025-01-28 01:14:59 - INFO - Number of horses: 51601
-2025-01-28 01:14:59 - INFO - Number of numeric features: 31
-2025-01-28 01:21:18 - INFO - Writing horse embeddings to table: horse_embedding
-2025-01-28 01:21:20 - INFO - Embeddings saved to DB table 'horse_embedding'.
-2025-01-28 01:22:22 - INFO - Saving horse_embedding_data-20250128_0122 DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250128_0122.parquet...
-2025-01-28 01:22:22 - INFO - Schema of horse_embedding_data-20250128_0122 DataFrame:
-2025-01-28 01:22:24 - INFO - horse_embedding_data-20250128_0122 DataFrame saved successfully.
-2025-01-28 01:22:24 - INFO - Final merged DataFrame saved as Parquet: horse_embedding_data-20250128_0122
-2025-01-28 01:22:24 - INFO - *** Horse embedding job completed successfully ***
-2025-01-28 01:22:25 - INFO - Spark session stopped.
-2025-01-28 01:22:25 - INFO - Closing down clientserver connection
+2025-01-30 20:02:19 - INFO - Logging has been set up successfully.
+2025-01-30 20:02:21 - INFO - Starting build_catboost_model: Training CatBoost Models -- 20 total
+2025-01-30 20:02:21 - INFO - Schema of horse_embedding_df: StructType([StructField('axciskey', StringType(), True), StructField('course_cd', StringType(), True), StructField('race_date', DateType(), True), StructField('race_number', DoubleType(), True), StructField('horse_id', DoubleType(), True), StructField('horse_name', StringType(), True), StructField('official_fin', LongType(), True), StructField('time_behind', DoubleType(), True), StructField('pace_delta_time', DoubleType(), True), StructField('speed_rating', LongType(), True), StructField('prev_speed_rating', DoubleType(), True), StructField('previous_class', DoubleType(), True), StructField('purse', DoubleType(), True), StructField('weight', DoubleType(), True), StructField('sex', StringType(), True), StructField('equip', StringType(), True), StructField('claimprice', DoubleType(), True), StructField('surface', StringType(), True), StructField('distance_meters', DoubleType(), True), StructField('class_rating', DoubleType(), True), StructField('previous_distance', DoubleType(), True), StructField('previous_surface', StringType(), True), StructField('off_finish_last_race', LongType(), True), StructField('power', DoubleType(), True), StructField('trk_cond', StringType(), True), StructField('med', StringType(), True), StructField('morn_odds', DoubleType(), True), StructField('avgspd', DoubleType(), True), StructField('starts', LongType(), True), StructField('race_type', StringType(), True), StructField('net_sentiment', DoubleType(), True), StructField('stk_clm_md', StringType(), True), StructField('turf_mud_mark', StringType(), True), StructField('avg_spd_sd', DoubleType(), True), StructField('ave_cl_sd', DoubleType(), True), StructField('hi_spd_sd', DoubleType(), True), StructField('pstyerl', DoubleType(), True), StructField('all_starts', DoubleType(), True), StructField('all_win', DoubleType(), True), StructField('all_place', DoubleType(), True), StructField('all_show', DoubleType(), True), StructField('all_fourth', DoubleType(), True), StructField('all_earnings', DoubleType(), True), StructField('horse_itm_percentage', DoubleType(), True), StructField('cond_starts', DoubleType(), True), StructField('cond_win', DoubleType(), True), StructField('cond_place', DoubleType(), True), StructField('cond_show', DoubleType(), True), StructField('cond_fourth', DoubleType(), True), StructField('cond_earnings', DoubleType(), True), StructField('jock_win_percent', DoubleType(), True), StructField('jock_itm_percent', DoubleType(), True), StructField('trainer_win_percent', DoubleType(), True), StructField('trainer_itm_percent', DoubleType(), True), StructField('jt_win_percent', DoubleType(), True), StructField('jt_itm_percent', DoubleType(), True), StructField('jock_win_track', DoubleType(), True), StructField('jock_itm_track', DoubleType(), True), StructField('trainer_win_track', DoubleType(), True), StructField('trainer_itm_track', DoubleType(), True), StructField('jt_win_track', DoubleType(), True), StructField('jt_itm_track', DoubleType(), True), StructField('sire_itm_percentage', DoubleType(), True), StructField('sire_roi', DoubleType(), True), StructField('dam_itm_percentage', DoubleType(), True), StructField('dam_roi', DoubleType(), True), StructField('total_races_5', DoubleType(), True), StructField('avg_fin_5', DoubleType(), True), StructField('avg_speed_5', DoubleType(), True), StructField('best_speed', DoubleType(), True), StructField('avg_beaten_len_5', DoubleType(), True), StructField('first_race_date_5', DateType(), True), StructField('most_recent_race_5', DateType(), True), StructField('avg_dist_bk_gate1_5', DoubleType(), True), StructField('avg_dist_bk_gate2_5', DoubleType(), True), StructField('avg_dist_bk_gate3_5', DoubleType(), True), StructField('avg_dist_bk_gate4_5', DoubleType(), True), StructField('avg_speed_fullrace_5', DoubleType(), True), StructField('avg_stride_length_5', DoubleType(), True), StructField('avg_strfreq_q1_5', DoubleType(), True), StructField('avg_strfreq_q2_5', DoubleType(), True), StructField('avg_strfreq_q3_5', DoubleType(), True), StructField('avg_strfreq_q4_5', DoubleType(), True), StructField('prev_speed', DoubleType(), True), StructField('speed_improvement', DoubleType(), True), StructField('prev_race_date', DateType(), True), StructField('days_off', DoubleType(), True), StructField('layoff_cat', StringType(), True), StructField('avg_workout_rank_3', DoubleType(), True), StructField('count_workouts_3', DoubleType(), True), StructField('race_count', DoubleType(), True), StructField('track_name', StringType(), True), StructField('age_at_race_day', DoubleType(), True), StructField('gps_present', LongType(), True), StructField('race_id', StringType(), True), StructField('group_id', LongType(), True), StructField('perf_target', LongType(), True), StructField('custom_speed_figure', DoubleType(), True), StructField('horse_idx_x', LongType(), True), StructField('horse_idx_y', LongType(), True), StructField('embed_0', DoubleType(), True), StructField('embed_1', DoubleType(), True), StructField('embed_2', DoubleType(), True), StructField('embed_3', DoubleType(), True)])
+2025-01-30 20:02:22 - INFO - Horse_embedding count: 328184
+2025-01-30 20:02:30 - INFO - Columns in raw df: ['axciskey', 'course_cd', 'race_date', 'race_number', 'horse_id', 'horse_name', 'time_behind', 'pace_delta_time', 'speed_rating', 'prev_speed_rating', 'previous_class', 'purse', 'weight', 'sex', 'equip', 'claimprice', 'surface', 'distance_meters', 'class_rating', 'previous_distance', 'previous_surface', 'off_finish_last_race', 'power', 'trk_cond', 'med', 'morn_odds', 'avgspd', 'starts', 'race_type', 'net_sentiment', 'stk_clm_md', 'turf_mud_mark', 'avg_spd_sd', 'ave_cl_sd', 'hi_spd_sd', 'pstyerl', 'all_starts', 'all_win', 'all_place', 'all_show', 'all_fourth', 'all_earnings', 'horse_itm_percentage', 'cond_starts', 'cond_win', 'cond_place', 'cond_show', 'cond_fourth', 'cond_earnings', 'jock_win_percent', 'jock_itm_percent', 'trainer_win_percent', 'trainer_itm_percent', 'jt_win_percent', 'jt_itm_percent', 'jock_win_track', 'jock_itm_track', 'trainer_win_track', 'trainer_itm_track', 'jt_win_track', 'jt_itm_track', 'sire_itm_percentage', 'sire_roi', 'dam_itm_percentage', 'dam_roi', 'total_races_5', 'avg_fin_5', 'avg_speed_5', 'best_speed', 'avg_beaten_len_5', 'first_race_date_5', 'most_recent_race_5', 'avg_dist_bk_gate1_5', 'avg_dist_bk_gate2_5', 'avg_dist_bk_gate3_5', 'avg_dist_bk_gate4_5', 'avg_speed_fullrace_5', 'avg_stride_length_5', 'avg_strfreq_q1_5', 'avg_strfreq_q2_5', 'avg_strfreq_q3_5', 'avg_strfreq_q4_5', 'prev_speed', 'speed_improvement', 'prev_race_date', 'days_off', 'layoff_cat', 'avg_workout_rank_3', 'count_workouts_3', 'race_count', 'track_name', 'age_at_race_day', 'gps_present', 'race_id', 'group_id', 'perf_target', 'custom_speed_figure', 'horse_idx_x', 'horse_idx_y', 'embed_0', 'embed_1', 'embed_2', 'embed_3']
+2025-01-30 20:02:30 - INFO - Dtypes:
+axciskey        object
+course_cd       object
+race_date       object
+race_number    float64
+horse_id       float64
+                ...   
+horse_idx_y      int64
+embed_0        float64
+embed_1        float64
+embed_2        float64
+embed_3        float64
+Length: 103, dtype: object
+2025-01-30 20:02:32 - INFO - Final feature columns for training:
+['age_at_race_day', 'all_earnings', 'all_fourth', 'all_place', 'all_show', 'all_starts', 'all_win', 'ave_cl_sd', 'avg_beaten_len_5', 'avg_dist_bk_gate1_5', 'avg_dist_bk_gate2_5', 'avg_dist_bk_gate3_5', 'avg_dist_bk_gate4_5', 'avg_fin_5', 'avg_spd_sd', 'avg_speed_5', 'avg_speed_fullrace_5', 'avg_strfreq_q1_5', 'avg_strfreq_q2_5', 'avg_strfreq_q3_5', 'avg_strfreq_q4_5', 'avg_stride_length_5', 'avg_workout_rank_3', 'avgspd', 'best_speed', 'claimprice', 'class_rating', 'cond_earnings', 'cond_fourth', 'cond_place', 'cond_show', 'cond_starts', 'cond_win', 'count_workouts_3', 'course_cd', 'custom_speed_figure', 'dam_itm_percentage', 'dam_roi', 'days_off', 'distance_meters', 'embed_0', 'embed_1', 'embed_2', 'embed_3', 'equip', 'first_race_date_5_numeric', 'gps_present', 'group_id', 'hi_spd_sd', 'horse_idx_x', 'horse_idx_y', 'horse_itm_percentage', 'jock_itm_percent', 'jock_itm_track', 'jock_win_percent', 'jock_win_track', 'jt_itm_percent', 'jt_itm_track', 'jt_win_percent', 'jt_win_track', 'layoff_cat', 'med', 'morn_odds', 'most_recent_race_5_numeric', 'net_sentiment', 'off_finish_last_race', 'pace_delta_time', 'power', 'prev_race_date_numeric', 'prev_speed', 'prev_speed_rating', 'previous_class', 'previous_distance', 'previous_surface', 'pstyerl', 'purse', 'race_count', 'race_type', 'sex', 'sire_itm_percentage', 'sire_roi', 'speed_improvement', 'speed_rating', 'starts', 'stk_clm_md', 'surface', 'time_behind', 'total_races_5', 'trainer_itm_percent', 'trainer_itm_track', 'trainer_win_percent', 'trainer_win_track', 'trk_cond', 'turf_mud_mark', 'weight']
+2025-01-30 20:02:32 - INFO - cat_features_idx: [34, 92, 78, 44, 85, 61, 77, 84, 93, 60, 73]
+2025-01-30 20:02:32 - INFO - cat_features: ['course_cd', 'trk_cond', 'sex', 'equip', 'surface', 'med', 'race_type', 'stk_clm_md', 'turf_mud_mark', 'layoff_cat', 'previous_surface']
+2025-01-30 20:02:32 - INFO - Starting Optuna Trial 0: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:02:55 - INFO - Starting Optuna Trial 1: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:03:13 - INFO - Starting Optuna Trial 2: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:03:33 - INFO - Starting Optuna Trial 3: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:04:00 - INFO - Starting Optuna Trial 4: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:04:27 - INFO - Starting Optuna Trial 5: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:04:50 - INFO - Starting Optuna Trial 6: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:05:12 - INFO - Starting Optuna Trial 7: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:05:33 - INFO - Starting Optuna Trial 8: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:05:57 - INFO - Starting Optuna Trial 9: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:06:17 - INFO - Starting Optuna Trial 10: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:06:45 - INFO - Starting Optuna Trial 11: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:07:05 - INFO - Starting Optuna Trial 12: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:07:26 - INFO - Starting Optuna Trial 13: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:07:48 - INFO - Starting Optuna Trial 14: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:08:22 - INFO - Starting Optuna Trial 15: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:08:43 - INFO - Starting Optuna Trial 16: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:09:04 - INFO - Starting Optuna Trial 17: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:09:26 - INFO - Starting Optuna Trial 18: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:09:43 - INFO - Starting Optuna Trial 19: YetiRank:top=1, Metric: NDCG:top=1
+2025-01-30 20:10:02 - INFO - Best score: 1.0, Best params: {'iterations': 1700, 'depth': 9, 'learning_rate': 0.2222742402631343, 'l2_leaf_reg': 5.801903095965678, 'grow_policy': 'Lossguide', 'random_strength': 3.5596546961326756, 'min_data_in_leaf': 5}
+2025-01-30 20:11:37 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=1_20250130_201002.cbm
+2025-01-30 20:11:37 - INFO - Evaluating model: YetiRank:top=1_NDCG:top=1_20250130_201002 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=1_20250130_201002.cbm
+2025-01-30 20:11:37 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=1_20250130_201002.cbm
+2025-01-30 20:11:37 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 20:11:43 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=1_NDCG:top=1_20250130_201002",
+  "avg_top_4_accuracy": 0.20818827966347547,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 20:11:43 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 20:11:57 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 20:11:57 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=1_NDCG:top=1_20250130_201002.json
+2025-01-30 20:11:57 - INFO - Starting Optuna Trial 0: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:12:19 - INFO - Starting Optuna Trial 1: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:12:49 - INFO - Starting Optuna Trial 2: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:13:14 - INFO - Starting Optuna Trial 3: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:13:42 - INFO - Starting Optuna Trial 4: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:14:05 - INFO - Starting Optuna Trial 5: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:14:34 - INFO - Starting Optuna Trial 6: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:14:55 - INFO - Starting Optuna Trial 7: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:15:19 - INFO - Starting Optuna Trial 8: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:15:43 - INFO - Starting Optuna Trial 9: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:16:08 - INFO - Starting Optuna Trial 10: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:16:29 - INFO - Starting Optuna Trial 11: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:17:08 - INFO - Starting Optuna Trial 12: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:17:39 - INFO - Starting Optuna Trial 13: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:18:00 - INFO - Starting Optuna Trial 14: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:18:31 - INFO - Starting Optuna Trial 15: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:18:49 - INFO - Starting Optuna Trial 16: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:19:15 - INFO - Starting Optuna Trial 17: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:19:38 - INFO - Starting Optuna Trial 18: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:20:04 - INFO - Starting Optuna Trial 19: YetiRank:top=1, Metric: NDCG:top=2
+2025-01-30 20:20:37 - INFO - Best score: 1.0, Best params: {'iterations': 1800, 'depth': 5, 'learning_rate': 0.19025267714254668, 'l2_leaf_reg': 4.067049333682478, 'grow_policy': 'Lossguide', 'random_strength': 3.93665849298708, 'min_data_in_leaf': 11}
+2025-01-30 20:22:06 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=2_20250130_202037.cbm
+2025-01-30 20:22:06 - INFO - Evaluating model: YetiRank:top=1_NDCG:top=2_20250130_202037 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=2_20250130_202037.cbm
+2025-01-30 20:22:06 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=2_20250130_202037.cbm
+2025-01-30 20:22:06 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 20:22:12 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=1_NDCG:top=2_20250130_202037",
+  "avg_top_4_accuracy": 0.2086597040905135,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 20:22:12 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 20:22:26 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 20:22:26 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=1_NDCG:top=2_20250130_202037.json
+2025-01-30 20:22:26 - INFO - Starting Optuna Trial 0: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:22:43 - INFO - Starting Optuna Trial 1: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:23:19 - INFO - Starting Optuna Trial 2: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:23:43 - INFO - Starting Optuna Trial 3: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:24:00 - INFO - Starting Optuna Trial 4: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:24:28 - INFO - Starting Optuna Trial 5: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:24:47 - INFO - Starting Optuna Trial 6: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:25:08 - INFO - Starting Optuna Trial 7: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:25:35 - INFO - Starting Optuna Trial 8: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:25:57 - INFO - Starting Optuna Trial 9: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:26:22 - INFO - Starting Optuna Trial 10: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:26:40 - INFO - Starting Optuna Trial 11: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:27:16 - INFO - Starting Optuna Trial 12: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:27:51 - INFO - Starting Optuna Trial 13: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:28:18 - INFO - Starting Optuna Trial 14: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:28:49 - INFO - Starting Optuna Trial 15: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:29:24 - INFO - Starting Optuna Trial 16: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:29:40 - INFO - Starting Optuna Trial 17: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:30:06 - INFO - Starting Optuna Trial 18: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:30:29 - INFO - Starting Optuna Trial 19: YetiRank:top=1, Metric: NDCG:top=3
+2025-01-30 20:30:47 - INFO - Best score: 1.0, Best params: {'iterations': 1600, 'depth': 5, 'learning_rate': 0.2771196866022025, 'l2_leaf_reg': 1.5650387911454822, 'grow_policy': 'Depthwise', 'random_strength': 3.1065301743810156, 'min_data_in_leaf': 5}
+2025-01-30 20:32:10 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=3_20250130_203047.cbm
+2025-01-30 20:32:10 - INFO - Evaluating model: YetiRank:top=1_NDCG:top=3_20250130_203047 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=3_20250130_203047.cbm
+2025-01-30 20:32:10 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=3_20250130_203047.cbm
+2025-01-30 20:32:10 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 20:32:16 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=1_NDCG:top=3_20250130_203047",
+  "avg_top_4_accuracy": 0.2077893820713664,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 20:32:16 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 20:32:29 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 20:32:29 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=1_NDCG:top=3_20250130_203047.json
+2025-01-30 20:32:29 - INFO - Starting Optuna Trial 0: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:32:54 - INFO - Starting Optuna Trial 1: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:33:28 - INFO - Starting Optuna Trial 2: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:33:54 - INFO - Starting Optuna Trial 3: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:34:16 - INFO - Starting Optuna Trial 4: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:34:43 - INFO - Starting Optuna Trial 5: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:35:03 - INFO - Starting Optuna Trial 6: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:35:27 - INFO - Starting Optuna Trial 7: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:35:47 - INFO - Starting Optuna Trial 8: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:36:07 - INFO - Starting Optuna Trial 9: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:36:41 - INFO - Starting Optuna Trial 10: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:37:06 - INFO - Starting Optuna Trial 11: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:37:35 - INFO - Starting Optuna Trial 12: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:38:05 - INFO - Starting Optuna Trial 13: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:38:32 - INFO - Starting Optuna Trial 14: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:39:02 - INFO - Starting Optuna Trial 15: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:39:29 - INFO - Starting Optuna Trial 16: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:40:03 - INFO - Starting Optuna Trial 17: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:40:31 - INFO - Starting Optuna Trial 18: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:41:05 - INFO - Starting Optuna Trial 19: YetiRank:top=1, Metric: NDCG:top=4
+2025-01-30 20:41:30 - INFO - Best score: 1.0, Best params: {'iterations': 1800, 'depth': 8, 'learning_rate': 0.16151105659200454, 'l2_leaf_reg': 4.11883184257227, 'grow_policy': 'Lossguide', 'random_strength': 2.001364251147987, 'min_data_in_leaf': 7}
+2025-01-30 20:43:02 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=4_20250130_204130.cbm
+2025-01-30 20:43:02 - INFO - Evaluating model: YetiRank:top=1_NDCG:top=4_20250130_204130 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=4_20250130_204130.cbm
+2025-01-30 20:43:02 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=4_20250130_204130.cbm
+2025-01-30 20:43:02 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 20:43:08 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=1_NDCG:top=4_20250130_204130",
+  "avg_top_4_accuracy": 0.20887728459530025,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 20:43:08 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 20:43:20 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 20:43:20 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=1_NDCG:top=4_20250130_204130.json
+2025-01-30 20:43:20 - INFO - Starting Optuna Trial 0: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:43:39 - INFO - Starting Optuna Trial 1: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:44:10 - INFO - Starting Optuna Trial 2: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:44:25 - INFO - Starting Optuna Trial 3: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:44:48 - INFO - Starting Optuna Trial 4: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:45:08 - INFO - Starting Optuna Trial 5: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:45:32 - INFO - Starting Optuna Trial 6: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:45:47 - INFO - Starting Optuna Trial 7: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:46:04 - INFO - Starting Optuna Trial 8: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:46:24 - INFO - Starting Optuna Trial 9: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:46:50 - INFO - Starting Optuna Trial 10: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:47:11 - INFO - Starting Optuna Trial 11: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:47:46 - INFO - Starting Optuna Trial 12: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:48:19 - INFO - Starting Optuna Trial 13: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:48:46 - INFO - Starting Optuna Trial 14: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:49:05 - INFO - Starting Optuna Trial 15: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:49:25 - INFO - Starting Optuna Trial 16: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:49:47 - INFO - Starting Optuna Trial 17: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:50:20 - INFO - Starting Optuna Trial 18: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:50:41 - INFO - Starting Optuna Trial 19: YetiRank:top=2, Metric: NDCG:top=1
+2025-01-30 20:51:03 - INFO - Best score: 1.0, Best params: {'iterations': 1500, 'depth': 6, 'learning_rate': 0.21157855710387663, 'l2_leaf_reg': 3.0503847350198385, 'grow_policy': 'Lossguide', 'random_strength': 2.855047694799816, 'min_data_in_leaf': 6}
+2025-01-30 20:52:27 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=1_20250130_205103.cbm
+2025-01-30 20:52:27 - INFO - Evaluating model: YetiRank:top=2_NDCG:top=1_20250130_205103 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=1_20250130_205103.cbm
+2025-01-30 20:52:27 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=1_20250130_205103.cbm
+2025-01-30 20:52:27 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 20:52:33 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=2_NDCG:top=1_20250130_205103",
+  "avg_top_4_accuracy": 0.2088410211778358,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 20:52:33 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 20:52:46 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 20:52:46 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=2_NDCG:top=1_20250130_205103.json
+2025-01-30 20:52:46 - INFO - Starting Optuna Trial 0: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:53:10 - INFO - Starting Optuna Trial 1: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:53:45 - INFO - Starting Optuna Trial 2: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:54:19 - INFO - Starting Optuna Trial 3: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:54:44 - INFO - Starting Optuna Trial 4: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:55:12 - INFO - Starting Optuna Trial 5: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:55:37 - INFO - Starting Optuna Trial 6: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:56:01 - INFO - Starting Optuna Trial 7: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:56:21 - INFO - Starting Optuna Trial 8: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:56:42 - INFO - Starting Optuna Trial 9: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:57:04 - INFO - Starting Optuna Trial 10: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:57:29 - INFO - Starting Optuna Trial 11: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:57:53 - INFO - Starting Optuna Trial 12: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:58:16 - INFO - Starting Optuna Trial 13: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:58:42 - INFO - Starting Optuna Trial 14: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:59:05 - INFO - Starting Optuna Trial 15: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 20:59:41 - INFO - Starting Optuna Trial 16: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 21:00:02 - INFO - Starting Optuna Trial 17: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 21:00:29 - INFO - Starting Optuna Trial 18: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 21:00:50 - INFO - Starting Optuna Trial 19: YetiRank:top=2, Metric: NDCG:top=2
+2025-01-30 21:01:09 - INFO - Best score: 1.0, Best params: {'iterations': 2000, 'depth': 5, 'learning_rate': 0.2998475700375508, 'l2_leaf_reg': 5.487847324355089, 'grow_policy': 'Lossguide', 'random_strength': 2.2706097496818582, 'min_data_in_leaf': 13}
+2025-01-30 21:02:36 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=2_20250130_210109.cbm
+2025-01-30 21:02:36 - INFO - Evaluating model: YetiRank:top=2_NDCG:top=2_20250130_210109 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=2_20250130_210109.cbm
+2025-01-30 21:02:36 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=2_20250130_210109.cbm
+2025-01-30 21:02:36 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 21:02:42 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=2_NDCG:top=2_20250130_210109",
+  "avg_top_4_accuracy": 0.207209167391935,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 21:02:42 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 21:02:54 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 21:02:54 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=2_NDCG:top=2_20250130_210109.json
+2025-01-30 21:02:54 - INFO - Starting Optuna Trial 0: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:03:14 - INFO - Starting Optuna Trial 1: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:03:35 - INFO - Starting Optuna Trial 2: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:04:03 - INFO - Starting Optuna Trial 3: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:04:39 - INFO - Starting Optuna Trial 4: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:05:02 - INFO - Starting Optuna Trial 5: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:05:24 - INFO - Starting Optuna Trial 6: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:05:51 - INFO - Starting Optuna Trial 7: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:06:16 - INFO - Starting Optuna Trial 8: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:06:51 - INFO - Starting Optuna Trial 9: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:07:16 - INFO - Starting Optuna Trial 10: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:07:37 - INFO - Starting Optuna Trial 11: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:07:57 - INFO - Starting Optuna Trial 12: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:08:18 - INFO - Starting Optuna Trial 13: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:08:40 - INFO - Starting Optuna Trial 14: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:09:02 - INFO - Starting Optuna Trial 15: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:09:21 - INFO - Starting Optuna Trial 16: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:09:40 - INFO - Starting Optuna Trial 17: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:10:04 - INFO - Starting Optuna Trial 18: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:10:30 - INFO - Starting Optuna Trial 19: YetiRank:top=2, Metric: NDCG:top=3
+2025-01-30 21:10:53 - INFO - Best score: 1.0, Best params: {'iterations': 1800, 'depth': 5, 'learning_rate': 0.21183393502078643, 'l2_leaf_reg': 8.335356138522812, 'grow_policy': 'Depthwise', 'random_strength': 2.2915899564113333, 'min_data_in_leaf': 11}
+2025-01-30 21:12:11 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=3_20250130_211053.cbm
+2025-01-30 21:12:11 - INFO - Evaluating model: YetiRank:top=2_NDCG:top=3_20250130_211053 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=3_20250130_211053.cbm
+2025-01-30 21:12:11 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=3_20250130_211053.cbm
+2025-01-30 21:12:11 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 21:12:17 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=2_NDCG:top=3_20250130_211053",
+  "avg_top_4_accuracy": 0.20818827966347547,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 21:12:17 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 21:12:29 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 21:12:29 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=2_NDCG:top=3_20250130_211053.json
+2025-01-30 21:12:29 - INFO - Starting Optuna Trial 0: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:12:55 - INFO - Starting Optuna Trial 1: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:13:25 - INFO - Starting Optuna Trial 2: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:13:50 - INFO - Starting Optuna Trial 3: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:14:08 - INFO - Starting Optuna Trial 4: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:14:40 - INFO - Starting Optuna Trial 5: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:15:07 - INFO - Starting Optuna Trial 6: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:15:34 - INFO - Starting Optuna Trial 7: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:16:01 - INFO - Starting Optuna Trial 8: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:16:28 - INFO - Starting Optuna Trial 9: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:16:52 - INFO - Starting Optuna Trial 10: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:17:15 - INFO - Starting Optuna Trial 11: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:17:39 - INFO - Starting Optuna Trial 12: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:18:04 - INFO - Starting Optuna Trial 13: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:18:33 - INFO - Starting Optuna Trial 14: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:18:54 - INFO - Starting Optuna Trial 15: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:19:18 - INFO - Starting Optuna Trial 16: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:19:45 - INFO - Starting Optuna Trial 17: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:20:11 - INFO - Starting Optuna Trial 18: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:20:31 - INFO - Starting Optuna Trial 19: YetiRank:top=2, Metric: NDCG:top=4
+2025-01-30 21:21:11 - INFO - Best score: 1.0, Best params: {'iterations': 2100, 'depth': 6, 'learning_rate': 0.2857604097545615, 'l2_leaf_reg': 8.383752806119809, 'grow_policy': 'Depthwise', 'random_strength': 2.2913460526246423, 'min_data_in_leaf': 12}
+2025-01-30 21:22:39 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=4_20250130_212111.cbm
+2025-01-30 21:22:39 - INFO - Evaluating model: YetiRank:top=2_NDCG:top=4_20250130_212111 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=4_20250130_212111.cbm
+2025-01-30 21:22:39 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=4_20250130_212111.cbm
+2025-01-30 21:22:39 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 21:22:45 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=2_NDCG:top=4_20250130_212111",
+  "avg_top_4_accuracy": 0.20742674789672177,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 21:22:45 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 21:22:58 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 21:22:58 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=2_NDCG:top=4_20250130_212111.json
+2025-01-30 21:22:58 - INFO - Starting Optuna Trial 0: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:23:31 - INFO - Starting Optuna Trial 1: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:23:57 - INFO - Starting Optuna Trial 2: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:24:17 - INFO - Starting Optuna Trial 3: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:24:44 - INFO - Starting Optuna Trial 4: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:25:11 - INFO - Starting Optuna Trial 5: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:25:32 - INFO - Starting Optuna Trial 6: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:25:53 - INFO - Starting Optuna Trial 7: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:26:10 - INFO - Starting Optuna Trial 8: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:26:32 - INFO - Starting Optuna Trial 9: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:26:59 - INFO - Starting Optuna Trial 10: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:27:16 - INFO - Starting Optuna Trial 11: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:27:44 - INFO - Starting Optuna Trial 12: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:28:05 - INFO - Starting Optuna Trial 13: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:28:26 - INFO - Starting Optuna Trial 14: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:28:59 - INFO - Starting Optuna Trial 15: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:29:29 - INFO - Starting Optuna Trial 16: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:29:53 - INFO - Starting Optuna Trial 17: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:30:13 - INFO - Starting Optuna Trial 18: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:30:38 - INFO - Starting Optuna Trial 19: YetiRank:top=3, Metric: NDCG:top=1
+2025-01-30 21:31:02 - INFO - Best score: 1.0, Best params: {'iterations': 1600, 'depth': 9, 'learning_rate': 0.17912630201239668, 'l2_leaf_reg': 8.666509074934154, 'grow_policy': 'Depthwise', 'random_strength': 2.696823776334531, 'min_data_in_leaf': 10}
+2025-01-30 21:32:41 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=1_20250130_213102.cbm
+2025-01-30 21:32:41 - INFO - Evaluating model: YetiRank:top=3_NDCG:top=1_20250130_213102 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=1_20250130_213102.cbm
+2025-01-30 21:32:41 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=1_20250130_213102.cbm
+2025-01-30 21:32:41 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 21:32:47 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=3_NDCG:top=1_20250130_213102",
+  "avg_top_4_accuracy": 0.2088410211778358,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 21:32:47 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 21:33:01 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 21:33:01 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=3_NDCG:top=1_20250130_213102.json
+2025-01-30 21:33:01 - INFO - Starting Optuna Trial 0: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:33:25 - INFO - Starting Optuna Trial 1: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:33:47 - INFO - Starting Optuna Trial 2: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:34:15 - INFO - Starting Optuna Trial 3: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:34:36 - INFO - Starting Optuna Trial 4: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:34:56 - INFO - Starting Optuna Trial 5: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:35:19 - INFO - Starting Optuna Trial 6: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:35:52 - INFO - Starting Optuna Trial 7: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:36:19 - INFO - Starting Optuna Trial 8: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:36:45 - INFO - Starting Optuna Trial 9: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:37:06 - INFO - Starting Optuna Trial 10: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:37:29 - INFO - Starting Optuna Trial 11: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:37:52 - INFO - Starting Optuna Trial 12: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:38:15 - INFO - Starting Optuna Trial 13: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:38:36 - INFO - Starting Optuna Trial 14: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:39:01 - INFO - Starting Optuna Trial 15: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:39:23 - INFO - Starting Optuna Trial 16: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:39:47 - INFO - Starting Optuna Trial 17: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:40:07 - INFO - Starting Optuna Trial 18: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:40:38 - INFO - Starting Optuna Trial 19: YetiRank:top=3, Metric: NDCG:top=2
+2025-01-30 21:40:59 - INFO - Best score: 1.0, Best params: {'iterations': 1800, 'depth': 9, 'learning_rate': 0.29151075570847573, 'l2_leaf_reg': 4.386883069011343, 'grow_policy': 'Lossguide', 'random_strength': 2.6992371854992685, 'min_data_in_leaf': 7}
+2025-01-30 21:42:36 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=2_20250130_214059.cbm
+2025-01-30 21:42:36 - INFO - Evaluating model: YetiRank:top=3_NDCG:top=2_20250130_214059 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=2_20250130_214059.cbm
+2025-01-30 21:42:36 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=2_20250130_214059.cbm
+2025-01-30 21:42:36 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 21:42:42 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=3_NDCG:top=2_20250130_214059",
+  "avg_top_4_accuracy": 0.20757180156657964,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 21:42:42 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 21:42:56 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 21:42:56 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=3_NDCG:top=2_20250130_214059.json
+2025-01-30 21:42:56 - INFO - Starting Optuna Trial 0: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:43:22 - INFO - Starting Optuna Trial 1: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:43:45 - INFO - Starting Optuna Trial 2: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:44:10 - INFO - Starting Optuna Trial 3: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:44:28 - INFO - Starting Optuna Trial 4: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:44:54 - INFO - Starting Optuna Trial 5: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:45:12 - INFO - Starting Optuna Trial 6: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:45:35 - INFO - Starting Optuna Trial 7: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:46:04 - INFO - Starting Optuna Trial 8: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:46:24 - INFO - Starting Optuna Trial 9: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:46:51 - INFO - Starting Optuna Trial 10: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:47:21 - INFO - Starting Optuna Trial 11: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:47:47 - INFO - Starting Optuna Trial 12: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:48:13 - INFO - Starting Optuna Trial 13: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:48:37 - INFO - Starting Optuna Trial 14: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:49:04 - INFO - Starting Optuna Trial 15: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:49:31 - INFO - Starting Optuna Trial 16: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:49:54 - INFO - Starting Optuna Trial 17: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:50:19 - INFO - Starting Optuna Trial 18: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:50:56 - INFO - Starting Optuna Trial 19: YetiRank:top=3, Metric: NDCG:top=3
+2025-01-30 21:51:20 - INFO - Best score: 1.0, Best params: {'iterations': 1900, 'depth': 8, 'learning_rate': 0.22565943523540583, 'l2_leaf_reg': 3.3091558148808558, 'grow_policy': 'Lossguide', 'random_strength': 2.8179258787156405, 'min_data_in_leaf': 8}
+2025-01-30 21:53:00 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=3_20250130_215120.cbm
+2025-01-30 21:53:00 - INFO - Evaluating model: YetiRank:top=3_NDCG:top=3_20250130_215120 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=3_20250130_215120.cbm
+2025-01-30 21:53:00 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=3_20250130_215120.cbm
+2025-01-30 21:53:00 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 21:53:06 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=3_NDCG:top=3_20250130_215120",
+  "avg_top_4_accuracy": 0.20775311865390195,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 21:53:06 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 21:53:20 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 21:53:20 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=3_NDCG:top=3_20250130_215120.json
+2025-01-30 21:53:20 - INFO - Starting Optuna Trial 0: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:53:49 - INFO - Starting Optuna Trial 1: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:54:14 - INFO - Starting Optuna Trial 2: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:54:37 - INFO - Starting Optuna Trial 3: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:55:04 - INFO - Starting Optuna Trial 4: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:55:24 - INFO - Starting Optuna Trial 5: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:55:52 - INFO - Starting Optuna Trial 6: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:56:17 - INFO - Starting Optuna Trial 7: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:56:44 - INFO - Starting Optuna Trial 8: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:57:19 - INFO - Starting Optuna Trial 9: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:57:44 - INFO - Starting Optuna Trial 10: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:58:06 - INFO - Starting Optuna Trial 11: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:58:30 - INFO - Starting Optuna Trial 12: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:58:54 - INFO - Starting Optuna Trial 13: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:59:18 - INFO - Starting Optuna Trial 14: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 21:59:44 - INFO - Starting Optuna Trial 15: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 22:00:09 - INFO - Starting Optuna Trial 16: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 22:00:32 - INFO - Starting Optuna Trial 17: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 22:00:59 - INFO - Starting Optuna Trial 18: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 22:01:22 - INFO - Starting Optuna Trial 19: YetiRank:top=3, Metric: NDCG:top=4
+2025-01-30 22:01:47 - INFO - Best score: 1.0, Best params: {'iterations': 2100, 'depth': 9, 'learning_rate': 0.2701882489405445, 'l2_leaf_reg': 4.357571111313151, 'grow_policy': 'Lossguide', 'random_strength': 3.942430221296383, 'min_data_in_leaf': 5}
+2025-01-30 22:03:22 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=4_20250130_220147.cbm
+2025-01-30 22:03:22 - INFO - Evaluating model: YetiRank:top=3_NDCG:top=4_20250130_220147 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=4_20250130_220147.cbm
+2025-01-30 22:03:22 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=4_20250130_220147.cbm
+2025-01-30 22:03:22 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 22:03:28 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=3_NDCG:top=4_20250130_220147",
+  "avg_top_4_accuracy": 0.2069553234696838,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 22:03:28 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 22:03:40 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 22:03:40 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=3_NDCG:top=4_20250130_220147.json
+2025-01-30 22:03:40 - INFO - Starting Optuna Trial 0: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:04:06 - INFO - Starting Optuna Trial 1: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:04:30 - INFO - Starting Optuna Trial 2: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:04:49 - INFO - Starting Optuna Trial 3: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:05:15 - INFO - Starting Optuna Trial 4: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:05:38 - INFO - Starting Optuna Trial 5: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:05:59 - INFO - Starting Optuna Trial 6: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:06:38 - INFO - Starting Optuna Trial 7: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:06:59 - INFO - Starting Optuna Trial 8: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:07:20 - INFO - Starting Optuna Trial 9: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:07:52 - INFO - Starting Optuna Trial 10: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:08:19 - INFO - Starting Optuna Trial 11: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:08:43 - INFO - Starting Optuna Trial 12: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:09:10 - INFO - Starting Optuna Trial 13: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:09:34 - INFO - Starting Optuna Trial 14: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:09:56 - INFO - Starting Optuna Trial 15: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:10:22 - INFO - Starting Optuna Trial 16: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:10:40 - INFO - Starting Optuna Trial 17: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:11:06 - INFO - Starting Optuna Trial 18: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:11:33 - INFO - Starting Optuna Trial 19: YetiRank:top=4, Metric: NDCG:top=1
+2025-01-30 22:11:55 - INFO - Best score: 1.0, Best params: {'iterations': 2000, 'depth': 7, 'learning_rate': 0.24403353654099957, 'l2_leaf_reg': 2.173613544885339, 'grow_policy': 'Lossguide', 'random_strength': 3.1622620562030432, 'min_data_in_leaf': 13}
+2025-01-30 22:13:27 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=1_20250130_221155.cbm
+2025-01-30 22:13:27 - INFO - Evaluating model: YetiRank:top=4_NDCG:top=1_20250130_221155 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=1_20250130_221155.cbm
+2025-01-30 22:13:27 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=1_20250130_221155.cbm
+2025-01-30 22:13:27 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 22:13:33 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=4_NDCG:top=1_20250130_221155",
+  "avg_top_4_accuracy": 0.20749927473165072,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 22:13:33 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 22:13:46 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 22:13:46 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=4_NDCG:top=1_20250130_221155.json
+2025-01-30 22:13:46 - INFO - Starting Optuna Trial 0: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:14:08 - INFO - Starting Optuna Trial 1: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:14:33 - INFO - Starting Optuna Trial 2: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:14:58 - INFO - Starting Optuna Trial 3: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:15:20 - INFO - Starting Optuna Trial 4: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:15:37 - INFO - Starting Optuna Trial 5: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:16:03 - INFO - Starting Optuna Trial 6: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:16:28 - INFO - Starting Optuna Trial 7: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:16:55 - INFO - Starting Optuna Trial 8: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:17:17 - INFO - Starting Optuna Trial 9: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:17:41 - INFO - Starting Optuna Trial 10: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:18:04 - INFO - Starting Optuna Trial 11: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:18:31 - INFO - Starting Optuna Trial 12: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:18:56 - INFO - Starting Optuna Trial 13: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:19:21 - INFO - Starting Optuna Trial 14: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:19:41 - INFO - Starting Optuna Trial 15: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:20:06 - INFO - Starting Optuna Trial 16: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:20:33 - INFO - Starting Optuna Trial 17: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:20:52 - INFO - Starting Optuna Trial 18: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:21:24 - INFO - Starting Optuna Trial 19: YetiRank:top=4, Metric: NDCG:top=2
+2025-01-30 22:21:48 - INFO - Best score: 1.0, Best params: {'iterations': 2100, 'depth': 5, 'learning_rate': 0.28238137799366386, 'l2_leaf_reg': 2.722941735991363, 'grow_policy': 'Lossguide', 'random_strength': 3.8852918721505825, 'min_data_in_leaf': 10}
+2025-01-30 22:23:16 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=2_20250130_222148.cbm
+2025-01-30 22:23:16 - INFO - Evaluating model: YetiRank:top=4_NDCG:top=2_20250130_222148 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=2_20250130_222148.cbm
+2025-01-30 22:23:16 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=2_20250130_222148.cbm
+2025-01-30 22:23:16 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 22:23:22 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=4_NDCG:top=2_20250130_222148",
+  "avg_top_4_accuracy": 0.20728169422686393,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 22:23:22 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 22:23:34 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 22:23:34 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=4_NDCG:top=2_20250130_222148.json
+2025-01-30 22:23:34 - INFO - Starting Optuna Trial 0: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:24:05 - INFO - Starting Optuna Trial 1: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:24:29 - INFO - Starting Optuna Trial 2: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:24:49 - INFO - Starting Optuna Trial 3: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:25:30 - INFO - Starting Optuna Trial 4: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:25:52 - INFO - Starting Optuna Trial 5: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:26:15 - INFO - Starting Optuna Trial 6: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:26:37 - INFO - Starting Optuna Trial 7: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:26:55 - INFO - Starting Optuna Trial 8: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:27:16 - INFO - Starting Optuna Trial 9: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:27:48 - INFO - Starting Optuna Trial 10: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:28:32 - INFO - Starting Optuna Trial 11: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:28:56 - INFO - Starting Optuna Trial 12: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:29:21 - INFO - Starting Optuna Trial 13: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:29:45 - INFO - Starting Optuna Trial 14: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:30:12 - INFO - Starting Optuna Trial 15: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:30:33 - INFO - Starting Optuna Trial 16: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:30:56 - INFO - Starting Optuna Trial 17: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:31:25 - INFO - Starting Optuna Trial 18: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:31:47 - INFO - Starting Optuna Trial 19: YetiRank:top=4, Metric: NDCG:top=3
+2025-01-30 22:32:26 - INFO - Best score: 1.0, Best params: {'iterations': 1900, 'depth': 8, 'learning_rate': 0.2975583478263211, 'l2_leaf_reg': 5.127949292169931, 'grow_policy': 'Depthwise', 'random_strength': 3.2646059524644686, 'min_data_in_leaf': 7}
+2025-01-30 22:34:02 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=3_20250130_223226.cbm
+2025-01-30 22:34:02 - INFO - Evaluating model: YetiRank:top=4_NDCG:top=3_20250130_223226 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=3_20250130_223226.cbm
+2025-01-30 22:34:02 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=3_20250130_223226.cbm
+2025-01-30 22:34:02 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 22:34:08 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=4_NDCG:top=3_20250130_223226",
+  "avg_top_4_accuracy": 0.20749927473165072,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 22:34:08 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 22:34:22 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 22:34:22 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=4_NDCG:top=3_20250130_223226.json
+2025-01-30 22:34:22 - INFO - Starting Optuna Trial 0: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:34:43 - INFO - Starting Optuna Trial 1: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:35:05 - INFO - Starting Optuna Trial 2: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:35:29 - INFO - Starting Optuna Trial 3: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:35:59 - INFO - Starting Optuna Trial 4: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:36:20 - INFO - Starting Optuna Trial 5: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:36:42 - INFO - Starting Optuna Trial 6: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:37:01 - INFO - Starting Optuna Trial 7: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:37:30 - INFO - Starting Optuna Trial 8: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:37:57 - INFO - Starting Optuna Trial 9: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:38:17 - INFO - Starting Optuna Trial 10: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:38:44 - INFO - Starting Optuna Trial 11: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:39:23 - INFO - Starting Optuna Trial 12: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:39:52 - INFO - Starting Optuna Trial 13: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:40:21 - INFO - Starting Optuna Trial 14: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:40:47 - INFO - Starting Optuna Trial 15: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:41:10 - INFO - Starting Optuna Trial 16: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:41:36 - INFO - Starting Optuna Trial 17: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:41:58 - INFO - Starting Optuna Trial 18: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:42:26 - INFO - Starting Optuna Trial 19: YetiRank:top=4, Metric: NDCG:top=4
+2025-01-30 22:42:43 - INFO - Best score: 1.0, Best params: {'iterations': 1900, 'depth': 5, 'learning_rate': 0.19020769999231024, 'l2_leaf_reg': 3.631454948720857, 'grow_policy': 'Depthwise', 'random_strength': 3.992753842185426, 'min_data_in_leaf': 11}
+2025-01-30 22:44:12 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=4_20250130_224243.cbm
+2025-01-30 22:44:12 - INFO - Evaluating model: YetiRank:top=4_NDCG:top=4_20250130_224243 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=4_20250130_224243.cbm
+2025-01-30 22:44:12 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=4_20250130_224243.cbm
+2025-01-30 22:44:12 - INFO - Final holdout_merged dataset size: (54997, 106)
+2025-01-30 22:44:18 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank:top=4_NDCG:top=4_20250130_224243",
+  "avg_top_4_accuracy": 0.20829706991586888,
+  "perfect_order_percentage": 0.0,
+  "avg_ndcg_3": 0.7160837145807724,
+  "total_groups_evaluated": 6894
+}
+2025-01-30 22:44:18 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-01-30 22:44:33 - INFO - Appended 54997 holdout rows to DB table 'catboost_enriched_results'.
+2025-01-30 22:44:33 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank:top=4_NDCG:top=4_20250130_224243.json
+2025-01-30 22:44:33 - INFO - Starting Optuna Trial 0: YetiRankPairwise, Metric: NDCG:top=1
+2025-01-30 22:44:33 - ERROR - An error occurred: catboost/cuda/train_lib/train.cpp:261: Error: optimization scheme is not supported for GPU learning Loss=YetiRankPairwise;OptimizationScheme=Depthwise
+2025-01-30 22:44:34 - INFO - Spark session stopped.
+2025-01-30 22:44:34 - INFO - Closing down clientserver connection

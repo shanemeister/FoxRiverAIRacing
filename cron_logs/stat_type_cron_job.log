@@ -123,3 +123,18 @@
 2025-01-27 04:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update.py
 2025-01-27 04:00:04 - Python script succeeded
 2025-01-27 04:00:04 - Job completed
+2025-01-28 04:00:01 - Starting stat_type_update job
+2025-01-28 04:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-28 04:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update.py
+2025-01-28 04:00:02 - Python script succeeded
+2025-01-28 04:00:02 - Job completed
+2025-01-29 04:00:01 - Starting stat_type_update job
+2025-01-29 04:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-29 04:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update.py
+2025-01-29 04:00:02 - Python script succeeded
+2025-01-29 04:00:02 - Job completed
+2025-01-30 04:00:01 - Starting stat_type_update job
+2025-01-30 04:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-01-30 04:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update.py
+2025-01-30 04:00:03 - Python script succeeded
+2025-01-30 04:00:03 - Job completed

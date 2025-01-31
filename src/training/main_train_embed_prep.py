@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import logging
 import pprint
 import argparse
@@ -143,30 +144,33 @@ def main():
         setup_logging()
 
         if args.mode == "train":
-            ###################################################
-            # 1. Load Training data
-            ###################################################
-            
+            # ###################################################
+            # # 1. Load Training data
+            # ###################################################
+            # time_start = time.time()
             # logging.info("Running training data ingestion steps...")
             # train_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
             # healthcheck_report = time_series_data_healthcheck(train_df)
             # pprint.pprint(healthcheck_report)
             # logging.info("Ingestion job for training data succeeded")
+            # total_time = time.time() - time_start
+            # logging.info(f"Loading train_df took {total_time} to complete.")
             
-            # ###################################################
-            # # 2. Compute the custom speed figure
-            # ###################################################
-            # train_df = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df")
+            # # ###################################################
+            # # # 2. Compute the custom speed figure
+            # # ###################################################
+            # time_start = time.time()
+            # #train_df = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df")
             # enhanced_df = create_custom_speed_figure(train_df)
             # logging.info(f"Rows after creating custom_speed_figure: {len(enhanced_df)}")
             # group_counts = enhanced_df["group_id"].value_counts()
             # logging.info(f"Group count stats:\n {group_counts.describe()}")
             # logging.info(f"Groups with 1 item: {sum(group_counts == 1)}")
             
-            # Convert back to Spark
+            # # Convert back to Spark
             # speed_figure = spark.createDataFrame(enhanced_df)
 
-            # Example filtering logic
+            # # Example filtering logic
             # speed_figure.filter(
             #     (speed_figure["official_fin"] <= 4) & (speed_figure["class_rating"] >= speed_figure["previous_class"])
             # ).select(
@@ -185,37 +189,73 @@ def main():
             # pprint.pprint(healthcheck_report)
             # logging.info("Speed_figure job completed successfuly.")
 
-            # # Save the Spark DataFrame as a Parquet file
+            # # # Save the Spark DataFrame as a Parquet file
             # save_parquet(spark, speed_figure, "speed_figure", parquet_dir) 
             # # logging.info("Ingestion job succeeded and Speed Figure Catboost model complete")
             # logging.info("Speed figure saved as parquet file.")
             
+            # total_time = time.time() - time_start
+            # logging.info(f"Creating custom_speed_figure took {total_time} to complete.")
+            
             ###################################################
             # 3) Embed horse_id and compute custom_speed_figure
             ###################################################
-            speed_figure = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet")
+            # time_start = time.time()
+            # speed_figure = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet")
             #  End product is a parquet file in panda format with horse embeddings and the custom_speed_figure
             # Call the embed_and_train function
-            model_filename = embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_figure)
+            # model_filename = embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_figure)
+            # # Step 4: Use model_filename to load the saved Parquet file
+            # parquet_path = os.path.join(parquet_dir, f"{model_filename}.parquet")
+            # logging.info(f"Loading Parquet file from: {parquet_path}")
 
-            # Step 4: Use model_filename to load the saved Parquet file
-#            parquet_path = os.path.join(parquet_dir, f"{model_filename}.parquet")
-#            logging.info(f"Loading Parquet file from: {parquet_path}")
+            # # Reload the Parquet file into a Spark DataFrame
+            # reloaded_df = spark.read.parquet(parquet_path)
 
-            # Reload the Parquet file into a Spark DataFrame
-#            reloaded_df = spark.read.parquet(parquet_path)
-
-            # Step 5: Print the schema of the reloaded DataFrame
- #           logging.info(f"Schema of reloaded DataFrame from {model_filename}:")
- #           logging.info(f"Speed figure schem: {model_filename.printSchema()}")
- #           reloaded_df.printSchema()
- #           full_data = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet")
- #           model_filename = 1
-            #horse_embedding = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-2025-01-27-2038.parquet")
+            # # Step 5: Print the schema of the reloaded DataFrame
+            # logging.info(f"Schema of reloaded DataFrame from: {model_filename}:")
+            # logging.info(reloaded_df.printSchema())
+            
+            # total_time = time.time() - time_start
+            # logging.info(f"Horse embedding took {total_time} to complete.")
             ###################################################
-            # 4) Build CatBoost Model
+            # 4) Exactly 1st / 2nd / 3rd / 4th (multi-class classification).
             ###################################################
-            #build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, "predictions") #spark, parquet_dir, speed_figure) # model_filename)
+            
+            ###################################################
+            # 5) Build CatBoost Model
+            ###################################################
+            reloaded_df = None
+            reloaded_df = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250128_1240.parquet")
+            time_start = time.time()
+            logging.info("Starting build_catboost_model: Training CatBoost Models -- 20 total")
+            # # All models are saved to: ./data/models/all_models.json
+            build_catboost_model(spark, reloaded_df, jdbc_url, jdbc_properties) #spark, parquet_dir, speed_figure) # model_filename)
+            
+            total_time = time.time() - time_start
+            logging.info(f"Training 20 Catboost models Horse embedding took {total_time} to complete.")
+            
+            ###################################################
+            # 5) Evaluate Models & Write metrics to Database
+            ###################################################
+            time_start = time.time()
+            # eval_report_df = export_holdout_results(spark, conn, reloaded_df,"catboost_eval_results","catboost_holdout_analysis")
+            # # Example usage of export_holdout_results
+            # results = export_holdout_results(
+            #     spark=spark,
+            #     db_url=jdbc_url, 
+            #     db_properties=jdbc_properties,
+            #     horse_embedding_df=reloaded_df,
+            #     results_table="catboost_eval_results",
+            #     output_metrics_path="./data/evaluation_metrics.json",
+            #     evaluation_metrics_table="evaluation_metrics"
+            # )
+                
+            # df = spark.createDataFrame(eval_report_df)
+            # save_parquet(spark, df, "eval_report_df", parquet_dir) 
+            
+            total_time = time.time() - time_start
+            logging.info(f"Evaluating models and deriving metrics took {total_time} to complete.")
             
         elif args.mode == "predict":
             # Prediction mode
