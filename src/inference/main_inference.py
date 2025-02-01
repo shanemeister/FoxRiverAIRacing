@@ -125,11 +125,6 @@ def main():
     # 1) Create DB pool
     db_pool = get_db_pool(config)
     conn = db_pool.getconn()
-    # Parse command-line arguments
-    # Parse command-line arguments
-    parser = argparse.ArgumentParser(description="Run training or prediction tasks.")
-    parser.add_argument("mode", choices=["train", "predict"], help="Mode to run: load or predict")
-    args = parser.parse_args()
 
     # Determine the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -141,13 +136,12 @@ def main():
         spark.catalog.clearCache()
         setup_logging()
 
-        if args.mode == "load":
-            # 1. Load Race Data and Make Predictions
-            print("Running race data inference...")
-            races_df = load_races(spark, jdbc_url, jdbc_properties, parquet_dir)
-            healthcheck_report = time_series_data_healthcheck(races_df)
-            pprint.pprint(healthcheck_report)
-            logging.info("Ingestion job for training data succeeded")
+        # 1. Load Race Data and Make Predictions
+        logging.info("Running race data inference...")
+        races_df = load_races(spark, jdbc_url, jdbc_properties, parquet_dir)
+        healthcheck_report = time_series_data_healthcheck(races_df)
+        pprint.pprint(healthcheck_report)
+        logging.info("Ingestion job for training data succeeded")
 
             # 2. Compute the custom speed figure
             enhanced_df = create_custom_speed_figure(races_df)

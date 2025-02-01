@@ -15,8 +15,8 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_f
     # ---------------------------------------------------
     # 1) LOAD AND PREPARE DATA
     # ---------------------------------------------------
-    speed_figure_spark = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet")
-    speed_figure = speed_figure_spark.toPandas()
+    # speed_figure = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet")
+    speed_figure = speed_figure.toPandas()
 
     # Map each horse_id to a unique integer index (horse_idx)
     unique_horses = speed_figure["horse_id"].unique()

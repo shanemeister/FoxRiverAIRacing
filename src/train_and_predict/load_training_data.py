@@ -6,23 +6,22 @@ import pyspark.sql.functions as F
 from pyspark.sql.functions import (col, count, row_number, abs, unix_timestamp,  
                                    when, lit, min as F_min, max as F_max , upper, trim,
                                    row_number, mean as F_mean, countDistinct, last, first, when)
-from src.training.fox_query_speed_figure import sql_queries
-from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
+from src.train_and_predict.training_sql_queries import sql_queries
 
 def impute_date_of_birth_with_median(df):
     """  
     Impute date_of_birth with the median value (or a default if no data exists).   
     """
-    race_df = race_df.withColumn("date_of_birth_ts", F.col("date_of_birth").cast("timestamp").cast("long"))
+    train_df = train_df.withColumn("date_of_birth_ts", F.col("date_of_birth").cast("timestamp").cast("long"))
     median_window = Window.orderBy("date_of_birth_ts")
 
-    median_ts = race_df.filter(F.col("date_of_birth_ts").isNotNull()).approxQuantile("date_of_birth_ts", [0.5], 0)[0]
+    median_ts = train_df.filter(F.col("date_of_birth_ts").isNotNull()).approxQuantile("date_of_birth_ts", [0.5], 0)[0]
     if median_ts is None:
         median_date = F.lit("2000-01-01").cast("date")
     else:
         median_date = F.from_unixtime(F.lit(median_ts)).cast("date")
 
-    race_df = race_df.withColumn(
+    train_df = train_df.withColumn(
         "date_of_birth",
         F.when(F.col("date_of_birth").isNull(), median_date).otherwise(F.col("date_of_birth"))
     ).drop("date_of_birth_ts")
@@ -55,7 +54,7 @@ def manage_sentinel_values(df):
             F.when(F.col(c).isNull(), F.lit(0)).otherwise(F.col(c))
         )
 
-    # Now each TPD column is numeric, either real data or 0.
+    # Now each TPD column is numeric, either real data or -999.
     # The model also has gps_present to learn "missing vs. present."
     
     return df
@@ -71,6 +70,17 @@ def fix_outliers(df):
         "days_off": (0, 365.0),
         "avgspd": (0, 120.0),
         "avg_workout_rank_3": (0, 60.0),
+        "time_behind": (0, 60),
+        "speed_improvement": (-20, 50),
+        "sire_itm_percentage": (0, 1),
+        "sire_roi": (-100, 10000),
+        "dam_itm_percentage": (0, 1),
+        "dam_roi": (-100, 5000),
+        "avg_dist_bk_gate4_5": (0,50),
+        "avg_dist_bk_gate3_5":(0,50),
+        "avg_dist_bk_gate2_5":(0,50),
+        "avg_dist_bk_gate1_5":(0,50),
+        "age_at_race_day":(1.5, 10),
     }
 
     for col_name, (min_val, max_val) in outlier_bounds.items():
@@ -97,32 +107,38 @@ def fix_outliers(df):
 
     return df
 
-def load_base_inference_data(spark, jdbc_url, jdbc_properties, parquet_dir):
+def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     """
     Load Parquet file used to train
     """
-    race_df = None
+    train_df = None
     queries = sql_queries()
-    
     for name, query in queries.items():
-        if name == "infer_results":
-            race_df = spark.read.jdbc(
+        if name == "training_data":
+            
+            logging.info("Query training_data located and loading from PostgreSQL...")
+            
+            start_time = time.time()
+            train_df = spark.read.jdbc(
                 url=jdbc_url,
                 table=f"({query}) AS subquery",
                 properties=jdbc_properties
             )
-            race_df.printSchema()
-    
-    # output_path = os.path.join(parquet_dir, f"{name}.parquet")
-    # logging.info(f"Saving {name} DataFrame to Parquet at {output_path}...")
-    # race_df.write.mode("overwrite").parquet(output_path)
-    # logging.info(f"{name} data loaded and saved successfully.")
-    
+            logging.info(f"Data loaded from PostgreSQL in {time.time() - start_time:.2f} seconds.")
+    train_df.cache()
+    rows_train_if = train_df.count()
+    logging.info(f"Data loaded from PostgreSQL. Count: {rows_train_if}")
+            
+    train_df.printSchema()
+    row_count = train_df.count()
+    logging.info(f"Row count: {row_count}")
+    logging.info(f"Count operation completed in {time.time() - start_time:.2f} seconds.")
+
     # Check for Dups:
     logging.info("Checking for duplicates on primary keys...")
     primary_keys = ["course_cd", "race_date", "race_number", "horse_id"]
     duplicates = (
-        race_df.groupBy(*primary_keys)
+        train_df.groupBy(*primary_keys)
         .agg(F.count("*").alias("cnt"))
         .filter(F.col("cnt") > 1)
     )
@@ -145,96 +161,104 @@ def load_base_inference_data(spark, jdbc_url, jdbc_properties, parquet_dir):
                 "jock_win_percent", "jock_itm_percent", "trainer_itm_percent", 
                     "trainer_win_percent", "jt_win_percent", "jt_itm_percent",
                     "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
-                    "jt_win_track", "jt_itm_track", 'previous_distance' ]
+                    "jt_win_track", "jt_itm_track", 'previous_distance', 'horse_itm_percentage' ]
     for col_name in decimal_cols:
-        race_df = race_df.withColumn(col_name, F.col(col_name).cast("double"))
+        train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))
     logging.info("Decimal columns converted to double.")
     print("2. Decimal columns converted to double.")
     logging.info("Imputing date_of_birth with median date.")
     # 3b. Create age_at_race_day
-    race_df = race_df.withColumn(
+    train_df = train_df.withColumn(
         "age_at_race_day",
         F.datediff(F.col("race_date"), F.col("date_of_birth")) / 365.25
     )
     logging.info("Created age_at_race_day.")
     print("3b. Created age_at_race_day.")
-    
-    logging.info("Imputing categorical and numeric columns.")
-    # 3c. Impute categorical and numeric columns -- ensure no whitespace in categorical columns
-    categorical_defaults = { "turf_mud_mark": "MISSING", "layoff_cat": "MISSING", "med": "NONE" }
-    # Fill missing values for categorical defaults
-    race_df = race_df.fillna(categorical_defaults)
-    # Impute med with NONE
-    race_df = race_df.withColumn("med", when(col("med") == "", "NONE").otherwise(col("med")))
-    # Impute turf_mud_mark with MISSING
-    race_df = race_df.withColumn("turf_mud_mark",when(col("turf_mud_mark") == "", "MISSING").otherwise(col("turf_mud_mark")))
 
-    race_df = manage_sentinel_values(race_df)
+    logging.info("Imputing categorical and numeric columns.")
     
+    # 3c. Impute categorical and numeric columns -- ensure no whitespace in categorical columns
+    categorical_defaults = { "turf_mud_mark": "MISSING", "layoff_cat": "MISSING", "trk_cond": "MISSING", "med": "NONE" , 
+                            "surface": "MISSING", "previous_surface": "MISSING"}    
+    # Fill missing values for categorical defaults
+    train_df = train_df.fillna(categorical_defaults)
+    # Impute med with NONE
+    train_df = train_df.withColumn("med", when(col("med") == "", "NONE").otherwise(col("med")))
+    # Impute turf_mud_mark with MISSING
+    train_df = train_df.withColumn("turf_mud_mark",when(col("turf_mud_mark") == "", "MISSING").otherwise(col("turf_mud_mark")))
+
+    # Impute horse_itm_percentage with 0 when it is null
+    train_df = train_df.withColumn("horse_itm_percentage", when(col("horse_itm_percentage").isNull(), 0).otherwise(col("horse_itm_percentage")))
+    
+    # Set empty values to 0 for prev_speed and count_workouts_3
+    train_df = train_df.withColumn("prev_speed", when(col("prev_speed").isNull(), 0).otherwise(col("prev_speed")))
+    train_df = train_df.withColumn("count_workouts_3", when(col("count_workouts_3").isNull(), 0).otherwise(col("count_workouts_3")))
+
+    train_df = manage_sentinel_values(train_df)
+
     columns_to_fill = [
         'all_earnings', 'all_fourth', 'all_place', 'all_show', 'all_starts', 'all_win', 
         'cond_earnings', 'cond_fourth', 'cond_place', 'cond_show', 'cond_starts', 'cond_win', 'days_off', 
         'jock_itm_percent', 'jock_itm_track', 'jock_win_percent', 'jock_win_track', 'jt_itm_percent', 
         'jt_itm_track', 'jt_win_percent', 'jt_win_track', 'trainer_itm_percent', 'trainer_itm_track', 
         'trainer_win_percent', 'trainer_win_track', 'net_sentiment','prev_race_date', 'first_race_date_5', 'most_recent_race_5', 
-        'avg_fin_5', 'avg_speed_5', 'avg_workout_rank_3', 
-        'best_speed', 'count_workouts_3', 'prev_speed', 'avg_beaten_len_5', 'total_races_5']
+        'avg_fin_5', 'avg_speed_5', 'avg_workout_rank_3', 'sire_roi', 'dam_roi', 'sire_itm_percentage', 'dam_itm_percentage']
     logging.info("Filling missing values for columns.")
     for column in columns_to_fill:
         if column == 'prev_race_date':
-            # If null, fill with '1900-01-01' as a date literal
-            race_df = race_df.withColumn(
+            # If null, fill with '1970-01-01' as a date literal
+            train_df = train_df.withColumn(
                 column,
-                when(col(column).isNull(), F.to_date(F.lit("1900-01-01"), "yyyy-MM-dd"))
+                when(col(column).isNull(), F.to_date(F.lit("1970-01-01"), "yyyy-MM-dd"))
                 .otherwise(col(column))
             )
         elif column == 'first_race_date_5':
-            # If null, fill with '1900-01-01' as a date literal
-            race_df = race_df.withColumn(
+            # If null, fill with '1970-01-01' as a date literal
+            train_df = train_df.withColumn(
                 column,
-                when(col(column).isNull(), F.to_date(F.lit("1900-01-01"), "yyyy-MM-dd"))
+                when(col(column).isNull(), F.to_date(F.lit("1970-01-01"), "yyyy-MM-dd"))
                 .otherwise(col(column))
             )
         elif column == 'most_recent_race_5':
-            # If null, fill with '1900-01-01' as a date literal
-            race_df = race_df.withColumn(
+            # If null, fill with '1970-01-01' as a date literal
+            train_df = train_df.withColumn(
                 column,
-                when(col(column).isNull(), F.to_date(F.lit("1900-01-01"), "yyyy-MM-dd"))
+                when(col(column).isNull(), F.to_date(F.lit("1970-01-01"), "yyyy-MM-dd"))
                 .otherwise(col(column))
             )
         else:
             # If null, fill with 0 (for numeric columns)
-            race_df = race_df.withColumn(
+            train_df = train_df.withColumn(
                 column,
                 when(col(column).isNull(), lit(0)).otherwise(col(column))
             )
         
     logging.info("Numeric columns cast to double.")
-    numeric_cols = ['race_number','horse_id','purse','weight','claimprice','power','morn_odds','avgspd','class_rating',
-                    'net_sentiment','avg_spd_sd','ave_cl_sd','hi_spd_sd','pstyerl','all_starts','all_win','all_place',
-                    'all_show','all_fourth','all_earnings','cond_starts','cond_win','cond_place','cond_show','cond_fourth',
-                    'cond_earnings','avg_speed_5','best_speed','avg_beaten_len_5','avg_dist_bk_gate1_5','avg_dist_bk_gate2_5',
-                    'avg_dist_bk_gate3_5','avg_dist_bk_gate4_5','avg_speed_fullrace_5','avg_stride_length_5','avg_strfreq_q1_5',
-                    'avg_strfreq_q2_5','avg_strfreq_q3_5','avg_strfreq_q4_5','prev_speed','speed_improvement','days_off',
-                    'avg_workout_rank_3','jock_win_percent','jock_itm_percent','trainer_win_percent','trainer_itm_percent',
-                    'jt_win_percent','jt_itm_percent','jock_win_track','jock_itm_track','trainer_win_track','trainer_itm_track',
-                    'jt_win_track','jt_itm_track','age_at_race_day','distance_meters', 'previous_distance', 'count_workouts_3',
-                    'off_finish_last_race', 'previous_class' , 'race_count' ]
+    numeric_cols = ["race_number","horse_id","purse","weight","claimprice","distance_meters","time_behind","pace_delta_time",
+                    "class_rating","prev_speed_rating","previous_class","previous_distance",
+                    "off_finish_last_race","power","horse_itm_percentage","avgspd","net_sentiment","avg_spd_sd",
+                    "ave_cl_sd","hi_spd_sd","pstyerl","all_starts","all_win","all_place","all_show","all_fourth",
+                    "all_earnings","cond_starts","cond_win","cond_place","cond_show","cond_fourth","cond_earnings",
+                    "total_races_5","avg_fin_5","avg_speed_5","best_speed","avg_beaten_len_5",
+                    "avg_dist_bk_gate1_5","avg_dist_bk_gate2_5","avg_dist_bk_gate3_5",
+                    "avg_dist_bk_gate4_5","avg_speed_fullrace_5","avg_stride_length_5","avg_strfreq_q1_5",
+                    "avg_strfreq_q2_5","avg_strfreq_q3_5","avg_strfreq_q4_5","prev_speed","speed_improvement",
+                    "days_off","avg_workout_rank_3","count_workouts_3","race_count",
+                    "jock_win_percent","jock_itm_percent","trainer_win_percent","trainer_itm_percent","jt_win_percent",
+                    "jt_itm_percent","jock_win_track","jock_itm_track","trainer_win_track","trainer_itm_track","jt_win_track",
+                    "jt_itm_track", "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"]
     
     for col_name in numeric_cols:
-        race_df = race_df.withColumn(col_name, F.col(col_name).cast("double"))
-    
-          
+        train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))
+      
     # Example usage:
-    race_df = fix_outliers(race_df)
-        
+    train_df = fix_outliers(train_df)
+    
     logging.info("Starting the write to parquet.")
     start_time = time.time()
-    race_df.write.mode("overwrite").parquet(f"{parquet_dir}/predict")
-    #save_parquet(spark, training_data, "training_data", parquet_dir)
+    train_df.write.mode("overwrite").parquet(f"{parquet_dir}/train_df")
     logging.info(f"Data written to Parquet in {time.time() - start_time:.2f} seconds")
-    logging.info("Data cleansing complete. race_df being returned.")
+    logging.info("Data cleansing complete. train_df being returned.")
     
-    return race_df
-        
+    return train_df
         

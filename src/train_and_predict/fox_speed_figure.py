@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 
 from src.data_preprocessing.data_prep1.data_utils import save_parquet, initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
-from src.training.fox_query_speed_figure import full_query_df
+from src.train_and_predict.fox_query_speed_figure import full_query_df
 
 def create_custom_speed_figure(df):
     """
@@ -61,7 +61,7 @@ def create_custom_speed_figure(df):
     df["perf_target"] = df["official_fin"].map(rank_map).fillna(0).astype(int)
     df["off_finish_last_race"] = df["off_finish_last_race"].map(rank_map).fillna(0).astype(int)
     
-    df = df.drop(columns=['date_of_birth', 'saddle_cloth_number'])
+    df = df.drop(columns=['date_of_birth'])
     # Features for CatBoost
     numeric_features = [
         "distance_meters",
