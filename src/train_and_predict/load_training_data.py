@@ -1,12 +1,14 @@
 import os
 import logging
 import time
-from pyspark.sql import DataFrame, Window
+from pyspark.sql import DataFrame
+from pyspark.sql.window import Window
 import pyspark.sql.functions as F
 from pyspark.sql.functions import (col, count, row_number, abs, unix_timestamp,  
                                    when, lit, min as F_min, max as F_max , upper, trim,
                                    row_number, mean as F_mean, countDistinct, last, first, when)
 from src.train_and_predict.training_sql_queries import sql_queries
+from pyspark.sql.functions import current_date
 
 def impute_date_of_birth_with_median(df):
     """  
@@ -204,6 +206,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
         'trainer_win_percent', 'trainer_win_track', 'net_sentiment','prev_race_date', 'first_race_date_5', 'most_recent_race_5', 
         'avg_fin_5', 'avg_speed_5', 'avg_workout_rank_3', 'sire_roi', 'dam_roi', 'sire_itm_percentage', 'dam_itm_percentage']
     logging.info("Filling missing values for columns.")
+    
     for column in columns_to_fill:
         if column == 'prev_race_date':
             # If null, fill with '1970-01-01' as a date literal
@@ -254,6 +257,55 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     # Example usage:
     train_df = fix_outliers(train_df)
     
+    # train_df = train_df.withColumn(
+    #     "data_flag",
+    #     F.when(F.col("race_date") < current_date(), lit("historical"))
+    #      .otherwise(lit("future"))
+    # )
+    
+    # # critical_cols = ["speed_rating"]  # columns you consider critical
+    # # train_df = train_df.na.drop(subset=critical_cols)
+    # cols_to_fill = ['distance_meters',
+    #                 'off_finish_last_race',
+    #                 #'official_fin',
+    #                 'pace_delta_time',
+    #                 'prev_speed_rating',
+    #                 'previous_class',
+    #                 'previous_distance',
+    #                 'race_count',
+    #                 'speed_rating',
+    #                 'starts',
+    #                 'time_behind']
+
+    # # Window for each horse, ordered by race_date ascending
+    # # The `.rowsBetween(Window.unboundedPreceding, 0)` ensures 
+    # # "last()" sees all preceding rows in that partition, up to the current row.
+    # win = Window.partitionBy("horse_id").orderBy("race_date").rowsBetween(Window.unboundedPreceding, 0)
+
+    # for c in cols_to_fill:
+    #     train_df = train_df.withColumn(
+    #         c,
+    #         F.last(train_df[c], ignorenulls=True).over(win)
+    #     )  
+
+    # # List of columns to check for NaN values
+    # columns_with_nans = ["official_fin", "time_behind", "pace_delta_time", "speed_rating", "prev_speed_rating"]
+
+    # # Filter out rows with NaN values in any of the specified columns
+    # for c in columns_with_nans:
+    #     train_df = train_df.filter(~F.isnan(F.col(c)) & F.col(c).isNotNull())
+    # Count rows with data_flag = "future"
+    
+    future_count = train_df.filter(F.col("data_flag") == "future").count()
+
+    # Count rows with data_flag = "historical"
+    historical_count = train_df.filter(F.col("data_flag") == "historical").count()
+
+    # Log the counts
+    logging.info(f"Number of rows with data_flag='future': {future_count}")
+    logging.info(f"Number of rows with data_flag='historical': {historical_count}")
+    
+    logging.info("Rows in data_flag: train_df['data_flag'] = 'future'")
     logging.info("Starting the write to parquet.")
     start_time = time.time()
     train_df.write.mode("overwrite").parquet(f"{parquet_dir}/train_df")

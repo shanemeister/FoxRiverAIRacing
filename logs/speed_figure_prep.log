@@ -1,0 +1,8 @@
+2025-02-06 12:14:15 - INFO - Logging has been set up successfully.
+2025-02-06 12:14:15 - INFO - Starting main function...
+2025-02-06 12:18:27 - ERROR - An error occurred: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `course_cd` cannot be resolved. Did you mean one of the following? [`value`].;
+'Sort ['course_cd ASC NULLS FIRST, 'race_date ASC NULLS FIRST, 'race_number ASC NULLS FIRST, 'beaten_lengths ASC NULLS FIRST], true
++- LogicalRDD [value#0], false
+
+2025-02-06 12:18:28 - INFO - Spark session stopped.
+2025-02-06 12:18:28 - INFO - Closing down clientserver connection

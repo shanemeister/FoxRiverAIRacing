@@ -15,9 +15,13 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_f
     # ---------------------------------------------------
     # 1) LOAD AND PREPARE DATA
     # ---------------------------------------------------
-    # speed_figure = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet")
-    speed_figure = speed_figure.toPandas()
 
+    speed_figure = speed_figure.toPandas()
+    print("speed_figure shape:", speed_figure.shape)
+    print("unique horse IDs in speed_figure:", speed_figure["horse_id"].nunique())
+    print("rows with null perf_target:", speed_figure["perf_target"].isna().sum())
+
+    input("Press Enter to continue...")
     # Map each horse_id to a unique integer index (horse_idx)
     unique_horses = speed_figure["horse_id"].unique()
     horse_id_to_idx = {h: i for i, h in enumerate(unique_horses)}
@@ -41,6 +45,28 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_f
     X_numerical = speed_figure[embedding_features].astype(float).values
     X_horse_idx = speed_figure["horse_idx"].values
     y = speed_figure[target_col].values
+
+    df_check = speed_figure[embedding_features].copy()
+
+    # 1. NaN check
+    nan_counts = df_check.isna().sum()
+    print("NaN counts in each feature:")
+    print(nan_counts[nan_counts > 0])
+
+    # 2. ±Infinity check
+    inf_counts = df_check.apply(lambda col: np.isinf(col).sum())
+    print("Infinity counts in each feature:")
+    print(inf_counts[inf_counts > 0])
+    
+    print("perf_target unique values:", speed_figure["perf_target"].unique())
+    print("Min, Max perf_target:",
+    speed_figure["perf_target"].min(),
+    speed_figure["perf_target"].max())
+    input("Press Enter to continue...")
+    
+    # 3. Extreme outliers
+    desc = df_check.describe()
+    print("Feature stats:\n", desc)
 
     # Simple train/val split
     X_num_train, X_num_val, X_horse_train, X_horse_val, y_train, y_val = train_test_split(
@@ -260,6 +286,12 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_f
     embedding_weights = horse_embedding_layer.get_weights()[0]  # (num_horses, embedding_dim)
     idx_to_horse_id = {v: k for k, v in horse_id_to_idx.items()}
 
+    # Check for NaN values in the embedding weights
+    if np.isnan(embedding_weights).any():
+        print("NaN values found in embedding weights!")
+        nan_indices = np.where(np.isnan(embedding_weights))
+        print("NaN indices:", nan_indices)
+
     rows = []
     for i in range(num_horses):
         horse_id = idx_to_horse_id[i]
@@ -270,8 +302,11 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_f
     embed_df = pd.DataFrame(rows, columns=embed_cols)
     print("Sample of final embeddings:\n", embed_df.head())
 
+    # Merge embeddings into speed_figure if desired
+    df_final = pd.merge(speed_figure, embed_df, on="horse_id", how="left")
+    
     # Convert to Spark DataFrame
-    horse_embedding_spark = spark.createDataFrame(embed_df)
+    horse_embedding_spark = spark.createDataFrame(df_final)
 
     # Write to DB table
     staging_table = "horse_embedding"
@@ -287,14 +322,10 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_f
     )
     logging.info("Embeddings saved to DB table 'horse_embedding'.")
 
-    # Merge embeddings into speed_figure if desired
-    df_final = pd.merge(speed_figure, embed_df, on="horse_id", how="left")
-    df_final_spark = spark.createDataFrame(df_final)
-
     # Save final DataFrame as Parquet
     current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M")
     model_filename = f"horse_embedding_data-{current_time}"
-    save_parquet(spark, df_final_spark, model_filename, parquet_dir)
+    save_parquet(spark, horse_embedding_spark, model_filename, parquet_dir)
     logging.info(f"Final merged DataFrame saved as Parquet: {model_filename}")
 
     logging.info("*** Horse embedding job completed successfully ***")

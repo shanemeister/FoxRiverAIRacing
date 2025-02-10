@@ -600,7 +600,6 @@ def main():
 
         # Load and write data to parquet
         queries = tpd_sql_queries()
-        print("Remove # comment line 628")
         dfs = load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
     
         # Print schemas dynamically
@@ -609,15 +608,13 @@ def main():
             if name == "sectionals":
                 conn = db_pool.getconn()
                 try:
-                    print("Remove # comment line 636")
-                    # spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties)
+                    spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties)
                 finally:
                     db_pool.putconn(conn)
             if name == "gpspoint":
                 conn = db_pool.getconn()
                 try:
-                    print("Remove # comment line 642")
-                    # calculate_gps_metrics_quartile_and_write(conn, df, jdbc_url, jdbc_properties)
+                    calculate_gps_metrics_quartile_and_write(conn, df, jdbc_url, jdbc_properties)
                 finally:
                     db_pool.putconn(conn)        
         logging.info("Ingestion job succeeded")

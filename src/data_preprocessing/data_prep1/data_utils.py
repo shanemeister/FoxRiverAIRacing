@@ -238,15 +238,19 @@ def initialize_spark(jdbc_driver_path):
             .config("spark.driver.memory", "64g")
             .config("spark.executor.memory", "32g")
             .config("spark.executor.memoryOverhead", "8g")
-            .config("spark.sql.debug.maxToStringFields", "1000")
+            .config("spark.sql.debug.maxToStringFields", "10000")
             .config("spark.sql.adaptive.enabled", "true")
+            .config("spark.memory.offHeap.enabled", "true") \
+            .config("spark.memory.offHeap.size", "2g") \
             .config("spark.sql.parquet.datetimeRebaseModeInWrite", "LEGACY")
             .config("spark.sql.parquet.int96RebaseModeInWrite", "LEGACY")
             .config("spark.jars", jdbc_driver_path)
             .config("spark.local.dir", "/home/exx/myCode/data/spark_tmp")  # Set custom tmp directory
             .getOrCreate()
         )
-        
+
+
+    
         # Optional: reduce verbosity
         spark.sparkContext.setLogLevel("ERROR")
 
