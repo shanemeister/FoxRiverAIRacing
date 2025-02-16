@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import logging
+import pandas as pd
 import pprint
 import argparse
 import configparser
@@ -153,73 +154,65 @@ def main():
             ###################################################
             # 1. Load Training data
             ###################################################
-            time_start = time.time()
-            logging.info("Running training data ingestion steps...")
-            train_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
-            healthcheck_report = time_series_data_healthcheck(train_df)
-            pprint.pprint(healthcheck_report)
-            logging.info("Ingestion job for training data succeeded")
-            total_time = time.time() - time_start
-            logging.info(f"Loading train_df took {total_time} to complete.")
-            
-            input("Press Enter to continue and begin step 2 ...")
+            # time_start = time.time()
+            # logging.info("Running training data ingestion steps...")
+            # train_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
+            # healthcheck_report = time_series_data_healthcheck(train_df)
+            # pprint.pprint(healthcheck_report)
+            # logging.info("Ingestion job for training data succeeded")
+            # total_time = time.time() - time_start
+            # logging.info(f"Loading train_df took {total_time} to complete.")
+            # input("Press Enter to continue and begin step 2 ...")
             
             # ###################################################
             # # 2. Compute the custom speed figure
             # ###################################################
             time_start = time.time()
+            # After loading your data and creating the custom speed figure, e.g.:
             train_df = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df")
             enhanced_df = create_custom_speed_figure(train_df)
-            logging.info(f"Rows after creating custom_speed_figure: {len(enhanced_df)}")
+
+            # Add a new column "group_id" that uniquely identifies a race.
+            # We convert race_date to a consistent string format (e.g., YYYY-MM-DD) if needed.
+            enhanced_df["race_date"] = enhanced_df["race_date"].astype("datetime64[ns]")
+            enhanced_df["group_id"] = (
+                enhanced_df["course_cd"].astype(str) + "_" +
+                enhanced_df["race_date"].dt.strftime("%Y-%m-%d") + "_" +
+                enhanced_df["race_number"].astype(str)
+            )
+            # Logging group counts:
             group_counts = enhanced_df["group_id"].value_counts()
             logging.info(f"Group count stats:\n {group_counts.describe()}")
             logging.info(f"Groups with 1 item: {sum(group_counts == 1)}")
-            
-            # Convert back to Spark
-            speed_figure = spark.createDataFrame(enhanced_df)
 
-            # Example filtering logic
-            speed_figure.filter(
-                (speed_figure["official_fin"] <= 4) & (speed_figure["class_rating"] >= speed_figure["previous_class"])
-            ).select(
-                "race_id",
-                "horse_id", 
-                "official_fin", 
-                "class_rating", 
-                "previous_class", 
-                "speed_rating", 
-                "horse_itm_percentage", 
-                "perf_target", 
-                "custom_speed_figure"
-            ).show(30)
-            
-            healthcheck_report = time_series_data_healthcheck(train_df)
-            pprint.pprint(healthcheck_report)
-            logging.info("Speed_figure job completed successfuly.")
+            # Convert the enhanced Pandas DataFrame back to a Spark DataFrame
+            # global_speed_score = spark.createDataFrame(enhanced_df)
 
-            # # Save the Spark DataFrame as a Parquet file
-            save_parquet(spark, speed_figure, "speed_figure", parquet_dir) 
+            # (Continue with your healthcheck and saving steps)
+            #healthcheck_report = time_series_data_healthcheck(global_speed_score)
+            #pprint.pprint(healthcheck_report)
+            #logging.info("Global_speed_score job completed successfully.")
+
+            # Save the Spark DataFrame as a Parquet file
+            #save_parquet(spark, global_speed_score, "global_speed_score", parquet_dir)
             # logging.info("Ingestion job succeeded and Speed Figure Catboost model complete")
-            logging.info("Speed figure saved as parquet file.")
+            logging.info("global_speed_score saved as parquet file.")
             
             total_time = time.time() - time_start
-            logging.info(f"Creating custom_speed_figure took {total_time} to complete.")
-            
-            input("Press Enter to continue and begin step 3...")
+            logging.info(f"Creating global_speed_score took {total_time} to complete.")
             
             ##################################################
             # 3) Embed horse_id and compute custom_speed_figure
             ##################################################
             time_start = time.time()
-            speed_figure = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/speed_figure.parquet")
-            speed_figure.show(5)
-            speed_figure.printSchema()
-            print(speed_figure.count())
+            #global_speed_score = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score.parquet")
+            #global_speed_score.show(5)
+            #global_speed_score.printSchema()
+            #print(global_speed_score.count())
             
-            input("Press Enter to continue...")
             # End product is a parquet file in panda format with horse embeddings and the custom_speed_figure
             # Call the embed_and_train function
-            model_filename = embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, speed_figure)
+            model_filename = embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, enhanced_df)
             # Step 4: Use model_filename to load the saved Parquet file
             parquet_path = os.path.join(parquet_dir, f"{model_filename}.parquet")
             logging.info(f"Loading Parquet file from: {parquet_path}")

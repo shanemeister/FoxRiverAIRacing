@@ -4,7 +4,7 @@ def gcsp_sql_queries():
     queries = {
         "gpspoint": """
             SELECT h.horse_id, g.course_cd, g.race_date, g.race_number, REGEXP_REPLACE(TRIM(UPPER(g.saddle_cloth_number)), '\s+$', '') AS saddle_cloth_number , 
-            g."time_stamp", g.speed, g.progress, g.stride_frequency, r.distance_meters as official_distance
+            g."time_stamp", g.location, g.speed, g.progress, g.stride_frequency, r.distance_meters as distance_meters, round(r.rr_par_time::numeric, 2) as par_time, r.trk_cond
             FROM races r 
             JOIN runners r2 on r.course_cd = r2.course_cd 
                 and r.race_date = r2.race_date 
@@ -15,7 +15,7 @@ def gcsp_sql_queries():
                 and r2.saddle_cloth_number = g.saddle_cloth_number
             JOIN horse h on r2.axciskey = h.axciskey
             WHERE g.stride_frequency is not null 
-            GROUP BY h.horse_id, g.course_cd , g.race_date , g.race_number , g.saddle_cloth_number , g."time_stamp", r.distance_meters 
+            GROUP BY h.horse_id, g.course_cd , g.race_date , g.race_number , g.saddle_cloth_number , g."time_stamp", r.distance_meters , r.rr_par_time, r.trk_cond
             ORDER BY  g.course_cd , g.race_date , g.race_number , g.saddle_cloth_number , h.horse_id, g."time_stamp"
         """,
         "sectionals": """

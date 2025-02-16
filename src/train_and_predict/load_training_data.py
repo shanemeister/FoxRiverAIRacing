@@ -14,16 +14,15 @@ def impute_date_of_birth_with_median(df):
     """  
     Impute date_of_birth with the median value (or a default if no data exists).   
     """
-    train_df = train_df.withColumn("date_of_birth_ts", F.col("date_of_birth").cast("timestamp").cast("long"))
-    median_window = Window.orderBy("date_of_birth_ts")
-
-    median_ts = train_df.filter(F.col("date_of_birth_ts").isNotNull()).approxQuantile("date_of_birth_ts", [0.5], 0)[0]
+    df = df.withColumn("date_of_birth_ts", F.col("date_of_birth").cast("timestamp").cast("long"))
+    
+    median_ts = df.filter(F.col("date_of_birth_ts").isNotNull()).approxQuantile("date_of_birth_ts", [0.5], 0)[0]
     if median_ts is None:
         median_date = F.lit("2000-01-01").cast("date")
     else:
         median_date = F.from_unixtime(F.lit(median_ts)).cast("date")
 
-    train_df = train_df.withColumn(
+    df = df.withColumn(
         "date_of_birth",
         F.when(F.col("date_of_birth").isNull(), median_date).otherwise(F.col("date_of_birth"))
     ).drop("date_of_birth_ts")
@@ -117,9 +116,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     queries = sql_queries()
     for name, query in queries.items():
         if name == "training_data":
-            
             logging.info("Query training_data located and loading from PostgreSQL...")
-            
             start_time = time.time()
             train_df = spark.read.jdbc(
                 url=jdbc_url,
@@ -127,9 +124,14 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
                 properties=jdbc_properties
             )
             logging.info(f"Data loaded from PostgreSQL in {time.time() - start_time:.2f} seconds.")
-    train_df.cache()
-    rows_train_if = train_df.count()
-    logging.info(f"Data loaded from PostgreSQL. Count: {rows_train_if}")
+
+    if train_df is None:
+        logging.error("No training_data query found; train_df is not defined.")
+        # Handle the error or exit
+    else:
+        train_df.cache()
+        rows_train_if = train_df.count()
+        logging.info(f"Data loaded from PostgreSQL. Count: {rows_train_if}")
             
     train_df.printSchema()
     row_count = train_df.count()
@@ -168,6 +170,9 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
         train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))
     logging.info("Decimal columns converted to double.")
     print("2. Decimal columns converted to double.")
+    
+    train_df=impute_date_of_birth_with_median(train_df)
+    
     logging.info("Imputing date_of_birth with median date.")
     # 3b. Create age_at_race_day
     train_df = train_df.withColumn(
@@ -257,43 +262,43 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     # Example usage:
     train_df = fix_outliers(train_df)
     
-    # train_df = train_df.withColumn(
-    #     "data_flag",
-    #     F.when(F.col("race_date") < current_date(), lit("historical"))
-    #      .otherwise(lit("future"))
-    # )
+    train_df = train_df.withColumn(
+        "data_flag",
+        F.when(F.col("race_date") < current_date(), lit("historical"))
+         .otherwise(lit("future"))
+    )
     
     # # critical_cols = ["speed_rating"]  # columns you consider critical
     # # train_df = train_df.na.drop(subset=critical_cols)
-    # cols_to_fill = ['distance_meters',
-    #                 'off_finish_last_race',
-    #                 #'official_fin',
-    #                 'pace_delta_time',
-    #                 'prev_speed_rating',
-    #                 'previous_class',
-    #                 'previous_distance',
-    #                 'race_count',
-    #                 'speed_rating',
-    #                 'starts',
-    #                 'time_behind']
+    cols_to_fill = ['distance_meters',
+                    'off_finish_last_race',
+                    #'official_fin',
+                    'pace_delta_time',
+                    'prev_speed_rating',
+                    'previous_class',
+                    'previous_distance',
+                    'race_count',
+                    'speed_rating',
+                    'starts',
+                    'time_behind']
 
-    # # Window for each horse, ordered by race_date ascending
-    # # The `.rowsBetween(Window.unboundedPreceding, 0)` ensures 
-    # # "last()" sees all preceding rows in that partition, up to the current row.
-    # win = Window.partitionBy("horse_id").orderBy("race_date").rowsBetween(Window.unboundedPreceding, 0)
+    # Window for each horse, ordered by race_date ascending
+    # The `.rowsBetween(Window.unboundedPreceding, 0)` ensures 
+    # "last()" sees all preceding rows in that partition, up to the current row.
+    win = Window.partitionBy("horse_id").orderBy("race_date").rowsBetween(Window.unboundedPreceding, 0)
 
-    # for c in cols_to_fill:
-    #     train_df = train_df.withColumn(
-    #         c,
-    #         F.last(train_df[c], ignorenulls=True).over(win)
-    #     )  
+    for c in cols_to_fill:
+        train_df = train_df.withColumn(
+            c,
+            F.last(train_df[c], ignorenulls=True).over(win)
+        )  
 
-    # # List of columns to check for NaN values
-    # columns_with_nans = ["official_fin", "time_behind", "pace_delta_time", "speed_rating", "prev_speed_rating"]
+    # List of columns to check for NaN values
+    columns_with_nans = ["official_fin", "time_behind", "pace_delta_time", "speed_rating", "prev_speed_rating"]
 
-    # # Filter out rows with NaN values in any of the specified columns
-    # for c in columns_with_nans:
-    #     train_df = train_df.filter(~F.isnan(F.col(c)) & F.col(c).isNotNull())
+    # Filter out rows with NaN values in any of the specified columns
+    for c in columns_with_nans:
+        train_df = train_df.filter(~F.isnan(F.col(c)) & F.col(c).isNotNull())
     # Count rows with data_flag = "future"
     
     future_count = train_df.filter(F.col("data_flag") == "future").count()

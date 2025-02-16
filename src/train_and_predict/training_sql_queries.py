@@ -15,6 +15,9 @@ def sql_queries():
                 re.official_fin AS official_fin,
                 ROUND(sa.running_time - r.rr_win_time) AS time_behind,
                 (sa.running_time - r.rr_par_time) AS pace_delta_time,
+                sa.running_time,
+                sa.dist_bk_gate4,
+                sa.total_distance_ran,
                 re.speed_rating AS speed_rating,
                 r2.prev_speed_rating AS prev_speed_rating,
                 r2.previous_class AS previous_class,
@@ -124,6 +127,8 @@ def sql_queries():
                 LEFT JOIN track_conditions tc ON r.trk_cond=tc.code
                 JOIN course c ON r.course_cd=c.course_cd
                 WHERE r2.breed_type='TB'
+                AND sa.dist_bk_gate4 is not null
+                AND sa.dist_bk_gate3 is not null
                 AND r.course_cd IN('CNL','SAR','PIM','TSA','BEL','MVR','TWO','CLS','KEE','TAM','TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP','TGG','CBY','LRL','TED','IND','CTD','ASD','TCD','LAD','TOP')
                 AND r.race_date<CURRENT_DATE
                 ),
@@ -157,6 +162,9 @@ def sql_queries():
                 hd.official_fin,
                 hd.time_behind,
                 hd.pace_delta_time,
+                hd.running_time,
+                hd.dist_bk_gate4,
+                hd.total_distance_ran,
                 hd.speed_rating,
                 hd.prev_speed_rating,
                 hd.previous_class,
@@ -280,6 +288,9 @@ def sql_queries():
                 official_fin,
                 time_behind,
                 pace_delta_time,
+                running_time,
+                dist_bk_gate4,
+                total_distance_ran,
                 speed_rating,
                 prev_speed_rating,
                 previous_class,
@@ -379,6 +390,9 @@ def sql_queries():
                 official_fin,
                 time_behind,
                 pace_delta_time,
+                running_time,
+                dist_bk_gate4,
+                total_distance_ran,
                 speed_rating,
                 prev_speed_rating,
                 previous_class,

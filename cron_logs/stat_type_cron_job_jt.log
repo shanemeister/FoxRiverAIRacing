@@ -270,3 +270,33 @@ DETAIL:  Key (train_key)=(947622) is not present in table "trainer".
 2025-02-10 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
 2025-02-10 04:15:05 - Python script succeeded
 2025-02-10 04:15:05 - Job completed
+2025-02-11 04:15:01 - Starting stat_type_update job
+2025-02-11 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-11 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-02-11 04:15:03 - Python script succeeded
+2025-02-11 04:15:03 - Job completed
+2025-02-12 04:15:01 - Starting stat_type_update job
+2025-02-12 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-12 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-02-12 04:15:03 - Python script succeeded
+2025-02-12 04:15:03 - Job completed
+2025-02-13 04:15:01 - Starting stat_type_update job
+2025-02-13 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-13 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-02-13 04:15:05 - Python script succeeded
+2025-02-13 04:15:05 - Job completed
+2025-02-14 04:15:01 - Starting stat_type_update job
+2025-02-14 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-14 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-02-14 04:15:05 - Python script succeeded
+2025-02-14 04:15:05 - Job completed
+2025-02-15 04:15:01 - Starting stat_type_update job
+2025-02-15 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-15 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-02-15 04:15:08 - Python script succeeded
+2025-02-15 04:15:08 - Job completed
+2025-02-16 04:15:01 - Starting stat_type_update job
+2025-02-16 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-16 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-02-16 04:15:08 - Python script succeeded
+2025-02-16 04:15:08 - Job completed

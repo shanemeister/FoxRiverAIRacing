@@ -12,11 +12,11 @@ def form_sql_queries():
                 and r2.race_date = re.race_date 
                 and r2.race_number = re.race_number
                 and r2.saddle_cloth_number = re.program_num 
-            join sectionals_aggregated sa on r2.course_cd = sa.course_cd 
+            left join sectionals_aggregated sa on r2.course_cd = sa.course_cd 
                 and r2.race_date = sa.race_date 
                 and r2.race_number = sa.race_number 
                 and r2.saddle_cloth_number = sa.saddle_cloth_number 
-            join gps_aggregated ga on sa.course_cd = ga.course_cd 
+            left join gps_aggregated ga on sa.course_cd = ga.course_cd 
                 and sa.race_date = ga.race_date 
                 and sa.race_number = ga.race_number 
                 and sa.saddle_cloth_number = ga.saddle_cloth_number 

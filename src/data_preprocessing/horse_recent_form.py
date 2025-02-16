@@ -14,7 +14,7 @@ from psycopg2 import pool, DatabaseError
 from pyspark.sql.functions import (
     col, when, lit, row_number, expr,
     min as F_min, max as F_max, datediff,
-    lag, count, trim
+    lag, count, trim, mean as F_mean
 )
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
@@ -169,16 +169,42 @@ def compute_recent_form_metrics(
         "avg_speed_5", F.avg("avg_speed_fullrace").over(w_last_5)
     )
 
-    # 5) beaten_len = dist_bk_gate4 or 0 if missing
+    # 5 (a) Filter out zeros and nulls before computing the mean
+    filtered_df = race_df_asc.filter(
+        (col("dist_bk_gate4").isNotNull()) & (col("dist_bk_gate4") != 0)
+    )
+    # 5 (b) Compute the average
+    avg_dist = filtered_df.select(F_mean(col("dist_bk_gate4")).alias("mean_dist")) \
+                        .collect()[0]["mean_dist"]
+
+    # 5 (c) Use that average to replace nulls
     race_df_asc = race_df_asc.withColumn(
-    "beaten_len", F.when(col("dist_bk_gate4").isNull(), 9999.0).otherwise(col("dist_bk_gate4")))  # Not filling with 0 because that means the horse won
+        "beaten_len",
+        F.when(col("dist_bk_gate4").isNull(), F.lit(avg_dist)).otherwise(col("dist_bk_gate4"))
+    )
     
-    race_df_asc = race_df_asc.withColumn(
-        "avg_beaten_3",
-        F.avg("beaten_len").over(w_last_3)
-    ).withColumn(
-        "avg_beaten_5",
-        F.avg("beaten_len").over(w_last_5)
+    # Assuming w_last_3 and w_last_5 are Window specs already defined
+
+    race_df_asc = (
+        race_df_asc
+        .withColumn(
+            "avg_beaten_3",
+            F.avg(
+                F.when(
+                    (F.col("beaten_len").isNotNull()) & (F.col("beaten_len") != 0),
+                    F.col("beaten_len")
+                )
+            ).over(w_last_3)
+        )
+        .withColumn(
+            "avg_beaten_5",
+            F.avg(
+                F.when(
+                    (F.col("beaten_len").isNotNull()) & (F.col("beaten_len") != 0),
+                    F.col("beaten_len")
+                )
+            ).over(w_last_5)
+        )
     )
 
     # 6) Speed improvement vs. prior race
@@ -484,3 +510,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

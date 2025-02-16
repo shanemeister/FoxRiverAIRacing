@@ -257,6 +257,111 @@ def update_distance_meters(conn):
         conn.rollback()
         raise
 
+def update_rr_par_time(conn):
+    """
+    Updates the `rr_par_time` column in the `races` table by computing the average
+    rr_par_time for each combination of course_cd, distance_meters, and trk_cond.
+    
+    The function performs the following steps:
+      1. Selects only rows where rr_par_time is not null and not zero.
+      2. For the courses of interest, groups the data by course_cd, distance_meters, 
+         and trk_cond, and computes the average rr_par_time.
+      3. Updates each row in the races table so that its rr_par_time is set to the computed
+         average for its track, distance, and track condition.
+    
+    This function is designed to be run nightly so that the `rr_par_time` values remain current.
+    
+    Parameters:
+      conn: A psycopg2 database connection.
+    """
+    logging.info("Updating rr_par_time in races beginning...")
+    start_time = time.time()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+            UPDATE races r
+            SET rr_par_time = ROUND((sub.avg_rr_par_time)::numeric, 2)::numeric(10,2)
+            FROM (
+                SELECT course_cd, distance_meters, trk_cond,
+                    AVG(rr_par_time) AS avg_rr_par_time
+                FROM races
+                WHERE rr_par_time IS NOT NULL 
+                AND rr_par_time <> 0
+                AND course_cd IN (
+                        'CNL','SAR','PIM','TSA','BEL','MVR','TWO','CLS','KEE',
+                        'TAM','TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU',
+                        'MTH','TGP','TGG','CBY','LRL','TED','IND','CTD','ASD',
+                        'TCD','LAD','TOP'
+                      )
+                GROUP BY course_cd, distance_meters, trk_cond
+            ) sub
+            WHERE r.course_cd = sub.course_cd
+            AND r.distance_meters = sub.distance_meters
+            AND r.trk_cond = sub.trk_cond;
+            """)
+            conn.commit()
+            elapsed = time.time() - start_time
+            logging.info(f"rr_par_time updated successfully in {elapsed:.2f} seconds.")
+            print("rr_par_time updated successfully.")
+    except Exception as e:
+        logging.error(f"Error updating rr_par_time: {e}")
+        conn.rollback()
+        raise
+    
+def update_finish_time(conn):
+    """
+    Updates the `finish_time` column in the `results_entries` table by taking the sectionals running_time
+    for each horse in every race where available in the sectionals data.
+    
+    The function performs the following steps:
+      1. Selects only rows where rr_par_time is not null and not zero.
+      2. For the courses of interest, groups the data by course_cd, distance_meters, 
+         and trk_cond, and computes the average rr_par_time.
+      3. Updates each row in the races table so that its rr_par_time is set to the computed
+         average for its track, distance, and track condition.
+    
+    This function is designed to be run nightly so that the `rr_par_time` values remain current.
+    
+    Parameters:
+      conn: A psycopg2 database connection.
+    """
+    logging.info("Updating finish_time in results_entries beginning...")
+    start_time = time.time()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                UPDATE results_entries re
+                SET finish_time = s.running_time::text
+                FROM (
+                    /* Gather the MAX(running_time) for each horse in sectionals */
+                    SELECT 
+                        course_cd,
+                        race_date,
+                        race_number,
+                        saddle_cloth_number,
+                        MAX(running_time) AS running_time
+                    FROM sectionals
+                    GROUP BY 
+                        course_cd,
+                        race_date,
+                        race_number,
+                        saddle_cloth_number
+                ) s
+                WHERE 
+                    re.course_cd = s.course_cd
+                    AND re.race_date = s.race_date
+                    AND re.race_number = s.race_number
+                    AND re.program_num = s.saddle_cloth_number;
+            """)
+            conn.commit()
+            elapsed = time.time() - start_time
+            logging.info(f"finish_time updated successfully in {elapsed:.2f} seconds.")
+            print("finish_time updated successfully.")
+    except Exception as e:
+        logging.error(f"Error updating finish_time: {e}")
+        conn.rollback()
+        raise
+    
 def calculate_gps_metrics_quartile_and_write(
     spark,
     df,
@@ -601,7 +706,6 @@ def main():
         # Load and write data to parquet
         queries = tpd_sql_queries()
         dfs = load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
-    
         # Print schemas dynamically
         for name, df in dfs.items():
             print(f"DataFrame '{name}' Schema:")
@@ -627,7 +731,9 @@ def main():
         try:
             update_net_sentiment(conn)
             update_distance_meters(conn)
+            update_rr_par_time(conn)
             update_previous_race_data_and_race_count(conn)
+            update_finish_time(conn)
         finally:
             db_pool.putconn(conn)
     except Exception as e:

@@ -1,0 +1,8 @@
+2025-02-10 23:33:55 - INFO - Logging has been set up successfully.
+2025-02-10 23:33:55 - INFO - Connection pool created successfully.
+2025-02-10 23:33:55 - INFO - Acquiring DB connection...
+2025-02-10 23:33:56 - INFO - Fetched 60720 rows.
+2025-02-10 23:33:56 - INFO - Animation.save using <class 'matplotlib.animation.FFMpegWriter'>
+2025-02-10 23:33:56 - INFO - MovieWriter._run: running command: ffmpeg -f rawvideo -vcodec rawvideo -s 640x480 -pix_fmt rgba -framerate 15 -loglevel error -i pipe: -vcodec h264 -pix_fmt yuv420p -b 1800k -metadata artist=FoxRiverAI -y /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/demo/kentucky_derby_demo.mp4
+2025-02-10 23:34:14 - INFO - Animation saved to /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/demo/kentucky_derby_demo.mp4
+2025-02-10 23:34:14 - INFO - Closed all DB connections.
