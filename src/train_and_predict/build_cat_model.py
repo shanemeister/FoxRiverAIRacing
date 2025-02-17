@@ -30,67 +30,60 @@ def objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, 
     """
     # Log trial info
     logging.info(f"Starting Optuna Trial {trial.number}: {catboost_loss_functions}, Metric: {eval_metric}")
+    # params = {
+    #     "loss_function": catboost_loss_functions,
+    #     "eval_metric": eval_metric,
+    #     "task_type": "GPU",
+    #     "devices": "0,1",
+
+    #     # Let’s allow 1000..3000, step=100
+    #     "iterations": trial.suggest_int("iterations", 1000, 3000, step=100),
+
+    #     # Depth from 5..10 (a bit wider than 5..9)
+    #     "depth": trial.suggest_int("depth", 5, 10),
+
+    #     # Expand learning_rate range significantly, from ~1e-4 up to 0.3
+    #     # Use log=True so it can zoom in effectively
+    #     "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.3, log=True),
+
+    #     # Keep 1..10 for l2_leaf_reg
+    #     "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
+
+    #     # Let’s add “SymmetricTree” if you want that as well
+    #     "grow_policy": trial.suggest_categorical(
+    #         "grow_policy",
+    #         ["Depthwise", "Lossguide", "SymmetricTree"]
+    #     ),
+
+    #     # Expand random_strength range
+    #     "random_strength": trial.suggest_float("random_strength", 1.0, 8.0),
+
+    #     # Widen min_data_in_leaf to 1..20 (previously 5..15)
+    #     "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 1, 20),
+
+    #     "random_seed": 42,
+    #     "verbose": 50,
+    #     "early_stopping_rounds": 50,
+    #     "allow_writing_files": False
+    # }
+    # Suggest hyperparameters
     params = {
         "loss_function": catboost_loss_functions,
         "eval_metric": eval_metric,
         "task_type": "GPU",
         "devices": "0,1",
-
-        # Let’s allow 1000..3000, step=100
-        "iterations": trial.suggest_int("iterations", 1000, 3000, step=100),
-
-        # Depth from 5..10 (a bit wider than 5..9)
-        "depth": trial.suggest_int("depth", 5, 10),
-
-        # Expand learning_rate range significantly, from ~1e-4 up to 0.3
-        # Use log=True so it can zoom in effectively
-        "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.3, log=True),
-
-        # Keep 1..10 for l2_leaf_reg
+        "iterations": trial.suggest_int("iterations", 1500, 2100, step=100),
+        "depth": trial.suggest_int("depth", 5, 9),
+        "learning_rate": trial.suggest_float("learning_rate", 0.15, 0.3, log=True),
         "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
-
-        # Let’s add “SymmetricTree” if you want that as well
-        "grow_policy": trial.suggest_categorical(
-            "grow_policy",
-            ["Depthwise", "Lossguide", "SymmetricTree"]
-        ),
-
-        # Expand random_strength range
-        "random_strength": trial.suggest_float("random_strength", 1.0, 8.0),
-
-        # Widen min_data_in_leaf to 1..20 (previously 5..15)
-        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 1, 20),
-
+        "grow_policy": trial.suggest_categorical("grow_policy", ["Depthwise", "Lossguide"]),
+        "random_strength": trial.suggest_float("random_strength", 2.0, 4.0),
+        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 5, 15),
         "random_seed": 42,
         "verbose": 50,
-        "early_stopping_rounds": 50,
+        "early_stopping_rounds": 100,
         "allow_writing_files": False
     }
-    # Suggest hyperparameters
-    # params = {
-    #         "loss_function": catboost_loss_functions,
-    #         "eval_metric": eval_metric,
-    #         "task_type": "GPU",
-    #         "devices": "0,1",
-    #         # narrower search around 1500..2100
-    #         "iterations": trial.suggest_int("iterations", 1500, 2100, step=100),
-    #         # narrower search for depth
-    #         "depth": trial.suggest_int("depth", 5, 9),
-    #         # narrower learning_rate in log scale from 0.15..0.3
-    #         "learning_rate": trial.suggest_float("learning_rate", 0.15, 0.3, log=True),
-    #         # smaller range for l2_leaf_reg, from 1..10
-    #         "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
-    #         # only these two grow_policies
-    #         "grow_policy": trial.suggest_categorical("grow_policy", ["Depthwise", "Lossguide"]),
-    #         # random_strength from 2..4
-    #         "random_strength": trial.suggest_float("random_strength", 2.0, 4.0),
-    #         # min_data_in_leaf from 5..15
-    #         "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 5, 15),
-    #         "random_seed": 42,
-    #         "verbose": 50,
-    #         "early_stopping_rounds": 50,
-    #         "allow_writing_files": False
-    #     }
 
     # Build and train the model
     model = CatBoostRanker(**params)
@@ -106,7 +99,7 @@ def objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, 
         # fallback if no 'validation' key
         true_vals = y_valid.reshape(1, -1)
         pred_vals = val_preds.reshape(1, -1)
-        valid_ndcg_k = ndcg_score(true_vals, pred_vals, k=1)
+        valid_ndcg_k = ndcg_score(true_vals, pred_vals, k=4)
 
     return valid_ndcg_k
 
@@ -224,6 +217,7 @@ def train_and_save_model(
             .mode("append")
             .save()
         )
+        print("Table read successfully. Row count:", spark_df.count())
         print(f"Appended {len(combined_data)} rows to '{db_table}' (train+valid).")
     except Exception as e:
         print(f"Error saving train+valid predictions: {e}")
@@ -360,7 +354,7 @@ def evaluate_and_save_results(
             .option("driver", db_properties["driver"]) \
             .mode("append") \
             .save()
-
+        print("Table read successfully. Row count:", spark_df.count())
         logging.info(f"Appended {len(holdout_merged)} holdout rows to DB table '{db_table}'.")
     except Exception as e:
         logging.error(f"Error saving holdout data to DB: {e}")
@@ -562,57 +556,76 @@ def split_data_and_train(df, label_col, cat_cols, embed_cols, excluded_cols, jdb
 # Build catboost model - single table approach
 ###############################################################################
 def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action):
-    import logging
-    from pyspark.sql.functions import col
+    
+    date_columns = ['date_of_birth', 'first_race_date_5', 'most_recent_race_5', 'prev_race_date']
+    for cols in date_columns:
+        horse_embedding[cols] = pd.to_datetime(horse_embedding[col], errors='coerce').astype('datetime64[ns]')
+    
+    input("Press Enter to continue...")
+    
+    horse_embedding = horse_embedding.toPandas()
+    
+    input("Press Enter to continue...2")
+    # Then use Pandas boolean indexing
+    historical_pdf = horse_embedding[horse_embedding["data_flag"] != "future"].copy()
+    future_pdf = horse_embedding[horse_embedding["data_flag"] == "future"].copy()
 
-    logging.info(f"Schema of horse_embedding_df: {horse_embedding.schema}")
-    logging.info(f"Horse_embedding total count: {horse_embedding.count()}")
-
-    historical_spark = horse_embedding.filter(col("data_flag") != "future")
-    future_spark     = horse_embedding.filter(col("data_flag") == "future")
-
-    hist_count = historical_spark.count()
-    fut_count  = future_spark.count()
-    logging.info(f"Row count (historical): {hist_count}")
-    logging.info(f"Row count (future): {fut_count}")
-    # For training
+    # Transform the Spark DataFrame to Pandas.
     if action == "train":
-        hist_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_spark, drop_label=False)
+        hist_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_pdf, drop_label=False)
         logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
+        # Add the combined feature columns:
+        hist_pdf = add_combined_feature(hist_pdf)
+        # Optionally, update your embed_cols list to use the new combined features.
+        embed_cols = [f"combined_{i}" for i in range(5)]
                 
         split_data_and_train(
             hist_pdf,
-            label_col="perf_target",
+            label_col="official_fin",
             cat_cols=cat_cols,
-            embed_cols=[f"embed_{i}" for i in range(4)],
+            embed_cols=embed_cols,
             excluded_cols=excluded_cols,
             jdbc_url=jdbc_url,
             jdbc_properties=jdbc_properties,
             spark=spark
         )
 
-    # For inference
     elif action == "predict":
-        # Returns a Pandas DataFrame and cat_cols
-        fut_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(future_spark, drop_label=True)
+        fut_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(future_pdf, drop_label=True)
         logging.info(f"Shape of future Pandas DF: {fut_pdf.shape}")
+        fut_pdf = add_combined_feature(fut_pdf)
         main_inference(spark, fut_pdf, cat_cols, excluded_cols, jdbc_url, jdbc_properties)
-
     else:
         logging.info("Invalid action. Please select 'train' or 'predict'.")
 
-def transform_horse_df_to_pandas(df_spark, drop_label=False):
+def add_combined_feature(pdf):
+    """
+    Given a Pandas DataFrame `pdf` that contains the horse embedding columns (e.g., embed_0..embed_3)
+    and a global_speed_score column, create new columns that represent the simple concatenation:
+      [embed_0, embed_1, embed_2, embed_3, global_speed_score]
+    and add them to the DataFrame.
+    """
+    embed_cols = [f"combined_{i}" for i in range(5)]
+    # Create a new column that is a list of the 4 embedding values concatenated with global_speed_score.
+    combined = pdf.apply(lambda row: [row[c] for c in embed_cols] + [row["global_speed_score"]], axis=1)
+    # Expand the list into separate columns:
+    combined_df = pd.DataFrame(combined.tolist(), columns=[f"combined_{i}" for i in range(5)])
+    # Concatenate these new columns to the original DataFrame.
+    pdf = pd.concat([pdf.reset_index(drop=True), combined_df], axis=1)
+    return pdf
+
+def transform_horse_df_to_pandas(pdf_df, drop_label=False):
     """
     1) Convert df_spark to Pandas.
-    2) Drop 'official_fin' if present.
+    2) 'official_fin' replace perf_target so do not delete it but make it excluded_col.
     3) Create race_id, group_id, convert date columns, etc.
     4) Return the transformed Pandas DataFrame.
     """
-    pdf = df_spark.toPandas()
 
-    # Convert to Panda DataFrame
-    # If present, drop "official_fin"
-    pdf.drop(columns=["official_fin"], inplace=True, errors="ignore")
+    # Check the dtypes in Pandas (should show datetime64[ns] for the above columns)
+    # Now you can safely convert to Pandas
+    pdf = pdf_df.copy()
+    print(pdf.dtypes)  # Check that your date columns now show as datetime64[ns]
 
     # Create race_id + group_id
     pdf["race_id"] = (
@@ -639,24 +652,36 @@ def transform_horse_df_to_pandas(df_spark, drop_label=False):
     # Convert main race_date to datetime
     pdf["race_date"] = pd.to_datetime(pdf["race_date"])
 
-    # Optionally drop the label if you want. 
-    # e.g. if you're purely doing inference, you might remove perf_target.
-    # Or just keep it if you need it for other checks.
-    if drop_label:
-        pdf.drop(columns=["perf_target"], inplace=True, errors="ignore")
-
     # Make certain columns categorical
     cat_cols = ["course_cd", "trk_cond", "sex", "equip", "surface", "med",
                 "race_type", "stk_clm_md", "turf_mud_mark", "layoff_cat","previous_surface"]
     
-    excluded_cols = ["horse_name", "saddle_cloth_number", "axciskey", "race_date", 
-                     "race_number", "horse_id","horse_idx_x", "horse_idx_y", "race_id", 
-                     "track_name", "saddle_cloth_number", "perf_target", "data_flag"]
+    excluded_cols = [
+        "axciskey",         # Raw identifier
+        "official_fin",     # Target column
+        "horse_id",         # Original horse ID (we use the mapped horse_idx instead)
+        "horse_name",       # Not used for prediction
+        "race_date",        # Raw date; if not engineered further
+        "race_number",      # Race identifier, not a predictor
+        "saddle_cloth_number",  # Race-specific identifier
+        "race_id",          # Unique race identifier
+        "date_of_birth",
+        "track_name",       # Metadata
+        "data_flag",        # Used for filtering only
+        "group_id",         # Grouping information, not a feature
+        "horse_idx_x",      # Duplicate or intermediate column from merging
+        "horse_idx_y",      # Duplicate or intermediate column
+        "embed_0",          # Raw embedding columns, if you’re using a combined feature instead
+        "embed_1",
+        "embed_2",
+        "embed_3",
+        "course_cd",        # Processed separately (e.g. via embeddings)
+        "trk_cond"          # Processed separately (e.g. via embeddings)
+    ]
 
     # Convert to categorical data type
     for c in cat_cols:
         if c in pdf.columns:
-            pdf[c] = pdf[c].astype("category")
-            
+            pdf[c] = pdf[c].astype("category")      
     # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
     return pdf, cat_cols, excluded_cols

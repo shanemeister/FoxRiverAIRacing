@@ -13987,3 +13987,537 @@ Line Name: RUNNING_LINE
 2025-02-16 03:00:36 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
 2025-02-16 03:01:36 - Sync to S3 succeeded
 2025-02-16 03:01:36 - Job completed
+2025-02-17 03:00:01 - Starting ingestion job
+2025-02-17 03:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-17 03:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/ingestion_controller.py
+Script_dir: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/pluspro_ingestion.log for dataset: PlusPro
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/pluspro_ingestion.log for dataset: PlusPro
+Processing PlusPro
+Total ZIP files found: 5468
+ZIP files processed successfully: 0
+ZIP files failed or skipped: 0
+Total files skipped: 5468
+Total ZIP files found: 5298
+ZIP files processed successfully: 0
+ZIP files failed or skipped: 0
+Total files skipped: 5298
+Total ZIP files found: 3337
+ZIP files processed successfully: 0
+ZIP files failed or skipped: 0
+Total files skipped: 3337
+Processing XML file number : 1
+Processing XML file number : 2
+Processing XML file number : 3
+Processing XML file number : 4
+Processing XML file number : 5
+Processing XML file number : 6
+Processing XML file number : 7
+Processing XML file number : 8
+Total ZIP files found: 2883
+ZIP files processed successfully: 8
+ZIP files failed or skipped: 0
+Total files skipped: 2875
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/resultscharts_ingestion.log for dataset: ResultsCharts
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/resultscharts_ingestion.log for dataset: ResultsCharts
+Processing ResultsCharts
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/racelist_ingestion.log for dataset: Racelist
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/racelist_ingestion.log for dataset: Racelist
+Processing Racelist
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/sectionals_ingestion.log for dataset: Sectionals
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/sectionals_ingestion.log for dataset: Sectionals
+Processing Sectionals
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/gpsdata_ingestion.log for dataset: GPSData
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/gpsdata_ingestion.log for dataset: GPSData
+Processing GPSData
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/routes_ingestion.log for dataset: Routes
+Dataset log file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_ingestion/../../logs/routes_ingestion.log for dataset: Routes
+Processing Routes
+Processing feature: <fastkml.kml.Document object at 0x7f66253ca6b0>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c9810>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9c60>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca230>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c8730>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66254245e0>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c8fd0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d150>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e5bd0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f662540c1f0>
+Processing feature: <fastkml.kml.Folder object at 0x7f662540c430>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c490>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c550>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c8c10>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca6b0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253cabc0>
+Line Name: RUNNING_LINE LANE 1
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c99c0>
+Line Name: RUNNING_LINE LANE 2
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e4be0>
+Line Name: RUNNING_LINE LANE 3
+Processing feature: <fastkml.kml.Placemark object at 0x7f6625427f10>
+Line Name: RUNNING_LINE LANE 4
+Processing feature: <fastkml.kml.Document object at 0x7f66253e6290>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e64d0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6530>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e65f0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e6500>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6830>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6920>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f662540c100>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c1f0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c580>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e67d0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6a10>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6c50>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e6b00>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6e90>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6f80>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253c9810>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c9ea0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca110>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c94e0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253e66e0>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e6830>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6950>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6a40>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e68f0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e6c80>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540f6a0>
+Line Name: RUNNING_LINE +0FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540f880>
+Line Name: RUNNING_LINE +10FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253f1ae0>
+Line Name: RUNNING_LINE +20FT
+Processing feature: <fastkml.kml.Document object at 0x7f66253ca050>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253cb130>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253caef0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c8d90>
+Line Name: RUNNING_LINE 1
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9cc0>
+Line Name: RUNNING_LINE 2
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e7910>
+Line Name: RUNNING_LINE 3
+Processing feature: <fastkml.kml.Document object at 0x7f662540eb60>
+Processing feature: <fastkml.kml.Folder object at 0x7f662540eda0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540ee00>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540eec0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f662540edd0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540f100>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540f1f0>
+Line Name: RUNNING_LINE LANE 1
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540f3d0>
+Line Name: RUNNING_LINE LANE 2
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e4760>
+Line Name: RUNNING_LINE LANE 3
+Processing feature: <fastkml.kml.Document object at 0x7f66253c9c60>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253cb580>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9a80>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca8f0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e4b50>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e4c40>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e4d30>
+Line Name: RUNNING_LINE LANE 1
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9720>
+Line Name: RUNNING_LINE LANE 2
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540ea70>
+Line Name: RUNNING_LINE LANE 3
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e4c10>
+Line Name: RUNNING_LINE LANE 4
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253c9030>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c8c10>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca680>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c8d90>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253cb220>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca6b0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c94e0>
+Line Name: RUNNING_LINE 1
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9d80>
+Line Name: RUNNING_LINE 2 10FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6625432740>
+Line Name: RUNNING_LINE 3 15FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253f3ac0>
+Line Name: RUNNING_LINE 4 20FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253f8eb0>
+Line Name: RUNNING_LINE 5 30FT
+Processing feature: <fastkml.kml.Document object at 0x7f662540fd30>
+Processing feature: <fastkml.kml.Folder object at 0x7f662540ff70>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540ffd0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c250>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f662540ffa0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c1c0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c5b0>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Folder object at 0x7f662540c160>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c550>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ee170>
+Line Name: RUNNING_LINE_LANE_1
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ee350>
+Line Name: RUNNING_LINE_LANE_2
+Processing feature: <fastkml.kml.Placemark object at 0x7f662541af50>
+Line Name: RUNNING_LINE_LANE_3
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253f3b50>
+Line Name: RUNNING_LINE_LANE_4
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624288790>
+Line Name: RUNNING_LINE_LANE_5
+Processing feature: <fastkml.kml.Placemark object at 0x7f66242e5390>
+Line Name: RUNNING_LINE_LANE_6
+Processing feature: <fastkml.kml.Placemark object at 0x7f66242d1c90>
+Line Name: RUNNING__LINE_LANE_7
+Processing feature: <fastkml.kml.Placemark object at 0x7f662432aa10>
+Line Name: RUNNING_LINE_LANE_8
+Processing feature: <fastkml.kml.Placemark object at 0x7f662424f7f0>
+Line Name: RUNNING__LINE_LANE_9
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624334550>
+Line Name: RUNNING_LINE_LANE_10
+Processing feature: <fastkml.kml.Document object at 0x7f66253e76a0>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e7940>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e79a0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e7a90>
+Line Name: RUNNING_LINE LANE 1
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e7c70>
+Line Name: RUNNING_LINE LANE 2
+Processing feature: <fastkml.kml.Placemark object at 0x7f66242e65c0>
+Line Name: RUNNING_LINE LANE 3
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d000>
+Line Name: RUNNING_LINE LANE 4
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d1b0>
+Line Name: RUNNING_LINE LANE 5
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e7970>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d330>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d3f0>
+Line Name: RUNNING_LINE LANE 1
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d600>
+Line Name: RUNNING_LINE LANE 2
+Processing feature: <fastkml.kml.Placemark object at 0x7f6625432020>
+Line Name: RUNNING_LINE LANE 3
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624332740>
+Line Name: RUNNING_LINE LANE 4
+Processing feature: <fastkml.kml.Folder object at 0x7f662540c730>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662425b1f0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662424fc10>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253c9090>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253ca1d0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca4a0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca590>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253cae90>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253cb010>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c8d90>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253cada0>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Document object at 0x7f66242841f0>
+Processing feature: <fastkml.kml.Folder object at 0x7f6624284430>
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624284490>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624284550>
+Line Name: WINNING_LINE ALTERNATE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624284730>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253c8940>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c8fd0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9d80>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9960>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f6624284640>
+Processing feature: <fastkml.kml.Folder object at 0x7f6624284880>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66242846d0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66242847c0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253cb0a0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c8940>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9f30>
+Line Name: RUNNING_LINE LANE 1
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f66242845e0>
+Line Name: RUNNING_LINE LANE 2
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9ea0>
+Line Name: RUNNING_LINE LANE 3
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253cada0>
+Line Name: RUNNING_LINE LANE 4
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253e7b80>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e7dc0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e7e20>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e7f10>
+Line Name: RUNNING_LINE LANE 1 LOOP
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e40d0>
+Line Name: RUNNING_LINE LANE 1 CHUTE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66252bd810>
+Line Name: RUNNING_LINE LANE 2 LOOP
+Processing feature: <fastkml.kml.Placemark object at 0x7f662526baf0>
+Line Name: RUNNING_LINE LANE 2 CHUTE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66237b7550>
+Line Name: RUNNING_LINE LANE 3 LOOP
+Processing feature: <fastkml.kml.Placemark object at 0x7f66237f2830>
+Line Name: RUNNING_LINE LANE 3 CHUTE
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e7df0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66240e3280>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662406e5c0>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662406e7a0>
+Line Name: RUNNING_LINE_2
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b67280>
+Line Name: RUNNING_LINE_3
+Processing feature: <fastkml.kml.Document object at 0x7f66253c8fd0>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253cada0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253cb220>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c8eb0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f662540fc10>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540fd30>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c280>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Folder object at 0x7f662540fc40>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c3d0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66237f0eb0>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Folder object at 0x7f662540c190>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66240e2770>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e77c0>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Folder object at 0x7f66237f1090>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e40d0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ecd90>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Folder object at 0x7f66253e7eb0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ed000>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66254320e0>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Document object at 0x7f662540ff70>
+Processing feature: <fastkml.kml.Folder object at 0x7f662540c4f0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c490>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c700>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f6624b641f0>
+Processing feature: <fastkml.kml.Folder object at 0x7f6624b64430>
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64490>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64550>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f6624b64460>
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64790>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64880>
+Line Name: RUNNING_LINE LANE 1
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540c310>
+Line Name: RUNNING_LINE LANE 2
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64a60>
+Line Name: RUNNING_LINE LANE 3
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64b80>
+Line Name: RUNNING_LINE LANE 4
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253c8d90>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253cbbe0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca8f0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253cb130>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f662540d510>
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d6c0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d7b0>
+Line Name: RUNNING_LINE LANE 1
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d990>
+Line Name: RUNNING_LINE LANE 2
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540dab0>
+Line Name: RUNNING_LINE LANE 3
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540dbd0>
+Line Name: RUNNING_LINE LANE 4
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f6624b64640>
+Processing feature: <fastkml.kml.Folder object at 0x7f6624b64850>
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b648e0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b649d0>
+Line Name: WINNING_LINE ALTERNATE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64bb0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f6624b648b0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64e20>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b64f10>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Folder object at 0x7f6624b64dc0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b65180>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540f790>
+Line Name: RUNNING_LINE 0FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540f970>
+Line Name: RUNNING_LINE 5FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f66237f05b0>
+Line Name: RUNNING_LINE 10FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253e7ca0>
+Line Name: RUNNING_LINE 15FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6625430910>
+Line Name: RUNNING_LINE 20FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f66254197b0>
+Line Name: RUNNING_LINE 25FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623c26650>
+Line Name: RUNNING_LINE 30FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623b674f0>
+Line Name: RUNNING_LINE 35FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623b7c3d0>
+Line Name: RUNNING_LINE 40FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623be1210>
+Line Name: RUNNING_LINE 45FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623c3e0b0>
+Line Name: RUNNING_LINE 50FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623bd2f50>
+Line Name: RUNNING_LINE 55FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623bcfeb0>
+Line Name: RUNNING_LINE 60FT
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623ba8d90>
+Line Name: RUNNING_LINE 65FT
+Processing feature: <fastkml.kml.Document object at 0x7f66253ca590>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253ca050>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253cb3d0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c91b0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c9cc0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca3b0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9090>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c9a20>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9f30>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9ea0>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66237f1300>
+Processing feature: <fastkml.kml.Folder object at 0x7f66237f1540>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66237f15a0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66237f1660>
+Line Name: RUNNING_LINE
+Skipping MultiLineString
+Processing feature: <fastkml.kml.Document object at 0x7f66253cbdc0>
+Processing feature: <fastkml.kml.Folder object at 0x7f66253ca3b0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253ca680>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9210>
+Line Name: WINNING_LINE ALTERNATE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9f30>
+Line Name: RUNNING_LINE LANE 1
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253c9ea0>
+Line Name: RUNNING_LINE LANE 2
+Processing feature: <fastkml.kml.Placemark object at 0x7f6624b67ca0>
+Line Name: RUNNING_LINE LANE 3
+Processing feature: <fastkml.kml.Placemark object at 0x7f66240e1f00>
+Line Name: RUNNING_LINE LANE 4
+Processing feature: <fastkml.kml.Placemark object at 0x7f662540d8d0>
+Line Name: RUNNING_LINE LANE 5
+Processing feature: <fastkml.kml.Placemark object at 0x7f6625418850>
+Line Name: RUNNING_LINE LANE 6
+Processing feature: <fastkml.kml.Folder object at 0x7f66253c9ae0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66253f9ae0>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623bbac80>
+Line Name: WINNING_LINE ALTERNATE
+Processing feature: <fastkml.kml.Placemark object at 0x7f6623bbae60>
+Line Name: RUNNING_LINE
+Processing feature: <fastkml.kml.Document object at 0x7f66237f1750>
+Processing feature: <fastkml.kml.Folder object at 0x7f66237f13c0>
+Processing feature: <fastkml.kml.Placemark object at 0x7f66237f1420>
+Line Name: WINNING_LINE
+Processing feature: <fastkml.kml.Placemark object at 0x7f66237f14e0>
+Line Name: RUNNING_LINE
+2025-02-17 03:00:31 - Python script succeeded
+2025-02-17 03:00:31 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-02-17 03:01:30 - Sync to S3 succeeded
+2025-02-17 03:01:30 - Job completed

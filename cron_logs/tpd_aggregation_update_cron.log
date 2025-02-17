@@ -550,3 +550,25 @@ rr_par_time updated successfully.
 finish_time updated successfully.
 2025-02-16 05:07:00 - Python script succeeded
 2025-02-16 05:07:00 - Job completed
+2025-02-17 05:00:01 - Starting stat_type_update job
+2025-02-17 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-17 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/02/17 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/02/17 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/02/17 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/02/17 05:00:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/02/17 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/02/17 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+25/02/17 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
+25/02/17 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>    (0 + 1) / 1][Stage 3:>    (0 + 1) / 1][Stage 4:>    (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 4:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 8:>                                                      (0 + 128) / 200][Stage 8:>                                                      (1 + 128) / 200][Stage 8:=====>                                                (19 + 128) / 200][Stage 8:=====>                                                (22 + 128) / 200][Stage 8:============>                                         (45 + 128) / 200][Stage 8:==================================>                   (128 + 72) / 200][Stage 8:=======================================>              (146 + 54) / 200]                                                                                [Stage 9:>                  (0 + 1) / 1][Stage 10:>                 (0 + 1) / 1][Stage 9:>                                                          (0 + 1) / 1][Stage 13:======>                                                 (5 + 39) / 44][Stage 13:======================================================> (43 + 1) / 44]                                                                                [Stage 27:>   (0 + 1) / 1][Stage 28:>   (0 + 1) / 1][Stage 29:>   (0 + 1) / 1][Stage 27:>                 (0 + 1) / 1][Stage 29:>                 (0 + 1) / 1][Stage 27:>                                                         (0 + 1) / 1][Stage 33:>                                                     (0 + 100) / 100][Stage 33:>                                                      (1 + 99) / 100][Stage 33:=>                                                     (2 + 98) / 100]                                                                                Spark session created successfully.
+DataFrame 'gpspoint' Schema:
+DataFrame 'sectionals' Schema:
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-02-17 05:05:38 - Python script succeeded
+2025-02-17 05:05:38 - Job completed

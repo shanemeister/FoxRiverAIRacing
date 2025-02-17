@@ -1,21 +1,24 @@
-2025-02-16 11:15:15 - INFO - Logging has been set up successfully.
-2025-02-16 11:15:15 - INFO - Starting main function...
-2025-02-16 11:15:15 - INFO - Mode: train
-2025-02-16 11:15:40 - INFO - Group count stats:
- count    43445.000000
-mean         7.753481
-std          1.963235
-min          1.000000
-25%          6.000000
-50%          7.000000
-75%          9.000000
-max         20.000000
-Name: count, dtype: float64
-2025-02-16 11:15:40 - INFO - Groups with 1 item: 2
-2025-02-16 11:15:40 - INFO - global_speed_score saved as parquet file.
-2025-02-16 11:15:40 - INFO - Creating global_speed_score took 24.378931522369385 to complete.
-2025-02-16 11:15:42 - INFO - Number of horses: 52143
-2025-02-16 11:15:42 - INFO - Number of numeric features: 37
-2025-02-16 11:15:43 - ERROR - An error occurred: "['custom_speed_figure'] not in index"
-2025-02-16 11:15:43 - INFO - Spark session stopped.
-2025-02-16 11:15:43 - INFO - Closing down clientserver connection
+2025-02-17 13:32:45 - INFO - Logging has been set up successfully.
+2025-02-17 13:32:45 - INFO - Starting main function...
+2025-02-17 13:32:45 - INFO - Mode: train
+2025-02-17 13:34:59 - INFO - Number of horses: 52143
+2025-02-17 13:34:59 - INFO - Number of numeric features: 38
+2025-02-17 13:34:59 - INFO - Entering final-model-building block.
+2025-02-17 13:34:59 - INFO - CSV file found at: optuna_study_results.csv
+2025-02-17 13:34:59 - INFO - CSV file loaded successfully. DataFrame shape: (100, 10)
+2025-02-17 13:34:59 - INFO - Best parameters found by Optuna:
+2025-02-17 13:34:59 - INFO - {'number': 24, 'value': 1.9650384187698364, 'datetime_start': '2025-02-16 14:18:23.134047', 'datetime_complete': '2025-02-16 14:19:38.856558', 'duration': '0 days 00:01:15.722511', 'params_feature_set': 'all_features', 'params_learning_rate': 0.001605835112037, 'params_n_hidden_layers': 3, 'params_units_per_layer': 350, 'state': 'COMPLETE'}
+2025-02-17 13:44:31 - INFO - Writing horse embeddings to table: horse_embedding
+2025-02-17 13:44:33 - INFO - Embeddings saved to DB table 'horse_embedding'.
+2025-02-17 13:44:33 - INFO - Saving horse_embedding_data-20250217_1344 DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250217_1344.parquet...
+2025-02-17 13:44:33 - INFO - Schema of horse_embedding_data-20250217_1344 DataFrame:
+2025-02-17 13:44:35 - INFO - horse_embedding_data-20250217_1344 DataFrame saved successfully.
+2025-02-17 13:44:35 - INFO - Final merged DataFrame saved as Parquet: horse_embedding_data-20250217_1344
+2025-02-17 13:44:35 - INFO - *** Horse embedding job completed successfully ***
+2025-02-17 13:44:35 - INFO - Loading Parquet file from: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250217_1344.parquet
+2025-02-17 13:44:36 - INFO - Schema of reloaded DataFrame from: horse_embedding_data-20250217_1344:
+2025-02-17 13:44:36 - INFO - Horse embedding took 710.3104381561279 to complete.
+2025-02-17 13:47:11 - INFO - Starting build_catboost_model: Training CatBoost Models -- 20 total
+2025-02-17 13:47:11 - ERROR - An error occurred: name 'col' is not defined
+2025-02-17 13:47:11 - INFO - Spark session stopped.
+2025-02-17 13:47:11 - INFO - Closing down clientserver connection

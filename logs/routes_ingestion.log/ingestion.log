@@ -1,173 +1,173 @@
-2025-02-16 03:00:36 - INFO - Logging has been set up successfully.
-2025-02-16 03:00:36 - INFO - Setting up logging for Routes
-2025-02-16 03:00:36 - INFO - Starting ingestion job
-2025-02-16 03:00:36 - INFO - Starting ingestion for: Routes
-2025-02-16 03:00:36 - INFO - Processing KML files in /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-77.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course PEN.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course PEN.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course PEN.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course PEN.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course PEN.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-97.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TCD.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TCD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course TCD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course TCD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course TCD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 4 in course TCD.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-94.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-88.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course HOO.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-74.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course PIM.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course PIM.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course PIM.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE +0FT in course PIM.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE +10FT in course PIM.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE +20FT in course PIM.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-83.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TKD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 1 in course TKD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 2 in course TKD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 3 in course TKD.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-70.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course LAD.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course LAD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course LAD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course LAD.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course LAD.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-85.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TAM.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TAM.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-75.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course KEE.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course KEE.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 1 in course KEE.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 2 10FT in course KEE.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 3 15FT in course KEE.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 4 20FT in course KEE.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 5 30FT in course KEE.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-78.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_1 in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_2 in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_3 in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_4 in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_5 in course CNL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_6 in course CNL.
-2025-02-16 03:00:36 - INFO - Skipping unrelated placemark: RUNNING__LINE_Lane_7
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_8 in course CNL.
-2025-02-16 03:00:36 - INFO - Skipping unrelated placemark: RUNNING__LINE_Lane_9
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_10 in course CNL.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-90.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TWO.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course TWO.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course TWO.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TWO.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course TWO.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course TWO.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course TWO.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 4 in course TWO.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TWO.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-95.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TTP.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-76.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course MVR.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course MVR.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-81.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TOP.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE ALTERNATE in course TOP.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-96.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course AQU.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-84.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course MTH.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course MTH.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-91.kml
-2025-02-16 03:00:36 - WARNING - Unknown course code for file Racecourse-91.kml. Skipping.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-71.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 LOOP in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 CHUTE in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 LOOP in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 CHUTE in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 LOOP in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 CHUTE in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_2 in course TGG.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_3 in course TGG.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-89.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-AD.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course ASD.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-80.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course HOU.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course HOU.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course HOU.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-82.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CBY.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CBY.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-86.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE ALTERNATE in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 0FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 5FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 10FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 15FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 20FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 25FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 30FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 35FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 40FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 45FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 50FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 55FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 60FT in course TGP.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 65FT in course TGP.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-93.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TLS.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TLS.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TLS.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-79.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course DMR.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-73.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE ALTERNATE in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 4 in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 5 in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 6 in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE ALTERNATE in course LRL.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course LRL.
-2025-02-16 03:00:36 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-87.kml
-2025-02-16 03:00:36 - INFO - Inserted WINNING_LINE for WINNING_LINE in course MED.
-2025-02-16 03:00:36 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course MED.
-2025-02-16 03:00:36 - INFO - Finished processing KML files.
-2025-02-16 03:00:36 - INFO - Ingestion for Routes succeeded
-2025-02-16 03:00:36 - INFO - Database connection closed.
-2025-02-16 03:00:36 - INFO - Ingestion job succeeded
+2025-02-17 03:00:31 - INFO - Logging has been set up successfully.
+2025-02-17 03:00:31 - INFO - Setting up logging for Routes
+2025-02-17 03:00:31 - INFO - Starting ingestion job
+2025-02-17 03:00:31 - INFO - Starting ingestion for: Routes
+2025-02-17 03:00:31 - INFO - Processing KML files in /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-77.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course PEN.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course PEN.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course PEN.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course PEN.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course PEN.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-97.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TCD.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TCD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course TCD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course TCD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course TCD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 4 in course TCD.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-94.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TSA.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-88.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course HOO.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-74.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course PIM.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course PIM.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course PIM.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE +0FT in course PIM.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE +10FT in course PIM.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE +20FT in course PIM.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-83.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TKD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 1 in course TKD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 2 in course TKD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 3 in course TKD.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-70.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course LAD.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course LAD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course LAD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course LAD.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course LAD.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-85.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TAM.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TAM.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-75.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course KEE.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course KEE.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 1 in course KEE.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 2 10FT in course KEE.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 3 15FT in course KEE.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 4 20FT in course KEE.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 5 30FT in course KEE.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-78.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_1 in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_2 in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_3 in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_4 in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_5 in course CNL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_6 in course CNL.
+2025-02-17 03:00:31 - INFO - Skipping unrelated placemark: RUNNING__LINE_Lane_7
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_8 in course CNL.
+2025-02-17 03:00:31 - INFO - Skipping unrelated placemark: RUNNING__LINE_Lane_9
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_LANE_10 in course CNL.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-90.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TWO.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course TWO.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course TWO.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TWO.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course TWO.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course TWO.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course TWO.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 4 in course TWO.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TWO.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-95.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TTP.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-76.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course MVR.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course MVR.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-81.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TOP.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE ALTERNATE in course TOP.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-96.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course AQU.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-84.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course MTH.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course MTH.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-91.kml
+2025-02-17 03:00:31 - WARNING - Unknown course code for file Racecourse-91.kml. Skipping.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-71.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 LOOP in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 CHUTE in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 LOOP in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 CHUTE in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 LOOP in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 CHUTE in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_2 in course TGG.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE_3 in course TGG.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-89.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course IND.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-AD.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course ASD.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-80.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course HOU.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course HOU.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course HOU.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-82.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CBY.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course CBY.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-86.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE ALTERNATE in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 0FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 5FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 10FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 15FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 20FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 25FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 30FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 35FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 40FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 45FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 50FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 55FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 60FT in course TGP.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE 65FT in course TGP.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-93.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TLS.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TLS.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course TLS.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-79.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course DMR.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-73.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE ALTERNATE in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 1 in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 2 in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 3 in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 4 in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 5 in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE LANE 6 in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE ALTERNATE in course LRL.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course LRL.
+2025-02-17 03:00:31 - INFO - Processing file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/TPD/routes/Racecourse-87.kml
+2025-02-17 03:00:31 - INFO - Inserted WINNING_LINE for WINNING_LINE in course MED.
+2025-02-17 03:00:31 - INFO - Inserted RUNNING_LINE for RUNNING_LINE in course MED.
+2025-02-17 03:00:31 - INFO - Finished processing KML files.
+2025-02-17 03:00:31 - INFO - Ingestion for Routes succeeded
+2025-02-17 03:00:31 - INFO - Database connection closed.
+2025-02-17 03:00:31 - INFO - Ingestion job succeeded
