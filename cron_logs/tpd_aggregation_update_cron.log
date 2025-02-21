@@ -572,3 +572,97 @@ rr_par_time updated successfully.
 finish_time updated successfully.
 2025-02-17 05:05:38 - Python script succeeded
 2025-02-17 05:05:38 - Job completed
+2025-02-18 05:00:01 - Starting stat_type_update job
+2025-02-18 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-18 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/02/18 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/02/18 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/02/18 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/02/18 05:00:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/02/18 05:00:02 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/02/18 05:00:02 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+25/02/18 05:00:02 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
+25/02/18 05:00:02 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                  (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 2:>    (0 + 1) / 1][Stage 3:>    (0 + 1) / 1][Stage 4:>    (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 4:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 8:>                                                      (0 + 128) / 200][Stage 8:>                                                      (1 + 128) / 200][Stage 8:>                                                      (3 + 128) / 200][Stage 8:=>                                                     (7 + 128) / 200][Stage 8:=======>                                              (27 + 128) / 200][Stage 8:=======>                                              (28 + 128) / 200][Stage 8:===================================>                  (131 + 69) / 200][Stage 8:=========================================>            (155 + 45) / 200][Stage 8:==========================================>           (157 + 43) / 200]                                                                                [Stage 9:>                  (0 + 1) / 1][Stage 10:>                 (0 + 1) / 1][Stage 9:>                                                          (0 + 1) / 1][Stage 13:======================>                                (18 + 27) / 45][Stage 13:=====================================================>  (43 + 2) / 45]                                                                                [Stage 27:>   (0 + 1) / 1][Stage 28:>   (0 + 1) / 1][Stage 29:>   (0 + 1) / 1][Stage 27:>                 (0 + 1) / 1][Stage 29:>                 (0 + 1) / 1][Stage 27:>                                                         (0 + 1) / 1][Stage 33:>                                                     (0 + 100) / 100][Stage 33:>                                                      (1 + 99) / 100][Stage 33:==========>                                           (19 + 81) / 100]                                                                                Spark session created successfully.
+DataFrame 'gpspoint' Schema:
+DataFrame 'sectionals' Schema:
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-02-18 05:06:18 - Python script succeeded
+2025-02-18 05:06:18 - Job completed
+2025-02-19 05:00:01 - Starting stat_type_update job
+2025-02-19 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-19 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/02/19 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/02/19 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/02/19 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/02/19 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/02/19 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/02/19 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+25/02/19 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
+25/02/19 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1][Stage 2:>    (0 + 1) / 1][Stage 3:>    (0 + 1) / 1][Stage 4:>    (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 4:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 8:>                                                      (0 + 128) / 200][Stage 8:>                                                      (1 + 128) / 200][Stage 8:==>                                                    (8 + 128) / 200][Stage 8:=====>                                                (21 + 128) / 200][Stage 8:===============>                                      (56 + 128) / 200][Stage 8:==================================>                   (127 + 73) / 200][Stage 8:===================================>                  (131 + 69) / 200][Stage 8:======================================>               (143 + 57) / 200][Stage 8:========================================>             (149 + 51) / 200][Stage 8:==============================================>       (171 + 29) / 200][Stage 8:================================================>     (181 + 19) / 200]                                                                                [Stage 9:>                  (0 + 1) / 1][Stage 10:>                 (0 + 1) / 1][Stage 9:>                                                          (0 + 1) / 1][Stage 13:=================================>                     (27 + 18) / 45]                                                                                [Stage 27:>   (0 + 1) / 1][Stage 28:>   (0 + 1) / 1][Stage 29:>   (0 + 1) / 1][Stage 27:>                 (0 + 1) / 1][Stage 29:>                 (0 + 1) / 1][Stage 27:>                                                         (0 + 1) / 1][Stage 33:>                                                     (0 + 100) / 100][Stage 33:>                                                      (1 + 99) / 100][Stage 33:=>                                                     (2 + 98) / 100][Stage 33:===>                                                   (6 + 94) / 100][Stage 33:=========================>                            (47 + 53) / 100]                                                                                Spark session created successfully.
+DataFrame 'gpspoint' Schema:
+DataFrame 'sectionals' Schema:
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-02-19 05:05:49 - Python script succeeded
+2025-02-19 05:05:49 - Job completed
+2025-02-20 05:00:01 - Starting stat_type_update job
+2025-02-20 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-20 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/02/20 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/02/20 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/02/20 05:00:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/02/20 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/02/20 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/02/20 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+25/02/20 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
+25/02/20 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>    (0 + 1) / 1][Stage 3:>    (0 + 1) / 1][Stage 4:>    (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 4:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 8:>                                                      (0 + 128) / 200][Stage 8:>                                                      (1 + 128) / 200][Stage 8:=>                                                     (6 + 128) / 200][Stage 8:===>                                                  (12 + 128) / 200][Stage 8:==================================>                   (128 + 72) / 200][Stage 8:==================================>                   (129 + 71) / 200][Stage 8:====================================>                 (134 + 66) / 200][Stage 8:==================================================>   (188 + 12) / 200]                                                                                [Stage 9:>                  (0 + 1) / 1][Stage 10:>                 (0 + 1) / 1][Stage 9:>                                                          (0 + 1) / 1][Stage 13:>                                                       (0 + 46) / 46][Stage 13:=====================================>                 (31 + 15) / 46]                                                                                [Stage 27:>   (0 + 1) / 1][Stage 28:>   (0 + 1) / 1][Stage 29:>   (0 + 1) / 1][Stage 27:>                 (0 + 1) / 1][Stage 29:>                 (0 + 1) / 1][Stage 27:>                                                         (0 + 1) / 1][Stage 33:>                                                     (0 + 100) / 100][Stage 33:===>                                                   (6 + 94) / 100][Stage 33:=========================>                            (48 + 52) / 100]                                                                                Spark session created successfully.
+DataFrame 'gpspoint' Schema:
+DataFrame 'sectionals' Schema:
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-02-20 05:06:38 - Python script succeeded
+2025-02-20 05:06:38 - Job completed
+2025-02-21 05:00:01 - Starting stat_type_update job
+2025-02-21 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-21 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/02/21 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/02/21 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/02/21 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/02/21 05:00:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/02/21 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/02/21 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+25/02/21 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
+25/02/21 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1][Stage 2:>    (0 + 1) / 1][Stage 3:>    (0 + 1) / 1][Stage 4:>    (0 + 1) / 1][Stage 3:>                  (0 + 1) / 1][Stage 4:>                  (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 8:>                                                      (0 + 128) / 200][Stage 8:=>                                                     (4 + 128) / 200][Stage 8:=>                                                     (5 + 129) / 200][Stage 8:====>                                                 (17 + 128) / 200][Stage 8:===========>                                          (42 + 128) / 200][Stage 8:==================================>                   (128 + 72) / 200][Stage 8:=======================================>              (145 + 55) / 200][Stage 8:==========================================>           (156 + 44) / 200][Stage 8:=============================================>        (168 + 32) / 200]                                                                                [Stage 9:>                  (0 + 1) / 1][Stage 10:>                 (0 + 1) / 1][Stage 9:>                                                          (0 + 1) / 1][Stage 13:=========================================>             (35 + 11) / 46]                                                                                [Stage 27:>   (0 + 1) / 1][Stage 28:>   (0 + 1) / 1][Stage 29:>   (0 + 1) / 1][Stage 27:>                 (0 + 1) / 1][Stage 29:>                 (0 + 1) / 1][Stage 27:>                                                         (0 + 1) / 1][Stage 33:>                                                     (0 + 100) / 100][Stage 33:>                                                      (1 + 99) / 100][Stage 33:=====>                                                (11 + 89) / 100]                                                                                Spark session created successfully.
+DataFrame 'gpspoint' Schema:
+DataFrame 'sectionals' Schema:
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-02-21 05:07:07 - Python script succeeded
+2025-02-21 05:07:07 - Job completed

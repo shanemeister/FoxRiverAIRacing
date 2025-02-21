@@ -947,3 +947,48 @@
 2025-02-17 02:10:09 - Job completed
 2025-02-17 02:00:01 - Results: 418 files, PlusPro: 87 files, Backup: Success
 2025-02-17 02:10:09 - Job completed
+2025-02-18 02:00:01 - Starting ingestion job
+2025-02-18 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-18 02:00:01 - Starting download job
+2025-02-18 02:05:17 - Download job succeeded
+2025-02-18 02:05:17 - Results files downloaded: 415
+2025-02-18 02:05:17 - PlusPro files downloaded: 77
+2025-02-18 02:05:17 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-02-18 02:10:16 - Sync to S3 succeeded
+2025-02-18 02:10:16 - Job completed
+2025-02-18 02:00:01 - Results: 415 files, PlusPro: 77 files, Backup: Success
+2025-02-18 02:10:16 - Job completed
+2025-02-19 02:00:01 - Starting ingestion job
+2025-02-19 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-19 02:00:01 - Starting download job
+2025-02-19 02:05:02 - Download job succeeded
+2025-02-19 02:05:02 - Results files downloaded: 404
+2025-02-19 02:05:02 - PlusPro files downloaded: 64
+2025-02-19 02:05:02 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-02-19 02:10:54 - Sync to S3 succeeded
+2025-02-19 02:10:54 - Job completed
+2025-02-19 02:00:01 - Results: 404 files, PlusPro: 64 files, Backup: Success
+2025-02-19 02:10:54 - Job completed
+2025-02-20 02:00:01 - Starting ingestion job
+2025-02-20 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-20 02:00:01 - Starting download job
+2025-02-20 02:04:48 - Download job succeeded
+2025-02-20 02:04:48 - Results files downloaded: 399
+2025-02-20 02:04:48 - PlusPro files downloaded: 63
+2025-02-20 02:04:48 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+fatal error: Could not connect to the endpoint URL: "https://rshane.s3.us-east-1.amazonaws.com/?list-type=2&prefix=FoxRiverAIRacing%2Fdata%2F&continuation-token=1RDpl1eYepApJTu2%2BZowZFa0wBY8QaPNju%2Bwpn4KQQysEkiqTC%2FEAYo9NUMSNaHLx8oZ6WsHLluT2jYFesxiKQMrhrpEO9lb1&encoding-type=url"
+2025-02-20 02:06:40 - Sync to S3 failed
+2025-02-20 02:06:40 - Job completed
+2025-02-20 02:00:01 - Results: 399 files, PlusPro: 63 files, Backup: Failed
+2025-02-20 02:06:40 - Job completed
+2025-02-21 02:00:01 - Starting ingestion job
+2025-02-21 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-21 02:00:01 - Starting download job
+2025-02-21 02:05:03 - Download job succeeded
+2025-02-21 02:05:03 - Results files downloaded: 395
+2025-02-21 02:05:03 - PlusPro files downloaded: 74
+2025-02-21 02:05:03 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-02-21 02:12:18 - Sync to S3 succeeded
+2025-02-21 02:12:18 - Job completed
+2025-02-21 02:00:01 - Results: 395 files, PlusPro: 74 files, Backup: Success
+2025-02-21 02:12:18 - Job completed

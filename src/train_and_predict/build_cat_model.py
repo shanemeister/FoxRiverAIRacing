@@ -2,10 +2,12 @@ import io
 import json
 import os
 import logging
-import datetime
+from datetime import datetime
 import pandas as pd
 import numpy as np
 import optuna
+from pyspark.sql.types import TimestampType
+from pyspark.sql.functions import col
 from catboost import CatBoostRanker, Pool, CatBoostError
 from sklearn.metrics import ndcg_score
 from src.data_preprocessing.data_prep1.data_utils import save_parquet
@@ -14,10 +16,11 @@ from src.train_and_predict.final_predictions import main_inference
 ###############################################################################
 # Helper function to get a timestamp for filenames
 ###############################################################################
+
+
+
 def get_timestamp():
-    return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-
-
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
 ###############################################################################
 # Helper function: The Optuna objective for ranking
 ###############################################################################
@@ -30,60 +33,60 @@ def objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, 
     """
     # Log trial info
     logging.info(f"Starting Optuna Trial {trial.number}: {catboost_loss_functions}, Metric: {eval_metric}")
-    # params = {
-    #     "loss_function": catboost_loss_functions,
-    #     "eval_metric": eval_metric,
-    #     "task_type": "GPU",
-    #     "devices": "0,1",
-
-    #     # Let’s allow 1000..3000, step=100
-    #     "iterations": trial.suggest_int("iterations", 1000, 3000, step=100),
-
-    #     # Depth from 5..10 (a bit wider than 5..9)
-    #     "depth": trial.suggest_int("depth", 5, 10),
-
-    #     # Expand learning_rate range significantly, from ~1e-4 up to 0.3
-    #     # Use log=True so it can zoom in effectively
-    #     "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.3, log=True),
-
-    #     # Keep 1..10 for l2_leaf_reg
-    #     "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
-
-    #     # Let’s add “SymmetricTree” if you want that as well
-    #     "grow_policy": trial.suggest_categorical(
-    #         "grow_policy",
-    #         ["Depthwise", "Lossguide", "SymmetricTree"]
-    #     ),
-
-    #     # Expand random_strength range
-    #     "random_strength": trial.suggest_float("random_strength", 1.0, 8.0),
-
-    #     # Widen min_data_in_leaf to 1..20 (previously 5..15)
-    #     "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 1, 20),
-
-    #     "random_seed": 42,
-    #     "verbose": 50,
-    #     "early_stopping_rounds": 50,
-    #     "allow_writing_files": False
-    # }
-    # Suggest hyperparameters
     params = {
         "loss_function": catboost_loss_functions,
         "eval_metric": eval_metric,
         "task_type": "GPU",
         "devices": "0,1",
-        "iterations": trial.suggest_int("iterations", 1500, 2100, step=100),
-        "depth": trial.suggest_int("depth", 5, 9),
-        "learning_rate": trial.suggest_float("learning_rate", 0.15, 0.3, log=True),
+
+        # Let’s allow 1000..3000, step=100
+        "iterations": trial.suggest_int("iterations", 1000, 3000, step=100),
+
+        # Depth from 5..10 (a bit wider than 5..9)
+        "depth": trial.suggest_int("depth", 5, 10),
+
+        # Expand learning_rate range significantly, from ~1e-4 up to 0.3
+        # Use log=True so it can zoom in effectively
+        "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.3, log=True),
+
+        # Keep 1..10 for l2_leaf_reg
         "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
-        "grow_policy": trial.suggest_categorical("grow_policy", ["Depthwise", "Lossguide"]),
-        "random_strength": trial.suggest_float("random_strength", 2.0, 4.0),
-        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 5, 15),
+
+        # Let’s add “SymmetricTree” if you want that as well
+        "grow_policy": trial.suggest_categorical(
+            "grow_policy",
+            ["Depthwise", "Lossguide", "SymmetricTree"]
+        ),
+
+        # Expand random_strength range
+        "random_strength": trial.suggest_float("random_strength", 1.0, 8.0),
+
+        # Widen min_data_in_leaf to 1..20 (previously 5..15)
+        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 1, 20),
+
         "random_seed": 42,
         "verbose": 50,
-        "early_stopping_rounds": 100,
+        "early_stopping_rounds": 50,
         "allow_writing_files": False
     }
+    # Suggest hyperparameters
+    # params = {
+    #     "loss_function": catboost_loss_functions,
+    #     "eval_metric": eval_metric,
+    #     "task_type": "GPU",
+    #     "devices": "0,1",
+    #     "iterations": trial.suggest_int("iterations", 1500, 2100, step=100),
+    #     "depth": trial.suggest_int("depth", 5, 9),
+    #     "learning_rate": trial.suggest_float("learning_rate", 0.15, 0.3, log=True),
+    #     "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
+    #     "grow_policy": trial.suggest_categorical("grow_policy", ["Depthwise", "Lossguide"]),
+    #     "random_strength": trial.suggest_float("random_strength", 2.0, 4.0),
+    #     "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 5, 15),
+    #     "random_seed": 42,
+    #     "verbose": 50,
+    #     "early_stopping_rounds": 100,
+    #     "allow_writing_files": False
+    # }
 
     # Build and train the model
     model = CatBoostRanker(**params)
@@ -99,7 +102,7 @@ def objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, 
         # fallback if no 'validation' key
         true_vals = y_valid.reshape(1, -1)
         pred_vals = val_preds.reshape(1, -1)
-        valid_ndcg_k = ndcg_score(true_vals, pred_vals, k=4)
+        valid_ndcg_k = ndcg_score(true_vals, pred_vals, k=1)
 
     return valid_ndcg_k
 
@@ -455,12 +458,22 @@ def main_script(
     logging.info("=== Done training & evaluating all models ===")
     return all_models
     
-def split_data_and_train(df, label_col, cat_cols, embed_cols, excluded_cols, jdbc_url, jdbc_properties, spark):
+def split_data_and_train(
+    df, 
+    label_col, 
+    cat_cols,  # if you're excluding cats entirely, you can skip these
+    embed_cols,
+    excluded_cols,
+    jdbc_url, 
+    jdbc_properties, 
+    spark
+):
     """
-    Splits the data into train/valid/holdout, builds CatBoost Pools, and calls main_script(...).
+    Splits the data into train/valid/holdout, 
+    builds a minimal CatBoost Pools, and calls main_script(...).
     """
-    # Split data into train/valid/holdout
-    # Splits
+
+    # 1) Do NOT drop race_date, horse_id, group_id yet—split on the original df
     train_end_date = pd.to_datetime("2023-12-31")
     valid_data_end_date = pd.to_datetime("2024-06-30")
     holdout_start = pd.to_datetime("2024-07-01")
@@ -469,67 +482,70 @@ def split_data_and_train(df, label_col, cat_cols, embed_cols, excluded_cols, jdb
     valid_data = df[(df["race_date"] > train_end_date) & (df["race_date"] <= valid_data_end_date)].copy()
     holdout_data = df[df["race_date"] >= holdout_start].copy()
 
-    # Verify uniqueness of horse_id and group_id combination
+    # 2) Uniqueness check
     def check_combination_uniqueness(data, data_name):
         combination_unique = data[["horse_id", "group_id"]].drop_duplicates().shape[0] == data.shape[0]
         logging.info(f"{data_name} - horse_id and group_id combination unique: {combination_unique}")
         if not combination_unique:
-            logging.info(f"Duplicate horse_id and group_id combination in {data_name}:")
-            logging.info(data[data.duplicated(subset=["horse_id", "group_id"], keep=False)])
+            logging.info(f"Duplicate horse_id+group_id in {data_name}:")
+            logging.info(data[data.duplicated(["horse_id", "group_id"], keep=False)])
 
     check_combination_uniqueness(train_data, "train_data")
     check_combination_uniqueness(valid_data, "valid_data")
     check_combination_uniqueness(holdout_data, "holdout_data")
 
-    # Build the final feature list
-    all_cols = df.columns.tolist()
-    # Exclude text columns + label col
-    base_feature_cols = [c for c in all_cols if c not in excluded_cols]
-    # Force-include cat_cols + embed_cols
-    final_feature_cols = list(set(base_feature_cols + cat_cols + embed_cols))
-    final_feature_cols.sort()
+    # 3) Hardcode or load your numeric+embedding final features
+    final_feature_cols = ['avgspd', 'prev_race_date_numeric','avg_dist_bk_gate1_5','dist_penalty', 'gps_present', 'trainer_itm_track', 'net_sentiment', 
+                          'percentile_score', 'dam_roi', 'distance_meters', 'jt_itm_percent', 'sire_roi', 'combined_3', 'morn_odds', 'avg_speed_5', 
+                          'avg_workout_rank_3', 'jock_win_percent', 'trainer_win_percent', 'avg_strfreq_q1_5', 'cond_show', 'avg_dist_bk_gate4_5', 
+                          'standardized_score', 'all_starts', 'raw_performance_score', 'weight', 'jock_win_track', 'avg_dist_bk_gate2_5', 'jock_itm_track', 
+                          'count_workouts_3', 'par_time', 'sire_itm_percentage', 'cond_starts', 'normalized_score', 'speed_improvement', 'ave_cl_sd', 
+                          'all_earnings', 'best_speed', 'official_distance', 'jt_win_percent', 'all_show', 'cond_fourth', 'base_speed', 'hi_spd_sd', 
+                          'has_gps', 'avg_beaten_len_5', 'wide_factor', 'avg_dist_bk_gate3_5', 'total_races_5', 'days_off', 'class_multiplier', 'all_fourth', 
+                          'starts', 'age_at_race_day', 'trainer_itm_percent', 'class_rating_numeric', 'cond_win', 'avg_speed_fullrace_5', 'purse', 'all_win', 'as_of_date', 
+                          'avg_spd_sd', 'combined_0', 'trainer_win_track', 'avg_fin_5', 'prev_speed_rating', 'combined_2', 'avg_stride_length_5', 'avg_strfreq_q2_5', 
+                          'jt_win_track', 'class_offset', 'horse_itm_percentage', 'jt_itm_track', 'speed_rating', 'jock_itm_percent', 'avg_strfreq_q3_5', 'pstyerl', 
+                          'all_place', 'combined_1', 'avg_strfreq_q4_5', 'power', 'previous_class', 'race_count', 'prev_speed', 'claimprice', 'first_race_date_5_numeric', 
+                          'off_finish_last_race', 'cond_place', 'most_recent_race_5_numeric', 'previous_distance', 'par_diff_ratio', 'class_rating', 'recent_avg_speed', 
+                          'combined_4', 'dam_itm_percentage', 'cond_earnings',"running_time","dist_bk_gate4","total_distance_ran","pace_delta_time","time_behind"]
 
-    logging.info(f"Final feature columns for training:\n{final_feature_cols}")
 
-    # Saving the final feature columns to a file so I can make sure inference uses the same columns in the same order
-    with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols.json", "w") as f:
+    # 4) Save them to JSON if needed
+    now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_{now_str}.json"
+    with open(filename, "w") as f:
         json.dump(final_feature_cols, f)
-    logging.info("Saved final_feature_cols to final_feature_cols.json")
 
-    # Build X,y for train
+    # 5) Build X,y for each split, referencing final_feature_cols
     X_train = train_data[final_feature_cols].copy()
     y_train = train_data[label_col].values
     train_group_id = train_data["group_id"].values
 
-    # Build X,y for valid
     X_valid = valid_data[final_feature_cols].copy()
     y_valid = valid_data[label_col].values
     valid_group_id = valid_data["group_id"].values
 
-    # Build X,y for holdout
     X_holdout = holdout_data[final_feature_cols].copy()
     y_holdout = holdout_data[label_col].values
     holdout_group_id = holdout_data["group_id"].values
 
-    cat_features_in_data = [c for c in X_train.columns if X_train[c].dtype == "category"]
-   
-    # Build CatBoost Pools
-    train_pool = Pool(X_train, label=y_train, group_id=train_group_id, cat_features=cat_features_in_data)
-    valid_pool = Pool(X_valid, label=y_valid, group_id=valid_group_id, cat_features=cat_features_in_data)
-    holdout_pool = Pool(X_holdout, label=y_holdout, group_id=holdout_group_id, cat_features=cat_features_in_data)
+    # 6) Build Pools
+    # If no cat features, cat_features=[] or omit
+    train_pool = Pool(X_train, label=y_train, group_id=train_group_id)
+    valid_pool = Pool(X_valid, label=y_valid, group_id=valid_group_id)
+    holdout_pool = Pool(X_holdout, label=y_holdout, group_id=holdout_group_id)
 
+    # 7) minimal catboost training
     catboost_loss_functions = [
         "YetiRank:top=1",
         "YetiRank:top=2",
         "YetiRank:top=3",
         "YetiRank:top=4",
-        "YetiRankPairwise"
+        "QueryRMSE"
     ]
     catboost_eval_metrics = ["NDCG:top=1", "NDCG:top=2", "NDCG:top=3", "NDCG:top=4"]
 
-    # single final table
     db_table = "catboost_enriched_results"
-
     all_models = main_script(
         spark,
         X_train, y_train, train_pool,
@@ -543,13 +559,20 @@ def split_data_and_train(df, label_col, cat_cols, embed_cols, excluded_cols, jdb
         db_table=db_table
     )
 
-    # Save all_models
-    save_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/all_models.json"
-    with open(save_path, "w") as fp:
-        json.dump(all_models, fp, indent=2)
-    print(f"Saved all_models to {save_path}")
+    # 3) Save final_feature_cols with a timestamp to avoid overwriting
+    now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    outpath = f"/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_{now_str}.json"
+    with open(outpath, "w") as fp:
+        json.dump(final_feature_cols, fp)
+    logging.info(f"Saved final_feature_cols to {outpath}")
 
-    print("Done building and evaluating CatBoost models.")
+    # # Save
+    # save_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/all_models.json"
+    # with open(save_path, "w") as fp:
+    #     json.dump(all_models, fp, indent=2)
+    # print(f"Saved all_models to {save_path}")
+
+    print("Done building minimal CatBoost model.")
     return all_models
 
 ###############################################################################
@@ -557,31 +580,27 @@ def split_data_and_train(df, label_col, cat_cols, embed_cols, excluded_cols, jdb
 ###############################################################################
 def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action):
     
-    date_columns = ['date_of_birth', 'first_race_date_5', 'most_recent_race_5', 'prev_race_date']
-    for cols in date_columns:
-        horse_embedding[cols] = pd.to_datetime(horse_embedding[col], errors='coerce').astype('datetime64[ns]')
-    
-    input("Press Enter to continue...")
-    
-    horse_embedding = horse_embedding.toPandas()
-    
-    input("Press Enter to continue...2")
+    print("DEBUG: datetime is =>", datetime)
+    input("Press Enter to continue and begin step 4...")
+        
     # Then use Pandas boolean indexing
     historical_pdf = horse_embedding[horse_embedding["data_flag"] != "future"].copy()
     future_pdf = horse_embedding[horse_embedding["data_flag"] == "future"].copy()
-
+    
     # Transform the Spark DataFrame to Pandas.
     if action == "train":
         hist_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_pdf, drop_label=False)
         logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
-        # Add the combined feature columns:
-        hist_pdf = add_combined_feature(hist_pdf)
-        # Optionally, update your embed_cols list to use the new combined features.
+        
+        hist_pdf = assign_piecewise_log_labels(hist_pdf)
+        logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
+        
+        # Update your embed_cols list to use the new combined features.
         embed_cols = [f"combined_{i}" for i in range(5)]
-                
+        
         split_data_and_train(
             hist_pdf,
-            label_col="official_fin",
+            label_col="relevance",
             cat_cols=cat_cols,
             embed_cols=embed_cols,
             excluded_cols=excluded_cols,
@@ -593,31 +612,28 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
     elif action == "predict":
         fut_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(future_pdf, drop_label=True)
         logging.info(f"Shape of future Pandas DF: {fut_pdf.shape}")
-        fut_pdf = add_combined_feature(fut_pdf)
-        main_inference(spark, fut_pdf, cat_cols, excluded_cols, jdbc_url, jdbc_properties)
+        
+        # Typically no official_fin => can’t create relevance
+        embed_cols = [f"combined_{i}" for i in range(5)]
+        
+        # Then call your inference function:
+        main_inference(
+            spark=spark,
+            cat_cols=cat_cols,
+            excluded_cols=excluded_cols,
+            fut_pdf=fut_pdf,
+            jdbc_url=jdbc_url,
+            jdbc_properties=jdbc_properties
+        )
     else:
         logging.info("Invalid action. Please select 'train' or 'predict'.")
 
-def add_combined_feature(pdf):
-    """
-    Given a Pandas DataFrame `pdf` that contains the horse embedding columns (e.g., embed_0..embed_3)
-    and a global_speed_score column, create new columns that represent the simple concatenation:
-      [embed_0, embed_1, embed_2, embed_3, global_speed_score]
-    and add them to the DataFrame.
-    """
-    embed_cols = [f"combined_{i}" for i in range(5)]
-    # Create a new column that is a list of the 4 embedding values concatenated with global_speed_score.
-    combined = pdf.apply(lambda row: [row[c] for c in embed_cols] + [row["global_speed_score"]], axis=1)
-    # Expand the list into separate columns:
-    combined_df = pd.DataFrame(combined.tolist(), columns=[f"combined_{i}" for i in range(5)])
-    # Concatenate these new columns to the original DataFrame.
-    pdf = pd.concat([pdf.reset_index(drop=True), combined_df], axis=1)
-    return pdf
+    return horse_embedding
 
 def transform_horse_df_to_pandas(pdf_df, drop_label=False):
     """
     1) Convert df_spark to Pandas.
-    2) 'official_fin' replace perf_target so do not delete it but make it excluded_col.
+    2) 'official_fin' Transform the Label to “Bigger = Better” log-based or exponential-based formula to positions ≥ 5 to make them much less relevant
     3) Create race_id, group_id, convert date columns, etc.
     4) Return the transformed Pandas DataFrame.
     """
@@ -638,7 +654,7 @@ def transform_horse_df_to_pandas(pdf_df, drop_label=False):
     #Create group_id and sort ascending
     pdf["group_id"] = pdf["race_id"].astype("category").cat.codes
     pdf = pdf.sort_values("group_id", ascending=True).reset_index(drop=True)
-
+    
     # Convert selected datetime columns to numeric
     datetime_columns = ["first_race_date_5", "most_recent_race_5", "prev_race_date"]
     new_numeric_cols = {}
@@ -652,13 +668,15 @@ def transform_horse_df_to_pandas(pdf_df, drop_label=False):
     # Convert main race_date to datetime
     pdf["race_date"] = pd.to_datetime(pdf["race_date"])
 
-    # Make certain columns categorical
-    cat_cols = ["course_cd", "trk_cond", "sex", "equip", "surface", "med",
-                "race_type", "stk_clm_md", "turf_mud_mark", "layoff_cat","previous_surface"]
+    # # Make certain columns categorical
+    # cat_cols = ["course_cd", "trk_cond", "sex", "equip", "surface", "med",
+    #             "race_type", "stk_clm_md", "turf_mud_mark", "layoff_cat","previous_surface"]
+    cat_cols = []
     
     excluded_cols = [
         "axciskey",         # Raw identifier
         "official_fin",     # Target column
+        "relevance", 
         "horse_id",         # Original horse ID (we use the mapped horse_idx instead)
         "horse_name",       # Not used for prediction
         "race_date",        # Raw date; if not engineered further
@@ -666,22 +684,40 @@ def transform_horse_df_to_pandas(pdf_df, drop_label=False):
         "saddle_cloth_number",  # Race-specific identifier
         "race_id",          # Unique race identifier
         "date_of_birth",
+        "time_behind",
         "track_name",       # Metadata
         "data_flag",        # Used for filtering only
         "group_id",         # Grouping information, not a feature
-        "horse_idx_x",      # Duplicate or intermediate column from merging
-        "horse_idx_y",      # Duplicate or intermediate column
-        "embed_0",          # Raw embedding columns, if you’re using a combined feature instead
-        "embed_1",
-        "embed_2",
-        "embed_3",
-        "course_cd",        # Processed separately (e.g. via embeddings)
-        "trk_cond"          # Processed separately (e.g. via embeddings)
+        "global_speed_score",  # Processed separately (e.g. via embeddings
     ]
 
     # Convert to categorical data type
-    for c in cat_cols:
-        if c in pdf.columns:
-            pdf[c] = pdf[c].astype("category")      
-    # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
+    # for c in cat_cols:
+    #     if c in pdf.columns:
+    #         pdf[c] = pdf[c].astype("category")      
+    # # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
     return pdf, cat_cols, excluded_cols
+
+def assign_piecewise_log_labels(df):
+    """
+    If official_fin <= 4, assign them to a high relevance band (with small differences).
+    Otherwise, use a log-based formula that drops more sharply.
+    """
+    def _relevance(fin):
+        if fin == 1:
+            return 40  # Could be 40 for 1st
+        elif fin == 2:
+            return 38  # Slightly lower than 1st, but still high
+        elif fin == 3:
+            return 36
+        elif fin == 4:
+            return 34
+        else:
+            # For 5th place or worse, drop off fast with a log formula:
+            # e.g. alpha=30, beta=4 => 5th => 30 / log(4+5)=30/log(9)= ~9
+            alpha = 30.0
+            beta  = 4.0
+            return alpha / np.log(beta + fin)
+    
+    df["relevance"] = df["official_fin"].apply(_relevance)
+    return df

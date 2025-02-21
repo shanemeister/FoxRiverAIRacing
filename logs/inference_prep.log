@@ -1,24 +1,42 @@
-2025-02-17 13:32:45 - INFO - Logging has been set up successfully.
-2025-02-17 13:32:45 - INFO - Starting main function...
-2025-02-17 13:32:45 - INFO - Mode: train
-2025-02-17 13:34:59 - INFO - Number of horses: 52143
-2025-02-17 13:34:59 - INFO - Number of numeric features: 38
-2025-02-17 13:34:59 - INFO - Entering final-model-building block.
-2025-02-17 13:34:59 - INFO - CSV file found at: optuna_study_results.csv
-2025-02-17 13:34:59 - INFO - CSV file loaded successfully. DataFrame shape: (100, 10)
-2025-02-17 13:34:59 - INFO - Best parameters found by Optuna:
-2025-02-17 13:34:59 - INFO - {'number': 24, 'value': 1.9650384187698364, 'datetime_start': '2025-02-16 14:18:23.134047', 'datetime_complete': '2025-02-16 14:19:38.856558', 'duration': '0 days 00:01:15.722511', 'params_feature_set': 'all_features', 'params_learning_rate': 0.001605835112037, 'params_n_hidden_layers': 3, 'params_units_per_layer': 350, 'state': 'COMPLETE'}
-2025-02-17 13:44:31 - INFO - Writing horse embeddings to table: horse_embedding
-2025-02-17 13:44:33 - INFO - Embeddings saved to DB table 'horse_embedding'.
-2025-02-17 13:44:33 - INFO - Saving horse_embedding_data-20250217_1344 DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250217_1344.parquet...
-2025-02-17 13:44:33 - INFO - Schema of horse_embedding_data-20250217_1344 DataFrame:
-2025-02-17 13:44:35 - INFO - horse_embedding_data-20250217_1344 DataFrame saved successfully.
-2025-02-17 13:44:35 - INFO - Final merged DataFrame saved as Parquet: horse_embedding_data-20250217_1344
-2025-02-17 13:44:35 - INFO - *** Horse embedding job completed successfully ***
-2025-02-17 13:44:35 - INFO - Loading Parquet file from: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250217_1344.parquet
-2025-02-17 13:44:36 - INFO - Schema of reloaded DataFrame from: horse_embedding_data-20250217_1344:
-2025-02-17 13:44:36 - INFO - Horse embedding took 710.3104381561279 to complete.
-2025-02-17 13:47:11 - INFO - Starting build_catboost_model: Training CatBoost Models -- 20 total
-2025-02-17 13:47:11 - ERROR - An error occurred: name 'col' is not defined
-2025-02-17 13:47:11 - INFO - Spark session stopped.
-2025-02-17 13:47:11 - INFO - Closing down clientserver connection
+2025-02-20 20:53:32 - INFO - Logging has been set up successfully.
+2025-02-20 20:53:32 - INFO - Starting main function...
+2025-02-20 20:53:32 - INFO - Mode: predict
+2025-02-20 20:53:33 - INFO - Starting build_catboost_model: Training CatBoost Models -- 20 total
+2025-02-20 20:53:36 - INFO - Shape of future Pandas DF: (3356, 126)
+2025-02-20 20:53:36 - INFO - Found these CatBoost model files:
+2025-02-20 20:53:36 - INFO -   catboost_QueryRMSE_NDCG:top=2_20250220_192803.cbm
+2025-02-20 20:53:36 - INFO -   catboost_QueryRMSE_NDCG:top=3_20250220_193744.cbm
+2025-02-20 20:53:36 - INFO -   catboost_QueryRMSE_NDCG:top=4_20250220_194629.cbm
+2025-02-20 20:53:36 - INFO -   catboost_YetiRank:top=1_NDCG:top=1_20250220_160539.cbm
+2025-02-20 20:53:36 - INFO -   catboost_YetiRank:top=1_NDCG:top=3_20250220_163234.cbm
+2025-02-20 20:53:36 - INFO -   catboost_YetiRank:top=2_NDCG:top=2_20250220_170644.cbm
+2025-02-20 20:53:36 - INFO -   catboost_YetiRank:top=2_NDCG:top=3_20250220_172115.cbm
+2025-02-20 20:53:36 - INFO -   catboost_YetiRank:top=2_NDCG:top=4_20250220_173423.cbm
+2025-02-20 20:53:36 - INFO -   catboost_YetiRank:top=4_NDCG:top=3_20250220_185841.cbm
+2025-02-20 20:53:36 - INFO -   catboost_YetiRank:top=4_NDCG:top=4_20250220_191223.cbm
+2025-02-20 20:53:36 - INFO - Making predictions with model: catboost_QueryRMSE_NDCG:top=2_20250220_192803.cbm
+2025-02-20 20:53:39 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=2_20250220_192803.cbm
+2025-02-20 20:53:39 - INFO - Making predictions with model: catboost_QueryRMSE_NDCG:top=3_20250220_193744.cbm
+2025-02-20 20:53:40 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=3_20250220_193744.cbm
+2025-02-20 20:53:40 - INFO - Making predictions with model: catboost_QueryRMSE_NDCG:top=4_20250220_194629.cbm
+2025-02-20 20:53:41 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=4_20250220_194629.cbm
+2025-02-20 20:53:41 - INFO - Making predictions with model: catboost_YetiRank:top=1_NDCG:top=1_20250220_160539.cbm
+2025-02-20 20:53:41 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=1_20250220_160539.cbm
+2025-02-20 20:53:41 - INFO - Making predictions with model: catboost_YetiRank:top=1_NDCG:top=3_20250220_163234.cbm
+2025-02-20 20:53:42 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=1_NDCG:top=3_20250220_163234.cbm
+2025-02-20 20:53:42 - INFO - Making predictions with model: catboost_YetiRank:top=2_NDCG:top=2_20250220_170644.cbm
+2025-02-20 20:53:43 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=2_20250220_170644.cbm
+2025-02-20 20:53:43 - INFO - Making predictions with model: catboost_YetiRank:top=2_NDCG:top=3_20250220_172115.cbm
+2025-02-20 20:53:43 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=3_20250220_172115.cbm
+2025-02-20 20:53:43 - INFO - Making predictions with model: catboost_YetiRank:top=2_NDCG:top=4_20250220_173423.cbm
+2025-02-20 20:53:44 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=2_NDCG:top=4_20250220_173423.cbm
+2025-02-20 20:53:44 - INFO - Making predictions with model: catboost_YetiRank:top=4_NDCG:top=3_20250220_185841.cbm
+2025-02-20 20:53:45 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=3_20250220_185841.cbm
+2025-02-20 20:53:45 - INFO - Making predictions with model: catboost_YetiRank:top=4_NDCG:top=4_20250220_191223.cbm
+2025-02-20 20:53:45 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=4_NDCG:top=4_20250220_191223.cbm
+2025-02-20 20:53:48 - INFO - Writing predictions to DB table: predictions_2025_02_20_1
+2025-02-20 20:53:50 - INFO - Appended 3356 predictions to DB table 'predictions_2025_02_20_1'.
+2025-02-20 20:53:50 - INFO - Inference complete.
+2025-02-20 20:53:50 - INFO - Training 20 Catboost models Horse embedding took 17.850388765335083 to complete.
+2025-02-20 20:53:51 - INFO - Spark session stopped.
+2025-02-20 20:53:51 - INFO - Closing down clientserver connection

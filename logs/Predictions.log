@@ -1,0 +1,3 @@
+2025-02-20 21:48:22 - INFO - Logging initialized.
+2025-02-20 21:48:22 - INFO - No password in config; relying on .pgpass or other method.
+2025-02-20 21:48:22 - INFO - Connection pool created successfully.

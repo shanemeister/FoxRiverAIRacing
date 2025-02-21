@@ -3,8 +3,7 @@ def sql_queries():
     queries = {
         "training_data": 
         """
-          WITH historical_data AS (
-                SELECT
+        SELECT
                 r2.axciskey AS axciskey,
                 UPPER(TRIM(r.course_cd)) AS course_cd,
                 r.race_date AS race_date,
@@ -102,385 +101,177 @@ def sql_queries():
                 hrf.count_workouts_3 AS count_workouts_3,
                 r2.race_count AS race_count,
                 c.track_name AS track_name,
-                CASE WHEN (hrf.avg_speed_5 IS NOT NULL AND hrf.best_speed IS NOT NULL AND hrf.avg_beaten_len_5 IS NOT NULL AND hrf.first_race_date_5 IS NOT NULL AND hrf.most_recent_race_5 IS NOT NULL AND hrf.avg_dist_bk_gate1_5 IS NOT NULL AND hrf.avg_dist_bk_gate2_5 IS NOT NULL AND hrf.avg_dist_bk_gate3_5 IS NOT NULL AND hrf.avg_dist_bk_gate4_5 IS NOT NULL AND hrf.avg_speed_fullrace_5 IS NOT NULL AND hrf.avg_stride_length_5 IS NOT NULL AND hrf.avg_strfreq_q1_5 IS NOT NULL AND hrf.avg_strfreq_q2_5 IS NOT NULL AND hrf.avg_strfreq_q3_5 IS NOT NULL AND hrf.avg_strfreq_q4_5 IS NOT NULL AND hrf.prev_speed IS NOT NULL AND hrf.speed_improvement IS NOT NULL) THEN 1 ELSE 0 END AS has_gps,
-                'historical' AS data_flag
-                FROM races r
-                JOIN runners r2 ON r.course_cd=r2.course_cd AND r.race_date=r2.race_date AND r.race_number=r2.race_number
-                JOIN results_entries re ON r2.course_cd=re.course_cd AND r2.race_date=re.race_date AND r2.race_number=re.race_number AND r2.saddle_cloth_number=re.program_num AND r2.axciskey=re.axciskey
-                JOIN horse h ON r2.axciskey=h.axciskey
-                JOIN LATERAL(
-                SELECT h2.* FROM horse_form_agg h2 WHERE h2.horse_id=h.horse_id AND h2.as_of_date<=r.race_date ORDER BY h2.as_of_date DESC LIMIT 1
-                ) hrf ON true
-                JOIN stat_sire s ON h.axciskey=s.axciskey AND s.type='LIFETIME'
-                JOIN stat_dam d ON h.axciskey=d.axciskey AND d.type='LIFETIME'
-                JOIN sectionals_aggregated sa ON re.course_cd=sa.course_cd AND re.race_date=sa.race_date AND re.race_number=sa.race_number AND re.program_num=sa.saddle_cloth_number
-                JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey AND has_all.stat_type='ALL_RACES' AND has_all.as_of_date=(SELECT MAX(a2.as_of_date) FROM horse_accum_stats a2 WHERE a2.axciskey=r2.axciskey AND a2.stat_type='ALL_RACES' AND a2.as_of_date<=r.race_date)
-                LEFT JOIN horse_accum_stats has_cond ON has_cond.axciskey=r2.axciskey AND has_cond.stat_type=CASE WHEN r.surface='D' AND r.trk_cond='MY' AND r.distance_meters<=1409 THEN 'MUDDY_SPRNT' WHEN r.surface='D' AND r.trk_cond='MY' AND r.distance_meters>=1409 THEN 'MUDDY_RTE' WHEN r.surface='D' AND r.distance_meters<=1409 THEN 'DIRT_SPRNT' WHEN r.surface='D' AND r.distance_meters>1409 THEN 'DIRT_RTE' WHEN r.surface='T' AND r.distance_meters<=1409 THEN 'TURF_SPRNT' WHEN r.surface='T' AND r.distance_meters>1409 THEN 'TURF_RTE' WHEN r.surface='A' AND r.distance_meters<=1409 THEN 'ALL_WEATHER_SPRNT' WHEN r.surface='A' AND r.distance_meters>1409 THEN 'ALL_WEATHER_RTE' WHEN r.surface='D' AND r.race_type='Allowance' AND r.distance_meters<=1409 THEN 'ALLOWANCE_SPRNT' WHEN r.surface='D' AND r.race_type='Allowance' AND r.distance_meters>1409 THEN 'ALLOWANCE_RTE' WHEN r.surface='D' AND r.race_type='Claiming' AND r.distance_meters<=1409 THEN 'CLAIMING_SPRNT' WHEN r.surface='D' AND r.race_type='Claiming' AND r.distance_meters>1409 THEN 'CLAIMING_RTE' WHEN r.surface='D' AND r.race_type='Stakes' AND r.distance_meters<=1409 THEN 'STAKES_SPRNT' WHEN r.surface='D' AND r.race_type='Stakes' AND r.distance_meters>1409 THEN 'STAKES_RTE' ELSE NULL END AND has_cond.as_of_date=(SELECT MAX(a2.as_of_date) FROM horse_accum_stats a2 WHERE a2.axciskey=r2.axciskey AND a2.stat_type=CASE WHEN r.surface='D' AND r.trk_cond='MY' AND r.distance_meters<=1409 THEN 'MUDDY_SPRNT' WHEN r.surface='D' AND r.trk_cond='MY' AND r.distance_meters>=1409 THEN 'MUDDY_RTE' WHEN r.surface='D' AND r.distance_meters<=1409 THEN 'DIRT_SPRNT' WHEN r.surface='D' AND r.distance_meters>1409 THEN 'DIRT_RTE' WHEN r.surface='T' AND r.distance_meters<=1409 THEN 'TURF_SPRNT' WHEN r.surface='T' AND r.distance_meters>1409 THEN 'TURF_RTE' WHEN r.surface='A' AND r.distance_meters<=1409 THEN 'ALL_WEATHER_SPRNT' WHEN r.surface='A' AND r.distance_meters>1409 THEN 'ALL_WEATHER_RTE' WHEN r.surface='D' AND r.race_type='Allowance' AND r.distance_meters<=1409 THEN 'ALLOWANCE_SPRNT' WHEN r.surface='D' AND r.race_type='Allowance' AND r.distance_meters>1409 THEN 'ALLOWANCE_RTE' WHEN r.surface='D' AND r.race_type='Claiming' AND r.distance_meters<=1409 THEN 'CLAIMING_SPRNT' WHEN r.surface='D' AND r.race_type='Claiming' AND r.distance_meters>1409 THEN 'CLAIMING_RTE' WHEN r.surface='D' AND r.race_type='Stakes' AND r.distance_meters<=1409 THEN 'STAKES_SPRNT' WHEN r.surface='D' AND r.race_type='Stakes' AND r.distance_meters>1409 THEN 'STAKES_RTE' ELSE NULL END AND a2.as_of_date<=r.race_date)
-                LEFT JOIN jockey j ON r2.jock_key=j.jock_key
-                LEFT JOIN trainer t ON r2.train_key=t.train_key
-                LEFT JOIN jock_accum_stats jast_j ON j.jock_key=jast_j.jock_key AND jast_j.stat_type='ALL_RACES_J' AND jast_j.as_of_date=(SELECT MAX(a2.as_of_date) FROM jock_accum_stats a2 WHERE a2.jock_key=j.jock_key AND a2.stat_type='ALL_RACES_J' AND a2.as_of_date<=r.race_date)
-                LEFT JOIN trainer_accum_stats tast_t ON t.train_key=tast_t.train_key AND tast_t.stat_type='ALL_RACES_T' AND tast_t.as_of_date=(SELECT MAX(a2.as_of_date) FROM trainer_accum_stats a2 WHERE a2.train_key=t.train_key AND a2.stat_type='ALL_RACES_T' AND a2.as_of_date<=r.race_date)
-                LEFT JOIN trainer_jockey_stats tjstat ON t.train_key=tjstat.train_key AND j.jock_key=tjstat.jock_key AND tjstat.stat_type='ALL_RACES_JT' AND tjstat.as_of_date=(SELECT MAX(a2.as_of_date) FROM trainer_jockey_stats a2 WHERE a2.train_key=t.train_key AND a2.jock_key=j.jock_key AND a2.stat_type='ALL_RACES_JT' AND a2.as_of_date<=r.race_date)
-                LEFT JOIN jock_accum_stats_by_track jtrack ON j.jock_key=jtrack.jock_key AND r2.course_cd=jtrack.course_cd AND jtrack.stat_type='ALL_RACES_J_TRACK' AND jtrack.as_of_date=(SELECT MAX(a2.as_of_date) FROM jock_accum_stats_by_track a2 WHERE a2.jock_key=j.jock_key AND a2.course_cd=r2.course_cd AND a2.stat_type='ALL_RACES_J_TRACK' AND a2.as_of_date<=r.race_date)
-                LEFT JOIN trainer_accum_stats_by_track ttrack ON t.train_key=ttrack.train_key AND r2.course_cd=ttrack.course_cd AND ttrack.stat_type='ALL_RACES_T_TRACK' AND ttrack.as_of_date=(SELECT MAX(a2.as_of_date) FROM trainer_accum_stats_by_track a2 WHERE a2.train_key=t.train_key AND a2.course_cd=r2.course_cd AND a2.stat_type='ALL_RACES_T_TRACK' AND a2.as_of_date<=r.race_date)
-                LEFT JOIN jt_accum_stats_by_track jttrack ON j.jock_key=jttrack.jock_key AND t.train_key=jttrack.train_key AND r2.course_cd=jttrack.course_cd AND jttrack.stat_type='ALL_RACES_JT_TRACK' AND jttrack.as_of_date=(SELECT MAX(a2.as_of_date) FROM jt_accum_stats_by_track a2 WHERE a2.jock_key=j.jock_key AND a2.train_key=t.train_key AND a2.course_cd=r2.course_cd AND a2.stat_type='ALL_RACES_JT_TRACK' AND a2.as_of_date<=r.race_date)
-                LEFT JOIN track_conditions tc ON r.trk_cond=tc.code
-                JOIN course c ON r.course_cd=c.course_cd
-                WHERE r2.breed_type='TB'
-                AND sa.dist_bk_gate4 is not null
-                AND sa.dist_bk_gate3 is not null
-                AND r.course_cd IN('CNL','SAR','PIM','TSA','BEL','MVR','TWO','CLS','KEE','TAM','TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP','TGG','CBY','LRL','TED','IND','CTD','ASD','TCD','LAD','TOP')
-                AND r.race_date<CURRENT_DATE
-                ),
-                fut_races_only AS (
-                SELECT
-                r.course_cd,
-                r.race_date,
-                r.race_number,
-                r2.axciskey,
-                c.track_name,
-                h.horse_id,
-                h.horse_name,
-                r2.saddle_cloth_number,
-                r.surface
-                FROM races r
-                JOIN runners r2 ON r.course_cd=r2.course_cd AND r.race_date=r2.race_date AND r.race_number=r2.race_number
-                JOIN horse h ON r2.axciskey=h.axciskey
-                JOIN course c ON r.course_cd=c.course_cd
-                WHERE r.race_date>=CURRENT_DATE
-                AND r2.breed_type='TB'
-                ),
-                future_with_past AS (
-                SELECT
-                fr.axciskey,
-                fr.course_cd,
-                fr.race_date,
-                fr.race_number,
-                fr.saddle_cloth_number,
-                fr.horse_id,
-                fr.horse_name,
-                hd.official_fin,
-                hd.time_behind,
-                hd.pace_delta_time,
-                hd.running_time,
-                hd.dist_bk_gate4,
-                hd.total_distance_ran,
-                hd.speed_rating,
-                hd.prev_speed_rating,
-                hd.previous_class,
-                hd.purse,
-                hd.weight,
-                hd.date_of_birth,
-                hd.sex,
-                hd.equip,
-                hd.claimprice,
-                hd.surface,
-                hd.distance_meters,
-                hd.class_rating,
-                hd.previous_distance,
-                hd.previous_surface,
-                hd.off_finish_last_race,
-                hd.power,
-                hd.trk_cond,
-                hd.med,
-                hd.morn_odds,
-                hd.avgspd,
-                hd.starts,
-                hd.race_type,
-                hd.net_sentiment,
-                hd.stk_clm_md,
-                hd.turf_mud_mark,
-                hd.avg_spd_sd,
-                hd.ave_cl_sd,
-                hd.hi_spd_sd,
-                hd.pstyerl,
-                hd.all_starts,
-                hd.all_win,
-                hd.all_place,
-                hd.all_show,
-                hd.all_fourth,
-                hd.all_earnings,
-                hd.horse_itm_percentage,
-                hd.cond_starts,
-                hd.cond_win,
-                hd.cond_place,
-                hd.cond_show,
-                hd.cond_fourth,
-                hd.cond_earnings,
-                hd.jock_win_percent,
-                hd.jock_itm_percent,
-                hd.trainer_win_percent,
-                hd.trainer_itm_percent,
-                hd.jt_win_percent,
-                hd.jt_itm_percent,
-                hd.jock_win_track,
-                hd.jock_itm_track,
-                hd.trainer_win_track,
-                hd.trainer_itm_track,
-                hd.jt_win_track,
-                hd.jt_itm_track,
-                hd.sire_itm_percentage,
-                hd.sire_roi,
-                hd.dam_itm_percentage,
-                hd.dam_roi,
-                hd.total_races_5,
-                hd.avg_fin_5,
-                hd.avg_speed_5,
-                hd.best_speed,
-                hd.avg_beaten_len_5,
-                hd.first_race_date_5,
-                hd.most_recent_race_5,
-                hd.avg_dist_bk_gate1_5,
-                hd.avg_dist_bk_gate2_5,
-                hd.avg_dist_bk_gate3_5,
-                hd.avg_dist_bk_gate4_5,
-                hd.avg_speed_fullrace_5,
-                hd.avg_stride_length_5,
-                hd.avg_strfreq_q1_5,
-                hd.avg_strfreq_q2_5,
-                hd.avg_strfreq_q3_5,
-                hd.avg_strfreq_q4_5,
-                hd.prev_speed,
-                hd.speed_improvement,
-                hd.prev_race_date,
-                hd.days_off,
-                hd.layoff_cat,
-                hd.avg_workout_rank_3,
-                hd.count_workouts_3,
-                hd.race_count,
-                fr.track_name,
-                CASE WHEN (hd.avg_speed_5 IS NOT NULL AND hd.best_speed IS NOT NULL AND hd.avg_beaten_len_5 IS NOT NULL AND hd.first_race_date_5 IS NOT NULL AND hd.most_recent_race_5 IS NOT NULL AND hd.avg_dist_bk_gate1_5 IS NOT NULL AND hd.avg_dist_bk_gate2_5 IS NOT NULL AND hd.avg_dist_bk_gate3_5 IS NOT NULL AND hd.avg_dist_bk_gate4_5 IS NOT NULL AND hd.avg_speed_fullrace_5 IS NOT NULL AND hd.avg_stride_length_5 IS NOT NULL AND hd.avg_strfreq_q1_5 IS NOT NULL AND hd.avg_strfreq_q2_5 IS NOT NULL AND hd.avg_strfreq_q3_5 IS NOT NULL AND hd.avg_strfreq_q4_5 IS NOT NULL AND hd.prev_speed IS NOT NULL AND hd.speed_improvement IS NOT NULL) THEN 1 ELSE 0 END AS has_gps,
-                'future' AS data_flag
-                FROM fut_races_only fr
-                LEFT JOIN LATERAL(
-                SELECT hd.*
-                FROM historical_data hd
-                WHERE hd.axciskey=fr.axciskey
-                AND hd.race_date<fr.race_date
-                ORDER BY hd.race_date DESC
+                CASE 
+                    WHEN (hrf.avg_speed_5 IS NOT NULL 
+                        AND hrf.best_speed IS NOT NULL 
+                        AND hrf.avg_beaten_len_5 IS NOT NULL 
+                        AND hrf.first_race_date_5 IS NOT NULL 
+                        AND hrf.most_recent_race_5 IS NOT NULL 
+                        AND hrf.avg_dist_bk_gate1_5 IS NOT NULL 
+                        AND hrf.avg_dist_bk_gate2_5 IS NOT NULL 
+                        AND hrf.avg_dist_bk_gate3_5 IS NOT NULL 
+                        AND hrf.avg_dist_bk_gate4_5 IS NOT NULL 
+                        AND hrf.avg_speed_fullrace_5 IS NOT NULL 
+                        AND hrf.avg_stride_length_5 IS NOT NULL 
+                        AND hrf.avg_strfreq_q1_5 IS NOT NULL 
+                        AND hrf.avg_strfreq_q2_5 IS NOT NULL 
+                        AND hrf.avg_strfreq_q3_5 IS NOT NULL 
+                        AND hrf.avg_strfreq_q4_5 IS NOT NULL 
+                        AND hrf.prev_speed IS NOT NULL 
+                        AND hrf.speed_improvement IS NOT NULL) 
+                    THEN 1 ELSE 0 END AS has_gps,
+                CASE 
+                    WHEN r.race_date < CURRENT_DATE THEN 'historical'
+                ELSE 'future'
+                END AS data_flag
+            FROM races r
+            left JOIN runners r2 
+                ON r.course_cd = r2.course_cd 
+                AND r.race_date = r2.race_date 
+                AND r.race_number = r2.race_number
+            left JOIN results_entries re 
+                ON r2.course_cd = re.course_cd 
+                AND r2.race_date = re.race_date 
+                AND r2.race_number = re.race_number 
+                AND r2.saddle_cloth_number = re.program_num 
+                AND r2.axciskey = re.axciskey
+            JOIN horse h 
+                ON r2.axciskey = h.axciskey
+            LEFT JOIN LATERAL (
+                SELECT *
+                FROM horse_form_agg h2
+                WHERE h2.horse_id = h.horse_id
+                    AND CAST(h2.as_of_date AS date) <= CAST(r.race_date AS date)
+                ORDER BY CAST(h2.as_of_date AS date) DESC
                 LIMIT 1
-                ) hd ON true
-                ),
-                race_check AS (
-                SELECT
-                course_cd,
-                race_date,
-                race_number,
-                COUNT(*) AS total_horses,
-                SUM(has_gps) AS coverage_count
-                FROM future_with_past
-                GROUP BY course_cd,race_date,race_number
-                ),
-                future_filtered AS (
-                SELECT fp.*
-                FROM future_with_past fp
-                JOIN race_check rc ON fp.course_cd=rc.course_cd AND fp.race_date=rc.race_date AND fp.race_number=rc.race_number
-                WHERE rc.coverage_count=rc.total_horses
-                )
-                SELECT
-                axciskey,
-                course_cd,
-                race_date,
-                race_number,
-                saddle_cloth_number,
-                horse_id,
-                horse_name,
-                official_fin,
-                time_behind,
-                pace_delta_time,
-                running_time,
-                dist_bk_gate4,
-                total_distance_ran,
-                speed_rating,
-                prev_speed_rating,
-                previous_class,
-                purse,
-                weight,
-                date_of_birth,
-                sex,
-                equip,
-                claimprice,
-                surface,
-                distance_meters,
-                class_rating,
-                previous_distance,
-                previous_surface,
-                off_finish_last_race,
-                power,
-                trk_cond,
-                med,
-                morn_odds,
-                avgspd,
-                starts,
-                race_type,
-                net_sentiment,
-                stk_clm_md,
-                turf_mud_mark,
-                avg_spd_sd,
-                ave_cl_sd,
-                hi_spd_sd,
-                pstyerl,
-                all_starts,
-                all_win,
-                all_place,
-                all_show,
-                all_fourth,
-                all_earnings,
-                horse_itm_percentage,
-                cond_starts,
-                cond_win,
-                cond_place,
-                cond_show,
-                cond_fourth,
-                cond_earnings,
-                jock_win_percent,
-                jock_itm_percent,
-                trainer_win_percent,
-                trainer_itm_percent,
-                jt_win_percent,
-                jt_itm_percent,
-                jock_win_track,
-                jock_itm_track,
-                trainer_win_track,
-                trainer_itm_track,
-                jt_win_track,
-                jt_itm_track,
-                sire_itm_percentage,
-                sire_roi,
-                dam_itm_percentage,
-                dam_roi,
-                total_races_5,
-                avg_fin_5,
-                avg_speed_5,
-                best_speed,
-                avg_beaten_len_5,
-                first_race_date_5,
-                most_recent_race_5,
-                avg_dist_bk_gate1_5,
-                avg_dist_bk_gate2_5,
-                avg_dist_bk_gate3_5,
-                avg_dist_bk_gate4_5,
-                avg_speed_fullrace_5,
-                avg_stride_length_5,
-                avg_strfreq_q1_5,
-                avg_strfreq_q2_5,
-                avg_strfreq_q3_5,
-                avg_strfreq_q4_5,
-                prev_speed,
-                speed_improvement,
-                prev_race_date,
-                days_off,
-                layoff_cat,
-                avg_workout_rank_3,
-                count_workouts_3,
-                race_count,
-                track_name,
-                has_gps,
-                'historical' AS data_flag
-                FROM historical_data
-                UNION ALL
-                SELECT
-                axciskey,
-                course_cd,
-                race_date,
-                race_number,
-                saddle_cloth_number,
-                horse_id,
-                horse_name,
-                official_fin,
-                time_behind,
-                pace_delta_time,
-                running_time,
-                dist_bk_gate4,
-                total_distance_ran,
-                speed_rating,
-                prev_speed_rating,
-                previous_class,
-                purse,
-                weight,
-                date_of_birth,
-                sex,
-                equip,
-                claimprice,
-                surface,
-                distance_meters,
-                class_rating,
-                previous_distance,
-                previous_surface,
-                off_finish_last_race,
-                power,
-                trk_cond,
-                med,
-                morn_odds,
-                avgspd,
-                starts,
-                race_type,
-                net_sentiment,
-                stk_clm_md,
-                turf_mud_mark,
-                avg_spd_sd,
-                ave_cl_sd,
-                hi_spd_sd,
-                pstyerl,
-                all_starts,
-                all_win,
-                all_place,
-                all_show,
-                all_fourth,
-                all_earnings,
-                horse_itm_percentage,
-                cond_starts,
-                cond_win,
-                cond_place,
-                cond_show,
-                cond_fourth,
-                cond_earnings,
-                jock_win_percent,
-                jock_itm_percent,
-                trainer_win_percent,
-                trainer_itm_percent,
-                jt_win_percent,
-                jt_itm_percent,
-                jock_win_track,
-                jock_itm_track,
-                trainer_win_track,
-                trainer_itm_track,
-                jt_win_track,
-                jt_itm_track,
-                sire_itm_percentage,
-                sire_roi,
-                dam_itm_percentage,
-                dam_roi,
-                total_races_5,
-                avg_fin_5,
-                avg_speed_5,
-                best_speed,
-                avg_beaten_len_5,
-                first_race_date_5,
-                most_recent_race_5,
-                avg_dist_bk_gate1_5,
-                avg_dist_bk_gate2_5,
-                avg_dist_bk_gate3_5,
-                avg_dist_bk_gate4_5,
-                avg_speed_fullrace_5,
-                avg_stride_length_5,
-                avg_strfreq_q1_5,
-                avg_strfreq_q2_5,
-                avg_strfreq_q3_5,
-                avg_strfreq_q4_5,
-                prev_speed,
-                speed_improvement,
-                prev_race_date,
-                days_off,
-                layoff_cat,
-                avg_workout_rank_3,
-                count_workouts_3,
-                race_count,
-                track_name,
-                has_gps,
-                'future' AS data_flag
-                FROM future_filtered
-                ORDER BY race_date DESC,course_cd,race_number
+                ) hfa ON true
+            left JOIN LATERAL(
+                        SELECT h2.* 
+                        FROM horse_form_agg h2 
+                        WHERE h2.horse_id = h.horse_id 
+                        AND CAST(h2.as_of_date AS date) <= CAST(r.race_date AS date)
+                        ORDER BY CAST(h2.as_of_date AS date) DESC 
+                        LIMIT 1
+                ) hrf ON true
+            JOIN stat_sire s ON h.axciskey=s.axciskey 
+                AND s.type='LIFETIME'
+            JOIN stat_dam d ON h.axciskey=d.axciskey 
+                AND d.type='LIFETIME'            
+            left JOIN sectionals_aggregated sa ON re.course_cd=sa.course_cd 
+                AND re.race_date=sa.race_date 
+                AND re.race_number=sa.race_number 
+                AND re.program_num=sa.saddle_cloth_number
+            left JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey 
+                AND has_all.stat_type='ALL_RACES' 
+                AND has_all.as_of_date=(SELECT MAX(a2.as_of_date) 
+                                        FROM horse_accum_stats a2 
+                                        WHERE a2.axciskey=r2.axciskey 
+                                        AND a2.stat_type='ALL_RACES'
+                                        AND a2.as_of_date<=r.race_date)
+            left JOIN horse_accum_stats has_cond ON has_cond.axciskey=r2.axciskey 
+                AND has_cond.stat_type=CASE WHEN r.surface='D' 
+                AND r.trk_cond='MY' 
+                AND r.distance_meters<=1409 THEN 'MUDDY_SPRNT' 
+                        WHEN r.surface='D' AND r.trk_cond='MY' 
+                        AND r.distance_meters>=1409 THEN 'MUDDY_RTE' 
+                        WHEN r.surface='D' AND r.distance_meters<=1409 THEN 'DIRT_SPRNT' 
+                        WHEN r.surface='D' AND r.distance_meters>1409 THEN 'DIRT_RTE' 
+                        WHEN r.surface='T' AND r.distance_meters<=1409 THEN 'TURF_SPRNT' 
+                        WHEN r.surface='T' AND r.distance_meters>1409 THEN 'TURF_RTE' 
+                        WHEN r.surface='A' AND r.distance_meters<=1409 THEN 'ALL_WEATHER_SPRNT' 
+                        WHEN r.surface='A' AND r.distance_meters>1409 THEN 'ALL_WEATHER_RTE' 
+                        WHEN r.surface='D' AND r.race_type='Allowance' AND r.distance_meters<=1409 THEN 'ALLOWANCE_SPRNT'
+                        WHEN r.surface='D' AND r.race_type='Allowance' AND r.distance_meters>1409 THEN 'ALLOWANCE_RTE' 
+                        WHEN r.surface='D' AND r.race_type='Claiming' AND r.distance_meters<=1409 THEN 'CLAIMING_SPRNT' 
+                        WHEN r.surface='D' AND r.race_type='Claiming' AND r.distance_meters>1409 THEN 'CLAIMING_RTE' 
+                        WHEN r.surface='D' AND r.race_type='Stakes' AND r.distance_meters<=1409 THEN 'STAKES_SPRNT' 
+                        WHEN r.surface='D' AND r.race_type='Stakes' AND r.distance_meters>1409 THEN 'STAKES_RTE' 
+                        ELSE NULL END AND has_cond.as_of_date=(SELECT MAX(a2.as_of_date) 
+                                                                FROM horse_accum_stats a2 
+                                                                WHERE a2.axciskey=r2.axciskey 
+                                                                AND a2.stat_type=CASE WHEN r.surface='D' 
+                                                                AND r.trk_cond='MY' 
+                                                                AND r.distance_meters<=1409 THEN 'MUDDY_SPRNT' 
+                                                                WHEN r.surface='D' AND r.trk_cond='MY' 
+                                                                AND r.distance_meters>=1409 THEN 'MUDDY_RTE' 
+                                                                WHEN r.surface='D' AND r.distance_meters<=1409 
+                                                                THEN 'DIRT_SPRNT' WHEN r.surface='D' 
+                                                                AND r.distance_meters>1409 THEN 'DIRT_RTE' 
+                                                                WHEN r.surface='T' AND r.distance_meters<=1409 
+                                                                THEN 'TURF_SPRNT' WHEN r.surface='T' 
+                                                                AND r.distance_meters>1409 THEN 'TURF_RTE' 
+                                                                WHEN r.surface='A' AND r.distance_meters<=1409 
+                                                                THEN 'ALL_WEATHER_SPRNT' WHEN r.surface='A' 
+                                                                AND r.distance_meters>1409 THEN 'ALL_WEATHER_RTE' 
+                                                                WHEN r.surface='D' AND r.race_type='Allowance' 
+                                                                AND r.distance_meters<=1409 THEN 'ALLOWANCE_SPRNT' 
+                                                                WHEN r.surface='D' AND r.race_type='Allowance' 
+                                                                AND r.distance_meters>1409 THEN 'ALLOWANCE_RTE' 
+                                                                WHEN r.surface='D' AND r.race_type='Claiming' 
+                                                                AND r.distance_meters<=1409 THEN 'CLAIMING_SPRNT' 
+                                                                WHEN r.surface='D' AND r.race_type='Claiming' 
+                                                                AND r.distance_meters>1409 THEN 'CLAIMING_RTE' 
+                                                                WHEN r.surface='D' AND r.race_type='Stakes' 
+                                                                AND r.distance_meters<=1409 THEN 'STAKES_SPRNT' 
+                                                                WHEN r.surface='D' AND r.race_type='Stakes' 
+                                                                AND r.distance_meters>1409 THEN 'STAKES_RTE' 
+                                                                ELSE NULL END AND a2.as_of_date<=r.race_date)  
+            LEFT JOIN jockey j ON r2.jock_key=j.jock_key
+            LEFT JOIN trainer t ON r2.train_key=t.train_key
+            LEFT JOIN jock_accum_stats jast_j ON j.jock_key=jast_j.jock_key 
+                AND jast_j.stat_type='ALL_RACES_J' 
+                AND jast_j.as_of_date=(SELECT MAX(a2.as_of_date) 
+                                        FROM jock_accum_stats a2 
+                                        WHERE a2.jock_key=j.jock_key 
+                                        AND a2.stat_type='ALL_RACES_J'
+                                        AND a2.as_of_date<=r.race_date)
+            LEFT JOIN trainer_accum_stats tast_t ON t.train_key=tast_t.train_key 
+                AND tast_t.stat_type='ALL_RACES_T' 
+                AND tast_t.as_of_date=(SELECT MAX(a2.as_of_date) 
+                                        FROM trainer_accum_stats a2 
+                                        WHERE a2.train_key=t.train_key 
+                                        AND a2.stat_type='ALL_RACES_T' 
+                                        AND a2.as_of_date<=r.race_date)
+            LEFT JOIN trainer_jockey_stats tjstat ON t.train_key=tjstat.train_key 
+                AND j.jock_key=tjstat.jock_key AND tjstat.stat_type='ALL_RACES_JT' 
+                AND tjstat.as_of_date=(SELECT MAX(a2.as_of_date) 
+                                        FROM trainer_jockey_stats a2 
+                                        WHERE a2.train_key=t.train_key 
+                                        AND a2.jock_key=j.jock_key 
+                                        AND a2.stat_type='ALL_RACES_JT' 
+                                        AND a2.as_of_date<=r.race_date)
+            LEFT JOIN jock_accum_stats_by_track jtrack ON j.jock_key=jtrack.jock_key 
+                AND r2.course_cd=jtrack.course_cd 
+                AND jtrack.stat_type='ALL_RACES_J_TRACK' 
+                AND jtrack.as_of_date=(SELECT MAX(a2.as_of_date) 
+                                        FROM jock_accum_stats_by_track a2 
+                                        WHERE a2.jock_key=j.jock_key 
+                                        AND a2.course_cd=r2.course_cd 
+                                        AND a2.stat_type='ALL_RACES_J_TRACK' 
+                                        AND a2.as_of_date<=r.race_date)
+            LEFT JOIN trainer_accum_stats_by_track ttrack ON t.train_key=ttrack.train_key 
+                AND r2.course_cd=ttrack.course_cd 
+                AND ttrack.stat_type='ALL_RACES_T_TRACK' 
+                AND ttrack.as_of_date=(SELECT MAX(a2.as_of_date) 
+                                        FROM trainer_accum_stats_by_track a2 
+                                        WHERE a2.train_key=t.train_key 
+                                        AND a2.course_cd=r2.course_cd 
+                                        AND a2.stat_type='ALL_RACES_T_TRACK' 
+                                        AND a2.as_of_date<=r.race_date)
+            LEFT JOIN jt_accum_stats_by_track jttrack ON j.jock_key=jttrack.jock_key 
+                AND t.train_key=jttrack.train_key 
+                AND r2.course_cd=jttrack.course_cd 
+                AND jttrack.stat_type='ALL_RACES_JT_TRACK' 
+                AND jttrack.as_of_date=(SELECT MAX(a2.as_of_date) 
+                                        FROM jt_accum_stats_by_track a2 
+                                        WHERE a2.jock_key=j.jock_key 
+                                        AND a2.train_key=t.train_key 
+                                        AND a2.course_cd=r2.course_cd 
+                                        AND a2.stat_type='ALL_RACES_JT_TRACK' 
+                                        AND a2.as_of_date<=r.race_date)
+            LEFT JOIN track_conditions tc ON r.trk_cond=tc.code
+            JOIN course c ON r.course_cd=c.course_cd
+            WHERE r2.breed_type='TB'
         """
     }
     return queries

@@ -682,6 +682,34 @@ def spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties):
     elapsed = time.time() - start_time
     logging.info(f"Spark-based sectionals aggregation and write completed in {elapsed:.2f} seconds.")
 
+def add_pk_and_indexes(db_pool, output_table):
+        try:
+            if output_table == "sectionals_aggregated":    
+                ddl_statements = [
+                    f"ALTER TABLE {output_table} ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)",
+                ]
+            elif output_table == "horse_recent_form":
+                # 
+                pass
+            else:
+                logging.error(f"Unknown table name: {output_table}")
+                return
+                
+            conn = None
+            # Borrow a connection from the pool
+            conn = db_pool.getconn()
+            conn.autocommit = True
+            with conn.cursor() as cursor:
+                for ddl in ddl_statements:
+                    print(f"Executing: {ddl}")
+                    cursor.execute(ddl)
+                    # no results, just a command
+                print("DDL statements executed successfully.")            
+        except Exception as e:
+            print(f"Error executing DDL: {e}")
+        finally:
+            if conn:
+                db_pool.putconn(conn)
 def main():
     """
     Main function to:
@@ -713,6 +741,7 @@ def main():
                 conn = db_pool.getconn()
                 try:
                     spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties)
+                    add_pk_and_indexes(db_pool, "sectionals_aggregated")
                 finally:
                     db_pool.putconn(conn)
             if name == "gpspoint":
