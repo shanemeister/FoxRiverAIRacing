@@ -16,6 +16,47 @@ import scipy.stats as stats
 from src.data_preprocessing.data_prep1.data_utils import save_parquet
 from pyspark.sql import functions as F
 
+from pyspark.sql import functions as F
+from pyspark.sql.window import Window
+
+from pyspark.sql import functions as F, Window
+
+def attach_recent_speed_figure(df_final, historical_pdf):
+    # We'll rename h.race_date to avoid collision in the join condition.
+    hist_subset = (
+        historical_pdf
+        .withColumnRenamed("race_date", "hist_race_date")
+        .select("horse_id", "hist_race_date", "combined_4")
+    )
+    w = Window.partitionBy("f.horse_id", "f.race_date").orderBy(F.desc("h.hist_race_date"))
+
+    joined = (
+        df_final.alias("f")
+        .join(
+            hist_subset.alias("h"),
+            on=((F.col("f.horse_id") == F.col("h.horse_id")) & (F.col("h.hist_race_date") <= F.col("f.race_date"))),
+            how="left"
+        )
+        .withColumn("rn", F.row_number().over(w))
+        .filter(F.col("rn") == 1)
+    )
+
+    # Now select only the columns from f plus the combined_4 from h.
+    # We do NOT select "h.hist_race_date".
+    joined = joined.select(
+        "f.*",
+        F.col("h.combined_4").alias("combined_4_most_recent")
+    )
+
+    # (Optional) drop the temporary "rn" column
+    joined = joined.drop("rn")
+
+    return joined
+
+# EXAMPLE USAGE:
+# df_final = attach_recent_speed_figure(df_final, historical_pdf)
+# Then proceed with writing out df_final to the database/parquet, etc.
+
 def add_combined_feature(pdf):
     """
     Given a Pandas DataFrame `pdf` that contains the raw embedding columns (embed_0, embed_1, embed_2, embed_3)
@@ -47,11 +88,18 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
     # ---------------------------------------------------
     # 1) LOAD AND PREPARE DATA
     # ---------------------------------------------------
-    # Assume global_speed_score is a Pandas DataFrame or can be converted to one.
-    speed_figure = global_speed_score.copy()
     
-    print("speed_figure shape:", speed_figure.shape)
-    print("unique horse IDs in speed_figure:", speed_figure["horse_id"].nunique())
+    # Separate historical and future data
+    # Step 1: split them properly and KEEP the subsets separate:
+    historical_pdf = global_speed_score.filter(F.col("data_flag") == "historical")
+    future_df     = global_speed_score.filter(F.col("data_flag") == "future")
+    
+    # Then convert each to Pandas if that’s your plan
+    historical_pdf = historical_pdf.toPandas()
+    # future_pdf     = future_pdf.toPandas()
+   
+    print("historical_pdf shape:", historical_pdf.shape)
+    print("unique horse IDs in historical_pdf:", historical_pdf["horse_id"].nunique())
     
     # Example function to compute recent average global_speed_score per horse
     def compute_recent_avg(df, window=5):
@@ -63,21 +111,21 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
         df['recent_avg_speed'] = df['global_speed_score'].shift(1).rolling(window=window, min_periods=1).mean()
         return df
 
-    # Make sure your speed_figure DataFrame is sorted correctly:
-    speed_figure = speed_figure.sort_values(['horse_id', 'race_date']).reset_index(drop=True)
-
+    # Make sure your historical_pdf DataFrame is sorted correctly:
+    historical_pdf = historical_pdf.sort_values(['horse_id', 'race_date']).reset_index(drop=True)
+    
     # Group by horse_id and apply the rolling average calculation.
-    speed_figure = speed_figure.groupby('horse_id', group_keys=False).apply(lambda x: compute_recent_avg(x, window=5))
-
+    historical_pdf = historical_pdf.groupby('horse_id', group_keys=False).apply(lambda x: compute_recent_avg(x, window=5))
+    
     # Add an "as_of_date" column (you might simply use the race_date)
-    speed_figure['as_of_date'] = speed_figure['race_date']
+    historical_pdf['as_of_date'] = historical_pdf['race_date']
 
     # (Optional) Fill missing recent_avg_speed values with a default (e.g., global average or NaN)
-    global_avg = speed_figure['global_speed_score'].mean()
-    speed_figure['recent_avg_speed'].fillna(global_avg, inplace=True)
+    global_avg = historical_pdf['global_speed_score'].mean()
+    historical_pdf['recent_avg_speed'].fillna(global_avg, inplace=True)
     
     # Now, to save this as a separate table in your database, convert it to a Spark DataFrame.
-    reduced_speed_df = spark.createDataFrame(speed_figure)
+    reduced_speed_df = spark.createDataFrame(historical_pdf)
 
     # Define the target table name for the recent averages.
     recent_avg_table = "recent_avg_speed"  # choose an appropriate name
@@ -95,10 +143,10 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
 
     print("Recent average speed feature saved to table:", recent_avg_table)
     # Map each horse_id to a unique integer index (horse_id)
-    unique_horses = speed_figure["horse_id"].unique()
+    unique_horses = historical_pdf["horse_id"].unique()
     horse_id_to_idx = {h: i for i, h in enumerate(unique_horses)}
-    horse_id_series = speed_figure["horse_id"].map(horse_id_to_idx)
-    #speed_figure = pd.concat([speed_figure, horse_id_series.rename("horse_id")], axis=1)  Duplicates the horse_id and breaks the code.
+    horse_id_series = historical_pdf["horse_id"].map(horse_id_to_idx)
+    #historical_pdf = pd.concat([historical_pdf, horse_id_series.rename("horse_id")], axis=1)  Duplicates the horse_id and breaks the code.
 
     # Define numeric features (embedding_features) and target.
     embedding_features = [
@@ -111,46 +159,46 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
         "avg_dist_bk_gate4_5", "avg_speed_fullrace_5", "avg_stride_length_5", "avg_strfreq_q1_5",
         "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5", 
         "global_speed_score", "recent_avg_speed", "running_time",
-        "base_speed", "wide_factor", "par_diff_ratio", "class_multiplier", "official_distance"
+        "official_distance"
     ]
     
-    X_numerical = speed_figure[embedding_features].astype(float).values
-    X_horse_id = speed_figure["horse_id"].values
-    y = speed_figure["official_fin"].values
+    X_numerical = historical_pdf[embedding_features].astype(float).values
+    X_horse_id = historical_pdf["horse_id"].values
+    y = historical_pdf["official_fin"].values
 
     # Check for NaNs and infinities.
-    df_check = speed_figure[embedding_features].copy()
+    df_check = historical_pdf[embedding_features].copy()
     print("NaN counts in each feature:")
     print(df_check.isna().sum()[df_check.isna().sum() > 0])
     print("Infinity counts in each feature:")
     print(df_check.apply(lambda col: np.isinf(col).sum())[df_check.apply(lambda col: np.isinf(col).sum()) > 0])
-    print("official_fin unique values:", speed_figure["official_fin"].unique())
-    print("Min, Max official_fin:", speed_figure["official_fin"].min(), speed_figure["official_fin"].max())
+    print("official_fin unique values:", historical_pdf["official_fin"].unique())
+    print("Min, Max official_fin:", historical_pdf["official_fin"].min(), historical_pdf["official_fin"].max())
     
     
     # Ensure horse_id is integer and 1D.
-    speed_figure["horse_id"] = speed_figure["horse_id"].astype(int)
+    historical_pdf["horse_id"] = historical_pdf["horse_id"].astype(int)
     # Create a 1D numpy array of horse IDs.
-    X_horse = speed_figure["horse_id"].values.reshape(-1)
+    X_horse = historical_pdf["horse_id"].values.reshape(-1)
 
     # Train/validation split.
-    all_indices = np.arange(len(speed_figure))
+    all_indices = np.arange(len(historical_pdf))
     X_train_indices, X_val_indices, _, _ = train_test_split(all_indices, y, test_size=0.2, random_state=42)
 
     # Numeric and categorical inputs.
-    X_num_train = speed_figure.iloc[X_train_indices][embedding_features].astype(float).values
-    X_num_val   = speed_figure.iloc[X_val_indices][embedding_features].astype(float).values
-    course_cd_train = speed_figure.iloc[X_train_indices]["course_cd"].values
-    course_cd_val   = speed_figure.iloc[X_val_indices]["course_cd"].values
-    trk_cond_train  = speed_figure.iloc[X_train_indices]["trk_cond"].values
-    trk_cond_val    = speed_figure.iloc[X_val_indices]["trk_cond"].values
+    X_num_train = historical_pdf.iloc[X_train_indices][embedding_features].astype(float).values
+    X_num_val   = historical_pdf.iloc[X_val_indices][embedding_features].astype(float).values
+    course_cd_train = historical_pdf.iloc[X_train_indices]["course_cd"].values
+    course_cd_val   = historical_pdf.iloc[X_val_indices]["course_cd"].values
+    trk_cond_train  = historical_pdf.iloc[X_train_indices]["trk_cond"].values
+    trk_cond_val    = historical_pdf.iloc[X_val_indices]["trk_cond"].values
 
     # Use the pre-computed one-D X_horse array for the splits.
     X_horse_train = X_horse[X_train_indices]
     X_horse_val   = X_horse[X_val_indices]
 
-    y_train = speed_figure.iloc[X_train_indices]["official_fin"].values
-    y_val   = speed_figure.iloc[X_val_indices]["official_fin"].values
+    y_train = historical_pdf.iloc[X_train_indices]["official_fin"].values
+    y_val   = historical_pdf.iloc[X_val_indices]["official_fin"].values
 
     train_inputs = {
         "numeric_input": X_num_train,
@@ -209,14 +257,10 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
         feature_set_choice = trial.suggest_categorical("feature_set", ["all_features", "core_speed", "race_context"])
         if feature_set_choice == "all_features":
             features = embedding_features
-        elif feature_set_choice == "core_speed":
-            features = ["global_speed_score", "base_speed", "wide_factor"]
-        elif feature_set_choice == "race_context":
-            features = ["off_finish_last_race", "time_behind", "pace_delta_time"]
-
+        
         # Rebuild numeric inputs based on the chosen feature subset.
-        X_num_train_subset = speed_figure.iloc[X_train_indices][features].astype(float).values
-        X_num_val_subset   = speed_figure.iloc[X_val_indices][features].astype(float).values
+        X_num_train_subset = historical_pdf.iloc[X_train_indices][features].astype(float).values
+        X_num_val_subset   = historical_pdf.iloc[X_val_indices][features].astype(float).values
 
         # Build new train and validation dictionaries (categorical inputs remain unchanged).
         train_inputs_subset = {
@@ -251,7 +295,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
         embedding_dims_trial_dict = {"course_cd": 4, "trk_cond": 4}
         for col in categorical_cols_trial:
             lookup = tf.keras.layers.StringLookup(output_mode='int')
-            vocab = speed_figure[col].unique().tolist()
+            vocab = historical_pdf[col].unique().tolist()
             lookup.adapt(vocab)
             input_layer = keras.Input(shape=(), name=f"{col}_input", dtype=tf.string)
             cat_inputs_trial[col] = input_layer
@@ -372,7 +416,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
 
     # Troubleshooting: Check if the CSV file exists and log that we're entering the block.
     logging.info("Entering final-model-building block.")
-    csv_path = "optuna_study_results.csv"
+    csv_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/optuna_study_results.csv"
     if os.path.exists(csv_path):
         logging.info(f"CSV file found at: {csv_path}")
     else:
@@ -416,7 +460,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
     embedding_dims = {"course_cd": 4, "trk_cond": 4}
     for col in categorical_cols:
         lookup = tf.keras.layers.StringLookup(output_mode='int')
-        vocab = speed_figure[col].unique().tolist()
+        vocab = historical_pdf[col].unique().tolist()
         lookup.adapt(vocab)
         input_layer = keras.Input(shape=(), name=f"{col}_input", dtype=tf.string)
         cat_inputs[col] = input_layer
@@ -484,11 +528,10 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
     embed_df = pd.DataFrame(rows, columns=embed_cols)
     
     print("Sample of final embeddings:\n", embed_df.head())
-    print("Columns before merge:", speed_figure.columns.tolist())
+    print("Columns before merge:", historical_pdf.columns.tolist())
     print("Columns in embed_df:", embed_df.columns.tolist())
-    input("Press Enter to continue...1")
         
-    merged_df = pd.merge(speed_figure, embed_df, on="horse_id", how="left")
+    merged_df = pd.merge(historical_pdf, embed_df, on="horse_id", how="left")
     # Now combine the Keras embeddings with global_speed_score to get a unified 5-D feature.
     merged_df = add_combined_feature(merged_df)
 
@@ -496,17 +539,28 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
     
     print("Sample of final merged_df:\n", merged_df.head())
     print("Columns in merged_df:", merged_df.columns.tolist())
-    input("Press Enter to continue...2")
     
-    # At this point, the DataFrame already contains the combined features.
-    df_final = merged_df.copy()  # No second merge needed.
-        
-    horse_embedding_spark = spark.createDataFrame(df_final)
+    # Convert the final merged_df (with embeddings) back to Spark:
+    historical_with_embed_sdf = spark.createDataFrame(merged_df)
+
+    # Convert future_pdf to Spark if you are still in Pandas, or keep if you already have future_df in Spark
+    #future_df = spark.createDataFrame(future_pdf)  # if you had it in Pandas
+
+    # Union them => all rows: historical + future, but only historical have the real combined_0..4
+    all_df = historical_with_embed_sdf.unionByName(future_df, allowMissingColumns=True)
+
+    all_df.printSchema()
+    print("Columns in final DF:", all_df.columns)
+    
+    # Now attach last known speed:
+    all_df = attach_recent_speed_figure(all_df, historical_with_embed_sdf)
+    #   “df_final” => all_df
+    #   “historical_df” => historical_with_embed_sdf
 
     staging_table = "horse_embedding"
     logging.info(f"Writing horse embeddings to table: {staging_table}")
     (
-        horse_embedding_spark.write.format("jdbc")
+        all_df.write.format("jdbc")
         .option("url", jdbc_url)
         .option("dbtable", staging_table)
         .option("user", jdbc_properties["user"])
@@ -519,7 +573,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
     current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M")
     model_filename = f"horse_embedding_data-{current_time}"
     
-    save_parquet(spark, horse_embedding_spark, model_filename, parquet_dir)
+    save_parquet(spark, all_df, model_filename, parquet_dir)
     logging.info(f"Final merged DataFrame saved as Parquet: {model_filename}")
 
     logging.info("*** Horse embedding job completed successfully ***")

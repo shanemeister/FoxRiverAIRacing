@@ -272,6 +272,7 @@ def sql_queries():
             LEFT JOIN track_conditions tc ON r.trk_cond=tc.code
             JOIN course c ON r.course_cd=c.course_cd
             WHERE r2.breed_type='TB'
+            AND c.course_cd <> 'CMR'
         """
     }
     return queries

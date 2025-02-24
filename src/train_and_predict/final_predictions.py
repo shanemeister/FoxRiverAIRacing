@@ -23,32 +23,38 @@ def make_future_predictions(
     3) Predict
     4) Return pdf with new column 'prediction'
     """
-    from catboost import CatBoostRanker, Pool
-    if model_type.lower() == "ranker":
-        model = CatBoostRanker()
-    else:
-        from catboost import CatBoostRegressor
-        model = CatBoostRegressor()
+    try:
+        from catboost import CatBoostRanker, Pool
+        if model_type.lower() == "ranker":
+            model = CatBoostRanker()
+        else:
+            from catboost import CatBoostRegressor
+            model = CatBoostRegressor()
 
-    model.load_model(model_path)
-    logging.info(f"Loaded CatBoost model: {model_path}")
+        model.load_model(model_path)
+        logging.info(f"Loaded CatBoost model: {model_path}")
+    except Exception as e:
+        logging.error(f"Error loading CatBoost model: {e}", exc_info=True)
+        raise   
+    try:
+        # Sort by group_id so the ranker sees each group in contiguous rows
+        if "group_id" in pdf.columns:
+            pdf.sort_values("group_id", inplace=True)
+        # Build X from final_feature_cols
+        X_infer = pdf[final_feature_cols].copy()
+        group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
+        cat_cols = []
+        pred_pool = Pool(
+            data=X_infer,
+            group_id=group_ids,
+            cat_features=cat_cols
+        )
 
-    # Sort by group_id so the ranker sees each group in contiguous rows
-    if "group_id" in pdf.columns:
-        pdf.sort_values("group_id", inplace=True)
-
-    # Build X from final_feature_cols
-    X_infer = pdf[final_feature_cols].copy()
-    group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
-    cat_cols = []
-    pred_pool = Pool(
-        data=X_infer,
-        group_id=group_ids,
-        cat_features=cat_cols
-    )
-
-    predictions = model.predict(pred_pool)
-    pdf["model_score"] = predictions
+        predictions = model.predict(pred_pool)
+        pdf["model_score"] = predictions
+    except Exception as e:
+        logging.error(f"Error making predictions: {e}", exc_info=True)
+        raise
     
     return pdf
 
@@ -108,22 +114,45 @@ def run_inference_for_future_multi(
 
         # Loop over each model and make predictions.
         for file in model_files:
-            model_path = os.path.join(models_dir, file)
-            logging.info(f"Making predictions with model: {file}")
-            input("Press Enter to continue...Make sure you have models in the catboost directory.")
+            try:
+                model_path = os.path.join(models_dir, file)
+                logging.info(f"Making predictions with model: {file}")
+                
+                # IMPORTANT: Reorder the DataFrame columns exactly as in the training order.
+                cols_to_drop = ["official_fin", "dist_penalty", "standardized_score", "median_normalized", "as_of_date"]
+                fut_df = fut_df.drop(columns=cols_to_drop, errors="ignore")
+                
+                inference_df = fut_df.copy()
+                logging.info("Inference DF nulls: ", inference_df.isnull().sum())
+                logging.info(f"inference_df columns before reindexing: {inference_df.columns.tolist()}")
+                
+                inference_df = inference_df.reindex(columns=final_feature_cols)
+                # After reindexing:
+                logging.info("Inference DF dtypes:")
+                logging.info(inference_df.dtypes)
+                logging.info("Null counts:")
+                logging.info(inference_df.isnull().sum())
+                
+                logging.info(f"inference_df columns after reindexing: {inference_df.columns.tolist()}")
+                missing_cols = [col for col in final_feature_cols if col not in inference_df.columns]
+                if missing_cols:
+                    logging.error(f"Missing columns in inference_df: {missing_cols}")
+                    # Optionally, raise an exception here
+                            # Make predictions using your prediction function.
+            except Exception as e:
+                logging.error(f"Error preparing inference data: {e}", exc_info=True)
+                raise   
             
-            # IMPORTANT: Reorder the DataFrame columns exactly as in the training order.
-            inference_df = fut_df.copy()
-            inference_df = inference_df.reindex(columns=final_feature_cols)
-            
-            # Make predictions using your prediction function.
-            scored_df = make_future_predictions(
-                inference_df, 
-                final_feature_cols, 
-                model_path, 
-                model_type="ranker"
-            )
-            
+            try:
+                scored_df = make_future_predictions(
+                    inference_df, 
+                    final_feature_cols, 
+                    model_path, 
+                    model_type="ranker"
+                )
+            except Exception as e:
+                logging.error(f"Error making predictions: {e}", exc_info=True)
+                raise
             # Derive a safe column name from the model filename.
             model_col = file
             model_col = re.sub(r'^catboost_', '', model_col)

@@ -1,43 +1,8 @@
-2025-02-21 12:04:50 - INFO - Logging initialized.
-2025-02-21 12:04:50 - INFO - No password in config; relying on .pgpass or other method.
-2025-02-21 12:04:50 - INFO - Connection pool created successfully.
-2025-02-21 12:04:50 - ERROR - Error loading predictions: Execution failed on sql '
-    SELECT course_cd, race_date, race_number, track_name, saddle_cloth_number, horse_name, percentile_score, has_gps, global_speed_score, YetiRank_top_4_NDCG_top_4, YetiRank_top_1_NDCG_top_1, QueryRMSE_NDCG_top_2, YetiRank_top_2_NDCG_top_4, YetiRank_top_1_NDCG_top_3, YetiRank_top_2_NDCG_top_3, YetiRank_top_2_NDCG_top_2, QueryRMSE_NDCG_top_4, QueryRMSE_NDCG_top_3, YetiRank_top_4_NDCG_top_3
-    FROM predictions_2025_02_20_1
-    WHERE course_cd = 'TOP'
-      AND CAST(race_date AS DATE) = '2025-02-22'
-      AND race_number = 11
-    ORDER BY course_cd, race_date, race_number, saddle_cloth_number
-    ': column "yetirank_top_4_ndcg_top_4" does not exist
-LINE 2: ...e, percentile_score, has_gps, global_speed_score, YetiRank_t...
-                                                             ^
-Traceback (most recent call last):
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pandas/io/sql.py", line 2674, in execute
-    cur.execute(sql, *args)
-psycopg2.errors.UndefinedColumn: column "yetirank_top_4_ndcg_top_4" does not exist
-LINE 2: ...e, percentile_score, has_gps, global_speed_score, YetiRank_t...
-                                                             ^
-
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/Predictions_2025-02-20.py", line 296, in main
-    pred_df = pd.read_sql(sql, conn)
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pandas/io/sql.py", line 706, in read_sql
-    return pandas_sql.read_query(
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pandas/io/sql.py", line 2738, in read_query
-    cursor = self.execute(sql, params)
-  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_310/lib/python3.10/site-packages/pandas/io/sql.py", line 2686, in execute
-    raise ex from exc
-pandas.errors.DatabaseError: Execution failed on sql '
-    SELECT course_cd, race_date, race_number, track_name, saddle_cloth_number, horse_name, percentile_score, has_gps, global_speed_score, YetiRank_top_4_NDCG_top_4, YetiRank_top_1_NDCG_top_1, QueryRMSE_NDCG_top_2, YetiRank_top_2_NDCG_top_4, YetiRank_top_1_NDCG_top_3, YetiRank_top_2_NDCG_top_3, YetiRank_top_2_NDCG_top_2, QueryRMSE_NDCG_top_4, QueryRMSE_NDCG_top_3, YetiRank_top_4_NDCG_top_3
-    FROM predictions_2025_02_20_1
-    WHERE course_cd = 'TOP'
-      AND CAST(race_date AS DATE) = '2025-02-22'
-      AND race_number = 11
-    ORDER BY course_cd, race_date, race_number, saddle_cloth_number
-    ': column "yetirank_top_4_ndcg_top_4" does not exist
-LINE 2: ...e, percentile_score, has_gps, global_speed_score, YetiRank_t...
-                                                             ^
-
+2025-02-23 00:40:03 - INFO - Logging initialized.
+2025-02-23 00:40:03 - INFO - No password in config; relying on .pgpass or other method.
+2025-02-23 00:40:03 - INFO - Connection pool created successfully.
+2025-02-23 00:40:05 - INFO - Loaded predictions from DB. Shape: (1301, 18)
+2025-02-23 00:40:05 - INFO - Ensemble predictions computed.
+2025-02-23 00:40:13 - INFO - Predictions saved to DOCX file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/final_ensemble_predictions_CoPilot_2025-02-23.docx
+2025-02-23 00:40:13 - INFO - Predictions document created successfully.
+2025-02-23 00:40:13 - INFO - Closing down clientserver connection

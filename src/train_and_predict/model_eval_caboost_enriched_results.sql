@@ -346,3 +346,493 @@ and re.official_fin in (1, 2, 3, 4)
 and cer.race_id = 'AQU_2022-03-19_9.0'
 group by race_id , cer.course_cd , cer.race_date , cer.race_number , re.horse_name , cer.model_key
 
+delete from catboost_enriched_results where 1=1;
+
+
+-- Breakdown on the number of any_order_top4 and exact_order_top_4
+WITH predicted_top4 AS (
+    SELECT
+        model_key,
+        course_cd,
+        race_date,
+        race_number,
+        /* Gather the top-4 predicted horses in the exact order of rank */
+        array_agg(horse_id ORDER BY "rank") AS predicted_arr
+    FROM catboost_enriched_results
+    WHERE "rank" BETWEEN 1 AND 4
+    GROUP BY 1,2,3,4
+),
+actual_top4 AS (
+    select
+        model_key,
+        course_cd,
+        race_date,
+        race_number,
+        /* Gather the actual top-4 finishers in the exact order of official_fin */
+        array_agg(horse_id ORDER BY official_fin) AS actual_arr
+    FROM catboost_enriched_results
+    WHERE official_fin BETWEEN 1 AND 4
+    GROUP BY 1,2,3,4
+),
+joined AS (
+    SELECT
+        p.model_key,
+        p.course_cd,
+        p.race_date,
+        p.race_number,
+        p.predicted_arr,
+        a.actual_arr
+    FROM predicted_top4 p
+    JOIN actual_top4 a
+      ON p.model_key = a.model_key
+     AND p.course_cd = a.course_cd
+     AND p.race_date = a.race_date
+     AND p.race_number = a.race_number
+)
+SELECT
+    model_key,
+    COUNT(*) AS total_races,
+    SUM(
+      CASE 
+        WHEN (
+           SELECT array_agg(x ORDER BY x)
+           FROM unnest(predicted_arr) x
+          ) = (
+           SELECT array_agg(x ORDER BY x)
+           FROM unnest(actual_arr) x
+          )
+          AND predicted_arr <> actual_arr
+        THEN 1 ELSE 0 
+      END
+   ) AS any_order_only_count,
+    SUM(
+      CASE 
+        WHEN predicted_arr = actual_arr
+        THEN 1 ELSE 0 
+      END
+    ) AS exact_order_count,
+    ROUND(
+      100.0 * 
+      SUM(
+        CASE
+          WHEN (
+              SELECT array_agg(x ORDER BY x)
+              FROM unnest(predicted_arr) x
+            ) = (
+              SELECT array_agg(x ORDER BY x)
+              FROM unnest(actual_arr) x
+            )
+            AND predicted_arr <> actual_arr
+          THEN 1 ELSE 0
+        END
+      )::numeric / COUNT(*),
+      2
+    ) AS any_order_only_percent,
+    ROUND(
+      100.0 *
+      SUM(
+        CASE 
+          WHEN predicted_arr = actual_arr 
+          THEN 1 ELSE 0 
+        END
+      )::numeric / COUNT(*),
+      2
+    ) AS exact_order_percent,
+    ROUND(
+      (
+        /* any_order_only_count + exact_order_count */
+        (
+          SUM(
+            CASE 
+              WHEN (
+                SELECT array_agg(x ORDER BY x)
+                FROM unnest(predicted_arr) x
+              ) = (
+                SELECT array_agg(x ORDER BY x)
+                FROM unnest(actual_arr) x
+              )
+              THEN 1 ELSE 0
+            END
+          )::numeric
+        ) 
+        / COUNT(*)
+      ) * 100.0
+      , 2
+    ) AS total_top4_percent
+FROM joined
+--where race_date > '2024-01-01'
+--and race_date > '2023-12-31'
+GROUP BY model_key
+ORDER BY total_top4_percent desc;
+
+-- Print model and total_top4_percent
+
+WITH predicted_top4 AS (
+    SELECT
+        model_key,
+        course_cd,
+        race_date,
+        race_number,
+        /* Gather the top-4 predicted horses in the exact order of rank */
+        array_agg(horse_id ORDER BY "rank") AS predicted_arr
+    FROM catboost_enriched_results
+    WHERE "rank" BETWEEN 1 AND 4
+    GROUP BY 1,2,3,4
+),
+actual_top4 AS (
+    select
+        model_key,
+        course_cd,
+        race_date,
+        race_number,
+        /* Gather the actual top-4 finishers in the exact order of official_fin */
+        array_agg(horse_id ORDER BY official_fin) AS actual_arr
+    FROM catboost_enriched_results
+    WHERE official_fin BETWEEN 1 AND 4
+    GROUP BY 1,2,3,4
+),
+joined AS (
+    SELECT
+        p.model_key,
+        p.course_cd,
+        p.race_date,
+        p.race_number,
+        p.predicted_arr,
+        a.actual_arr
+    FROM predicted_top4 p
+    JOIN actual_top4 a
+      ON p.model_key = a.model_key
+     AND p.course_cd = a.course_cd
+     AND p.race_date = a.race_date
+     AND p.race_number = a.race_number
+)
+SELECT
+    model_key,
+    ROUND(
+      (
+        /* any_order_only_count + exact_order_count */
+        (
+          SUM(
+            CASE 
+              WHEN (
+                SELECT array_agg(x ORDER BY x)
+                FROM unnest(predicted_arr) x
+              ) = (
+                SELECT array_agg(x ORDER BY x)
+                FROM unnest(actual_arr) x
+              )
+              THEN 1 ELSE 0
+            END
+          )::numeric
+        ) 
+        / COUNT(*)
+      ) * 100.0
+      , 2
+    ) AS total_top4_percent
+FROM joined
+--where race_date > '2024-01-01'
+--and race_date > '2023-12-31'
+GROUP BY model_key
+ORDER BY total_top4_percent desc;
+
+-- Number of races and the number of horses in each race
+WITH race_size AS (
+  SELECT
+    course_cd,
+    race_date,
+    race_number,
+    COUNT(DISTINCT horse_id) AS num_horses
+  FROM "catboost_enriched_results-2025-02-18b" cerb 
+  GROUP BY
+    course_cd,
+    race_date,
+    race_number
+)
+SELECT
+  num_horses,
+  COUNT(*) AS race_count,
+  ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 2) AS percent_of_races
+FROM race_size
+GROUP BY num_horses
+ORDER BY num_horses;
+
+-- Tells the whole story and combines the two queries above:
+WITH race_size AS (
+  SELECT
+    course_cd,
+    race_date,
+    race_number,
+    COUNT(DISTINCT horse_id) AS num_horses
+  FROM catboost_enriched_results
+  GROUP BY
+    course_cd,
+    race_date,
+    race_number
+),
+predicted_top4 AS (
+  SELECT
+    model_key,
+    course_cd,
+    race_date,
+    race_number,
+    array_agg(horse_id ORDER BY "rank") AS predicted_arr
+  FROM catboost_enriched_results
+  WHERE "rank" BETWEEN 1 AND 4
+  GROUP BY 1,2,3,4
+),
+actual_top4 AS (
+  SELECT
+    model_key,
+    course_cd,
+    race_date,
+    race_number,
+    array_agg(horse_id ORDER BY official_fin) AS actual_arr
+  FROM catboost_enriched_results
+  WHERE official_fin BETWEEN 1 AND 4
+  GROUP BY 1,2,3,4
+),
+joined AS (
+  SELECT
+    p.model_key,
+    p.course_cd,
+    p.race_date,
+    p.race_number,
+    r.num_horses,            -- Field size
+    p.predicted_arr,
+    a.actual_arr
+  FROM predicted_top4 p
+  JOIN actual_top4 a
+    ON p.model_key = a.model_key
+   AND p.course_cd = a.course_cd
+   AND p.race_date = a.race_date
+   AND p.race_number = a.race_number
+  JOIN race_size r
+    ON p.course_cd = r.course_cd
+   AND p.race_date = r.race_date
+   AND p.race_number = r.race_number
+)
+SELECT
+    model_key,
+    num_horses,
+    COUNT(*) AS total_races,
+    /*
+     * any_order_only_count:
+     * same set of 4 horses ignoring order,
+     * but not identical arrays (meaning the exact order differs)
+     */
+    SUM(
+      CASE 
+        WHEN (
+          SELECT array_agg(x ORDER BY x)
+          FROM unnest(predicted_arr) x
+        ) = (
+          SELECT array_agg(x ORDER BY x)
+          FROM unnest(actual_arr) x
+        )
+        AND predicted_arr <> actual_arr
+      THEN 1 ELSE 0 
+      END
+    ) AS any_order_only_count,
+    /*
+     * exact_order_count:
+     * the 4 horses match in the same exact order (rank-by-rank).
+     */
+    SUM(
+      CASE 
+        WHEN predicted_arr = actual_arr
+        THEN 1 ELSE 0 
+      END
+    ) AS exact_order_count,
+    /*
+     * Percentages of each relative to total_races
+     */
+    ROUND(
+      100.0 * 
+      SUM(
+        CASE
+          WHEN (
+            SELECT array_agg(x ORDER BY x)
+            FROM unnest(predicted_arr) x
+          ) = (
+            SELECT array_agg(x ORDER BY x)
+            FROM unnest(actual_arr) x
+          )
+          AND predicted_arr <> actual_arr
+        THEN 1 ELSE 0
+        END
+      )::numeric / COUNT(*),
+      2
+    ) AS any_order_only_percent,
+    ROUND(
+      100.0 *
+      SUM(
+        CASE 
+          WHEN predicted_arr = actual_arr 
+          THEN 1 ELSE 0 
+        END
+      )::numeric / COUNT(*),
+      2
+    ) AS exact_order_percent,
+    /*
+     * total_top4_percent = any_order_only_percent + exact_order_percent
+     */
+    ROUND(
+      (
+        SUM(
+          CASE
+            WHEN (
+              SELECT array_agg(x ORDER BY x)
+              FROM unnest(predicted_arr) x
+            ) = (
+              SELECT array_agg(x ORDER BY x)
+              FROM unnest(actual_arr) x
+            )
+            THEN 1 ELSE 0
+          END
+        )::numeric
+      / COUNT(*)
+      ) * 100.0
+      , 2
+    ) AS total_top4_percent
+FROM joined
+--where model_key = 'YetiRank:top=1_NDCG:top=1_20250217_230747'
+GROUP BY model_key, num_horses
+ORDER BY model_key, num_horses;
+
+-- Filter by number of horses in the race and get the race info to verify:
+
+WITH race_size AS (
+  SELECT
+    course_cd,
+    race_date,
+    race_number,
+    COUNT(DISTINCT horse_id) AS num_horses
+  FROM catboost_enriched_results
+  GROUP BY course_cd, race_date, race_number
+),
+predicted_top4 AS (
+  SELECT
+    model_key,
+    course_cd,
+    race_date,
+    race_number,
+    array_agg(horse_id ORDER BY "rank") AS predicted_arr
+  FROM catboost_enriched_results
+  WHERE "rank" BETWEEN 1 AND 4
+  GROUP BY model_key, course_cd, race_date, race_number
+),
+actual_top4 AS (
+  SELECT
+    model_key,
+    course_cd,
+    race_date,
+    race_number,
+    array_agg(horse_id ORDER BY official_fin) AS actual_arr
+  FROM catboost_enriched_results
+  WHERE official_fin BETWEEN 1 AND 4
+  GROUP BY model_key, course_cd, race_date, race_number
+),
+joined AS (
+  SELECT
+    p.model_key,
+    p.course_cd,
+    p.race_date,
+    p.race_number,
+    r.num_horses,
+    p.predicted_arr,
+    a.actual_arr
+  FROM predicted_top4 p
+  JOIN actual_top4 a
+    ON p.model_key = a.model_key
+   AND p.course_cd = a.course_cd
+   AND p.race_date = a.race_date
+   AND p.race_number = a.race_number
+  JOIN race_size r
+    ON p.course_cd = r.course_cd
+   AND p.race_date = r.race_date
+   AND p.race_number = r.race_number
+)
+SELECT
+    j.model_key,
+    j.course_cd,
+    j.race_date,
+    j.race_number,
+    j.num_horses,
+    /* 
+       any_order_flag = 1 if top-4 sets match ignoring order,
+                        but not identical array
+    */
+    CASE 
+      WHEN 
+         (SELECT array_agg(x ORDER BY x) FROM unnest(j.predicted_arr) x)
+         =
+         (SELECT array_agg(x ORDER BY x) FROM unnest(j.actual_arr) x)
+         AND j.predicted_arr <> j.actual_arr
+      THEN 1 ELSE 0
+    END AS any_order_flag,
+    /*
+       exact_order_flag = 1 if top-4 is exactly identical
+    */
+    CASE 
+      WHEN j.predicted_arr = j.actual_arr 
+      THEN 1 ELSE 0 
+    END AS exact_order_flag
+FROM joined j
+WHERE j.num_horses IN (7, 8, 9, 10)       -- or >= 17, or whatever filter you need
+ORDER BY 
+    j.model_key,
+    j.num_horses,
+    j.course_cd,
+    j.race_date,
+    j.race_number;
+    
+   -- Breakdown on which model is best at picking WPS/4th
+   WITH rank_counts AS (
+  SELECT
+    model_key,
+    -- total times each rank was predicted
+    SUM(CASE WHEN "rank" = 1 THEN 1 ELSE 0 END) AS total_pred_1,
+    SUM(CASE WHEN "rank" = 2 THEN 1 ELSE 0 END) AS total_pred_2,
+    SUM(CASE WHEN "rank" = 3 THEN 1 ELSE 0 END) AS total_pred_3,
+    SUM(CASE WHEN "rank" = 4 THEN 1 ELSE 0 END) AS total_pred_4,
+    -- how many times the predicted rank matched actual finishing position
+    SUM(CASE WHEN "rank" = 1 AND official_fin = 1 THEN 1 ELSE 0 END) AS correct_1,
+    SUM(CASE WHEN "rank" = 2 AND official_fin = 2 THEN 1 ELSE 0 END) AS correct_2,
+    SUM(CASE WHEN "rank" = 3 AND official_fin = 3 THEN 1 ELSE 0 END) AS correct_3,
+    SUM(CASE WHEN "rank" = 4 AND official_fin = 4 THEN 1 ELSE 0 END) AS correct_4
+  FROM catboost_enriched_results
+  GROUP BY model_key
+)
+SELECT
+  model_key,
+  /* First place */
+  correct_1                  AS correct_pred_first,
+  total_pred_1               AS total_pred_first,
+  ROUND(
+    100.0 * correct_1 / NULLIF(total_pred_1, 0),
+    2
+  )                          AS pct_correct_first,
+  /* Second place */
+  correct_2                  AS correct_pred_second,
+  total_pred_2               AS total_pred_second,
+  ROUND(
+    100.0 * correct_2 / NULLIF(total_pred_2, 0),
+    2
+  )                          AS pct_correct_second,
+  /* Third place */
+  correct_3                  AS correct_pred_third,
+  total_pred_3               AS total_pred_third,
+  ROUND(
+    100.0 * correct_3 / NULLIF(total_pred_3, 0),
+    2
+  )                          AS pct_correct_third,
+  /* Fourth place */
+  correct_4                  AS correct_pred_fourth,
+  total_pred_4               AS total_pred_fourth,
+  ROUND(
+    100.0 * correct_4 / NULLIF(total_pred_4, 0),
+    2
+  )                          AS pct_correct_fourth
+FROM rank_counts
+ORDER BY pct_correct_fourth desc;
+   
