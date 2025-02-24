@@ -9,9 +9,11 @@ import optuna
 from pyspark.sql.types import TimestampType
 from pyspark.sql.functions import col
 from catboost import CatBoostRanker, Pool, CatBoostError
-from sklearn.metrics import ndcg_score
 from src.data_preprocessing.data_prep1.data_utils import save_parquet
 from src.train_and_predict.final_predictions import main_inference
+from sklearn.metrics import mean_squared_error, mean_absolute_error, ndcg_score
+import scipy.stats as stats
+
 
 ###############################################################################
 # Helper function to get a timestamp for filenames
@@ -25,104 +27,84 @@ def get_timestamp():
 # Helper function: The Optuna objective for ranking
 ###############################################################################
 def objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, valid_pool):
-    """
-    An Optuna objective function that trains a CatBoostRanker on (X_train, y_train)
-    with group info (race_id_train), evaluates on (X_valid, y_valid) with group info
-    (race_id_valid). Returns the validation NDCG:top=4 (or whichever metric we want to track)
-    in order to maximize it.
-    """
-    # Log trial info
-    logging.info(f"Starting Optuna Trial {trial.number}: {catboost_loss_functions}, Metric: {eval_metric}")
+    
+    # Log the chosen parameters for this trial.
+    logging.info(f"Trial {trial.number} parameters: loss_function={catboost_loss_functions}, eval_metric={eval_metric}, "
+                 f"iterations={trial.suggest_int('iterations', 1000, 5000, step=100)}")
+
     params = {
         "loss_function": catboost_loss_functions,
         "eval_metric": eval_metric,
         "task_type": "GPU",
         "devices": "0,1",
-
-        # Let’s allow 1000..3000, step=100
-        "iterations": trial.suggest_int("iterations", 1000, 3000, step=100),
-
-        # Depth from 5..10 (a bit wider than 5..9)
-        "depth": trial.suggest_int("depth", 5, 10),
-
-        # Expand learning_rate range significantly, from ~1e-4 up to 0.3
-        # Use log=True so it can zoom in effectively
+        
+        # Number of boosting iterations. Allow a large range.
+        "iterations": trial.suggest_int("iterations", 1000, 5000, step=100),
+        
+        # Depth of trees – try a broader range.
+        "depth": trial.suggest_int("depth", 4, 12),
+        
+        # Learning rate with a logarithmic scale.
         "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.3, log=True),
-
-        # Keep 1..10 for l2_leaf_reg
-        "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
-
-        # Let’s add “SymmetricTree” if you want that as well
-        "grow_policy": trial.suggest_categorical(
-            "grow_policy",
-            ["Depthwise", "Lossguide", "SymmetricTree"]
-        ),
-
-        # Expand random_strength range
-        "random_strength": trial.suggest_float("random_strength", 1.0, 8.0),
-
-        # Widen min_data_in_leaf to 1..20 (previously 5..15)
-        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 1, 20),
-
+        
+        # L2 leaf regularization.
+        "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 0.1, 20.0, log=True),
+        
+        # Grow policy: Depthwise, Lossguide, or SymmetricTree.
+        "grow_policy": trial.suggest_categorical("grow_policy", ["Depthwise", "Lossguide", "SymmetricTree"]),
+        
+        # Random strength, which can help with overfitting.
+        "random_strength": trial.suggest_float("random_strength", 0.1, 10.0, log=True),
+        
+        # Minimum number of data points in a leaf.
+        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 1, 30),
+        
+        # Bagging temperature can affect randomness in sampling.
+        "bagging_temperature": trial.suggest_float("bagging_temperature", 0.0, 1.0, step=0.1),
+        
+        # Border count controls the discretization of continuous features.
+        "border_count": trial.suggest_int("border_count", 1, 255),
+        
+        # Overfitting detector type and waiting rounds.
+        "od_type": trial.suggest_categorical("od_type", ["IncToDec", "Iter"]),
+        
         "random_seed": 42,
         "verbose": 50,
-        "early_stopping_rounds": 50,
+        "early_stopping_rounds": trial.suggest_int("early_stopping_rounds", 50, 200, step=10),
         "allow_writing_files": False
     }
-    # Suggest hyperparameters
-    # params = {
-    #     "loss_function": catboost_loss_functions,
-    #     "eval_metric": eval_metric,
-    #     "task_type": "GPU",
-    #     "devices": "0,1",
-    #     "iterations": trial.suggest_int("iterations", 1500, 2100, step=100),
-    #     "depth": trial.suggest_int("depth", 5, 9),
-    #     "learning_rate": trial.suggest_float("learning_rate", 0.15, 0.3, log=True),
-    #     "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
-    #     "grow_policy": trial.suggest_categorical("grow_policy", ["Depthwise", "Lossguide"]),
-    #     "random_strength": trial.suggest_float("random_strength", 2.0, 4.0),
-    #     "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 5, 15),
-    #     "random_seed": 42,
-    #     "verbose": 50,
-    #     "early_stopping_rounds": 100,
-    #     "allow_writing_files": False
-    # }
-
-    # Build and train the model
+    
+    from catboost import CatBoostRanker
     model = CatBoostRanker(**params)
-    model.fit(train_pool, eval_set=valid_pool, early_stopping_rounds=100)
-
-    # Evaluate with NDCG@1 or fallback
+    model.fit(train_pool, eval_set=valid_pool, early_stopping_rounds=params["early_stopping_rounds"])
+    
+    # Get best score from validation. We expect our eval_metric (NDCG) to be maximized.
     score_dict = model.get_best_score()
     val_preds = model.predict(valid_pool)
+    
     if "validation" in score_dict:
         metric_key = f"{eval_metric};type=Base"
-        valid_ndcg_k = score_dict["validation"].get(metric_key, 0.0)
+        valid_ndcg = score_dict["validation"].get(metric_key, 0.0)
     else:
-        # fallback if no 'validation' key
+        # Fallback: compute NDCG manually (requires at least 2 documents per group).
+        from sklearn.metrics import ndcg_score
         true_vals = y_valid.reshape(1, -1)
         pred_vals = val_preds.reshape(1, -1)
-        valid_ndcg_k = ndcg_score(true_vals, pred_vals, k=1)
-
-    return valid_ndcg_k
-
+        valid_ndcg = ndcg_score(true_vals, pred_vals, k=4)
+    
+    return valid_ndcg
 
 ###############################################################################
 # The run_optuna function
 ###############################################################################
-def run_optuna(
-    catboost_loss_functions,
-    eval_metric,
-    train_pool, valid_pool,
-    y_valid,  # needed if we do manual fallback
-    n_trials=20
-):
-    """Creates an Optuna study with direction='maximize', runs the objective, returns the study."""
+def run_optuna(catboost_loss_functions, eval_metric, y_valid, train_pool, valid_pool, n_trials=100):
+    """Creates an Optuna study and runs the objective to maximize NDCG (higher is better)."""
+    import optuna
     study = optuna.create_study(direction="maximize")
-
+    
     def _objective(trial):
         return objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, valid_pool)
-
+    
     study.optimize(_objective, n_trials=n_trials)
     return study
 
@@ -284,55 +266,106 @@ def evaluate_and_save_results(
 
     # 5) Compute Accuracy Metrics (top-4 accuracy, perfect order, NDCG@3)
     grouped = holdout_merged.groupby("group_id")
-    top_4_accuracy_list = []
+    
+    # 6) Compute metrics
+    # Initialize lists to collect per-race metrics.
+    top4_accuracy_list = []
+    top1_accuracy_list = []
+    top2_accuracy_list = []
     perfect_order_count = 0
+    reciprocal_ranks = []
+    prediction_std_devs = []
+    all_true_vals = []
+    all_pred_vals = []
+    all_true_labels = []  # For computing per-race NDCG.
+    all_predictions = []  # For computing per-race NDCG.
     total_groups = 0
-    all_true_labels = []
-    all_predictions = []
 
-    for gid, group in grouped:
-        if len(group) > 1:
-            total_groups += 1
-            group_sorted = group.sort_values("prediction", ascending=False).copy()
+        # Assume holdout_merged is your Pandas DataFrame with columns:
+        # "group_id", "true_label", "prediction", "horse_id"
+    for gid, group in holdout_merged.groupby("group_id"):
+        # We need at least 2 horses per race for meaningful ranking.
+        if len(group) < 2:
+            continue
+        total_groups += 1
+        
+        # Sort predictions in descending order (higher score = better rank)
+        group_sorted_pred = group.sort_values("prediction", ascending=False).reset_index(drop=True)
+        # Sort true labels in ascending order if lower finishing position means better finish.
+        # (Adjust if your convention is different.)
+        group_sorted_true = group.sort_values("true_label", ascending=True).reset_index(drop=True)
+        
+        # Top-4 Accuracy: Compare the top 4 predicted true_label values to the official top 4.
+        top4_predicted = group_sorted_pred.head(4)["true_label"].values
+        top4_actual = group_sorted_true.head(4)["true_label"].values
+        correct_top4 = len(np.intersect1d(top4_predicted, top4_actual))
+        top4_accuracy_list.append(correct_top4 / 4.0)
+        
+        # Perfect Order: If the top-4 predicted (by true_label) exactly match the official top-4 order.
+        # (Here, order is compared; if you want to ignore order, you can compare sets.)
+        if np.array_equal(top4_predicted, top4_actual):
+            perfect_order_count += 1
 
-            # Predicted vs actual top-4
-            top_4_predicted = group_sorted.head(4)["true_label"].values
-            top_4_actual = group.sort_values("true_label", ascending=True).head(4)["true_label"].values
+        # Top-1 Accuracy: Check if the top predicted horse (by score) is the official winner.
+        top1_pred = group_sorted_pred.iloc[0]["horse_id"]
+        top1_true = group_sorted_true.iloc[0]["horse_id"]
+        top1_accuracy_list.append(1 if top1_pred == top1_true else 0)
+        
+        # Top-2 Accuracy: Check if the official winner appears in the top 2 predictions.
+        top2_pred_ids = group_sorted_pred.head(2)["horse_id"].values
+        top2_accuracy_list.append(1 if top1_true in top2_pred_ids else 0)
+        
+        # MRR: Find the rank position (starting at 1) where the official winner appears.
+        try:
+            rank = group_sorted_pred.index[group_sorted_pred["horse_id"] == top1_true][0] + 1
+        except IndexError:
+            rank = None
+        reciprocal_ranks.append(1 / rank if rank is not None else 0)
+        
+        # Prediction variance: Standard deviation of predictions within the race.
+        prediction_std_devs.append(group_sorted_pred["prediction"].std())
+        
+        # Collect all true and predicted values (for global error metrics).
+        all_true_vals.extend(group["true_label"].values)
+        all_pred_vals.extend(group["prediction"].values)
+        
+        # Also collect per-race arrays for NDCG calculation.
+        all_true_labels.append(group_sorted_true["true_label"].values)
+        all_predictions.append(group_sorted_pred["prediction"].values)
 
-            correct_top_4 = len(np.intersect1d(top_4_predicted, top_4_actual))
-            top_4_accuracy_list.append(correct_top_4 / 4.0)
+    # Compute aggregate metrics.
+    avg_top4_accuracy = float(np.mean(top4_accuracy_list))
+    avg_top1_accuracy = float(np.mean(top1_accuracy_list))
+    avg_top2_accuracy = float(np.mean(top2_accuracy_list))
+    perfect_order_percentage = float(perfect_order_count / total_groups)  # As a fraction (multiply by 100 if percentage desired)
+    MRR = float(np.mean(reciprocal_ranks))
+    prediction_variance = float(np.mean(prediction_std_devs))
+    RMSE = float(np.sqrt(mean_squared_error(np.array(all_true_vals), np.array(all_pred_vals))))
+    MAE = float(mean_absolute_error(np.array(all_true_vals), np.array(all_pred_vals)))
+    spearman_corr = float(stats.spearmanr(all_true_vals, all_pred_vals)[0])
+    ndcg_values = [
+        ndcg_score([t], [p], k=3)
+        for t, p in zip(all_true_labels, all_predictions)
+    ]
+    avg_ndcg_3 = float(np.mean(ndcg_values))
 
-            if np.array_equal(top_4_predicted, top_4_actual):
-                perfect_order_count += 1
-
-            # NDCG@3
-            sorted_by_label = group.sort_values("true_label", ascending=True)
-            true_labels_np = sorted_by_label["true_label"].values
-            preds_np = group_sorted["prediction"].values
-            all_true_labels.append(true_labels_np)
-            all_predictions.append(preds_np)
-
-    if total_groups > 0:
-        avg_top_4_accuracy = float(np.mean(top_4_accuracy_list))
-        perfect_order_percentage = float((perfect_order_count / total_groups) * 100)
-        ndcg_values = [
-            ndcg_score([t], [p], k=3)
-            for t, p in zip(all_true_labels, all_predictions)
-        ]
-        avg_ndcg_3 = float(np.mean(ndcg_values))
-    else:
-        avg_top_4_accuracy = 0.0
-        perfect_order_percentage = 0.0
-        avg_ndcg_3 = 0.0
-        logging.info("No valid groups found in holdout for evaluation.")
-
+    # Build the metrics dictionary.
     metrics = {
-        "model_key": model_key,
-        "avg_top_4_accuracy": avg_top_4_accuracy,
+        "model_key": model_key,  # assuming model_key is defined elsewhere
+        "avg_top_4_accuracy": avg_top4_accuracy,
+        "avg_top_1_accuracy": avg_top1_accuracy,
+        "avg_top_2_accuracy": avg_top2_accuracy,
         "perfect_order_percentage": perfect_order_percentage,
         "avg_ndcg_3": avg_ndcg_3,
+        "MRR": MRR,
+        "spearman_corr": spearman_corr,
+        "RMSE": RMSE,
+        "MAE": MAE,
+        "prediction_variance": prediction_variance,
         "total_groups_evaluated": total_groups
     }
+
+    print(metrics)
     logging.info(f"Holdout Evaluation Results:\n{json.dumps(metrics, indent=2)}")
 
     # Check for duplicates in holdout_merged
@@ -413,7 +446,7 @@ def main_script(
                 train_pool=train_pool,
                 valid_pool=valid_pool,
                 y_valid=y_valid,
-                n_trials=20
+                n_trials=100
             )
 
             best_score = study.best_value
@@ -495,19 +528,19 @@ def split_data_and_train(
     check_combination_uniqueness(holdout_data, "holdout_data")
 
     # 3) Hardcode or load your numeric+embedding final features
-    final_feature_cols = ['avgspd', 'prev_race_date_numeric','avg_dist_bk_gate1_5','dist_penalty', 'gps_present', 'trainer_itm_track', 'net_sentiment', 
-                          'percentile_score', 'dam_roi', 'distance_meters', 'jt_itm_percent', 'sire_roi', 'combined_3', 'morn_odds', 'avg_speed_5', 
-                          'avg_workout_rank_3', 'jock_win_percent', 'trainer_win_percent', 'avg_strfreq_q1_5', 'cond_show', 'avg_dist_bk_gate4_5', 
-                          'standardized_score', 'all_starts', 'raw_performance_score', 'weight', 'jock_win_track', 'avg_dist_bk_gate2_5', 'jock_itm_track', 
-                          'count_workouts_3', 'par_time', 'sire_itm_percentage', 'cond_starts', 'normalized_score', 'speed_improvement', 'ave_cl_sd', 
-                          'all_earnings', 'best_speed', 'official_distance', 'jt_win_percent', 'all_show', 'cond_fourth', 'base_speed', 'hi_spd_sd', 
-                          'has_gps', 'avg_beaten_len_5', 'wide_factor', 'avg_dist_bk_gate3_5', 'total_races_5', 'days_off', 'class_multiplier', 'all_fourth', 
-                          'starts', 'age_at_race_day', 'trainer_itm_percent', 'class_rating_numeric', 'cond_win', 'avg_speed_fullrace_5', 'purse', 'all_win', 'as_of_date', 
-                          'avg_spd_sd', 'combined_0', 'trainer_win_track', 'avg_fin_5', 'prev_speed_rating', 'combined_2', 'avg_stride_length_5', 'avg_strfreq_q2_5', 
-                          'jt_win_track', 'class_offset', 'horse_itm_percentage', 'jt_itm_track', 'speed_rating', 'jock_itm_percent', 'avg_strfreq_q3_5', 'pstyerl', 
-                          'all_place', 'combined_1', 'avg_strfreq_q4_5', 'power', 'previous_class', 'race_count', 'prev_speed', 'claimprice', 'first_race_date_5_numeric', 
-                          'off_finish_last_race', 'cond_place', 'most_recent_race_5_numeric', 'previous_distance', 'par_diff_ratio', 'class_rating', 'recent_avg_speed', 
-                          'combined_4', 'dam_itm_percentage', 'cond_earnings',"running_time","dist_bk_gate4","total_distance_ran","pace_delta_time","time_behind"]
+    final_feature_cols = ["has_gps","recent_avg_speed", "pace_delta_time", "time_behind" , "avgspd", "prev_race_date_numeric", "avg_dist_bk_gate1_5","gps_present", 
+                          "trainer_itm_track", "net_sentiment","dam_roi", "distance_meters", "jt_itm_percent", "sire_roi", "combined_3", "morn_odds", "avg_speed_5", 
+                          "avg_workout_rank_3", "jock_win_percent", "trainer_win_percent", "avg_strfreq_q1_5", "cond_show", "avg_dist_bk_gate4_5", 
+                          "standardized_score", "all_starts", "raw_performance_score", "weight", "jock_win_track", "avg_dist_bk_gate2_5", "jock_itm_track", 
+                          "count_workouts_3", "par_time", "sire_itm_percentage", "cond_starts", "normalized_score", "speed_improvement", "ave_cl_sd", 
+                          "all_earnings", "best_speed", "official_distance", "jt_win_percent", "all_show", "cond_fourth", "base_speed", "hi_spd_sd", 
+                           "avg_beaten_len_5", "wide_factor", "avg_dist_bk_gate3_5", "total_races_5", "days_off", "class_multiplier", "all_fourth", 
+                          "starts", "age_at_race_day", "trainer_itm_percent", "cond_win", "avg_speed_fullrace_5", "purse", "all_win", 
+                          "avg_spd_sd", "combined_0", "trainer_win_track", "avg_fin_5", "prev_speed_rating", "combined_2", "avg_stride_length_5", "avg_strfreq_q2_5", 
+                          "jt_win_track", "class_offset", "horse_itm_percentage", "jt_itm_track", "speed_rating", "jock_itm_percent", "avg_strfreq_q3_5", "pstyerl", 
+                          "all_place", "combined_1", "avg_strfreq_q4_5", "power", "previous_class", "race_count", "prev_speed", "claimprice", "first_race_date_5_numeric", 
+                          "off_finish_last_race", "cond_place", "most_recent_race_5_numeric", "previous_distance", "par_diff_ratio", "class_rating",  
+                          "combined_4", "dam_itm_percentage", "cond_earnings"]
 
 
     # 4) Save them to JSON if needed
@@ -537,9 +570,9 @@ def split_data_and_train(
 
     # 7) minimal catboost training
     catboost_loss_functions = [
-        "YetiRank:top=1",
-        "YetiRank:top=2",
-        "YetiRank:top=3",
+        # "YetiRank:top=1",
+        # "YetiRank:top=2",
+        # "YetiRank:top=3",
         "YetiRank:top=4",
         "QueryRMSE"
     ]
@@ -581,7 +614,6 @@ def split_data_and_train(
 def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action):
     
     print("DEBUG: datetime is =>", datetime)
-    input("Press Enter to continue and begin step 4...")
         
     # Then use Pandas boolean indexing
     historical_pdf = horse_embedding[horse_embedding["data_flag"] != "future"].copy()
