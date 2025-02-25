@@ -1,39 +1,39 @@
-2025-02-24 04:15:01,166 - INFO - Logging initialized in /home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/stat_type_update_jy.log
-2025-02-24 04:15:01,171 - INFO - === Begin processing for ALL_RACES_J (All races stats for jockey) ===
-2025-02-24 04:15:01,173 - INFO - Last processed date for ALL_RACES_J is 2025-02-22
-2025-02-24 04:15:01,175 - INFO - 1 new race_dates to process for ALL_RACES_J: [datetime.date(2025, 2, 23)] ...
-2025-02-24 04:15:01,175 - INFO - Processing stat_type=ALL_RACES_J, race_date=2025-02-23
-2025-02-24 04:15:03,426 - INFO - Committed ALL_RACES_J stats for 2025-02-23.
-2025-02-24 04:15:03,427 - INFO - === Done processing ALL_RACES_J, last_date=2025-02-23 ===
-2025-02-24 04:15:03,427 - INFO - === Begin processing for ALL_RACES_JT (All races stats for jockey-trainer) ===
-2025-02-24 04:15:03,427 - INFO - Last processed date for ALL_RACES_JT is 2025-02-22
-2025-02-24 04:15:03,427 - INFO - 1 new race_dates to process for ALL_RACES_JT: [datetime.date(2025, 2, 23)] ...
-2025-02-24 04:15:03,427 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-02-23
-2025-02-24 04:15:03,888 - INFO - Committed ALL_RACES_JT stats for 2025-02-23.
-2025-02-24 04:15:03,888 - INFO - === Done processing ALL_RACES_JT, last_date=2025-02-23 ===
-2025-02-24 04:15:03,888 - INFO - === Begin processing for ALL_RACES_T (All races stats for trainer) ===
-2025-02-24 04:15:03,888 - INFO - Last processed date for ALL_RACES_T is 2025-02-22
-2025-02-24 04:15:03,889 - INFO - 1 new race_dates to process for ALL_RACES_T: [datetime.date(2025, 2, 23)] ...
-2025-02-24 04:15:03,889 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-02-23
-2025-02-24 04:15:05,769 - INFO - Committed ALL_RACES_T stats for 2025-02-23.
-2025-02-24 04:15:05,770 - INFO - === Done processing ALL_RACES_T, last_date=2025-02-23 ===
-2025-02-24 04:15:05,770 - INFO - === Begin processing for ALL_RACES_J_TRACK (All races stats for jockey by track) ===
-2025-02-24 04:15:05,770 - INFO - Last processed date for ALL_RACES_J_TRACK is 2025-02-22
-2025-02-24 04:15:05,771 - INFO - 1 new race_dates to process for ALL_RACES_J_TRACK: [datetime.date(2025, 2, 23)] ...
-2025-02-24 04:15:05,771 - INFO - Processing stat_type=ALL_RACES_J_TRACK, race_date=2025-02-23
-2025-02-24 04:15:06,306 - INFO - Committed ALL_RACES_J_TRACK stats for 2025-02-23.
-2025-02-24 04:15:06,306 - INFO - === Done processing ALL_RACES_J_TRACK, last_date=2025-02-23 ===
-2025-02-24 04:15:06,306 - INFO - === Begin processing for ALL_RACES_T_TRACK (All races stats for trainer by track) ===
-2025-02-24 04:15:06,306 - INFO - Last processed date for ALL_RACES_T_TRACK is 2025-02-22
-2025-02-24 04:15:06,307 - INFO - 1 new race_dates to process for ALL_RACES_T_TRACK: [datetime.date(2025, 2, 23)] ...
-2025-02-24 04:15:06,307 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-02-23
-2025-02-24 04:15:06,959 - INFO - Committed ALL_RACES_T_TRACK stats for 2025-02-23.
-2025-02-24 04:15:06,959 - INFO - === Done processing ALL_RACES_T_TRACK, last_date=2025-02-23 ===
-2025-02-24 04:15:06,959 - INFO - === Begin processing for ALL_RACES_JT_TRACK (All races stats for jockey-trainer by track) ===
-2025-02-24 04:15:06,960 - INFO - Last processed date for ALL_RACES_JT_TRACK is 2025-02-22
-2025-02-24 04:15:06,960 - INFO - 1 new race_dates to process for ALL_RACES_JT_TRACK: [datetime.date(2025, 2, 23)] ...
-2025-02-24 04:15:06,960 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-02-23
-2025-02-24 04:15:07,285 - INFO - Committed ALL_RACES_JT_TRACK stats for 2025-02-23.
-2025-02-24 04:15:07,286 - INFO - === Done processing ALL_RACES_JT_TRACK, last_date=2025-02-23 ===
-2025-02-24 04:15:07,286 - INFO - All stat_types processed successfully.
-2025-02-24 04:15:07,286 - INFO - Database connection closed.
+2025-02-25 04:15:01,061 - INFO - Logging initialized in /home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/stat_type_update_jy.log
+2025-02-25 04:15:01,066 - INFO - === Begin processing for ALL_RACES_J (All races stats for jockey) ===
+2025-02-25 04:15:01,068 - INFO - Last processed date for ALL_RACES_J is 2025-02-23
+2025-02-25 04:15:01,070 - INFO - 1 new race_dates to process for ALL_RACES_J: [datetime.date(2025, 2, 24)] ...
+2025-02-25 04:15:01,070 - INFO - Processing stat_type=ALL_RACES_J, race_date=2025-02-24
+2025-02-25 04:15:01,785 - INFO - Committed ALL_RACES_J stats for 2025-02-24.
+2025-02-25 04:15:01,785 - INFO - === Done processing ALL_RACES_J, last_date=2025-02-24 ===
+2025-02-25 04:15:01,785 - INFO - === Begin processing for ALL_RACES_JT (All races stats for jockey-trainer) ===
+2025-02-25 04:15:01,786 - INFO - Last processed date for ALL_RACES_JT is 2025-02-23
+2025-02-25 04:15:01,786 - INFO - 1 new race_dates to process for ALL_RACES_JT: [datetime.date(2025, 2, 24)] ...
+2025-02-25 04:15:01,786 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-02-24
+2025-02-25 04:15:01,910 - INFO - Committed ALL_RACES_JT stats for 2025-02-24.
+2025-02-25 04:15:01,910 - INFO - === Done processing ALL_RACES_JT, last_date=2025-02-24 ===
+2025-02-25 04:15:01,910 - INFO - === Begin processing for ALL_RACES_T (All races stats for trainer) ===
+2025-02-25 04:15:01,910 - INFO - Last processed date for ALL_RACES_T is 2025-02-23
+2025-02-25 04:15:01,911 - INFO - 1 new race_dates to process for ALL_RACES_T: [datetime.date(2025, 2, 24)] ...
+2025-02-25 04:15:01,911 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-02-24
+2025-02-25 04:15:02,532 - INFO - Committed ALL_RACES_T stats for 2025-02-24.
+2025-02-25 04:15:02,532 - INFO - === Done processing ALL_RACES_T, last_date=2025-02-24 ===
+2025-02-25 04:15:02,532 - INFO - === Begin processing for ALL_RACES_J_TRACK (All races stats for jockey by track) ===
+2025-02-25 04:15:02,532 - INFO - Last processed date for ALL_RACES_J_TRACK is 2025-02-23
+2025-02-25 04:15:02,533 - INFO - 1 new race_dates to process for ALL_RACES_J_TRACK: [datetime.date(2025, 2, 24)] ...
+2025-02-25 04:15:02,533 - INFO - Processing stat_type=ALL_RACES_J_TRACK, race_date=2025-02-24
+2025-02-25 04:15:02,703 - INFO - Committed ALL_RACES_J_TRACK stats for 2025-02-24.
+2025-02-25 04:15:02,704 - INFO - === Done processing ALL_RACES_J_TRACK, last_date=2025-02-24 ===
+2025-02-25 04:15:02,704 - INFO - === Begin processing for ALL_RACES_T_TRACK (All races stats for trainer by track) ===
+2025-02-25 04:15:02,704 - INFO - Last processed date for ALL_RACES_T_TRACK is 2025-02-23
+2025-02-25 04:15:02,704 - INFO - 1 new race_dates to process for ALL_RACES_T_TRACK: [datetime.date(2025, 2, 24)] ...
+2025-02-25 04:15:02,704 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-02-24
+2025-02-25 04:15:02,879 - INFO - Committed ALL_RACES_T_TRACK stats for 2025-02-24.
+2025-02-25 04:15:02,879 - INFO - === Done processing ALL_RACES_T_TRACK, last_date=2025-02-24 ===
+2025-02-25 04:15:02,879 - INFO - === Begin processing for ALL_RACES_JT_TRACK (All races stats for jockey-trainer by track) ===
+2025-02-25 04:15:02,879 - INFO - Last processed date for ALL_RACES_JT_TRACK is 2025-02-23
+2025-02-25 04:15:02,880 - INFO - 1 new race_dates to process for ALL_RACES_JT_TRACK: [datetime.date(2025, 2, 24)] ...
+2025-02-25 04:15:02,880 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-02-24
+2025-02-25 04:15:02,968 - INFO - Committed ALL_RACES_JT_TRACK stats for 2025-02-24.
+2025-02-25 04:15:02,968 - INFO - === Done processing ALL_RACES_JT_TRACK, last_date=2025-02-24 ===
+2025-02-25 04:15:02,968 - INFO - All stat_types processed successfully.
+2025-02-25 04:15:02,968 - INFO - Database connection closed.

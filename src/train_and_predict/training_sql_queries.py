@@ -8,6 +8,7 @@ def sql_queries():
                 UPPER(TRIM(r.course_cd)) AS course_cd,
                 r.race_date AS race_date,
                 r.race_number AS race_number,
+                r.post_time AS post_time,
                 UPPER(TRIM(r2.saddle_cloth_number)) AS saddle_cloth_number,
                 h.horse_id AS horse_id,
                 h.horse_name AS horse_name,

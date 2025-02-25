@@ -39,7 +39,7 @@ def objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, 
         "devices": "0,1",
         
         # Number of boosting iterations. Allow a large range.
-        "iterations": trial.suggest_int("iterations", 1000, 5000, step=100),
+        "iterations": trial.suggest_int("iterations", 1000, 5000, step=500),
         
         # Depth of trees – try a broader range.
         "depth": trial.suggest_int("depth", 4, 12),
@@ -98,16 +98,26 @@ def objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, 
 # The run_optuna function
 ###############################################################################
 def run_optuna(catboost_loss_functions, eval_metric, y_valid, train_pool, valid_pool, n_trials=100):
-    """Creates an Optuna study and runs the objective to maximize NDCG (higher is better)."""
+    """Creates an Optuna study with SQLite storage and runs the objective to maximize NDCG (higher is better)."""
     import optuna
-    study = optuna.create_study(direction="maximize")
+
+    # Define the storage URL and a study name.
+    storage = "sqlite:///optuna_study.db"
+    study_name = "catboost_optuna_study"
+
+    # Create the study, loading existing trials if the study already exists.
+    study = optuna.create_study(
+        study_name=study_name,
+        storage=storage,
+        load_if_exists=True,
+        direction="maximize"
+    )
     
     def _objective(trial):
         return objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, valid_pool)
     
     study.optimize(_objective, n_trials=n_trials)
     return study
-
 
 ###############################################################################
 # Train final model & save (train+valid -> catboost_enriched_results)
@@ -163,13 +173,13 @@ def train_and_save_model(
     enriched_train = train_data.copy()
     enriched_train["model_key"] = model_key
     enriched_train["prediction"] = train_preds
-    enriched_train["true_label"] = train_labels
+    enriched_train["relevance"] = train_labels
 
     # Enrich validation data
     enriched_valid = valid_data.copy()
     enriched_valid["model_key"] = model_key
     enriched_valid["prediction"] = valid_preds
-    enriched_valid["true_label"] = valid_labels
+    enriched_valid["relevance"] = valid_labels
 
     # Combine train & valid for DB
     combined_data = pd.concat([enriched_train, enriched_valid], ignore_index=True)
@@ -245,16 +255,28 @@ def evaluate_and_save_results(
         "model_key": model_key,
         "group_id": holdout_group_id,
         "prediction": holdout_preds,
-        "true_label": holdout_labels,
+        "relevance": holdout_labels,
         "horse_id": holdout_df["horse_id"].values  # Ensure horse_id is included for merging
     })
 
+    # print("[DEBUG] holdout_df columns (before merge):", holdout_df.columns.tolist())
+    # print("[DEBUG] holdout_predictions columns (before merge):", holdout_predictions.columns.tolist())
+    
+    # input("Press Enter to continue...Before Merge")
+    
     holdout_merged = holdout_predictions.merge(
         holdout_df,
         on=["group_id", "horse_id"],  # Merge on both group_id and horse_id
-        how="left"
+        how="left",
+        suffixes=("", "_df")
     )
-
+    
+    if "relevance_df" in holdout_merged.columns:
+        holdout_merged.drop(columns=["relevance_df"], inplace=True)
+    if "prediction_df" in holdout_merged.columns:
+        holdout_merged.drop(columns=["prediction_df"], inplace=True)
+    # print("[DEBUG] holdout_merged columns (after merge):", holdout_merged.columns.tolist())
+    
     logging.info(f"Final holdout_merged dataset size: {holdout_merged.shape}")
 
     # Convert race_date to str for Spark
@@ -277,12 +299,12 @@ def evaluate_and_save_results(
     prediction_std_devs = []
     all_true_vals = []
     all_pred_vals = []
-    all_true_labels = []  # For computing per-race NDCG.
+    all_relevance = []  # For computing per-race NDCG.
     all_predictions = []  # For computing per-race NDCG.
     total_groups = 0
 
         # Assume holdout_merged is your Pandas DataFrame with columns:
-        # "group_id", "true_label", "prediction", "horse_id"
+        # "group_id", "relevance", "prediction", "horse_id"
     for gid, group in holdout_merged.groupby("group_id"):
         # We need at least 2 horses per race for meaningful ranking.
         if len(group) < 2:
@@ -293,15 +315,19 @@ def evaluate_and_save_results(
         group_sorted_pred = group.sort_values("prediction", ascending=False).reset_index(drop=True)
         # Sort true labels in ascending order if lower finishing position means better finish.
         # (Adjust if your convention is different.)
-        group_sorted_true = group.sort_values("true_label", ascending=True).reset_index(drop=True)
         
-        # Top-4 Accuracy: Compare the top 4 predicted true_label values to the official top 4.
-        top4_predicted = group_sorted_pred.head(4)["true_label"].values
-        top4_actual = group_sorted_true.head(4)["true_label"].values
+        # print("[DEBUG] group.columns ->", group.columns.tolist())
+        # input("Press Enter to continue... group_sorted_true")
+        
+        group_sorted_true = group.sort_values("relevance", ascending=False).reset_index(drop=True)
+        
+        # Top-4 Accuracy: Compare the top 4 predicted relevance values to the official top 4.
+        top4_predicted = group_sorted_pred.head(4)["relevance"].values
+        top4_actual = group_sorted_true.head(4)["relevance"].values
         correct_top4 = len(np.intersect1d(top4_predicted, top4_actual))
         top4_accuracy_list.append(correct_top4 / 4.0)
         
-        # Perfect Order: If the top-4 predicted (by true_label) exactly match the official top-4 order.
+        # Perfect Order: If the top-4 predicted (by relevance) exactly match the official top-4 order.
         # (Here, order is compared; if you want to ignore order, you can compare sets.)
         if np.array_equal(top4_predicted, top4_actual):
             perfect_order_count += 1
@@ -326,11 +352,11 @@ def evaluate_and_save_results(
         prediction_std_devs.append(group_sorted_pred["prediction"].std())
         
         # Collect all true and predicted values (for global error metrics).
-        all_true_vals.extend(group["true_label"].values)
+        all_true_vals.extend(group["relevance"].values)
         all_pred_vals.extend(group["prediction"].values)
         
         # Also collect per-race arrays for NDCG calculation.
-        all_true_labels.append(group_sorted_true["true_label"].values)
+        all_relevance.append(group_sorted_true["relevance"].values)
         all_predictions.append(group_sorted_pred["prediction"].values)
 
     # Compute aggregate metrics.
@@ -345,7 +371,7 @@ def evaluate_and_save_results(
     spearman_corr = float(stats.spearmanr(all_true_vals, all_pred_vals)[0])
     ndcg_values = [
         ndcg_score([t], [p], k=3)
-        for t, p in zip(all_true_labels, all_predictions)
+        for t, p in zip(all_relevance, all_predictions)
     ]
     avg_ndcg_3 = float(np.mean(ndcg_values))
 
@@ -515,6 +541,11 @@ def split_data_and_train(
     valid_data = df[(df["race_date"] > train_end_date) & (df["race_date"] <= valid_data_end_date)].copy()
     holdout_data = df[df["race_date"] >= holdout_start].copy()
 
+    # print("[DEBUG] holdout_data columns:", holdout_data.columns.tolist())
+    # print("[DEBUG] 'relevance' in holdout_data? ->", "relevance" in holdout_data.columns)
+    # print("[DEBUG] holdout_data 'relevance' head:", holdout_data["relevance"].head(5).tolist())
+
+    # input("Press Enter to continue...")
     # 2) Uniqueness check
     def check_combination_uniqueness(data, data_name):
         combination_unique = data[["horse_id", "group_id"]].drop_duplicates().shape[0] == data.shape[0]
@@ -528,20 +559,16 @@ def split_data_and_train(
     check_combination_uniqueness(holdout_data, "holdout_data")
 
     # 3) Hardcode or load your numeric+embedding final features
-    final_feature_cols = ["has_gps","recent_avg_speed", "pace_delta_time", "time_behind" , "avgspd", "prev_race_date_numeric", "avg_dist_bk_gate1_5","gps_present", 
-                          "trainer_itm_track", "net_sentiment","dam_roi", "distance_meters", "jt_itm_percent", "sire_roi", "combined_3", "morn_odds", "avg_speed_5", 
-                          "avg_workout_rank_3", "jock_win_percent", "trainer_win_percent", "avg_strfreq_q1_5", "cond_show", "avg_dist_bk_gate4_5", 
-                          "standardized_score", "all_starts", "raw_performance_score", "weight", "jock_win_track", "avg_dist_bk_gate2_5", "jock_itm_track", 
-                          "count_workouts_3", "par_time", "sire_itm_percentage", "cond_starts", "normalized_score", "speed_improvement", "ave_cl_sd", 
-                          "all_earnings", "best_speed", "official_distance", "jt_win_percent", "all_show", "cond_fourth", "base_speed", "hi_spd_sd", 
-                           "avg_beaten_len_5", "wide_factor", "avg_dist_bk_gate3_5", "total_races_5", "days_off", "class_multiplier", "all_fourth", 
-                          "starts", "age_at_race_day", "trainer_itm_percent", "cond_win", "avg_speed_fullrace_5", "purse", "all_win", 
-                          "avg_spd_sd", "combined_0", "trainer_win_track", "avg_fin_5", "prev_speed_rating", "combined_2", "avg_stride_length_5", "avg_strfreq_q2_5", 
-                          "jt_win_track", "class_offset", "horse_itm_percentage", "jt_itm_track", "speed_rating", "jock_itm_percent", "avg_strfreq_q3_5", "pstyerl", 
-                          "all_place", "combined_1", "avg_strfreq_q4_5", "power", "previous_class", "race_count", "prev_speed", "claimprice", "first_race_date_5_numeric", 
-                          "off_finish_last_race", "cond_place", "most_recent_race_5_numeric", "previous_distance", "par_diff_ratio", "class_rating",  
-                          "combined_4", "dam_itm_percentage", "cond_earnings"]
-
+    final_feature_cols = ["combined_0","combined_1","combined_2","combined_3", "combined_4","previous_class", "class_rating", "previous_distance", "off_finish_last_race", 
+                          "count_workouts_3","avg_workout_rank_3","weight","days_off", 
+                          "cond_starts","cond_win","cond_place","cond_show","cond_fourth","cond_earnings",
+                          "all_starts", "all_win", "all_place", "all_show", "all_fourth","all_earnings", 
+                          "morn_odds","net_sentiment", 
+                          "distance_meters", "jt_itm_percent", 
+                          "trainer_win_track", "trainer_itm_track", "trainer_win_percent", "trainer_itm_percent", 
+                          "jock_win_track", "jock_win_percent","jock_itm_track",                            
+                          "jt_win_track", "jt_itm_track", "jock_itm_percent"
+                           ]
 
     # 4) Save them to JSON if needed
     now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -550,23 +577,26 @@ def split_data_and_train(
         json.dump(final_feature_cols, f)
 
     # 5) Build X,y for each split, referencing final_feature_cols
-    X_train = train_data[final_feature_cols].copy()
+    
+    all_feature_cols = final_feature_cols + cat_cols
+    
+    X_train = train_data[all_feature_cols].copy()
     y_train = train_data[label_col].values
     train_group_id = train_data["group_id"].values
 
-    X_valid = valid_data[final_feature_cols].copy()
+    X_valid = valid_data[all_feature_cols].copy()
     y_valid = valid_data[label_col].values
     valid_group_id = valid_data["group_id"].values
 
-    X_holdout = holdout_data[final_feature_cols].copy()
+    X_holdout = holdout_data[all_feature_cols].copy()
     y_holdout = holdout_data[label_col].values
     holdout_group_id = holdout_data["group_id"].values
 
     # 6) Build Pools
     # If no cat features, cat_features=[] or omit
-    train_pool = Pool(X_train, label=y_train, group_id=train_group_id)
-    valid_pool = Pool(X_valid, label=y_valid, group_id=valid_group_id)
-    holdout_pool = Pool(X_holdout, label=y_holdout, group_id=holdout_group_id)
+    train_pool = Pool(X_train, label=y_train, group_id=train_group_id, cat_features=cat_cols)
+    valid_pool = Pool(X_valid, label=y_valid, group_id=valid_group_id, cat_features=cat_cols)
+    holdout_pool = Pool(X_holdout, label=y_holdout, group_id=holdout_group_id, cat_features=cat_cols)
 
     # 7) minimal catboost training
     catboost_loss_functions = [
@@ -600,10 +630,10 @@ def split_data_and_train(
     logging.info(f"Saved final_feature_cols to {outpath}")
 
     # # Save
-    # save_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/all_models.json"
-    # with open(save_path, "w") as fp:
-    #     json.dump(all_models, fp, indent=2)
-    # print(f"Saved all_models to {save_path}")
+    save_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/all_models.json"
+    with open(save_path, "w") as fp:
+        json.dump(all_models, fp, indent=2)
+    print(f"Saved all_models to {save_path}")
 
     print("Done building minimal CatBoost model.")
     return all_models
@@ -624,8 +654,13 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
         hist_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_pdf, drop_label=False)
         logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
         
-        hist_pdf = assign_piecewise_log_labels(hist_pdf)
+        hist_pdf = assign_exponential_label(hist_pdf)
         logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
+        
+        hist_pdf = assign_exponential_label(hist_pdf)
+        # print("[DEBUG] After assigning labels - columns:", hist_pdf.columns.tolist())
+        # print("[DEBUG] 'relevance' missing? ->", "relevance" not in hist_pdf.columns)
+        # print("[DEBUG] Sample relevance values:", hist_pdf["relevance"].head().tolist())
         
         # Update your embed_cols list to use the new combined features.
         embed_cols = [f"combined_{i}" for i in range(5)]
@@ -701,14 +736,15 @@ def transform_horse_df_to_pandas(pdf_df, drop_label=False):
     pdf["race_date"] = pd.to_datetime(pdf["race_date"])
 
     # # Make certain columns categorical
-    # cat_cols = ["course_cd", "trk_cond", "sex", "equip", "surface", "med",
-    #             "race_type", "stk_clm_md", "turf_mud_mark", "layoff_cat","previous_surface"]
-    cat_cols = []
+    cat_cols = ["course_cd", "trk_cond", "sex", "equip", "surface", "med",
+                 "race_type", "stk_clm_md", "turf_mud_mark", "layoff_cat","previous_surface"]
+    # cat_cols = []
     
     excluded_cols = [
         "axciskey",         # Raw identifier
         "official_fin",     # Target column
         "relevance", 
+        "post_time",
         "horse_id",         # Original horse ID (we use the mapped horse_idx instead)
         "horse_name",       # Not used for prediction
         "race_date",        # Raw date; if not engineered further
@@ -723,33 +759,47 @@ def transform_horse_df_to_pandas(pdf_df, drop_label=False):
         "global_speed_score",  # Processed separately (e.g. via embeddings
     ]
 
-    # Convert to categorical data type
-    # for c in cat_cols:
-    #     if c in pdf.columns:
-    #         pdf[c] = pdf[c].astype("category")      
-    # # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
+    #Convert to categorical data type
+    for c in cat_cols:
+        if c in pdf.columns:
+            pdf[c] = pdf[c].astype("category")      
+    # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
     return pdf, cat_cols, excluded_cols
 
-def assign_piecewise_log_labels(df):
+def assign_exponential_label(df, alpha=0.8):
     """
-    If official_fin <= 4, assign them to a high relevance band (with small differences).
-    Otherwise, use a log-based formula that drops more sharply.
+    Maps finishing position 1 -> 1.0,
+    finishing position 2 -> alpha, 3 -> alpha^2, etc.
+    If alpha < 1, label decreases with worse finishing.
     """
-    def _relevance(fin):
-        if fin == 1:
-            return 40  # Could be 40 for 1st
-        elif fin == 2:
-            return 38  # Slightly lower than 1st, but still high
-        elif fin == 3:
-            return 36
-        elif fin == 4:
-            return 34
-        else:
-            # For 5th place or worse, drop off fast with a log formula:
-            # e.g. alpha=30, beta=4 => 5th => 30 / log(4+5)=30/log(9)= ~9
-            alpha = 30.0
-            beta  = 4.0
-            return alpha / np.log(beta + fin)
-    
-    df["relevance"] = df["official_fin"].apply(_relevance)
+    def _exp_label(fin):
+        # fin is the official finishing position, assume >= 1
+        return alpha ** (fin - 1)
+
+    df["relevance"] = df["official_fin"].apply(_exp_label)
     return df
+
+# Retired function
+# def assign_piecewise_log_labels(df):
+#     """
+#     If official_fin <= 4, assign them to a high relevance band (with small differences).
+#     Otherwise, use a log-based formula that drops more sharply.
+#     """
+#     def _relevance(fin):
+#         if fin == 1:
+#             return 40  # Could be 40 for 1st
+#         elif fin == 2:
+#             return 38  # Slightly lower than 1st, but still high
+#         elif fin == 3:
+#             return 36
+#         elif fin == 4:
+#             return 34
+#         else:
+#             # For 5th place or worse, drop off fast with a log formula:
+#             # e.g. alpha=30, beta=4 => 5th => 30 / log(4+5)=30/log(9)= ~9
+#             alpha = 30.0
+#             beta  = 4.0
+#             return alpha / np.log(beta + fin)
+    
+#     df["relevance"] = df["official_fin"].apply(_relevance)
+#     return df

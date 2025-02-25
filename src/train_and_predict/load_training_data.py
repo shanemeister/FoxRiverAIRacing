@@ -532,7 +532,6 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     # # train_df = train_df.na.drop(subset=critical_cols)
     cols_to_fill = ['distance_meters',
                     'off_finish_last_race',
-                    #'official_fin',
                     'pace_delta_time',
                     'prev_speed_rating',
                     'previous_class',

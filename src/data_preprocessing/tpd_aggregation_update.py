@@ -150,6 +150,124 @@ def update_net_sentiment(conn):
         conn.rollback()
         raise
 
+def update_previous_surface(conn):
+    cursor = conn.cursor()
+    update_query = """
+    UPDATE runners r
+    SET previous_surface = COALESCE(r2.surface, r.previous_surface)
+    FROM races r2
+    WHERE r.course_cd = r2.course_cd
+    AND r.race_date = r2.race_date
+    AND r.race_number = r2.race_number
+    AND EXISTS (
+        SELECT 1 
+        FROM results_entries re
+        WHERE r.course_cd = re.course_cd
+            AND r.race_date = re.race_date
+            AND r.race_number = re.race_number
+            AND r.saddle_cloth_number = re.program_num)
+    """
+    
+    try:
+        cursor.execute(update_query)
+        conn.commit()
+        logging.info("Update previous_surface successful.")
+    except Exception as e:
+        logging.error("Error during update: %s", e)
+        conn.rollback()
+
+def update_results_entries_speed_rating():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    conn = psycopg2.connect(
+        host=config['database']['host'],
+        port=config['database']['port'],
+        database=config['database']['dbname'],
+        user=config['database']['user'],
+        password=config['database']['password']
+    )
+    cursor = conn.cursor()
+    query = """
+    UPDATE results_entries re
+    SET speed_rating = (
+        SELECT re2.speed_rating
+        FROM results_entries re2
+        WHERE re2.axciskey = re.axciskey
+          AND (re2.race_date, re2.race_number) < (re.race_date, re.race_number)
+          AND re2.speed_rating IS NOT NULL
+        ORDER BY re2.race_date DESC, re2.race_number DESC
+        LIMIT 1
+    )
+    WHERE re.speed_rating IS NULL;
+    """
+    try:
+        cursor.execute(query)
+        conn.commit()
+        logging.info("Updated results_entries: filled missing speed_rating via LOCF.")
+    except Exception as e:
+        logging.error("Error updating results_entries: %s", e)
+        conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()
+
+def update_runners_prev_speed_rating(conn):
+    cursor = conn.cursor()
+    query = """
+    UPDATE runners r
+    SET prev_speed_rating = (
+        SELECT re.speed_rating
+        FROM results_entries re
+        WHERE re.course_cd = r.course_cd
+          AND re.race_date = r.race_date
+          AND re.race_number = r.race_number
+          AND re.program_num = r.saddle_cloth_number
+        LIMIT 1
+    )
+    WHERE EXISTS (
+        SELECT 1
+        FROM results_entries re
+        WHERE re.course_cd = r.course_cd
+          AND re.race_date = r.race_date
+          AND re.race_number = r.race_number
+          AND re.program_num = r.saddle_cloth_number
+    )
+    """
+    try:
+        cursor.execute(query)
+        conn.commit()
+        logging.info("Updated runners: prev_speed_rating set from results_entries.speed_rating.")
+    except Exception as e:
+        logging.error("Error updating runners: %s", e)
+        conn.rollback()
+    return
+        
+def update_speed_rating(conn):  
+    cursor = conn.cursor()
+    update_query = """
+    UPDATE results_entries re1
+    SET speed_rating = (
+        SELECT re2.speed_rating
+        FROM results_entries re2
+        WHERE re2.axciskey = re1.axciskey
+          AND (re2.race_date, re2.race_number) > (re1.race_date, re1.race_number)
+          AND re2.speed_rating IS NOT NULL
+        ORDER BY re2.race_date ASC, re2.race_number ASC
+        LIMIT 1
+    )
+    WHERE re1.speed_rating IS NULL;
+    """
+    try:
+        cursor.execute(update_query)
+        conn.commit()
+        logging.info("Speed_rating updated using forward-fill (LOCF) successfully.")
+    except Exception as e:
+        logging.error("Error updating speed_rating: %s", e)
+        conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()
+                
 def update_previous_race_data_and_race_count(conn):
     """
     Updates the runners table so that each row has data about that horse's most recent PRIOR race:
@@ -762,19 +880,23 @@ def main():
             update_distance_meters(conn)
             update_rr_par_time(conn)
             update_previous_race_data_and_race_count(conn)
+            update_speed_rating(conn)
+            update_runners_prev_speed_rating(conn)
+            update_previous_surface(conn)
             update_finish_time(conn)
-        finally:
-            db_pool.putconn(conn)
+        except Exception as e:
+            logging.error(f"Error updating net sentiment or one of the other blocks in this try: {e}")
     except Exception as e:
         logging.error(f"Error during Spark initialization: {e}")
         sys.exit(1)
 
-    # 6) Cleanup
-    if db_pool:
-        db_pool.closeall()
-    spark.stop()
-    logging.info("All tasks completed. Spark session stopped and DB pool closed.")
+        # 6) Cleanup
+        if db_pool:
+            db_pool.closeall()
+    
+        logging.info("All tasks completed. Spark session stopped and DB pool closed.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     main()
+    spark.stop()

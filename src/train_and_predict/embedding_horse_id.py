@@ -154,7 +154,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, conn, global_
         "all_starts", "all_win", "all_place", "all_show", "all_fourth", "horse_itm_percentage",
         "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi", "age_at_race_day",
         "speed_rating", "prev_speed_rating", "speed_improvement",
-        "power", "previous_class", "class_rating", 
+        "power", "previous_class", "class_rating",
         "avg_dist_bk_gate1_5", "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5",
         "avg_dist_bk_gate4_5", "avg_speed_fullrace_5", "avg_stride_length_5", "avg_strfreq_q1_5",
         "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5", 

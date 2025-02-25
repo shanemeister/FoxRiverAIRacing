@@ -10,6 +10,7 @@ from pandas.api.types import is_categorical_dtype
 import json
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
+from datetime import timedelta
 
 def make_future_predictions(
     pdf, 
@@ -97,7 +98,7 @@ def run_inference_for_future_multi(
     4) Return a Spark DataFrame of the results.
     """
     # Load the exact feature order from your JSON file.
-    with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250220_195203.json", "r") as f:
+    with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250223_223848.json", "r") as f:
         final_feature_cols = json.load(f)
     # Do NOT sort final_feature_cols here—use the order as loaded.
 
@@ -173,7 +174,10 @@ def run_inference_for_future_multi(
         raise
     
     # (E) Add a "data_flag" column based on race_date relative to current date.
-    today = datetime.date.today()
+    from datetime import timedelta
+
+    # Set 'today' to yesterday's date
+    today = datetime.date.today() - timedelta(days=1) # today = datetime.date.today()
     fut_df["data_flag"] = np.where(pd.to_datetime(fut_df["race_date"]).dt.date >= today, "future", "historical")
     
     # (F) Convert fut_df back to a Spark DataFrame.
@@ -189,7 +193,7 @@ def run_inference_for_future_multi(
         .option("dbtable", table_name) \
         .option("user", db_properties["user"]) \
         .option("driver", db_properties["driver"]) \
-        .mode("append") \
+        .mode("overwrite") \
         .save()
     
     logging.info(f"Appended {fut_df.shape[0]} predictions to DB table '{table_name}'.")

@@ -741,3 +741,32 @@ rr_par_time updated successfully.
 finish_time updated successfully.
 2025-02-24 05:07:28 - Python script succeeded
 2025-02-24 05:07:28 - Job completed
+2025-02-25 05:00:02 - Starting stat_type_update job
+2025-02-25 05:00:02 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-25 05:00:02 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/02/25 05:00:03 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/02/25 05:00:03 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/02/25 05:00:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/02/25 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/02/25 05:00:04 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/02/25 05:00:04 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+25/02/25 05:00:04 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
+25/02/25 05:00:04 WARN Utils: Service 'SparkUI' could not bind on port 4043. Attempting port 4044.
+25/02/25 05:00:04 WARN Utils: Service 'SparkUI' could not bind on port 4044. Attempting port 4045.
+25/02/25 05:00:04 WARN Utils: Service 'SparkUI' could not bind on port 4045. Attempting port 4046.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>    (0 + 1) / 1][Stage 3:>    (0 + 1) / 1][Stage 4:>    (0 + 1) / 1][Stage 2:>    (0 + 1) / 1][Stage 3:>    (0 + 1) / 1][Stage 4:>    (0 + 1) / 1][Stage 3:>                                                          (0 + 1) / 1][Stage 8:>                                                      (0 + 128) / 200][Stage 8:>                                                      (1 + 129) / 200][Stage 8:=>                                                     (5 + 128) / 200][Stage 8:=>                                                     (7 + 128) / 200][Stage 8:==>                                                    (8 + 129) / 200][Stage 8:====>                                                 (15 + 128) / 200][Stage 8:========================>                             (91 + 109) / 200][Stage 8:===================================>                  (133 + 67) / 200][Stage 8:====================================>                 (137 + 63) / 200][Stage 8:=======================================>              (148 + 52) / 200][Stage 8:=========================================>            (155 + 45) / 200][Stage 8:==================================================>   (186 + 14) / 200]                                                                                [Stage 9:>                  (0 + 1) / 1][Stage 10:>                 (0 + 1) / 1][Stage 9:>                                                          (0 + 1) / 1][Stage 13:=======================>                               (20 + 27) / 47]                                                                                [Stage 27:>   (0 + 1) / 1][Stage 28:>   (0 + 1) / 1][Stage 29:>   (0 + 1) / 1][Stage 27:>                 (0 + 1) / 1][Stage 29:>                 (0 + 1) / 1][Stage 27:>                                                         (0 + 1) / 1][Stage 33:>                                                     (0 + 100) / 100][Stage 33:>                                                      (1 + 99) / 100][Stage 33:===========>                                          (22 + 78) / 100]                                                                                Spark session created successfully.
+DataFrame 'gpspoint' Schema:
+DataFrame 'sectionals' Schema:
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py", line 902, in <module>
+    spark.stop()
+    ^^^^^
+NameError: name 'spark' is not defined
+2025-02-25 05:05:50 - Python script failed with exit code 1
