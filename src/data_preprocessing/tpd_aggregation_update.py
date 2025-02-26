@@ -3,31 +3,32 @@ import os
 import sys
 import traceback
 import time
+from pyspark.sql import Window
+from datetime import datetime
 import configparser
 import pandas as pd
 import psycopg2
 from psycopg2 import sql, pool, DatabaseError
-
 from pyspark.sql import SparkSession, Window
 from pyspark.sql.functions import (
     col, min as F_min, max as F_max, sum as F_sum, avg as F_avg,
     when, count, first, last, expr, ntile, lag, lead, stddev, stddev_samp
 )
-
 from src.data_preprocessing.tpd_agg_queries import tpd_sql_queries
-# If needed for merges or advanced windowing
-# from pyspark.sql.window import Window
-
-# -------------
-# Local imports
-# -------------
 from src.data_ingestion.ingestion_utils import update_ingestion_status
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql, reload_parquet_files
 
-def setup_logging(script_dir, log_file):
+def setup_logging(sript_dir, log_dir=None):
     """Sets up logging configuration to write logs to a file and the console."""
     try:
+        # Default log directory
+        if not log_dir:
+            log_dir = '/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs'
+        
+        # Ensure the log directory exists
+        os.makedirs(log_dir, exist_ok=True)
+        log_file = os.path.join(log_dir, 'tpd_aggregation.log')
         # Clear the log file by opening it in write mode
         with open(log_file, 'w'):
             pass  # This will truncate the file without writing anything
@@ -207,9 +208,6 @@ def update_results_entries_speed_rating():
     except Exception as e:
         logging.error("Error updating results_entries: %s", e)
         conn.rollback()
-    finally:
-        cursor.close()
-        conn.close()
 
 def update_runners_prev_speed_rating(conn):
     cursor = conn.cursor()
@@ -264,9 +262,6 @@ def update_speed_rating(conn):
     except Exception as e:
         logging.error("Error updating speed_rating: %s", e)
         conn.rollback()
-    finally:
-        cursor.close()
-        conn.close()
                 
 def update_previous_race_data_and_race_count(conn):
     """
@@ -506,13 +501,6 @@ def calculate_gps_metrics_quartile_and_write(
     :return: None
     """
 
-    import logging
-    import time
-    from pyspark.sql.functions import (
-        col, when, lag, first, last, avg as F_avg, stddev_samp, sum as F_sum,
-        max as F_max, min as F_min, ntile
-    )
-    from pyspark.sql import Window
 
     logging.info("Starting quartile-based GPS metrics calculation...")
 
@@ -705,9 +693,6 @@ def calculate_gps_metrics_quartile_and_write(
 
     elapsed = time.time() - start_time
     logging.info(f"GPS quartile metrics aggregated and written in {elapsed:.2f} seconds.")
-
-    if conn:
-        conn.close()
    
 def spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties):
     """
@@ -794,9 +779,6 @@ def spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties):
     )
     logging.info(f"Staging table {staging_table} written successfully.")
 
-    if conn:
-        conn.close()
-
     elapsed = time.time() - start_time
     logging.info(f"Spark-based sectionals aggregation and write completed in {elapsed:.2f} seconds.")
 
@@ -825,9 +807,7 @@ def add_pk_and_indexes(db_pool, output_table):
                 print("DDL statements executed successfully.")            
         except Exception as e:
             print(f"Error executing DDL: {e}")
-        finally:
-            if conn:
-                db_pool.putconn(conn)
+            
 def main():
     """
     Main function to:
@@ -839,15 +819,16 @@ def main():
     """
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config = read_config(script_dir)
-
+    dataset_log_file = os.path.join(script_dir, f"../../logs/{datetime.now().strftime('%Y-%m-%d')}_dataset.log")
+    setup_logging(script_dir, log_dir=dataset_log_file)
     # 1) Create DB pool
     db_pool = get_db_pool(config)
     
     # 2) Initialize Spark
     try:
-        spark, jdbc_url, jdbc_properties, parquet_dir, log_file = initialize_environment()
+        spark, jdbc_url, jdbc_properties, parquet_dir, _ = initialize_environment()
         
-        setup_logging(script_dir, log_file)
+        setup_logging(script_dir, log_dir=dataset_log_file)
 
         # Load and write data to parquet
         queries = tpd_sql_queries()
@@ -877,26 +858,48 @@ def main():
         conn = db_pool.getconn()
         try:
             update_net_sentiment(conn)
+        except Exception as e:
+            logging.error(f"Error updating net sentiment: {e}")
+            conn.rollback()
+        try:
             update_distance_meters(conn)
+        except Exception as e:
+            logging.error(f"Error updating distance_meters: {e}")
+        try:
             update_rr_par_time(conn)
+        except Exception as e:
+            logging.error(f"Error updating rr_par_time: {e}")
+        try:
             update_previous_race_data_and_race_count(conn)
+        except Exception as e:
+            logging.error(f"Error updating update_previous_race_data_and_race_count: {e}")
+        try:    
             update_speed_rating(conn)
+        except Exception as e:
+            logging.error(f"Error updating speed_rating: {e}")
+        try:
             update_runners_prev_speed_rating(conn)
+        except Exception as e:
+            logging.error(f"Error updating runners_prev_speed_rating: {e}")    
+        try:
             update_previous_surface(conn)
+        except Exception as e:
+            logging.error(f"Error updating previous_surface: {e}")
+        try:
             update_finish_time(conn)
         except Exception as e:
-            logging.error(f"Error updating net sentiment or one of the other blocks in this try: {e}")
+            logging.error(f"Error updating update_finish_time: {e}")
     except Exception as e:
         logging.error(f"Error during Spark initialization: {e}")
         sys.exit(1)
-
-        # 6) Cleanup
-        if db_pool:
-            db_pool.closeall()
     
         logging.info("All tasks completed. Spark session stopped and DB pool closed.")
-
+    finally:
+        if spark:
+            spark.stop()
+        if db_pool:
+            db_pool.closeall()
+            
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     main()
-    spark.stop()

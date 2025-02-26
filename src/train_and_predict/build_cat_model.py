@@ -11,110 +11,141 @@ from pyspark.sql.functions import col
 from catboost import CatBoostRanker, Pool, CatBoostError
 from src.data_preprocessing.data_prep1.data_utils import save_parquet
 from src.train_and_predict.final_predictions import main_inference
-from sklearn.metrics import mean_squared_error, mean_absolute_error, ndcg_score
+from sklearn.metrics import root_mean_squared_error, mean_squared_error, mean_absolute_error, ndcg_score
 import scipy.stats as stats
 
 
 ###############################################################################
-# Helper function to get a timestamp for filenames
+# Create a class to enable calculation of NDCG from the objective function 
 ###############################################################################
 
+class DataSplits:
+    def __init__(self, X_train, y_train, train_group_id, X_valid, y_valid, valid_group_id, X_holdout, y_holdout, holdout_group_id,
+        train_data, valid_data, holdout_data, cat_cols):
+        # build X, y, group_id for each split
+        self.X_train = X_train
+        self.y_train = y_train
+        self.train_group_id = train_group_id
+        self.X_valid = X_valid
+        self.y_valid = y_valid
+        self.valid_group_id = valid_group_id
+        self.X_holdout= X_holdout
+        self.y_holdout = y_holdout
+        self.holdout_group_id = holdout_group_id
+        self.train_data = train_data
+        self.valid_data = valid_data
+        self.holdout_data = holdout_data
+        self.cat_cols = cat_cols
+        # Create CatBoost Pools
+        
+        self.train_pool = Pool(
+            data=self.X_train,
+            label=self.y_train,
+            group_id=self.train_group_id,
+            cat_features=self.cat_cols
+        )
 
+        self.valid_pool = Pool(
+            data=self.X_valid,
+            label=self.y_valid,
+            group_id=self.valid_group_id,
+            cat_features=self.cat_cols
+        )
 
+        self.holdout_pool = Pool(
+            data=self.X_holdout,
+            label=self.y_holdout,
+            group_id=self.holdout_group_id,
+            cat_features=self.cat_cols
+        )    
+            
+    def compute_ndcg(self, model, k=4):
+        """
+        Example method that calculates NDCG@k on the validation data
+        using sklearn's ndcg_score on a *per-group* basis, then averages.
+        """
+        from sklearn.metrics import ndcg_score
+        import numpy as np
+        
+        val_preds = model.predict(self.valid_pool)  # predictions for each row in valid set
+        all_ndcgs = []
+
+        # Loop over each unique group in valid data
+        unique_groups = np.unique(self.valid_group_id)
+        for gid in unique_groups:
+            mask = (self.valid_group_id == gid)
+            group_true = self.y_valid[mask].reshape(1, -1)
+            group_preds = val_preds[mask].reshape(1, -1)
+            group_ndcg = ndcg_score(group_true, group_preds, k=k)
+            all_ndcgs.append(group_ndcg)
+
+        return float(np.mean(all_ndcgs))
+    
+###############################################################################
+# Helper function to get a timestamp for filenames
+###############################################################################
 def get_timestamp():
     return datetime.now().strftime("%Y%m%d_%H%M%S")
 ###############################################################################
 # Helper function: The Optuna objective for ranking
 ###############################################################################
-def objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, valid_pool):
-    
-    # Log the chosen parameters for this trial.
-    logging.info(f"Trial {trial.number} parameters: loss_function={catboost_loss_functions}, eval_metric={eval_metric}, "
-                 f"iterations={trial.suggest_int('iterations', 1000, 5000, step=100)}")
+def objective(trial, catboost_loss_functions, eval_metric, data_splits):
+    logging.info(f"Trial {trial.number} with {catboost_loss_functions}, {eval_metric}")
 
     params = {
         "loss_function": catboost_loss_functions,
         "eval_metric": eval_metric,
         "task_type": "GPU",
         "devices": "0,1",
-        
-        # Number of boosting iterations. Allow a large range.
         "iterations": trial.suggest_int("iterations", 1000, 5000, step=500),
-        
-        # Depth of trees – try a broader range.
         "depth": trial.suggest_int("depth", 4, 12),
-        
-        # Learning rate with a logarithmic scale.
         "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.3, log=True),
-        
-        # L2 leaf regularization.
         "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 0.1, 20.0, log=True),
-        
-        # Grow policy: Depthwise, Lossguide, or SymmetricTree.
         "grow_policy": trial.suggest_categorical("grow_policy", ["Depthwise", "Lossguide", "SymmetricTree"]),
-        
-        # Random strength, which can help with overfitting.
         "random_strength": trial.suggest_float("random_strength", 0.1, 10.0, log=True),
-        
-        # Minimum number of data points in a leaf.
         "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 1, 30),
-        
-        # Bagging temperature can affect randomness in sampling.
         "bagging_temperature": trial.suggest_float("bagging_temperature", 0.0, 1.0, step=0.1),
-        
-        # Border count controls the discretization of continuous features.
         "border_count": trial.suggest_int("border_count", 1, 255),
-        
-        # Overfitting detector type and waiting rounds.
         "od_type": trial.suggest_categorical("od_type", ["IncToDec", "Iter"]),
-        
         "random_seed": 42,
         "verbose": 50,
         "early_stopping_rounds": trial.suggest_int("early_stopping_rounds", 50, 200, step=10),
         "allow_writing_files": False
     }
     
-    from catboost import CatBoostRanker
     model = CatBoostRanker(**params)
-    model.fit(train_pool, eval_set=valid_pool, early_stopping_rounds=params["early_stopping_rounds"])
+    model.fit(
+        data_splits.train_pool, 
+        eval_set=data_splits.valid_pool, 
+        use_best_model=True, 
+        early_stopping_rounds=params["early_stopping_rounds"]
+    )
     
-    # Get best score from validation. We expect our eval_metric (NDCG) to be maximized.
-    score_dict = model.get_best_score()
-    val_preds = model.predict(valid_pool)
-    
-    if "validation" in score_dict:
-        metric_key = f"{eval_metric};type=Base"
-        valid_ndcg = score_dict["validation"].get(metric_key, 0.0)
-    else:
-        # Fallback: compute NDCG manually (requires at least 2 documents per group).
-        from sklearn.metrics import ndcg_score
-        true_vals = y_valid.reshape(1, -1)
-        pred_vals = val_preds.reshape(1, -1)
-        valid_ndcg = ndcg_score(true_vals, pred_vals, k=4)
-    
+    # Compute NDCG@4 via your class method
+    valid_ndcg = data_splits.compute_ndcg(model, k=4)
     return valid_ndcg
 
 ###############################################################################
 # The run_optuna function
 ###############################################################################
-def run_optuna(catboost_loss_functions, eval_metric, y_valid, train_pool, valid_pool, n_trials=100):
+def run_optuna(catboost_loss_functions, eval_metric, n_trials=20, data_splits=None):
     """Creates an Optuna study with SQLite storage and runs the objective to maximize NDCG (higher is better)."""
     import optuna
 
     # Define the storage URL and a study name.
     storage = "sqlite:///optuna_study.db"
-    study_name = "catboost_optuna_study"
+    study_name = "catboost_optuna_top4"  # "catboost_optuna_study_rmse_min" #"catboost_optuna_study"
 
     # Create the study, loading existing trials if the study already exists.
     study = optuna.create_study(
         study_name=study_name,
         storage=storage,
         load_if_exists=True,
-        direction="maximize"
+        direction="minimize"
     )
     
     def _objective(trial):
-        return objective(trial, catboost_loss_functions, eval_metric, y_valid, train_pool, valid_pool)
+        return objective(trial, catboost_loss_functions, eval_metric, data_splits)
     
     study.optimize(_objective, n_trials=n_trials)
     return study
@@ -366,7 +397,9 @@ def evaluate_and_save_results(
     perfect_order_percentage = float(perfect_order_count / total_groups)  # As a fraction (multiply by 100 if percentage desired)
     MRR = float(np.mean(reciprocal_ranks))
     prediction_variance = float(np.mean(prediction_std_devs))
-    RMSE = float(np.sqrt(mean_squared_error(np.array(all_true_vals), np.array(all_pred_vals))))
+    #RMSE = float(np.sqrt(mean_squared_error(np.array(all_true_vals), np.array(all_pred_vals))))
+    RMSE = float(root_mean_squared_error(np.array(all_true_vals), np.array(all_pred_vals)))
+    
     MAE = float(mean_absolute_error(np.array(all_true_vals), np.array(all_pred_vals)))
     spearman_corr = float(stats.spearmanr(all_true_vals, all_pred_vals)[0])
     ndcg_values = [
@@ -449,7 +482,8 @@ def main_script(
     catboost_loss_functions,
     catboost_eval_metrics,
     jdbc_url, jdbc_properties,
-    db_table  # single final table: catboost_enriched_results
+    db_table,  # single final table: catboost_enriched_results
+    data_splits
 ):
     """
     1) For each combination of catboost_loss_functions & catboost_eval_metrics:
@@ -469,10 +503,8 @@ def main_script(
             study = run_optuna(
                 catboost_loss_functions=loss_func,
                 eval_metric=eval_met,
-                train_pool=train_pool,
-                valid_pool=valid_pool,
-                y_valid=y_valid,
-                n_trials=100
+                n_trials=20,
+                data_splits=data_splits
             )
 
             best_score = study.best_value
@@ -579,7 +611,7 @@ def split_data_and_train(
     # 5) Build X,y for each split, referencing final_feature_cols
     
     all_feature_cols = final_feature_cols + cat_cols
-    
+
     X_train = train_data[all_feature_cols].copy()
     y_train = train_data[label_col].values
     train_group_id = train_data["group_id"].values
@@ -592,19 +624,24 @@ def split_data_and_train(
     y_holdout = holdout_data[label_col].values
     holdout_group_id = holdout_data["group_id"].values
 
-    # 6) Build Pools
-    # If no cat features, cat_features=[] or omit
     train_pool = Pool(X_train, label=y_train, group_id=train_group_id, cat_features=cat_cols)
     valid_pool = Pool(X_valid, label=y_valid, group_id=valid_group_id, cat_features=cat_cols)
     holdout_pool = Pool(X_holdout, label=y_holdout, group_id=holdout_group_id, cat_features=cat_cols)
 
+    data_splits = DataSplits(
+        X_train, y_train, train_group_id,
+        X_valid, y_valid, valid_group_id,
+        X_holdout, y_holdout, holdout_group_id,
+        train_data, valid_data, holdout_data, cat_cols)
+    
     # 7) minimal catboost training
     catboost_loss_functions = [
         # "YetiRank:top=1",
         # "YetiRank:top=2",
         # "YetiRank:top=3",
-        "YetiRank:top=4",
-        "QueryRMSE"
+        "YetiRank",
+        "YetiRank:top=4"
+        # "QueryRMSE"
     ]
     catboost_eval_metrics = ["NDCG:top=1", "NDCG:top=2", "NDCG:top=3", "NDCG:top=4"]
 
@@ -619,7 +656,8 @@ def split_data_and_train(
         catboost_eval_metrics=catboost_eval_metrics,
         jdbc_url=jdbc_url,
         jdbc_properties=jdbc_properties,
-        db_table=db_table
+        db_table=db_table,
+        data_splits=data_splits
     )
 
     # 3) Save final_feature_cols with a timestamp to avoid overwriting
@@ -654,10 +692,9 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
         hist_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_pdf, drop_label=False)
         logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
         
-        hist_pdf = assign_exponential_label(hist_pdf)
+        hist_pdf = assign_labels(hist_pdf, alpha=0.8)
         logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
         
-        hist_pdf = assign_exponential_label(hist_pdf)
         # print("[DEBUG] After assigning labels - columns:", hist_pdf.columns.tolist())
         # print("[DEBUG] 'relevance' missing? ->", "relevance" not in hist_pdf.columns)
         # print("[DEBUG] Sample relevance values:", hist_pdf["relevance"].head().tolist())
@@ -744,6 +781,7 @@ def transform_horse_df_to_pandas(pdf_df, drop_label=False):
         "axciskey",         # Raw identifier
         "official_fin",     # Target column
         "relevance", 
+        "top4_label",
         "post_time",
         "horse_id",         # Original horse ID (we use the mapped horse_idx instead)
         "horse_name",       # Not used for prediction
@@ -766,17 +804,16 @@ def transform_horse_df_to_pandas(pdf_df, drop_label=False):
     # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
     return pdf, cat_cols, excluded_cols
 
-def assign_exponential_label(df, alpha=0.8):
+def assign_labels(df, alpha=0.8):
     """
-    Maps finishing position 1 -> 1.0,
-    finishing position 2 -> alpha, 3 -> alpha^2, etc.
-    If alpha < 1, label decreases with worse finishing.
+    1) Exponential label in [0,1] for ranking,
+    2) Binary label for top-4 or not.
     """
     def _exp_label(fin):
-        # fin is the official finishing position, assume >= 1
         return alpha ** (fin - 1)
 
     df["relevance"] = df["official_fin"].apply(_exp_label)
+    df["top4_label"] = (df["official_fin"] <= 4).astype(int)
     return df
 
 # Retired function

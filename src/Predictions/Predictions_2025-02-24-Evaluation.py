@@ -220,7 +220,7 @@ def main():
     sql = f"""
     SELECT {sql_select}
     FROM predictions_2025_02_23_1
-    WHERE race_date >= CURRENT_DATE - 1
+    WHERE race_date >= CURRENT_DATE - 3
     ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
 

@@ -1,9 +1,9 @@
-2025-02-24 12:13:44 - INFO - Logging initialized.
-2025-02-24 12:13:44 - INFO - No password in config; relying on .pgpass or other method.
-2025-02-24 12:13:44 - INFO - Connection pool created successfully.
-2025-02-24 12:13:46 - INFO - Loaded predictions from DB. Shape: (1301, 12)
-2025-02-24 12:13:46 - INFO - Winning probabilities computed.
-2025-02-24 12:13:46 - INFO - Writing predictions to DOCX: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/final_predictions_CoPilot_2025-02-24.docx
-2025-02-24 12:13:55 - INFO - Predictions saved to DOCX file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/final_predictions_CoPilot_2025-02-24.docx
-2025-02-24 12:13:55 - INFO - Predictions document created successfully.
-2025-02-24 12:13:55 - INFO - Closing down clientserver connection
+2025-02-25 21:48:54 - INFO - Logging initialized.
+2025-02-25 21:48:54 - INFO - No password in config; relying on .pgpass or other method.
+2025-02-25 21:48:54 - INFO - Connection pool created successfully.
+2025-02-25 21:48:56 - INFO - Loaded predictions from DB. Shape: (1301, 12)
+2025-02-25 21:48:56 - INFO - Winning probabilities computed.
+2025-02-25 21:48:56 - INFO - Writing predictions to DOCX: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/final_predictions_CoPilot_2025-02-25.docx
+2025-02-25 21:49:05 - INFO - Predictions saved to DOCX file: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/final_predictions_CoPilot_2025-02-25.docx
+2025-02-25 21:49:05 - INFO - Predictions document created successfully.
+2025-02-25 21:49:05 - INFO - Closing down clientserver connection

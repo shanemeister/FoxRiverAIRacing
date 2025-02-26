@@ -1,0 +1,16 @@
+2025-02-26 10:06:54 - INFO - Logging has been set up successfully.
+2025-02-26 10:06:54 - INFO - Updating net_sentiment beginning...
+2025-02-26 10:06:59 - INFO - Net sentiment updated successfully in 4.62 seconds.
+2025-02-26 10:06:59 - INFO - Updating distance_meters in racedata beginning...
+2025-02-26 10:07:01 - INFO - Distance_meters updated successfully in 1.74 seconds.
+2025-02-26 10:07:01 - INFO - Updating rr_par_time in races beginning...
+2025-02-26 10:07:01 - INFO - rr_par_time updated successfully in 0.61 seconds.
+2025-02-26 10:07:01 - INFO - Updating previous race data and race count in runners beginning...
+2025-02-26 10:07:16 - INFO - Previous race data and race count updated successfully.
+2025-02-26 10:07:16 - INFO - Time taken to update previous race data and race count: 14.527742862701416 seconds
+2025-02-26 10:07:16 - INFO - Speed_rating updated using forward-fill (LOCF) successfully.
+2025-02-26 10:07:25 - INFO - Updated runners: prev_speed_rating set from results_entries.speed_rating.
+2025-02-26 10:07:34 - INFO - Update previous_surface successful.
+2025-02-26 10:07:34 - INFO - Updating finish_time in results_entries beginning...
+2025-02-26 10:07:47 - INFO - finish_time updated successfully in 13.07 seconds.
+2025-02-26 10:07:48 - INFO - Closing down clientserver connection

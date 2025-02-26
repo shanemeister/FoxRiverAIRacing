@@ -1,31 +1,11 @@
-2025-02-25 03:00:22 - INFO - Logging has been set up successfully.
-2025-02-25 03:00:22 - INFO - Setting up logging for GPSData
-2025-02-25 03:00:22 - INFO - Starting ingestion job
-2025-02-25 03:00:22 - INFO - Starting ingestion for: GPSData
-2025-02-25 03:00:22 - INFO - Total number of files in the directory: 94037
-2025-02-25 03:00:22 - INFO - Number of valid files matching the pattern: 94034
-2025-02-25 03:00:23 - INFO - Total number of files skipped: 57789
-2025-02-25 03:00:23 - INFO - Total number of files skipped due to cutoff date: 27482
-2025-02-25 03:00:23 - INFO - Total number of files skipped due to bad course_cd: 8753
-2025-02-25 03:00:23 - INFO - Processing GPSData data from file 81202502241230
-2025-02-25 03:00:23 - INFO - Successfully processed: filename: 81202502241230 course_cd: TOP
-2025-02-25 03:00:23 - INFO - Processing GPSData data from file 81202502241305
-2025-02-25 03:00:23 - INFO - Successfully processed: filename: 81202502241305 course_cd: TOP
-2025-02-25 03:00:23 - INFO - Processing GPSData data from file 81202502241337
-2025-02-25 03:00:23 - INFO - Successfully processed: filename: 81202502241337 course_cd: TOP
-2025-02-25 03:00:23 - INFO - Processing GPSData data from file 81202502241409
-2025-02-25 03:00:23 - INFO - Successfully processed: filename: 81202502241409 course_cd: TOP
-2025-02-25 03:00:23 - INFO - Processing GPSData data from file 81202502241441
-2025-02-25 03:00:23 - INFO - Successfully processed: filename: 81202502241441 course_cd: TOP
-2025-02-25 03:00:23 - INFO - Processing GPSData data from file 81202502241513
-2025-02-25 03:00:23 - INFO - Successfully processed: filename: 81202502241513 course_cd: TOP
-2025-02-25 03:00:23 - INFO - Processing GPSData data from file 81202502241545
-2025-02-25 03:00:23 - INFO - Successfully processed: filename: 81202502241545 course_cd: TOP
-2025-02-25 03:00:23 - INFO - Processing GPSData data from file 81202502241617
-2025-02-25 03:00:24 - INFO - Successfully processed: filename: 81202502241617 course_cd: TOP
-2025-02-25 03:00:24 - INFO - Processing GPSData data from file 81202502241651
-2025-02-25 03:00:24 - INFO - Successfully processed: filename: 81202502241651 course_cd: TOP
-2025-02-25 03:00:24 - INFO - Processing GPSData data from file 81202502241723
-2025-02-25 03:00:24 - INFO - Successfully processed: filename: 81202502241723 course_cd: TOP
-2025-02-25 03:00:24 - INFO - Ingestion for GPSData succeeded
-2025-02-25 03:00:24 - INFO - Setting up logging for Routes
+2025-02-26 03:00:22 - INFO - Logging has been set up successfully.
+2025-02-26 03:00:22 - INFO - Setting up logging for GPSData
+2025-02-26 03:00:22 - INFO - Starting ingestion job
+2025-02-26 03:00:22 - INFO - Starting ingestion for: GPSData
+2025-02-26 03:00:22 - INFO - Total number of files in the directory: 94037
+2025-02-26 03:00:23 - INFO - Number of valid files matching the pattern: 94034
+2025-02-26 03:00:23 - INFO - Total number of files skipped: 57799
+2025-02-26 03:00:23 - INFO - Total number of files skipped due to cutoff date: 27482
+2025-02-26 03:00:23 - INFO - Total number of files skipped due to bad course_cd: 8753
+2025-02-26 03:00:23 - INFO - Ingestion for GPSData succeeded
+2025-02-26 03:00:23 - INFO - Setting up logging for Routes

@@ -376,7 +376,6 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     logging.info(f"After filtering: Number of rows with data_flag='future': {future_count}")
     logging.info(f"After filtering: Number of rows with data_flag='historical': {historical_count}")
 
-    input("Press Enter to continue...After filter of courses from training data")
     train_df.printSchema()
     row_count = train_df.count()
     logging.info(f"Row count: {row_count}")

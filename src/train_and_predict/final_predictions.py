@@ -15,6 +15,7 @@ from datetime import timedelta
 def make_future_predictions(
     pdf, 
     final_feature_cols, 
+    cat_cols,
     model_path, 
     model_type="ranker"
 ):
@@ -44,7 +45,6 @@ def make_future_predictions(
         # Build X from final_feature_cols
         X_infer = pdf[final_feature_cols].copy()
         group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
-        cat_cols = []
         pred_pool = Pool(
             data=X_infer,
             group_id=group_ids,
@@ -98,10 +98,21 @@ def run_inference_for_future_multi(
     4) Return a Spark DataFrame of the results.
     """
     # Load the exact feature order from your JSON file.
-    with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250223_223848.json", "r") as f:
+    with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250225_210333.json", "r") as f:
         final_feature_cols = json.load(f)
     # Do NOT sort final_feature_cols here—use the order as loaded.
+    # Suppose you already did:
+    # final_feature_cols = json.load(...)
 
+    # Merge cat_cols to ensure they appear in final_feature_cols
+    for col in cat_cols:
+        if col not in final_feature_cols:
+            final_feature_cols.append(col)
+    
+    for c in cat_cols:
+        if c in fut_df.columns:
+            fut_df[c] = fut_df[c].astype("category")
+                    
     try:
         # Gather model files.
         model_files = [
@@ -147,7 +158,8 @@ def run_inference_for_future_multi(
             try:
                 scored_df = make_future_predictions(
                     inference_df, 
-                    final_feature_cols, 
+                    final_feature_cols,
+                    cat_cols, 
                     model_path, 
                     model_type="ranker"
                 )
@@ -205,6 +217,12 @@ def main_inference(spark, fut_pdf, cat_cols, excluded_cols, jdbc_url, jdbc_prope
     Example main function to run multi-model inference, 
     produce CSV, and append results to DB.
     """
+    tpd_tracks = [
+    'CNL','SAR','PIM','TSA','BEL','MVR','TWO','CLS','KEE','TAM','TTP','TKD','ELP','PEN','HOU',
+    'DMR','TLS','AQU','MTH','TGP','TGG','CBY','LRL','TED','IND','CTD','ASD','TCD','LAD','TOP'
+    ]
+    fut_pdf = fut_pdf[fut_pdf["course_cd"].isin(tpd_tracks)]
+
     predictions_sdf = run_inference_for_future_multi(
         spark, 
         cat_cols,
