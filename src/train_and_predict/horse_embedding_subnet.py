@@ -150,72 +150,103 @@ def add_combined_feature(pdf):
 
     return pdf
 
-def build_final_model(horse_embedding_dim, horse_stats_dim, race_dim):
-    
-#     In this example:
-# 	•	The horse sub-network (embedding + stats) merges into a horse_embedding_out.
-# 	•	The final network merges that with race_numeric_input.
-# 	•	We can create a submodel that takes [horse_id_input, horse_stats_input] and outputs horse_embedding_out.
+def build_final_model(
+    horse_embedding_dim,
+    horse_stats_dim,
+    race_dim,
+    cat_feature_info
+    # cat_feature_info might be a dict like:
+    #   {
+    #     "course_cd": {"vocab_size": 30, "embed_dim": 4},
+    #     "trk_cond":  {"vocab_size": 5,  "embed_dim": 3}
+    #     ...
+    #   }
+):
+    """
+    Example of a final model with:
+      1) horse_id + horse_stats -> horse_embedding_out
+      2) race_numeric -> x_race
+      3) multiple cat embeddings -> cat_embeds
+      4) final concat -> output
 
-# Important: We didn’t define “cat embeddings” or “top-level ranking.” You might do that in your actual code. The key is consistent naming.
-
+    :param horse_embedding_dim: (int) dimension for the final horse embedding
+    :param horse_stats_dim: (int) how many numeric columns are in horse_stats_input
+    :param race_dim: (int) how many numeric columns are in race_numeric_input
+    :param cat_feature_info: (dict) of { "cat_name": {"vocab_size":..., "embed_dim":...}, ... }
+    """
 
     # A) Inputs
     horse_id_input = keras.Input(shape=(), name="horse_id_input", dtype=tf.int32)
     horse_stats_input = keras.Input(shape=(horse_stats_dim,), name="horse_stats_input", dtype=tf.float32)
 
     race_numeric_input = keras.Input(shape=(race_dim,), name="race_numeric_input", dtype=tf.float32)
-    # (You might also have cat features, etc.)
 
     # B) Horse sub-network
-    #   e.g. embed horse_id + MLP on horse_stats, then combine
-    horse_id_emb_layer = layers.Embedding(input_dim=75000+1, # e.g. 75k horses
-                                          output_dim=8,
+    horse_id_emb_layer = layers.Embedding(input_dim=75000+1, # example: 75k horses
+                                          output_dim=8,       # can be fixed or a parameter
                                           name="horse_id_emb")
     horse_id_emb = layers.Flatten()(horse_id_emb_layer(horse_id_input))
 
+    # e.g. a small MLP for horse_stats
     x_horse = layers.Dense(64, activation="relu")(horse_stats_input)
     # optionally more layers
-
     combined_horse = layers.Concatenate()([horse_id_emb, x_horse])
+    # final "horse_embedding_out"
+    horse_embedding_out = layers.Dense(
+        horse_embedding_dim, activation="linear", name="horse_embedding_out"
+    )(combined_horse)
 
-    # produce final "horse_embedding_out" (for extraction later)
-    horse_embedding_out = layers.Dense(horse_embedding_dim,
-                                       activation="linear",
-                                       name="horse_embedding_out")(combined_horse)
-
-    # C) Race sub-network
+    # C) Race sub-network (just an example)
     x_race = layers.Dense(32, activation="relu")(race_numeric_input)
     # optionally more layers
 
-    # D) Combine everything -> final output
-    final_concat = layers.Concatenate(name="final_concat")([horse_embedding_out, x_race])
+    # D) Build Categorical Embeddings (the part you asked about)
+    # Suppose you have multiple cat columns, e.g. "course_cd", "trk_cond", ...
+    cat_inputs = {}
+    cat_embeds = []
+    for cat_name, info in cat_feature_info.items():
+        # 1) input placeholder
+        cat_in = keras.Input(shape=(), name=f"{cat_name}_input", dtype=tf.string)
+        cat_inputs[cat_name] = cat_in
+
+        # 2) optional StringLookup if you have actual string keys
+        #    If you already map them to int, you can skip StringLookup.
+        #    We'll assume you pass them as strings here:
+        lookup_layer = layers.StringLookup(
+            vocabulary=info["vocab_list"],  # or adapt if needed
+            output_mode="int",
+            name=f"{cat_name}_lookup"
+        )
+        cat_indices = lookup_layer(cat_in)
+
+        # 3) embedding layer
+        cat_embed_layer = layers.Embedding(
+            input_dim=len(info["vocab_list"]) + 1,
+            output_dim=info["embed_dim"],
+            name=f"{cat_name}_embed"
+        )
+        cat_emb_vec = layers.Flatten()(cat_embed_layer(cat_indices))
+
+        cat_embeds.append(cat_emb_vec)
+
+    # E) Combine everything -> final output
+    # Now we gather horse_embedding_out, race, and cat embeddings:
+    final_concat = layers.Concatenate(name="final_concat")(
+        [horse_embedding_out, x_race] + cat_embeds
+    )
     output = layers.Dense(1, activation="linear", name="output")(final_concat)
 
-    # E) Build the full model
-    final_model = keras.Model(
-        inputs=[horse_id_input, horse_stats_input, race_numeric_input],
-        outputs=output
-    )
+    # F) Build the full model
+    # We must list *all* the inputs in the same order
+    # e.g. [horse_id_input, horse_stats_input, race_numeric_input] + list(cat_inputs.values())
+    # Make sure you do: cat_inputs[cat_name] in a stable order if you have many
+    all_inputs = [horse_id_input, horse_stats_input, race_numeric_input]
+    for c in cat_feature_info.keys():
+        all_inputs.append(cat_inputs[c])  # ensure same order each time
+
+    final_model = keras.Model(inputs=all_inputs, outputs=output)
+
     return final_model
-
-# 2) Suppose we compile/train it:
-model = build_final_model(horse_embedding_dim=4, horse_stats_dim=10, race_dim=5)
-model.compile(optimizer="adam", loss="mse")
-
-# 3) Now build submodel that outputs row-level "horse_embedding_out"
-try:
-    submodel = keras.Model(
-        inputs=[
-            model.get_layer("horse_id_input").input,
-            model.get_layer("horse_stats_input").input
-        ],
-        outputs=model.get_layer("horse_embedding_out").output
-    )
-    print("Submodel for 'horse_embedding_out' created successfully.")
-except:
-    print("[WARN] Could not build submodel for 'horse_embedding_out' - check layer names.")
-    submodel = None
     
 
 def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_score):
