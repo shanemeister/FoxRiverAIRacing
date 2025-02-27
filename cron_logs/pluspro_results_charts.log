@@ -1047,3 +1047,14 @@ fatal error: Could not connect to the endpoint URL: "https://rshane.s3.us-east-1
 2025-02-26 02:21:10 - Job completed
 2025-02-26 02:00:01 - Results: 411 files, PlusPro: 59 files, Backup: Success
 2025-02-26 02:21:10 - Job completed
+2025-02-27 02:00:01 - Starting ingestion job
+2025-02-27 02:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-27 02:00:01 - Starting download job
+2025-02-27 02:04:28 - Download job succeeded
+2025-02-27 02:04:28 - Results files downloaded: 409
+2025-02-27 02:04:28 - PlusPro files downloaded: 60
+2025-02-27 02:04:28 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-02-27 02:20:37 - Sync to S3 succeeded
+2025-02-27 02:20:37 - Job completed
+2025-02-27 02:00:01 - Results: 409 files, PlusPro: 60 files, Backup: Success
+2025-02-27 02:20:37 - Job completed

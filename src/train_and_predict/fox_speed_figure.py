@@ -383,36 +383,40 @@ def assign_labels_spark(df, alpha=0.8):
 def evaluate_and_save_global_speed_score_with_report(
     enhanced_df: DataFrame,
     parquet_dir: str,
-    race_group_col: str = "group_id"
-) -> None:
+    race_group_col: str = "group_id",
+    class_col: str = "class_rating"
+) -> DataFrame:
     """
     1) Computes correlation and RMSE between global_speed_score and relevance.
-    2) Groups data by `race_group_col` to produce aggregated race-level stats.
-    3) Produces a finishing-position distribution report.
+    2) Groups data by race (race_group_col) to produce aggregated race-level stats.
+    3) Groups data by race and class to produce race-class aggregates.
     4) Joins these aggregated summaries back to the original DataFrame.
     5) Checks for duplicates and verifies that no horse is dropped during the join.
-    6) Saves the grouped stats as a Parquet file (writing to DB omitted here).
+    6) Saves the race-level grouped summary as a Parquet file.
     7) Logs top/bottom rows by global_speed_score.
     
-    :param enhanced_df: Spark DataFrame with columns including global_speed_score, official_fin, and a pre-assigned "relevance".
+    :param enhanced_df: Spark DataFrame with columns including global_speed_score, official_fin,
+                        a pre-assigned "relevance", horse_id, and class_col.
     :param parquet_dir: Destination directory to store the Parquet file.
     :param db_url: (Not used in this version) JDBC URL for PostgreSQL.
     :param db_properties: (Not used in this version) Database properties dictionary.
     :param race_group_col: Column name used for grouping by race (default "group_id").
+    :param class_col: Column representing class (e.g. "class_rating").
+    :return: The enriched DataFrame.
     """
     import os, time
     from pyspark.sql import functions as F
 
     start_time = time.time()
 
-    # 1) Filter rows with valid relevance
+    # 1) Filter rows with valid relevance.
     metric_df = enhanced_df.filter(F.col("relevance").isNotNull())
     valid_count = metric_df.count()
     if valid_count == 0:
         logging.warning("No rows with valid relevance. Skipping correlation, RMSE, and report.")
-        return
+        return enhanced_df
 
-    # 2) Calculate correlation and RMSE
+    # 2) Calculate correlation and RMSE.
     corr_val = metric_df.select(F.corr("global_speed_score", "relevance").alias("corr_score")).first()["corr_score"]
     mse_val = metric_df.select(F.mean(F.pow(F.col("global_speed_score") - F.col("relevance"), 2)).alias("mse")).first()["mse"]
     rmse_val = (mse_val ** 0.5) if mse_val is not None else None
@@ -423,89 +427,67 @@ def evaluate_and_save_global_speed_score_with_report(
     else:
         logging.info("RMSE could not be computed (MSE was null).")
 
-    # 3) Grouped summary by race (using race_group_col)
-    grouped_df = (
+    # 3) Compute race-level aggregates (grouped by race_group_col).
+    race_summary_df = (
         enhanced_df
         .groupBy(race_group_col)
         .agg(
-            F.count("*").alias("race_count"),
-            F.mean("global_speed_score").alias("race_avg_speed"),
-            F.stddev("global_speed_score").alias("race_std_speed"),
-            F.mean("relevance").alias("race_avg_relevance"),
-            F.stddev("relevance").alias("race_std_relevance")
+            F.count("*").alias("race_count_agg"),
+            F.mean("global_speed_score").alias("race_avg_speed_agg"),
+            F.stddev("global_speed_score").alias("race_std_speed_agg"),
+            F.mean("relevance").alias("race_avg_relevance_agg"),
+            F.stddev("relevance").alias("race_std_relevance_agg")
         )
         .orderBy(race_group_col)
     )
 
-    # Save grouped summary to Parquet (for reference)
-    grouped_parquet_path = os.path.join(parquet_dir, "global_speed_score_accuracy.parquet")
-    grouped_df.write.mode("overwrite").parquet(grouped_parquet_path)
-    logging.info(f"Grouped stats saved to Parquet: {grouped_parquet_path}")
-
-    # 4) Additional report: Group by official_fin (finishing position)
-    logging.info("Generating finishing position distribution stats...")
-    finpos_stats_df = (
+    # 4) Compute race-class aggregates (grouped by race_group_col and class_col).
+    race_class_summary_df = (
         enhanced_df
-        .groupBy("official_fin")
+        .groupBy(race_group_col, class_col)
         .agg(
-            F.count("*").alias("finpos_count"),
-            F.mean("global_speed_score").alias("finpos_mean_speed"),
-            F.stddev("global_speed_score").alias("finpos_std_speed"),
-            F.mean("relevance").alias("finpos_mean_relevance"),
-            F.stddev("relevance").alias("finpos_std_relevance")
+            F.count("*").alias("race_class_count_agg"),
+            F.mean("global_speed_score").alias("race_class_avg_speed_agg"),
+            F.stddev("global_speed_score").alias("race_class_std_speed_agg"),
+            F.min("global_speed_score").alias("race_class_min_speed_agg"),
+            F.max("global_speed_score").alias("race_class_max_speed_agg")
         )
-        .orderBy("official_fin")
+        .orderBy(race_group_col, class_col)
     )
 
-    def safe_fmt(val):
-        if val is None:
-            return "None"
-        else:
-            return f"{val:.2f}"
-    
-    finpos_stats = finpos_stats_df.collect()
-    for row in finpos_stats:
-        logging.info(
-            f"Finishing Pos: {row['official_fin']} | Count: {row['finpos_count']} | "
-            f"Mean Speed: {safe_fmt(row['finpos_mean_speed'])} | Std Speed: {safe_fmt(row['finpos_std_speed'])} | "
-            f"Mean Rel: {safe_fmt(row['finpos_mean_relevance'])} | Std Rel: {safe_fmt(row['finpos_std_relevance'])}"
-        )
-    
-    # 5) Join aggregated summaries back to the original DataFrame.
+    # Save the race-level summary to Parquet for reference.
+    race_summary_path = os.path.join(parquet_dir, "global_speed_score_accuracy.parquet")
+    race_summary_df.write.mode("overwrite").parquet(race_summary_path)
+    logging.info(f"Race-level grouped stats saved to Parquet: {race_summary_path}")
+
+    # 5) Join the aggregated summaries back to the original DataFrame.
+    # Note: We do not join the finishing position distribution summary to avoid duplicates.
     enriched_df = enhanced_df \
-        .join(grouped_df, on=race_group_col, how="left") \
-        .join(finpos_stats_df, on="official_fin", how="left")
+        .join(race_summary_df, on=race_group_col, how="left") \
+        .join(race_class_summary_df, on=[race_group_col, class_col], how="left")
 
-    # 6) Duplicate checks.
-    # Check duplicates in the original enhanced_df (by group_id and horse_id)
-    original_dups = enhanced_df.groupBy("group_id", "horse_id") \
+    # 6) Duplicate check.
+    # Check for duplicates using composite key (race_group_col, horse_id, class_col).
+    dup_df = enriched_df.groupBy(race_group_col, "horse_id", class_col) \
         .agg(F.count("*").alias("dup_count")) \
         .filter(F.col("dup_count") > 1)
-    orig_dup_count = original_dups.count()
-    logging.info(f"Found {orig_dup_count} duplicate rows based on group_id and horse_id in the original enhanced_df.")
-    if orig_dup_count > 0:
-        original_dups.show(10, truncate=False)
+    dup_count = dup_df.count()
+    if dup_count > 0:
+        logging.warning(f"Found {dup_count} duplicate rows based on {race_group_col}, horse_id, and {class_col}.")
+        dup_df.show(10, truncate=False)
+    else:
+        logging.info("No duplicates found based on composite key (race_group_col, horse_id, class_col).")
 
-    # Check duplicates in the enriched DataFrame.
-    # Because the join with finpos_stats_df might introduce duplicates if multiple rows in finpos_stats_df exist for the same official_fin,
-    # we check on a composite key: (group_id, horse_id, official_fin)
-    enriched_dups = enriched_df.groupBy("group_id", "horse_id", "official_fin") \
-        .agg(F.count("*").alias("dup_count")) \
-        .filter(F.col("dup_count") > 1)
-    enriched_dup_count = enriched_dups.count()
-    logging.info(f"Found {enriched_dup_count} duplicate rows based on group_id, horse_id, and official_fin in the enriched DataFrame.")
-    if enriched_dup_count > 0:
-        enriched_dups.show(10, truncate=False)
-
+    # Verify row counts.
     original_count = enhanced_df.count()
     enriched_count = enriched_df.count()
-    logging.info(f"Original record count: {original_count}, enriched record count after joins: {enriched_count}")
+    logging.info(f"Original record count: {original_count}, enriched record count: {enriched_count}")
     if original_count != enriched_count:
-        logging.warning("The enriched DataFrame has a different number of rows than the original enhanced_df. Check join keys for mismatches.")
+        logging.warning("Row counts differ after join. Check join keys for mismatches.")
     else:
         logging.info("Row counts match after joining aggregated data.")
 
-    # 7) Log top/bottom 5 horses by global_speed_score (optional)
+    # 7) (Optional) Log top/bottom 5 horses by global_speed_score.
     logging.info("Top 5 horses by global_speed_score:")
     for row in enhanced_df.orderBy(F.desc("global_speed_score")).limit(5).collect():
         logging.info(f"Horse {row['horse_id']} / FinPos={row['official_fin']} => Speed={row['global_speed_score']}")
@@ -515,111 +497,110 @@ def evaluate_and_save_global_speed_score_with_report(
 
     elapsed = time.time() - start_time
     logging.info(f"Evaluation & report generation completed in {elapsed:.2f} seconds.")
-    
+
     return enriched_df
 
-def evaluate_horse_and_class_summaries(
-    enhanced_df: DataFrame,
-    race_group_col: str = "group_id",
-    class_col: str = "class_rating"
-) -> DataFrame:
+def enrich_with_race_and_class_stats(enhanced_df: DataFrame) -> DataFrame:
     """
-    Generate summary statistics of global_speed_score and join them back to the horse-level data.
+    Enriches the horse-level DataFrame with aggregated race-level and race-class statistics.
     
-    Aggregations:
-      1) Horse-level summary: aggregated over all races per horse.
-      2) Race-Class summary: aggregated per race and class (providing race-level context for that class).
-      3) Horse-Class summary: aggregated per race, horse, and class.
-    
-    The function then joins these summaries back to the original DataFrame using:
-      - horse-level summary: on "horse_id"
-      - race-class summary: on [race_group_col, class_col]
-      - horse-class summary: on [race_group_col, "horse_id", class_col]
-    
-    This ensures that each horse record is enriched with:
-      - Its overall historical performance,
-      - The context of its race for its class,
-      - And its performance within that race in that class.
-    
-    :param enhanced_df: Spark DataFrame with columns including:
-                        "horse_id", "global_speed_score", race_group_col, class_col, etc.
-    :param race_group_col: The column identifying the race (e.g. "group_id").
-    :param class_col: The column representing the class (e.g. "class_rating").
-    :return: Enriched DataFrame with aggregated features joined.
+    This function does the following:
+      1. Creates a composite key "race_class_id" as the concatenation of group_id and class_rating.
+      2. Computes race-level aggregates (e.g. count, average speed, stddev, etc.) grouped by group_id.
+      3. Computes race-class aggregates (aggregated for each race-class combination) grouped by the composite key.
+      4. Drops any columns from enhanced_df that conflict with the new aggregated column names.
+      5. Joins the race-level aggregates (on group_id) and race-class aggregates (on race_class_id) back to the original DataFrame.
+      6. Verifies row counts and checks for duplicates based on (group_id, horse_id).
+      
+    :param enhanced_df: Input DataFrame that includes at least:
+                        - group_id (unique race identifier),
+                        - class_rating (or the class column you use),
+                        - global_speed_score, relevance, horse_id, etc.
+    :return: The enriched DataFrame.
     """
     import time
-    from pyspark.sql import functions as F
-
     start_time = time.time()
 
-    # 1) Horse-level summary: Aggregated over all races per horse.
-    horse_summary_df = (
+    # 0) Drop any previously computed aggregate columns to avoid ambiguity.
+    columns_to_drop = [
+        "race_count_agg", "race_avg_speed_agg", "race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg",
+        "race_class_count_agg", "race_class_avg_speed_agg", "race_class_std_speed_agg", "race_class_min_speed_agg", "race_class_max_speed_agg"
+    ]
+    enhanced_df = enhanced_df.drop(*columns_to_drop)
+
+    # 1) Create a composite key "race_class_id" combining group_id and class_rating.
+    enhanced_df = enhanced_df.withColumn(
+        "race_class_id",
+        F.concat_ws("_", F.col("group_id"), F.col("class_rating").cast("string"))
+    )
+
+    # 2) Compute race-level aggregates, grouped by group_id.
+    race_summary_df = (
         enhanced_df
+        .groupBy("group_id")
+        .agg(
+            F.count("*").alias("race_count_agg"),
+            F.mean("global_speed_score").alias("race_avg_speed_agg"),
+            F.stddev("global_speed_score").alias("race_std_speed_agg"),
+            F.mean("relevance").alias("race_avg_relevance_agg"),
+            F.stddev("relevance").alias("race_std_relevance_agg")
+        )
+    ).na.fill({"race_std_relevance_agg": 0})
+
+    # 3) Compute race-class aggregates, grouped by race_class_id.
+    race_class_summary_df = (
+        enhanced_df
+        .groupBy("race_class_id")
+        .agg(
+            F.count("*").alias("race_class_count_agg"),
+            F.mean("global_speed_score").alias("race_class_avg_speed_agg"),
+            F.stddev("global_speed_score").alias("race_class_std_speed_agg"),
+            F.min("global_speed_score").alias("race_class_min_speed_agg"),
+            F.max("global_speed_score").alias("race_class_max_speed_agg")
+        )
+    )
+
+    horse_summary_df = (
+    enhanced_df
         .groupBy("horse_id")
         .agg(
-            F.count("*").alias("horse_race_count"),
-            F.mean("global_speed_score").alias("horse_avg_speed"),
-            F.stddev("global_speed_score").alias("horse_std_speed"),
-            F.min("global_speed_score").alias("horse_min_speed"),
-            F.max("global_speed_score").alias("horse_max_speed")
+            F.count("*").alias("horse_race_count_agg"),
+            F.mean("global_speed_score").alias("horse_avg_speed_agg"),
+            F.stddev("global_speed_score").alias("horse_std_speed_agg"),
+            F.min("global_speed_score").alias("horse_min_speed_agg"),
+            F.max("global_speed_score").alias("horse_max_speed_agg")
         )
-        .orderBy("horse_id")
-    )
-
-    # 2) Race-Class summary: Aggregated per race and class.
-    class_summary_df = (
-        enhanced_df
-        .groupBy(race_group_col, class_col)
-        .agg(
-            F.count("*").alias("race_class_count"),
-            F.mean("global_speed_score").alias("race_class_avg_speed"),
-            F.stddev("global_speed_score").alias("race_class_std_speed"),
-            F.min("global_speed_score").alias("race_class_min_speed"),
-            F.max("global_speed_score").alias("race_class_max_speed")
-        )
-        .orderBy(race_group_col, class_col)
-    )
-
-    # 3) Horse-Class summary: Aggregated per race, per horse, and per class.
-    horse_class_summary_df = (
-        enhanced_df
-        .groupBy(race_group_col, "horse_id", class_col)
-        .agg(
-            F.count("*").alias("horse_class_race_count"),
-            F.mean("global_speed_score").alias("horse_class_avg_speed"),
-            F.stddev("global_speed_score").alias("horse_class_std_speed"),
-            F.min("global_speed_score").alias("horse_class_min_speed"),
-            F.max("global_speed_score").alias("horse_class_max_speed")
-        )
-        .orderBy(race_group_col, "horse_id", class_col)
-    )
-
+    ).na.fill({"horse_std_speed_agg": 0})
+    
     # 4) Join the aggregated summaries back to the original DataFrame.
+    #    - Race-level aggregates join on "group_id".
+    #    - Race-class aggregates join on "race_class_id".
     enriched_df = enhanced_df \
-        .join(horse_summary_df, on="horse_id", how="left") \
-        .join(class_summary_df, on=[race_group_col, class_col], how="left") \
-        .join(horse_class_summary_df, on=[race_group_col, "horse_id", class_col], how="left")
-
-    # 5) Check for duplicates and verify row counts.
+        .join(race_summary_df, on="group_id", how="left") \
+        .join(race_class_summary_df, on="race_class_id", how="left") \
+        .join(horse_summary_df, on="horse_id", how="left")
+        
+    # 5) Duplicate check: ensure each horse (identified by group_id and horse_id) appears only once.
     original_count = enhanced_df.count()
     enriched_count = enriched_df.count()
     print(f"Original record count: {original_count}, enriched record count: {enriched_count}")
     logging.info(f"Original record count: {original_count}, enriched record count: {enriched_count}")
 
-    # Check for duplicates using the composite key: race_group, horse_id, class_col.
-    dup_df = enriched_df.groupBy(race_group_col, "horse_id", class_col) \
+    dup_df = enriched_df.groupBy("group_id", "horse_id") \
         .agg(F.count("*").alias("dup_count")) \
         .filter(F.col("dup_count") > 1)
     dup_count = dup_df.count()
-    logging.info(f"Found {dup_count} duplicate rows based on {race_group_col}, horse_id, and {class_col}.")
     if dup_count > 0:
+        logging.warning(f"Found {dup_count} duplicate rows based on group_id and horse_id:")
         dup_df.show(10, truncate=False)
+    else:
+        logging.info("No duplicates found based on group_id and horse_id.")
 
     elapsed = time.time() - start_time
     logging.info(f"Aggregation and join completed in {elapsed:.2f} seconds.")
 
     return enriched_df
-   
+  
 def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir):
     """
         Consolidated pipeline:
@@ -650,7 +631,6 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     # historical_df.printSchema()
     # future_df.printSchema()
     
-    
     historical_df = compute_global_speed_figure(historical_df)   # Step 5
     
     final_df = join_and_merge_dataframes(historical_df, future_df) # Step 6
@@ -670,7 +650,7 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
         )
     )
     
-    enriched_df = evaluate_and_save_global_speed_score_with_report( df_with_group, parquet_dir, "group_id")
-    final_df = evaluate_horse_and_class_summaries(enriched_df, "class_rating")
-
+    enriched_df = evaluate_and_save_global_speed_score_with_report( df_with_group, parquet_dir, "group_id", "class_rating")
+    final_df = enrich_with_race_and_class_stats(enriched_df)
+    
     return final_df

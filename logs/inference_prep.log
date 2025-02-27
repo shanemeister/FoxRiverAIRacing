@@ -1,55 +1,8 @@
-2025-02-26 17:05:06 - INFO - Logging has been set up successfully.
-2025-02-26 17:05:06 - INFO - Starting main function...
-2025-02-26 17:05:06 - INFO - Mode: load
-2025-02-26 17:05:09 - INFO - Number of historical rows: 776892
-2025-02-26 17:05:09 - INFO - Number of future rows: 1418
-2025-02-26 17:05:45 - INFO - Rows with valid relevance: 776892
-2025-02-26 17:05:45 - INFO - Correlation (global_speed_score vs relevance): 0.4945
-2025-02-26 17:05:45 - INFO - RMSE (global_speed_score vs relevance): 98.8583
-2025-02-26 17:05:52 - INFO - Grouped stats saved to Parquet: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score_accuracy.parquet
-2025-02-26 17:05:52 - INFO - Generating finishing position distribution stats...
-2025-02-26 17:05:58 - INFO - Finishing Pos: None | Count: 1418 | Mean Speed: 96.43 | Std Speed: 30.57 | Mean Rel: None | Std Rel: None
-2025-02-26 17:05:58 - INFO - Finishing Pos: 0 | Count: 55 | Mean Speed: 89.46 | Std Speed: 17.94 | Mean Rel: 1.25 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 1 | Count: 105262 | Mean Speed: 119.66 | Std Speed: 24.08 | Mean Rel: 1.00 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 2 | Count: 105115 | Mean Speed: 107.02 | Std Speed: 28.51 | Mean Rel: 0.80 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 3 | Count: 104998 | Mean Speed: 102.27 | Std Speed: 25.61 | Mean Rel: 0.64 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 4 | Count: 104601 | Mean Speed: 96.26 | Std Speed: 23.64 | Mean Rel: 0.51 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 5 | Count: 101724 | Mean Speed: 89.71 | Std Speed: 23.29 | Mean Rel: 0.41 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 6 | Count: 90396 | Mean Speed: 83.99 | Std Speed: 23.92 | Mean Rel: 0.33 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 7 | Count: 67776 | Mean Speed: 79.79 | Std Speed: 24.50 | Mean Rel: 0.26 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 8 | Count: 44484 | Mean Speed: 76.59 | Std Speed: 25.10 | Mean Rel: 0.21 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 9 | Count: 26890 | Mean Speed: 73.52 | Std Speed: 25.65 | Mean Rel: 0.17 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 10 | Count: 15242 | Mean Speed: 70.05 | Std Speed: 26.66 | Mean Rel: 0.13 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 11 | Count: 6823 | Mean Speed: 65.55 | Std Speed: 27.14 | Mean Rel: 0.11 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 12 | Count: 3219 | Mean Speed: 63.38 | Std Speed: 28.85 | Mean Rel: 0.09 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 13 | Count: 203 | Mean Speed: 66.80 | Std Speed: 30.44 | Mean Rel: 0.07 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 14 | Count: 85 | Mean Speed: 69.92 | Std Speed: 31.81 | Mean Rel: 0.05 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 15 | Count: 4 | Mean Speed: 74.82 | Std Speed: 46.47 | Mean Rel: 0.04 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 16 | Count: 4 | Mean Speed: 67.66 | Std Speed: 50.76 | Mean Rel: 0.04 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 17 | Count: 4 | Mean Speed: 67.12 | Std Speed: 51.11 | Mean Rel: 0.03 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 18 | Count: 3 | Mean Speed: 75.46 | Std Speed: 59.13 | Mean Rel: 0.02 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 19 | Count: 2 | Mean Speed: 92.54 | Std Speed: 72.39 | Mean Rel: 0.02 | Std Rel: 0.00
-2025-02-26 17:05:58 - INFO - Finishing Pos: 20 | Count: 2 | Mean Speed: 91.95 | Std Speed: 73.23 | Mean Rel: 0.01 | Std Rel: 0.00
-2025-02-26 17:06:07 - INFO - Found 0 duplicate rows based on group_id and horse_id in the original enhanced_df.
-2025-02-26 17:06:13 - INFO - Found 0 duplicate rows based on group_id, horse_id, and official_fin in the enriched DataFrame.
-2025-02-26 17:06:17 - INFO - Original record count: 778310, enriched record count after joins: 778310
-2025-02-26 17:06:17 - INFO - Row counts match after joining aggregated data.
-2025-02-26 17:06:17 - INFO - Top 5 horses by global_speed_score:
-2025-02-26 17:06:31 - INFO - Horse 363769.0 / FinPos=3 => Speed=150.0
-2025-02-26 17:06:31 - INFO - Horse 113813.0 / FinPos=3 => Speed=150.0
-2025-02-26 17:06:31 - INFO - Horse 9538.0 / FinPos=5 => Speed=150.0
-2025-02-26 17:06:31 - INFO - Horse 492462.0 / FinPos=4 => Speed=150.0
-2025-02-26 17:06:31 - INFO - Horse 113811.0 / FinPos=2 => Speed=150.0
-2025-02-26 17:06:31 - INFO - Bottom 5 horses by global_speed_score:
-2025-02-26 17:06:42 - INFO - Horse 7640.0 / FinPos=10 => Speed=40.0
-2025-02-26 17:06:42 - INFO - Horse 44773.0 / FinPos=4 => Speed=40.0
-2025-02-26 17:06:42 - INFO - Horse 449478.0 / FinPos=2 => Speed=40.0
-2025-02-26 17:06:42 - INFO - Horse 428561.0 / FinPos=10 => Speed=40.00000000000001
-2025-02-26 17:06:42 - INFO - Horse 471355.0 / FinPos=12 => Speed=40.00000000000001
-2025-02-26 17:06:42 - INFO - Evaluation & report generation completed in 69.89 seconds.
-2025-02-26 17:07:32 - INFO - Original record count: 778310, enriched record count: 778310
-2025-02-26 17:07:53 - INFO - Found 153069 duplicate rows based on class_rating, horse_id, and class_rating.
-2025-02-26 17:08:07 - INFO - Aggregation and join completed in 85.57 seconds.
-2025-02-26 17:08:16 - ERROR - An error occurred: [AMBIGUOUS_REFERENCE] Reference `race_count` is ambiguous, could be: [`race_count`, `race_count`].
-2025-02-26 17:08:19 - INFO - Spark session stopped.
-2025-02-26 17:08:19 - INFO - Closing down clientserver connection
+2025-02-27 00:43:03 - INFO - Logging has been set up successfully.
+2025-02-27 00:43:03 - INFO - Starting main function...
+2025-02-27 00:43:03 - INFO - Mode: load
+2025-02-27 05:20:14 - INFO - Best parameters found by Optuna:
+2025-02-27 05:20:14 - INFO - {'activation': 'tanh', 'batch_size': 1024, 'dropout_rate': 0.5, 'epochs': 100, 'learning_rate': 0.0007515157030839904, 'n_hidden_layers': 4, 'units_per_layer': 352, 'use_dropout': True}
+2025-02-27 05:32:44 - ERROR - An error occurred: Column embed_4 not found in DataFrame.
+2025-02-27 05:32:45 - INFO - Spark session stopped.
+2025-02-27 05:32:45 - INFO - Closing down clientserver connection

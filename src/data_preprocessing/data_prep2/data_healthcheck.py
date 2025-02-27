@@ -26,7 +26,7 @@ def time_series_data_healthcheck(data, datetime_col=None):
     """
 
     healthcheck_report = {}
-    
+
     # -------------------------------------------------------
     # 1) Cache / persist the DataFrame to speed repeated ops
     # -------------------------------------------------------
