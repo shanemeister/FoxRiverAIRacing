@@ -22,20 +22,39 @@ from scipy import stats
 # Custom Callback for Ranking Metric
 # ---------------------------
 class RankingMetricCallback(Callback):
-    def __init__(self, val_data):
+    def __init__(self, val_data_dict):
         """
-        val_data should be a tuple of:
-            (val_numeric, val_horse, val_course_cd, val_trk_cond, val_y)
+        val_data_dict is a dictionary with keys:
+          "horse_id_val", "horse_stats_val", "race_numeric_val",
+          "course_cd_val", "trk_cond_val", "y_val"
         """
         super().__init__()
-        self.val_numeric, self.val_horse, self.val_course_cd, self.val_trk_cond, self.val_y = val_data
+        self.val_data_dict = val_data_dict  # just store the dict
 
     def on_epoch_end(self, epoch, logs=None):
-        preds = self.model.predict([self.val_numeric, self.val_horse, self.val_course_cd, self.val_trk_cond])
-        corr, _ = stats.spearmanr(self.val_y, preds.flatten())
+        # gather them
+        preds = self.model.predict({
+            "horse_id_input":     self.val_data_dict["horse_id_val"],
+            "horse_stats_input":  self.val_data_dict["horse_stats_val"],
+            "race_numeric_input": self.val_data_dict["race_numeric_val"],
+            "course_cd_input":    self.val_data_dict["course_cd_val"],
+            "trk_cond_input":     self.val_data_dict["trk_cond_val"]
+        })
+        y_true = self.val_data_dict["y_val"]
+
+        corr, _ = stats.spearmanr(y_true, preds.flatten())
         logs = logs or {}
         logs["val_spearman"] = corr
         print(f" - val_spearman: {corr:.4f}")
+        
+def check_nan_inf(name, arr):
+    # Only do np.isnan/np.isinf if arr.dtype is float or int:
+    if np.issubdtype(arr.dtype, np.floating) or np.issubdtype(arr.dtype, np.integer):
+        nan_count = np.isnan(arr).sum()
+        inf_count = np.isinf(arr).sum()
+        print(f"[CHECK] {name}: nan={nan_count}, inf={inf_count}, shape={arr.shape}")
+    else:
+        print(f"[CHECK] {name}: (skipped - not numeric), dtype={arr.dtype}")
 
 def attach_recent_speed_figure(df_final, historical_pdf):
     # We'll rename h.race_date to avoid collision in the join condition.
@@ -71,60 +90,133 @@ def attach_recent_speed_figure(df_final, historical_pdf):
 
 def add_combined_feature(pdf):
     """
-    Given a Pandas DataFrame `pdf` that contains:
-      - Raw embedding columns: embed_0, embed_1, ..., embed_6 (7 total)
-      - A global_speed_score column,
-      - Race-level aggregated features: race_std_speed_agg, race_avg_relevance_agg, race_std_relevance_agg,
-      - Race-class aggregated features: race_class_avg_speed_agg, race_class_std_speed_agg, race_class_min_speed_agg, race_class_max_speed_agg,
-      - Horse-level aggregated features: horse_avg_speed_agg, horse_std_speed_agg, horse_min_speed_agg, horse_max_speed_agg.
-    
-    This function creates a combined feature vector by concatenating these values for each row.
-    The resulting vector will have 19 elements, which are then expanded into new columns:
-      combined_0, combined_1, ..., combined_18.
-    
-    Adjust the lists below if you want to include a different set of features.
+    Dynamically find all `embed_#` columns, plus the other known columns.
+    Then build `combined_0..combined_{N-1}` from them.
     """
     import pandas as pd
 
-    # Define the required columns:
-    required_cols = [f"embed_{i}" for i in range(7)] + ["global_speed_score"] + \
-                    ["race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg"] + \
-                    ["race_class_avg_speed_agg", "race_class_std_speed_agg", "race_class_min_speed_agg", "race_class_max_speed_agg"] + \
-                    ["horse_avg_speed_agg", "horse_std_speed_agg", "horse_min_speed_agg", "horse_max_speed_agg"]
-    for col in required_cols:
+    # 1) Collect the embedding columns actually present
+    embed_cols = sorted(
+        [c for c in pdf.columns if c.startswith("embed_")],
+        key=lambda x: int(x.split("_")[1])  # ensure embed_0, embed_1, ...
+    )
+    embedding_dim = len(embed_cols)
+    print(f"[DEBUG] Found {embedding_dim} embedding columns: {embed_cols}")
+
+    # 2) List out the other columns you definitely want
+    #    (Adjust as needed if you renamed or changed them.)
+    other_cols = [
+        "global_speed_score",
+        "race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg",
+        "race_class_avg_speed_agg", "race_class_std_speed_agg",
+        "race_class_min_speed_agg", "race_class_max_speed_agg",
+        "horse_avg_speed_agg", "horse_std_speed_agg",
+        "horse_min_speed_agg", "horse_max_speed_agg"
+    ]
+
+    # 3) Check that all the "other" columns exist
+    for col in other_cols:
         if col not in pdf.columns:
-            raise ValueError(f"Column {col} not found in DataFrame.")
+            raise ValueError(f"Column {col} not found in DataFrame!")
 
-    # Create the combined vector for each row.
+    # 4) We'll define a function that concatenates these embedding + other columns
     def combine_row(row):
-        # Get the raw embeddings: embed_0 ... embed_6
-        emb = [row[f"embed_{i}"] for i in range(7)]
-        # Get global_speed_score
+        # embedding columns:
+        emb_values = [row[c] for c in embed_cols]  
+        # other columns in a chosen order
         gss = [row["global_speed_score"]]
-        # Get race-level aggregated features
-        race_feats = [row[col] for col in ["race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg"]]
-        # Get race-class aggregated features
-        race_class_feats = [row[col] for col in ["race_class_avg_speed_agg", "race_class_std_speed_agg", "race_class_min_speed_agg", "race_class_max_speed_agg"]]
-        # Get horse-level aggregated features
-        horse_feats = [row[col] for col in ["horse_avg_speed_agg", "horse_std_speed_agg", "horse_min_speed_agg", "horse_max_speed_agg"]]
-        # Concatenate everything
-        return emb + gss + race_feats + race_class_feats + horse_feats
+        race_feats = [row[c] for c in ["race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg"]]
+        race_class_feats = [row[c] for c in ["race_class_avg_speed_agg", "race_class_std_speed_agg",
+                                             "race_class_min_speed_agg", "race_class_max_speed_agg"]]
+        horse_feats = [row[c] for c in ["horse_avg_speed_agg", "horse_std_speed_agg",
+                                        "horse_min_speed_agg", "horse_max_speed_agg"]]
+        return emb_values + gss + race_feats + race_class_feats + horse_feats
 
+    # 5) Apply across rows
     combined = pdf.apply(combine_row, axis=1)
-    
-    # Determine the number of features (should be 19 in this example)
-    n_features = len(combined.iloc[0])
-    
-    # Create new columns: combined_0, combined_1, ..., combined_{n_features-1}
-    combined_df = pd.DataFrame(combined.tolist(), columns=[f"combined_{i}" for i in range(n_features)])
-    
-    # Concatenate the new combined columns to the original DataFrame
+    n_features = len(combined.iloc[0])  # total length of the combined vector
+
+    # 6) Create combined_0..combined_{n_features-1}
+    combined_df = pd.DataFrame(
+        combined.tolist(),
+        columns=[f"combined_{i}" for i in range(n_features)]
+    )
+
+    # 7) Concatenate back
     pdf = pd.concat([pdf.reset_index(drop=True), combined_df], axis=1)
-    
-    # Optionally, drop the raw embedding columns if they are no longer needed:
-    pdf.drop(columns=[f"embed_{i}" for i in range(7)], inplace=True)
-    
+
+    # 8) Optionally, drop the raw embed_# columns to reduce clutter
+    pdf.drop(columns=embed_cols, inplace=True)
+
     return pdf
+
+def build_final_model(horse_embedding_dim, horse_stats_dim, race_dim):
+    
+#     In this example:
+# 	•	The horse sub-network (embedding + stats) merges into a horse_embedding_out.
+# 	•	The final network merges that with race_numeric_input.
+# 	•	We can create a submodel that takes [horse_id_input, horse_stats_input] and outputs horse_embedding_out.
+
+# Important: We didn’t define “cat embeddings” or “top-level ranking.” You might do that in your actual code. The key is consistent naming.
+
+
+    # A) Inputs
+    horse_id_input = keras.Input(shape=(), name="horse_id_input", dtype=tf.int32)
+    horse_stats_input = keras.Input(shape=(horse_stats_dim,), name="horse_stats_input", dtype=tf.float32)
+
+    race_numeric_input = keras.Input(shape=(race_dim,), name="race_numeric_input", dtype=tf.float32)
+    # (You might also have cat features, etc.)
+
+    # B) Horse sub-network
+    #   e.g. embed horse_id + MLP on horse_stats, then combine
+    horse_id_emb_layer = layers.Embedding(input_dim=75000+1, # e.g. 75k horses
+                                          output_dim=8,
+                                          name="horse_id_emb")
+    horse_id_emb = layers.Flatten()(horse_id_emb_layer(horse_id_input))
+
+    x_horse = layers.Dense(64, activation="relu")(horse_stats_input)
+    # optionally more layers
+
+    combined_horse = layers.Concatenate()([horse_id_emb, x_horse])
+
+    # produce final "horse_embedding_out" (for extraction later)
+    horse_embedding_out = layers.Dense(horse_embedding_dim,
+                                       activation="linear",
+                                       name="horse_embedding_out")(combined_horse)
+
+    # C) Race sub-network
+    x_race = layers.Dense(32, activation="relu")(race_numeric_input)
+    # optionally more layers
+
+    # D) Combine everything -> final output
+    final_concat = layers.Concatenate(name="final_concat")([horse_embedding_out, x_race])
+    output = layers.Dense(1, activation="linear", name="output")(final_concat)
+
+    # E) Build the full model
+    final_model = keras.Model(
+        inputs=[horse_id_input, horse_stats_input, race_numeric_input],
+        outputs=output
+    )
+    return final_model
+
+# 2) Suppose we compile/train it:
+model = build_final_model(horse_embedding_dim=4, horse_stats_dim=10, race_dim=5)
+model.compile(optimizer="adam", loss="mse")
+
+# 3) Now build submodel that outputs row-level "horse_embedding_out"
+try:
+    submodel = keras.Model(
+        inputs=[
+            model.get_layer("horse_id_input").input,
+            model.get_layer("horse_stats_input").input
+        ],
+        outputs=model.get_layer("horse_embedding_out").output
+    )
+    print("Submodel for 'horse_embedding_out' created successfully.")
+except:
+    print("[WARN] Could not build submodel for 'horse_embedding_out' - check layer names.")
+    submodel = None
+    
 
 def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_score):
     # Assume global_speed_score is a Spark DataFrame.
@@ -135,11 +227,18 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     print("historical_pdf shape:", historical_pdf.shape)
     print("unique horse IDs in historical_pdf:", historical_pdf["horse_id"].nunique())
 
-    unique_horses = historical_pdf["horse_id"].unique()
+    unique_horses = np.unique(historical_pdf["horse_id"])
+    num_horses = len(unique_horses)
+
+    # Build dictionary: horse_id -> 0..(num_horses-1)
     horse_id_to_idx = {h: i for i, h in enumerate(unique_horses)}
+    # Invert it so we can map back idx -> horse_id
+    idx_to_horse_id = {v: k for k, v in horse_id_to_idx.items()}
+
+    # Then, when building X_horse_id:
+    X_horse_id = np.array([horse_id_to_idx[h] for h in historical_pdf["horse_id"]])  # map each ID to the 0..N-1 index
     
     horse_stats_cols = ["horse_avg_speed_agg", "horse_std_speed_agg", "horse_min_speed_agg", "horse_max_speed_agg",
-                        "horse_avg_strf_agg", "horse_std_strf_agg", "horse_min_strf_agg", "horse_max_strf_agg",
                         "avg_dist_bk_gate1_5", "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5",
                         "avg_dist_bk_gate4_5", "avg_speed_fullrace_5", "avg_stride_length_5", "avg_strfreq_q1_5",
                         "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5", "global_speed_score",
@@ -181,20 +280,48 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     y_val   = y[val_inds]
 
     # splitted arrays
-    X_horse_id_train = horse_ids[train_inds]
-    X_horse_id_val   = horse_ids[val_inds]
+    X_horse_id_train = X_horse_id[train_inds]
+    X_horse_id_val   = X_horse_id[val_inds]
+    print("X_horse_id_train.dtype =", X_horse_id_train.dtype)
+    print("X_horse_id_val.dtype =", X_horse_id_val.dtype)
+    input("Press Enter to continue...")
+
 
     X_horse_stats_train = X_horse_stats[train_inds]
     X_horse_stats_val   = X_horse_stats[val_inds]
+    print("X_horse_stats_train.dtype =", X_horse_stats_train.dtype)
+    print("X_horse_stats_val.dtype =", X_horse_stats_val.dtype)
+    input("Press Enter to continue...")
+
 
     X_race_numeric_train = X_race_numeric[train_inds]
     X_race_numeric_val   = X_race_numeric[val_inds]
+    
+    for col_idx in range(X_race_numeric_train.shape[1]):
+        col = X_race_numeric_train[:, col_idx]
+        # Compute mean ignoring NaNs
+        mean_val = np.nanmean(col)   # or you can define a fallback if the column is all NaNs
+        # Find the rows where it's NaN
+        nan_mask = np.isnan(col)
+        # Replace with mean_val
+        col[nan_mask] = mean_val
+
+    print("X_race_numeric_train.dtype =", X_race_numeric_train.dtype)
+    print("X_race_numeric_val.dtype =", X_race_numeric_val.dtype)
+    input("Press Enter to continue...")
 
     X_course_cd_train = X_course_cd[train_inds]
     X_course_cd_val   = X_course_cd[val_inds]
+    print("X_course_cd_train.dtype =", X_course_cd_train.dtype)
+    print("X_course_cd_val.dtype =", X_course_cd_val.dtype)
+    input("Press Enter to continue...")
 
     X_trk_cond_train = X_trk_cond[train_inds]
     X_trk_cond_val   = X_trk_cond[val_inds]
+
+    print("X_trk_cond_train.dtype =", X_trk_cond_train.dtype)
+    print("X_trk_cond_val.dtype =", X_trk_cond_val.dtype)
+    input("Press Enter to continue...")
 
     unique_horses = np.unique(horse_ids)
     num_horses = len(unique_horses)
@@ -205,6 +332,25 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     print("num_horse_stats =", num_horse_stats)
     print("num_race_numeric =", num_race_numeric)
     
+    check_nan_inf("X_horse_id_train", X_horse_id_train)
+    check_nan_inf("X_horse_id_val", X_horse_id_val)
+    
+    check_nan_inf("X_horse_stats_train", X_horse_stats_train)
+    check_nan_inf("X_horse_stats_val", X_horse_stats_val)
+    
+    check_nan_inf("X_race_numeric_train", X_race_numeric_train)
+    check_nan_inf("X_race_numeric_val", X_race_numeric_val)
+    
+    check_nan_inf("X_course_cd_train", X_course_cd_train)
+    check_nan_inf("X_course_cd_val", X_course_cd_val)
+    
+    check_nan_inf("X_trk_cond_train", X_trk_cond_train)
+    check_nan_inf("X_trk_cond_val", X_trk_cond_val)
+    
+    check_nan_inf("y_train", y_train)
+
+    input("Press Enter to continue...")
+    
     # ---------------------------
     # 4) Define objective function
     #    with separate sub-networks: horse_id+stats => horse_embedding_out,
@@ -212,20 +358,78 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     # ---------------------------
     def objective(trial):
         # hyperparams for horse sub-network
-        horse_embedding_dim = trial.suggest_int("horse_embedding_dim", 4, 16, step=4)
-        horse_hid_layers = trial.suggest_int("horse_hid_layers", 1, 3)
-        horse_units = trial.suggest_int("horse_units", 16, 128, step=16)
+        # Taking best so far:
+        # {'activation': 'tanh', 'batch_size': 256, 'dropout_rate': 0.1, 'epochs': 40,
+        #  'horse_embedding_dim': 4, 'horse_hid_layers': 2, 'horse_units': 128,
+        #  'learning_rate': 0.0009686, 'race_hid_layers': 2, 'race_units': 224}
 
-        # hyperparams for race sub-network
-        race_hid_layers = trial.suggest_int("race_hid_layers", 1, 3)
-        race_units = trial.suggest_int("race_units", 16, 256, step=16)
+        horse_embedding_dim = trial.suggest_int(
+            "horse_embedding_dim",
+            4,  # Start at 4
+            8,  # Let it try e.g. 4 or 8
+            step=4
+        )
 
-        activation = trial.suggest_categorical("activation", ["relu", "tanh", "softplus"])
-        dropout_rate = trial.suggest_float("dropout_rate", 0.0, 0.4, step=0.1)
-        learning_rate = trial.suggest_float("learning_rate", 1e-4, 1e-2, log=True)
-        batch_size = trial.suggest_categorical("batch_size", [128, 256])
-        epochs = trial.suggest_int("epochs", 10, 50, step=10)
-        l2_reg = 1e-4
+        horse_hid_layers = trial.suggest_int(
+            "horse_hid_layers",
+            1,  # let it be 1 or 2
+            2
+        )
+
+        horse_units = trial.suggest_int(
+            "horse_units",
+            96,    # narrower range around 128
+            160,   # let it explore maybe 96, 112, 128, 144, 160 (step=16)
+            step=16
+        )
+
+        race_hid_layers = trial.suggest_int(
+            "race_hid_layers",
+            1,     # again, keep it 1 or 2
+            2
+        )
+
+        race_units = trial.suggest_int(
+            "race_units",
+            192,   # around 224, so 192..256
+            256,
+            step=32
+        )
+
+        activation = trial.suggest_categorical(
+            "activation",
+            ["tanh", "relu"]  # you can keep "softplus" if you want, 
+                            # but typically reduce to the top 1-2 from best trial
+        )
+
+        dropout_rate = trial.suggest_float(
+            "dropout_rate",
+            0.0,   # maybe 0.0..0.2
+            0.2,
+            step=0.05
+        )
+
+        learning_rate = trial.suggest_float(
+            "learning_rate",
+            5e-4,  # narrower range around ~1e-3
+            2e-3,  # or 3e-3, depending how big a range you want
+            log=True
+        )
+
+        batch_size = trial.suggest_categorical(
+            "batch_size",
+            [256]  # if 256 was best, we might just fix it 
+                # or keep [128, 256] if you want
+        )
+
+        epochs = trial.suggest_int(
+            "epochs",
+            30,    # let it range from 30..50
+            50,
+            step=10
+        )
+
+        l2_reg = 1e-4  # keep it fixed for now
 
         # (A) horse sub-network
         horse_id_inp = keras.Input(shape=(), name="horse_id_input", dtype=tf.int32)
@@ -488,76 +692,141 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         callbacks=[early_stop, reduce_lr, ranking_cb],
         verbose=1
     )
+    # Below is an all-in-one final snippet that:
+	# 1.	Builds your final model with a horse sub-network (for horse‐level stats + horse_id) plus a race sub-network (for race‐level numeric).
+	# 2.	Offers two ways of extracting horse embeddings:
+	# •	Option A: Raw horse_id_embedding weights (one vector per horse_id, ignoring horse stats).
+	# •	Option B: Submodel forward pass that includes horse_id + horse_stats => “horse_embedding_out” (row‐level embedding that depends on both ID and stats).
+	# 3.	Saves both sets of embeddings to separate database tables, so you can explore them without retraining.
+	# 4.	Does the usual steps: merges these embeddings into historical_pdf, calls add_combined_feature, unions with future_df, attaches recent speed, writes to DB, and saves Parquet.
 
+    # ----------------------------------------------------------------
+    #  Assuming you have just built final_model with best_params
+    #  from your horse+race sub-network approach, e.g.:
+    #  final_model.compile(...), final_model.fit(...)
+    # ----------------------------------------------------------------
+
+    print("Final model training complete.")
+
+    # ==========================
+    # 1) Evaluate
+    # ==========================
     val_loss, val_mae = final_model.evaluate(val_dict, y_val, verbose=0)
     print(f"Final Model - Val MSE: {val_loss:.4f}, Val MAE: {val_mae:.4f}")
 
-    # 6) EXTRACT HORSE EMBEDDINGS
-    # Option A: from the "horse_id_embedding" weights
-    # Option B: from the sub-model that outputs "horse_embedding_out"
+    # ==========================
+    # 2) OPTION A: EXTRACT RAW horse_id_embedding WEIGHTS
+    # ==========================
+    # This yields a single static vector per horse_id, ignoring horse_stats_inp.
 
-    # Option B: build submodel
-    submodel = keras.Model(
-        inputs=[final_model.get_layer("horse_id_input").input,
-                final_model.get_layer("horse_stats_input").input],
-        outputs=final_model.get_layer("horse_embedding_out").output
-    )
-
-    # We can do submodel.predict(...) to get row-level embeddings. 
-    # Or we can take the raw weights from the "horse_id_embedding" if you want 
-    # a single vector per horse_id ignoring stats.
-
-    # after that, same steps:
-    # 1) Build a DataFrame from the embeddings
-    # 2) merge with historical_pdf
-    # 3) add_combined_feature, union with future_df, attach_recent_speed_figure
-    # 4) write to DB, parquet, etc.
-    # ---------------------------
-    # Extract and Save Horse Embeddings
-    # ---------------------------
-    embedding_weights = horse_embedding_layer.get_weights()[0]  # shape: (num_horses+1, embedding_dim)
+    horse_id_embedding_layer = final_model.get_layer("horse_id_embedding")
+    embedding_weights = horse_id_embedding_layer.get_weights()[0]  # shape: (num_horses+1, horse_embedding_dim)
     embedding_dim_actual = embedding_weights.shape[1]
 
-    # Map horse indices back to horse IDs using the dictionary built during preprocessing.
-    idx_to_horse_id = {v: k for k, v in horse_id_to_idx.items()}
-
-    rows = []
+    
+    print("horse_id_index train:", X_horse_id_train.min(), X_horse_id_train.max())
+    print("embedding layer input_dim=", horse_id_embedding_layer.input_dim)
+    input("Press Enter to continue...")
+    
+    # Build a DF of these raw embeddings
+    rows_raw = []
     for i in range(num_horses):
+        # 'i' is the internal index for horse_id in the Embedding layer
+        # map back to actual horse_id from 'idx_to_horse_id'
         horse_id = idx_to_horse_id.get(i, None)
         if horse_id is not None:
             emb_vec = embedding_weights[i].tolist()
-            rows.append([horse_id] + emb_vec)
+            rows_raw.append([horse_id] + emb_vec)
 
-    embed_cols = ["horse_id"] + [f"embed_{i}" for i in range(embedding_dim_actual)]
-    embed_df = pd.DataFrame(rows, columns=embed_cols)
+    embed_cols_raw = ["horse_id"] + [f"embed_{i}" for i in range(embedding_dim_actual)]
+    embed_df_raw = pd.DataFrame(rows_raw, columns=embed_cols_raw)
+    print("\n[INFO] Raw horse_id_embedding weights => embed_df_raw:\n", embed_df_raw.head())
 
-    print("Sample final embeddings:")
-    print(embed_df.head())
-    print("Columns in historical_pdf before merge:", historical_pdf.columns.tolist())
-    print("Columns in embed_df:", embed_df.columns.tolist())
+    # OPTIONAL: Save this raw embedding to DB (so you can experiment later)
+    raw_embed_sdf = spark.createDataFrame(embed_df_raw)
+    raw_embed_sdf.write.format("jdbc") \
+        .option("url", jdbc_url) \
+        .option("dbtable", "horse_embedding_raw_weights") \
+        .option("user", jdbc_properties["user"]) \
+        .option("driver", jdbc_properties["driver"]) \
+        .mode("overwrite") \
+        .save()
+    print("[INFO] Wrote raw horse_id_embedding to table: horse_embedding_raw_weights.")
 
-    merged_df = pd.merge(historical_pdf, embed_df, on="horse_id", how="left")
-    merged_df = add_combined_feature(merged_df)
-    print("Merged columns:", merged_df.columns.tolist())
-    print("Sample of final merged_df:")
-    print(merged_df.head())
+    # ==========================
+    # 3) OPTION B: SUBMODEL FOR "horse_embedding_out" => includes horse_stats
+    # ==========================
+    # Build a submodel that outputs the "horse_embedding_out" layer
+    # i.e. final_model.get_layer("horse_embedding_out")
+
+    try:
+        submodel = keras.Model(
+            inputs=[final_model.get_layer("horse_id_input").input,
+                    final_model.get_layer("horse_stats_input").input],
+            outputs=final_model.get_layer("horse_embedding_out").output
+        )
+        # We'll create row-level embeddings by calling submodel.predict(...)
+        # for each row in your dataset. This embedding depends on both (horse_id, horse_stats).
+    except:
+        # If there's a mismatch in layer naming or you changed the architecture,
+        # handle that error here:
+        print("[WARN] Could not build submodel for 'horse_embedding_out' - check layer names.")
+        submodel = None
+
+    if submodel:
+        # Build arrays for the entire historical set
+        # so we do a forward pass => row-level embeddings
+        #  => shape (num_samples, horse_embedding_dim)
+
+        horse_id_array = historical_pdf["horse_id"].astype(int).values
+        horse_stats_array = historical_pdf[horse_stats_cols].astype(float).values
+        row_embeddings = submodel.predict({
+            "horse_id_input": horse_id_array,
+            "horse_stats_input": horse_stats_array
+        })
+        print(f"[INFO] row_embeddings shape = {row_embeddings.shape}")
+
+        # Create a DataFrame from these row-level embeddings
+        # We'll have as many rows as 'historical_pdf', so to join them, we need an index or something.
+        # simplest: just store them in the same order, combine on index
+        embed_df_row = pd.DataFrame(row_embeddings, columns=[f"embrow_{i}" for i in range(row_embeddings.shape[1])])
+        embed_df_row["row_idx"] = historical_pdf.index  # keep track of which row
+        # or we can store the horse_id if you prefer
+
+        # Merge with historical_pdf by row index
+        # ensuring row_idx is the same
+        merged_df_row = pd.concat([historical_pdf.reset_index(drop=True), embed_df_row.reset_index(drop=True)], axis=1)
+
+        print("\n[INFO] 'horse_embedding_out' submodel => row-level embeddings sample:\n", merged_df_row.head())
+
+        # Save them to DB as well, for your future experiments
+        row_embed_sdf = spark.createDataFrame(merged_df_row)
+        row_embed_sdf.write.format("jdbc") \
+            .option("url", jdbc_url) \
+            .option("dbtable", "horse_embedding_out_rowlevel") \
+            .option("user", jdbc_properties["user"]) \
+            .option("driver", jdbc_properties["driver"]) \
+            .mode("overwrite") \
+            .save()
+        print("[INFO] Wrote row-level 'horse_embedding_out' to table: horse_embedding_out_rowlevel.")
+
+    # ==========================
+    # 4) If you want to do add_combined_feature(...) as in your original snippet
+    #    ignoring row-level embeddings for the moment, you can do so using
+    #    the raw weight-based embed_df_raw
+    # ==========================
+    # We can do the same approach you had:
+    merged_raw = pd.merge(historical_pdf, embed_df_raw, on="horse_id", how="left")
+    merged_df = add_combined_feature(merged_raw)
+    print("\n[INFO] Merged columns after add_combined_feature:\n", merged_raw.columns)
 
     historical_with_embed_sdf = spark.createDataFrame(merged_df)
 
-    # ---------------------------
-    # Combine Historical and Future Data
-    # ---------------------------
     all_df = historical_with_embed_sdf.unionByName(future_df, allowMissingColumns=True)
-    all_df.printSchema()
-    print("Columns in final DF:", all_df.columns)
-
     all_df = attach_recent_speed_figure(all_df, historical_with_embed_sdf)
 
-    # ---------------------------
-    # Write Final DataFrame to Database and Save as Parquet
-    # ---------------------------
-    staging_table = "horse_embedding"
-    print(f"Writing horse embeddings to table: {staging_table}")
+    # Save to DB
+    staging_table = "horse_embedding_final"
     (
         all_df.write.format("jdbc")
         .option("url", jdbc_url)
@@ -567,11 +836,12 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         .mode("overwrite")
         .save()
     )
-    print("Embeddings saved to DB table 'horse_embedding'.")
+    print("[INFO] All data + raw embeddings saved to DB table:", staging_table)
 
+    # Save to Parquet
     current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M")
     model_filename = f"horse_embedding_data-{current_time}"
     save_parquet(spark, all_df, model_filename, parquet_dir)
-    print(f"Final merged DataFrame saved as Parquet: {model_filename}")
+    print(f"[INFO] Final merged DataFrame saved as Parquet: {model_filename}")
 
     print("*** Horse embedding job completed successfully ***")

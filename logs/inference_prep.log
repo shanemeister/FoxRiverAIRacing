@@ -1,8 +1,8 @@
-2025-02-27 00:43:03 - INFO - Logging has been set up successfully.
-2025-02-27 00:43:03 - INFO - Starting main function...
-2025-02-27 00:43:03 - INFO - Mode: load
-2025-02-27 05:20:14 - INFO - Best parameters found by Optuna:
-2025-02-27 05:20:14 - INFO - {'activation': 'tanh', 'batch_size': 1024, 'dropout_rate': 0.5, 'epochs': 100, 'learning_rate': 0.0007515157030839904, 'n_hidden_layers': 4, 'units_per_layer': 352, 'use_dropout': True}
-2025-02-27 05:32:44 - ERROR - An error occurred: Column embed_4 not found in DataFrame.
-2025-02-27 05:32:45 - INFO - Spark session stopped.
-2025-02-27 05:32:45 - INFO - Closing down clientserver connection
+2025-02-27 14:35:30 - INFO - Logging has been set up successfully.
+2025-02-27 14:35:30 - INFO - Starting main function...
+2025-02-27 14:35:30 - INFO - Mode: load
+2025-02-27 15:26:59 - INFO - Best parameters found by Optuna:
+2025-02-27 15:26:59 - INFO - {'activation': 'tanh', 'batch_size': 256, 'dropout_rate': 0.1, 'epochs': 40, 'horse_embedding_dim': 4, 'horse_hid_layers': 2, 'horse_units': 128, 'learning_rate': 0.000968611053005465, 'race_hid_layers': 2, 'race_units': 224}
+2025-02-27 15:36:00 - ERROR - An error occurred: Column embed_4 not found in DataFrame.
+2025-02-27 15:36:01 - INFO - Spark session stopped.
+2025-02-27 15:36:01 - INFO - Closing down clientserver connection

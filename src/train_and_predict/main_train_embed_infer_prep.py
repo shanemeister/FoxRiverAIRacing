@@ -22,7 +22,7 @@ from src.train_and_predict.load_prediction_data import load_base_inference_data
 from src.train_and_predict.fox_speed_figure import create_custom_speed_figure
 from src.data_preprocessing.data_prep2.data_healthcheck import time_series_data_healthcheck
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment, save_parquet
-from src.train_and_predict.embedding_horse_id import embed_and_train
+from src.train_and_predict.horse_embedding_subnet import embed_and_train
 from src.train_and_predict.build_cat_model import build_catboost_model
 from src.train_and_predict.final_predictions import main_inference
 
