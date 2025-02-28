@@ -269,3 +269,10 @@ write /dev/stdout: no space left on device
 2025-02-27 06:24:54 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
 2025-02-27 06:40:01 - Sync to S3 succeeded
 2025-02-27 06:40:01 - Job completed
+2025-02-28 06:15:01 - Starting database backup job
+2025-02-28 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-02-28 06:15:01 - Starting database backup
+2025-02-28 06:16:31 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-02-28_foxriverai.sql
+2025-02-28 06:16:31 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-02-28 06:19:02 - Sync to S3 succeeded
+2025-02-28 06:19:02 - Job completed

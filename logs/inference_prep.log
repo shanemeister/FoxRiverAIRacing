@@ -1,7 +1,39 @@
-2025-02-27 19:53:49 - INFO - Logging has been set up successfully.
-2025-02-27 19:53:49 - INFO - Starting main function...
-2025-02-27 19:53:49 - INFO - Mode: load
-2025-02-27 20:45:34 - INFO - Best parameters found by Optuna:
-2025-02-27 20:45:34 - INFO - {'activation': 'tanh', 'batch_size': 256, 'dropout_rate': 0.05, 'epochs': 40, 'horse_embedding_dim': 4, 'horse_hid_layers': 1, 'horse_units': 96, 'learning_rate': 0.0013747910422651762, 'race_hid_layers': 2, 'race_units': 224}
-2025-02-27 20:46:05 - INFO - Spark session stopped.
-2025-02-27 20:46:05 - INFO - Closing down clientserver connection
+2025-02-28 16:23:55 - INFO - Logging has been set up successfully.
+2025-02-28 16:23:55 - INFO - Starting main function...
+2025-02-28 16:23:55 - INFO - Mode: load
+2025-02-28 16:23:59 - INFO - Number of historical rows: 776892
+2025-02-28 16:23:59 - INFO - Number of future rows: 1418
+2025-02-28 16:24:28 - INFO - Rows with valid relevance: 776892
+2025-02-28 16:24:28 - INFO - Correlation (global_speed_score vs relevance): 0.4945
+2025-02-28 16:24:28 - INFO - RMSE (global_speed_score vs relevance): 98.8583
+2025-02-28 16:24:35 - INFO - Race-level grouped stats saved to Parquet: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score_accuracy.parquet
+2025-02-28 16:24:47 - INFO - No duplicates found based on composite key (race_group_col, horse_id, class_col).
+2025-02-28 16:24:49 - INFO - Original record count: 776892, enriched record count: 776892
+2025-02-28 16:24:49 - INFO - Row counts match after joining aggregated data.
+2025-02-28 16:24:49 - INFO - Top 5 horses by global_speed_score:
+2025-02-28 16:25:01 - INFO - Horse 544880.0 / FinPos=10 => Speed=150.0
+2025-02-28 16:25:01 - INFO - Horse 462077.0 / FinPos=2 => Speed=150.0
+2025-02-28 16:25:01 - INFO - Horse 45211.0 / FinPos=1 => Speed=150.0
+2025-02-28 16:25:01 - INFO - Horse 166680.0 / FinPos=2 => Speed=150.0
+2025-02-28 16:25:01 - INFO - Horse 367174.0 / FinPos=4 => Speed=150.0
+2025-02-28 16:25:01 - INFO - Bottom 5 horses by global_speed_score:
+2025-02-28 16:25:11 - INFO - Horse 449478.0 / FinPos=2 => Speed=40.0
+2025-02-28 16:25:11 - INFO - Horse 7640.0 / FinPos=10 => Speed=40.0
+2025-02-28 16:25:11 - INFO - Horse 44773.0 / FinPos=4 => Speed=40.0
+2025-02-28 16:25:11 - INFO - Horse 428561.0 / FinPos=10 => Speed=40.00000000000001
+2025-02-28 16:25:11 - INFO - Horse 61217.0 / FinPos=8 => Speed=40.00000000000001
+2025-02-28 16:25:11 - INFO - Evaluation & report generation completed in 52.82 seconds.
+2025-02-28 16:26:04 - INFO - Original record count: 776892, enriched record count: 776892
+2025-02-28 16:26:26 - INFO - No duplicates found based on group_id and horse_id.
+2025-02-28 16:26:26 - INFO - Aggregation and join completed in 75.45 seconds.
+2025-02-28 16:27:24 - INFO - Final DF count for historical: 0
+2025-02-28 16:27:24 - INFO - Final DF count for future: 1418
+2025-02-28 16:28:34 - INFO - Global_speed_score job completed successfully.
+2025-02-28 16:28:34 - INFO - Saving global_speed_score DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score.parquet...
+2025-02-28 16:28:34 - INFO - Schema of global_speed_score DataFrame:
+2025-02-28 16:28:42 - INFO - global_speed_score DataFrame saved successfully.
+2025-02-28 16:28:42 - INFO - Ingestion job succeeded and Speed Figure Catboost model complete
+2025-02-28 16:28:42 - INFO - global_speed_score saved as parquet file.
+2025-02-28 16:28:42 - INFO - Creating global_speed_score took 286.5378701686859 to complete.
+2025-02-28 17:49:02 - INFO - Spark session stopped.
+2025-02-28 17:49:02 - INFO - Closing down clientserver connection

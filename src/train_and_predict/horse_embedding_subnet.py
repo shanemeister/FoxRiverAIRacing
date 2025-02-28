@@ -87,9 +87,13 @@ def assign_labels_spark(df, alpha=0.8):
 # ---------------------------
 # Helper: attach_recent_speed_figure
 # ---------------------------
-def attach_recent_speed_figure(df_final, historical_df_spark):
+def attach_recent_speed_figure(df_final, enriched_df_spark):
+    """
+    We assume `enriched_df_spark` is the same DataFrame that
+    actually has 'combined_4' (and the older race dates, etc.).
+    """
     hist_subset = (
-        historical_df_spark
+        enriched_df_spark
         .withColumnRenamed("race_date", "hist_race_date")
         .select("horse_id", "hist_race_date", "combined_4")
     )
@@ -98,14 +102,14 @@ def attach_recent_speed_figure(df_final, historical_df_spark):
         df_final.alias("f")
         .join(
             hist_subset.alias("h"),
-            on=((F.col("f.horse_id") == F.col("h.horse_id")) & (F.col("h.hist_race_date") <= F.col("f.race_date"))),
+            on=( (F.col("f.horse_id") == F.col("h.horse_id"))
+                 & (F.col("h.hist_race_date") <= F.col("f.race_date")) ),
             how="left"
         )
         .withColumn("rn", F.row_number().over(w))
         .filter(F.col("rn") == 1)
     )
-    joined = joined.select("f.*", F.col("h.combined_4").alias("combined_4_most_recent")).drop("rn")
-    return joined
+    return joined.select("f.*", F.col("h.combined_4").alias("combined_4_most_recent")).drop("rn")
 
 # ---------------------------
 # Helper: add_combined_feature
@@ -156,8 +160,8 @@ def build_final_model(horse_embedding_dim, horse_stats_dim, race_dim, cat_featur
     race_numeric_input = keras.Input(shape=(race_dim,), name="race_numeric_input", dtype=tf.float32)
     
     # C) Horse sub-network: combine horse_id embedding and horse_stats MLP
-    horse_id_emb_layer = layers.Embedding(input_dim=75000 + 1, output_dim=8, name="horse_id_emb")
-    horse_id_emb = layers.Flatten()(horse_id_emb_layer(horse_id_input))
+    horse_id_embedding = layers.Embedding(input_dim=75000 + 1, output_dim=8, name="horse_id_embedding")
+    horse_id_emb = layers.Flatten()(horse_id_embedding(horse_id_input))
     
     x_horse = layers.Dense(64, activation="relu")(horse_stats_input)
     combined_horse = layers.Concatenate()([horse_id_emb, x_horse])
@@ -192,7 +196,7 @@ def build_final_model(horse_embedding_dim, horse_stats_dim, race_dim, cat_featur
 # ---------------------------
 # Main Pipeline: embed_and_train
 # ---------------------------
-def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_score):
+def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_score, action="load"):
     
     global_speed_score = assign_labels_spark(global_speed_score, alpha=0.8)
     
@@ -310,15 +314,15 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         dropout_rate = trial.suggest_float("dropout_rate", 0.0, 0.2, step=0.05)
         learning_rate = trial.suggest_float("learning_rate", 5e-4, 2e-3, log=True)
         batch_size = trial.suggest_categorical("batch_size", [256])
-        epochs = trial.suggest_int("epochs", 30, 50, step=10)
+        epochs = trial.suggest_int("epochs", 40, 100, step=10)
         l2_reg = 1e-4
         
         # (A) Horse sub-network.
         horse_id_inp = keras.Input(shape=(), name="horse_id_input", dtype=tf.int32)
-        horse_id_emb_layer = layers.Embedding(input_dim=num_horses+1,
+        horse_id_embedding = layers.Embedding(input_dim=num_horses+1,
                                               output_dim=horse_embedding_dim,
                                               name="horse_id_embedding")
-        horse_id_emb = layers.Flatten()(horse_id_emb_layer(horse_id_inp))
+        horse_id_emb = layers.Flatten()(horse_id_embedding(horse_id_inp))
         horse_stats_inp = keras.Input(shape=(X_horse_stats.shape[1],), name="horse_stats_input")
         x_horse = horse_stats_inp
         for _ in range(horse_hid_layers):
@@ -433,12 +437,33 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     # ---------------------------
     # Run Optuna and get best hyperparameters.
     # ---------------------------
-    study = run_optuna_study()
-    best_params = study.best_trial.params
-    print("Best parameters found by Optuna:")
-    print(best_params)
-    logging.info("Best parameters found by Optuna:")
-    logging.info(best_params)
+    def load_existing_study_best_params():
+        """
+        Load an existing Optuna study from DB, return best params
+        (without running any new trials).
+        """
+        study_name = "horse_embedding_subnetwork_v4"
+        storage_url = "sqlite:///my_optuna_study.db"
+        study = optuna.load_study(
+            study_name=study_name, 
+            storage=storage_url
+        )
+        return study.best_trial.params
+    
+    # 4) Depending on action, either run the study or load best params
+    if action == "train":
+        # run the study => produce best params
+        study = run_optuna_study()
+        best_params = study.best_trial.params
+        logging.info("Best parameters found by Optuna [train mode]:")
+        logging.info(best_params)
+    elif action == "load":
+        # skip running => just load best params from existing DB
+        best_params = load_existing_study_best_params()
+        logging.info("Best parameters loaded from existing study [final mode]:")
+        logging.info(best_params)
+    else:
+        raise ValueError(f"Unknown action={action}. Must be 'train' or 'final'.")
     
     horse_embedding_dim = best_params["horse_embedding_dim"]
     horse_hid_layers = best_params["horse_hid_layers"]
@@ -565,7 +590,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     
     historical_with_embed_sdf = spark.createDataFrame(merged_df)
     all_df = historical_with_embed_sdf.unionByName(future_df, allowMissingColumns=True)
-    all_df = attach_recent_speed_figure(all_df, historical_df_spark)
+    all_df = attach_recent_speed_figure(all_df, historical_with_embed_sdf)
     all_df.printSchema()
     print("Columns in final DF:", all_df.columns)
     
@@ -586,3 +611,4 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     print(f"[INFO] Final merged DataFrame saved as Parquet: {model_filename}")
     
     print("*** Horse embedding job completed successfully ***")
+ 

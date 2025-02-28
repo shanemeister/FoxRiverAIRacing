@@ -1,14 +1,164 @@
 import os 
 import logging
 from pyspark.sql import SparkSession
-from pyspark.sql import functions as F, Window
 from pyspark.sql.window import Window
 import numpy as np
 from scipy.stats import norm
 from pyspark.sql import DataFrame
 import time
+import pyspark.sql.window as W
+from math import exp, log, sqrt
+from pyspark.sql import functions as F
+from pyspark.sql.types import DoubleType, IntegerType
+from pyspark.sql.functions import (
+    col, when, lit, row_number, expr as F_expr, udf as F_udf,
+    min as F_min, max as F_max, datediff, exp as F_exp,
+    lag, count, trim, mean as F_mean, stddev as F_stddev, coalesce as F_coalesce
+)
+import math
+
+from pyspark.sql import Window
+import pyspark.sql.functions as F
+
+import pyspark.sql.functions as F
+import pyspark.sql.window as W
 from pyspark.sql.types import DoubleType
 
+def fill_forward_locf(
+    historical_df,
+    future_df,
+    columns_to_fill,
+    date_col="race_date",
+    horse_id_col="horse_id"
+):
+    """
+    Perform Last-Occurrence-Carried-Forward for the columns_to_fill:
+      1) Add data_flag = 'historical' or 'future'
+      2) Union the two DataFrames (allowMissingColumns=True if Spark >= 3.1)
+      3) For each horse (partition by horse_id), order by date_col ascending
+      4) last_value(..., ignorenulls=True) for each column => forward fill
+      5) Return only the rows with data_flag = 'future', now updated with 
+         the last known values from the historical data.
+
+    :param historical_df: DataFrame of past races (fully or partially populated columns).
+    :param future_df: DataFrame of upcoming races (some columns might be null or missing).
+    :param columns_to_fill: list of column names we want to carry forward from historical to future.
+    :param date_col: name of the column that indicates chronological order.
+    :param horse_id_col: name of the column identifying each horse.
+
+    :return: A DataFrame of future_df rows, updated with the forward-filled columns.
+    """
+
+    # 1) Tag each DataFrame with a data_flag
+    historical_tagged = historical_df.withColumn("data_flag", F.lit("historical"))
+    future_tagged = future_df.withColumn("data_flag", F.lit("future"))
+
+    # 2) Union the DFs
+    #    If you're on Spark 3.1+, you can use allowMissingColumns=True
+    #    If not, ensure the missing columns exist in both DFs (possibly add as null).
+    combined = historical_tagged.unionByName(future_tagged, allowMissingColumns=True)
+
+    # Make sure columns_to_fill exist in 'combined' (as null if needed)
+    for col_name in columns_to_fill:
+        if col_name not in combined.columns:
+            combined = combined.withColumn(col_name, F.lit(None).cast(DoubleType()))
+
+    # 3) Define a window partitioned by horse_id, ordered by ascending date
+    #    We'll do "rowsBetween(Window.unboundedPreceding, 0)" to capture 
+    #    everything from the start up to current row.
+    w = (
+        W.Window
+        .partitionBy(horse_id_col)
+        .orderBy(F.col(date_col).asc())
+        .rowsBetween(W.Window.unboundedPreceding, 0)
+    )
+
+    # 4) For each column, take last_value(..., True) over that window
+    #    ignorenulls=True ensures we skip over nulls in the historical portion.
+    exprs = []
+    for c in columns_to_fill:
+        exprs.append(F.last(F.col(c), ignorenulls=True).over(w).alias(c))
+
+    # Apply the window transformations
+    # We'll select all columns plus new expressions that forward-fill
+    all_cols = [F.col(x) for x in combined.columns if x not in columns_to_fill]  # existing
+    final_exprs = all_cols + exprs
+
+    combined_filled = combined.select(*final_exprs)
+
+    # 5) Return only the future rows, which should now have columns_to_fill forward-filled
+    future_updated = combined_filled.filter(F.col("data_flag") == "future")
+
+    return future_updated
+
+def acklam_icdf(p: float) -> float:
+    """
+    Approximate the inverse CDF (quantile) of the standard normal distribution.
+    Implementation of the algorithm by Peter J. Acklam (2000/2010).
+    Returns z such that Phi(z) = p, for 0 < p < 1.
+    
+    References:
+      - https://web.archive.org/web/20151030215612/http://home.online.no/~pjacklam/notes/invnorm/
+      - Original paper: "An algorithm for computing the inverse normal cumulative distribution function"
+      
+    Edge cases:
+      - p <= 0.0 => -inf
+      - p >= 1.0 => +inf
+    """
+    if p <= 0.0:
+        return float('-inf')
+    if p >= 1.0:
+        return float('inf')
+    
+    # Coefficients in rational approximations
+    a1 = -3.969683028665376e+01
+    a2 =  2.209460984245205e+02
+    a3 = -2.759285104469687e+02
+    a4 =  1.383577518672690e+02
+    a5 = -3.066479806614716e+01
+    a6 =  2.506628277459239e+00
+
+    b1 = -5.447609879822406e+01
+    b2 =  1.615858368580409e+02
+    b3 = -1.556989798598866e+02
+    b4 =  6.680131188771972e+01
+    b5 = -1.328068155288572e+01
+
+    c1 = -7.784894002430293e-03
+    c2 = -3.223964580411365e-01
+    c3 = -2.400758277161838e+00
+    c4 = -2.549732539343734e+00
+    c5 =  4.374664141464968e+00
+    c6 =  2.938163982698783e+00
+
+    d1 =  7.784695709041462e-03
+    d2 =  3.224671290700398e-01
+    d3 =  2.445134137142996e+00
+    d4 =  3.754408661907416e+00
+    d5 =  1.000000000000000e+00
+    
+    # Define break-points
+    p_low  = 0.02425
+    p_high = 1.0 - p_low
+    
+    # Rational approximation for lower region
+    if p < p_low:
+        q = math.sqrt(-2.0 * math.log(p))
+        return (((((c1*q + c2)*q + c3)*q + c4)*q + c5)*q + c6) / \
+               ((((d1*q + d2)*q + d3)*q + d4)*q + d5)
+    
+    # Rational approximation for upper region
+    if p > p_high:
+        q = math.sqrt(-2.0 * math.log(1.0 - p))
+        return -(((((c1*q + c2)*q + c3)*q + c4)*q + c5)*q + c6) / \
+                ((((d1*q + d2)*q + d3)*q + d4)*q + d5)
+    
+    # Rational approximation for central region
+    q = p - 0.5
+    r = q * q
+    return (((((a1*r + a2)*r + a3)*r + a4)*r + a5)*r + a6)*q / \
+           (((((b1*r + b2)*r + b3)*r + b4)*r + b5)*r + 1.0)
+           
 def mark_and_fill_missing(df):
     """
     1) Identify any races that have missing TPD in [dist_bk_gate4, total_distance_ran, running_time].
@@ -192,6 +342,86 @@ def calc_raw_perf_score(df, alpha=50.0):
 
     return df
 
+def compute_global_speed_figure_iqstyle(df: DataFrame, alpha_logistic=1.0) -> DataFrame:
+    """
+    Compute a global speed figure without strict clamping (40..150).
+    1) Compute mean & std of raw_performance_score (mean_rps, std_rps).
+    2) standardize => z = (raw_performance_score - mean_rps) / std_rps
+    3) logistic transform => logistic_score in (0,1), with optional alpha scaling
+        logistic_score = 1 / (1 + exp(-alpha_logistic * z))
+    4) [Optional] rank-based percentile transform
+    5) Map to an IQ-like scale (mean=100, std=15), or another user-friendly scale.
+    6) Return the DataFrame with the final global_speed_score_iq column.
+    """
+
+    # 1) Mean & Std of raw_performance_score
+    stats = df.agg(
+        F_mean("raw_performance_score").alias("mean_rps"),
+        F_stddev("raw_performance_score").alias("std_rps")
+    ).collect()[0]
+    mean_rps = stats["mean_rps"]
+    std_rps = stats["std_rps"]
+    
+    # Handle edge case: std_rps == 0 or None
+    if not std_rps or std_rps == 0.0:
+        # If we cannot standardize, just fill with 0
+        df = df.withColumn("standardized_score", lit(0.0))
+    else:
+        # 2) standardized_score
+        df = df.withColumn(
+            "standardized_score",
+            (col("raw_performance_score") - lit(mean_rps)) / lit(std_rps)
+        )
+    
+    # 3) Logistic transform => (0, 1).
+    #    logistic_score = 1 / (1 + exp(-alpha_logistic * standardized_score))
+    #    alpha_logistic is a “steepness” factor; smaller => saturates more slowly
+    df = df.withColumn(
+        "logistic_score",
+        1.0 / (1.0 + F_exp(-lit(alpha_logistic) * col("standardized_score")))
+    )
+    
+    # 4) Aggregate to get median logistic_score per (course_cd, race_date, race_number, horse_id)
+    #    If you still want to combine multiple splits, etc. by median.
+    median_logistic_df = (
+        df.groupBy("course_cd", "race_date", "race_number", "horse_id")
+          .agg(F_expr("percentile_approx(logistic_score, 0.5)").alias("median_logistic"))
+    )
+    
+    df = df.join(
+        median_logistic_df,
+        on=["course_cd", "race_date", "race_number", "horse_id"],
+        how="left"
+    )
+    
+    # 5) IQ-style mapping:
+    #    We'll treat median_logistic (0..1) as a "percentile" or pseudo-percentile. 
+    #    Then map to a normal distribution with mean=100, std=15.
+    #    The standard normal invCDF is not natively in PySpark. We can do an approximation or do it in Python UDF.
+
+    # Simple approach: treat logistic in [0,1] as if it’s a percentile, then apply an approximate inverse CDF.
+    # We'll do a quick approximation of the Probit function (inverse CDF of Normal(0,1)) via a UDF.
+
+    # -- Option A: approximate via a polynomial or rational approximation
+    # (For a robust solution, consider using mpmath or scipy if available)
+    import math
+
+    from pyspark.sql.types import DoubleType
+    import pyspark.sql.functions as F
+
+    # Register a UDF to call the acklam_icdf function:
+    invcdf_udf = F_udf(lambda x: float(acklam_icdf(x)) if x is not None else None, DoubleType())
+    
+    df = df.withColumn(
+        "z_iq",
+        invcdf_udf(col("median_logistic"))
+    ).withColumn(
+        "global_speed_score_iq",
+        lit(100.0) + lit(15.0) * col("z_iq")
+    )
+
+    return df
+
 def compute_global_speed_figure(df):
     """
     1) Compute mean & std of raw_performance_score (mean_rps, std_rps).
@@ -200,9 +430,61 @@ def compute_global_speed_figure(df):
     4) For each (course_cd, race_date, race_number, horse_id), aggregate to get
        median_normalized = percentile_approx(normalized_score, 0.5).
     5) Final: global_speed_score = [40..150], mapping -1 => 40, +1 => 150.
-    """
+    
+    Conclusion
+	1.	Remove or relax the strict [40..150] clamp (or at least expand it!).
+	2.	Use a function that saturates more slowly than tanh if you want to keep an upper bound but not be pinned so tightly.
+	3.	Consider rank‐based or percentile‐based transformations for finer separation near the extremes.
+	4.	Keep a second tie‐breaker measure for horses that appear equal on the main scale
+    
+        Compute a global speed figure for each horse in a race based on raw performance data.
+        
+        Current Steps:
+        ---------------
+        1. Compute the mean (mean_rps) and standard deviation (std_rps) of the column 'raw_performance_score'.
+        2. Standardize each row's raw_performance_score:
+            standardized_score = (raw_performance_score - mean_rps) / std_rps
+        3. Convert the standardized score to a bounded range [-1, +1] using the hyperbolic tangent:
+            normalized_score = tanh(standardized_score)
+        4. Aggregate per (course_cd, race_date, race_number, horse_id) to obtain the median of normalized_score:
+            median_normalized = percentile_approx(normalized_score, 0.5)
+        5. Map the final median_normalized from [-1..+1] to [40..150] (a strict clamp):
+            global_speed_score = 40 + ( (median_normalized + 1) / 2 ) * (150 - 40)
 
-    # --- 1) Mean & Std of raw_performance_score ---
+        Suggested Improvements:
+            1. **Loosen or Remove Strict Clamps**:
+            - Consider expanding the [40..150] range or removing it altogether if you prefer an unbounded or less restrictive scale.
+            - Strict clamping can cause a large cluster of values at the boundaries, reducing differentiation among top/bottom performers.
+
+            2. **Use a Less Aggressive Saturation Function**:
+            - Tanh saturates quickly once the standardized_score is outside ~±2, causing many values to pin at -1 or +1.
+            - Alternatives include: arctan, logistic, softsign, or simply scaling the standardized_score by a smaller factor before applying tanh.
+
+            3. **Rank-Based or Percentile Transform**:
+            - Instead of applying a saturating function, you can compute rank or percentile for each performance, ensuring a more uniform spread near extremes.
+            - You might then map percentiles to a final score range (like an "IQ-style" distribution if desired).
+
+            4. **Keep a Secondary/Tie-Breaker Measure**:
+            - For horses that tie at boundary values (e.g., 150.0), preserve an unbounded or less-limited metric to distinguish truly exceptional performances.
+            - This secondary metric could be the raw standardized_score itself or a second dimension (e.g., sectional/pace analysis).
+
+            5. **Validate and Tune Constants**:
+            - Review the par-diff coefficient (alpha), distance penalty, and other constants in the raw performance score calculation.
+            - Large alpha can cause minor time differences to balloon in raw_performance_score, increasing the risk of boundary clamping after normalization.
+
+        Usage:
+            - This function is typically called after computing or merging 'raw_performance_score' 
+            with each horse's race-level data (distance, running_time, track conditions, class multipliers, etc.).
+            - The resulting DataFrame includes both the standardized/normalized columns and the final 'global_speed_score'.
+
+        Returns:
+            A Spark DataFrame with the newly computed columns:
+                - standardized_score
+                - normalized_score (in [-1, +1])
+                - median_normalized (aggregated per horse per race)
+                - global_speed_score (currently mapped to [40..150])
+            Incorporate improvements above to achieve a smoother and more discriminative final distribution.
+    """
     stats = df.agg(
         F.mean("raw_performance_score").alias("mean_rps"),
         F.stddev("raw_performance_score").alias("std_rps")
@@ -347,9 +629,6 @@ def join_and_merge_dataframes(historical_df: DataFrame, future_df: DataFrame) ->
     df_all = df_all.drop("is_future", "hist_gss", "most_recent_hist_gss", "race_median_gss", "final_gss")
 
     return df_all
-
-from pyspark.sql import functions as F
-from pyspark.sql.types import DoubleType, IntegerType
 
 def assign_labels_spark(df, alpha=0.8):
     """
@@ -611,7 +890,7 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
         4) Populate future data with historical speed figures if horse_id matches
         5) Return final DataFrame
     """
-       # 1) Create a "relevance" column for finishing position
+    # 1) Create a "relevance" column for finishing position
     enhanced_df = assign_labels_spark(df_input, alpha=0.8)
     
     # Separate historical and future data
@@ -628,15 +907,11 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     historical_df = mark_and_fill_missing(historical_df)         # Step 2
     historical_df = class_multiplier(historical_df)              # Step 3
     historical_df = calc_raw_perf_score(historical_df, alpha=50) # Step 4
-    # historical_df.printSchema()
-    # future_df.printSchema()
-    
+    historical_df = compute_global_speed_figure_iqstyle(historical_df)
     historical_df = compute_global_speed_figure(historical_df)   # Step 5
     
-    final_df = join_and_merge_dataframes(historical_df, future_df) # Step 6
-    
     df_with_group = (
-    final_df
+    historical_df
     .withColumn("race_date_str", F.date_format("race_date", "yyyy-MM-dd"))
     .withColumn(
         "group_id",
@@ -649,8 +924,60 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
             )
         )
     )
-    
+
     enriched_df = evaluate_and_save_global_speed_score_with_report( df_with_group, parquet_dir, "group_id", "class_rating")
-    final_df = enrich_with_race_and_class_stats(enriched_df)
+    enriched_df = enrich_with_race_and_class_stats(enriched_df)
+
+        
+    columns_to_update = [
+    "class_offset",
+    "class_multiplier",
+    "base_speed",
+    "wide_factor",
+    "par_time",
+    "par_diff_ratio",
+    "raw_performance_score",
+    "dist_penalty",
+    "standardized_score",
+    "logistic_score",
+    "median_logistic",
+    "z_iq",
+    "global_speed_score_iq",
+    "normalized_score",
+    "median_normalized",
+    "global_speed_score",
+    "race_count_agg",
+    "race_avg_speed_agg",
+    "race_std_speed_agg",
+    "race_avg_relevance_agg",
+    "race_std_relevance_agg",
+    "race_class_count_agg",
+    "race_class_avg_speed_agg",
+    "race_class_std_speed_agg",
+    "race_class_min_speed_agg",
+    "race_class_max_speed_agg",
+    "horse_race_count_agg",
+    "horse_avg_speed_agg",
+    "horse_std_speed_agg",
+    "horse_min_speed_agg",
+    "horse_max_speed_agg"
+    ]
+
+    final_df = fill_forward_locf(
+        historical_df=enriched_df, 
+        future_df=future_df, 
+        columns_to_fill=columns_to_update, 
+        date_col="race_date",
+        horse_id_col="horse_id"
+    )
+    
+    count_fut = final_df.count()
+    print(f"Future rows after LOCF: {count_fut}")
+    
+    count_hist = final_df.filter(F.col("data_flag") == "historical").count()
+    count_fut = final_df.filter(F.col("data_flag") == "future").count()
+
+    logging.info(f"Final DF count for historical: {count_hist}")
+    logging.info(f"Final DF count for future: {count_fut}")
     
     return final_df
