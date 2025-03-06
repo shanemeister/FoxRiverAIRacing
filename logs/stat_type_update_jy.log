@@ -1,79 +1,51 @@
-2025-03-05 04:15:01,208 - INFO - Logging initialized in /home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/stat_type_update_jy.log
-2025-03-05 04:15:01,213 - INFO - === Begin processing for ALL_RACES_J (All races stats for jockey) ===
-2025-03-05 04:15:01,215 - INFO - Last processed date for ALL_RACES_J is 2025-03-03
-2025-03-05 04:15:01,217 - INFO - 1 new race_dates to process for ALL_RACES_J: [datetime.date(2025, 3, 4)] ...
-2025-03-05 04:15:01,217 - INFO - Processing stat_type=ALL_RACES_J, race_date=2025-03-04
-2025-03-05 04:15:02,331 - INFO - Committed ALL_RACES_J stats for 2025-03-04.
-2025-03-05 04:15:02,331 - INFO - === Done processing ALL_RACES_J, last_date=2025-03-04 ===
-2025-03-05 04:15:02,331 - INFO - === Begin processing for ALL_RACES_JT (All races stats for jockey-trainer) ===
-2025-03-05 04:15:02,331 - INFO - Last processed date for ALL_RACES_JT is 2025-03-01
-2025-03-05 04:15:02,332 - INFO - 3 new race_dates to process for ALL_RACES_JT: [datetime.date(2025, 3, 2), datetime.date(2025, 3, 3), datetime.date(2025, 3, 4)] ...
-2025-03-05 04:15:02,332 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-03-02
-2025-03-05 04:15:02,370 - ERROR - Error in race_date 2025-03-02 for ALL_RACES_JT: insert or update on table "trainer_jockey_stats" violates foreign key constraint "trainer_jockey_stats_train_key_fkey"
-DETAIL:  Key (train_key)=(977935) is not present in table "trainer".
+2025-03-06 04:15:01,249 - INFO - Logging initialized in /home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/stat_type_update_jy.log
+2025-03-06 04:15:01,254 - INFO - === Begin processing for ALL_RACES_J (All races stats for jockey) ===
+2025-03-06 04:15:01,256 - INFO - Last processed date for ALL_RACES_J is 2025-03-04
+2025-03-06 04:15:01,259 - INFO - 1 new race_dates to process for ALL_RACES_J: [datetime.date(2025, 3, 5)] ...
+2025-03-06 04:15:01,259 - INFO - Processing stat_type=ALL_RACES_J, race_date=2025-03-05
+2025-03-06 04:15:02,734 - INFO - Committed ALL_RACES_J stats for 2025-03-05.
+2025-03-06 04:15:02,735 - INFO - === Done processing ALL_RACES_J, last_date=2025-03-05 ===
+2025-03-06 04:15:02,735 - INFO - === Begin processing for ALL_RACES_JT (All races stats for jockey-trainer) ===
+2025-03-06 04:15:02,735 - INFO - Last processed date for ALL_RACES_JT is 2025-03-04
+2025-03-06 04:15:02,735 - INFO - 1 new race_dates to process for ALL_RACES_JT: [datetime.date(2025, 3, 5)] ...
+2025-03-06 04:15:02,735 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-03-05
+2025-03-06 04:15:02,823 - ERROR - Error in race_date 2025-03-05 for ALL_RACES_JT: insert or update on table "trainer_jockey_stats" violates foreign key constraint "trainer_jockey_stats_train_key_fkey"
+DETAIL:  Key (train_key)=(977945) is not present in table "trainer".
 
-2025-03-05 04:15:02,372 - INFO - Rolled back to sp_stat
-2025-03-05 04:15:02,372 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-03-03
-2025-03-05 04:15:02,480 - ERROR - Error in race_date 2025-03-03 for ALL_RACES_JT: insert or update on table "trainer_jockey_stats" violates foreign key constraint "trainer_jockey_stats_train_key_fkey"
-DETAIL:  Key (train_key)=(977936) is not present in table "trainer".
+2025-03-06 04:15:02,824 - INFO - Rolled back to sp_stat
+2025-03-06 04:15:02,825 - INFO - === Done processing ALL_RACES_JT, last_date=None ===
+2025-03-06 04:15:02,825 - INFO - === Begin processing for ALL_RACES_T (All races stats for trainer) ===
+2025-03-06 04:15:02,825 - INFO - Last processed date for ALL_RACES_T is 2025-03-04
+2025-03-06 04:15:02,825 - INFO - 1 new race_dates to process for ALL_RACES_T: [datetime.date(2025, 3, 5)] ...
+2025-03-06 04:15:02,825 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-03-05
+2025-03-06 04:15:03,192 - ERROR - Error in race_date 2025-03-05 for ALL_RACES_T: insert or update on table "trainer_accum_stats" violates foreign key constraint "trainer_accum_stats_train_key_fkey"
+DETAIL:  Key (train_key)=(977945) is not present in table "trainer".
 
-2025-03-05 04:15:02,480 - INFO - Rolled back to sp_stat
-2025-03-05 04:15:02,480 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-03-04
-2025-03-05 04:15:02,610 - INFO - Committed ALL_RACES_JT stats for 2025-03-04.
-2025-03-05 04:15:02,610 - INFO - === Done processing ALL_RACES_JT, last_date=2025-03-04 ===
-2025-03-05 04:15:02,610 - INFO - === Begin processing for ALL_RACES_T (All races stats for trainer) ===
-2025-03-05 04:15:02,610 - INFO - Last processed date for ALL_RACES_T is 2025-03-01
-2025-03-05 04:15:02,611 - INFO - 3 new race_dates to process for ALL_RACES_T: [datetime.date(2025, 3, 2), datetime.date(2025, 3, 3), datetime.date(2025, 3, 4)] ...
-2025-03-05 04:15:02,611 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-03-02
-2025-03-05 04:15:03,148 - ERROR - Error in race_date 2025-03-02 for ALL_RACES_T: insert or update on table "trainer_accum_stats" violates foreign key constraint "trainer_accum_stats_train_key_fkey"
-DETAIL:  Key (train_key)=(977936) is not present in table "trainer".
+2025-03-06 04:15:03,192 - INFO - Rolled back to sp_stat
+2025-03-06 04:15:03,192 - INFO - === Done processing ALL_RACES_T, last_date=None ===
+2025-03-06 04:15:03,192 - INFO - === Begin processing for ALL_RACES_J_TRACK (All races stats for jockey by track) ===
+2025-03-06 04:15:03,192 - INFO - Last processed date for ALL_RACES_J_TRACK is 2025-03-04
+2025-03-06 04:15:03,193 - INFO - 1 new race_dates to process for ALL_RACES_J_TRACK: [datetime.date(2025, 3, 5)] ...
+2025-03-06 04:15:03,193 - INFO - Processing stat_type=ALL_RACES_J_TRACK, race_date=2025-03-05
+2025-03-06 04:15:03,578 - INFO - Committed ALL_RACES_J_TRACK stats for 2025-03-05.
+2025-03-06 04:15:03,578 - INFO - === Done processing ALL_RACES_J_TRACK, last_date=2025-03-05 ===
+2025-03-06 04:15:03,578 - INFO - === Begin processing for ALL_RACES_T_TRACK (All races stats for trainer by track) ===
+2025-03-06 04:15:03,578 - INFO - Last processed date for ALL_RACES_T_TRACK is 2025-03-04
+2025-03-06 04:15:03,579 - INFO - 1 new race_dates to process for ALL_RACES_T_TRACK: [datetime.date(2025, 3, 5)] ...
+2025-03-06 04:15:03,579 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-03-05
+2025-03-06 04:15:03,729 - ERROR - Error in race_date 2025-03-05 for ALL_RACES_T_TRACK: insert or update on table "trainer_accum_stats_by_track" violates foreign key constraint "fk_train_accum_stats_by_track_jock"
+DETAIL:  Key (train_key)=(977945) is not present in table "trainer".
 
-2025-03-05 04:15:03,149 - INFO - Rolled back to sp_stat
-2025-03-05 04:15:03,149 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-03-03
-2025-03-05 04:15:03,364 - ERROR - Error in race_date 2025-03-03 for ALL_RACES_T: insert or update on table "trainer_accum_stats" violates foreign key constraint "trainer_accum_stats_train_key_fkey"
-DETAIL:  Key (train_key)=(977936) is not present in table "trainer".
+2025-03-06 04:15:03,729 - INFO - Rolled back to sp_stat
+2025-03-06 04:15:03,729 - INFO - === Done processing ALL_RACES_T_TRACK, last_date=None ===
+2025-03-06 04:15:03,729 - INFO - === Begin processing for ALL_RACES_JT_TRACK (All races stats for jockey-trainer by track) ===
+2025-03-06 04:15:03,730 - INFO - Last processed date for ALL_RACES_JT_TRACK is 2025-03-04
+2025-03-06 04:15:03,730 - INFO - 1 new race_dates to process for ALL_RACES_JT_TRACK: [datetime.date(2025, 3, 5)] ...
+2025-03-06 04:15:03,730 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-03-05
+2025-03-06 04:15:03,767 - ERROR - Error in race_date 2025-03-05 for ALL_RACES_JT_TRACK: insert or update on table "jt_accum_stats_by_track" violates foreign key constraint "fk_jt_accum_stats_by_track_jock"
+DETAIL:  Key (train_key)=(977945) is not present in table "trainer".
 
-2025-03-05 04:15:03,365 - INFO - Rolled back to sp_stat
-2025-03-05 04:15:03,365 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-03-04
-2025-03-05 04:15:04,087 - INFO - Committed ALL_RACES_T stats for 2025-03-04.
-2025-03-05 04:15:04,087 - INFO - === Done processing ALL_RACES_T, last_date=2025-03-04 ===
-2025-03-05 04:15:04,087 - INFO - === Begin processing for ALL_RACES_J_TRACK (All races stats for jockey by track) ===
-2025-03-05 04:15:04,087 - INFO - Last processed date for ALL_RACES_J_TRACK is 2025-03-03
-2025-03-05 04:15:04,088 - INFO - 1 new race_dates to process for ALL_RACES_J_TRACK: [datetime.date(2025, 3, 4)] ...
-2025-03-05 04:15:04,088 - INFO - Processing stat_type=ALL_RACES_J_TRACK, race_date=2025-03-04
-2025-03-05 04:15:04,301 - INFO - Committed ALL_RACES_J_TRACK stats for 2025-03-04.
-2025-03-05 04:15:04,301 - INFO - === Done processing ALL_RACES_J_TRACK, last_date=2025-03-04 ===
-2025-03-05 04:15:04,301 - INFO - === Begin processing for ALL_RACES_T_TRACK (All races stats for trainer by track) ===
-2025-03-05 04:15:04,301 - INFO - Last processed date for ALL_RACES_T_TRACK is 2025-03-01
-2025-03-05 04:15:04,302 - INFO - 3 new race_dates to process for ALL_RACES_T_TRACK: [datetime.date(2025, 3, 2), datetime.date(2025, 3, 3), datetime.date(2025, 3, 4)] ...
-2025-03-05 04:15:04,302 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-03-02
-2025-03-05 04:15:04,707 - ERROR - Error in race_date 2025-03-02 for ALL_RACES_T_TRACK: insert or update on table "trainer_accum_stats_by_track" violates foreign key constraint "fk_train_accum_stats_by_track_jock"
-DETAIL:  Key (train_key)=(977935) is not present in table "trainer".
-
-2025-03-05 04:15:04,708 - INFO - Rolled back to sp_stat
-2025-03-05 04:15:04,708 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-03-03
-2025-03-05 04:15:04,743 - ERROR - Error in race_date 2025-03-03 for ALL_RACES_T_TRACK: insert or update on table "trainer_accum_stats_by_track" violates foreign key constraint "fk_train_accum_stats_by_track_jock"
-DETAIL:  Key (train_key)=(977936) is not present in table "trainer".
-
-2025-03-05 04:15:04,743 - INFO - Rolled back to sp_stat
-2025-03-05 04:15:04,743 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-03-04
-2025-03-05 04:15:04,953 - INFO - Committed ALL_RACES_T_TRACK stats for 2025-03-04.
-2025-03-05 04:15:04,953 - INFO - === Done processing ALL_RACES_T_TRACK, last_date=2025-03-04 ===
-2025-03-05 04:15:04,953 - INFO - === Begin processing for ALL_RACES_JT_TRACK (All races stats for jockey-trainer by track) ===
-2025-03-05 04:15:04,953 - INFO - Last processed date for ALL_RACES_JT_TRACK is 2025-03-01
-2025-03-05 04:15:04,954 - INFO - 3 new race_dates to process for ALL_RACES_JT_TRACK: [datetime.date(2025, 3, 2), datetime.date(2025, 3, 3), datetime.date(2025, 3, 4)] ...
-2025-03-05 04:15:04,954 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-03-02
-2025-03-05 04:15:04,973 - ERROR - Error in race_date 2025-03-02 for ALL_RACES_JT_TRACK: insert or update on table "jt_accum_stats_by_track" violates foreign key constraint "fk_jt_accum_stats_by_track_jock"
-DETAIL:  Key (train_key)=(977936) is not present in table "trainer".
-
-2025-03-05 04:15:04,974 - INFO - Rolled back to sp_stat
-2025-03-05 04:15:04,974 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-03-03
-2025-03-05 04:15:05,069 - ERROR - Error in race_date 2025-03-03 for ALL_RACES_JT_TRACK: insert or update on table "jt_accum_stats_by_track" violates foreign key constraint "fk_jt_accum_stats_by_track_jock"
-DETAIL:  Key (train_key)=(977936) is not present in table "trainer".
-
-2025-03-05 04:15:05,069 - INFO - Rolled back to sp_stat
-2025-03-05 04:15:05,069 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-03-04
-2025-03-05 04:15:05,166 - INFO - Committed ALL_RACES_JT_TRACK stats for 2025-03-04.
-2025-03-05 04:15:05,166 - INFO - === Done processing ALL_RACES_JT_TRACK, last_date=2025-03-04 ===
-2025-03-05 04:15:05,166 - INFO - All stat_types processed successfully.
-2025-03-05 04:15:05,166 - INFO - Database connection closed.
+2025-03-06 04:15:03,767 - INFO - Rolled back to sp_stat
+2025-03-06 04:15:03,767 - INFO - === Done processing ALL_RACES_JT_TRACK, last_date=None ===
+2025-03-06 04:15:03,767 - INFO - All stat_types processed successfully.
+2025-03-06 04:15:03,767 - INFO - Database connection closed.

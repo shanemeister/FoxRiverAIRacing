@@ -623,17 +623,20 @@ def split_data_and_train(
 
     # 3) Hardcode or load your numeric+embedding final features
     final_feature_cols = ["global_speed_score_iq", "previous_class", "class_rating", "previous_distance", "off_finish_last_race", 
-                          "count_workouts_3","avg_workout_rank_3","weight","days_off", 
+                          "speed_rating", "prev_speed_rating","purse", "claimprice", "power", "avgspd", "avg_spd_sd","ave_cl_sd",
+                          "hi_spd_sd", "pstyerl", "horse_itm_percentage","total_races_5", "avg_dist_bk_gate1_5", "avg_dist_bk_gate2_5",
+                            "avg_dist_bk_gate3_5", "avg_dist_bk_gate4_5", "avg_speed_fullrace_5", "avg_stride_length_5", "avg_strfreq_q1_5",
+                            "avg_speed_5","avg_fin_5","best_speed","avg_beaten_len_5","prev_speed",
+                            "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5", "speed_improvement", "age_at_race_day","first_time_runner",
+                          "count_workouts_3","avg_workout_rank_3","weight","days_off", "starts", "race_count","has_gps","pace_delta_time", 
                           "cond_starts","cond_win","cond_place","cond_show","cond_fourth","cond_earnings",
                           "all_starts", "all_win", "all_place", "all_show", "all_fourth","all_earnings", 
                           "morn_odds","net_sentiment", 
-                          "distance_meters", "jt_itm_percent", 
+                          "distance_meters", "jt_itm_percent", "jt_win_percent", 
                           "trainer_win_track", "trainer_itm_track", "trainer_win_percent", "trainer_itm_percent", 
                           "jock_win_track", "jock_win_percent","jock_itm_track",                            
                           "jt_win_track", "jt_itm_track", "jock_itm_percent",
-                          "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"
-                           ]
-
+                          "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"]
     # 4) Save them to JSON if needed
     now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_{now_str}.json"

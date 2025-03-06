@@ -1,49 +1,38 @@
-2025-03-05 21:58:15 - INFO - Logging has been set up successfully.
-2025-03-05 21:58:15 - INFO - Starting main function...
-2025-03-05 21:58:15 - INFO - Mode: load
-2025-03-05 21:58:15 - INFO - Running training data ingestion steps...
-2025-03-05 21:58:15 - INFO - Query training_data located and loading from PostgreSQL...
-2025-03-05 21:58:16 - INFO - Data loaded from PostgreSQL in 1.14 seconds.
-2025-03-05 21:59:55 - INFO - Data loaded from PostgreSQL. Count: 799834
-2025-03-05 21:59:55 - INFO - Before filtering on has_gps and course_cd list: data_flag='future': 2165
-2025-03-05 21:59:55 - INFO - Before filtering on has_gps and course_cd list: data_flag='historical': 797669
-2025-03-05 21:59:55 - INFO - After filtering: Number of rows with data_flag='future': 1584
-2025-03-05 21:59:55 - INFO - After filtering: Number of rows with data_flag='historical': 525059
-2025-03-05 21:59:55 - INFO - Row count: 526643
-2025-03-05 21:59:55 - INFO - Count operation completed in 100.29 seconds.
-2025-03-05 21:59:55 - INFO - Checking for duplicates on primary keys...
-2025-03-05 21:59:56 - INFO - Number of duplicate records found: 0
-2025-03-05 21:59:56 - INFO - No duplicate records found.
-2025-03-05 21:59:56 - INFO - Convert Decimal Columns to Double.
-2025-03-05 21:59:56 - INFO - Decimal columns converted to double.
-2025-03-05 21:59:57 - INFO - 3. After processing impute_data_of_birth_with_median function: Number of rows with data_flag='future': 1584
-2025-03-05 21:59:57 - INFO - 3. After processing impute_data_of_birth_with_median function:  Number of rows with data_flag='historical': 525059
-2025-03-05 21:59:57 - INFO - Imputing date_of_birth with median date.
-2025-03-05 21:59:57 - INFO - Created age_at_race_day.
-2025-03-05 21:59:57 - INFO - Imputing categorical and numeric columns.
-2025-03-05 21:59:58 - INFO - manage_tpd_cols_by_flag [historical]: before=525059, after=432117
-2025-03-05 21:59:58 - INFO - manage_tpd_cols_by_flag [future]: before=1584, after=1584
-2025-03-05 21:59:58 - INFO - Filling missing values for columns.
-2025-03-05 22:00:00 - INFO - Numeric columns cast to double.
-2025-03-05 22:00:06 - INFO - 5. Just before impute_performance_columns: Number of rows with data_flag='future': 1584
-2025-03-05 22:00:06 - INFO - 5. Just before impute_performance_columns:  Number of rows with data_flag='historical': 432117
-2025-03-05 22:00:08 - INFO - [impute_performance_columns] Historical: before drop=432117, after drop=422255
-2025-03-05 22:00:14 - INFO - [impute_performance_columns] final future=1584, historical=422255
-2025-03-05 22:00:27 - INFO - [remove_future_races_with_unmatched_horses] final future=937, historical=422255
-2025-03-05 22:02:55 - INFO - [remove_performance_columns] final future rows = 937, historical rows = 306576
-2025-03-05 22:02:55 - INFO - Future rows matched with historical horse_id: 937
-2025-03-05 22:02:55 - INFO - Future rows unmatched with historical horse_id: 0
-2025-03-05 22:02:55 - INFO - Number of future races with >=1 unmatched horse: 0
-2025-03-05 22:02:55 - INFO - Number of future races with NO unmatched horse: 140
-2025-03-05 22:03:09 - INFO - 5. Just after impute_performance_columns: Number of rows with data_flag='future': 937
-2025-03-05 22:03:09 - INFO - 5. Just after impute_performance_columns:  Number of rows with data_flag='historical': 306576
-2025-03-05 22:04:30 - INFO - 6. Just AFTER deleting columns with NaN/null: Number of rows with data_flag='future': 937
-2025-03-05 22:04:30 - INFO - 6. Just AFTER deleting columns with NaN/null: Number of rows with data_flag='historical': 306576
-2025-03-05 22:04:30 - INFO - Rows in data_flag: train_df['data_flag'] = 'future'
-2025-03-05 22:04:30 - INFO - Starting the write to parquet.
-2025-03-05 22:04:43 - INFO - Data written to Parquet in 13.26 seconds
-2025-03-05 22:04:43 - INFO - Data cleansing complete. train_df being returned.
-2025-03-05 22:05:10 - INFO - Ingestion job for training data succeeded
-2025-03-05 22:05:10 - INFO - Loading train_df took 414.87444829940796 to complete.
-2025-03-05 22:11:51 - INFO - Spark session stopped.
-2025-03-05 22:11:51 - INFO - Closing down clientserver connection
+2025-03-06 12:59:30 - INFO - Logging has been set up successfully.
+2025-03-06 12:59:30 - INFO - Starting main function...
+2025-03-06 12:59:30 - INFO - Mode: load
+2025-03-06 12:59:44 - INFO - Rows with valid relevance: 422561
+2025-03-06 12:59:44 - INFO - Correlation (global_speed_score_iq vs relevance): 0.5326
+2025-03-06 12:59:44 - INFO - RMSE (global_speed_score_iq vs relevance): 99.8415
+2025-03-06 12:59:47 - INFO - No duplicates found based on composite key (race_group_col, horse_id, class_col).
+2025-03-06 12:59:47 - INFO - Original record count: 424613, enriched record count: 424613
+2025-03-06 12:59:47 - INFO - Row counts match after joining aggregated data.
+2025-03-06 12:59:47 - INFO - Top 5 horses by global_speed_score_iq:
+2025-03-06 12:59:56 - INFO - Horse 29724.0 / FinPos=9 => Speed=135.73328992237228
+2025-03-06 12:59:56 - INFO - Horse 91974.0 / FinPos=2 => Speed=134.58226784115692
+2025-03-06 12:59:56 - INFO - Horse 5371.0 / FinPos=1 => Speed=134.34414771149983
+2025-03-06 12:59:56 - INFO - Horse 41321.0 / FinPos=6 => Speed=134.04203402802744
+2025-03-06 12:59:56 - INFO - Horse 27857.0 / FinPos=2 => Speed=133.86327913621025
+2025-03-06 12:59:56 - INFO - Bottom 5 horses by global_speed_score_iq:
+2025-03-06 13:00:03 - INFO - Horse 12980.0 / FinPos=5 => Speed=61.82035918825724
+2025-03-06 13:00:03 - INFO - Horse 15782.0 / FinPos=9 => Speed=62.55218955475221
+2025-03-06 13:00:03 - INFO - Horse 37003.0 / FinPos=8 => Speed=63.62163082023441
+2025-03-06 13:00:03 - INFO - Horse 207.0 / FinPos=5 => Speed=64.42479309176906
+2025-03-06 13:00:03 - INFO - Horse 29099.0 / FinPos=2 => Speed=64.85391121958942
+2025-03-06 13:00:03 - INFO - Evaluation & report generation completed in 26.48 seconds.
+2025-03-06 13:00:11 - INFO - Original record count: 424613, enriched record count: 424613
+2025-03-06 13:00:14 - INFO - No duplicates found based on group_id and horse_id.
+2025-03-06 13:00:14 - INFO - Aggregation and join completed in 11.35 seconds.
+2025-03-06 13:00:19 - INFO - [remove_performance_columns] final future=2052, historical=422561
+2025-03-06 13:00:58 - INFO - Final DF total count: 424613
+2025-03-06 13:00:58 - INFO - Final DF count for historical: 422561
+2025-03-06 13:00:58 - INFO - Final DF count for future: 2052
+2025-03-06 13:01:32 - INFO - Global_speed_score job completed successfully.
+2025-03-06 13:01:32 - INFO - Saving global_speed_score DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score.parquet...
+2025-03-06 13:01:32 - INFO - Schema of global_speed_score DataFrame:
+2025-03-06 13:01:35 - INFO - global_speed_score DataFrame saved successfully.
+2025-03-06 13:01:35 - INFO - Ingestion job succeeded and Speed Figure Catboost model complete
+2025-03-06 13:01:35 - INFO - global_speed_score saved as parquet file.
+2025-03-06 13:01:35 - INFO - Creating global_speed_score took 125.05194091796875 to complete.
+2025-03-06 13:02:01 - INFO - Spark session stopped.
+2025-03-06 13:02:01 - INFO - Closing down clientserver connection

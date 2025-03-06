@@ -17,6 +17,75 @@ from pyspark.sql.functions import (
 )
 import math
 
+def remove_performance_columns(df):
+    """
+    Removes the three specified columns (dist_bk_gate4, running_time, total_distance_ran)
+    from the DataFrame and logs the final row counts for historical vs. future.
+    """
+
+    cols_to_drop = ["dist_bk_gate4", "running_time", "total_distance_ran"]
+
+    # 1) Drop the columns
+    df = df.drop(*cols_to_drop)
+
+    # 2) Log final row counts
+    future_count = df.filter(F.col("data_flag") == "future").count()
+    historical_count = df.filter(F.col("data_flag") == "historical").count()
+    logging.info(f"[remove_performance_columns] final future={future_count}, historical={historical_count}")
+
+    return df
+
+def impute_performance_features(df):
+    """
+    Impute missing values for the performance features according to the following rules:
+    
+    Group 1 (fill with race mean if available; if not, use global mean):
+      - 'race_avg_relevance_agg': 356,
+      - 'race_class_std_speed_agg': 1323,
+      - 'race_std_speed_agg': 1323,
+
+    Group 2 (fill with 0):
+      - race_count
+      - starts
+      - total_races_5
+
+    The race grouping keys are assumed to be: course_cd, race_date, race_number.
+    """
+    # Define race grouping keys
+    race_keys = ["course_cd", "race_date", "race_number"]
+    
+    # Group 1 columns: fill with race-level mean; if missing, use global mean.
+    group1 = ["race_avg_relevance_agg", "race_class_std_speed_agg", "race_std_speed_agg"]
+    
+    # Create a window partitioned by the race keys.
+    race_window = Window.partitionBy(*race_keys)
+    
+    for col_name in group1:
+        # Compute race-level mean for the column.
+        df = df.withColumn(f"race_mean_{col_name}", F.avg(F.col(col_name)).over(race_window))
+        # Compute global mean (collect as a Python float)
+        global_mean = df.select(F.mean(F.col(col_name)).alias("global_mean")).collect()[0]["global_mean"]
+        # Impute: if the column is null, then use the race-level mean if not null; otherwise use the global mean.
+        df = df.withColumn(
+            col_name,
+            F.when(F.col(col_name).isNull(),
+                   F.when(F.col(f"race_mean_{col_name}").isNotNull(), F.col(f"race_mean_{col_name}"))
+                    .otherwise(F.lit(global_mean))
+                  ).otherwise(F.col(col_name))
+        )
+        # Drop the temporary race mean column.
+        df = df.drop(f"race_mean_{col_name}")
+    
+    # # Group 2 columns: fill with 0 when null.
+    # group2 = ["race_count", "starts", "total_races_5"]
+    # for col_name in group2:
+    #     df = df.withColumn(
+    #         col_name,
+    #         F.when(F.col(col_name).isNull(), F.lit(0)).otherwise(F.col(col_name))
+    #     )
+    
+    return df
+
 def fill_forward_locf(
     df: DataFrame,
     columns_to_update: list,
@@ -769,6 +838,10 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     # 1) Create a "relevance" column for finishing position
     enhanced_df = assign_labels_spark(df_input, alpha=0.8)
     
+    columns_to_update = ["dist_bk_gate4", "running_time", "total_distance_ran"]
+
+    enhanced_df = fill_forward_locf(enhanced_df, columns_to_update, "horse_id", "race_date", "race_number") 
+
     # # Separate historical and future data
     # historical_df = enhanced_df.filter(F.col("data_flag") == "historical")
     # future_df = enhanced_df.filter(F.col("data_flag") == "future")
@@ -784,7 +857,8 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     enhanced_df = class_multiplier(enhanced_df)              # Step 3
     enhanced_df = calc_raw_perf_score(enhanced_df, alpha=50) # Step 4
     enhanced_df = compute_horse_speed_figure(enhanced_df)
-
+    
+    from pyspark.sql.functions import col, isnan
     
     df_with_group = (
     enhanced_df
@@ -804,44 +878,32 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     enriched_df = evaluate_and_save_global_speed_score_iq_with_report( df_with_group, parquet_dir, "group_id", "class_rating")
     enriched_df = enrich_with_race_and_class_stats(enriched_df)
 
-        
-    columns_to_update = [
-    "class_offset",
-    "class_multiplier",
-    "base_speed",
-    "wide_factor",
-    "par_time",
-    "par_diff_ratio",
-    "raw_performance_score",
-    "dist_penalty",
-    "standardized_score",
-    "logistic_score",
-    "median_logistic",
-    "z_iq",
-    "normalized_score",
-    "median_normalized",
-    "global_speed_score_iq",
-    "race_count_agg",
-    "race_avg_speed_agg",
-    "race_std_speed_agg",
-    "race_avg_relevance_agg",
-    "race_std_relevance_agg",
-    "race_class_count_agg",
-    "race_class_avg_speed_agg",
-    "race_class_std_speed_agg",
-    "race_class_min_speed_agg",
-    "race_class_max_speed_agg",
-    "horse_race_count_agg",
-    "horse_avg_speed_agg",
-    "horse_std_speed_agg",
-    "horse_min_speed_agg",
-    "horse_max_speed_agg"
-    ]
-
     # final_df = enriched_df.unionByName(future_df, allowMissingColumns=True)
+        
+    enriched_df = remove_performance_columns(enriched_df)
     
-    # final_df = fill_forward_locf(final_df, columns_to_update, "horse_id", "race_date","race_number")
-
+    columns_to_update_final = ['base_speed',
+                'global_speed_score_iq',
+                'horse_mean_rps',
+                'logistic_score',
+                'median_logistic',
+                'median_logistic_clamped',
+                'par_diff_ratio',
+                'par_time',
+                'race_avg_relevance_agg',
+                'race_avg_speed_agg',
+                'race_class_avg_speed_agg',
+                'race_class_max_speed_agg',
+                'race_class_min_speed_agg',
+                'race_class_std_speed_agg',
+                'race_std_speed_agg',
+                'raw_performance_score',
+                'standardized_score',
+                'wide_factor']
+                        
+    enriched_df = fill_forward_locf(enriched_df, columns_to_update_final, "horse_id", "race_date", "race_number") 
+    enriched_df = impute_performance_features(enriched_df)
+    
     count_hist = enriched_df.filter(F.col("data_flag") == "historical").count()
     count_fut = enriched_df.filter(F.col("data_flag") == "future").count()
     count_total = enriched_df.count()
