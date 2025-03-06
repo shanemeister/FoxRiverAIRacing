@@ -14,7 +14,7 @@ from datetime import timedelta
 
 def make_future_predictions(
     pdf, 
-    final_feature_cols, 
+    all_feature_cols, 
     cat_cols,
     model_path, 
     model_type="ranker"
@@ -43,7 +43,7 @@ def make_future_predictions(
         if "group_id" in pdf.columns:
             pdf.sort_values("group_id", inplace=True)
         # Build X from final_feature_cols
-        X_infer = pdf[final_feature_cols].copy()
+        X_infer = pdf[all_feature_cols].copy()
         group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
         pred_pool = Pool(
             data=X_infer,
@@ -81,6 +81,7 @@ def run_inference_for_future_multi(
     spark, 
     cat_cols,
     excluded_cols,
+    embed_cols,
     fut_df, 
     db_url,
     db_properties,
@@ -98,21 +99,17 @@ def run_inference_for_future_multi(
     4) Return a Spark DataFrame of the results.
     """
     # Load the exact feature order from your JSON file.
-    with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250225_210333.json", "r") as f:
+    with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250304_150231.json", "r") as f:
         final_feature_cols = json.load(f)
     # Do NOT sort final_feature_cols here—use the order as loaded.
     # Suppose you already did:
     # final_feature_cols = json.load(...)
 
-    # Merge cat_cols to ensure they appear in final_feature_cols
-    for col in cat_cols:
-        if col not in final_feature_cols:
-            final_feature_cols.append(col)
-    
+    # Merge cat_cols to ensure they appear in final_feature_cols    
+    all_feature_cols = final_feature_cols + embed_cols + cat_cols 
     for c in cat_cols:
         if c in fut_df.columns:
-            fut_df[c] = fut_df[c].astype("category")
-                    
+            fut_df[c] = fut_df[c].astype("category")        
     try:
         # Gather model files.
         model_files = [
@@ -127,38 +124,32 @@ def run_inference_for_future_multi(
         # Loop over each model and make predictions.
         for file in model_files:
             try:
+                inference_df = fut_df[all_feature_cols].copy()
                 model_path = os.path.join(models_dir, file)
                 logging.info(f"Making predictions with model: {file}")
-                
-                # IMPORTANT: Reorder the DataFrame columns exactly as in the training order.
-                cols_to_drop = ["official_fin", "dist_penalty", "standardized_score", "median_normalized", "as_of_date"]
-                fut_df = fut_df.drop(columns=cols_to_drop, errors="ignore")
-                
-                inference_df = fut_df.copy()
                 logging.info("Inference DF nulls: ", inference_df.isnull().sum())
                 logging.info(f"inference_df columns before reindexing: {inference_df.columns.tolist()}")
-                
-                inference_df = inference_df.reindex(columns=final_feature_cols)
-                # After reindexing:
                 logging.info("Inference DF dtypes:")
                 logging.info(inference_df.dtypes)
                 logging.info("Null counts:")
                 logging.info(inference_df.isnull().sum())
-                
                 logging.info(f"inference_df columns after reindexing: {inference_df.columns.tolist()}")
-                missing_cols = [col for col in final_feature_cols if col not in inference_df.columns]
-                if missing_cols:
-                    logging.error(f"Missing columns in inference_df: {missing_cols}")
-                    # Optionally, raise an exception here
-                            # Make predictions using your prediction function.
+                try:
+                    missing_cols = [col for col in all_feature_cols if col not in inference_df.columns]
+                    if missing_cols:
+                        logging.error(f"Missing columns in inference_df: {missing_cols}")
+                except Exception as e:
+                    logging.error(f"Error checking missing columns: {e}", exc_info=True)
+                    raise
             except Exception as e:
                 logging.error(f"Error preparing inference data: {e}", exc_info=True)
                 raise   
             
             try:
+
                 scored_df = make_future_predictions(
                     inference_df, 
-                    final_feature_cols,
+                    all_feature_cols,
                     cat_cols, 
                     model_path, 
                     model_type="ranker"
@@ -185,12 +176,10 @@ def run_inference_for_future_multi(
         logging.info("Make sure you have models in the catboost directory.")
         raise
     
-    # (E) Add a "data_flag" column based on race_date relative to current date.
-    from datetime import timedelta
-
+    # (E) Date predictions are run.
+    
     # Set 'today' to yesterday's date
-    today = datetime.date.today() - timedelta(days=1) # today = datetime.date.today()
-    fut_df["data_flag"] = np.where(pd.to_datetime(fut_df["race_date"]).dt.date >= today, "future", "historical")
+    today = datetime.date.today()
     
     # (F) Convert fut_df back to a Spark DataFrame.
     scored_sdf = spark.createDataFrame(fut_df)
@@ -212,7 +201,7 @@ def run_inference_for_future_multi(
     
     return scored_sdf
 
-def main_inference(spark, fut_pdf, cat_cols, excluded_cols, jdbc_url, jdbc_properties):
+def main_inference(spark, fut_pdf, cat_cols, embed_cols, excluded_cols, jdbc_url, jdbc_properties):
     """
     Example main function to run multi-model inference, 
     produce CSV, and append results to DB.
@@ -227,6 +216,7 @@ def main_inference(spark, fut_pdf, cat_cols, excluded_cols, jdbc_url, jdbc_prope
         spark, 
         cat_cols,
         excluded_cols,
+        embed_cols,
         fut_df=fut_pdf,
         db_url=jdbc_url,
         db_properties=jdbc_properties,

@@ -17,79 +17,49 @@ from pyspark.sql.functions import (
 )
 import math
 
-from pyspark.sql import Window
-import pyspark.sql.functions as F
-
-import pyspark.sql.functions as F
-import pyspark.sql.window as W
-from pyspark.sql.types import DoubleType
-
 def fill_forward_locf(
-    historical_df,
-    future_df,
-    columns_to_fill,
-    date_col="race_date",
-    horse_id_col="horse_id"
-):
+    df: DataFrame,
+    columns_to_update: list,
+    horse_id_col: str = "horse_id",
+    date_col: str = "race_date",
+    race_num_col: str = "race_number"
+) -> DataFrame:
     """
-    Perform Last-Occurrence-Carried-Forward for the columns_to_fill:
-      1) Add data_flag = 'historical' or 'future'
-      2) Union the two DataFrames (allowMissingColumns=True if Spark >= 3.1)
-      3) For each horse (partition by horse_id), order by date_col ascending
-      4) last_value(..., ignorenulls=True) for each column => forward fill
-      5) Return only the rows with data_flag = 'future', now updated with 
-         the last known values from the historical data.
-
-    :param historical_df: DataFrame of past races (fully or partially populated columns).
-    :param future_df: DataFrame of upcoming races (some columns might be null or missing).
-    :param columns_to_fill: list of column names we want to carry forward from historical to future.
-    :param date_col: name of the column that indicates chronological order.
-    :param horse_id_col: name of the column identifying each horse.
-
-    :return: A DataFrame of future_df rows, updated with the forward-filled columns.
+    Perform a forward-fill (LOCF: Last Observation Carried Forward) on 'df' 
+    for each horse, ordered by (date_col, race_num_col).
+    
+    For each column in 'columns_to_update', any null value in a later row 
+    will be replaced by the most recent non-null value from a previous row 
+    (within the same horse_id partition).
+    
+    :param df:            The Spark DataFrame that contains horse racing data.
+    :param columns_to_update: List of column names to forward-fill if null.
+    :param horse_id_col:  Column name identifying the horse (e.g. "horse_id").
+    :param date_col:      Column representing the date (or date-time) of the race.
+    :param race_num_col:  Column representing the race number (to break ties or refine ordering).
+    
+    :return: A new DataFrame with forward-filled values for the specified columns.
     """
 
-    # 1) Tag each DataFrame with a data_flag
-    historical_tagged = historical_df.withColumn("data_flag", F.lit("historical"))
-    future_tagged = future_df.withColumn("data_flag", F.lit("future"))
-
-    # 2) Union the DFs
-    #    If you're on Spark 3.1+, you can use allowMissingColumns=True
-    #    If not, ensure the missing columns exist in both DFs (possibly add as null).
-    combined = historical_tagged.unionByName(future_tagged, allowMissingColumns=True)
-
-    # Make sure columns_to_fill exist in 'combined' (as null if needed)
-    for col_name in columns_to_fill:
-        if col_name not in combined.columns:
-            combined = combined.withColumn(col_name, F.lit(None).cast(DoubleType()))
-
-    # 3) Define a window partitioned by horse_id, ordered by ascending date
-    #    We'll do "rowsBetween(Window.unboundedPreceding, 0)" to capture 
-    #    everything from the start up to current row.
+    # Define a window partitioned by horse_id, ordered by race_date asc, race_number asc
+    # rowsBetween(Window.unboundedPreceding, Window.currentRow) 
+    # means: for the current row, consider all rows from the start of the partition up to current.
     w = (
         W.Window
         .partitionBy(horse_id_col)
-        .orderBy(F.col(date_col).asc())
-        .rowsBetween(W.Window.unboundedPreceding, 0)
+        .orderBy(F.col(date_col).asc(), F.col(race_num_col).asc())
+        .rowsBetween(W.Window.unboundedPreceding, W.Window.currentRow)
     )
 
-    # 4) For each column, take last_value(..., True) over that window
-    #    ignorenulls=True ensures we skip over nulls in the historical portion.
-    exprs = []
-    for c in columns_to_fill:
-        exprs.append(F.last(F.col(c), ignorenulls=True).over(w).alias(c))
+    # For each column, apply last_value(..., ignorenulls=True) 
+    # to fill forward the most recent non-null occurrence.
+    for col_name in columns_to_update:
+        df = df.withColumn(
+            col_name,
+            F.last(F.col(col_name), ignorenulls=True).over(w)
+        )
 
-    # Apply the window transformations
-    # We'll select all columns plus new expressions that forward-fill
-    all_cols = [F.col(x) for x in combined.columns if x not in columns_to_fill]  # existing
-    final_exprs = all_cols + exprs
-
-    combined_filled = combined.select(*final_exprs)
-
-    # 5) Return only the future rows, which should now have columns_to_fill forward-filled
-    future_updated = combined_filled.filter(F.col("data_flag") == "future")
-
-    return future_updated
+    return df
 
 def acklam_icdf(p: float) -> float:
     """
@@ -332,216 +302,127 @@ def calc_raw_perf_score(df, alpha=50.0):
 
     df = df.withColumn(
         "raw_performance_score",
-        F.col("base_speed") *
-        F.col("wide_factor") *
-        F.col("class_multiplier") *
-        (1.0 + alpha * F.col("par_diff_ratio"))
+        col("base_speed") *
+        col("wide_factor") *
+        col("class_multiplier") *
+        (1.0 + alpha * col("par_diff_ratio"))
     )
-    df = df.withColumn("dist_penalty", F.least(0.25 * F.col("dist_bk_gate4"), F.lit(10.0)))
-    df = df.withColumn("raw_performance_score", F.col("raw_performance_score") - F.col("dist_penalty"))
+    df = df.withColumn("dist_penalty", F.least(0.25 * col("dist_bk_gate4"), lit(10.0)))
+    df = df.withColumn("raw_performance_score", col("raw_performance_score") - col("dist_penalty"))
 
     return df
 
-def compute_global_speed_figure_iqstyle(df: DataFrame, alpha_logistic=1.0) -> DataFrame:
+def compute_horse_speed_figure(df: DataFrame, alpha_logistic=1.0, epsilon=1e-6) -> DataFrame:
     """
-    Compute a global speed figure without strict clamping (40..150).
-    1) Compute mean & std of raw_performance_score (mean_rps, std_rps).
-    2) standardize => z = (raw_performance_score - mean_rps) / std_rps
-    3) logistic transform => logistic_score in (0,1), with optional alpha scaling
-        logistic_score = 1 / (1 + exp(-alpha_logistic * z))
-    4) [Optional] rank-based percentile transform
-    5) Map to an IQ-like scale (mean=100, std=15), or another user-friendly scale.
-    6) Return the DataFrame with the final global_speed_score_iq column.
+    Computes a horse-specific speed figure.
+    Each horse is standardized against its own distribution of raw_performance_score.
+    
+    Steps:
+      A) Group by horse_id => compute horse_mean_rps, horse_std_rps
+      B) Join back to main DF => each row sees the horse's mean/std
+      C) Standardize => (raw_performance_score - horse_mean_rps) / horse_std_rps
+         If std=0 => set standardized_score=0
+      D) [Optional] Apply logistic transform => median => inverseCDF => final score
+         Illustrative example shown here.
+
+    :param df: DataFrame with columns:
+               - horse_id
+               - raw_performance_score
+               - course_cd, race_date, race_number, etc. (for grouping/identification)
+    :param alpha_logistic: logistic transform steepness
+    :param epsilon: small clamp to avoid 0/1 extremes
+    :return: DataFrame with new columns:
+             - horse_mean_rps, horse_std_rps (for debugging)
+             - standardized_score (horse-based z-score)
+             - logistic_score, median_logistic, global_speed_score_iq (if you choose to replicate IQ transform)
     """
 
-    # 1) Mean & Std of raw_performance_score
-    stats = df.agg(
-        F_mean("raw_performance_score").alias("mean_rps"),
-        F_stddev("raw_performance_score").alias("std_rps")
-    ).collect()[0]
-    mean_rps = stats["mean_rps"]
-    std_rps = stats["std_rps"]
+    # A) Compute horse-level stats
+    horse_stats = (
+        df.groupBy("horse_id")
+          .agg(
+              F.mean("raw_performance_score").alias("horse_mean_rps"),
+              F.stddev("raw_performance_score").alias("horse_std_rps")
+          )
+    )
+
+    # A2) Fill any null std with 0.0
+    #    i.e., if a horse has only one race or perfect uniform scores => stddev is null => set to 0.0
+    horse_stats_filled = horse_stats.na.fill({"horse_std_rps": 0.0})
     
-    # Handle edge case: std_rps == 0 or None
-    if not std_rps or std_rps == 0.0:
-        # If we cannot standardize, just fill with 0
-        df = df.withColumn("standardized_score", lit(0.0))
-    else:
-        # 2) standardized_score
-        df = df.withColumn(
-            "standardized_score",
-            (col("raw_performance_score") - lit(mean_rps)) / lit(std_rps)
-        )
+    # B) Join these stats back
+    # C) Join back
+    df_joined = df.join(horse_stats_filled, on="horse_id", how="left")
+
+    # E) Create standardized_score
+    #    If horse_std_rps==0 => standardized_score=0
+    #    Else => (raw - mean)/std
+    df_joined = df_joined.withColumn(
+        "standardized_score",
+        F.when(F.col("horse_std_rps") == 0.0, F.lit(0.0))
+         .otherwise(
+            (F.col("raw_performance_score") - F.col("horse_mean_rps")) / F.col("horse_std_rps")
+         )
+    )
     
-    # 3) Logistic transform => (0, 1).
-    #    logistic_score = 1 / (1 + exp(-alpha_logistic * standardized_score))
-    #    alpha_logistic is a “steepness” factor; smaller => saturates more slowly
-    df = df.withColumn(
+    # ----- OPTIONAL: replicate or adapt the logistic -> median -> inverse CDF -> IQ scale
+
+    # 1) logistic transform => (0,1)
+    df_joined = df_joined.withColumn(
         "logistic_score",
-        1.0 / (1.0 + F_exp(-lit(alpha_logistic) * col("standardized_score")))
+        1.0 / (1.0 + F.exp(-lit(alpha_logistic) * col("standardized_score")))
     )
-    
-    # 4) Aggregate to get median logistic_score per (course_cd, race_date, race_number, horse_id)
-    #    If you still want to combine multiple splits, etc. by median.
+
+    # 2) Group by (course_cd, race_date, race_number, horse_id) => median logistic_score
     median_logistic_df = (
-        df.groupBy("course_cd", "race_date", "race_number", "horse_id")
-          .agg(F_expr("percentile_approx(logistic_score, 0.5)").alias("median_logistic"))
+        df_joined.groupBy("course_cd", "race_date", "race_number", "horse_id")
+                 .agg(F.expr("percentile_approx(logistic_score, 0.5)").alias("median_logistic"))
     )
-    
-    df = df.join(
+    df_joined = df_joined.join(
         median_logistic_df,
         on=["course_cd", "race_date", "race_number", "horse_id"],
         how="left"
     )
-    
-    # 5) IQ-style mapping:
-    #    We'll treat median_logistic (0..1) as a "percentile" or pseudo-percentile. 
-    #    Then map to a normal distribution with mean=100, std=15.
-    #    The standard normal invCDF is not natively in PySpark. We can do an approximation or do it in Python UDF.
 
-    # Simple approach: treat logistic in [0,1] as if it’s a percentile, then apply an approximate inverse CDF.
-    # We'll do a quick approximation of the Probit function (inverse CDF of Normal(0,1)) via a UDF.
+    # 3) Clamp median_logistic in [epsilon, 1 - epsilon]
+    df_joined = df_joined.withColumn(
+        "median_logistic_clamped",
+        F.when(col("median_logistic") < epsilon, epsilon)
+         .when(col("median_logistic") > 1 - epsilon, 1 - epsilon)
+         .otherwise(col("median_logistic"))
+    )
 
-    # -- Option A: approximate via a polynomial or rational approximation
-    # (For a robust solution, consider using mpmath or scipy if available)
-    import math
-
+    # 4) Inverse CDF (Acklam) => z_iq => scale to ~ IQ
     from pyspark.sql.types import DoubleType
-    import pyspark.sql.functions as F
+    invcdf_udf = F.udf(lambda x: float(acklam_icdf(x)) if x is not None else None, DoubleType())
 
-    # Register a UDF to call the acklam_icdf function:
-    invcdf_udf = F_udf(lambda x: float(acklam_icdf(x)) if x is not None else None, DoubleType())
-    
-    df = df.withColumn(
-        "z_iq",
-        invcdf_udf(col("median_logistic"))
-    ).withColumn(
+    df_joined = df_joined.withColumn(
         "global_speed_score_iq",
-        lit(100.0) + lit(15.0) * col("z_iq")
+        lit(100.0) + lit(15.0) * invcdf_udf(col("median_logistic_clamped"))
     )
 
-    return df
-
-def compute_global_speed_figure(df):
-    """
-    1) Compute mean & std of raw_performance_score (mean_rps, std_rps).
-    2) Create standardized_score = (raw_performance_score - mean_rps)/std_rps.
-    3) normalized_score = tanh(standardized_score) in [-1, +1].
-    4) For each (course_cd, race_date, race_number, horse_id), aggregate to get
-       median_normalized = percentile_approx(normalized_score, 0.5).
-    5) Final: global_speed_score = [40..150], mapping -1 => 40, +1 => 150.
-    
-    Conclusion
-	1.	Remove or relax the strict [40..150] clamp (or at least expand it!).
-	2.	Use a function that saturates more slowly than tanh if you want to keep an upper bound but not be pinned so tightly.
-	3.	Consider rank‐based or percentile‐based transformations for finer separation near the extremes.
-	4.	Keep a second tie‐breaker measure for horses that appear equal on the main scale
-    
-        Compute a global speed figure for each horse in a race based on raw performance data.
-        
-        Current Steps:
-        ---------------
-        1. Compute the mean (mean_rps) and standard deviation (std_rps) of the column 'raw_performance_score'.
-        2. Standardize each row's raw_performance_score:
-            standardized_score = (raw_performance_score - mean_rps) / std_rps
-        3. Convert the standardized score to a bounded range [-1, +1] using the hyperbolic tangent:
-            normalized_score = tanh(standardized_score)
-        4. Aggregate per (course_cd, race_date, race_number, horse_id) to obtain the median of normalized_score:
-            median_normalized = percentile_approx(normalized_score, 0.5)
-        5. Map the final median_normalized from [-1..+1] to [40..150] (a strict clamp):
-            global_speed_score = 40 + ( (median_normalized + 1) / 2 ) * (150 - 40)
-
-        Suggested Improvements:
-            1. **Loosen or Remove Strict Clamps**:
-            - Consider expanding the [40..150] range or removing it altogether if you prefer an unbounded or less restrictive scale.
-            - Strict clamping can cause a large cluster of values at the boundaries, reducing differentiation among top/bottom performers.
-
-            2. **Use a Less Aggressive Saturation Function**:
-            - Tanh saturates quickly once the standardized_score is outside ~±2, causing many values to pin at -1 or +1.
-            - Alternatives include: arctan, logistic, softsign, or simply scaling the standardized_score by a smaller factor before applying tanh.
-
-            3. **Rank-Based or Percentile Transform**:
-            - Instead of applying a saturating function, you can compute rank or percentile for each performance, ensuring a more uniform spread near extremes.
-            - You might then map percentiles to a final score range (like an "IQ-style" distribution if desired).
-
-            4. **Keep a Secondary/Tie-Breaker Measure**:
-            - For horses that tie at boundary values (e.g., 150.0), preserve an unbounded or less-limited metric to distinguish truly exceptional performances.
-            - This secondary metric could be the raw standardized_score itself or a second dimension (e.g., sectional/pace analysis).
-
-            5. **Validate and Tune Constants**:
-            - Review the par-diff coefficient (alpha), distance penalty, and other constants in the raw performance score calculation.
-            - Large alpha can cause minor time differences to balloon in raw_performance_score, increasing the risk of boundary clamping after normalization.
-
-        Usage:
-            - This function is typically called after computing or merging 'raw_performance_score' 
-            with each horse's race-level data (distance, running_time, track conditions, class multipliers, etc.).
-            - The resulting DataFrame includes both the standardized/normalized columns and the final 'global_speed_score'.
-
-        Returns:
-            A Spark DataFrame with the newly computed columns:
-                - standardized_score
-                - normalized_score (in [-1, +1])
-                - median_normalized (aggregated per horse per race)
-                - global_speed_score (currently mapped to [40..150])
-            Incorporate improvements above to achieve a smoother and more discriminative final distribution.
-    """
-    stats = df.agg(
-        F.mean("raw_performance_score").alias("mean_rps"),
-        F.stddev("raw_performance_score").alias("std_rps")
-    ).collect()[0]
-    mean_rps = stats["mean_rps"]
-    std_rps = stats["std_rps"]
-
-    # Handle case where std_rps is 0 or null
-    if not std_rps or std_rps == 0.0:
-        # Just fill with 0's if we can't standardize
-        df = df.withColumn("standardized_score", F.lit(0.0))
-        df = df.withColumn("normalized_score", F.lit(0.0))
-    else:
-        # --- 2) standardize -> standardized_score ---
-        df = df.withColumn(
-            "standardized_score",
-            (F.col("raw_performance_score") - F.lit(mean_rps)) / F.lit(std_rps)
-        )
-        # --- 3) normalized_score in [-1, +1] via tanh ---
-        df = df.withColumn("normalized_score", F.tanh(F.col("standardized_score")))
-
-    # --- 4) aggregator: per horse & race, get median of normalized_score
-    # (NOT standardized_score) so it stays in [-1, +1]
-    median_norm_df = (
-        df.groupBy("course_cd", "race_date", "race_number", "horse_id")
-          .agg(F.expr("percentile_approx(normalized_score, 0.5)").alias("median_normalized"))
+    # 5) Optional clamp => [0..200]
+    df_joined = df_joined.withColumn(
+        "global_speed_score_iq",
+        F.when(col("global_speed_score_iq") < 0, 0)
+         .when(col("global_speed_score_iq") > 200, 200)
+         .otherwise(col("global_speed_score_iq"))
     )
 
-    # Join it back
-    df = df.join(
-        median_norm_df,
-        on=["course_cd", "race_date", "race_number", "horse_id"],
-        how="left"
-    )
-
-    # --- 5) Map from [-1..+1] => [40..150]
-    #   formula: final_score = 40 + ( (x+1)/2 ) * (150 - 40 )
-    #   i.e. -1 => 40, +1 => 150
-    df = df.withColumn(
-        "global_speed_score",
-        F.lit(40.0) + (F.lit(150.0) - F.lit(40.0)) * ((F.col("median_normalized") + F.lit(1.0)) / F.lit(2.0))
-    )
-
-    return df
+    return df_joined
 
 def join_and_merge_dataframes(historical_df: DataFrame, future_df: DataFrame) -> DataFrame:
     """
     1) Preserves all columns from historical_df and future_df.
-    2) 'future' rows get their global_speed_score from the horse's most recent
+    2) 'future' rows get their global_speed_score_iq from the horse's most recent
        historical row (any date <= that future race_date).
     3) If none exists, use race median. If that is unavailable, use global median.
-    4) Return one merged DataFrame with updated global_speed_score for future rows.
+    4) Return one merged DataFrame with updated global_speed_score_iq for future rows.
 
     Columns required in both DataFrames at minimum:
       - horse_id
       - race_date (must be a date or timestamp we can sort on)
-      - global_speed_score (in historical_df, or computed earlier)
+      - global_speed_score_iq (in historical_df, or computed earlier)
       - plus any other columns you want to keep.
 
     If your logic needs to also match on course_cd or ensure the same track,
@@ -556,7 +437,7 @@ def join_and_merge_dataframes(historical_df: DataFrame, future_df: DataFrame) ->
     df_all = historical_labeled.unionByName(future_labeled, allowMissingColumns=True)
 
     # 3) For each row, find the "most_recent_hist_gss":
-    #    We'll store the global_speed_score only for historical rows in a new col "hist_gss".
+    #    We'll store the global_speed_score_iq only for historical rows in a new col "hist_gss".
     #    Then use a window partitioned by horse_id, ordered by race_date ascending,
     #    to fill forward the last known "hist_gss".
     
@@ -565,7 +446,7 @@ def join_and_merge_dataframes(historical_df: DataFrame, future_df: DataFrame) ->
     # or handle the "equal to" case carefully. For simplicity, we'll allow "on or before" race_date.
     df_all = df_all.withColumn(
         "hist_gss",
-        F.when(F.col("is_future") == F.lit(False), F.col("global_speed_score")).otherwise(F.lit(None))
+        F.when(F.col("is_future") == F.lit(False), F.col("global_speed_score_iq")).otherwise(F.lit(None))
     )
 
     window_spec = (
@@ -618,11 +499,11 @@ def join_and_merge_dataframes(historical_df: DataFrame, future_df: DataFrame) ->
         ).otherwise(F.lit(global_median))
     )
 
-    # 7) For FUTURE rows, we overwrite global_speed_score with final_gss.
-    #    For HISTORICAL rows, keep the existing global_speed_score as is.
+    # 7) For FUTURE rows, we overwrite global_speed_score_iq with final_gss.
+    #    For HISTORICAL rows, keep the existing global_speed_score_iq as is.
     df_all = df_all.withColumn(
-        "global_speed_score",
-        F.when(F.col("is_future"), F.col("final_gss")).otherwise(F.col("global_speed_score"))
+        "global_speed_score_iq",
+        F.when(F.col("is_future"), F.col("final_gss")).otherwise(F.col("global_speed_score_iq"))
     )
 
     # Optionally drop the helper columns
@@ -659,22 +540,22 @@ def assign_labels_spark(df, alpha=0.8):
     )
     return df
 
-def evaluate_and_save_global_speed_score_with_report(
+def evaluate_and_save_global_speed_score_iq_with_report(
     enhanced_df: DataFrame,
     parquet_dir: str,
     race_group_col: str = "group_id",
     class_col: str = "class_rating"
 ) -> DataFrame:
     """
-    1) Computes correlation and RMSE between global_speed_score and relevance.
+    1) Computes correlation and RMSE between global_speed_score_iq and relevance.
     2) Groups data by race (race_group_col) to produce aggregated race-level stats.
     3) Groups data by race and class to produce race-class aggregates.
     4) Joins these aggregated summaries back to the original DataFrame.
     5) Checks for duplicates and verifies that no horse is dropped during the join.
     6) Saves the race-level grouped summary as a Parquet file.
-    7) Logs top/bottom rows by global_speed_score.
+    7) Logs top/bottom rows by global_speed_score_iq.
     
-    :param enhanced_df: Spark DataFrame with columns including global_speed_score, official_fin,
+    :param enhanced_df: Spark DataFrame with columns including global_speed_score_iq, official_fin,
                         a pre-assigned "relevance", horse_id, and class_col.
     :param parquet_dir: Destination directory to store the Parquet file.
     :param db_url: (Not used in this version) JDBC URL for PostgreSQL.
@@ -696,13 +577,13 @@ def evaluate_and_save_global_speed_score_with_report(
         return enhanced_df
 
     # 2) Calculate correlation and RMSE.
-    corr_val = metric_df.select(F.corr("global_speed_score", "relevance").alias("corr_score")).first()["corr_score"]
-    mse_val = metric_df.select(F.mean(F.pow(F.col("global_speed_score") - F.col("relevance"), 2)).alias("mse")).first()["mse"]
+    corr_val = metric_df.select(F.corr("global_speed_score_iq", "relevance").alias("corr_score")).first()["corr_score"]
+    mse_val = metric_df.select(F.mean(F.pow(F.col("global_speed_score_iq") - F.col("relevance"), 2)).alias("mse")).first()["mse"]
     rmse_val = (mse_val ** 0.5) if mse_val is not None else None
     logging.info(f"Rows with valid relevance: {valid_count}")
-    logging.info(f"Correlation (global_speed_score vs relevance): {corr_val:.4f}")
+    logging.info(f"Correlation (global_speed_score_iq vs relevance): {corr_val:.4f}")
     if rmse_val is not None:
-        logging.info(f"RMSE (global_speed_score vs relevance): {rmse_val:.4f}")
+        logging.info(f"RMSE (global_speed_score_iq vs relevance): {rmse_val:.4f}")
     else:
         logging.info("RMSE could not be computed (MSE was null).")
 
@@ -712,8 +593,8 @@ def evaluate_and_save_global_speed_score_with_report(
         .groupBy(race_group_col)
         .agg(
             F.count("*").alias("race_count_agg"),
-            F.mean("global_speed_score").alias("race_avg_speed_agg"),
-            F.stddev("global_speed_score").alias("race_std_speed_agg"),
+            F.mean("global_speed_score_iq").alias("race_avg_speed_agg"),
+            F.stddev("global_speed_score_iq").alias("race_std_speed_agg"),
             F.mean("relevance").alias("race_avg_relevance_agg"),
             F.stddev("relevance").alias("race_std_relevance_agg")
         )
@@ -726,18 +607,13 @@ def evaluate_and_save_global_speed_score_with_report(
         .groupBy(race_group_col, class_col)
         .agg(
             F.count("*").alias("race_class_count_agg"),
-            F.mean("global_speed_score").alias("race_class_avg_speed_agg"),
-            F.stddev("global_speed_score").alias("race_class_std_speed_agg"),
-            F.min("global_speed_score").alias("race_class_min_speed_agg"),
-            F.max("global_speed_score").alias("race_class_max_speed_agg")
+            F.mean("global_speed_score_iq").alias("race_class_avg_speed_agg"),
+            F.stddev("global_speed_score_iq").alias("race_class_std_speed_agg"),
+            F.min("global_speed_score_iq").alias("race_class_min_speed_agg"),
+            F.max("global_speed_score_iq").alias("race_class_max_speed_agg")
         )
         .orderBy(race_group_col, class_col)
     )
-
-    # Save the race-level summary to Parquet for reference.
-    race_summary_path = os.path.join(parquet_dir, "global_speed_score_accuracy.parquet")
-    race_summary_df.write.mode("overwrite").parquet(race_summary_path)
-    logging.info(f"Race-level grouped stats saved to Parquet: {race_summary_path}")
 
     # 5) Join the aggregated summaries back to the original DataFrame.
     # Note: We do not join the finishing position distribution summary to avoid duplicates.
@@ -766,13 +642,13 @@ def evaluate_and_save_global_speed_score_with_report(
     else:
         logging.info("Row counts match after joining aggregated data.")
 
-    # 7) (Optional) Log top/bottom 5 horses by global_speed_score.
-    logging.info("Top 5 horses by global_speed_score:")
-    for row in enhanced_df.orderBy(F.desc("global_speed_score")).limit(5).collect():
-        logging.info(f"Horse {row['horse_id']} / FinPos={row['official_fin']} => Speed={row['global_speed_score']}")
-    logging.info("Bottom 5 horses by global_speed_score:")
-    for row in enhanced_df.orderBy("global_speed_score").limit(5).collect():
-        logging.info(f"Horse {row['horse_id']} / FinPos={row['official_fin']} => Speed={row['global_speed_score']}")
+    # 7) (Optional) Log top/bottom 5 horses by global_speed_score_iq.
+    logging.info("Top 5 horses by global_speed_score_iq:")
+    for row in enhanced_df.orderBy(F.desc("global_speed_score_iq")).limit(5).collect():
+        logging.info(f"Horse {row['horse_id']} / FinPos={row['official_fin']} => Speed={row['global_speed_score_iq']}")
+    logging.info("Bottom 5 horses by global_speed_score_iq:")
+    for row in enhanced_df.orderBy("global_speed_score_iq").limit(5).collect():
+        logging.info(f"Horse {row['horse_id']} / FinPos={row['official_fin']} => Speed={row['global_speed_score_iq']}")
 
     elapsed = time.time() - start_time
     logging.info(f"Evaluation & report generation completed in {elapsed:.2f} seconds.")
@@ -794,7 +670,7 @@ def enrich_with_race_and_class_stats(enhanced_df: DataFrame) -> DataFrame:
     :param enhanced_df: Input DataFrame that includes at least:
                         - group_id (unique race identifier),
                         - class_rating (or the class column you use),
-                        - global_speed_score, relevance, horse_id, etc.
+                        - global_speed_score_iq, relevance, horse_id, etc.
     :return: The enriched DataFrame.
     """
     import time
@@ -819,8 +695,8 @@ def enrich_with_race_and_class_stats(enhanced_df: DataFrame) -> DataFrame:
         .groupBy("group_id")
         .agg(
             F.count("*").alias("race_count_agg"),
-            F.mean("global_speed_score").alias("race_avg_speed_agg"),
-            F.stddev("global_speed_score").alias("race_std_speed_agg"),
+            F.mean("global_speed_score_iq").alias("race_avg_speed_agg"),
+            F.stddev("global_speed_score_iq").alias("race_std_speed_agg"),
             F.mean("relevance").alias("race_avg_relevance_agg"),
             F.stddev("relevance").alias("race_std_relevance_agg")
         )
@@ -832,10 +708,10 @@ def enrich_with_race_and_class_stats(enhanced_df: DataFrame) -> DataFrame:
         .groupBy("race_class_id")
         .agg(
             F.count("*").alias("race_class_count_agg"),
-            F.mean("global_speed_score").alias("race_class_avg_speed_agg"),
-            F.stddev("global_speed_score").alias("race_class_std_speed_agg"),
-            F.min("global_speed_score").alias("race_class_min_speed_agg"),
-            F.max("global_speed_score").alias("race_class_max_speed_agg")
+            F.mean("global_speed_score_iq").alias("race_class_avg_speed_agg"),
+            F.stddev("global_speed_score_iq").alias("race_class_std_speed_agg"),
+            F.min("global_speed_score_iq").alias("race_class_min_speed_agg"),
+            F.max("global_speed_score_iq").alias("race_class_max_speed_agg")
         )
     )
 
@@ -844,10 +720,10 @@ def enrich_with_race_and_class_stats(enhanced_df: DataFrame) -> DataFrame:
         .groupBy("horse_id")
         .agg(
             F.count("*").alias("horse_race_count_agg"),
-            F.mean("global_speed_score").alias("horse_avg_speed_agg"),
-            F.stddev("global_speed_score").alias("horse_std_speed_agg"),
-            F.min("global_speed_score").alias("horse_min_speed_agg"),
-            F.max("global_speed_score").alias("horse_max_speed_agg")
+            F.mean("global_speed_score_iq").alias("horse_avg_speed_agg"),
+            F.stddev("global_speed_score_iq").alias("horse_std_speed_agg"),
+            F.min("global_speed_score_iq").alias("horse_min_speed_agg"),
+            F.max("global_speed_score_iq").alias("horse_max_speed_agg")
         )
     ).na.fill({"horse_std_speed_agg": 0})
     
@@ -893,25 +769,25 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     # 1) Create a "relevance" column for finishing position
     enhanced_df = assign_labels_spark(df_input, alpha=0.8)
     
-    # Separate historical and future data
-    historical_df = enhanced_df.filter(F.col("data_flag") == "historical")
-    future_df = enhanced_df.filter(F.col("data_flag") == "future")
+    # # Separate historical and future data
+    # historical_df = enhanced_df.filter(F.col("data_flag") == "historical")
+    # future_df = enhanced_df.filter(F.col("data_flag") == "future")
 
-    # Log the counts
-    historical_count = historical_df.count()
-    future_count = future_df.count()
-    logging.info(f"Number of historical rows: {historical_count}")
-    logging.info(f"Number of future rows: {future_count}")
+    # # Log the counts
+    # historical_count = historical_df.count()
+    # future_count = future_df.count()
+    # logging.info(f"Number of historical rows: {historical_count}")
+    # logging.info(f"Number of future rows: {future_count}")
     
     # Process historical data
-    historical_df = mark_and_fill_missing(historical_df)         # Step 2
-    historical_df = class_multiplier(historical_df)              # Step 3
-    historical_df = calc_raw_perf_score(historical_df, alpha=50) # Step 4
-    historical_df = compute_global_speed_figure_iqstyle(historical_df)
-    historical_df = compute_global_speed_figure(historical_df)   # Step 5
+    # enhanced_df = mark_and_fill_missing(enhanced_df)         # Step 2
+    enhanced_df = class_multiplier(enhanced_df)              # Step 3
+    enhanced_df = calc_raw_perf_score(enhanced_df, alpha=50) # Step 4
+    enhanced_df = compute_horse_speed_figure(enhanced_df)
+
     
     df_with_group = (
-    historical_df
+    enhanced_df
     .withColumn("race_date_str", F.date_format("race_date", "yyyy-MM-dd"))
     .withColumn(
         "group_id",
@@ -925,7 +801,7 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
         )
     )
 
-    enriched_df = evaluate_and_save_global_speed_score_with_report( df_with_group, parquet_dir, "group_id", "class_rating")
+    enriched_df = evaluate_and_save_global_speed_score_iq_with_report( df_with_group, parquet_dir, "group_id", "class_rating")
     enriched_df = enrich_with_race_and_class_stats(enriched_df)
 
         
@@ -942,10 +818,9 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     "logistic_score",
     "median_logistic",
     "z_iq",
-    "global_speed_score_iq",
     "normalized_score",
     "median_normalized",
-    "global_speed_score",
+    "global_speed_score_iq",
     "race_count_agg",
     "race_avg_speed_agg",
     "race_std_speed_agg",
@@ -963,21 +838,16 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     "horse_max_speed_agg"
     ]
 
-    final_df = fill_forward_locf(
-        historical_df=enriched_df, 
-        future_df=future_df, 
-        columns_to_fill=columns_to_update, 
-        date_col="race_date",
-        horse_id_col="horse_id"
-    )
+    # final_df = enriched_df.unionByName(future_df, allowMissingColumns=True)
     
-    count_fut = final_df.count()
-    print(f"Future rows after LOCF: {count_fut}")
-    
-    count_hist = final_df.filter(F.col("data_flag") == "historical").count()
-    count_fut = final_df.filter(F.col("data_flag") == "future").count()
+    # final_df = fill_forward_locf(final_df, columns_to_update, "horse_id", "race_date","race_number")
 
+    count_hist = enriched_df.filter(F.col("data_flag") == "historical").count()
+    count_fut = enriched_df.filter(F.col("data_flag") == "future").count()
+    count_total = enriched_df.count()
+
+    logging.info(f"Final DF total count: {count_total}")
     logging.info(f"Final DF count for historical: {count_hist}")
     logging.info(f"Final DF count for future: {count_fut}")
     
-    return final_df
+    return enriched_df

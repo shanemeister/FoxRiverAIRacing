@@ -1,0 +1,51 @@
+2025-03-05 14:31:13 - INFO - Logging initialized.
+2025-03-05 14:31:13 - INFO - Loading historical results for calibration.
+2025-03-05 14:31:14 - INFO - Loaded 306576 rows of calibration data.
+2025-03-05 14:40:21 - INFO - Logging initialized.
+2025-03-05 14:40:21 - INFO - Loading historical results for calibration.
+2025-03-05 14:40:23 - INFO - Loaded 306576 rows of calibration data.
+2025-03-05 14:40:30 - WARNING - Minimize did not converge. Using T=1.0 as fallback.
+2025-03-05 14:40:30 - INFO - Loaded 346 future predictions.
+2025-03-05 14:40:30 - ERROR - Error inserting calibrated data: column "calibrated_prob" of relation "predictions_2025_03_05_1_calibrated" does not exist
+LINE 3: ...date, race_number, horse_id, saddle_cloth_number, calibrated...
+                                                             ^
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/calibration.py", line 312, in main
+    cursor.executemany(insert_sql, data_to_insert)
+psycopg2.errors.UndefinedColumn: column "calibrated_prob" of relation "predictions_2025_03_05_1_calibrated" does not exist
+LINE 3: ...date, race_number, horse_id, saddle_cloth_number, calibrated...
+                                                             ^
+
+2025-03-05 14:40:30 - INFO - All done. Calibrated probabilities now in predictions_2025_03_05_1_calibrated.
+2025-03-05 15:01:19 - INFO - Logging initialized.
+2025-03-05 15:02:52 - INFO - Logging initialized.
+2025-03-05 15:02:55 - INFO - Closing down clientserver connection
+2025-03-05 15:03:54 - INFO - Logging initialized.
+2025-03-05 15:03:59 - INFO - Loading historical results for calibration.
+2025-03-05 15:04:00 - INFO - Loaded 306576 rows of calibration data.
+2025-03-05 15:04:07 - WARNING - Minimize did not converge. Using T=1.0 as fallback.
+2025-03-05 15:04:07 - INFO - Loaded 346 future predictions.
+2025-03-05 15:04:07 - INFO - Inserted calibrated probabilities into predictions_2025_03_05_1_calibrated.
+2025-03-05 15:04:07 - INFO - All done. Calibrated probabilities now in predictions_2025_03_05_1_calibrated.
+2025-03-05 15:04:07 - INFO - Closing down clientserver connection
+2025-03-05 15:20:59 - INFO - Logging initialized.
+2025-03-05 15:21:02 - INFO - Loaded 306576 rows of calibration data.
+2025-03-05 15:21:51 - INFO - Fitted T successfully. T=0.1833
+2025-03-05 15:21:51 - INFO - Loaded 346 future predictions.
+2025-03-05 15:21:54 - INFO - Wrote calibrated predictions to predictions_2025_03_05_1_calibrated via Spark.
+2025-03-05 15:21:55 - INFO - All done with calibration pipeline.
+2025-03-05 15:21:55 - INFO - Closing down clientserver connection
+2025-03-05 15:23:38 - INFO - Logging initialized.
+2025-03-05 15:23:41 - INFO - Loaded 306576 rows of calibration data.
+2025-03-05 15:24:30 - INFO - Fitted T successfully. T=0.1833
+2025-03-05 15:24:30 - INFO - Loaded 346 future predictions.
+2025-03-05 15:24:33 - INFO - Wrote calibrated predictions to predictions_2025_03_05_1_calibrated via Spark.
+2025-03-05 15:24:34 - INFO - All done with calibration pipeline.
+2025-03-05 15:24:34 - INFO - Closing down clientserver connection
+2025-03-05 15:26:03 - INFO - Logging initialized.
+2025-03-05 15:26:06 - INFO - Loaded 306576 rows of calibration data.
+2025-03-05 15:26:53 - INFO - Fitted T successfully. T=0.1833
+2025-03-05 15:26:53 - INFO - Loaded 346 future predictions.
+2025-03-05 15:26:57 - INFO - Wrote calibrated predictions to predictions_2025_03_05_1_calibrated via Spark.
+2025-03-05 15:26:58 - INFO - All done with calibration pipeline.
+2025-03-05 15:26:58 - INFO - Closing down clientserver connection

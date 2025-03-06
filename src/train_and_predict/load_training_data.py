@@ -38,43 +38,51 @@ def impute_date_of_birth_with_median(df):
     
     return df
 
-def manage_sentinel_values(df):
+def manage_tpd_cols_by_flag(df):
+    """
+    1) For rows where data_flag='historical': drop any row that has a null in the TPD columns.
+    2) For rows where data_flag='future': fill null TPD columns with 0.
+
+    Logs row counts before/after for each subset.
+    """
+    import pyspark.sql.functions as F
+    
     tpd_cols = [
-    "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5",
-    "avg_dist_bk_gate4_5", "avg_speed_fullrace_5",
-    "avg_strfreq_q1_5", "avg_strfreq_q2_5",
-    "avg_strfreq_q3_5", "avg_strfreq_q4_5",
-    "avg_stride_length_5", "avg_dist_bk_gate1_5",
-    "speed_improvement"
-]
-    # 1) Define a "gps_present" flag
-    df = df.withColumn(
-        "gps_present",
-        when(
-            col("avg_speed_fullrace_5").isNotNull() &
-            col("avg_strfreq_q2_5").isNotNull() &
-            col("avg_strfreq_q3_5").isNotNull(), 
-            1
-        ).otherwise(0))
+        "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5",
+        "avg_dist_bk_gate4_5", "avg_speed_fullrace_5",
+        "avg_strfreq_q1_5", "avg_strfreq_q2_5",
+        "avg_strfreq_q3_5", "avg_strfreq_q4_5",
+        "avg_stride_length_5", "avg_dist_bk_gate1_5",
+        "speed_improvement"
+    ]
 
-    # 2) Sentinel fill for each TPD column
+    # 1) Subset historical
+    df_hist = df.filter(F.col("data_flag") == "historical")
+    #  - Log count before
+    hist_count_before = df_hist.count()
+    #  - Drop rows with null in any TPD col
+    df_hist = df_hist.na.drop(subset=tpd_cols)
+    #  - Log count after
+    hist_count_after = df_hist.count()
+    logging.info(f"manage_tpd_cols_by_flag [historical]: before={hist_count_before}, after={hist_count_after}")
+
+    # 2) Subset future
+    df_future = df.filter(F.col("data_flag") == "future")
+    #  - Log count before
+    fut_count_before = df_future.count()
+    #  - Impute with 0 for null TPD cols
     for c in tpd_cols:
-        df = df.withColumn(
-            c, 
-            F.when(F.col(c).isNull(), F.lit(0)).otherwise(F.col(c))
-        )
+        df_future = df_future.withColumn(c, F.when(F.col(c).isNull(), F.lit(0)).otherwise(F.col(c)))
+    #  - Log count after
+    fut_count_after = df_future.count()
+    logging.info(f"manage_tpd_cols_by_flag [future]: before={fut_count_before}, after={fut_count_after}")
 
-    # Now each TPD column is numeric, either real data or -999.
-    # The model also has gps_present to learn "missing vs. present."
-    
-    # Log the counts
-    future_count = df.filter(F.col("data_flag") == "future").count()
-    historical_count = df.filter(F.col("data_flag") == "historical").count()
-    logging.info(f"4. After processing manage_sentinel_values function: Number of rows with data_flag='future': {future_count}")
-    logging.info(f"4. After processing manage_sentinel_values function:  Number of rows with data_flag='historical': {historical_count}")
-   
-    
-    return df
+    # 3) Union them back
+    #    The unionByName ensures columns line up by name
+    #    (Spark 2.3+ recommended).
+    df_final = df_hist.unionByName(df_future)
+
+    return df_final
 
 def fix_outliers(df):
     """
@@ -124,84 +132,6 @@ def fix_outliers(df):
 
     return df
 
-from pyspark.sql import Window
-import pyspark.sql.functions as F
-
-def update_missing_tpd(df):
-    """
-    For each race (grouped by course_cd, race_date, race_number), update the key fields as follows:
-      - For "dist_bk_gate4": if official_fin == 1, force the value to 0.
-      - For any key field (dist_bk_gate4, running_time, total_distance_ran) that is null,
-        fill it with the race-level mean; if that is null, fill with the global mean.
-    In addition, the function adds two flag columns:
-      - missing_gps_flag: set to 1 if any key field was originally missing, otherwise 0.
-      - gps_present: 0 if missing, 1 if complete.
-    Rows are never dropped.
-    """
-    # Define key columns and race grouping keys.
-    key_cols = ["dist_bk_gate4", "running_time", "total_distance_ran"]
-    race_keys = ["course_cd", "race_date", "race_number"]
-
-    # STEP 1: Compute a flag from the original data (before imputation)
-    # Create a combined condition: if any key column is null then flag = 1, else 0.
-    condition = F.lit(False)
-    for col_name in key_cols:
-        condition = condition | F.col(col_name).isNull()
-    df = df.withColumn("original_missing_flag", F.when(condition, F.lit(1)).otherwise(F.lit(0)))
-    df = df.withColumn("original_gps_present", F.when(condition, F.lit(0)).otherwise(F.lit(1)))
-
-    # STEP 2: Compute race-level means for each key column.
-    race_window = Window.partitionBy(*race_keys)
-    for col_name in key_cols:
-        df = df.withColumn(f"race_mean_{col_name}", F.avg(F.col(col_name)).over(race_window))
-    
-    # STEP 3: Compute global means for each key column.
-    global_means = {}
-    for col_name in key_cols:
-        global_mean = df.select(F.mean(F.col(col_name)).alias("global_mean")).collect()[0]["global_mean"]
-        global_means[col_name] = global_mean
-
-    # STEP 4: Impute each key column.
-    # For "dist_bk_gate4": if official_fin == 1, force to 0;
-    df = df.withColumn(
-        "dist_bk_gate4",
-        F.when(F.col("official_fin") == 1, F.lit(0.0))
-         .otherwise(
-             F.when(F.col("dist_bk_gate4").isNull(),
-                    F.when(F.col("race_mean_dist_bk_gate4").isNotNull(), F.col("race_mean_dist_bk_gate4"))
-                     .otherwise(F.lit(global_means["dist_bk_gate4"])))
-             .otherwise(F.col("dist_bk_gate4"))
-         )
-    )
-    # For running_time and total_distance_ran: if null, use race mean if available; otherwise use global mean.
-    for col_name in ["running_time", "total_distance_ran"]:
-        df = df.withColumn(
-            col_name,
-            F.when(F.col(col_name).isNull(),
-                   F.when(F.col(f"race_mean_{col_name}").isNotNull(), F.col(f"race_mean_{col_name}"))
-                    .otherwise(F.lit(global_means[col_name])))
-            .otherwise(F.col(col_name))
-        )
-
-    # STEP 5: Restore the original missing flag into new columns "missing_gps_flag" and "gps_present"
-    df = df.withColumn("missing_gps_flag", F.col("original_missing_flag"))
-    df = df.withColumn("gps_present", F.col("original_gps_present"))
-    
-    # STEP 6: Drop the temporary columns.
-    for col_name in key_cols:
-        df = df.drop(f"race_mean_{col_name}")
-    df = df.drop("original_missing_flag", "original_gps_present")
-    
-    # Log the counts
-    future_count = df.filter(F.col("data_flag") == "future").count()
-    historical_count = df.filter(F.col("data_flag") == "historical").count()
-    logging.info(f"2. After processing update_missing_tpd function: Number of rows with data_flag='future': {future_count}")
-    logging.info(f"2. After processing update_missing_tpd function:  Number of rows with data_flag='historical': {historical_count}")
-    
-    logging.info("Rows in data_flag: train_df['data_flag'] = 'future'")
-    
-    return df
-
 def drop_historical_missing_official_fin(df):
     """
     Remove rows from the DataFrame where:
@@ -213,35 +143,55 @@ def drop_historical_missing_official_fin(df):
 
 def impute_performance_columns(df):
     """
-    For the following columns:
-      - time_behind:
-            • If official_fin == 1 then set to 0.
-            • Otherwise, if null, fill with the race-level mean;
-              if race-level mean is null, fill with the global mean.
-      - pace_delta_time, speed_rating, prev_speed_rating:
-            • For missing values, fill with the race-level mean;
-              if that is null, then fill with the global mean.
-    Assumes the race grouping keys are course_cd, race_date, race_number.
-    Returns the updated DataFrame.
+    For columns: [time_behind, pace_delta_time, speed_rating, prev_speed_rating]
+      - If data_flag='future': 
+         * time_behind -> if official_fin=1 => 0; else fill missing with race-level mean, else global mean
+         * pace_delta_time, speed_rating, prev_speed_rating -> fill missing with race-level mean, else global mean
+      - If data_flag='historical':
+         * drop rows if any of these columns is null
+         * also for time_behind, if official_fin=1 then set to 0 if not null
     """
-    # List of performance columns to impute.
     performance_cols = ["time_behind", "pace_delta_time", "speed_rating", "prev_speed_rating"]
     race_keys = ["course_cd", "race_date", "race_number"]
     
-    # Define a window partitioned by the race grouping keys.
+    # Split DataFrame by data_flag
+    df_hist = df.filter(F.col("data_flag") == "historical")
+    df_future = df.filter(F.col("data_flag") == "future")
+
+    # 1) HISTORICAL PART
+    # For historical rows: drop any row missing one or more of [time_behind, pace_delta_time, speed_rating, prev_speed_rating].
+    hist_count_before = df_hist.count()
+    df_hist = df_hist.na.drop(subset=performance_cols)
+    hist_count_after = df_hist.count()
+    logging.info(f"[impute_performance_columns] Historical: before drop={hist_count_before}, after drop={hist_count_after}")
+
+    # Also handle time_behind => if official_fin=1 => 0 for historical (provided it's not null).
+    # We only do this if it's not null. 
+    # But we've already dropped rows that are null in time_behind, so we can do:
+    df_hist = df_hist.withColumn(
+        "time_behind",
+        F.when(F.col("official_fin") == 1, 0.0).otherwise(F.col("time_behind"))
+    )
+
+    # 2) FUTURE PART
+    # For future rows, do the existing imputation logic
+    # define a window for race-level means
     race_window = Window.partitionBy(*race_keys)
     
     for col_name in performance_cols:
-        # Compute the race-level mean for the column.
-        df = df.withColumn(f"race_mean_{col_name}", F.avg(F.col(col_name)).over(race_window))
-        # Compute the global mean (as a Python float).
-        global_mean = df.select(F.mean(F.col(col_name)).alias("global_mean")).collect()[0]["global_mean"]
-        
+        # compute race-level mean col
+        df_future = df_future.withColumn(
+            f"race_mean_{col_name}",
+            F.avg(F.col(col_name)).over(race_window)
+        )
+        # compute global mean (Python float)
+        global_mean = df_future.select(F.mean(F.col(col_name)).alias("global_mean")).collect()[0]["global_mean"]
+
         if col_name == "time_behind":
-            # For time_behind, if official_fin==1 then force to 0.
-            df = df.withColumn(
+            # if official_fin=1 => 0, else fill missing from race/global
+            df_future = df_future.withColumn(
                 col_name,
-                F.when(F.col("official_fin") == 1, F.lit(0.0))
+                F.when(F.col("official_fin") == 1, 0.0)
                  .otherwise(
                      F.when(F.col(col_name).isNull(),
                             F.when(F.col(f"race_mean_{col_name}").isNotNull(), F.col(f"race_mean_{col_name}"))
@@ -250,9 +200,8 @@ def impute_performance_columns(df):
                  )
             )
         else:
-            # For the remaining three columns: pace_delta_time, speed_rating, prev_speed_rating,
-            # if missing, fill with the race-level mean; if that is null, use the global mean.
-            df = df.withColumn(
+            # if missing => race mean => global mean
+            df_future = df_future.withColumn(
                 col_name,
                 F.when(F.col(col_name).isNull(),
                        F.when(F.col(f"race_mean_{col_name}").isNotNull(), F.col(f"race_mean_{col_name}"))
@@ -260,13 +209,18 @@ def impute_performance_columns(df):
                 .otherwise(F.col(col_name))
             )
         
-        # Drop the temporary race-level mean column.
-        df = df.drop(f"race_mean_{col_name}")
+        # drop temp race_mean_* column
+        df_future = df_future.drop(f"race_mean_{col_name}")
     
-    return df
+    # 3) UNION HIST+FUT
+    df_final = df_hist.unionByName(df_future)
 
-from pyspark.sql import Window
-import pyspark.sql.functions as F
+    # Log final
+    fut_count_final = df_final.filter(F.col("data_flag") == "future").count()
+    hist_count_final = df_final.filter(F.col("data_flag") == "historical").count()
+    logging.info(f"[impute_performance_columns] final future={fut_count_final}, historical={hist_count_final}")
+
+    return df_final
 
 def impute_performance_features(df):
     """
@@ -324,18 +278,171 @@ def impute_performance_features(df):
 def filter_course_cd(train_df):
     # List of course_cd identifiers to keep for "future" data_flag
     course_cd_list = [
-        'CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
-        'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
-        'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'TOP'
+    'CNL','SAR','PIM','TSA','BEL','MVR','TWO','CLS','KEE','TAM',
+    'TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP',
+    'TGG','CBY','LRL','TED','IND','CTD','ASD','TCD','LAD','TOP'
     ]
-    
-    # Filter the DataFrame
+
     filtered_df = train_df.filter(
-        (F.col("data_flag") == "historical") | 
-        ((F.col("data_flag") == "future") & (F.col("course_cd").isin(course_cd_list)))
+        # Condition A: keep if has_gps=1 (GPS data) OR 
+        # condition B: keep if course_cd is in the TPD list
+        (F.col("has_gps") == 1) 
+        | (F.col("course_cd").isin(course_cd_list))
     )
-    
+            
     return filtered_df
+
+# def remove_performance_columns(df):
+#     """
+#     Removes the three specified columns (dist_bk_gate4, running_time, total_distance_ran)
+#     from the DataFrame and logs the final row counts for historical vs. future.
+#     """
+
+#     cols_to_drop = ["dist_bk_gate4", "running_time", "total_distance_ran"]
+
+#     # 1) Drop the columns
+#     df = df.drop(*cols_to_drop)
+
+#     # 2) Log final row counts
+#     future_count = df.filter(F.col("data_flag") == "future").count()
+#     historical_count = df.filter(F.col("data_flag") == "historical").count()
+#     logging.info(f"[remove_performance_columns] final future={future_count}, historical={historical_count}")
+
+#     return df
+
+def remove_performance_columns(df):
+    """
+    1) For historical rows: drop if dist_bk_gate4, running_time, or total_distance_ran is null 
+       (also set dist_bk_gate4=0 if official_fin=1).
+    2) For future rows: keep as is.
+    3) Then do these calculations:
+       - # of future rows that match a historical horse_id vs. unmatched
+       - # of future races that have unmatched horses
+       - # of future races that have NO unmatched horses
+       - final row counts for future / historical
+    4) Return the combined DataFrame.
+    """
+
+    import pyspark.sql.functions as F
+    import logging
+
+    # --- Split historical vs future
+    df_hist = df.filter(F.col("data_flag") == "historical")
+    df_future = df.filter(F.col("data_flag") == "future")
+
+    # (A) In historical, set dist_bk_gate4=0 if official_fin=1
+    df_hist = df_hist.withColumn(
+        "dist_bk_gate4",
+        F.when(F.col("official_fin") == 1, 0.0).otherwise(F.col("dist_bk_gate4"))
+    )
+
+    # (B) Then drop rows that have null in any of those 3 columns
+    key_cols = ["dist_bk_gate4", "running_time", "total_distance_ran"]
+    df_hist = df_hist.na.drop(subset=key_cols)
+
+    # (C) Recombine them
+    df_final = df_hist.unionByName(df_future)
+
+    # 1) Get final subsets
+    future_df = df_final.filter(F.col("data_flag") == "future")
+    hist_df = df_final.filter(F.col("data_flag") == "historical")
+
+    # 2) Count final row totals
+    future_count = future_df.count()
+    historical_count = hist_df.count()
+
+    # 3) Identify matched vs unmatched future rows based on horse_id
+    #    a) Distinct horse_ids from historical
+    hist_horses = hist_df.select("horse_id").distinct()
+
+    #    b) matched_future => inner join on horse_id
+    matched_future = future_df.join(hist_horses, on="horse_id", how="inner")
+    matched_future_count = matched_future.count()
+
+    #    c) unmatched_future => left_anti on horse_id
+    unmatched_future_df = future_df.join(hist_horses, on="horse_id", how="left_anti")
+    unmatched_future_count = unmatched_future_df.count()
+
+    # 4) Group unmatched future rows by race to see how many unmatched horses
+    unmatched_races_df = (
+        unmatched_future_df
+        .groupBy("course_cd", "race_date", "race_number")
+        .agg(F.countDistinct("horse_id").alias("unmatched_horse_count"))
+    )
+    races_with_unmatched = unmatched_races_df.count()
+
+    # 5) Races with NO unmatched => take distinct future races minus unmatched
+    all_future_races = future_df.select("course_cd","race_date","race_number").distinct()
+    unmatched_races = unmatched_future_df.select("course_cd","race_date","race_number").distinct()
+    no_unmatched_races_df = all_future_races.join(unmatched_races, 
+                                                  on=["course_cd","race_date","race_number"], 
+                                                  how="left_anti")
+    no_unmatched_races_count = no_unmatched_races_df.count()
+
+    # ---- Logging ----
+    logging.info(f"[remove_performance_columns] final future rows = {future_count}, historical rows = {historical_count}")
+    logging.info(f"Future rows matched with historical horse_id: {matched_future_count}")
+    logging.info(f"Future rows unmatched with historical horse_id: {unmatched_future_count}")
+    logging.info(f"Number of future races with >=1 unmatched horse: {races_with_unmatched}")
+    logging.info(f"Number of future races with NO unmatched horse: {no_unmatched_races_count}")
+
+    # Optionally show a subset of unmatched_races_df, no_unmatched_races_df
+    # unmatched_races_df.show(50, False)
+    # no_unmatched_races_df.show(50, False)
+
+    return df_final
+
+def remove_future_races_with_unmatched_horses(df):
+    """
+    Deletes all future races (data_flag='future') that contain unmatched horses 
+    (i.e. horses that do not appear in the historical subset).
+    
+    Steps:
+    1) Split df into historical vs. future.
+    2) Identify horses in historical -> distinct horse_ids.
+    3) Left-anti join future on those horse_ids to find "unmatched_future_df".
+    4) Distinctly gather the (course_cd, race_date, race_number) from unmatched_future_df.
+    5) Filter out those race keys from future_df.
+    6) Recombine historical + the 'cleaned' future subset.
+    7) Return the final DataFrame.
+    """
+
+    import pyspark.sql.functions as F
+
+    # Split
+    df_hist = df.filter(F.col("data_flag") == "historical")
+    df_future = df.filter(F.col("data_flag") == "future")
+
+    # 1) Distinct horse_ids in historical
+    historical_horses_df = df_hist.select("horse_id").distinct()
+
+    # 2) Find unmatched future rows via left_anti on horse_id
+    unmatched_future_df = df_future.join(historical_horses_df, on="horse_id", how="left_anti")
+
+    # 3) Distinct race keys for those unmatched rows
+    unmatched_races = (
+        unmatched_future_df
+        .select("course_cd", "race_date", "race_number")
+        .distinct()
+    )
+
+    # 4) Filter out those race keys from df_future
+    #    i.e. keep future rows that do NOT appear in unmatched_races
+    joined_for_filter = df_future.join(
+        unmatched_races,
+        on=["course_cd","race_date","race_number"],
+        how="left_anti"
+    )
+
+    # 5) Recombine historical + the "cleaned" future
+    df_final = df_hist.unionByName(joined_for_filter)
+
+    # 6) Log final row counts
+    fut_count_final = df_final.filter(F.col("data_flag") == "future").count()
+    hist_count_final = df_final.filter(F.col("data_flag") == "historical").count()
+    logging.info(f"[remove_future_races_with_unmatched_horses] final future={fut_count_final}, historical={hist_count_final}")
+
+    return df_final
 
 def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     """
@@ -361,11 +468,12 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
         train_df.cache()
         rows_train_if = train_df.count()
         logging.info(f"Data loaded from PostgreSQL. Count: {rows_train_if}")
-
+    
+    # Log the counts after filtering
     future_count = train_df.filter(F.col("data_flag") == "future").count()
     historical_count = train_df.filter(F.col("data_flag") == "historical").count()
-    logging.info(f"Before filtering: Number of rows with data_flag='future': {future_count}")
-    logging.info(f"Before filtering: Number of rows with data_flag='historical': {historical_count}")
+    logging.info(f"Before filtering on has_gps and course_cd list: data_flag='future': {future_count}")
+    logging.info(f"Before filtering on has_gps and course_cd list: data_flag='historical': {historical_count}")
     
     # Apply the filter to the train_df DataFrame
     train_df = filter_course_cd(train_df)        
@@ -380,22 +488,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     row_count = train_df.count()
     logging.info(f"Row count: {row_count}")
     logging.info(f"Count operation completed in {time.time() - start_time:.2f} seconds.")
-
-    # Count rows with data_flag = "future"
     
-    future_count = train_df.filter(F.col("data_flag") == "future").count()
-
-    # Count rows with data_flag = "historical"
-    historical_count = train_df.filter(F.col("data_flag") == "historical").count()
-
-    # Log the counts
-    logging.info(f"Before processing: Number of rows with data_flag='future': {future_count}")
-    logging.info(f"Before processing: Number of rows with data_flag='historical': {historical_count}")
-    
-    logging.info("Rows in data_flag: train_df['data_flag'] = 'future'")
-    
-    # Impute dist_bk_gate4, running_time, total_distance_ran
-    train_df = update_missing_tpd(train_df)
     
     # Check for Dups:
     logging.info("Checking for duplicates on primary keys...")
@@ -460,7 +553,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     train_df = train_df.withColumn("prev_speed", when(col("prev_speed").isNull(), 0).otherwise(col("prev_speed")))
     train_df = train_df.withColumn("count_workouts_3", when(col("count_workouts_3").isNull(), 0).otherwise(col("count_workouts_3")))
 
-    train_df = manage_sentinel_values(train_df)
+    train_df = manage_tpd_cols_by_flag(train_df)
 
     columns_to_fill = [
         'all_earnings', 'all_fourth', 'all_place', 'all_show', 'all_starts', 'all_win', 
@@ -520,15 +613,9 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
       
     # Example usage:
     train_df = fix_outliers(train_df)
-    
-    # train_df = train_df.withColumn(
-    #     "data_flag",
-    #     F.when(F.col("race_date") < current_date(), lit("historical"))
-    #      .otherwise(lit("future"))
-    # )
-    
-    # # critical_cols = ["speed_rating"]  # columns you consider critical
-    # # train_df = train_df.na.drop(subset=critical_cols)
+
+    # critical_cols = ["speed_rating"]  # columns you consider critical
+    # train_df = train_df.na.drop(subset=critical_cols)
     cols_to_fill = ['distance_meters',
                     'off_finish_last_race',
                     'pace_delta_time',
@@ -550,16 +637,25 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
             c,
             F.last(train_df[c], ignorenulls=True).over(win)
         )  
-
-
+    
     # Log the counts
     future_count = train_df.filter(F.col("data_flag") == "future").count()
     historical_count = train_df.filter(F.col("data_flag") == "historical").count()
     logging.info(f"5. Just before impute_performance_columns: Number of rows with data_flag='future': {future_count}")
     logging.info(f"5. Just before impute_performance_columns:  Number of rows with data_flag='historical': {historical_count}")
-    
+
     # After loading and performing your earlier data cleansing...
-    train_df = impute_performance_columns(train_df)
+    train_df = impute_performance_columns(train_df) # time_behind, pace_delta_time, speed_rating, prev_speed_rating
+    
+    train_df = remove_future_races_with_unmatched_horses(train_df)
+    
+    train_df = remove_performance_columns(train_df) # dist_bk_gate4, running_time, total_distance_ran
+    # Log the counts
+    future_count = train_df.filter(F.col("data_flag") == "future").count()
+    historical_count = train_df.filter(F.col("data_flag") == "historical").count()
+    logging.info(f"5. Just after impute_performance_columns: Number of rows with data_flag='future': {future_count}")
+    logging.info(f"5. Just after impute_performance_columns:  Number of rows with data_flag='historical': {historical_count}")
+
     train_df = drop_historical_missing_official_fin(train_df)
     train_df = impute_performance_features(train_df)
   
@@ -574,6 +670,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     
     logging.info("Rows in data_flag: train_df['data_flag'] = 'future'")
     logging.info("Starting the write to parquet.")
+
     start_time = time.time()
     train_df.write.mode("overwrite").parquet(f"{parquet_dir}/train_df")
     logging.info(f"Data written to Parquet in {time.time() - start_time:.2f} seconds")

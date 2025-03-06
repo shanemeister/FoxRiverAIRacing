@@ -13,8 +13,8 @@ def sql_queries():
                 h.horse_id AS horse_id,
                 h.horse_name AS horse_name,
                 re.official_fin AS official_fin,
-                ROUND(sa.running_time - r.rr_win_time) AS time_behind,
-                (sa.running_time - r.rr_par_time) AS pace_delta_time,
+                (sa.running_time - r.rr_win_time) AS time_behind,
+                (r.rr_par_time - sa.running_time) AS pace_delta_time,
                 sa.running_time,
                 sa.dist_bk_gate4,
                 sa.total_distance_ran,
@@ -126,11 +126,11 @@ def sql_queries():
                 ELSE 'future'
                 END AS data_flag
             FROM races r
-            left JOIN runners r2 
+            JOIN runners r2 
                 ON r.course_cd = r2.course_cd 
                 AND r.race_date = r2.race_date 
                 AND r.race_number = r2.race_number
-            left JOIN results_entries re 
+            LEFT JOIN results_entries re 
                 ON r2.course_cd = re.course_cd 
                 AND r2.race_date = re.race_date 
                 AND r2.race_number = re.race_number 
@@ -146,7 +146,7 @@ def sql_queries():
                 ORDER BY CAST(h2.as_of_date AS date) DESC
                 LIMIT 1
                 ) hfa ON true
-            left JOIN LATERAL(
+            LEFT JOIN LATERAL(
                         SELECT h2.* 
                         FROM horse_form_agg h2 
                         WHERE h2.horse_id = h.horse_id 
@@ -154,22 +154,22 @@ def sql_queries():
                         ORDER BY CAST(h2.as_of_date AS date) DESC 
                         LIMIT 1
                 ) hrf ON true
-            JOIN stat_sire s ON h.axciskey=s.axciskey 
+            LEFT JOIN stat_sire s ON h.axciskey=s.axciskey 
                 AND s.type='LIFETIME'
-            JOIN stat_dam d ON h.axciskey=d.axciskey 
+            LEFT JOIN stat_dam d ON h.axciskey=d.axciskey 
                 AND d.type='LIFETIME'            
             left JOIN sectionals_aggregated sa ON re.course_cd=sa.course_cd 
                 AND re.race_date=sa.race_date 
                 AND re.race_number=sa.race_number 
                 AND re.program_num=sa.saddle_cloth_number
-            left JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey 
+            LEFT JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey 
                 AND has_all.stat_type='ALL_RACES' 
                 AND has_all.as_of_date=(SELECT MAX(a2.as_of_date) 
                                         FROM horse_accum_stats a2 
                                         WHERE a2.axciskey=r2.axciskey 
                                         AND a2.stat_type='ALL_RACES'
                                         AND a2.as_of_date<=r.race_date)
-            left JOIN horse_accum_stats has_cond ON has_cond.axciskey=r2.axciskey 
+            LEFT JOIN horse_accum_stats has_cond ON has_cond.axciskey=r2.axciskey 
                 AND has_cond.stat_type=CASE WHEN r.surface='D' 
                 AND r.trk_cond='MY' 
                 AND r.distance_meters<=1409 THEN 'MUDDY_SPRNT' 

@@ -60,27 +60,57 @@ class DataSplits:
         )    
             
     def compute_ndcg(self, model, k=4):
-        """
-        Example method that calculates NDCG@k on the validation data
-        using sklearn's ndcg_score on a *per-group* basis, then averages.
-        """
-        from sklearn.metrics import ndcg_score
         import numpy as np
-        
-        val_preds = model.predict(self.valid_pool)  # predictions for each row in valid set
-        all_ndcgs = []
+        from sklearn.metrics import ndcg_score
 
-        # Loop over each unique group in valid data
-        unique_groups = np.unique(self.valid_group_id)
-        for gid in unique_groups:
+        # 1) Generate predictions on the validation features
+        val_preds = model.predict(self.X_valid)  # 'X_valid' matches your __init__ attribute
+
+        # 2) For each group in self.valid_group_id
+        all_ndcgs = []
+        for gid in np.unique(self.valid_group_id):
             mask = (self.valid_group_id == gid)
-            group_true = self.y_valid[mask].reshape(1, -1)
+            # skip if single doc
+            if np.sum(mask) < 2:
+                continue
+
+            group_true = self.y_valid[mask].reshape(1, -1)   # must use self.y_valid
             group_preds = val_preds[mask].reshape(1, -1)
             group_ndcg = ndcg_score(group_true, group_preds, k=k)
             all_ndcgs.append(group_ndcg)
 
-        return float(np.mean(all_ndcgs))
-    
+        return float(np.mean(all_ndcgs)) if all_ndcgs else 0.0  
+
+###############################################################################
+# Last Occurrence Carried Forward (LOCF) for future columns
+###############################################################################   
+def locf_across_hist_future(hist_df, fut_df, columns_to_locf, date_col="race_date"):
+    """
+    1) Concatenate hist_df + fut_df
+    2) Sort by (horse_id, race_date)
+    3) Group by horse_id and ffill the specified columns
+    4) Slice out the 'future' rows again.
+
+    Returns a new `fut_df_filled` with columns_to_locf carried forward 
+    from historical values.
+    """
+    import pandas as pd
+
+    # 1) Concatenate
+    combined = pd.concat([hist_df, fut_df], ignore_index=True)
+
+    # 2) Sort by horse_id + race_date
+    combined.sort_values(by=["horse_id", date_col], inplace=True)
+
+    # 3) Forward fill within each horse_id
+    combined[columns_to_locf] = (
+        combined.groupby("horse_id", group_keys=False)[columns_to_locf]
+                .ffill()
+    )
+
+    # 4) Re-split out the future subset
+    fut_df_filled = combined[combined["data_flag"] == "future"].copy()
+    return fut_df_filled
 ###############################################################################
 # Helper function to get a timestamp for filenames
 ###############################################################################
@@ -97,6 +127,7 @@ def objective(trial, catboost_loss_functions, eval_metric, data_splits):
         "eval_metric": eval_metric,
         "task_type": "GPU",
         "devices": "0,1",
+        "thread_count": 96,
         "iterations": trial.suggest_int("iterations", 1000, 5000, step=500),
         "depth": trial.suggest_int("depth", 4, 12),
         "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.3, log=True),
@@ -134,14 +165,14 @@ def run_optuna(catboost_loss_functions, eval_metric, n_trials=20, data_splits=No
 
     # Define the storage URL and a study name.
     storage = "sqlite:///optuna_study.db"
-    study_name = "catboost_optuna_top4"  # "catboost_optuna_study_rmse_min" #"catboost_optuna_study"
+    study_name = "catboost_optuna_top4_v1"  # "catboost_optuna_study_rmse_min" #"catboost_optuna_study"
 
     # Create the study, loading existing trials if the study already exists.
     study = optuna.create_study(
         study_name=study_name,
         storage=storage,
         load_if_exists=True,
-        direction="minimize"
+        direction="maximize"
     )
     
     def _objective(trial):
@@ -591,7 +622,7 @@ def split_data_and_train(
     check_combination_uniqueness(holdout_data, "holdout_data")
 
     # 3) Hardcode or load your numeric+embedding final features
-    final_feature_cols = ["combined_0","combined_1","combined_2","combined_3", "combined_4","previous_class", "class_rating", "previous_distance", "off_finish_last_race", 
+    final_feature_cols = ["global_speed_score_iq", "previous_class", "class_rating", "previous_distance", "off_finish_last_race", 
                           "count_workouts_3","avg_workout_rank_3","weight","days_off", 
                           "cond_starts","cond_win","cond_place","cond_show","cond_fourth","cond_earnings",
                           "all_starts", "all_win", "all_place", "all_show", "all_fourth","all_earnings", 
@@ -599,7 +630,8 @@ def split_data_and_train(
                           "distance_meters", "jt_itm_percent", 
                           "trainer_win_track", "trainer_itm_track", "trainer_win_percent", "trainer_itm_percent", 
                           "jock_win_track", "jock_win_percent","jock_itm_track",                            
-                          "jt_win_track", "jt_itm_track", "jock_itm_percent"
+                          "jt_win_track", "jt_itm_track", "jock_itm_percent",
+                          "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"
                            ]
 
     # 4) Save them to JSON if needed
@@ -610,7 +642,7 @@ def split_data_and_train(
 
     # 5) Build X,y for each split, referencing final_feature_cols
     
-    all_feature_cols = final_feature_cols + cat_cols
+    all_feature_cols = final_feature_cols + embed_cols + cat_cols
 
     X_train = train_data[all_feature_cols].copy()
     y_train = train_data[label_col].values
@@ -636,11 +668,11 @@ def split_data_and_train(
     
     # 7) minimal catboost training
     catboost_loss_functions = [
-        # "YetiRank:top=1",
-        # "YetiRank:top=2",
-        # "YetiRank:top=3",
-        "YetiRank",
-        "YetiRank:top=4"
+        "YetiRank:top=1",
+        "YetiRank:top=2",
+        "YetiRank:top=3",
+        "YetiRank:top=4",
+        "YetiRank"
         # "QueryRMSE"
     ]
     catboost_eval_metrics = ["NDCG:top=1", "NDCG:top=2", "NDCG:top=3", "NDCG:top=4"]
@@ -686,7 +718,9 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
     # Then use Pandas boolean indexing
     historical_pdf = horse_embedding[horse_embedding["data_flag"] != "future"].copy()
     future_pdf = horse_embedding[horse_embedding["data_flag"] == "future"].copy()
-    
+    cols_to_locf = ["global_speed_score_iq"]
+    future_pdf = locf_across_hist_future(historical_pdf, future_pdf, cols_to_locf, date_col="race_date")
+        
     # Transform the Spark DataFrame to Pandas.
     if action == "train":
         hist_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_pdf, drop_label=False)
@@ -698,10 +732,11 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
         # print("[DEBUG] After assigning labels - columns:", hist_pdf.columns.tolist())
         # print("[DEBUG] 'relevance' missing? ->", "relevance" not in hist_pdf.columns)
         # print("[DEBUG] Sample relevance values:", hist_pdf["relevance"].head().tolist())
-        
+        # Just ignoring combined_4_most_recent -- identical values to combined_4
         # Update your embed_cols list to use the new combined features.
-        embed_cols = [f"combined_{i}" for i in range(5)]
-        
+       # After hist_pdf is fully ready:
+        embed_cols = build_embed_cols(hist_pdf)  # This is now your dynamic list of combined columns.
+
         split_data_and_train(
             hist_pdf,
             label_col="relevance",
@@ -718,13 +753,14 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
         logging.info(f"Shape of future Pandas DF: {fut_pdf.shape}")
         
         # Typically no official_fin => can’t create relevance
-        embed_cols = [f"combined_{i}" for i in range(5)]
+        embed_cols = build_embed_cols(fut_pdf)
         
         # Then call your inference function:
         main_inference(
             spark=spark,
             cat_cols=cat_cols,
             excluded_cols=excluded_cols,
+            embed_cols=embed_cols,
             fut_pdf=fut_pdf,
             jdbc_url=jdbc_url,
             jdbc_properties=jdbc_properties
@@ -794,7 +830,6 @@ def transform_horse_df_to_pandas(pdf_df, drop_label=False):
         "track_name",       # Metadata
         "data_flag",        # Used for filtering only
         "group_id",         # Grouping information, not a feature
-        "global_speed_score",  # Processed separately (e.g. via embeddings
     ]
 
     #Convert to categorical data type
@@ -815,6 +850,16 @@ def assign_labels(df, alpha=0.8):
     df["relevance"] = df["official_fin"].apply(_exp_label)
     df["top4_label"] = (df["official_fin"] <= 4).astype(int)
     return df
+
+def build_embed_cols(df):
+    """
+    1) Create a list of combined columns for embedding.
+    2) Return the list of combined columns.
+    """
+    all_combined_cols = [c for c in df.columns if c.startswith("combined_")]
+    all_combined_cols_sorted = sorted(all_combined_cols, key=lambda x: int(x.split("_")[1]))
+    embed_cols = all_combined_cols_sorted  # This is now your dynamic list of combined columns.
+    return embed_cols
 
 # Retired function
 # def assign_piecewise_log_labels(df):

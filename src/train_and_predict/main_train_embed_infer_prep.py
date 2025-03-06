@@ -162,37 +162,37 @@ def main():
             ###################################################
             # 1. Load Training data
             ###################################################
-            # time_start = time.time()
-            # logging.info("Running training data ingestion steps...")
-            # train_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
-            # healthcheck_report = time_series_data_healthcheck(train_df)
-            # pprint.pprint(healthcheck_report)
-            # logging.info("Ingestion job for training data succeeded")
-            # total_time = time.time() - time_start
-            # logging.info(f"Loading train_df took {total_time} to complete.")
-            # input("Press Enter to continue and begin step 2 ...")
-            
-            # # ###################################################
-            # # # 2. Compute the custom speed figure
-            # # ###################################################
             time_start = time.time()
-            train_df = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df")
-            # # After loading your data and creating the custom speed figure, e.g.:
-            enhanced_df = create_custom_speed_figure(train_df, jdbc_url, jdbc_properties, parquet_dir)
-            enhanced_df.printSchema()
-            # (Continue with your healthcheck and saving steps)
-            healthcheck_report = time_series_data_healthcheck(enhanced_df)
+            logging.info("Running training data ingestion steps...")
+            train_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
+            healthcheck_report = time_series_data_healthcheck(train_df)
             pprint.pprint(healthcheck_report)
-            logging.info("Global_speed_score job completed successfully.")
-
-            # Save the Spark DataFrame as a Parquet file
-            save_parquet(spark, enhanced_df, "global_speed_score", parquet_dir)
-            logging.info("Ingestion job succeeded and Speed Figure Catboost model complete")
-            logging.info("global_speed_score saved as parquet file.")
-            
+            logging.info("Ingestion job for training data succeeded")
             total_time = time.time() - time_start
-            logging.info(f"Creating global_speed_score took {total_time} to complete.")
-            input("Press Enter to continue and begin step 3 ...")          
+            logging.info(f"Loading train_df took {total_time} to complete.")
+            input("Press Enter to continue and begin step 2 ...")
+            
+            # ###################################################
+            # # 2. Compute the custom speed figure
+            # ###################################################
+            # time_start = time.time()
+            # train_df = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df")
+            # # # After loading your data and creating the custom speed figure, e.g.:
+            # enhanced_df = create_custom_speed_figure(train_df, jdbc_url, jdbc_properties, parquet_dir)
+            # enhanced_df.printSchema()
+            # # (Continue with your healthcheck and saving steps)
+            # healthcheck_report = time_series_data_healthcheck(enhanced_df)
+            # pprint.pprint(healthcheck_report)
+            # logging.info("Global_speed_score job completed successfully.")
+
+            # # Save the Spark DataFrame as a Parquet file
+            # save_parquet(spark, enhanced_df, "global_speed_score", parquet_dir)
+            # logging.info("Ingestion job succeeded and Speed Figure Catboost model complete")
+            # logging.info("global_speed_score saved as parquet file.")
+            
+            # total_time = time.time() - time_start
+            # logging.info(f"Creating global_speed_score took {total_time} to complete.")
+            # input("Press Enter to continue and begin step 3 ...")          
             # ##################################################
             # # 3) Embed horse_id and compute custom_speed_figure
             # ##################################################
@@ -239,32 +239,29 @@ def main():
             # total_time = time.time() - time_start
             # logging.info(f"Horse embedding took {total_time} to complete.")
             # logging.info(f"Starting Training")
+            # input("Press Enter to continue and begin step 4 ...")
+            pass
         elif action == "predict" or action == "train":
             ###################################################
             # 4) Prep data for Training or Predictions
             ###################################################
             # # Load the Parquet file into a Pandas DataFrame.
-            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_updated.parquet", engine="pyarrow")
-
-            # # Pandas will typically map timestamp/date columns to datetime64[ns].
-            # print(horse_embedding.info())
-            # # horse_embedding = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250218_1512.parquet")
-            # #reloaded_df.printSchema()
+#            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250304_1409.parquet", engine="pyarrow")
+            #horse_embedding = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250304_1409.parquet")
+            # Pandas will typically map timestamp/date columns to datetime64[ns].
+            #healthcheck_report = time_series_data_healthcheck(horse_embedding)
+            #pprint.pprint(healthcheck_report)            
+#            time_start = time.time()
+#            logging.info("Starting build_catboost_model: Training CatBoost Models -- 20 total")
+            # # All models are saved to: ./data/models/all_models.json
+#            build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
             
-            # # reloaded_df = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250216_1757.parquet")
-            # time_start = time.time()
-            # # for col in horse_embedding.columns:
-            # #     print(f"Column: {col}, Datatype: {horse_embedding[col].dtype}")
-            # logging.info("Starting build_catboost_model: Training CatBoost Models -- 20 total")
-            # # # All models are saved to: ./data/models/all_models.json
-            # build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
-            
-            # total_time = time.time() - time_start
-            # logging.info(f"Training 20 Catboost models Horse embedding took {total_time} to complete.")
+#            total_time = time.time() - time_start
+#            logging.info(f"Training 20 Catboost models Horse embedding took {total_time} to complete.")
+            pass
     except Exception as e:
         print(f"An error occurred: {e}")
         logging.error(f"An error occurred: {e}")
-
     finally:
         if spark:
             spark.stop()
