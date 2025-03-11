@@ -124,33 +124,6 @@ def assign_labels_spark(df, alpha=0.8):
     return df
 
 # ---------------------------
-# Helper: attach_recent_speed_figure
-# ---------------------------
-def attach_recent_speed_figure(df_final, enriched_df_spark):
-    """
-    We assume `enriched_df_spark` is the same DataFrame that
-    actually has 'combined_4' (and the older race dates, etc.).
-    """
-    hist_subset = (
-        enriched_df_spark
-        .withColumnRenamed("race_date", "hist_race_date")
-        .select("horse_id", "hist_race_date", "combined_4")
-    )
-    w = Window.partitionBy("f.horse_id", "f.race_date").orderBy(F.desc("h.hist_race_date"))
-    joined = (
-        df_final.alias("f")
-        .join(
-            hist_subset.alias("h"),
-            on=( (F.col("f.horse_id") == F.col("h.horse_id"))
-                 & (F.col("h.hist_race_date") <= F.col("f.race_date")) ),
-            how="left"
-        )
-        .withColumn("rn", F.row_number().over(w))
-        .filter(F.col("rn") == 1)
-    )
-    return joined.select("f.*", F.col("h.combined_4").alias("combined_4_most_recent")).drop("rn")
-
-# ---------------------------
 # Helper: add_combined_feature
 # ---------------------------
 def add_combined_feature(pdf):
@@ -167,7 +140,7 @@ def add_combined_feature(pdf):
     print(f"[DEBUG] Found embedding columns: {embed_cols}")
     # List of other required columns
     other_cols = [
-        "global_speed_score_iq",
+        "global_speed_score_iq_prev",
         "race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg",
         "race_class_avg_speed_agg", "race_class_std_speed_agg",
         "race_class_min_speed_agg", "race_class_max_speed_agg",
@@ -179,7 +152,7 @@ def add_combined_feature(pdf):
             raise ValueError(f"Column {col} not found in DataFrame!")
     def combine_row(row):
         emb_vals = [row[c] for c in embed_cols]
-        gss = [row["global_speed_score_iq"]]
+        gss = [row["global_speed_score_iq_prev"]]
         race_feats = [row[c] for c in ["race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg"]]
         race_class_feats = [row[c] for c in ["race_class_avg_speed_agg", "race_class_std_speed_agg",
                                              "race_class_min_speed_agg", "race_class_max_speed_agg"]]
@@ -247,14 +220,14 @@ def build_final_model(
     horse_stats_inp = keras.Input(shape=(horse_stats_dim,), name="horse_stats_input", dtype=tf.float32)
     # -- Race numeric sub-network
     race_numeric_inp = keras.Input(shape=(race_dim,),name="race_numeric_input")
-    input("Press Enter to continue...1")
+  
     # -- Example categorical race inputs (course_cd, trk_cond)
     #    If these are string features:
     course_cd_in = keras.Input(shape=(1,), name="course_cd_input", dtype=tf.string)
-    input("Press Enter to continue...2")
+
     
     trk_cond_in = keras.Input(shape=(1,), name="trk_cond_input", dtype=tf.string)
-    input("Press Enter to continue...3")
+
     
     # -------------------------------------------------
     # B) Horse sub-network
@@ -385,7 +358,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     
     # Define column groups.
     horse_stats_cols = ["horse_avg_speed_agg", "horse_std_speed_agg", "horse_min_speed_agg", "horse_max_speed_agg"]
-    race_numeric_cols = ["time_behind", "pace_delta_time", "race_std_speed_agg", 
+    race_numeric_cols = ["race_std_speed_agg", 
                          "race_avg_relevance_agg", "race_std_relevance_agg", "race_class_avg_speed_agg", 
                          "race_class_std_speed_agg", "race_class_min_speed_agg", "race_class_max_speed_agg",
                          "class_rating", "official_distance"]
@@ -468,6 +441,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     check_nan_inf("X_trk_cond_train", X_trk_cond_train)
     check_nan_inf("y_train", y_train)
     
+  
     # ---------------------------
     # Define objective function for Optuna
     # ---------------------------
@@ -738,6 +712,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         else:
             raise ValueError(f"Unknown action={action}. Must be 'load' or 'train'.")
         return best_params
+    
     def run_final_training(best_params):
         """
         Final training using best hyperparameters, with Spearman-based early stopping.
@@ -838,8 +813,8 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
 
         return final_model
     
-    study_name = "horse_embedding_subnetwork_v2"
-    storage_url = "sqlite:///my_optuna_study.db"
+    study_name = "horse_embedding_v1"
+    storage_url = "sqlite:///horse_embedding_optuna_study.db"
     
     best_params = run_action(action, study_name, storage_url)
     final_model = run_final_training(best_params)
@@ -899,7 +874,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         merged_df_row = pd.concat([historical_pdf.reset_index(drop=True), embed_df_row.reset_index(drop=True)], axis=1)
         row_embed_sdf = spark.createDataFrame(merged_df_row)
         
-        # Suppose you want to fill forward "global_speed_score_iq" in the future rows
+        # Suppose you want to fill forward "global_speed_score_iq_prev" in the future rows
         
         row_embed_sdf.write.format("jdbc") \
             .option("url", jdbc_url) \
@@ -931,7 +906,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     historical_with_embed_sdf = spark.createDataFrame(merged_df)
     all_df = historical_with_embed_sdf.unionByName(future_df, allowMissingColumns=True)
     all_df = fill_forward_locf(all_df, embedding_cols, "horse_id", "race_date")
-    cols_to_locf = ["global_speed_score_iq"]
+    cols_to_locf = ["global_speed_score_iq_prev"]
     all_df = fill_forward_locf(all_df, cols_to_locf, "horse_id", "race_date")
     all_df.printSchema()
     print("Columns in final DF:", all_df.columns)

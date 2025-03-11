@@ -13,12 +13,9 @@ def sql_queries():
                 h.horse_id AS horse_id,
                 h.horse_name AS horse_name,
                 re.official_fin AS official_fin,
-                (sa.running_time - r.rr_win_time) AS time_behind,
-                (r.rr_par_time - sa.running_time) AS pace_delta_time,
+                r.rr_par_time AS par_time,
                 sa.running_time,
-                sa.dist_bk_gate4,
                 sa.total_distance_ran,
-                re.speed_rating AS speed_rating,
                 r2.prev_speed_rating AS prev_speed_rating,
                 r2.previous_class AS previous_class,
                 r.purse AS purse,
@@ -158,10 +155,15 @@ def sql_queries():
                 AND s.type='LIFETIME'
             LEFT JOIN stat_dam d ON h.axciskey=d.axciskey 
                 AND d.type='LIFETIME'            
-            left JOIN sectionals_aggregated sa ON re.course_cd=sa.course_cd 
-                AND re.race_date=sa.race_date 
-                AND re.race_number=sa.race_number 
-                AND re.program_num=sa.saddle_cloth_number
+            LEFT JOIN LATERAL (
+                SELECT sa2.*
+                FROM sectionals_aggregated sa2
+                WHERE sa2.course_cd = r2.course_cd
+                AND sa2.saddle_cloth_number = r2.saddle_cloth_number
+                AND sa2.race_date < r.race_date
+                ORDER BY sa2.race_date DESC
+                LIMIT 1
+            ) AS sa ON TRUE
             LEFT JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey 
                 AND has_all.stat_type='ALL_RACES' 
                 AND has_all.as_of_date=(SELECT MAX(a2.as_of_date) 

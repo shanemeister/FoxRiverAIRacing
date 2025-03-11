@@ -1,38 +1,32 @@
-2025-03-06 12:59:30 - INFO - Logging has been set up successfully.
-2025-03-06 12:59:30 - INFO - Starting main function...
-2025-03-06 12:59:30 - INFO - Mode: load
-2025-03-06 12:59:44 - INFO - Rows with valid relevance: 422561
-2025-03-06 12:59:44 - INFO - Correlation (global_speed_score_iq vs relevance): 0.5326
-2025-03-06 12:59:44 - INFO - RMSE (global_speed_score_iq vs relevance): 99.8415
-2025-03-06 12:59:47 - INFO - No duplicates found based on composite key (race_group_col, horse_id, class_col).
-2025-03-06 12:59:47 - INFO - Original record count: 424613, enriched record count: 424613
-2025-03-06 12:59:47 - INFO - Row counts match after joining aggregated data.
-2025-03-06 12:59:47 - INFO - Top 5 horses by global_speed_score_iq:
-2025-03-06 12:59:56 - INFO - Horse 29724.0 / FinPos=9 => Speed=135.73328992237228
-2025-03-06 12:59:56 - INFO - Horse 91974.0 / FinPos=2 => Speed=134.58226784115692
-2025-03-06 12:59:56 - INFO - Horse 5371.0 / FinPos=1 => Speed=134.34414771149983
-2025-03-06 12:59:56 - INFO - Horse 41321.0 / FinPos=6 => Speed=134.04203402802744
-2025-03-06 12:59:56 - INFO - Horse 27857.0 / FinPos=2 => Speed=133.86327913621025
-2025-03-06 12:59:56 - INFO - Bottom 5 horses by global_speed_score_iq:
-2025-03-06 13:00:03 - INFO - Horse 12980.0 / FinPos=5 => Speed=61.82035918825724
-2025-03-06 13:00:03 - INFO - Horse 15782.0 / FinPos=9 => Speed=62.55218955475221
-2025-03-06 13:00:03 - INFO - Horse 37003.0 / FinPos=8 => Speed=63.62163082023441
-2025-03-06 13:00:03 - INFO - Horse 207.0 / FinPos=5 => Speed=64.42479309176906
-2025-03-06 13:00:03 - INFO - Horse 29099.0 / FinPos=2 => Speed=64.85391121958942
-2025-03-06 13:00:03 - INFO - Evaluation & report generation completed in 26.48 seconds.
-2025-03-06 13:00:11 - INFO - Original record count: 424613, enriched record count: 424613
-2025-03-06 13:00:14 - INFO - No duplicates found based on group_id and horse_id.
-2025-03-06 13:00:14 - INFO - Aggregation and join completed in 11.35 seconds.
-2025-03-06 13:00:19 - INFO - [remove_performance_columns] final future=2052, historical=422561
-2025-03-06 13:00:58 - INFO - Final DF total count: 424613
-2025-03-06 13:00:58 - INFO - Final DF count for historical: 422561
-2025-03-06 13:00:58 - INFO - Final DF count for future: 2052
-2025-03-06 13:01:32 - INFO - Global_speed_score job completed successfully.
-2025-03-06 13:01:32 - INFO - Saving global_speed_score DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score.parquet...
-2025-03-06 13:01:32 - INFO - Schema of global_speed_score DataFrame:
-2025-03-06 13:01:35 - INFO - global_speed_score DataFrame saved successfully.
-2025-03-06 13:01:35 - INFO - Ingestion job succeeded and Speed Figure Catboost model complete
-2025-03-06 13:01:35 - INFO - global_speed_score saved as parquet file.
-2025-03-06 13:01:35 - INFO - Creating global_speed_score took 125.05194091796875 to complete.
-2025-03-06 13:02:01 - INFO - Spark session stopped.
-2025-03-06 13:02:01 - INFO - Closing down clientserver connection
+2025-03-11 13:27:05 - INFO - Logging has been set up successfully.
+2025-03-11 13:27:05 - INFO - Starting main function...
+2025-03-11 13:27:05 - INFO - Mode: predict
+2025-03-11 13:27:05 - INFO - Running prediction data ingestion steps...
+2025-03-11 13:27:05 - INFO - Starting build_catboost_model: Training CatBoost Models -- 20 total
+2025-03-11 13:27:08 - INFO - Shape of historical Pandas DF: (317796, 171)
+2025-03-11 13:27:08 - INFO - Shape of future Pandas DF: (802, 171)
+2025-03-11 13:27:08 - INFO - Shape of Historical Pandas DF: (317796, 171)
+2025-03-11 13:27:08 - INFO - Shape of Future Pandas DF: (802, 171)
+2025-03-11 13:27:08 - INFO - train_data - horse_id and group_id combination unique: True
+2025-03-11 13:27:08 - INFO - valid_data - horse_id and group_id combination unique: True
+2025-03-11 13:27:08 - INFO - holdout_data - horse_id and group_id combination unique: True
+2025-03-11 13:27:08 - INFO - === Starting cross-validation for YetiRank:top=4 with NDCG:top=1 ===
+2025-03-11 13:27:08 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [32506 32507 32508 32509 32510 32511 32512 32513 32514 32515]...
+2025-03-11 13:27:08 - INFO - X_train_fold shape: (32506, 122), X_valid_fold shape: (32505, 122)
+2025-03-11 13:27:08 - INFO - y_train_fold shape: (32506,), y_valid_fold shape: (32505,)
+2025-03-11 13:27:30 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [65011 65012 65013 65014 65015 65016 65017 65018 65019 65020]...
+2025-03-11 13:27:30 - INFO - X_train_fold shape: (65011, 122), X_valid_fold shape: (32505, 122)
+2025-03-11 13:27:30 - INFO - y_train_fold shape: (65011,), y_valid_fold shape: (32505,)
+2025-03-11 13:27:41 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [97516 97517 97518 97519 97520 97521 97522 97523 97524 97525]...
+2025-03-11 13:27:42 - INFO - X_train_fold shape: (97516, 122), X_valid_fold shape: (32505, 122)
+2025-03-11 13:27:42 - INFO - y_train_fold shape: (97516,), y_valid_fold shape: (32505,)
+2025-03-11 13:27:54 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [130021 130022 130023 130024 130025 130026 130027 130028 130029 130030]...
+2025-03-11 13:27:54 - INFO - X_train_fold shape: (130021, 122), X_valid_fold shape: (32505, 122)
+2025-03-11 13:27:54 - INFO - y_train_fold shape: (130021,), y_valid_fold shape: (32505,)
+2025-03-11 13:28:06 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [162526 162527 162528 162529 162530 162531 162532 162533 162534 162535]...
+2025-03-11 13:28:06 - INFO - X_train_fold shape: (162526, 122), X_valid_fold shape: (32505, 122)
+2025-03-11 13:28:06 - INFO - y_train_fold shape: (162526,), y_valid_fold shape: (32505,)
+2025-03-11 13:28:19 - INFO - Cross-validation NDCG@4 score: 0.9800754884309221
+2025-03-11 13:28:19 - INFO - Trial 83 with YetiRank:top=4, NDCG:top=1
+2025-03-11 13:28:51 - INFO - Spark session stopped.
+2025-03-11 13:28:51 - INFO - Closing down clientserver connection

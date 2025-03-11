@@ -99,17 +99,35 @@ def run_inference_for_future_multi(
     4) Return a Spark DataFrame of the results.
     """
     # Load the exact feature order from your JSON file.
-    with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250304_150231.json", "r") as f:
-        final_feature_cols = json.load(f)
+    #with open("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250310_215902.json", "r") as f:
+    #    final_feature_cols = json.load(f)
+    
+    final_feature_cols = ["global_speed_score_iq_prev", "previous_class", "class_rating", "previous_distance", "off_finish_last_race", 
+                          "prev_speed_rating","purse", "claimprice", "power", "avgspd", "avg_spd_sd","ave_cl_sd",
+                          "hi_spd_sd", "pstyerl", "horse_itm_percentage","total_races_5", "avg_dist_bk_gate1_5", "avg_dist_bk_gate2_5",
+                            "avg_dist_bk_gate3_5", "avg_dist_bk_gate4_5", "avg_speed_fullrace_5", "avg_stride_length_5", "avg_strfreq_q1_5",
+                            "avg_speed_5","avg_fin_5","best_speed","avg_beaten_len_5","prev_speed",
+                            "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5", "speed_improvement", "age_at_race_day",
+                          "count_workouts_3","avg_workout_rank_3","weight","days_off", "starts", "race_count","has_gps",
+                          "cond_starts","cond_win","cond_place","cond_show","cond_fourth","cond_earnings",
+                          "all_starts", "all_win", "all_place", "all_show", "all_fourth","all_earnings", 
+                          "morn_odds","net_sentiment", 
+                          "distance_meters", "jt_itm_percent", "jt_win_percent", 
+                          "trainer_win_track", "trainer_itm_track", "trainer_win_percent", "trainer_itm_percent", 
+                          "jock_win_track", "jock_win_percent","jock_itm_track",                            
+                          "jt_win_track", "jt_itm_track", "jock_itm_percent",
+                          "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"]
     # Do NOT sort final_feature_cols here—use the order as loaded.
     # Suppose you already did:
     # final_feature_cols = json.load(...)
 
     # Merge cat_cols to ensure they appear in final_feature_cols    
     all_feature_cols = final_feature_cols + embed_cols + cat_cols 
+    fut_df = fut_df.copy()
     for c in cat_cols:
         if c in fut_df.columns:
-            fut_df[c] = fut_df[c].astype("category")        
+            #fut_df[c] = fut_df[c].astype("category")
+            fut_df.loc[:, c] = fut_df[c].astype("category")        
     try:
         # Gather model files.
         model_files = [
@@ -127,7 +145,7 @@ def run_inference_for_future_multi(
                 inference_df = fut_df[all_feature_cols].copy()
                 model_path = os.path.join(models_dir, file)
                 logging.info(f"Making predictions with model: {file}")
-                logging.info("Inference DF nulls: ", inference_df.isnull().sum())
+                logging.info(f"Inference DF nulls:\n{inference_df.isnull().sum()}")
                 logging.info(f"inference_df columns before reindexing: {inference_df.columns.tolist()}")
                 logging.info("Inference DF dtypes:")
                 logging.info(inference_df.dtypes)

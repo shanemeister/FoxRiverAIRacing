@@ -222,7 +222,7 @@ def write_predictions_to_docx(pred_df, output_docx):
         ['track_name', 'course_cd', 'race_date', 'race_number', 'saddle_cloth_key']
     )
 
-    race_groups = pred_df.groupby(['track_name', 'course_cd', 'race_date', 'race_number'], sort=False)
+    race_groups = pred_df.groupby(['track_name', 'course_cd', 'race_date', 'race_number', 'post_time'], sort=False)
 
     doc = Document()
     style = doc.styles['Normal']
@@ -231,10 +231,10 @@ def write_predictions_to_docx(pred_df, output_docx):
     style.paragraph_format.space_after = Pt(0)
     style.paragraph_format.space_before = Pt(0)
 
-    for (track_name, course_cd, race_date, race_number), race_df in race_groups:
+    for (track_name, course_cd, race_date, race_number, post_time), race_df in race_groups:
         header_text = (
             f"Race: {course_cd} | {race_date.strftime('%Y-%m-%d')} "
-            f"| Race #{int(race_number)} | Track: {track_name}"
+            f"| Race #{int(race_number)} | Post: {post_time} | Track: {track_name}"
         )
         doc.add_heading(header_text, level=1)
         doc.add_paragraph(f"Track: {track_name}")
@@ -330,12 +330,12 @@ def main():
     cursor = conn.cursor()
 
     # Make sure the column name in your DB is 'morn_odds'
-    # in predictions_2025_03_05_1_calibrated
+    # in predictions_2025_03_07_1_calibrated
     sql_select = """
         SELECT
             morn_odds,
             group_id,
-            post_time,
+            TO_CHAR( (post_time)::timestamp, 'HH24:MI' ) AS post_time,
             track_name,
             has_gps,
             horse_name,
@@ -347,8 +347,8 @@ def main():
             saddle_cloth_number,
             score AS yetirank_ndcg_top_2,
             calibrated_prob AS winning_probability
-        FROM predictions_2025_03_05_1_calibrated
-        WHERE race_date >= CURRENT_DATE
+        FROM predictions_2025_03_07_1_calibrated
+        WHERE race_date >= CURRENT_DATE -1
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
 

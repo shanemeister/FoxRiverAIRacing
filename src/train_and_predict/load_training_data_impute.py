@@ -717,14 +717,11 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     # train_df = train_df.na.drop(subset=critical_cols)
     cols_to_fill = ['distance_meters',
                     'off_finish_last_race',
-                    'pace_delta_time',
                     'prev_speed_rating',
                     'previous_class',
                     'previous_distance',
                     'race_count',
-                    'speed_rating',
-                    'starts',
-                    'time_behind']
+                    'starts']
 
     # Window for each horse, ordered by race_date ascending
     # The `.rowsBetween(Window.unboundedPreceding, 0)` ensures 
