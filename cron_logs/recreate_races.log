@@ -929,3 +929,24 @@ CREATE VIEW
 CREATE VIEW
 2025-03-11 03:45:06 - SQL script executed successfully
 2025-03-11 03:45:06 - Races table recreation job completed
+2025-03-12 03:50:01 - Starting races table recreation job
+2025-03-12 03:50:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-12 03:50:01 - Running SQL script: /sql_scripts/recreate_races.sql inside container rshane_pg16_prod
+CREATE VIEW
+psql:/sql_scripts/recreate_races.sql:56: NOTICE:  relation "races" already exists, skipping
+CREATE TABLE AS
+psql:/sql_scripts/recreate_races.sql:59: ERROR:  multiple primary keys for table "races" are not allowed
+psql:/sql_scripts/recreate_races.sql:68: ERROR:  constraint "races_fk_course" for relation "races" already exists
+psql:/sql_scripts/recreate_races.sql:72: ERROR:  duplicate key value violates unique constraint "races_pk"
+DETAIL:  Key (course_cd, race_date, race_number)=(FNO, 2023-10-06, 2) already exists.
+psql:/sql_scripts/recreate_races.sql:76: ERROR:  constraint "fk_racedata_runners" of relation "runners" does not exist
+psql:/sql_scripts/recreate_races.sql:83: ERROR:  constraint "fk_races_runners" for relation "runners" already exists
+psql:/sql_scripts/recreate_races.sql:88: ERROR:  constraint "fk_race_results_results_entries" of relation "results_entries" does not exist
+psql:/sql_scripts/recreate_races.sql:95: ERROR:  constraint "fk_races_results_entries" for relation "results_entries" already exists
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+2025-03-12 03:50:02 - SQL script executed successfully
+2025-03-12 03:50:02 - Races table recreation job completed

@@ -788,9 +788,11 @@ def add_pk_and_indexes(db_pool, output_table):
                 ddl_statements = [
                     f"ALTER TABLE {output_table} ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)",
                 ]
-            elif output_table == "horse_recent_form":
-                # 
-                pass
+            elif output_table == "sectionals_aggregated_locf":
+                ddl_statements =[
+                    f"CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)",
+                    f"CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)"
+                ]
             else:
                 logging.error(f"Unknown table name: {output_table}")
                 return
@@ -807,7 +809,173 @@ def add_pk_and_indexes(db_pool, output_table):
                 print("DDL statements executed successfully.")            
         except Exception as e:
             print(f"Error executing DDL: {e}")
-            
+
+def spark_aggregate_sectionals_and_write_locf_keyed_horse_date(
+    conn,
+    df_sectionals,
+    df_runners,
+    df_horse,
+    jdbc_url,
+    jdbc_properties
+):
+    """
+    1) Aggregates sectionals by (course_cd, race_date, race_number, saddle_cloth_number).
+    2) Joins with runners (to get axciskey) and horse (to get horse_id).
+    3) Renames race_date -> as_of_date, effectively keying each row by (horse_id, as_of_date).
+    4) Partitions by horse_id, orders by as_of_date => LAG(...) to shift aggregator columns from previous date (LOCF).
+    5) Writes final table with columns: (horse_id, as_of_date, aggregator columns, aggregator columns _prev, ...).
+    """
+
+    logging.info("Starting Spark-based aggregation for sectionals keyed by (horse_id, as_of_date) with LOCF ...")
+    start_time = time.time()
+
+    # ----------------------------------------------------------------------------
+    # Step A: Aggregate raw sectionals as usual
+    # ----------------------------------------------------------------------------
+
+    # 1) Count gates
+    gate_counts = (
+        df_sectionals.groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number")
+                     .agg(count("gate_numeric").alias("num_gates"))
+    )
+
+    # 2) Join gate counts back
+    df_with_counts = df_sectionals.join(
+        gate_counts,
+        on=["course_cd", "race_date", "race_number", "saddle_cloth_number"]
+    )
+
+    # 3) Ntile(4) across gates
+    window_ntile = Window.partitionBy(
+        "course_cd", "race_date", "race_number", "saddle_cloth_number"
+    ).orderBy("gate_numeric")
+
+    df_with_ntile = df_with_counts.withColumn(
+        "quartile",
+        ntile(4).over(window_ntile)
+    )
+
+    # 4) Sum distance/time for entire race
+    total_distance_ran = (
+        df_with_ntile
+        .groupBy("course_cd","race_date","race_number","saddle_cloth_number")
+        .agg(
+            F_sum("distance_ran").alias("total_distance_ran"),
+            F_sum("sectional_time").alias("running_time")
+        )
+    )
+
+    # 5) Quartile aggregates
+    quartile_aggregates = (
+        df_with_ntile
+        .groupBy("course_cd","race_date","race_number","saddle_cloth_number","quartile")
+        .agg(
+            F_avg("sectional_time").alias("avg_running_time"),
+            last("distance_back").alias("distance_back"),
+            F_sum("number_of_strides").alias("number_of_strides")
+        )
+    )
+
+    # 6) Pivot quartile aggregates
+    pivoted = (
+        quartile_aggregates
+        .groupBy("course_cd","race_date","race_number","saddle_cloth_number")
+        .pivot("quartile")
+        .agg(
+            first("avg_running_time").alias("avg_time_per_gate"),
+            first("distance_back").alias("distance_back"),
+            first("number_of_strides").alias("number_of_strides")
+        )
+    )
+
+    # 7) Rename pivoted columns
+    result1 = (
+        pivoted
+        .withColumnRenamed("1_avg_time_per_gate", "avgtime_gate1")
+        .withColumnRenamed("1_distance_back",     "dist_bk_gate1")
+        .withColumnRenamed("1_number_of_strides", "numstrides_gate1")
+        .withColumnRenamed("2_avg_time_per_gate", "avgtime_gate2")
+        .withColumnRenamed("2_distance_back",     "dist_bk_gate2")
+        .withColumnRenamed("2_number_of_strides", "numstrides_gate2")
+        .withColumnRenamed("3_avg_time_per_gate", "avgtime_gate3")
+        .withColumnRenamed("3_distance_back",     "dist_bk_gate3")
+        .withColumnRenamed("3_number_of_strides", "numstrides_gate3")
+        .withColumnRenamed("4_avg_time_per_gate", "avgtime_gate4")
+        .withColumnRenamed("4_distance_back",     "dist_bk_gate4")
+        .withColumnRenamed("4_number_of_strides", "numstrides_gate4")
+    )
+
+    # 8) Join total_distance_ran
+    aggregated_sectionals = (
+        result1.join(
+            total_distance_ran,
+            on=["course_cd","race_date","race_number","saddle_cloth_number"]
+        )
+    )
+
+    # ----------------------------------------------------------------------------
+    # Step B: Join to runners => get axciskey, then to horse => get horse_id
+    # ----------------------------------------------------------------------------
+    # runners has (course_cd, race_date, race_number, saddle_cloth_number, axciskey, ...)
+    # horse   has (axciskey, horse_id, ...)
+    sec_with_axciskey = aggregated_sectionals.alias("sec").join(
+        df_runners.alias("run"),
+        on=["course_cd","race_date","race_number","saddle_cloth_number"]
+    ).select("sec.*","run.axciskey")
+
+    sec_with_horse_id = sec_with_axciskey.alias("swx").join(
+        df_horse.alias("h"),
+        on=["axciskey"]
+    ).select("swx.*","h.horse_id")
+
+    # ----------------------------------------------------------------------------
+    # Step C: Key on (horse_id, as_of_date) => rename race_date -> as_of_date
+    # ----------------------------------------------------------------------------
+    # We'll keep race_date for reference, but also define as_of_date = race_date
+    final_keyed = sec_with_horse_id.withColumn("as_of_date", col("race_date"))
+
+    # ----------------------------------------------------------------------------
+    # Step D: LOCF SHIFT by (horse_id) ordering by as_of_date
+    # ----------------------------------------------------------------------------
+    w_horse = Window.partitionBy("horse_id").orderBy("as_of_date")
+
+    # columns to shift
+    shift_cols = [
+        "avgtime_gate1","dist_bk_gate1","avgtime_gate2","dist_bk_gate2",
+        "avgtime_gate3","dist_bk_gate3","avgtime_gate4","dist_bk_gate4",
+        "total_distance_ran","running_time"
+    ]
+
+    shifted = final_keyed
+    for c in shift_cols:
+        shifted = shifted.withColumn(
+            f"{c}_prev",
+            lag(c, 1).over(w_horse)
+        )
+
+    # ----------------------------------------------------------------------------
+    # Step E: Write final
+    # ----------------------------------------------------------------------------
+    # We now have columns:
+    #   [horse_id, as_of_date, (optional) race_date, race_number, saddle_cloth_number, aggregator columns, aggregator columns _prev, ...]
+    # keyed primarily by (horse_id, as_of_date).
+    staging_table = "sectionals_aggregated_locf"
+
+    logging.info(f"Writing aggregator keyed by (horse_id, as_of_date) with LOCF to {staging_table} (overwrite).")
+
+    (
+        shifted.write.format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", staging_table)
+        .option("user", jdbc_properties["user"])
+        .option("driver", jdbc_properties["driver"])
+        .mode("overwrite")
+        .save()
+    )
+
+    elapsed = time.time() - start_time
+    logging.info(f"Done. Wrote table={staging_table} in {elapsed:.2f} sec, keyed by (horse_id, as_of_date).")
+                
 def main():
     """
     Main function to:
@@ -833,28 +1001,36 @@ def main():
         # Load and write data to parquet
         queries = tpd_sql_queries()
         dfs = load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
-        # Print schemas dynamically
+        # Suppose we have a dictionary of queries
         for name, df in dfs.items():
-            print(f"DataFrame '{name}' Schema:")
+            logging.info(f"DataFrame '{name}' loaded. Schema:")
+            df.printSchema()
             if name == "sectionals":
-                conn = db_pool.getconn()
-                try:
-                    spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties)
-                    add_pk_and_indexes(db_pool, "sectionals_aggregated")
-                finally:
-                    db_pool.putconn(conn)
-            if name == "gpspoint":
-                conn = db_pool.getconn()
-                try:
-                    calculate_gps_metrics_quartile_and_write(conn, df, jdbc_url, jdbc_properties)
-                finally:
-                    db_pool.putconn(conn)        
+                sectionals_df = df
+            elif name == "runners":
+                runners_df = df
+            elif name == "horse":
+                horse_df = df
+            elif name == "gpspoint":
+                gpspoint_df = df
+            else:
+                logging.error(f"Unknown DataFrame name: {name}")
+                continue
+
+        conn = db_pool.getconn()
+        try:
+            spark_aggregate_sectionals_and_write_locf_keyed_horse_date(conn,sectionals_df,runners_df,horse_df,jdbc_url,jdbc_properties)
+            add_pk_and_indexes(db_pool, "sectionals_aggregated_locf")
+            spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties)
+            add_pk_and_indexes(db_pool, "sectionals_aggregated")
+            calculate_gps_metrics_quartile_and_write(conn, gpspoint_df, jdbc_url, jdbc_properties)
+        finally:
+            db_pool.putconn(conn)
+                
         logging.info("Ingestion job succeeded")
         spark.catalog.clearCache()
 
-        # 4) net sentiment update
-        # Optionally run your net_sentiment update logic
-                    
+        # 4) net sentiment update                    
         conn = db_pool.getconn()
         try:
             update_net_sentiment(conn)

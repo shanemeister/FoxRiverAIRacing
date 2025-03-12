@@ -14,8 +14,16 @@ def sql_queries():
                 h.horse_name AS horse_name,
                 re.official_fin AS official_fin,
                 r.rr_par_time AS par_time,
-                sa.running_time,
-                sa.total_distance_ran,
+                sa.running_time_prev as running_time,
+                sa.total_distance_ran_prev as total_distance_ran,
+                sa.avgtime_gate1_prev as avgtime_gate1,
+                sa.avgtime_gate2_prev as avgtime_gate2,
+                sa.avgtime_gate3_prev as avgtime_gate3,
+                sa.avgtime_gate4_prev as avgtime_gate4,
+                sa.dist_bk_gate1_prev as dist_bk_gate1,
+                sa.dist_bk_gate2_prev as dist_bk_gate2,
+                sa.dist_bk_gate3_prev as dist_bk_gate3,
+                sa.dist_bk_gate4_prev as dist_bk_gate4,
                 r2.prev_speed_rating AS prev_speed_rating,
                 r2.previous_class AS previous_class,
                 r.purse AS purse,
@@ -90,7 +98,7 @@ def sql_queries():
                 hrf.avg_strfreq_q2_5 AS avg_strfreq_q2_5,
                 hrf.avg_strfreq_q3_5 AS avg_strfreq_q3_5,
                 hrf.avg_strfreq_q4_5 AS avg_strfreq_q4_5,
-                hrf.prev_speed AS prev_speed,
+                hrf.prev_speed AS prev_speed,  -- previous speed rating
                 hrf.speed_improvement AS speed_improvement,
                 hrf.prev_race_date AS prev_race_date,
                 hrf.days_off AS days_off,
@@ -135,14 +143,6 @@ def sql_queries():
                 AND r2.axciskey = re.axciskey
             JOIN horse h 
                 ON r2.axciskey = h.axciskey
-            LEFT JOIN LATERAL (
-                SELECT *
-                FROM horse_form_agg h2
-                WHERE h2.horse_id = h.horse_id
-                    AND CAST(h2.as_of_date AS date) <= CAST(r.race_date AS date)
-                ORDER BY CAST(h2.as_of_date AS date) DESC
-                LIMIT 1
-                ) hfa ON true
             LEFT JOIN LATERAL(
                         SELECT h2.* 
                         FROM horse_form_agg h2 
@@ -156,14 +156,13 @@ def sql_queries():
             LEFT JOIN stat_dam d ON h.axciskey=d.axciskey 
                 AND d.type='LIFETIME'            
             LEFT JOIN LATERAL (
-                SELECT sa2.*
-                FROM sectionals_aggregated sa2
-                WHERE sa2.course_cd = r2.course_cd
-                AND sa2.saddle_cloth_number = r2.saddle_cloth_number
-                AND sa2.race_date < r.race_date
-                ORDER BY sa2.race_date DESC
-                LIMIT 1
-            ) AS sa ON TRUE
+                                SELECT s.*
+                                FROM sectionals_aggregated_locf s
+                                WHERE s.horse_id = h.horse_id
+                                    AND s.as_of_date <= r2.race_date
+                                ORDER BY s.as_of_date DESC
+                                LIMIT 1
+                                ) sa ON TRUE
             LEFT JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey 
                 AND has_all.stat_type='ALL_RACES' 
                 AND has_all.as_of_date=(SELECT MAX(a2.as_of_date) 

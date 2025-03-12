@@ -125,66 +125,46 @@ def compute_recent_form_metrics(
 
     logging.info("Starting compute_recent_form_metrics (row-based).")
 
-    # Suppose 'race_df' has:
-    #  - horse_id
-    #  - race_date
-    #  - official_fin (finishing position)
-    #  - speed_rating
-    #  - dist_bk_gate4 or something for beaten_len
-    #  - avg_speed_fullrace  (the speed measure we want to average)
-    #  - etc.
-
-    # We'll define an ascending window by (horse_id, race_date),
-    # so earlier races have smaller row_number => the current row is the "future" race
-    
-    race_df = race_df.withColumn("race_date", to_date("race_date"))
+    # 1) Convert race_date to DateType and define ascending window
+    race_df = race_df.withColumn("race_date", F.to_date("race_date"))
     window_race = Window.partitionBy("horse_id").orderBy("race_date")
 
-    # Convert relevant columns to double if not already
-    race_df = race_df.withColumn("speed_rating", col("speed_rating").cast("double"))
-    race_df = race_df.withColumn("avg_speed_fullrace", col("avg_speed_fullrace").cast("double"))
+    # Convert relevant columns to double
+    race_df = race_df.withColumn("speed_rating", F.col("speed_rating").cast("double"))
+    race_df = race_df.withColumn("avg_speed_fullrace", F.col("avg_speed_fullrace").cast("double"))
 
-    # 1) row_number -> ascending by date
-    race_df_asc = race_df.withColumn(
-        "race_ordinal",
-        row_number().over(window_race)
-    )
+    # 2) row_number -> ascending by date
+    race_df_asc = race_df.withColumn("race_ordinal", F.row_number().over(window_race))
 
-    # 2) We'll define windows: the 3 prior rows and 5 prior rows
-    #    i.e. rowBetween(-3, -1) for last 3; rowBetween(-5, -1) for last 5
+    # 3) Define windows *excluding the current row*:
+    #    i.e., last 3 prior rows => rowsBetween(-3, -1)
+    #    last 5 prior rows => rowsBetween(-5, -1)
+    #  This ensures we do NOT include the current row's data in the average.
     w_last_3 = window_race.rowsBetween(-3, -1)
     w_last_5 = window_race.rowsBetween(-5, -1)
 
-    # 3) avg_fin_3, avg_fin_5
-    race_df_asc = race_df_asc.withColumn(
-        "avg_fin_3", F.avg("official_fin").over(w_last_3)
-    ).withColumn(
-        "avg_fin_5", F.avg("official_fin").over(w_last_5)
+    # 4) Compute aggregates from the *last 3 or 5 prior races* (no current race)
+    race_df_asc = (
+        race_df_asc
+        .withColumn("avg_fin_3", F.avg("official_fin").over(w_last_3))
+        .withColumn("avg_fin_5", F.avg("official_fin").over(w_last_5))
+        .withColumn("avg_speed_3", F.avg("avg_speed_fullrace").over(w_last_3))
+        .withColumn("avg_speed_5", F.avg("avg_speed_fullrace").over(w_last_5))
     )
 
-    # 4) avg_speed_3, avg_speed_5 (based on 'avg_speed_fullrace')
-    race_df_asc = race_df_asc.withColumn(
-        "avg_speed_3", F.avg("avg_speed_fullrace").over(w_last_3)
-    ).withColumn(
-        "avg_speed_5", F.avg("avg_speed_fullrace").over(w_last_5)
-    )
-
-    # 5 (a) Filter out zeros and nulls before computing the mean
+    # 5) Replace null dist_bk_gate4 with a global average to fill in missing
     filtered_df = race_df_asc.filter(
-        (col("dist_bk_gate4").isNotNull()) & (col("dist_bk_gate4") != 0)
+        (F.col("dist_bk_gate4").isNotNull()) & (F.col("dist_bk_gate4") != 0)
     )
-    # 5 (b) Compute the average
-    avg_dist = filtered_df.select(F_mean(col("dist_bk_gate4")).alias("mean_dist")) \
-                        .collect()[0]["mean_dist"]
-
-    # 5 (c) Use that average to replace nulls
+    avg_dist = filtered_df.select(F.mean(F.col("dist_bk_gate4")).alias("mean_dist")) \
+                          .collect()[0]["mean_dist"]
     race_df_asc = race_df_asc.withColumn(
         "beaten_len",
-        F.when(col("dist_bk_gate4").isNull(), F.lit(avg_dist)).otherwise(col("dist_bk_gate4"))
+        F.when(F.col("dist_bk_gate4").isNull(), F.lit(avg_dist))
+         .otherwise(F.col("dist_bk_gate4"))
     )
-    
-    # Assuming w_last_3 and w_last_5 are Window specs already defined
 
+    # 6) Aggregates for beaten_len from prior races
     race_df_asc = (
         race_df_asc
         .withColumn(
@@ -207,64 +187,62 @@ def compute_recent_form_metrics(
         )
     )
 
-    # 6) Speed improvement vs. prior race
-    race_df_asc = race_df_asc.withColumn(
-        "prev_speed",
-        lag("speed_rating", 1).over(window_race)
-    ).withColumn(
-        "speed_improvement",
-        (col("speed_rating") - col("prev_speed"))
+    # 7) Speed improvement => difference between the last 2 prior races, NOT the current race
+    #    So we do lag1_speed = race i-1, lag2_speed = race i-2, and improvement = lag1 - lag2.
+    race_df_asc = (
+        race_df_asc
+        # This is the previous race's speed rating
+        .withColumn("lag1_speed", F.lag("speed_rating", 1).over(window_race))
+        # This is the race before the previous race
+        .withColumn("lag2_speed", F.lag("speed_rating", 2).over(window_race))
+        .withColumn("speed_improvement", F.col("lag1_speed") - F.col("lag2_speed"))
     )
 
-    # 7) Days off = difference in race_date from prior race
-    race_df_asc = race_df_asc.withColumn(
-        "prev_race_date",
-        lag("race_date", 1).over(window_race)
-    ).withColumn(
-        "days_off",
-        F.when(
-            col("prev_race_date").isNotNull(),
-            datediff(col("race_date"), col("prev_race_date"))
+    # 8) Days off = difference in race_date from the prior race
+    race_df_asc = (
+        race_df_asc
+        .withColumn("prev_race_date", F.lag("race_date", 1).over(window_race))
+        .withColumn(
+            "days_off",
+            F.when(
+                F.col("prev_race_date").isNotNull(),
+                F.datediff(F.col("race_date"), F.col("prev_race_date"))
+            )
+        )
+        .withColumn(
+            "layoff_cat",
+            F.when(F.col("days_off") <= 14,  F.lit("short"))
+             .when(F.col("days_off") <= 45,  F.lit("medium"))
+             .when(F.col("days_off").isNull(), F.lit("N/A"))
+             .otherwise(F.lit("long"))
         )
     )
-    
-    # layoff_cat
-    race_df_asc = race_df_asc.withColumn(
-        "layoff_cat",
-        F.when(col("days_off") <= 14,  lit("short"))
-         .when(col("days_off") <= 45,  lit("medium"))
-         .when(col("days_off").isNull(), lit("N/A"))
-         .otherwise(lit("long"))
-    )
 
-    # 8) Workouts aggregator
-    # We'll do a simple aggregator keyed by (horse_id, race_date).
-    # We assume your workouts_df has columns: [horse_id, race_date, days_back, ranking, ...]
-    # We'll pick last 3 workouts => a window partitioned by (horse_id, race_date) ordered by days_back asc
-
-    w_win = Window.partitionBy("horse_id", "race_date").orderBy(col("days_back").asc())
-    workouts_df2 = workouts_df.withColumn("w_ordinal", row_number().over(w_win))
+    # 9) Workouts aggregator: last 3 workouts for (horse_id, race_date)
+    w_win = Window.partitionBy("horse_id", "race_date").orderBy(F.col("days_back").asc())
+    workouts_df2 = workouts_df.withColumn("w_ordinal", F.row_number().over(w_win))
 
     w_agg = (
-        workouts_df2.filter(col("w_ordinal") <= 3)
+        workouts_df2.filter(F.col("w_ordinal") <= 3)
         .groupBy("horse_id", "race_date")
         .agg(
             F.avg("ranking").alias("avg_workout_rank_3"),
-            count("*").alias("count_workouts_3")
+            F.count("*").alias("count_workouts_3")
         )
     )
 
-    # 9) Merge w_agg into race_df_asc, so each row now has the workout aggregator
     final_df = race_df_asc.join(
         w_agg,
         on=["horse_id", "race_date"],
         how="left"
     )
 
-    # 10) Write to horse_recent_form -- staging_table
-    # Cast columns to match database schema
-    final_df = final_df.withColumn("course_cd", trim(col("course_cd")).cast("string")) \
-                    .withColumn("saddle_cloth_number", trim(col("saddle_cloth_number")).cast("string"))
+    # 10) Save to DB table
+    final_df = (
+        final_df
+        .withColumn("course_cd", F.trim(F.col("course_cd")).cast("string"))
+        .withColumn("saddle_cloth_number", F.trim(F.col("saddle_cloth_number")).cast("string"))
+    )
 
     logging.info(f"Writing final per-race form metrics to {staging_table} ...")
 
@@ -280,9 +258,10 @@ def compute_recent_form_metrics(
 
     add_pk_and_indexes(db_pool, staging_table)
     logging.info(f"Finished writing aggregated form per horse per race {staging_table}.")
+
     if conn:
         conn.close()
-
+        
 def add_pk_and_indexes(db_pool, output_table):
         try:
             if output_table == "horse_form_agg":    
@@ -354,8 +333,8 @@ def compute_horse_form_agg(
     df_asc = horse_rf_df.withColumn("rn_asc", F.row_number().over(w_asc))
 
     # b) We'll define another window for "the last 5 races up to (and including) the current row."
-    #    rowBetween(-4, 0) => the current row plus 4 preceding
-    w_last_5 = w_asc.rowsBetween(-4, 0)
+    #    rowBetween(-5, -1) => the previous row plus the 4 preceding to that row
+    w_last_5 = w_asc.rowsBetween(-5, -1)
 
     # c) Compute aggregates over the last 5 (including current race). 
     #    If you strictly want "prior 5 races (excluding this one)," use rowsBetween(-5, -1).
@@ -411,7 +390,7 @@ def compute_horse_form_agg(
         "avg_strfreq_q4_5",
 
         # Single-race columns from this row
-        "prev_speed",
+        F.col("lag1_speed").alias("prev_speed"),
         "speed_improvement",
         "prev_race_date",
         "days_off",

@@ -6,9 +6,9 @@ from pyspark.sql import functions as F
 from pyspark.sql import DataFrame
 from pyspark.sql.window import Window
 import pyspark.sql.functions as F
-from pyspark.sql.functions import (col, count, row_number, abs, unix_timestamp,  
+from pyspark.sql.functions import (col, count, abs, unix_timestamp, lag, avg as F_avg, first, coalesce, 
                                    when, lit, min as F_min, max as F_max , upper, trim,
-                                   row_number, mean as F_mean, countDistinct, last, first, when)
+                                   row_number, mean as F_mean, countDistinct, last, first)
 from src.train_and_predict.training_sql_queries import sql_queries
 from pyspark.sql.functions import current_date
 
@@ -92,14 +92,18 @@ def fix_outliers(df):
     # Step A: Hard-coded outlier caps
     outlier_bounds = {
         "avg_beaten_len_5": (0, 50.0),
+        "avgtime_gate4": (0, 16.0),
         "days_off": (0, 365.0),
         "avgspd": (0, 120.0),
+        "weight": (100, 125.0),
         "avg_workout_rank_3": (0, 60.0),
         "speed_improvement": (-20, 50),
         "sire_itm_percentage": (0, 1),
         "sire_roi": (-100, 10000),
+        "avg_speed_fullrace_5": (0, 20),
         "dam_itm_percentage": (0, 1),
         "dam_roi": (-100, 5000),
+        "avg_stride_length_5": (0, 10),
         "avg_dist_bk_gate4_5": (0,50),
         "avg_dist_bk_gate3_5":(0,50),
         "avg_dist_bk_gate2_5":(0,50),
@@ -210,81 +214,151 @@ def filter_course_cd(train_df):
             
     return filtered_df
 
-def remove_performance_columns(df):
+import pyspark.sql.functions as F
+from pyspark.sql.window import Window
+
+def forward_fill_par_time(
+    df,
+    partition_cols = ["course_cd", "distance_meters"],
+    date_col = "race_date",
+    par_time_col = "par_time"
+):
     """
-    1) For historical rows: drop if dist_bk_gate4, running_time, or total_distance_ran is null 
-       (also set dist_bk_gate4=0 if official_fin=1).
-    2) For future rows: keep as is.
-    3) Then do these calculations:
-       - # of future rows that match a historical horse_id vs. unmatched
-       - # of future races that have unmatched horses
-       - # of future races that have NO unmatched horses
-       - final row counts for future / historical
-    4) Return the combined DataFrame.
+    Forward fill par_time in ascending date order for each partition.
     """
+    w_asc = (Window.partitionBy(*partition_cols)
+                    .orderBy(F.col(date_col).asc())
+                    .rowsBetween(Window.unboundedPreceding, 0))
 
-    import pyspark.sql.functions as F
-    import logging
-
-    # --- Split historical vs future
-    df_hist = df.filter(F.col("data_flag") == "historical")
-    df_future = df.filter(F.col("data_flag") == "future")
-
-    # (B) Then drop rows that have null in any of those 3 columns
-    key_cols = ["running_time", "total_distance_ran"]
-    df_hist = df_hist.na.drop(subset=key_cols)
-
-    # (C) Recombine them
-    df_final = df_hist.unionByName(df_future)
-
-    # 1) Get final subsets
-    future_df = df_final.filter(F.col("data_flag") == "future")
-    hist_df = df_final.filter(F.col("data_flag") == "historical")
-
-    # 2) Count final row totals
-    future_count = future_df.count()
-    historical_count = hist_df.count()
-
-    # 3) Identify matched vs unmatched future rows based on horse_id
-    #    a) Distinct horse_ids from historical
-    hist_horses = hist_df.select("horse_id").distinct()
-
-    #    b) matched_future => inner join on horse_id
-    matched_future = future_df.join(hist_horses, on="horse_id", how="inner")
-    matched_future_count = matched_future.count()
-
-    #    c) unmatched_future => left_anti on horse_id
-    unmatched_future_df = future_df.join(hist_horses, on="horse_id", how="left_anti")
-    unmatched_future_count = unmatched_future_df.count()
-
-    # 4) Group unmatched future rows by race to see how many unmatched horses
-    unmatched_races_df = (
-        unmatched_future_df
-        .groupBy("course_cd", "race_date", "race_number")
-        .agg(F.countDistinct("horse_id").alias("unmatched_horse_count"))
+    expr_ffill = F.last(F.col(par_time_col), ignorenulls=True).over(w_asc)
+    df_forward = df.withColumn(
+        par_time_col,
+        F.coalesce(F.col(par_time_col), expr_ffill)
     )
-    races_with_unmatched = unmatched_races_df.count()
+    return df_forward
 
-    # 5) Races with NO unmatched => take distinct future races minus unmatched
-    all_future_races = future_df.select("course_cd","race_date","race_number").distinct()
-    unmatched_races = unmatched_future_df.select("course_cd","race_date","race_number").distinct()
-    no_unmatched_races_df = all_future_races.join(unmatched_races, 
-                                                  on=["course_cd","race_date","race_number"], 
-                                                  how="left_anti")
-    no_unmatched_races_count = no_unmatched_races_df.count()
+def backward_fill_par_time(
+    df,
+    partition_cols = ["course_cd", "distance_meters"],
+    date_col = "race_date",
+    par_time_col = "par_time"
+):
+    """
+    Backward fill par_time in descending date order for each partition.
+    This fills from future races if forward fill found nothing.
+    """
+    w_desc = (Window.partitionBy(*partition_cols)
+                    .orderBy(F.col(date_col).desc())
+                    .rowsBetween(Window.unboundedPreceding, 0))
 
-    # ---- Logging ----
-    logging.info(f"[remove_performance_columns] final future rows = {future_count}, historical rows = {historical_count}")
-    logging.info(f"Future rows matched with historical horse_id: {matched_future_count}")
-    logging.info(f"Future rows unmatched with historical horse_id: {unmatched_future_count}")
-    logging.info(f"Number of future races with >=1 unmatched horse: {races_with_unmatched}")
-    logging.info(f"Number of future races with NO unmatched horse: {no_unmatched_races_count}")
+    expr_bfill = F.last(F.col(par_time_col), ignorenulls=True).over(w_desc)
+    df_backward = df.withColumn(
+        par_time_col,
+        F.coalesce(F.col(par_time_col), expr_bfill)
+    )
+    return df_backward
 
-    # Optionally show a subset of unmatched_races_df, no_unmatched_races_df
-    # unmatched_races_df.show(50, False)
-    # no_unmatched_races_df.show(50, False)
+def fill_par_time_global_mean(
+    df,
+    par_time_col = "par_time"
+):
+    """
+    Fill null par_time with global mean.
+    """
+    global_mean = df.agg(F.avg(par_time_col).alias("gm")).collect()[0]["gm"]
+    df_gmean = df.withColumn(
+        par_time_col,
+        F.coalesce(F.col(par_time_col), F.lit(global_mean))
+    )
+    return df_gmean
 
+def impute_par_time_all_steps(df):
+    """
+    1) Forward fill by (course_cd, distance_meters).
+    2) Backward fill by same partition (desc).
+    3) Fill remaining null with global mean.
+    """
+    # Forward fill
+    df_ff = forward_fill_par_time(df)
+    # Backward fill
+    df_bf = backward_fill_par_time(df_ff)
+    # Global mean fallback
+    df_final = fill_par_time_global_mean(df_bf)
     return df_final
+
+def impute_sectional_features(
+    df,
+    impute_cols = [
+        "avgtime_gate1","avgtime_gate2","avgtime_gate3","avgtime_gate4",
+        "dist_bk_gate1","dist_bk_gate2","dist_bk_gate3","dist_bk_gate4",
+        "running_time","total_distance_ran"
+    ],
+    race_key = ["course_cd", "race_date", "race_number"],  # grouping columns for Race-level means
+    horse_id_col = "horse_id",         # column to partition for LOCF
+    date_col = "race_date"             # ordering column for LOCF
+):
+    """
+    Imputes the given `impute_cols` with 3 steps:
+      1) LOCF within each horse partition, ordered by `date_col`.
+      2) Race-level mean (grouping by `race_key`).
+      3) Global mean if still null.
+
+    The final DataFrame columns (e.g. 'avgtime_gate1') will be overwritten with
+    imputed values. The leftover '_race_mean' columns are intermediate helpers
+    and can be dropped after if desired.
+    """
+
+    # 1) LOCF Imputation
+    w_locf = Window.partitionBy(horse_id_col).orderBy(date_col).rowsBetween(Window.unboundedPreceding, 0)
+
+    df_locf = df
+    # For each column c, fill with the last known non-null from prior rows in this partition
+    for c in impute_cols:
+        # Build expression for last non-null in ascending order
+        c_last = last(col(c), ignorenulls=True).over(w_locf)
+        # Overwrite c with COALESCE(c, c_last)
+        df_locf = df_locf.withColumn(c, coalesce(col(c), c_last))
+
+    # 2) Race-level mean
+    # Build an aggregator for each col, i.e. avg(c) => c_race_mean
+    race_means_exprs = [F_avg(c).alias(f"{c}_race_mean") for c in impute_cols]
+    # Group by your race_key to compute per-race means
+    df_race_means = df_locf.groupBy(*race_key).agg(*race_means_exprs)
+
+    # Join these means back; left join so we retain all rows
+    df_joined = df_locf.join(df_race_means, on=race_key, how="left")
+
+    # Now fill each c with coalesce(c, c_race_mean)
+    for c in impute_cols:
+        c_racemean = f"{c}_race_mean"
+        df_joined = df_joined.withColumn(
+            c,
+            coalesce(col(c), col(c_racemean))  # fill with race-level mean
+        )
+
+    # 3) Global mean
+    # Compute a single row of global means for each column
+    global_means_exprs = [F_avg(c).alias(f"{c}_global_mean") for c in impute_cols]
+    global_means_row = df_joined.agg(*global_means_exprs).collect()[0].asDict()
+
+    # Overwrite each column with coalesce(col(c), global_mean)
+    df_imputed = df_joined
+    for c in impute_cols:
+        global_mean_key = f"{c}_global_mean"
+        global_mean_val = global_means_row[global_mean_key]
+        df_imputed = df_imputed.withColumn(
+            c,
+            coalesce(col(c), lit(global_mean_val))
+        )
+
+    # (Optional) Drop leftover "_race_mean" columns if desired:
+    # race_mean_cols = [f"{c}_race_mean" for c in impute_cols]
+    # df_imputed = df_imputed.drop(*race_mean_cols)
+    
+    race_mean_cols = [f"{c}_race_mean" for c in impute_cols]
+    df_imputed = df_imputed.drop(*race_mean_cols)
+
+    return df_imputed
 
 def remove_future_races_with_unmatched_horses(df):
     """
@@ -362,6 +436,16 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
         train_df.cache()
         rows_train_if = train_df.count()
         logging.info(f"Data loaded from PostgreSQL. Count: {rows_train_if}")
+    
+    
+    impute_cols = ["avgtime_gate1","avgtime_gate2","avgtime_gate3","avgtime_gate4","dist_bk_gate1","dist_bk_gate2","dist_bk_gate3","dist_bk_gate4","running_time","total_distance_ran"]
+    race_key = ["course_cd", "race_date", "race_number"] # columns defining a "race"
+    horse_id_col = "horse_id"
+    date_col = "race_date" 
+    
+    train_df = impute_sectional_features(train_df, impute_cols, race_key, horse_id_col, date_col) 
+
+    train_df = impute_par_time_all_steps(train_df)
     
     # Log the counts after filtering
     future_count = train_df.filter(F.col("data_flag") == "future").count()
@@ -536,7 +620,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
 
     train_df = remove_future_races_with_unmatched_horses(train_df)
     
-    train_df = remove_performance_columns(train_df) # dist_bk_gate4, running_time, total_distance_ran
+    # train_df = remove_performance_columns(train_df) # dist_bk_gate4, running_time, total_distance_ran
     # Log the counts
     future_count = train_df.filter(F.col("data_flag") == "future").count()
     historical_count = train_df.filter(F.col("data_flag") == "historical").count()

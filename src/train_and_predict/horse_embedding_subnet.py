@@ -140,24 +140,22 @@ def add_combined_feature(pdf):
     print(f"[DEBUG] Found embedding columns: {embed_cols}")
     # List of other required columns
     other_cols = [
-        "global_speed_score_iq_prev",
+        "global_speed_score_iq",
         "race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg",
-        "race_class_avg_speed_agg", "race_class_std_speed_agg",
+        "race_class_avg_speed_agg",
         "race_class_min_speed_agg", "race_class_max_speed_agg",
-        "horse_avg_speed_agg", "horse_std_speed_agg",
-        "horse_min_speed_agg", "horse_max_speed_agg"
-    ]
+        "horse_mean_rps", "horse_std_rps"]
+    
     for col in other_cols:
         if col not in pdf.columns:
             raise ValueError(f"Column {col} not found in DataFrame!")
     def combine_row(row):
         emb_vals = [row[c] for c in embed_cols]
-        gss = [row["global_speed_score_iq_prev"]]
+        gss = [row["global_speed_score_iq"]]
         race_feats = [row[c] for c in ["race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg"]]
-        race_class_feats = [row[c] for c in ["race_class_avg_speed_agg", "race_class_std_speed_agg",
+        race_class_feats = [row[c] for c in ["race_class_avg_speed_agg", "race_class_count_agg",
                                              "race_class_min_speed_agg", "race_class_max_speed_agg"]]
-        horse_feats = [row[c] for c in ["horse_avg_speed_agg", "horse_std_speed_agg",
-                                        "horse_min_speed_agg", "horse_max_speed_agg"]]
+        horse_feats = [row[c] for c in ["horse_mean_rps", "horse_std_rps", "power", "base_speed", "avg_speed_fullrace_5", "speed_improvement"]]
         return emb_vals + gss + race_feats + race_class_feats + horse_feats
     combined = pdf.apply(combine_row, axis=1)
     n_features = len(combined.iloc[0])
@@ -251,6 +249,9 @@ def build_final_model(
         if dropout_rate > 0:
             x_horse = layers.Dropout(dropout_rate)(x_horse)
 
+    print("DEBUG: horse_id_emb =>", horse_id_emb)
+    print("DEBUG: x_horse =>", x_horse)
+    
     # Combine horse ID embedding + stats => project to horse_embedding_dim
     combined_horse = layers.Concatenate()([horse_id_emb, x_horse])
     horse_embedding_out = layers.Dense(
@@ -332,7 +333,7 @@ def build_final_model(
         ],
         outputs=output
     )
-
+    
     return model
 
 # ---------------------------
@@ -357,11 +358,13 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     X_horse_id = np.array([horse_id_to_idx[h] for h in historical_pdf["horse_id"]])
     
     # Define column groups.
-    horse_stats_cols = ["horse_avg_speed_agg", "horse_std_speed_agg", "horse_min_speed_agg", "horse_max_speed_agg"]
-    race_numeric_cols = ["race_std_speed_agg", 
+    horse_stats_cols = ["horse_mean_rps", "horse_std_rps", "power", "base_speed", "avg_speed_fullrace_5", "speed_improvement", 
+                        "days_off","trainer_win_percent", "jock_win_percent", "jt_win_percent", "trainer_itm_percent", "jock_itm_percent",
+                        "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"]
+    race_numeric_cols = ["race_std_speed_agg", "purse","net_sentiment",
                          "race_avg_relevance_agg", "race_std_relevance_agg", "race_class_avg_speed_agg", 
-                         "race_class_std_speed_agg", "race_class_min_speed_agg", "race_class_max_speed_agg",
-                         "class_rating", "official_distance"]
+                         "race_class_min_speed_agg", "race_class_max_speed_agg",
+                         "class_rating", "official_distance", "morn_odds"]
     cat_cols = ["course_cd", "trk_cond"]
     # Define categorical feature info with actual vocabularies.
     cat_feature_info = {
@@ -748,6 +751,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
             dropout_rate=best_params["dropout_rate"],      # e.g. 0.35
             l2_reg=best_params["l2_reg"]                   # e.g. 1.5584070764453296e-05
         )
+        
         # 3) Pick optimizer
         if optimizer_name == "adam":
             optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
@@ -781,7 +785,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         # 5) Define callbacks
         callbacks = [
             SpearmanMetricCallback(val_dict_local, y_val),  # Must go first => sets logs["val_spearman"]
-            EarlyStopping(monitor="val_spearman", mode="max", patience=5, restore_best_weights=True),
+            EarlyStopping(monitor="val_spearman", mode="max", patience=30, restore_best_weights=True),
             ReduceLROnPlateau(monitor="val_spearman", mode="max", factor=0.5, patience=3, min_lr=1e-6, verbose=1),
             # We skip TFKerasPruningCallback, because no pruning in final run
             RankingMetricCallback({
@@ -851,39 +855,39 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     # ---------------------------
     # Option B: Extract Row-Level Embeddings via Submodel.
     # ---------------------------
-    try:
-        submodel = keras.Model(
-            inputs=[
-                final_model.get_layer("horse_id_input").input,
-                final_model.get_layer("horse_stats_input").input
-            ],
-            outputs=final_model.get_layer("horse_embedding_out").output
-        )
-    except Exception as e:
-        print("[WARN] Could not build submodel for 'horse_embedding_out':", e)
-        submodel = None
+    # try:
+    #     submodel = keras.Model(
+    #         inputs=[
+    #             final_model.get_layer("horse_id_input").input,
+    #             final_model.get_layer("horse_stats_input").input
+    #         ],
+    #         outputs=final_model.get_layer("horse_embedding_out").output
+    #     )
+    # except Exception as e:
+    #     print("[WARN] Could not build submodel for 'horse_embedding_out':", e)
+    #     submodel = None
     
-    if submodel is not None:
-        row_embeddings = submodel.predict({
-            "horse_id_input": historical_pdf["horse_id"].astype(int).values,
-            "horse_stats_input": historical_pdf[horse_stats_cols].astype(float).values
-        })
-        print(f"[INFO] Row-level embeddings shape (Option B): {row_embeddings.shape}")
-        embed_df_row = pd.DataFrame(row_embeddings, columns=[f"embrow_{i}" for i in range(row_embeddings.shape[1])])
-        embed_df_row["row_idx"] = historical_pdf.index
-        merged_df_row = pd.concat([historical_pdf.reset_index(drop=True), embed_df_row.reset_index(drop=True)], axis=1)
-        row_embed_sdf = spark.createDataFrame(merged_df_row)
+    # if submodel is not None:
+    #     row_embeddings = submodel.predict({
+    #         "horse_id_input": historical_pdf["horse_id"].astype(int).values,
+    #         "horse_stats_input": historical_pdf[horse_stats_cols].astype(float).values
+    #     })
+    #     print(f"[INFO] Row-level embeddings shape (Option B): {row_embeddings.shape}")
+    #     embed_df_row = pd.DataFrame(row_embeddings, columns=[f"embrow_{i}" for i in range(row_embeddings.shape[1])])
+    #     embed_df_row["row_idx"] = historical_pdf.index
+    #     merged_df_row = pd.concat([historical_pdf.reset_index(drop=True), embed_df_row.reset_index(drop=True)], axis=1)
+    #     row_embed_sdf = spark.createDataFrame(merged_df_row)
         
-        # Suppose you want to fill forward "global_speed_score_iq_prev" in the future rows
+    #     # Suppose you want to fill forward "global_speed_score_iq" in the future rows
         
-        row_embed_sdf.write.format("jdbc") \
-            .option("url", jdbc_url) \
-            .option("dbtable", "horse_embedding_out_rowlevel") \
-            .option("user", jdbc_properties["user"]) \
-            .option("driver", jdbc_properties["driver"]) \
-            .mode("overwrite") \
-            .save()
-        print("[INFO] Saved row-level 'horse_embedding_out' to DB table: horse_embedding_out_rowlevel.")
+    #     row_embed_sdf.write.format("jdbc") \
+    #         .option("url", jdbc_url) \
+    #         .option("dbtable", "horse_embedding_out_rowlevel") \
+    #         .option("user", jdbc_properties["user"]) \
+    #         .option("driver", jdbc_properties["driver"]) \
+    #         .mode("overwrite") \
+    #         .save()
+    #     print("[INFO] Saved row-level 'horse_embedding_out' to DB table: horse_embedding_out_rowlevel.")
     
     # ---------------------------
     # Merge embeddings with historical data using Option A.
@@ -906,9 +910,9 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     historical_with_embed_sdf = spark.createDataFrame(merged_df)
     all_df = historical_with_embed_sdf.unionByName(future_df, allowMissingColumns=True)
     all_df = fill_forward_locf(all_df, embedding_cols, "horse_id", "race_date")
-    cols_to_locf = ["global_speed_score_iq_prev"]
-    all_df = fill_forward_locf(all_df, cols_to_locf, "horse_id", "race_date")
-    all_df.printSchema()
+    # cols_to_locf = ["global_speed_score_iq"]
+    #all_df = fill_forward_locf(all_df, cols_to_locf, "horse_id", "race_date")
+    # all_df.printSchema()
     print("Columns in final DF:", all_df.columns)
     
     staging_table = "horse_embedding_final"

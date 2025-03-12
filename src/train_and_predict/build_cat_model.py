@@ -2,8 +2,10 @@ import io
 import json
 import os
 import re
+import sys
 import logging
-from datetime import datetime
+import datetime
+from datetime import datetime, date
 import pandas as pd
 import numpy as np
 import optuna
@@ -723,10 +725,9 @@ def split_data_and_train(
         # "YetiRank:top=1",
         # "YetiRank:top=2",
         # "YetiRank:top=3",
-        "YetiRank:top=4",
-        "YetiRank"
+        "YetiRank:top=4"
     ]
-    catboost_eval_metrics = ["NDCG:top=1", "NDCG:top=2", "NDCG:top=3", "NDCG:top=4"]
+    catboost_eval_metrics = ["NDCG:top=2"] #["NDCG:top=1", "NDCG:top=2", "NDCG:top=3", "NDCG:top=4"]
 
     db_table = "catboost_enriched_results"
     all_models = main_script(
@@ -785,12 +786,23 @@ def make_future_predictions(
     except Exception as e:
         logging.error(f"Error loading CatBoost model: {e}", exc_info=True)
         raise   
+
     try:
         # Sort by group_id so the ranker sees each group in contiguous rows
         if "group_id" in pdf.columns:
             pdf.sort_values("group_id", inplace=True)
         # Build X from final_feature_cols
         X_infer = pdf[all_feature_cols].copy()
+                
+        # Print columns of fut_df
+        print("Columns in fut_df:")
+        print(pdf.columns)
+
+        # Check if 'group_id' is in the columns
+        if 'group_id' not in pdf.columns:
+            print("The 'group_id' column is NOT present in fut_df. Exiting the program.")
+            sys.exit(1)
+        
         group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
         pred_pool = Pool(
             data=X_infer,
@@ -830,7 +842,7 @@ def do_future_inference_multi(
 
     # [2] Make a copy to avoid SettingWithCopyWarning
     fut_df = fut_df.copy()
-    
+
     # [3] Convert categorical columns to category dtype
     for c in cat_cols:
         if c in fut_df.columns:
@@ -863,10 +875,14 @@ def do_future_inference_multi(
     for file in model_files:
         model_path = os.path.join(models_dir, file)
         logging.info(f"=== Making predictions with model: {file} ===")
+        # Make sure group_id is included
 
         # Build a copy for inference
         inference_df = fut_df[all_feature_cols].copy()
-
+        
+        if "group_id" in fut_df.columns:
+            inference_df["group_id"] = fut_df["group_id"]
+    
         # Optional: Sort by group_id if you are using a ranker
         if "group_id" in fut_df.columns:
             inference_df = inference_df.sort_values("group_id")
@@ -900,8 +916,8 @@ def do_future_inference_multi(
 
     # [7] Write final predictions to DB
     # Build a dynamic table name
-    today = datetime.date.today()
-    today_str = today.strftime('%Y_%m_%d')
+    today = date.today()
+    today_str = datetime.now().strftime("%Y%m%d_%H%M%S")
     table_name = f"predictions_{today_str}_1"
     
     logging.info(f"Writing predictions to DB table: {table_name}")
@@ -963,7 +979,7 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
         "jock_itm_track","jt_win_track","jt_itm_track","jock_itm_percent",
         "sire_itm_percentage","sire_roi","dam_itm_percentage","dam_roi"
     ]
-
+        
     # 6) Train the model(s) using historical data
     all_models = split_data_and_train(
         df=hist_pdf,
@@ -978,6 +994,11 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
 
     # 7) **Infer on the future data** (Placeholder function call)
     # After training is done, you have fut_pdf with the same columns/transform as hist_pdf
+    # Check if 'group_id' is in the columns
+    if 'group_id' not in fut_pdf.columns:
+        print("The 'group_id' column is NOT present in fut_df. Exiting the program.")
+        sys.exit(1)
+    
     scored_sdf = do_future_inference_multi(
         spark=spark,
         fut_df=fut_pdf,
