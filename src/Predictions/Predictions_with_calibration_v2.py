@@ -347,7 +347,7 @@ def main():
             saddle_cloth_number,
             score AS yetirank_ndcg_top_2,
             calibrated_prob AS winning_probability
-        FROM predictions_2025_03_07_1_calibrated
+        FROM predictions_20250312_214426_1_calibrated
         WHERE race_date >= CURRENT_DATE -1
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """

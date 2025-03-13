@@ -662,34 +662,74 @@ def join_and_merge_dataframes(historical_df: DataFrame, future_df: DataFrame) ->
 
     return df_all
 
-def assign_labels_spark(df, alpha=0.8):
+from pyspark.sql import functions as F
+
+def assign_piecewise_log_labels_spark(df):
     """
-    Adds two columns to the Spark DataFrame:
-      1) relevance: Exponential label computed as alpha^(official_fin - 1)
-      2) top4_label: 1 if official_fin <= 4, else 0
-    This update is applied only for rows where official_fin is not null.
-    
+    Assigns a 'relevance' column based on finishing position:
+      1st => 70
+      2nd => 56
+      3rd => 44
+      4th => 34
+      else => alpha / log(beta + official_fin)
+    Also assigns 'top4_label' = 1 if official_fin <= 4 else 0.
+
     Parameters:
-      df (DataFrame): A Spark DataFrame with an 'official_fin' column.
-      alpha (float): Base of the exponential transformation.
-    
+      df (DataFrame): A Spark DataFrame that has 'official_fin' column.
+
     Returns:
-      DataFrame: The input DataFrame with new columns 'relevance' and 'top4_label'.
+      DataFrame: Spark DataFrame with new columns 'relevance' and 'top4_label'.
     """
-    df = df.withColumn(
+
+    alpha = 30.0
+    beta  = 4.0
+
+    # Build the piecewise logic using Spark's 'when' chains:
+    df_out = df.withColumn(
         "relevance",
-        F.when(
-            F.col("official_fin").isNotNull(),
-            F.pow(F.lit(alpha), F.col("official_fin") - 1)
-        ).otherwise(F.lit(None).cast(DoubleType()))
+        F.when(F.col("official_fin") == 1, 70.0)
+         .when(F.col("official_fin") == 2, 56.0)
+         .when(F.col("official_fin") == 3, 44.0)
+         .when(F.col("official_fin") == 4, 34.0)
+         # For 5th or worse:
+         .otherwise(
+             F.lit(alpha) / F.log(F.lit(beta) + F.col("official_fin"))
+         )
     ).withColumn(
         "top4_label",
-        F.when(
-            F.col("official_fin").isNotNull(),
-            F.when(F.col("official_fin") <= 4, F.lit(1)).otherwise(F.lit(0))
-        ).otherwise(F.lit(None).cast(IntegerType()))
+        F.when(F.col("official_fin") <= 4, F.lit(1)).otherwise(F.lit(0))
     )
-    return df
+
+    return df_out
+
+# def assign_labels_spark(df, alpha=0.8):
+#     """
+#     Adds two columns to the Spark DataFrame:
+#       1) relevance: Exponential label computed as alpha^(official_fin - 1)
+#       2) top4_label: 1 if official_fin <= 4, else 0
+#     This update is applied only for rows where official_fin is not null.
+    
+#     Parameters:
+#       df (DataFrame): A Spark DataFrame with an 'official_fin' column.
+#       alpha (float): Base of the exponential transformation.
+    
+#     Returns:
+#       DataFrame: The input DataFrame with new columns 'relevance' and 'top4_label'.
+#     """
+#     df = df.withColumn(
+#         "relevance",
+#         F.when(
+#             F.col("official_fin").isNotNull(),
+#             F.pow(F.lit(alpha), F.col("official_fin") - 1)
+#         ).otherwise(F.lit(None).cast(DoubleType()))
+#     ).withColumn(
+#         "top4_label",
+#         F.when(
+#             F.col("official_fin").isNotNull(),
+#             F.when(F.col("official_fin") <= 4, F.lit(1)).otherwise(F.lit(0))
+#         ).otherwise(F.lit(None).cast(IntegerType()))
+#     )
+#     return df
 
 def evaluate_and_save_global_speed_score_iq_with_report(
     enhanced_df: DataFrame,
@@ -816,7 +856,7 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
         5) Return final DataFrame
     """
     # 1) Create a "relevance" column for finishing position
-    enhanced_df = assign_labels_spark(df_input, alpha=0.8)
+    enhanced_df = assign_piecewise_log_labels_spark(df_input, alpha=0.8)
     
     columns_to_update = ["dist_bk_gate4", "running_time", "total_distance_ran"]
 

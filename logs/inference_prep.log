@@ -1,9 +1,7 @@
-2025-03-12 14:26:21 - INFO - Logging has been set up successfully.
-2025-03-12 14:26:21 - INFO - Starting main function...
-2025-03-12 14:26:21 - INFO - Mode: load
-2025-03-12 14:26:21 - INFO - Running training data ingestion steps...
-2025-03-12 14:26:35 - INFO - Best parameters loaded from existing study [final mode]:
-2025-03-12 14:26:35 - INFO - {'activation': 'gelu', 'batch_size': 512, 'dropout_rate': 0.0, 'epochs': 150, 'horse_embedding_dim': 20, 'horse_hid_layers': 3, 'horse_units': 480, 'l2_reg': 1.2691862336568342e-06, 'learning_rate': 0.006431575749069943, 'optimizer': 'adam', 'race_hid_layers': 2, 'race_units': 96}
-2025-03-12 14:26:35 - INFO - Num horses: 45168
-2025-03-12 14:30:42 - INFO - Spark session stopped.
-2025-03-12 14:30:42 - INFO - Closing down clientserver connection
+2025-03-12 22:32:38 - INFO - Logging has been set up successfully.
+2025-03-12 22:32:42 - INFO - Loaded 383609 rows of calibration data.
+2025-03-12 22:33:40 - INFO - Fitted T successfully. T=0.0982
+2025-03-12 22:33:40 - INFO - Loaded 539 future predictions.
+2025-03-12 22:33:43 - INFO - Wrote calibrated predictions to predictions_20250312_214426_1_calibrated via Spark.
+2025-03-12 22:33:44 - INFO - All done with calibration pipeline.
+2025-03-12 22:33:44 - INFO - Closing down clientserver connection

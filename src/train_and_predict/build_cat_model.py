@@ -724,10 +724,10 @@ def split_data_and_train(
     catboost_loss_functions = [
         # "YetiRank:top=1",
         # "YetiRank:top=2",
-        # "YetiRank:top=3",
+        "YetiRank:top=3",
         "YetiRank:top=4"
     ]
-    catboost_eval_metrics = ["NDCG:top=2"] #["NDCG:top=1", "NDCG:top=2", "NDCG:top=3", "NDCG:top=4"]
+    catboost_eval_metrics = ["NDCG:top=3", "NDCG:top=4"]
 
     db_table = "catboost_enriched_results"
     all_models = main_script(
@@ -761,20 +761,20 @@ def split_data_and_train(
     return all_models
 
 def make_future_predictions(
-    pdf, 
-    all_feature_cols, 
+    pdf,
+    all_feature_cols,
     cat_cols,
-    model_path, 
-    model_type="ranker"
+    model_path,
+    model_type="ranker",
+    alpha=5.0
 ):
     """
     1) Load CatBoost model from model_path
-    2) Build a Pool (with cat_features) for inference
+    2) Create Pool for inference (cat_features, group_id if ranker)
     3) Predict
-    4) Return pdf with new column 'prediction'
+    4) Return pdf with new column 'model_score'
     """
     try:
-        from catboost import CatBoostRanker, Pool
         if model_type.lower() == "ranker":
             model = CatBoostRanker()
         else:
@@ -785,54 +785,46 @@ def make_future_predictions(
         logging.info(f"Loaded CatBoost model: {model_path}")
     except Exception as e:
         logging.error(f"Error loading CatBoost model: {e}", exc_info=True)
-        raise   
+        raise
 
     try:
-        # Sort by group_id so the ranker sees each group in contiguous rows
+        # If group_id in columns, sort by it so ranker sees contiguous groups
         if "group_id" in pdf.columns:
             pdf.sort_values("group_id", inplace=True)
-        # Build X from final_feature_cols
+
+        # Prepare data for the CatBoost Pool
         X_infer = pdf[all_feature_cols].copy()
-                
-        # Print columns of fut_df
-        print("Columns in fut_df:")
-        print(pdf.columns)
-
-        # Check if 'group_id' is in the columns
-        if 'group_id' not in pdf.columns:
-            print("The 'group_id' column is NOT present in fut_df. Exiting the program.")
-            sys.exit(1)
-        
         group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
-        pred_pool = Pool(
-            data=X_infer,
-            group_id=group_ids,
-            cat_features=cat_cols
-        )
 
+        pred_pool = Pool(data=X_infer, group_id=group_ids, cat_features=cat_cols)
         predictions = model.predict(pred_pool)
-        pdf["model_score"] = predictions
+        # Replace raw_score with exponentiated version
+        # e.g. model_score = exp(raw_score / alpha)
+        pdf["model_score"] = np.exp(predictions / alpha)
+
     except Exception as e:
         logging.error(f"Error making predictions: {e}", exc_info=True)
         raise
-    
+
     return pdf
 
 def do_future_inference_multi(
-    spark, 
-    fut_df, 
+    spark,
+    fut_df,
     cat_cols,
     embed_cols,
     final_feature_cols,
     db_url,
     db_properties,
-    models_dir="./data/models/catboost", 
+    models_dir="./data/models/catboost",
     output_dir="./data/predictions"
 ):
     """
-    1) Gather final_feature_cols + cat_cols + embed_cols to form 'all_feature_cols'.
-    2) Load each .cbm model in models_dir, run inference, store in a new column.
-    3) Save final fut_df to a DB table, returning a Spark DataFrame of the results.
+    1) Combine final_feature_cols, embed_cols, cat_cols
+    2) Load each .cbm CatBoost model from 'models_dir'
+    3) Predict => store in 'score' columns
+    4) For each model, also produce a 'rank' column per race (group_id).
+    5) Write final predictions to DB
     """
 
     logging.info("=== Starting Multi-Model Future Inference ===")
@@ -840,28 +832,29 @@ def do_future_inference_multi(
     # [1] Combine columns for inference
     all_feature_cols = final_feature_cols + embed_cols + cat_cols
 
-    # [2] Make a copy to avoid SettingWithCopyWarning
+    # [2] Make a copy to avoid warnings
     fut_df = fut_df.copy()
 
-    # [3] Convert categorical columns to category dtype
+    # [3] Convert categorical columns to 'category' dtype
     for c in cat_cols:
         if c in fut_df.columns:
-            fut_df.loc[:, c] = fut_df[c].astype("category")
-    
+            fut_df[c] = fut_df[c].astype("category")
+
     # [4] Check for missing columns
     missing_cols = set(all_feature_cols) - set(fut_df.columns)
     if missing_cols:
         logging.warning(f"Future DF is missing columns: {missing_cols}")
 
-    # [5] Gather .cbm files from the models directory
+    # [5] Find any .cbm files in the models_dir
     try:
         model_files = [
-            f for f in os.listdir(models_dir) 
+            f for f in os.listdir(models_dir)
             if f.endswith(".cbm") and os.path.isfile(os.path.join(models_dir, f))
         ]
         model_files.sort()
         if not model_files:
             logging.error(f"No CatBoost model files found in {models_dir}!")
+            # Return Spark DF anyway
             return spark.createDataFrame(fut_df)
 
         logging.info("Found these CatBoost model files:")
@@ -871,55 +864,82 @@ def do_future_inference_multi(
         logging.error(f"Error accessing model directory '{models_dir}': {e}", exc_info=True)
         raise
 
-    # [6] Inference for each model
+    # [6] For each model, run predictions
     for file in model_files:
         model_path = os.path.join(models_dir, file)
         logging.info(f"=== Making predictions with model: {file} ===")
-        # Make sure group_id is included
 
-        # Build a copy for inference
+        # 6A) Prepare data for inference
+        # Build subset: must have 'all_feature_cols'
         inference_df = fut_df[all_feature_cols].copy()
-        
+
+        # If we rely on 'group_id', ensure we bring it over as well
         if "group_id" in fut_df.columns:
             inference_df["group_id"] = fut_df["group_id"]
-    
-        # Optional: Sort by group_id if you are using a ranker
-        if "group_id" in fut_df.columns:
-            inference_df = inference_df.sort_values("group_id")
+        else:
+            logging.warning("No 'group_id' column found. Ranker grouping won't apply correctly.")
 
-        # Log some debug info safely
-        try:
-            logging.info("Checking null counts in inference_df:\n%s", inference_df.isnull().sum())
-        except Exception as e:
-            logging.error(f"Error logging inference_df null counts: {e}", exc_info=True)
-
-        # 6A) Run predictions
+        # 6B) Make predictions
         scored_df = make_future_predictions(
-            pdf=inference_df, 
+            pdf=inference_df,
             all_feature_cols=all_feature_cols,
-            cat_cols=cat_cols, 
-            model_path=model_path, 
-            model_type="ranker"  # or "regressor" if needed
+            cat_cols=cat_cols,
+            model_path=model_path,
+            model_type="ranker",  # or "regressor" if needed
+            alpha=5.0
         )
 
-        # 6B) Create a safe column name from the model filename
-        # Example: "catboost_YetiRank_top2_20250310_213012.cbm" -> "YetiRank_top2"
-        model_col = file
-        model_col = re.sub(r'^catboost_', '', model_col)     # remove "catboost_" prefix
-        model_col = re.sub(r'\.cbm$', '', model_col)          # remove ".cbm"
-        model_col = re.sub(r'_\d{8}_\d{6}$', '', model_col)    # remove timestamp
-        model_col = re.sub(r'[^a-zA-Z0-9_]', '_', model_col)   # replace special chars with '_'
+        # 6C) Generate a safe column prefix from the model filename
+        # e.g. "catboost_YetiRank_top2_20250310_213012.cbm" => "YetiRank_top2"
+        model_col_prefix = file
+        model_col_prefix = re.sub(r'^catboost_', '', model_col_prefix)
+        model_col_prefix = re.sub(r'\.cbm$', '', model_col_prefix)
+        model_col_prefix = re.sub(r'_\d{8}_\d{6}$', '', model_col_prefix)
+        model_col_prefix = re.sub(r'[^a-zA-Z0-9_]', '_', model_col_prefix)
 
-        # 6C) Insert scores back into fut_df
-        #     Because 'inference_df' is a subset, we match by index:
-        fut_df.loc[inference_df.index, model_col] = scored_df["model_score"].values
+        # 6D) We have "scored_df['model_score']".
+        # Insert back into fut_df by matching index
+        fut_df.loc[inference_df.index, f"{model_col_prefix}_score"] = scored_df["model_score"].values
+
+        # 6E) OPTIONAL: Shift scores to be strictly positive (comment out if not needed)
+        # This is a simple approach: for each group, shift scores so min=0.1 (for example).
+        # This does *not* affect ranking order, just makes them positive.
+        def shift_group_scores(df_group):
+            min_val = df_group[f"{model_col_prefix}_score"].min()
+            return df_group[f"{model_col_prefix}_score"] - min_val + 0.1
+
+        if "group_id" in fut_df.columns:
+            fut_df[f"{model_col_prefix}_score_pos"] = (
+                fut_df.groupby("group_id", group_keys=False)[f"{model_col_prefix}_score"]
+                     .apply(shift_group_scores)
+            )
+        else:
+            # If no group_id, shift entire DF
+            min_val = fut_df[f"{model_col_prefix}_score"].min()
+            fut_df[f"{model_col_prefix}_score_pos"] = fut_df[f"{model_col_prefix}_score"] - min_val + 0.1
+
+        # 6F) Now we produce a rank column. Sort descending by *_score within each group.
+        # rank=1 => highest predicted, rank=2 => second, etc.
+        def assign_ranks(df_group):
+            # Sort descending => rank 1 for largest
+            df_group = df_group.sort_values(by=f"{model_col_prefix}_score", ascending=False)
+            df_group[f"{model_col_prefix}_rank"] = range(1, len(df_group)+1)
+            return df_group
+
+        if "group_id" in fut_df.columns:
+            fut_df = (
+                fut_df.groupby("group_id", group_keys=False)
+                      .apply(assign_ranks)
+                      .reset_index(drop=True)
+            )
+        else:
+            # If no group_id, rank entire set
+            fut_df = assign_ranks(fut_df).reset_index(drop=True)
 
     # [7] Write final predictions to DB
-    # Build a dynamic table name
-    today = date.today()
     today_str = datetime.now().strftime("%Y%m%d_%H%M%S")
     table_name = f"predictions_{today_str}_1"
-    
+
     logging.info(f"Writing predictions to DB table: {table_name}")
     scored_sdf = spark.createDataFrame(fut_df)
     scored_sdf.write.format("jdbc") \
@@ -929,7 +949,7 @@ def do_future_inference_multi(
         .option("driver", db_properties["driver"]) \
         .mode("overwrite") \
         .save()
-    
+
     logging.info(f"Wrote {fut_df.shape[0]} predictions to DB table '{table_name}'.")
     logging.info("=== Finished Multi-Model Future Inference ===")
 
@@ -945,7 +965,7 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
     # Then use Pandas boolean indexing
     historical_pdf = horse_embedding[horse_embedding["data_flag"] != "future"].copy()
     future_pdf = horse_embedding[horse_embedding["data_flag"] == "future"].copy()
-    cols_to_locf = ["global_speed_score_iq_prev"]
+    cols_to_locf = ["global_speed_score_iq"]
     future_pdf = locf_across_hist_future(historical_pdf, future_pdf, cols_to_locf, date_col="race_date")
         
     # Transform the Spark DataFrame to Pandas.
@@ -953,17 +973,17 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
     logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
     logging.info(f"Shape of future Pandas DF: {fut_pdf.shape}")
 
-    hist_pdf = assign_labels(hist_pdf, alpha=0.8)
+    hist_pdf = assign_piecewise_log_labels(hist_pdf, alpha=0.8)
     logging.info(f"Shape of Historical Pandas DF: {hist_pdf.shape}")
         
-    fut_pdf = assign_labels(fut_pdf, alpha=0.8)
+    fut_pdf = assign_piecewise_log_labels(fut_pdf, alpha=0.8)
     logging.info(f"Shape of Future Pandas DF: {fut_pdf.shape}")
 
     hist_embed_cols, fut_embed_cols = build_embed_cols(hist_pdf)  # This is now your dynamic list of combined columns.
     
         # 1) Prepare columns to match training
     final_feature_cols = [
-        "global_speed_score_iq_prev", "previous_class", "class_rating", "previous_distance", 
+        "global_speed_score_iq", "previous_class", "class_rating", "previous_distance", 
         "off_finish_last_race", "prev_speed_rating", "purse", "claimprice", "power", 
         "avgspd", "avg_spd_sd","ave_cl_sd", "hi_spd_sd", "pstyerl", "horse_itm_percentage",
         "total_races_5", "avg_dist_bk_gate1_5", "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5", 
@@ -1115,17 +1135,17 @@ def transform_horse_df_to_pandas(hist_df, fut_df, drop_label=False):
     # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
     return hist_pdf, fut_pdf, cat_cols, excluded_cols
 
-def assign_labels(df, alpha=0.8):
-    """
-    1) Exponential label in [0,1] for ranking,
-    2) Binary label for top-4 or not.
-    """
-    def _exp_label(fin):
-        return alpha ** (fin - 1)
+# def assign_labels(df, alpha=0.8):
+#     """
+#     1) Exponential label in [0,1] for ranking,
+#     2) Binary label for top-4 or not.
+#     """
+#     def _exp_label(fin):
+#         return alpha ** (fin - 1)
 
-    df["relevance"] = df["official_fin"].apply(_exp_label)
-    df["top4_label"] = (df["official_fin"] <= 4).astype(int)
-    return df
+#     df["relevance"] = df["official_fin"].apply(_exp_label)
+#     df["top4_label"] = (df["official_fin"] <= 4).astype(int)
+#     return df
 
 def build_embed_cols(hist):
     """
@@ -1142,29 +1162,30 @@ def build_embed_cols(hist):
     return hist_embed_cols, fut_embed_cols
 
 # Retired function
-# def assign_piecewise_log_labels(df):
-#     """
-#     If official_fin <= 4, assign them to a high relevance band (with small differences).
-#     Otherwise, use a log-based formula that drops more sharply.
-#     """
-#     def _relevance(fin):
-#         if fin == 1:
-#             return 40  # Could be 40 for 1st
-#         elif fin == 2:
-#             return 38  # Slightly lower than 1st, but still high
-#         elif fin == 3:
-#             return 36
-#         elif fin == 4:
-#             return 34
-#         else:
-#             # For 5th place or worse, drop off fast with a log formula:
-#             # e.g. alpha=30, beta=4 => 5th => 30 / log(4+5)=30/log(9)= ~9
-#             alpha = 30.0
-#             beta  = 4.0
-#             return alpha / np.log(beta + fin)
+def assign_piecewise_log_labels(df):
+    """
+    If official_fin <= 4, assign them to a high relevance band (with small differences).
+    Otherwise, use a log-based formula that drops more sharply.
+    """
+    def _relevance(fin):
+        if fin == 1:
+            return 70 #40  # Could be 40 for 1st
+        elif fin == 2:
+            return 56 # 38  # Slightly lower than 1st, but still high
+        elif fin == 3:
+            return 44 #36
+        elif fin == 4:
+            return 34
+        else:
+            # For 5th place or worse, drop off fast with a log formula:
+            # e.g. alpha=30, beta=4 => 5th => 30 / log(4+5)=30/log(9)= ~9
+            alpha = 30.0
+            beta  = 4.0
+            return alpha / np.log(beta + fin)
     
-#     df["relevance"] = df["official_fin"].apply(_relevance)
-#     return df
+    df["relevance"] = df["official_fin"].apply(_relevance)
+    df["top4_label"] = (df["official_fin"] <= 4).astype(int)
+    return df
 
 def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_splits=5):
     tscv = TimeSeriesSplit(n_splits=n_splits)

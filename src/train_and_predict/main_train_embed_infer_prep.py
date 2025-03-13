@@ -199,40 +199,41 @@ def main():
             # # 3) Embed horse_id and compute custom_speed_figure
             # ##################################################
             time_start = time.time()
-            global_speed_score = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score.parquet")
+            # global_speed_score = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score.parquet")
             
-            # global_speed_score.show(5)
-            global_speed_score.printSchema()
-            print(global_speed_score.count())
+            # # global_speed_score.show(5)
+            # global_speed_score.printSchema()
+            # print(global_speed_score.count())
             
-            def convert_timestamp_columns(spark_df, timestamp_format="yyyy-MM-dd HH:mm:ss"):
-                """
-                Finds all TimestampType columns in a Spark DataFrame, converts them to strings using the specified format,
-                and returns the modified DataFrame and a list of the names of the columns that were converted.
-                """
-                # Get list of timestamp columns from the schema.
-                timestamp_cols = [field.name for field in spark_df.schema.fields if isinstance(field.dataType, TimestampType)]
-                print("Timestamp columns found in Spark DataFrame:", timestamp_cols)
+            # def convert_timestamp_columns(spark_df, timestamp_format="yyyy-MM-dd HH:mm:ss"):
+            #     """
+            #     Finds all TimestampType columns in a Spark DataFrame, converts them to strings using the specified format,
+            #     and returns the modified DataFrame and a list of the names of the columns that were converted.
+            #     """
+            #     # Get list of timestamp columns from the schema.
+            #     timestamp_cols = [field.name for field in spark_df.schema.fields if isinstance(field.dataType, TimestampType)]
+            #     print("Timestamp columns found in Spark DataFrame:", timestamp_cols)
                 
-                # For each timestamp column, convert to string using date_format.
-                for col in timestamp_cols:
-                    spark_df = spark_df.withColumn(col, F.date_format(F.col(col), timestamp_format))
-                return spark_df, timestamp_cols
+            #     # For each timestamp column, convert to string using date_format.
+            #     for col in timestamp_cols:
+            #         spark_df = spark_df.withColumn(col, F.date_format(F.col(col), timestamp_format))
+            #     return spark_df, timestamp_cols
 
-            # Example usage:
-            # Assume 'global_speed_score' is your Spark DataFrame.
-            global_speed_score, ts_cols = convert_timestamp_columns(global_speed_score)
+            # # Example usage:
+            # # Assume 'global_speed_score' is your Spark DataFrame.
+            # global_speed_score, ts_cols = convert_timestamp_columns(global_speed_score)
 
-            global_speed_score = global_speed_score.drop("race_date_str") 
+            # global_speed_score = global_speed_score.drop("race_date_str") 
 
-            model_filename = embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_score, action)
-            # Step 4: Use model_filename to load the saved Parquet file
-            parquet_path = os.path.join(parquet_dir, f"{model_filename}.parquet")
-            logging.info(f"Loading Parquet file from: {parquet_path}")
-            horse_embedding = spark.read.parquet(parquet_path)
+            # model_filename = embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_score, action)
+            # # Step 4: Use model_filename to load the saved Parquet file
+            # parquet_path = os.path.join(parquet_dir, f"{model_filename}.parquet")
+            # logging.info(f"Loading Parquet file from: {parquet_path}")
+            # horse_embedding = spark.read.parquet(parquet_path)
             
-            horse_embedding = horse_embedding.toPandas()
-        
+            # horse_embedding = horse_embedding.toPandas()
+            
+            # input("Press Enter to continue and begin step 4 ...")
             ## Reload the Parquet file into a Spark DataFrame
         if args.mode == "train":
             logging.info("Running prediction data ingestion steps...")
@@ -240,7 +241,7 @@ def main():
             # 4) Prep data for Training or Predictions
             ###################################################
             # # Load the Parquet file into a Pandas DataFrame.
-            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250310_1715.parquet", engine="pyarrow")
+            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250312_1948.parquet", engine="pyarrow")
             # Pandas will typically map timestamp/date columns to datetime64[ns].
             #healthcheck_report = time_series_data_healthcheck(horse_embedding)
             #pprint.pprint(healthcheck_report)            

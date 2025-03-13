@@ -94,34 +94,74 @@ def fill_forward_locf(df, columns, horse_id_col="horse_id", date_col="race_date"
     
     return df
 
-def assign_labels_spark(df, alpha=0.8):
+from pyspark.sql import functions as F
+
+def assign_piecewise_log_labels_spark(df):
     """
-    Adds two columns to the Spark DataFrame:
-      1) relevance: Exponential label computed as alpha^(official_fin - 1)
-      2) top4_label: 1 if official_fin <= 4, else 0
-    This update is applied only for rows where official_fin is not null.
-    
+    Assigns a 'relevance' column based on finishing position:
+      1st => 70
+      2nd => 56
+      3rd => 44
+      4th => 34
+      else => alpha / log(beta + official_fin)
+    Also assigns 'top4_label' = 1 if official_fin <= 4 else 0.
+
     Parameters:
-      df (DataFrame): A Spark DataFrame with an 'official_fin' column.
-      alpha (float): Base of the exponential transformation.
-    
+      df (DataFrame): A Spark DataFrame that has 'official_fin' column.
+
     Returns:
-      DataFrame: The input DataFrame with new columns 'relevance' and 'top4_label'.
+      DataFrame: Spark DataFrame with new columns 'relevance' and 'top4_label'.
     """
-    df = df.withColumn(
+
+    alpha = 30.0
+    beta  = 4.0
+
+    # Build the piecewise logic using Spark's 'when' chains:
+    df_out = df.withColumn(
         "relevance",
-        F.when(
-            F.col("official_fin").isNotNull(),
-            F.pow(F.lit(alpha), F.col("official_fin") - 1)
-        ).otherwise(F.lit(None).cast(DoubleType()))
+        F.when(F.col("official_fin") == 1, 70.0)
+         .when(F.col("official_fin") == 2, 56.0)
+         .when(F.col("official_fin") == 3, 44.0)
+         .when(F.col("official_fin") == 4, 34.0)
+         # For 5th or worse:
+         .otherwise(
+             F.lit(alpha) / F.log(F.lit(beta) + F.col("official_fin"))
+         )
     ).withColumn(
         "top4_label",
-        F.when(
-            F.col("official_fin").isNotNull(),
-            F.when(F.col("official_fin") <= 4, F.lit(1)).otherwise(F.lit(0))
-        ).otherwise(F.lit(None).cast(IntegerType()))
+        F.when(F.col("official_fin") <= 4, F.lit(1)).otherwise(F.lit(0))
     )
-    return df
+
+    return df_out
+
+# def assign_labels_spark(df, alpha=0.8):
+#     """
+#     Adds two columns to the Spark DataFrame:
+#       1) relevance: Exponential label computed as alpha^(official_fin - 1)
+#       2) top4_label: 1 if official_fin <= 4, else 0
+#     This update is applied only for rows where official_fin is not null.
+    
+#     Parameters:
+#       df (DataFrame): A Spark DataFrame with an 'official_fin' column.
+#       alpha (float): Base of the exponential transformation.
+    
+#     Returns:
+#       DataFrame: The input DataFrame with new columns 'relevance' and 'top4_label'.
+#     """
+#     df = df.withColumn(
+#         "relevance",
+#         F.when(
+#             F.col("official_fin").isNotNull(),
+#             F.pow(F.lit(alpha), F.col("official_fin") - 1)
+#         ).otherwise(F.lit(None).cast(DoubleType()))
+#     ).withColumn(
+#         "top4_label",
+#         F.when(
+#             F.col("official_fin").isNotNull(),
+#             F.when(F.col("official_fin") <= 4, F.lit(1)).otherwise(F.lit(0))
+#         ).otherwise(F.lit(None).cast(IntegerType()))
+#     )
+#     return df
 
 # ---------------------------
 # Helper: add_combined_feature
@@ -155,7 +195,7 @@ def add_combined_feature(pdf):
         race_feats = [row[c] for c in ["race_std_speed_agg", "race_avg_relevance_agg", "race_std_relevance_agg"]]
         race_class_feats = [row[c] for c in ["race_class_avg_speed_agg", "race_class_count_agg",
                                              "race_class_min_speed_agg", "race_class_max_speed_agg"]]
-        horse_feats = [row[c] for c in ["horse_mean_rps", "horse_std_rps", "power", "base_speed", "avg_speed_fullrace_5", "speed_improvement"]]
+        horse_feats = [row[c] for c in ["global_speed_score_iq","horse_mean_rps", "horse_std_rps", "power", "base_speed", "avg_speed_fullrace_5", "speed_improvement"]]
         return emb_vals + gss + race_feats + race_class_feats + horse_feats
     combined = pdf.apply(combine_row, axis=1)
     n_features = len(combined.iloc[0])
@@ -341,7 +381,7 @@ def build_final_model(
 # ---------------------------
 def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_score, action="load"):
     
-    global_speed_score = assign_labels_spark(global_speed_score, alpha=0.8)
+    global_speed_score = assign_piecewise_log_labels_spark(global_speed_score, alpha=0.8)
     
     # Load historical and future data from Spark.
     historical_df_spark = global_speed_score.filter(F.col("data_flag") == "historical")
@@ -358,9 +398,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     X_horse_id = np.array([horse_id_to_idx[h] for h in historical_pdf["horse_id"]])
     
     # Define column groups.
-    horse_stats_cols = ["horse_mean_rps", "horse_std_rps", "power", "base_speed", "avg_speed_fullrace_5", "speed_improvement", 
-                        "days_off","trainer_win_percent", "jock_win_percent", "jt_win_percent", "trainer_itm_percent", "jock_itm_percent",
-                        "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"]
+    horse_stats_cols = ["global_speed_score_iq","horse_mean_rps", "horse_std_rps", "power", "base_speed", "avg_speed_fullrace_5", "speed_improvement"]
     race_numeric_cols = ["race_std_speed_agg", "purse","net_sentiment",
                          "race_avg_relevance_agg", "race_std_relevance_agg", "race_class_avg_speed_agg", 
                          "race_class_min_speed_agg", "race_class_max_speed_agg",
@@ -642,7 +680,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         # -------------------------------------------------
         callbacks = [
             SpearmanMetricCallback(val_dict_local, y_val),  # must go first
-            EarlyStopping(monitor="val_spearman", mode="max", patience=5, restore_best_weights=True),
+            EarlyStopping(monitor="val_spearman", mode="max", patience=30, restore_best_weights=True),
             TFKerasPruningCallback(trial, "val_spearman"),
             # keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True),
             # TFKerasPruningCallback(trial, "val_loss"),

@@ -181,7 +181,7 @@ def main():
             CASE WHEN official_fin=1 THEN 1 ELSE 0 END AS winner
         FROM catboost_enriched_results
         WHERE data_flag = 'historical'
-          AND model_key = 'YetiRank_NDCG:top=1_20250309_184401'
+          AND model_key = 'YetiRank:top=4_NDCG:top=4_20250312_214018'
     """
     try:
         cursor.execute(sql_cal)
@@ -222,8 +222,8 @@ def main():
         SELECT
          morn_odds, group_id, post_time,track_name, has_gps, horse_name,
          global_speed_score_iq, course_cd, race_date,race_number,
-         horse_id, saddle_cloth_number,yetirank_ndcg_top_1 AS model_score
-        FROM predictions_2025_03_09_1
+         horse_id, saddle_cloth_number,top_4_ndcg_top_4 AS model_score
+        FROM predictions_20250312_214426_1
         WHERE race_date >= CURRENT_DATE
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
@@ -284,14 +284,14 @@ def main():
         spark_df.write
         .format("jdbc")
         .option("url", jdbc_url)
-        .option("dbtable", "predictions_2025_03_08_1_calibrated")
+        .option("dbtable", "predictions_20250312_214426_1_calibrated")
         .option("user", jdbc_properties["user"])
         .option("driver", jdbc_properties["driver"])
         .mode("overwrite")
         .save()
     )
 
-    logging.info("Wrote calibrated predictions to predictions_2025_03_08_1_calibrated via Spark.")
+    logging.info("Wrote calibrated predictions to predictions_20250312_214426_1_calibrated via Spark.")
     spark.stop()
     logging.info("All done with calibration pipeline.")
 

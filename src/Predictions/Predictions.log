@@ -1,7 +1,7 @@
-2025-03-08 00:40:08 - INFO - Logging initialized.
-2025-03-08 00:40:08 - INFO - No password in config; relying on .pgpass or other method.
-2025-03-08 00:40:08 - INFO - Connection pool created successfully.
-2025-03-08 00:40:09 - INFO - Loaded 1324 calibrated predictions from DB.
-2025-03-08 00:40:27 - INFO - Predictions saved to DOCX: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/final_predictions_calibrated_2025-03-08.docx
-2025-03-08 00:40:27 - INFO - Predictions document created successfully.
-2025-03-08 00:40:27 - INFO - Closing down clientserver connection
+2025-03-12 22:34:56 - INFO - Logging initialized.
+2025-03-12 22:34:56 - INFO - No password in config; relying on .pgpass or other method.
+2025-03-12 22:34:56 - INFO - Connection pool created successfully.
+2025-03-12 22:34:58 - INFO - Loaded 539 calibrated predictions from DB.
+2025-03-12 22:35:07 - INFO - Predictions saved to DOCX: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/Predictions/final_predictions_calibrated_2025-03-12.docx
+2025-03-12 22:35:07 - INFO - Predictions document created successfully.
+2025-03-12 22:35:07 - INFO - Closing down clientserver connection

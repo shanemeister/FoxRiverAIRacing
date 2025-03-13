@@ -214,9 +214,6 @@ def filter_course_cd(train_df):
             
     return filtered_df
 
-import pyspark.sql.functions as F
-from pyspark.sql.window import Window
-
 def forward_fill_par_time(
     df,
     partition_cols = ["course_cd", "distance_meters"],
