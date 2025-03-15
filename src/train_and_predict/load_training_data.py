@@ -11,6 +11,7 @@ from pyspark.sql.functions import (col, count, abs, unix_timestamp, lag, avg as 
                                    row_number, mean as F_mean, countDistinct, last, first)
 from src.train_and_predict.training_sql_queries import sql_queries
 from pyspark.sql.functions import current_date
+from pyspark.sql.types import DecimalType, DoubleType
 
 def impute_date_of_birth_with_median(df):
     """  
@@ -38,52 +39,6 @@ def impute_date_of_birth_with_median(df):
     
     return df
 
-def manage_tpd_cols_by_flag(df):
-    """
-    1) For rows where data_flag='historical': drop any row that has a null in the TPD columns.
-    2) For rows where data_flag='future': fill null TPD columns with 0.
-
-    Logs row counts before/after for each subset.
-    """
-    import pyspark.sql.functions as F
-    
-    tpd_cols = [
-        "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5",
-        "avg_dist_bk_gate4_5", "avg_speed_fullrace_5",
-        "avg_strfreq_q1_5", "avg_strfreq_q2_5",
-        "avg_strfreq_q3_5", "avg_strfreq_q4_5",
-        "avg_stride_length_5", "avg_dist_bk_gate1_5",
-        "speed_improvement"
-    ]
-
-    # 1) Subset historical
-    df_hist = df.filter(F.col("data_flag") == "historical")
-    #  - Log count before
-    hist_count_before = df_hist.count()
-    #  - Drop rows with null in any TPD col
-    df_hist = df_hist.na.drop(subset=tpd_cols)
-    #  - Log count after
-    hist_count_after = df_hist.count()
-    logging.info(f"manage_tpd_cols_by_flag [historical]: before={hist_count_before}, after={hist_count_after}")
-
-    # 2) Subset future
-    df_future = df.filter(F.col("data_flag") == "future")
-    #  - Log count before
-    fut_count_before = df_future.count()
-    #  - Impute with 0 for null TPD cols
-    for c in tpd_cols:
-        df_future = df_future.withColumn(c, F.when(F.col(c).isNull(), F.lit(0)).otherwise(F.col(c)))
-    #  - Log count after
-    fut_count_after = df_future.count()
-    logging.info(f"manage_tpd_cols_by_flag [future]: before={fut_count_before}, after={fut_count_after}")
-
-    # 3) Union them back
-    #    The unionByName ensures columns line up by name
-    #    (Spark 2.3+ recommended).
-    df_final = df_hist.unionByName(df_future)
-
-    return df_final
-
 def fix_outliers(df):
     """
     1) Hard-code certain known columns with suspicious extremes.
@@ -91,7 +46,15 @@ def fix_outliers(df):
     """
     # Step A: Hard-coded outlier caps
     outlier_bounds = {
+        "avg_speed_fullrace": (0, 20),
+        "avg_stride_length": (0, 3),
+        "distance_meters": (0, 3200),
+        "dist_q4": (0, 1000),
         "avg_beaten_len_5": (0, 50.0),
+        "max_acceleration": (0, 5),
+        "max_jerk": (0, 2.0),
+        "speed_q4": (0, 22.0),
+        "total_dist_covered": (0, 3655),
         "avgtime_gate4": (0, 16.0),
         "days_off": (0, 365.0),
         "avgspd": (0, 120.0),
@@ -144,59 +107,6 @@ def drop_historical_missing_official_fin(df):
     """
     return df.filter(~((F.col("data_flag") == "historical") & (F.col("official_fin").isNull())))
 
-def impute_performance_features(df):
-    """
-    Impute missing values for the performance features according to the following rules:
-    
-    Group 1 (fill with race mean if available; if not, use global mean):
-      - best_speed
-      - distance_meters
-      - off_finish_last_race
-      - previous_class
-      - previous_distance
-
-    Group 2 (fill with 0):
-      - race_count
-      - starts
-      - total_races_5
-
-    The race grouping keys are assumed to be: course_cd, race_date, race_number.
-    """
-    # Define race grouping keys
-    race_keys = ["course_cd", "race_date", "race_number"]
-    
-    # Group 1 columns: fill with race-level mean; if missing, use global mean.
-    group1 = ["best_speed", "distance_meters", "off_finish_last_race", "previous_class", "previous_distance", "avg_beaten_len_5"]
-    
-    # Create a window partitioned by the race keys.
-    race_window = Window.partitionBy(*race_keys)
-    
-    for col_name in group1:
-        # Compute race-level mean for the column.
-        df = df.withColumn(f"race_mean_{col_name}", F.avg(F.col(col_name)).over(race_window))
-        # Compute global mean (collect as a Python float)
-        global_mean = df.select(F.mean(F.col(col_name)).alias("global_mean")).collect()[0]["global_mean"]
-        # Impute: if the column is null, then use the race-level mean if not null; otherwise use the global mean.
-        df = df.withColumn(
-            col_name,
-            F.when(F.col(col_name).isNull(),
-                   F.when(F.col(f"race_mean_{col_name}").isNotNull(), F.col(f"race_mean_{col_name}"))
-                    .otherwise(F.lit(global_mean))
-                  ).otherwise(F.col(col_name))
-        )
-        # Drop the temporary race mean column.
-        df = df.drop(f"race_mean_{col_name}")
-    
-    # Group 2 columns: fill with 0 when null.
-    group2 = ["race_count", "starts", "total_races_5"]
-    for col_name in group2:
-        df = df.withColumn(
-            col_name,
-            F.when(F.col(col_name).isNull(), F.lit(0)).otherwise(F.col(col_name))
-        )
-    
-    return df
-
 def filter_course_cd(train_df):
     # List of course_cd identifiers to keep for "future" data_flag
     course_cd_list = [
@@ -208,8 +118,8 @@ def filter_course_cd(train_df):
     filtered_df = train_df.filter(
         # Condition A: keep if has_gps=1 (GPS data) OR 
         # condition B: keep if course_cd is in the TPD list
-        (F.col("has_gps") == 1) 
-        | (F.col("course_cd").isin(course_cd_list))
+        # (F.col("has_gps") == 1) |
+        (F.col("course_cd").isin(course_cd_list))
     )
             
     return filtered_df
@@ -283,132 +193,327 @@ def impute_par_time_all_steps(df):
     df_final = fill_par_time_global_mean(df_bf)
     return df_final
 
-def impute_sectional_features(
+def fill_missing_with_race_mean_or_zero(
     df,
-    impute_cols = [
-        "avgtime_gate1","avgtime_gate2","avgtime_gate3","avgtime_gate4",
-        "dist_bk_gate1","dist_bk_gate2","dist_bk_gate3","dist_bk_gate4",
-        "running_time","total_distance_ran"
-    ],
-    race_key = ["course_cd", "race_date", "race_number"],  # grouping columns for Race-level means
-    horse_id_col = "horse_id",         # column to partition for LOCF
-    date_col = "race_date"             # ordering column for LOCF
+    race_cols=("course_cd", "race_date", "race_number"),
+    cols_to_impute=None
 ):
     """
-    Imputes the given `impute_cols` with 3 steps:
-      1) LOCF within each horse partition, ordered by `date_col`.
-      2) Race-level mean (grouping by `race_key`).
-      3) Global mean if still null.
+    For each column in `cols_to_impute`, compute the race-level mean within the group
+    defined by race_cols. Then fill missing values in that column with:
+      - the race mean if not null
+      - otherwise 0
 
-    The final DataFrame columns (e.g. 'avgtime_gate1') will be overwritten with
-    imputed values. The leftover '_race_mean' columns are intermediate helpers
-    and can be dropped after if desired.
+    :param df: Spark DataFrame with at least these columns:
+               [*race_cols, plus each col in cols_to_impute].
+    :param race_cols: tuple/list of columns that uniquely identify a race
+                      (e.g. ("course_cd","race_date","race_number")).
+    :param cols_to_impute: list of numeric columns to fill with race-level mean or 0.
+    :return: a new DataFrame where those columns have been imputed.
     """
 
-    # 1) LOCF Imputation
-    w_locf = Window.partitionBy(horse_id_col).orderBy(date_col).rowsBetween(Window.unboundedPreceding, 0)
+    # 1) Group by race, compute the mean for each column
+    #    We'll create an aggregation for each column in cols_to_impute, naming it col+"_mean".
+    agg_exprs = []
+    for c in cols_to_impute:
+        agg_exprs.append(F.mean(F.col(c)).alias(f"{c}_mean"))
 
-    df_locf = df
-    # For each column c, fill with the last known non-null from prior rows in this partition
-    for c in impute_cols:
-        # Build expression for last non-null in ascending order
-        c_last = last(col(c), ignorenulls=True).over(w_locf)
-        # Overwrite c with COALESCE(c, c_last)
-        df_locf = df_locf.withColumn(c, coalesce(col(c), c_last))
+    means_df = df.groupBy(*race_cols).agg(*agg_exprs)
 
-    # 2) Race-level mean
-    # Build an aggregator for each col, i.e. avg(c) => c_race_mean
-    race_means_exprs = [F_avg(c).alias(f"{c}_race_mean") for c in impute_cols]
-    # Group by your race_key to compute per-race means
-    df_race_means = df_locf.groupBy(*race_key).agg(*race_means_exprs)
+    # 2) Join the means back to the original DataFrame
+    joined = df.join(means_df, on=list(race_cols), how="left")
 
-    # Join these means back; left join so we retain all rows
-    df_joined = df_locf.join(df_race_means, on=race_key, how="left")
-
-    # Now fill each c with coalesce(c, c_race_mean)
-    for c in impute_cols:
-        c_racemean = f"{c}_race_mean"
-        df_joined = df_joined.withColumn(
+    # 3) For each column c, fill missing values:
+    #    if c is null => coalesce(col(c+"_mean"), lit(0)) => that is the fallback
+    #    else keep the original c
+    for c in cols_to_impute:
+        joined = joined.withColumn(
             c,
-            coalesce(col(c), col(c_racemean))  # fill with race-level mean
+            F.when(
+                F.col(c).isNull(),
+                F.coalesce(F.col(f"{c}_mean"), F.lit(0.0))  # fallback to 0
+            ).otherwise(F.col(c))
         )
 
-    # 3) Global mean
-    # Compute a single row of global means for each column
-    global_means_exprs = [F_avg(c).alias(f"{c}_global_mean") for c in impute_cols]
-    global_means_row = df_joined.agg(*global_means_exprs).collect()[0].asDict()
+    # 4) Optionally drop the mean columns we added
+    for c in cols_to_impute:
+        joined = joined.drop(f"{c}_mean")
 
-    # Overwrite each column with coalesce(col(c), global_mean)
-    df_imputed = df_joined
-    for c in impute_cols:
-        global_mean_key = f"{c}_global_mean"
-        global_mean_val = global_means_row[global_mean_key]
-        df_imputed = df_imputed.withColumn(
-            c,
-            coalesce(col(c), lit(global_mean_val))
-        )
+    return joined
 
-    # (Optional) Drop leftover "_race_mean" columns if desired:
-    # race_mean_cols = [f"{c}_race_mean" for c in impute_cols]
-    # df_imputed = df_imputed.drop(*race_mean_cols)
-    
-    race_mean_cols = [f"{c}_race_mean" for c in impute_cols]
-    df_imputed = df_imputed.drop(*race_mean_cols)
-
-    return df_imputed
-
-def remove_future_races_with_unmatched_horses(df):
+def analyze_missing_data_by_race(df, columns_to_check=None):
     """
-    Deletes all future races (data_flag='future') that contain unmatched horses 
-    (i.e. horses that do not appear in the historical subset).
-    
-    Steps:
-    1) Split df into historical vs. future.
-    2) Identify horses in historical -> distinct horse_ids.
-    3) Left-anti join future on those horse_ids to find "unmatched_future_df".
-    4) Distinctly gather the (course_cd, race_date, race_number) from unmatched_future_df.
-    5) Filter out those race keys from future_df.
-    6) Recombine historical + the 'cleaned' future subset.
-    7) Return the final DataFrame.
+    Splits the data into historical vs. future (data_flag),
+    then for each subset, counts:
+      1) total number of distinct races,
+      2) how many races have no missing data in `columns_to_check`,
+      3) how many races have at least one horse missing data in those columns.
+
+    :param df: Spark DataFrame with at least columns:
+               [course_cd, race_date, race_number, data_flag, <columns_to_check>...]
+    :param columns_to_check: list of string column names to check for nulls.
+                             defaults to ['accel_q1','accel_q2','accel_q3','accel_q4']
+    :return: None (prints out the statistics).
     """
 
-    import pyspark.sql.functions as F
+    if columns_to_check is None:
+        columns_to_check = ["accel_q1","accel_q2","accel_q3","accel_q4"]
 
-    # Split
+    # 1) Split into historical vs. future
     df_hist = df.filter(F.col("data_flag") == "historical")
     df_future = df.filter(F.col("data_flag") == "future")
 
-    # 1) Distinct horse_ids in historical
-    historical_horses_df = df_hist.select("horse_id").distinct()
+    # =============== HELPER FUNCTION ===============
+    def process_subset(subset_df, subset_name):
+        """
+        For a given subset (historical or future),
+        compute:
+          - total distinct races
+          - number of races with missing data in any of the columns_to_check
+          - number of races with no missing data
+        Then print the results.
+        """
 
-    # 2) Find unmatched future rows via left_anti on horse_id
-    unmatched_future_df = df_future.join(historical_horses_df, on="horse_id", how="left_anti")
+        # a) Distinct race key
+        race_cols = ["course_cd", "race_date", "race_number"]
 
-    # 3) Distinct race keys for those unmatched rows
-    unmatched_races = (
-        unmatched_future_df
-        .select("course_cd", "race_date", "race_number")
+        # b) Count total distinct races
+        total_races = (
+            subset_df
+            .select(*race_cols)
+            .distinct()
+            .count()
+        )
+
+        # c) Build an OR expression: (col1 isNull) OR (col2 isNull) ...
+        #    to see if *any* column is null in that row
+        any_null_expr = None
+        for c in columns_to_check:
+            col_null = F.col(c).isNull()
+            if any_null_expr is None:
+                any_null_expr = col_null
+            else:
+                any_null_expr = any_null_expr | col_null
+
+        # If none of the columns_to_check exist in the DF, any_null_expr could be None
+        # so we handle that case:
+        if any_null_expr is None:
+            # Means no columns to check are found in the subset
+            # We'll treat it as no missing data
+            # (or you might want to handle differently)
+            print(f"--- {subset_name.upper()} SUBSET ---")
+            print(f"No columns to check found in this subset. Total races: {total_races}")
+            return
+
+        # d) row_missing_any => 1 if row has ANY missing data in the columns_to_check
+        df_with_missing_flag = subset_df.withColumn(
+            "row_missing_any",
+            F.when(any_null_expr, 1).otherwise(0)
+        )
+
+        # e) Group by race, sum up row_missing_any => if sum>0 => race has missing
+        race_missing_df = (
+            df_with_missing_flag
+            .groupBy(*race_cols)
+            .agg(F.sum("row_missing_any").alias("sum_missing"))
+            .withColumn("has_missing_data",
+                        F.when(F.col("sum_missing") > 0, 1).otherwise(0))
+        )
+
+        # f) number of races with missing data
+        races_with_missing = (
+            race_missing_df
+            .filter(F.col("has_missing_data") == 1)
+            .count()
+        )
+
+        # g) number of races with no missing data
+        races_no_missing = total_races - races_with_missing
+
+        print(f"--- {subset_name.upper()} SUBSET ---")
+        print(f"Total distinct races: {total_races}")
+        print(f"Races with NO missing data: {races_no_missing}")
+        print(f"Races with SOME missing data: {races_with_missing}")
+        print("")
+
+        logging.info(f"--- {subset_name.upper()} SUBSET ---")
+        logging.info(f"Total distinct races: {total_races}")
+        logging.info(f"Races with NO missing data: {races_no_missing}")
+        logging.info(f"Races with SOME missing data: {races_with_missing}")
+
+    # 2) Process historical subset
+    process_subset(df_hist, "historical")
+
+    # 3) Process future subset
+    process_subset(df_future, "future")
+
+def extract_completely_clean_races(df, required_cols, min_horses=None):
+    """
+    Returns a subset of `df` containing only those races (course_cd, race_date, race_number)
+    where *all* horses have *no* missing values in the specified `required_cols`
+    AND (optionally) the race has at least `min_horses` horses.
+
+    :param df: Spark DataFrame with at least:
+               [course_cd, race_date, race_number, data_flag] + required_cols
+    :param required_cols: list of column names that must be non-null for every horse in a race
+    :param min_horses: if set (e.g. 6), then we drop any race with fewer than `min_horses`.
+                       if None, we don't filter by field size.
+    :return: (clean_df, race_counts_dict)
+             where `clean_df` is the filtered subset,
+             and `race_counts_dict` has some stats about how many races remain.
+    """
+
+    # 1) Create a boolean expression checking if any required_col is null
+    #    => row_missing_any = 1 if any are null
+    any_null_expr = None
+    for c in required_cols:
+        col_null = F.col(c).isNull()
+        if any_null_expr is None:
+            any_null_expr = col_null
+        else:
+            any_null_expr = any_null_expr | col_null
+
+    # If none of the required_cols exist or something strange, handle gracefully:
+    if any_null_expr is None:
+        raise ValueError("No required_cols found in the DataFrame schema.")
+
+    df_with_flag = df.withColumn(
+        "row_missing_any",
+        F.when(any_null_expr, 1).otherwise(0)
+    )
+
+    # The columns that define a unique race
+    race_cols = ["course_cd","race_date","race_number"]
+
+    # 2) sum up row_missing_any by race => if sum_missing>0 => race has missing data
+    race_missing_df = (
+        df_with_flag
+        .groupBy(*race_cols)
+        .agg(F.sum("row_missing_any").alias("sum_missing"))
+    )
+
+    # 3) Filter to only races where sum_missing = 0 (i.e. fully complete in required_cols)
+    complete_race_keys = race_missing_df.filter(F.col("sum_missing") == 0)
+
+    # 4) Optional: also exclude races that have fewer than `min_horses` horses
+    #    if min_horses is provided
+    if min_horses is not None:
+        # We'll build a DataFrame that counts how many rows/horses each race has
+        race_size_df = (
+            df.groupBy(*race_cols)
+              .agg(F.count("*").alias("num_horses"))
+        )
+        # Filter to only those that have >= min_horses
+        race_size_filtered = race_size_df.filter(F.col("num_horses") >= min_horses)
+
+        # Now we have two sets of race keys to keep:
+        # 1) `complete_race_keys`: no missing data in `required_cols`
+        # 2) `race_size_filtered`: field size >= min_horses
+        # We'll intersect them:
+        complete_race_keys = (
+            complete_race_keys.join(
+                race_size_filtered.select(*race_cols),
+                on=race_cols,
+                how="inner"  # intersection
+            )
+        )
+
+    # 5) Join back to original df => keep only those races
+    clean_df = (
+        df.join(
+            complete_race_keys.select(*race_cols),
+            on=race_cols,
+            how="inner"
+        )
+    )
+
+    # 6) Some stats
+    total_races = df.select(*race_cols).distinct().count()
+    total_clean_races = complete_race_keys.count()
+
+    # Count how many future vs historical remain after filtering
+    clean_future_races = (
+        clean_df
+        .filter(F.col("data_flag") == "future")
+        .select(*race_cols)
         .distinct()
+        .count()
+    )
+    clean_historical_races = (
+        clean_df
+        .filter(F.col("data_flag") == "historical")
+        .select(*race_cols)
+        .distinct()
+        .count()
     )
 
-    # 4) Filter out those race keys from df_future
-    #    i.e. keep future rows that do NOT appear in unmatched_races
-    joined_for_filter = df_future.join(
-        unmatched_races,
-        on=["course_cd","race_date","race_number"],
-        how="left_anti"
+    # Construct a small dict of stats
+    race_counts_dict = {
+        "total_races_before": total_races,
+        "total_clean_races_after": total_clean_races,
+        "clean_future_races": clean_future_races,
+        "clean_historical_races": clean_historical_races
+    }
+
+    return clean_df, race_counts_dict
+
+def analyze_field_size_distribution(df):
+    """
+    Given a DataFrame of fully cleaned races, compute stats about
+    how many horses are in each race. 
+    Returns and prints:
+      - total distinct races
+      - min field size
+      - max field size
+      - average field size
+      - median field size (approx)
+      - distribution histogram if desired
+    """
+
+    race_cols = ["course_cd", "race_date", "race_number"]
+
+    # 1) Count how many rows/horses per race
+    race_size_df = (
+        df.groupBy(*race_cols)
+          .agg(F.count("*").alias("num_horses"))
     )
 
-    # 5) Recombine historical + the "cleaned" future
-    df_final = df_hist.unionByName(joined_for_filter)
+    # 2) Overall stats
+    total_races = race_size_df.count()
+    min_size = race_size_df.agg(F.min("num_horses")).collect()[0][0]
+    max_size = race_size_df.agg(F.max("num_horses")).collect()[0][0]
+    avg_size = race_size_df.agg(F.avg("num_horses")).collect()[0][0]
 
-    # 6) Log final row counts
-    fut_count_final = df_final.filter(F.col("data_flag") == "future").count()
-    hist_count_final = df_final.filter(F.col("data_flag") == "historical").count()
-    logging.info(f"[remove_future_races_with_unmatched_horses] final future={fut_count_final}, historical={hist_count_final}")
+    # If you want an approximate median, you can use approxQuantile in Spark
+    median_size = race_size_df.select("num_horses").approxQuantile("num_horses", [0.5], 0.001)[0]
 
-    return df_final
+    # Print results
+    logging.info("=== FIELD SIZE STATS ===")
+    logging.info(f"Total Distinct Races: {total_races}")
+    logging.info(f"Minimum Field Size:   {min_size}")
+    logging.info(f"Maximum Field Size:   {max_size}")
+    logging.info(f"Average Field Size:   {avg_size:.2f}")
+    logging.info(f"Median Field Size:    {median_size}")
+    logging.info("")
 
+    # (Optional) If you want to see a quick distribution/histogram, you could
+    # do a groupBy(num_horses) and count:
+    size_distribution = (
+        race_size_df.groupBy("num_horses")
+                    .count()
+                    .orderBy("num_horses")
+    )
+    size_distribution.show(50, truncate=False)
+
+    # Return the DataFrame or relevant stats if needed
+    return {
+        "total_races": total_races,
+        "min_size": min_size,
+        "max_size": max_size,
+        "avg_size": avg_size,
+        "median_size": median_size
+    }
+        
 def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     """
     Load Parquet file used to train
@@ -433,15 +538,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
         train_df.cache()
         rows_train_if = train_df.count()
         logging.info(f"Data loaded from PostgreSQL. Count: {rows_train_if}")
-    
-    
-    impute_cols = ["avgtime_gate1","avgtime_gate2","avgtime_gate3","avgtime_gate4","dist_bk_gate1","dist_bk_gate2","dist_bk_gate3","dist_bk_gate4","running_time","total_distance_ran"]
-    race_key = ["course_cd", "race_date", "race_number"] # columns defining a "race"
-    horse_id_col = "horse_id"
-    date_col = "race_date" 
-    
-    train_df = impute_sectional_features(train_df, impute_cols, race_key, horse_id_col, date_col) 
-
+            
     train_df = impute_par_time_all_steps(train_df)
     
     # Log the counts after filtering
@@ -450,9 +547,42 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     logging.info(f"Before filtering on has_gps and course_cd list: data_flag='future': {future_count}")
     logging.info(f"Before filtering on has_gps and course_cd list: data_flag='historical': {historical_count}")
     
+    ##############################################################
+    # Race mean imputation: if no horse has a value for a column,
+    # fill the column with 0. Reasoning being is that this could 
+    # be a new horse or a horse that has never raced before.
+    ##############################################################
+    
+    cols_to_impute = ["distance_meters", "prev_speed_rating", "previous_distance", "starts", "previous_class",
+                      'avg_workout_rank_3','avgtime_gate3','avgtime_gate4','dam_roi','dist_bk_gate3',
+                      'dist_bk_gate4','sire_roi']
+    race_cols=("course_cd", "race_date", "race_number")
+    train_df = fill_missing_with_race_mean_or_zero(train_df, race_cols, cols_to_impute)
+
+    ##############################################################
+    # The big function to drope races with missing required columns
+    # and to remove races with fewer than 5 horses
+    ##############################################################
+    
     # Apply the filter to the train_df DataFrame
     train_df = filter_course_cd(train_df)        
+
+    required_cols = ["speed_improvement", 'accel_q1','accel_q2','accel_q3','accel_q4', 
+                     'avg_dist_bk_gate1_5','avg_dist_bk_gate2_5','avg_dist_bk_gate3_5',
+                    'avg_dist_bk_gate4_5','avg_speed_fullrace_5','avg_strfreq_q1_5',
+                    'avg_strfreq_q2_5','avg_strfreq_q3_5','avg_strfreq_q4_5','avg_stride_length_5']
+    clean_df, stats = extract_completely_clean_races(train_df, required_cols, min_horses=5)
+    analyze_missing_data_by_race(clean_df, required_cols)
     
+    logging.info("=== RACE STATS ===")
+    for k,v in stats.items():
+        logging.info(f"{k} = {v}")
+        
+    analyze_field_size_distribution(clean_df)
+    
+    train_df = clean_df
+    ####################################################################
+    ####################################################################  
     # Log the counts after filtering
     future_count = train_df.filter(F.col("data_flag") == "future").count()
     historical_count = train_df.filter(F.col("data_flag") == "historical").count()
@@ -463,7 +593,6 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     row_count = train_df.count()
     logging.info(f"Row count: {row_count}")
     logging.info(f"Count operation completed in {time.time() - start_time:.2f} seconds.")
-    
     
     # Check for Dups:
     logging.info("Checking for duplicates on primary keys...")
@@ -487,14 +616,10 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     
     logging.info("Convert Decimal Columns to Double.")
     # 2. Convert Decimal Columns to Double
-    decimal_cols = ["weight", "power", "distance_meters", "morn_odds", "total_races_5", "avg_fin_5",
-                    "class_rating", "all_earnings", "cond_earnings","purse", "best_speed",
-                "jock_win_percent", "jock_itm_percent", "trainer_itm_percent", 
-                    "trainer_win_percent", "jt_win_percent", "jt_itm_percent",
-                    "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
-                    "jt_win_track", "jt_itm_track", 'previous_distance', 'horse_itm_percentage' ]
-    for col_name in decimal_cols:
-        train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))
+    for field in train_df.schema.fields:
+        if isinstance(field.dataType, DecimalType):
+            col_name = field.name
+            train_df = train_df.withColumn(col_name, F.col(col_name).cast(DoubleType()))
     logging.info("Decimal columns converted to double.")
     print("2. Decimal columns converted to double.")
     
@@ -508,7 +633,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     )
     logging.info("Created age_at_race_day.")
     print("3b. Created age_at_race_day.")
-
+    
     logging.info("Imputing categorical and numeric columns.")
     
     # 3c. Impute categorical and numeric columns -- ensure no whitespace in categorical columns
@@ -528,104 +653,28 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     train_df = train_df.withColumn("prev_speed", when(col("prev_speed").isNull(), 0).otherwise(col("prev_speed")))
     train_df = train_df.withColumn("count_workouts_3", when(col("count_workouts_3").isNull(), 0).otherwise(col("count_workouts_3")))
 
-    train_df = manage_tpd_cols_by_flag(train_df)
-
-    columns_to_fill = [
-        'all_earnings', 'all_fourth', 'all_place', 'all_show', 'all_starts', 'all_win', 
-        'cond_earnings', 'cond_fourth', 'cond_place', 'cond_show', 'cond_starts', 'cond_win', 'days_off', 
-        'jock_itm_percent', 'jock_itm_track', 'jock_win_percent', 'jock_win_track', 'jt_itm_percent', 
-        'jt_itm_track', 'jt_win_percent', 'jt_win_track', 'trainer_itm_percent', 'trainer_itm_track', 
-        'trainer_win_percent', 'trainer_win_track', 'net_sentiment','prev_race_date', 'first_race_date_5', 'most_recent_race_5', 
-        'avg_fin_5', 'avg_speed_5', 'avg_workout_rank_3', 'sire_roi', 'dam_roi', 'sire_itm_percentage', 'dam_itm_percentage']
+    columns_to_fill = ['net_sentiment', 'jock_itm_percent','jock_win_percent','prev_official_fin', 'trainer_itm_percent',
+                       'trainer_itm_track','trainer_win_percent','trainer_win_track']
     logging.info("Filling missing values for columns.")
     
     for column in columns_to_fill:
-        if column == 'prev_race_date':
-            # If null, fill with '1970-01-01' as a date literal
-            train_df = train_df.withColumn(
-                column,
-                when(col(column).isNull(), F.to_date(F.lit("1970-01-01"), "yyyy-MM-dd"))
-                .otherwise(col(column))
-            )
-        elif column == 'first_race_date_5':
-            # If null, fill with '1970-01-01' as a date literal
-            train_df = train_df.withColumn(
-                column,
-                when(col(column).isNull(), F.to_date(F.lit("1970-01-01"), "yyyy-MM-dd"))
-                .otherwise(col(column))
-            )
-        elif column == 'most_recent_race_5':
-            # If null, fill with '1970-01-01' as a date literal
-            train_df = train_df.withColumn(
-                column,
-                when(col(column).isNull(), F.to_date(F.lit("1970-01-01"), "yyyy-MM-dd"))
-                .otherwise(col(column))
-            )
-        else:
+        if column in train_df.columns:
             # If null, fill with 0 (for numeric columns)
             train_df = train_df.withColumn(
                 column,
                 when(col(column).isNull(), lit(0)).otherwise(col(column))
             )
-        
-    logging.info("Numeric columns cast to double.")
-    numeric_cols = ["race_number","horse_id","purse","weight","claimprice","distance_meters",
-                    "class_rating","prev_speed_rating","previous_class","previous_distance",
-                    "off_finish_last_race","power","horse_itm_percentage","avgspd","net_sentiment","avg_spd_sd",
-                    "ave_cl_sd","hi_spd_sd","pstyerl","all_starts","all_win","all_place","all_show","all_fourth",
-                    "all_earnings","cond_starts","cond_win","cond_place","cond_show","cond_fourth","cond_earnings",
-                    "total_races_5","avg_fin_5","avg_speed_5","best_speed","avg_beaten_len_5",
-                    "avg_dist_bk_gate1_5","avg_dist_bk_gate2_5","avg_dist_bk_gate3_5",
-                    "avg_dist_bk_gate4_5","avg_speed_fullrace_5","avg_stride_length_5","avg_strfreq_q1_5",
-                    "avg_strfreq_q2_5","avg_strfreq_q3_5","avg_strfreq_q4_5","prev_speed","speed_improvement",
-                    "days_off","avg_workout_rank_3","count_workouts_3","race_count",
-                    "jock_win_percent","jock_itm_percent","trainer_win_percent","trainer_itm_percent","jt_win_percent",
-                    "jt_itm_percent","jock_win_track","jock_itm_track","trainer_win_track","trainer_itm_track","jt_win_track",
-                    "jt_itm_track", "sire_itm_percentage", "sire_roi", "dam_itm_percentage", "dam_roi"]
-    
-    for col_name in numeric_cols:
-        train_df = train_df.withColumn(col_name, F.col(col_name).cast("double"))
       
     # Example usage:
     train_df = fix_outliers(train_df)
 
-    # train_df = train_df.na.drop(subset=critical_cols)
-    cols_to_fill = ['distance_meters',
-                    'off_finish_last_race',
-                    'prev_speed_rating',
-                    'previous_class',
-                    'previous_distance',
-                    'race_count',
-                    'starts']
-
-    # Window for each horse, ordered by race_date ascending
-    # The `.rowsBetween(Window.unboundedPreceding, 0)` ensures 
-    # "last()" sees all preceding rows in that partition, up to the current row.
-    win = Window.partitionBy("horse_id").orderBy("race_date").rowsBetween(Window.unboundedPreceding, 0)
-
-    for c in cols_to_fill:
-        train_df = train_df.withColumn(
-            c,
-            F.last(train_df[c], ignorenulls=True).over(win)
-        )  
-    
     # Log the counts
     future_count = train_df.filter(F.col("data_flag") == "future").count()
     historical_count = train_df.filter(F.col("data_flag") == "historical").count()
     logging.info(f"5. Just before impute_performance_columns: Number of rows with data_flag='future': {future_count}")
     logging.info(f"5. Just before impute_performance_columns:  Number of rows with data_flag='historical': {historical_count}")
-
-    train_df = remove_future_races_with_unmatched_horses(train_df)
     
-    # train_df = remove_performance_columns(train_df) # dist_bk_gate4, running_time, total_distance_ran
-    # Log the counts
-    future_count = train_df.filter(F.col("data_flag") == "future").count()
-    historical_count = train_df.filter(F.col("data_flag") == "historical").count()
-    logging.info(f"5. Just after impute_performance_columns: Number of rows with data_flag='future': {future_count}")
-    logging.info(f"5. Just after impute_performance_columns:  Number of rows with data_flag='historical': {historical_count}")
-
     train_df = drop_historical_missing_official_fin(train_df)
-    train_df = impute_performance_features(train_df)
   
     future_count = train_df.filter(F.col("data_flag") == "future").count()
 
@@ -640,7 +689,8 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     logging.info("Starting the write to parquet.")
 
     start_time = time.time()
-    train_df.write.mode("overwrite").parquet(f"{parquet_dir}/train_df")
+    print(f"Writing to Parquet: {parquet_dir}train_df")
+    train_df.write.mode("overwrite").parquet(f"{parquet_dir}train_df")
     logging.info(f"Data written to Parquet in {time.time() - start_time:.2f} seconds")
     logging.info("Data cleansing complete. train_df being returned.")
     

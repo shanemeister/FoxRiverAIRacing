@@ -22,7 +22,7 @@ def form_sql_queries():
                 and sa.saddle_cloth_number = ga.saddle_cloth_number 
             join horse h on r2.axciskey = h.axciskey 
             where r2.breed_type = 'TB'
-            and re.official_fin is not null
+            --and re.official_fin is not null
         """,
         "workouts": """
             SELECT w.course_cd, w.race_date, w.race_number, w.saddle_cloth_number, h.horse_id, w.worknum,days_back, w.worktext, w.ranking, w.rank_group

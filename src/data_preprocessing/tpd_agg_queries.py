@@ -21,7 +21,7 @@ def tpd_sql_queries():
             FROM runners
         """,
         "horse": """
-            SELECT *
+            SELECT axciskey, horse_name, foal_date, sex, wh_foaled, color, horse_id
             FROM horse
         """
     }

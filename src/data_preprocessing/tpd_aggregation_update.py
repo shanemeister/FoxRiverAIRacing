@@ -154,20 +154,25 @@ def update_net_sentiment(conn):
 def update_previous_surface(conn):
     cursor = conn.cursor()
     update_query = """
-    UPDATE runners r
-    SET previous_surface = COALESCE(r2.surface, r.previous_surface)
-    FROM races r2
-    WHERE r.course_cd = r2.course_cd
-    AND r.race_date = r2.race_date
-    AND r.race_number = r2.race_number
-    AND EXISTS (
-        SELECT 1 
-        FROM results_entries re
-        WHERE r.course_cd = re.course_cd
-            AND r.race_date = re.race_date
-            AND r.race_number = re.race_number
-            AND r.saddle_cloth_number = re.program_num)
-    """
+        UPDATE runners r
+        SET previous_surface = (
+            SELECT r2.surface
+            FROM races r2
+            WHERE r2.course_cd = r.course_cd
+            AND r2.race_date < r.race_date  -- Ensure we get a past race
+            AND EXISTS (
+                SELECT 1 
+                FROM results_entries re
+                WHERE re.course_cd = r2.course_cd
+                    AND re.race_date = r2.race_date
+                    AND re.race_number = r2.race_number
+                    AND re.program_num = r.saddle_cloth_number
+            )
+            ORDER BY r2.race_date DESC, r2.race_number DESC  -- Get the most recent past race
+            LIMIT 1
+        )
+        WHERE r.previous_surface IS NULL
+"""
     
     try:
         cursor.execute(update_query)
@@ -209,6 +214,36 @@ def update_results_entries_speed_rating():
         logging.error("Error updating results_entries: %s", e)
         conn.rollback()
 
+def update_runners_off_fin_last_race(conn):
+    cursor = conn.cursor()
+    query = """
+    UPDATE runners r
+    SET prev_official_fin = (
+        SELECT re.official_fin
+        FROM results_entries re
+        WHERE re.program_num = r.saddle_cloth_number  -- Match horse
+        AND re.course_cd = r.course_cd
+        AND re.race_date < r.race_date  -- Ensure it's a previous race
+        ORDER BY re.race_date DESC  -- Get the most recent past race
+        LIMIT 1
+    )
+    WHERE EXISTS (
+        SELECT 1
+        FROM results_entries re
+        WHERE re.program_num = r.saddle_cloth_number
+        AND re.course_cd = r.course_cd
+        AND re.race_date < r.race_date
+    )
+    """
+    try:
+        cursor.execute(query)
+        conn.commit()
+        logging.info("Updated runners: prev_speed_rating set from results_entries.speed_rating.")
+    except Exception as e:
+        logging.error("Error updating runners: %s", e)
+        conn.rollback()
+    return
+
 def update_runners_prev_speed_rating(conn):
     cursor = conn.cursor()
     query = """
@@ -216,19 +251,18 @@ def update_runners_prev_speed_rating(conn):
     SET prev_speed_rating = (
         SELECT re.speed_rating
         FROM results_entries re
-        WHERE re.course_cd = r.course_cd
-          AND re.race_date = r.race_date
-          AND re.race_number = r.race_number
-          AND re.program_num = r.saddle_cloth_number
+        WHERE re.program_num = r.saddle_cloth_number  -- Match horse
+        AND re.course_cd = r.course_cd
+        AND re.race_date < r.race_date  -- Ensure it's a previous race
+        ORDER BY re.race_date DESC  -- Get the most recent past race
         LIMIT 1
     )
     WHERE EXISTS (
         SELECT 1
         FROM results_entries re
-        WHERE re.course_cd = r.course_cd
-          AND re.race_date = r.race_date
-          AND re.race_number = r.race_number
-          AND re.program_num = r.saddle_cloth_number
+        WHERE re.program_num = r.saddle_cloth_number
+        AND re.course_cd = r.course_cd
+        AND re.race_date < r.race_date
     )
     """
     try:
@@ -270,7 +304,6 @@ def update_previous_race_data_and_race_count(conn):
       - previous_distance     (from races.distance_meters)
       - previous_surface      (from races.surface)
       - prev_speed_rating     (from results_entries.speed_rating)
-      - off_finish_last_race  (from results_entries.official_fin)
       - race_count            (the total number of starts for that horse)
 
     If a prior race doesn’t exist (e.g. only 1 career start),
@@ -281,59 +314,52 @@ def update_previous_race_data_and_race_count(conn):
     try:
         with conn.cursor() as cursor:
             cursor.execute("""
-                WITH base AS (
-                    SELECT
-                        -- Identify the CURRENT row
-                        r2.course_cd           AS curr_course_cd,
-                        r2.race_date           AS curr_race_date,
-                        r2.race_number         AS curr_race_number,
-                        r2.saddle_cloth_number AS curr_saddle_cloth_number,
-
-                        -- Use LAG(...) over the horse's prior start to get previous race info:
-                        LAG(r2.todays_cls) OVER w           AS previous_class,
-                        LAG(r.distance_meters) OVER w       AS previous_distance,
-                        LAG(r.surface) OVER w               AS previous_surface,
-                        LAG(re.speed_rating) OVER w         AS prev_speed_rating,
-                        LAG(re.official_fin) OVER w         AS off_finish_last_race,
-
-                        -- Total # of starts (count of rows for that horse_id)
-                        COUNT(*) OVER (PARTITION BY h.horse_id) AS race_count
-
-                    FROM runners r2
-                    JOIN races r 
-                        ON r2.course_cd = r.course_cd
-                       AND r2.race_date = r.race_date
-                       AND r2.race_number = r.race_number
-                    JOIN results_entries re
-                        ON r2.course_cd = re.course_cd
-                       AND r2.race_date = re.race_date
-                       AND r2.race_number = re.race_number
-                       AND r2.saddle_cloth_number = re.program_num
-                    JOIN horse h
-                        ON r2.axciskey = h.axciskey
-
-                    -- Window: partition by horse, sorted by ascending race_date & race_number
-                    WINDOW w AS (
-                      PARTITION BY h.horse_id
-                      ORDER BY r.race_date, r.race_number
-                    )
+            WITH base AS (
+                SELECT
+                    r2.course_cd AS curr_course_cd,
+                    r2.race_date AS curr_race_date,
+                    r2.race_number AS curr_race_number,
+                    r2.saddle_cloth_number AS curr_saddle_cloth_number,
+                    -- Fetch previous race details, but ensure they are from past races only
+                    LAG(r2.todays_cls) OVER w AS previous_class,
+                    LAG(r.distance_meters) OVER w AS previous_distance,
+                    LAG(r.surface) OVER w AS previous_surface,
+                    LAG(re.speed_rating) OVER w AS prev_speed_rating,
+                    -- Total number of races (including future races)
+                    COUNT(*) OVER (PARTITION BY h.horse_id) AS total_race_count
+                FROM runners r2
+                JOIN races r 
+                    ON r2.course_cd = r.course_cd
+                    AND r2.race_date = r.race_date
+                    AND r2.race_number = r.race_number
+                LEFT JOIN results_entries re  -- Use LEFT JOIN so future races don't break the query
+                    ON r2.course_cd = re.course_cd
+                    AND r2.race_date = re.race_date
+                    AND r2.race_number = re.race_number
+                    AND r2.saddle_cloth_number = re.program_num
+                JOIN horse h
+                    ON r2.axciskey = h.axciskey
+                -- Ensure LAG() only pulls from past races
+                -- Partition by horse_id, ordered by race date and race number
+                WINDOW w AS (
+                    PARTITION BY h.horse_id
+                    ORDER BY r2.race_date ASC, r2.race_number ASC
                 )
-
-                UPDATE runners r2
-                SET
-                    previous_class       = COALESCE(base.previous_class, -1),
-                    previous_distance    = COALESCE(base.previous_distance, -1),
-                    previous_surface     = COALESCE(base.previous_surface, 'NONE'),
-                    prev_speed_rating    = COALESCE(base.prev_speed_rating, -1),
-                    off_finish_last_race = COALESCE(base.off_finish_last_race, -1),
-                    race_count           = base.race_count
-                FROM base
-                WHERE
-                    r2.course_cd           = base.curr_course_cd
-                    AND r2.race_date       = base.curr_race_date
-                    AND r2.race_number     = base.curr_race_number
-                    AND r2.saddle_cloth_number = base.curr_saddle_cloth_number
-            """)
+            )
+            UPDATE runners r2
+            SET
+                previous_class       = COALESCE(base.previous_class, -1),   -- Default to -1 if no past race
+                previous_distance    = COALESCE(base.previous_distance, -1),
+                previous_surface     = COALESCE(base.previous_surface, 'NONE'),
+                prev_speed_rating    = COALESCE(base.prev_speed_rating, -1),
+                race_count           = base.total_race_count
+            FROM base
+            WHERE
+                r2.course_cd = base.curr_course_cd
+                AND r2.race_date = base.curr_race_date
+                AND r2.race_number = base.curr_race_number
+                AND r2.saddle_cloth_number = base.curr_saddle_cloth_number
+    """)
         conn.commit()
         logging.info("Previous race data and race count updated successfully.")
     except Exception as e:
@@ -353,13 +379,15 @@ def update_distance_meters(conn):
     try:
         with conn.cursor() as cursor:
             cursor.execute("""
-                UPDATE racedata
-                SET distance_meters = CASE
+            UPDATE races
+            SET distance_meters = ROUND(
+                CASE
                     WHEN dist_unit = 'F' THEN (distance/100) * 201.168
                     WHEN dist_unit = 'M' THEN distance
                     WHEN dist_unit = 'Y' THEN distance * 0.9144
                     ELSE NULL
-                END;
+                END
+            )
             """)
             conn.commit()
             elapsed = time.time() - start_time
@@ -395,7 +423,7 @@ def update_rr_par_time(conn):
             UPDATE races r
             SET rr_par_time = ROUND((sub.avg_rr_par_time)::numeric, 2)::numeric(10,2)
             FROM (
-                SELECT course_cd, distance_meters, trk_cond,
+                SELECT course_cd, distance_meters, 
                     AVG(rr_par_time) AS avg_rr_par_time
                 FROM races
                 WHERE rr_par_time IS NOT NULL 
@@ -406,11 +434,10 @@ def update_rr_par_time(conn):
                         'MTH','TGP','TGG','CBY','LRL','TED','IND','CTD','ASD',
                         'TCD','LAD','TOP'
                       )
-                GROUP BY course_cd, distance_meters, trk_cond
+                GROUP BY course_cd, distance_meters
             ) sub
             WHERE r.course_cd = sub.course_cd
             AND r.distance_meters = sub.distance_meters
-            AND r.trk_cond = sub.trk_cond;
             """)
             conn.commit()
             elapsed = time.time() - start_time
@@ -475,32 +502,33 @@ def update_finish_time(conn):
         conn.rollback()
         raise
     
-def calculate_gps_metrics_quartile_and_write(
-    spark,
-    df,
-    jdbc_url,
-    jdbc_properties,
-    conn=None
-):
+def calculate_gps_metrics_quartile_and_write(conn, gpspoint_df, runners_df, horse_df, jdbc_url, jdbc_properties):
     """
     Calculates GPS-derived metrics (acceleration, jerk, distance covered, etc.)
     for each horse in each race, broken down by quartiles, and writes the result
-    to 'gps_aggregated'.
+    to 'gps_aggregated' -- now including 'horse_id' for each row.
 
-    The final DataFrame has both:
-      - quartile-specific columns (speed_q1, speed_q2, etc.)
-      - overall metrics (avg_acceleration, distance_covered, etc.)
-
-    :param spark: SparkSession
-    :param df: Spark DataFrame with columns:
-               [course_cd, race_date, race_number, saddle_cloth_number,
-                time_stamp, speed, stride_frequency, progress, ...]
-    :param jdbc_url: JDBC URL to write final output
-    :param jdbc_properties: dict with keys user, password, driver, etc.
-    :param conn: optional psycopg2 connection for direct DB ops
-    :return: None
+    Arguments:
+    ----------
+    conn : psycopg2 connection (unused in this snippet, can be optional)
+    gpspoint_df : Spark DataFrame with columns
+        [course_cd, race_date, race_number, saddle_cloth_number,
+         time_stamp, speed, stride_frequency, progress, ...]
+    runners_df : Spark DataFrame with columns:
+        [course_cd, race_date, race_number, saddle_cloth_number, axciskey, ...]
+        i.e. it does NOT have horse_id directly, but has axciskey
+    horse_df : Spark DataFrame with columns:
+        [axciskey, horse_id, horse_name, ...]
+        so we can join on axciskey to finally get horse_id
+    jdbc_url, jdbc_properties : connection info for writing out
     """
-
+    import time
+    import logging
+    from pyspark.sql.functions import (
+        col, lag, when, avg as F_avg, sum as F_sum, min as F_min,
+        stddev_samp, first, last, ntile, lit, max as F_max
+    )
+    from pyspark.sql import Window
 
     logging.info("Starting quartile-based GPS metrics calculation...")
 
@@ -515,19 +543,19 @@ def calculate_gps_metrics_quartile_and_write(
         "speed", "stride_frequency", "progress"
     ]
     for rc in required_cols:
-        if rc not in df.columns:
+        if rc not in gpspoint_df.columns:
             raise ValueError(f"Missing required column: {rc}")
 
     # ----------------------------------------------------------------------
     # 2) Filter invalid rows
     # ----------------------------------------------------------------------
-    filtered_df = df.filter(
+    filtered_df = gpspoint_df.filter(
         (col("stride_frequency").isNotNull()) &
         (col("progress") != 0)
     )
 
     # ----------------------------------------------------------------------
-    # 3) Sort data, compute time deltas
+    # 3) Sort data within each (course_cd, date, race_no, saddle_cloth), compute time deltas
     # ----------------------------------------------------------------------
     gps_window = Window.partitionBy(
         "course_cd", "race_date", "race_number", "saddle_cloth_number"
@@ -535,9 +563,7 @@ def calculate_gps_metrics_quartile_and_write(
 
     df_sorted = filtered_df.withColumn(
         "prev_ts", lag(col("time_stamp").cast("long")).over(gps_window)
-    )
-
-    df_sorted = df_sorted.withColumn(
+    ).withColumn(
         "delta_t",
         (col("time_stamp").cast("long") - col("prev_ts")).cast("double")
     )
@@ -545,8 +571,10 @@ def calculate_gps_metrics_quartile_and_write(
     # ----------------------------------------------------------------------
     # 4) Calculate acceleration / jerk
     # ----------------------------------------------------------------------
-    df_sorted = df_sorted.withColumn("prev_speed", lag("speed").over(gps_window))
-
+    df_sorted = df_sorted.withColumn(
+        "prev_speed",
+        lag("speed").over(gps_window)
+    )
     df_sorted = df_sorted.withColumn(
         "acceleration",
         when(
@@ -554,9 +582,10 @@ def calculate_gps_metrics_quartile_and_write(
             (col("speed") - col("prev_speed")) / col("delta_t")
         )
     )
-
-    df_sorted = df_sorted.withColumn("prev_acc", lag("acceleration").over(gps_window))
     df_sorted = df_sorted.withColumn(
+        "prev_acc",
+        lag("acceleration").over(gps_window)
+    ).withColumn(
         "jerk",
         when(
             (col("delta_t") > 0) & col("prev_acc").isNotNull(),
@@ -584,7 +613,7 @@ def calculate_gps_metrics_quartile_and_write(
     )
 
     # ----------------------------------------------------------------------
-    # 7) For each (horse + quartile), aggregate metrics
+    # 7) Group (course_cd, date, race_no, cloth_no, quartile) => aggregate
     # ----------------------------------------------------------------------
     quartile_agg = df_with_q.groupBy(
         "course_cd", "race_date", "race_number", "saddle_cloth_number", "quartile"
@@ -596,7 +625,9 @@ def calculate_gps_metrics_quartile_and_write(
         F_avg("stride_frequency").alias("avg_strfreq_q")
     )
 
-    # Pivot to get columns: speed_q1, speed_q2, etc.
+    # ----------------------------------------------------------------------
+    # 8) Pivot the quartiles => speed_q1, speed_q2, ...
+    # ----------------------------------------------------------------------
     pivoted_quart = (
         quartile_agg
         .groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number")
@@ -611,17 +642,14 @@ def calculate_gps_metrics_quartile_and_write(
     )
 
     for q in [1, 2, 3, 4]:
-        pivoted_quart = (
-            pivoted_quart
-            .withColumnRenamed(f"{q}_avg_speed",      f"speed_q{q}")
-            .withColumnRenamed(f"{q}_avg_accel",      f"accel_q{q}")
-            .withColumnRenamed(f"{q}_avg_jerk",       f"jerk_q{q}")
-            .withColumnRenamed(f"{q}_sum_dist",       f"dist_q{q}")
-            .withColumnRenamed(f"{q}_avg_strfreq",    f"strfreq_q{q}")
-        )
+        pivoted_quart = pivoted_quart.withColumnRenamed(f"{q}_avg_speed", f"speed_q{q}")
+        pivoted_quart = pivoted_quart.withColumnRenamed(f"{q}_avg_accel", f"accel_q{q}")
+        pivoted_quart = pivoted_quart.withColumnRenamed(f"{q}_avg_jerk", f"jerk_q{q}")
+        pivoted_quart = pivoted_quart.withColumnRenamed(f"{q}_sum_dist", f"dist_q{q}")
+        pivoted_quart = pivoted_quart.withColumnRenamed(f"{q}_avg_strfreq", f"strfreq_q{q}")
 
     # ----------------------------------------------------------------------
-    # 8) Overall (whole-race) aggregator
+    # 9) Overall aggregator (whole race)
     # ----------------------------------------------------------------------
     race_horse = Window.partitionBy(
         "course_cd", "race_date", "race_number", "saddle_cloth_number"
@@ -640,9 +668,7 @@ def calculate_gps_metrics_quartile_and_write(
         F_max("jerk").alias("max_jerk"),
         F_sum("dist_segment").alias("total_dist_covered"),
         F_avg("speed_variability").alias("speed_var"),
-        F_avg(
-            when(col("stride_frequency") > 0, col("speed") / col("stride_frequency"))
-        ).alias("avg_stride_length"),
+        F_avg(when(col("stride_frequency") > 0, col("speed") / col("stride_frequency"))).alias("avg_stride_length"),
         F_avg("speed").alias("avg_speed_fullrace"),
     )
 
@@ -667,7 +693,7 @@ def calculate_gps_metrics_quartile_and_write(
     )
 
     # ----------------------------------------------------------------------
-    # 9) Combine quartile pivot with overall aggregator
+    # 10) Combine pivoted quartiles + overall aggregator => final_result
     # ----------------------------------------------------------------------
     final_result = pivoted_quart.join(
         overall_agg2,
@@ -676,13 +702,39 @@ def calculate_gps_metrics_quartile_and_write(
     )
 
     # ----------------------------------------------------------------------
-    # 10) Write final_result to gps_aggregated
+    # 11) Join with `runners_df` to get `axciskey`
+    # 
+    #   We assume runners_df has at least:
+    #   [course_cd, race_date, race_number, saddle_cloth_number, axciskey]
+    # 
+    final_with_axcis = final_result.join(
+        runners_df.select(
+            "course_cd","race_date","race_number","saddle_cloth_number","axciskey"
+        ),
+        on=["course_cd","race_date","race_number","saddle_cloth_number"],
+        how="left"
+    )
+
+    # ----------------------------------------------------------------------
+    # 12) Join that with `horse_df` to finally get horse_id
+    # 
+    #   We assume horse_df has [axciskey, horse_id, horse_name, etc.]
+    #   If you only need horse_id, just select those two columns.
+    # 
+    final_with_horse = final_with_axcis.join(
+        horse_df.select("axciskey","horse_id"),  # or add "horse_name" if needed
+        on="axciskey",
+        how="left"
+    )
+
+    # ----------------------------------------------------------------------
+    # 13) Write final_with_horse => gps_aggregated
     # ----------------------------------------------------------------------
     staging_table = "gps_aggregated"
-    logging.info(f"Writing quartile + overall GPS metrics to {staging_table} ...")
+    logging.info(f"Writing quartile + overall GPS metrics (with horse_id) to {staging_table} ...")
 
     (
-        final_result.write.format("jdbc")
+        final_with_horse.write.format("jdbc")
         .option("url", jdbc_url)
         .option("dbtable", staging_table)
         .option("user", jdbc_properties["user"])
@@ -692,8 +744,66 @@ def calculate_gps_metrics_quartile_and_write(
     )
 
     elapsed = time.time() - start_time
-    logging.info(f"GPS quartile metrics aggregated and written in {elapsed:.2f} seconds.")
-   
+    logging.info(
+        f"GPS quartile metrics aggregated (with axciskey => horse_id) "
+        f"and written in {elapsed:.2f} seconds."
+    )    
+    
+def append_gps_locf_columns(spark, jdbc_url, jdbc_properties):
+    """
+    Reads gps_aggregated from DB, appends '_prev' columns via LOCF 
+    (Last Observation Carried Forward) across multiple races for each horse_id,
+    and writes to gps_aggregated_locf.
+    ...
+    """
+    # 1) Read the gps_aggregated table into a DataFrame
+    df_agg = (
+        spark.read.format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", "gps_aggregated")
+        .option("user", jdbc_properties["user"])
+        .option("driver", jdbc_properties["driver"])
+        .load()
+    )
+
+    # 2) Now we truly have 'horse_id' in df_agg, so we can do:
+    partition_cols = ["horse_id"]
+    order_cols = ["race_date", "race_number"]  # or add 'course_cd' if needed
+
+    window_spec = (
+        Window.partitionBy(*partition_cols)
+              .orderBy(*order_cols)
+              .rowsBetween(Window.unboundedPreceding, -1)
+    )
+
+    # Exclude non-numeric or ID columns from the LOCF transformations
+    skip_cols = set(partition_cols + order_cols + 
+                    ["course_cd","race_date","race_number","saddle_cloth_number"])
+
+    numeric_cols = [
+        f.name for f in df_agg.schema.fields
+        if f.dataType.typeName() in ("integer","double","float","long","decimal")
+           and f.name not in skip_cols
+    ]
+
+    for c in numeric_cols:
+        df_agg = df_agg.withColumn(
+            f"{c}_prev",
+            last(col(c), ignorenulls=True).over(window_spec)
+        )
+
+    staging_table = "gps_aggregated_locf"
+    
+    (
+        df_agg.write.format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", staging_table)
+        .option("user", jdbc_properties["user"])
+        .option("driver", jdbc_properties["driver"])
+        .mode("overwrite")
+        .save()
+    )
+    
 def spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties):
     """
     1) Reads raw `sectionals` data via Spark JDBC or from parquet.
@@ -731,12 +841,6 @@ def spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties):
     )
     
     # Step 6: Pivot the quartile aggregates to get the desired columns
-    # result1 = quartile_aggregates.groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number").pivot("quartile").agg(
-    #     first("avg_running_time").alias("avg_time_per_gate"),
-    #     first("distance_back").alias("distance_back"),
-    #     first("number_of_strides").alias("number_of_strides")
-    # ).withColumnRenamed("first_quarter_pace","1").withColumnRenamed("second_quarter_pace", "2").withColumnRenamed("third_quarter_pace", "3").withColumnRenamed("fourth_quarter_pace", "4")
-
     result1 = quartile_aggregates.groupBy("course_cd", "race_date", "race_number", "saddle_cloth_number").pivot("quartile").agg(
         first("avg_running_time").alias("avg_time_per_gate"),
         first("distance_back").alias("distance_back"),
@@ -793,6 +897,12 @@ def add_pk_and_indexes(db_pool, output_table):
                     f"CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)",
                     f"CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)"
                 ]
+            elif output_table == "gps_aggregated_locf":
+                ddl_statements = [
+                    f"ALTER TABLE {output_table} ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)",
+                    f"CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)",
+                    f"CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)"
+                ]                       
             else:
                 logging.error(f"Unknown table name: {output_table}")
                 return
@@ -922,12 +1032,11 @@ def spark_aggregate_sectionals_and_write_locf_keyed_horse_date(
         df_runners.alias("run"),
         on=["course_cd","race_date","race_number","saddle_cloth_number"]
     ).select("sec.*","run.axciskey")
-
+    
     sec_with_horse_id = sec_with_axciskey.alias("swx").join(
         df_horse.alias("h"),
         on=["axciskey"]
     ).select("swx.*","h.horse_id")
-
     # ----------------------------------------------------------------------------
     # Step C: Key on (horse_id, as_of_date) => rename race_date -> as_of_date
     # ----------------------------------------------------------------------------
@@ -1019,11 +1128,13 @@ def main():
 
         conn = db_pool.getconn()
         try:
+            spark_aggregate_sectionals_and_write(conn, sectionals_df, jdbc_url, jdbc_properties)
             spark_aggregate_sectionals_and_write_locf_keyed_horse_date(conn,sectionals_df,runners_df,horse_df,jdbc_url,jdbc_properties)
             add_pk_and_indexes(db_pool, "sectionals_aggregated_locf")
-            spark_aggregate_sectionals_and_write(conn, df, jdbc_url, jdbc_properties)
             add_pk_and_indexes(db_pool, "sectionals_aggregated")
-            calculate_gps_metrics_quartile_and_write(conn, gpspoint_df, jdbc_url, jdbc_properties)
+            calculate_gps_metrics_quartile_and_write(conn, gpspoint_df, runners_df, horse_df, jdbc_url, jdbc_properties)
+            append_gps_locf_columns(spark, jdbc_url, jdbc_properties)
+            add_pk_and_indexes(db_pool, "gps_aggregated_locf")
         finally:
             db_pool.putconn(conn)
                 
@@ -1049,6 +1160,10 @@ def main():
             update_previous_race_data_and_race_count(conn)
         except Exception as e:
             logging.error(f"Error updating update_previous_race_data_and_race_count: {e}")
+        try:
+            update_runners_off_fin_last_race(conn)
+        except Exception as e:
+            logging.error(f"Error updating update_runners_off_fin_last_race: {e}")
         try:    
             update_speed_rating(conn)
         except Exception as e:

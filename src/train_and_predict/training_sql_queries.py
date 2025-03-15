@@ -13,123 +13,198 @@ def sql_queries():
                 h.horse_id AS horse_id,
                 h.horse_name AS horse_name,
                 re.official_fin AS official_fin,
-                r.rr_par_time AS par_time,
-                sa.running_time_prev as running_time,
-                sa.total_distance_ran_prev as total_distance_ran,
-                sa.avgtime_gate1_prev as avgtime_gate1,
-                sa.avgtime_gate2_prev as avgtime_gate2,
-                sa.avgtime_gate3_prev as avgtime_gate3,
-                sa.avgtime_gate4_prev as avgtime_gate4,
-                sa.dist_bk_gate1_prev as dist_bk_gate1,
-                sa.dist_bk_gate2_prev as dist_bk_gate2,
-                sa.dist_bk_gate3_prev as dist_bk_gate3,
-                sa.dist_bk_gate4_prev as dist_bk_gate4,
-                r2.prev_speed_rating AS prev_speed_rating,
-                r2.previous_class AS previous_class,
-                r.purse AS purse,
-                r2.weight AS weight,
-                h.foal_date AS date_of_birth,
-                TRIM(h.sex) AS sex,
-                TRIM(r2.equip) AS equip,
-                r2.claimprice AS claimprice,
-                TRIM(r.surface) AS surface,
-                r.distance_meters AS distance_meters,
-                r.class_rating AS class_rating,
-                r2.previous_distance AS previous_distance,
-                r2.previous_surface AS previous_surface,
-                r2.off_finish_last_race AS off_finish_last_race,
-                r2.power AS power,
-                tc.code AS trk_cond,
-                TRIM(r2.med) AS med,
-                r2.morn_odds AS morn_odds,
-                r2.avgspd AS avgspd,
-                r2.race_count AS starts,
-                TRIM(r.race_type) AS race_type,
-                r2.net_sentiment AS net_sentiment,
-                TRIM(r.stk_clm_md) AS stk_clm_md,
-                TRIM(r2.turf_mud_mark) AS turf_mud_mark,
-                r2.avg_spd_sd AS avg_spd_sd,
-                r2.ave_cl_sd AS ave_cl_sd,
-                r2.hi_spd_sd AS hi_spd_sd,
-                r2.pstyerl AS pstyerl,
-                has_all.starts AS all_starts,
-                has_all.win AS all_win,
-                has_all.place AS all_place,
-                has_all.show AS all_show,
-                has_all.fourth AS all_fourth,
-                has_all.earnings AS all_earnings,
-                COALESCE(has_all.itm_percentage,0) AS horse_itm_percentage,
-                has_cond.starts AS cond_starts,
-                has_cond.win AS cond_win,
-                has_cond.place AS cond_place,
-                has_cond.show AS cond_show,
-                has_cond.fourth AS cond_fourth,
-                has_cond.earnings AS cond_earnings,
-                jast_j.win_percentage AS jock_win_percent,
-                jast_j.itm_percentage AS jock_itm_percent,
-                tast_t.win_percentage AS trainer_win_percent,
-                tast_t.itm_percentage AS trainer_itm_percent,
-                tjstat.win_percentage AS jt_win_percent,
-                tjstat.itm_percentage AS jt_itm_percent,
-                jtrack.win_percentage AS jock_win_track,
-                jtrack.itm_percentage AS jock_itm_track,
-                ttrack.win_percentage AS trainer_win_track,
-                ttrack.itm_percentage AS trainer_itm_track,
-                jttrack.win_percentage AS jt_win_track,
-                jttrack.itm_percentage AS jt_itm_track,
-                CASE WHEN s.starts=0 THEN 0 ELSE (s.wins+s.places+s.shows)/s.starts END AS sire_itm_percentage,
-                s.roi AS sire_roi,
-                CASE WHEN d.starts=0 THEN 0 ELSE (d.wins+d.places+d.shows)/d.starts END AS dam_itm_percentage,
-                d.roi AS dam_roi,
-                hrf.total_races_5 AS total_races_5,
-                hrf.avg_fin_5 AS avg_fin_5,
-                hrf.avg_speed_5 AS avg_speed_5,
-                hrf.best_speed AS best_speed,
-                hrf.avg_beaten_len_5 AS avg_beaten_len_5,
-                hrf.first_race_date_5 AS first_race_date_5,
-                hrf.most_recent_race_5 AS most_recent_race_5,
-                hrf.avg_dist_bk_gate1_5 AS avg_dist_bk_gate1_5,
-                hrf.avg_dist_bk_gate2_5 AS avg_dist_bk_gate2_5,
-                hrf.avg_dist_bk_gate3_5 AS avg_dist_bk_gate3_5,
-                hrf.avg_dist_bk_gate4_5 AS avg_dist_bk_gate4_5,
-                hrf.avg_speed_fullrace_5 AS avg_speed_fullrace_5,
-                hrf.avg_stride_length_5 AS avg_stride_length_5,
-                hrf.avg_strfreq_q1_5 AS avg_strfreq_q1_5,
-                hrf.avg_strfreq_q2_5 AS avg_strfreq_q2_5,
-                hrf.avg_strfreq_q3_5 AS avg_strfreq_q3_5,
-                hrf.avg_strfreq_q4_5 AS avg_strfreq_q4_5,
-                hrf.prev_speed AS prev_speed,  -- previous speed rating
-                hrf.speed_improvement AS speed_improvement,
-                hrf.prev_race_date AS prev_race_date,
-                hrf.days_off AS days_off,
-                hrf.layoff_cat AS layoff_cat,
-                hrf.avg_workout_rank_3 AS avg_workout_rank_3,
-                hrf.count_workouts_3 AS count_workouts_3,
-                r2.race_count AS race_count,
-                c.track_name AS track_name,
-                CASE 
-                    WHEN (hrf.avg_speed_5 IS NOT NULL 
-                        AND hrf.best_speed IS NOT NULL 
-                        AND hrf.avg_beaten_len_5 IS NOT NULL 
-                        AND hrf.first_race_date_5 IS NOT NULL 
-                        AND hrf.most_recent_race_5 IS NOT NULL 
-                        AND hrf.avg_dist_bk_gate1_5 IS NOT NULL 
-                        AND hrf.avg_dist_bk_gate2_5 IS NOT NULL 
-                        AND hrf.avg_dist_bk_gate3_5 IS NOT NULL 
-                        AND hrf.avg_dist_bk_gate4_5 IS NOT NULL 
-                        AND hrf.avg_speed_fullrace_5 IS NOT NULL 
-                        AND hrf.avg_stride_length_5 IS NOT NULL 
-                        AND hrf.avg_strfreq_q1_5 IS NOT NULL 
-                        AND hrf.avg_strfreq_q2_5 IS NOT NULL 
-                        AND hrf.avg_strfreq_q3_5 IS NOT NULL 
-                        AND hrf.avg_strfreq_q4_5 IS NOT NULL 
-                        AND hrf.prev_speed IS NOT NULL 
-                        AND hrf.speed_improvement IS NOT NULL) 
-                    THEN 1 ELSE 0 END AS has_gps,
+                r.rr_par_time AS par_time,  -- par_time for a race track pre-computed
+                -- ---------------------------
+                -- Running/Distance Metrics (prev)
+                -- ---------------------------
+                sa.running_time_prev           as running_time,       -- total running time (carried forward)
+                sa.total_distance_ran_prev     as total_distance_ran, -- total distance covered (carried forward)
+                -- ---------------------------
+                -- Average Times to Gates (prev)
+                -- ---------------------------
+                sa.avgtime_gate1_prev          as avgtime_gate1,      -- average time to gate 1 (carried forward)
+                sa.avgtime_gate2_prev          as avgtime_gate2,      -- average time to gate 2 (carried forward)
+                sa.avgtime_gate3_prev          as avgtime_gate3,      -- average time to gate 3 (carried forward)
+                sa.avgtime_gate4_prev          as avgtime_gate4,      -- average time to gate 4 (carried forward)
+                -- ---------------------------
+                -- Distance Behind at Each Gate (prev)
+                -- ---------------------------
+                sa.dist_bk_gate1_prev          as dist_bk_gate1,      -- distance behind at gate 1 (carried forward)
+                sa.dist_bk_gate2_prev          as dist_bk_gate2,      -- distance behind at gate 2 (carried forward)
+                sa.dist_bk_gate3_prev          as dist_bk_gate3,      -- distance behind at gate 3 (carried forward)
+                sa.dist_bk_gate4_prev          as dist_bk_gate4,       -- distance behind at gate 4 (carried forward)
+                -- ---------------------------
+                -- Speed metrics (prev)
+                -- ---------------------------
+                gal.speed_q1_prev           as speed_q1,         -- quartile 1 average speed (carried forward)
+                gal.speed_q2_prev           as speed_q2,         -- quartile 2 average speed (carried forward)
+                gal.speed_q3_prev           as speed_q3,         -- quartile 3 average speed (carried forward)
+                gal.speed_q4_prev           as speed_q4,         -- quartile 4 average speed (carried forward)
+                gal.speed_var_prev          as speed_var,        -- overall speed variability (carried forward)
+                gal.avg_speed_fullrace_prev as avg_speed_fullrace, -- full-race avg speed (carried forward)
+                -- ---------------------------
+                -- Acceleration metrics (prev)
+                -- ---------------------------
+                gal.accel_q1_prev           as accel_q1,         -- quartile 1 average accel (carried forward)
+                gal.accel_q2_prev           as accel_q2,         -- quartile 2 average accel (carried forward)
+                gal.accel_q3_prev           as accel_q3,         -- quartile 3 average accel (carried forward)
+                gal.accel_q4_prev           as accel_q4,         -- quartile 4 average accel (carried forward)
+                gal.avg_acceleration_prev   as avg_acceleration, -- full-race avg accel (carried forward)
+                gal.max_acceleration_prev   as max_acceleration, -- max accel in the race (carried forward)
+                -- ---------------------------
+                -- Jerk metrics (prev)
+                -- ---------------------------
+                gal.jerk_q1_prev           as jerk_q1,           -- quartile 1 average jerk (carried forward)
+                gal.jerk_q2_prev           as jerk_q2,           -- quartile 2 average jerk (carried forward)
+                gal.jerk_q3_prev           as jerk_q3,           -- quartile 3 average jerk (carried forward)
+                gal.jerk_q4_prev           as jerk_q4,           -- quartile 4 average jerk (carried forward)
+                gal.avg_jerk_prev          as avg_jerk,          -- full-race avg jerk (carried forward)
+                gal.max_jerk_prev          as max_jerk,          -- max jerk in the race (carried forward)
+                -- ---------------------------
+                -- Distance metrics (prev)
+                -- ---------------------------
+                gal.dist_q1_prev           as dist_q1,           -- quartile 1 distance (carried forward)
+                gal.dist_q2_prev           as dist_q2,           -- quartile 2 distance (carried forward)
+                gal.dist_q3_prev           as dist_q3,           -- quartile 3 distance (carried forward)
+                gal.dist_q4_prev           as dist_q4,           -- quartile 4 distance (carried forward)
+                gal.total_dist_covered_prev as total_dist_covered,-- total distance covered (carried forward)
+                -- ---------------------------
+                -- Stride frequency metrics (prev)
+                -- ---------------------------
+                gal.strfreq_q1_prev        as strfreq_q1,        -- quartile 1 average stride freq (carried forward)
+                gal.strfreq_q2_prev        as strfreq_q2,        -- quartile 2 average stride freq (carried forward)
+                gal.strfreq_q3_prev        as strfreq_q3,        -- quartile 3 average stride freq (carried forward)
+                gal.strfreq_q4_prev        as strfreq_q4,        -- quartile 4 average stride freq (carried forward)
+                -- ---------------------------
+                -- Additional overall metrics (prev)
+                -- ---------------------------
+                gal.avg_stride_length_prev as avg_stride_length, -- full-race avg stride length (carried forward)
+                gal.net_progress_gain_prev as net_progress_gain,  -- net progress from start to end (carried forward)
+                -- ============================
+                -- HORSE-RELATED STATS
+                -- ============================
+                r2.prev_speed_rating AS prev_speed_rating,   -- (Horse) previous speed rating
+                r2.previous_class AS previous_class,         -- (Horse) previous class level
+                r2.weight AS weight,                         -- (Horse) carried weight
+                h.foal_date AS date_of_birth,                -- (Horse) DOB
+                TRIM(h.sex) AS sex,                          -- (Horse) sex/gender
+                TRIM(r2.equip) AS equip,                     -- (Horse) equipment (blinkers, etc.)
+                r2.claimprice AS claimprice,                 -- (Horse) claiming price if applicable
+                r2.previous_distance AS previous_distance,   -- (Horse) distance of last race
+                r2.previous_surface AS previous_surface,     -- (Horse) official finish last race
+                r2.prev_official_fin AS prev_official_fin, -- (Horse) how far off the finish last race
+                r2.power AS power,                           -- (Horse) power rating
+                TRIM(r2.med) AS med,                         -- (Horse) medication usage
+                r2.avgspd AS avgspd,                         -- (Horse) average speed figure
+                r2.race_count AS starts,                     -- (Horse) total starts (shortcut alias)
+                r2.avg_spd_sd AS avg_spd_sd,                 -- (Horse) standard deviation of avg speeds
+                r2.ave_cl_sd AS ave_cl_sd,                   -- (Horse) standard deviation of avg class
+                r2.hi_spd_sd AS hi_spd_sd,                   -- (Horse) standard deviation of highest speed
+                r2.pstyerl AS pstyerl,                       -- (Horse) previous year stats (?)
+                -- ============================
+                -- RACE-RELATED STATS
+                -- ============================
+                r.purse AS purse,                            -- (Race) purse amount
+                TRIM(r.surface) AS surface,                  -- (Race) current surface
+                r.distance_meters AS distance_meters,        -- (Race) current race distance
+                r.class_rating AS class_rating,              -- (Race) class rating
+                tc.code AS trk_cond,                         -- (Race) track condition code
+                r2.morn_odds AS morn_odds,                   -- (Race) morning-line odds (horse+race specific)
+                TRIM(r.race_type) AS race_type,              -- (Race) type (stakes, allowance, etc.)
+                TRIM(r.stk_clm_md) AS stk_clm_md,            -- (Race) whether stakes, claiming, maiden, etc.
+                TRIM(r2.turf_mud_mark) AS turf_mud_mark,     -- (Race) special mark for turf or mud conditions
                 CASE 
                     WHEN r.race_date < CURRENT_DATE THEN 'historical'
-                ELSE 'future'
-                END AS data_flag
+                    ELSE 'future'
+                END AS data_flag,                            -- (Race) indicates if race is past or upcoming
+                -- ============================
+                -- JOCKEY / TRAINER STATS
+                -- ============================
+                jast_j.win_percentage AS jock_win_percent,    -- (Jockey) overall win %
+                jast_j.itm_percentage AS jock_itm_percent,    -- (Jockey) in-the-money %
+                tast_t.win_percentage AS trainer_win_percent, -- (Trainer) overall win %
+                tast_t.itm_percentage AS trainer_itm_percent, -- (Trainer) in-the-money %
+                ttrack.win_percentage AS trainer_win_track,   -- (Trainer) track-specific win %
+                ttrack.itm_percentage AS trainer_itm_track,   -- (Trainer) track-specific ITM %
+                -- ============================
+                -- SIRE/DAM (PEDIGREE) STATS
+                -- ============================
+                CASE WHEN s.starts=0 THEN 0 
+                     ELSE (s.wins+s.places+s.shows)/s.starts 
+                END AS sire_itm_percentage,   -- (Sire) in-the-money %
+                s.roi AS sire_roi,            -- (Sire) return on investment
+                CASE WHEN d.starts=0 THEN 0 
+                     ELSE (d.wins+d.places+d.shows)/d.starts 
+                END AS dam_itm_percentage,    -- (Dam) in-the-money %
+                d.roi AS dam_roi,            -- (Dam) return on investment
+                -- ============================
+                -- HORSE AGGREGATE STATS (All / Condition)
+                -- ============================
+                has_all.starts AS all_starts,     -- (Horse) total career starts
+                has_all.win AS all_win,           -- (Horse) total career wins
+                has_all.place AS all_place,       -- (Horse) total career places
+                has_all.show AS all_show,         -- (Horse) total career shows
+                has_all.fourth AS all_fourth,     -- (Horse) total 4th place finishes
+                has_all.earnings AS all_earnings, -- (Horse) total earnings
+                COALESCE(has_all.itm_percentage,0) AS horse_itm_percentage, -- (Horse) overall ITM %
+                -- ============================
+                -- NET SENTIMENT (MISC)
+                -- ============================
+                r2.net_sentiment AS net_sentiment, -- (Misc) sentiment analysis (?)
+                -- ============================
+                -- 5-RACE FORM / HISTORICAL FORM
+                -- ============================
+                hrf.total_races_5 AS total_races_5,          -- (5-Race) # races considered
+                hrf.avg_fin_5 AS avg_fin_5,                  -- (5-Race) avg finishing position
+                hrf.avg_speed_5 AS avg_speed_5,              -- (5-Race) avg speed
+                hrf.best_speed AS best_speed,                 -- (5-Race) best speed figure among last 5
+                hrf.avg_beaten_len_5 AS avg_beaten_len_5,     -- (5-Race) avg beaten lengths
+                hrf.first_race_date_5 AS first_race_date_5,   -- (5-Race) earliest race date in last 5
+                hrf.most_recent_race_5 AS most_recent_race_5, -- (5-Race) date of the most recent race
+                hrf.avg_dist_bk_gate1_5 AS avg_dist_bk_gate1_5, -- (5-Race) average distance behind at gate1
+                hrf.avg_dist_bk_gate2_5 AS avg_dist_bk_gate2_5, -- (5-Race) average distance behind at gate2
+                hrf.avg_dist_bk_gate3_5 AS avg_dist_bk_gate3_5, -- (5-Race) average distance behind at gate3
+                hrf.avg_dist_bk_gate4_5 AS avg_dist_bk_gate4_5, -- (5-Race) average distance behind at gate4
+                hrf.avg_speed_fullrace_5 AS avg_speed_fullrace_5, -- (5-Race) average full-race speed
+                hrf.avg_stride_length_5 AS avg_stride_length_5,   -- (5-Race) average stride length
+                hrf.avg_strfreq_q1_5 AS avg_strfreq_q1_5,         -- (5-Race) stride freq in Q1
+                hrf.avg_strfreq_q2_5 AS avg_strfreq_q2_5,         -- (5-Race) stride freq in Q2
+                hrf.avg_strfreq_q3_5 AS avg_strfreq_q3_5,         -- (5-Race) stride freq in Q3
+                hrf.avg_strfreq_q4_5 AS avg_strfreq_q4_5,         -- (5-Race) stride freq in Q4
+                hrf.prev_speed AS prev_speed,                     -- (5-Race) prior speed rating
+                hrf.speed_improvement AS speed_improvement,       -- (5-Race) improvement vs. prior race
+                hrf.prev_race_date AS prev_race_date,             -- (5-Race) date of previous race
+                hrf.days_off AS days_off,                         -- (5-Race) days since last race
+                hrf.layoff_cat AS layoff_cat,                     -- (5-Race) category of layoff
+                hrf.avg_workout_rank_3 AS avg_workout_rank_3,     -- (5-Race) average workout rank
+                hrf.count_workouts_3 AS count_workouts_3,         -- (5-Race) # of workouts in that period               
+                -- ============================
+                -- TRACK NAME
+                -- ============================
+                c.track_name AS track_name,    -- (Could be race-level or general info)
+                -- ============================
+                -- GPS PRESENCE CHECK
+                -- ============================
+                CASE 
+                    WHEN (hrf.avg_speed_5 IS NOT NULL 
+                          AND hrf.best_speed IS NOT NULL 
+                          AND hrf.avg_beaten_len_5 IS NOT NULL 
+                          AND hrf.first_race_date_5 IS NOT NULL 
+                          AND hrf.most_recent_race_5 IS NOT NULL 
+                          AND hrf.avg_dist_bk_gate1_5 IS NOT NULL 
+                          AND hrf.avg_dist_bk_gate2_5 IS NOT NULL 
+                          AND hrf.avg_dist_bk_gate3_5 IS NOT NULL 
+                          AND hrf.avg_dist_bk_gate4_5 IS NOT NULL 
+                          AND hrf.avg_speed_fullrace_5 IS NOT NULL 
+                          AND hrf.avg_stride_length_5 IS NOT NULL 
+                          AND hrf.avg_strfreq_q1_5 IS NOT NULL 
+                          AND hrf.avg_strfreq_q2_5 IS NOT NULL 
+                          AND hrf.avg_strfreq_q3_5 IS NOT NULL 
+                          AND hrf.avg_strfreq_q4_5 IS NOT NULL 
+                          AND hrf.prev_speed IS NOT NULL 
+                          AND hrf.speed_improvement IS NOT NULL) 
+                    THEN 1 ELSE 0 
+                END AS has_gps
             FROM races r
             JOIN runners r2 
                 ON r.course_cd = r2.course_cd 
@@ -163,6 +238,14 @@ def sql_queries():
                                 ORDER BY s.as_of_date DESC
                                 LIMIT 1
                                 ) sa ON TRUE
+            LEFT JOIN LATERAL (
+                    SELECT gl.*
+                    FROM gps_aggregated_locf gl
+                    WHERE gl.horse_id = h.horse_id
+                        AND gl.race_date <= r2.race_date
+                    ORDER BY gl.race_date DESC
+                    LIMIT 1
+                    ) gal ON TRUE
             LEFT JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey 
                 AND has_all.stat_type='ALL_RACES' 
                 AND has_all.as_of_date=(SELECT MAX(a2.as_of_date) 

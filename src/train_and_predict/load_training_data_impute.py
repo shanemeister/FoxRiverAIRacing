@@ -788,7 +788,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     logging.info("Starting the write to parquet.")
 
     start_time = time.time()
-    train_df.write.mode("overwrite").parquet(f"{parquet_dir}/train_df")
+    train_df.write.mode("overwrite").parquet(f"{parquet_dir}train_df")
     logging.info(f"Data written to Parquet in {time.time() - start_time:.2f} seconds")
     logging.info("Data cleansing complete. train_df being returned.")
     

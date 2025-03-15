@@ -168,50 +168,6 @@ def fill_forward_and_backward_locf(
     
     return df_bf
 
-def fill_forward_locf(
-    df: DataFrame,
-    columns_to_update: list,
-    horse_id_col: str = "horse_id",
-    date_col: str = "race_date",
-    race_num_col: str = "race_number"
-) -> DataFrame:
-    """
-    Perform a forward-fill (LOCF: Last Observation Carried Forward) on 'df' 
-    for each horse, ordered by (date_col, race_num_col).
-    
-    For each column in 'columns_to_update', any null value in a later row 
-    will be replaced by the most recent non-null value from a previous row 
-    (within the same horse_id partition).
-    
-    :param df:            The Spark DataFrame that contains horse racing data.
-    :param columns_to_update: List of column names to forward-fill if null.
-    :param horse_id_col:  Column name identifying the horse (e.g. "horse_id").
-    :param date_col:      Column representing the date (or date-time) of the race.
-    :param race_num_col:  Column representing the race number (to break ties or refine ordering).
-    
-    :return: A new DataFrame with forward-filled values for the specified columns.
-    """
-
-    # Define a window partitioned by horse_id, ordered by race_date asc, race_number asc
-    # rowsBetween(Window.unboundedPreceding, Window.currentRow) 
-    # means: for the current row, consider all rows from the start of the partition up to current.
-    w = (
-        W.Window
-        .partitionBy(horse_id_col)
-        .orderBy(F.col(date_col).asc(), F.col(race_num_col).asc())
-        .rowsBetween(W.Window.unboundedPreceding, W.Window.currentRow)
-    )
-
-    # For each column, apply last_value(..., ignorenulls=True) 
-    # to fill forward the most recent non-null occurrence.
-    for col_name in columns_to_update:
-        df = df.withColumn(
-            col_name,
-            F.last(F.col(col_name), ignorenulls=True).over(w)
-        )
-
-    return df
-
 def acklam_icdf(p: float) -> float:
     """
     Approximate the inverse CDF (quantile) of the standard normal distribution.
@@ -664,7 +620,7 @@ def join_and_merge_dataframes(historical_df: DataFrame, future_df: DataFrame) ->
 
 from pyspark.sql import functions as F
 
-def assign_piecewise_log_labels_spark(df):
+def assign_piecewise_log_labels_spark(df, alpha = 30.0, beta = 4.0):
     """
     Assigns a 'relevance' column based on finishing position:
       1st => 70
@@ -680,9 +636,6 @@ def assign_piecewise_log_labels_spark(df):
     Returns:
       DataFrame: Spark DataFrame with new columns 'relevance' and 'top4_label'.
     """
-
-    alpha = 30.0
-    beta  = 4.0
 
     # Build the piecewise logic using Spark's 'when' chains:
     df_out = df.withColumn(
@@ -857,10 +810,6 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     """
     # 1) Create a "relevance" column for finishing position
     enhanced_df = assign_piecewise_log_labels_spark(df_input, alpha=0.8)
-    
-    columns_to_update = ["dist_bk_gate4", "running_time", "total_distance_ran"]
-
-    enhanced_df = fill_forward_locf(enhanced_df, columns_to_update, "horse_id", "race_date", "race_number") 
 
     # # Separate historical and future data
     # historical_df = enhanced_df.filter(F.col("data_flag") == "historical")
@@ -914,5 +863,8 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     logging.info(f"Final DF total count: {count_total}")
     logging.info(f"Final DF count for historical: {count_hist}")
     logging.info(f"Final DF count for future: {count_fut}")
+    
+    # Drop the column "col_name"
+    enriched_df = enriched_df.drop("col_name")
     
     return enriched_df

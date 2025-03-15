@@ -425,3 +425,13 @@ DETAIL:  Key (train_key)=(977954) is not present in table "trainer".
 2025-03-13 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
 2025-03-13 04:15:05 - Python script succeeded
 2025-03-13 04:15:05 - Job completed
+2025-03-14 04:15:01 - Starting stat_type_update job
+2025-03-14 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-14 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-03-14 04:15:06 - Python script succeeded
+2025-03-14 04:15:06 - Job completed
+2025-03-15 04:15:01 - Starting stat_type_update job
+2025-03-15 04:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-15 04:15:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/stat_type_update_jt.py
+2025-03-15 04:15:08 - Python script succeeded
+2025-03-15 04:15:08 - Job completed

@@ -299,11 +299,11 @@ def write_predictions_to_docx(pred_df, output_docx):
         # Chart #2: Overlay Chart (if 'morn_odds' is present)
         add_overlay_chart(doc, race_df)
 
-        if race_has_missing:
-            doc.add_paragraph(
-                "NOTE: GCSF - Global Combined Speed Figure",
-                style='Normal'
-            )
+        
+        doc.add_paragraph(
+            "NOTE: GCSF - Global Combined Speed Figure",
+            style='Normal'
+        )
 
         doc.add_page_break()
 
