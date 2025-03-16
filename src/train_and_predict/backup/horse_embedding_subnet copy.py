@@ -14,12 +14,13 @@ from optuna.integration import TFKerasPruningCallback
 from sklearn.model_selection import train_test_split
 from pyspark.sql.types import DoubleType, IntegerType
 import scipy.stats as stats
-from pyspark.sql import functions as F
-from pyspark.sql import Window as W
+from src.data_preprocessing.data_prep1.data_utils import save_parquet
+from pyspark.sql import functions as F, Window
+import pyspark.sql.window as W
+from scipy.stats import spearmanr
 
 # ---------------------------
-# 1) Custom Callback for Spearman Metric
-#    => sets logs["val_spearman"] so we can do early stopping on it
+# Custom Callback for Ranking Metric
 # ---------------------------
 class SpearmanMetricCallback(Callback):
     def __init__(self, x_val, y_val):
@@ -29,40 +30,35 @@ class SpearmanMetricCallback(Callback):
 
     def on_epoch_end(self, epoch, logs=None):
         logs = logs or {}
-        # Predict on validation
-        preds = self.model.predict(self.x_val, verbose=0).ravel()
-        corr, _ = stats.spearmanr(self.y_val, preds)
-        # Store in logs
-        logs["val_spearman"] = corr
-        print(f" - val_spearman: {corr:.4f}")
-
+        val_loss, _ = self.model.evaluate(self.x_val, self.y_val, verbose=0)
+        logs["val_loss"] = val_loss
+        print(f" - val_loss: {logs['val_loss']:.4f}")
 # ---------------------------
-# 2) Optional RankingMetricCallback
-#    (Still prints the val_loss, but you could also print correlation again if desired)
+# Custom Callback for Ranking Metric
 # ---------------------------
 class RankingMetricCallback(Callback):
     def __init__(self, val_data_dict):
+        """
+        val_data_dict is a dictionary with keys:
+          "horse_id_val", "horse_stats_val", "race_numeric_val",
+          "course_cd_val", "trk_cond_val", "y_val"
+        """
         super().__init__()
-        # We'll build a dictionary the model expects
-        self.val_dict_for_model = {
-            "horse_id_input":     val_data_dict["horse_id_val"],
-            "horse_stats_input":  val_data_dict["horse_stats_val"],
-            "race_numeric_input": val_data_dict["race_numeric_val"],
-            "course_cd_input":    val_data_dict["course_cd_val"],
-            "trk_cond_input":     val_data_dict["trk_cond_val"]
-        }
-        self.y_true = val_data_dict["y_val"]
+        self.val_data_dict = val_data_dict
 
     def on_epoch_end(self, epoch, logs=None):
+        preds = self.model.predict({
+            "horse_id_input":     self.val_data_dict["horse_id_val"],
+            "horse_stats_input":  self.val_data_dict["horse_stats_val"],
+            "race_numeric_input": self.val_data_dict["race_numeric_val"],
+            "course_cd_input":    self.val_data_dict["course_cd_val"],
+            "trk_cond_input":     self.val_data_dict["trk_cond_val"]
+        })
+        y_true = self.val_data_dict["y_val"]
+        corr, _ = stats.spearmanr(y_true, preds.flatten())
         logs = logs or {}
-        # 1) Predict
-        preds = self.model.predict(self.val_dict_for_model, verbose=0).ravel()
-        corr, _ = stats.spearmanr(self.y_true, preds)
-        print(f" [RankingMetric] Spearman on val: {corr:.4f}")
-
-        # 2) Evaluate
-        val_loss, _ = self.model.evaluate(self.val_dict_for_model, self.y_true, verbose=0)
-        print(f" - val_loss: {val_loss:.4f}")
+        logs["val_loss"] = self.model.evaluate(self.val_data_dict, self.val_data_dict["y_val"], verbose=0)[0]
+        print(f" - val_loss: {logs['val_loss']:.4f}")
 
 # ---------------------------
 # Helper: check_nan_inf
@@ -109,45 +105,27 @@ def assign_piecewise_log_labels_spark(df, alpha=30.0, beta=4.0):
       else => alpha / log(beta + official_fin)
     Also assigns 'top4_label' = 1 if official_fin <= 4 else 0.
 
-    Additionally, creates 'prev_official_fin_relevance' for the previous finish
-    using the same piecewise logic.
-
     Parameters:
-      df (DataFrame): A Spark DataFrame that has 'official_fin' and optionally 'prev_official_fin'.
+      df (DataFrame): A Spark DataFrame that has 'official_fin' column.
 
     Returns:
-      DataFrame: Spark DataFrame with new columns:
-        'relevance', 'top4_label', and 'prev_official_fin_relevance'.
+      DataFrame: Spark DataFrame with new columns 'relevance' and 'top4_label'.
     """
-    df_out = (
-        df
-        # 1) Current race finishing position => "relevance"
-        .withColumn(
-            "relevance",
-            F.when(F.col("official_fin") == 1, 70.0)
-             .when(F.col("official_fin") == 2, 56.0)
-             .when(F.col("official_fin") == 3, 44.0)
-             .when(F.col("official_fin") == 4, 34.0)
-             .otherwise(
-                 F.lit(alpha) / F.log(F.lit(beta) + F.col("official_fin"))
-             )
-        )
-        # 2) top4_label for current race
-        .withColumn(
-            "top4_label",
-            F.when(F.col("official_fin") <= 4, F.lit(1)).otherwise(F.lit(0))
-        )
-        # 3) Previous race finishing position => "prev_official_fin_relevance"
-        .withColumn(
-            "prev_official_fin_relevance",
-            F.when(F.col("prev_official_fin") == 1, 70.0)
-             .when(F.col("prev_official_fin") == 2, 56.0)
-             .when(F.col("prev_official_fin") == 3, 44.0)
-             .when(F.col("prev_official_fin") == 4, 34.0)
-             .otherwise(
-                 F.lit(alpha) / F.log(F.lit(beta) + F.col("prev_official_fin"))
-             )
-        )
+
+    # Build the piecewise logic using Spark's 'when' chains:
+    df_out = df.withColumn(
+        "relevance",
+        F.when(F.col("official_fin") == 1, 70.0)
+         .when(F.col("official_fin") == 2, 56.0)
+         .when(F.col("official_fin") == 3, 44.0)
+         .when(F.col("official_fin") == 4, 34.0)
+         # For 5th or worse:
+         .otherwise(
+             F.lit(alpha) / F.log(F.lit(beta) + F.col("official_fin"))
+         )
+    ).withColumn(
+        "top4_label",
+        F.when(F.col("official_fin") <= 4, F.lit(1)).otherwise(F.lit(0))
     )
 
     return df_out
@@ -246,6 +224,7 @@ def build_final_model(
     horse_embedding_dim,
     horse_stats_dim,
     race_dim,
+    cat_feature_info,
     horse_hid_layers,
     horse_units,
     race_hid_layers,
@@ -412,8 +391,6 @@ def build_final_model(
 # ---------------------------
 # Main Pipeline: embed_and_train
 # ---------------------------
-from sklearn.preprocessing import StandardScaler
-
 def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_score, action="load"):
     
     global_speed_score = assign_piecewise_log_labels_spark(global_speed_score, alpha=0.8)
@@ -432,54 +409,54 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     idx_to_horse_id = {v: k for k, v in horse_id_to_idx.items()}
     X_horse_id = np.array([horse_id_to_idx[h] for h in historical_pdf["horse_id"]])
     
-    # 1) numeric_cols: horse_stats_cols + race_numeric_cols combined or separate
-    #    e.g., we keep them separate because the network has separate inputs
-    horse_stats_cols = [
-        "global_speed_score_iq","horse_mean_rps","horse_std_rps","power","base_speed",
-        "avg_speed_fullrace_5","speed_improvement",'avgspd','starts',
-        'avg_spd_sd','ave_cl_sd','hi_spd_sd','pstyerl','sire_itm_percentage','sire_roi',
-        'dam_itm_percentage','dam_roi','all_starts','all_win','all_place',
-        'all_show','all_fourth','all_earnings','horse_itm_percentage','best_speed'
-    ]
-    race_numeric_cols = [
-        'par_time','running_time','total_distance_ran','previous_distance','distance_meters',
-        'avgtime_gate1','avgtime_gate2','avgtime_gate3','avgtime_gate4',
-        'dist_bk_gate1','dist_bk_gate2','dist_bk_gate3','dist_bk_gate4',
-        'speed_q1','speed_q2','speed_q3','speed_q4','speed_var','avg_speed_fullrace',
-        'accel_q1','accel_q2','accel_q3','accel_q4','avg_acceleration','max_acceleration',
-        'jerk_q1','jerk_q2','jerk_q3','jerk_q4','avg_jerk','max_jerk',
-        'dist_q1','dist_q2','dist_q3','dist_q4','total_dist_covered',
-        'strfreq_q1','strfreq_q2','strfreq_q3','strfreq_q4','avg_stride_length','net_progress_gain',
-        'prev_speed_rating','previous_class','prev_official_fin_relevance','purse','class_rating','morn_odds',
-        'net_sentiment','avg_fin_5','avg_speed_5','avg_beaten_len_5','avg_dist_bk_gate1_5','avg_dist_bk_gate2_5','avg_dist_bk_gate3_5',
-        'avg_dist_bk_gate4_5','avg_speed_fullrace_5','avg_stride_length_5','avg_strfreq_q1_5','avg_strfreq_q2_5',
-        'avg_strfreq_q3_5','avg_strfreq_q4_5','prev_speed','days_off','avg_workout_rank_3',
-        'has_gps','age_at_race_day'
-    ]
+    # Define column groups.
+    horse_stats_cols = ["global_speed_score_iq","horse_mean_rps", "horse_std_rps", "power", "base_speed", "avg_speed_fullrace_5", "speed_improvement"]
+    race_numeric_cols = ["race_std_speed_agg", "purse","net_sentiment",
+                         "race_avg_relevance_agg", "race_std_relevance_agg", "race_class_avg_speed_agg", 
+                         "race_class_min_speed_agg", "race_class_max_speed_agg",
+                         "class_rating", "official_distance", "morn_odds"]
+    cat_cols = ["course_cd", "trk_cond"]
+    # Define categorical feature info with actual vocabularies.
+    cat_feature_info = {
+        "course_cd": {
+            "vocab": ['CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 
+                      'TTP', 'TKD', 'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP',
+                      'TGG', 'CBY', 'LRL', 'TED', 'IND', 'ASD', 'TCD', 'LAD', 'TOP'],
+            "vocab_size": 29,  # if there are 29 unique items
+            "embed_dim": 4
+        },
+        "trk_cond": {
+            "vocab": ['FM', 'FT', 'FZ', 'GD', 'HD', 'HY', 'MY', 'SF', 'SL', 'SY', 'WF', 'YL'],
+            "vocab_size": 12,
+            "embed_dim": 3
+        }
+    }
     
-    # Filter columns that actually exist in the DF
-    horse_stats_cols = [c for c in horse_stats_cols if c in historical_pdf.columns]
-    race_numeric_cols = [c for c in race_numeric_cols if c in historical_pdf.columns]
-    
-    # Prepare input arrays
+    # Prepare input arrays.
     X_horse_stats = historical_pdf[horse_stats_cols].astype(float).values
     X_race_numeric = historical_pdf[race_numeric_cols].astype(float).values
     X_course_cd = historical_pdf["course_cd"].values
     X_trk_cond = historical_pdf["trk_cond"].values
     y = historical_pdf["relevance"].values  # Target
     
-    # Train/validation split
+    # Split into train/validation sets.
     all_inds = np.arange(len(historical_pdf))
     train_inds, val_inds = train_test_split(all_inds, test_size=0.2, random_state=42)
     
-    X_horse_id_train, X_horse_id_val = X_horse_id[train_inds], X_horse_id[val_inds]
-    X_horse_stats_train, X_horse_stats_val = X_horse_stats[train_inds], X_horse_stats[val_inds]
-    X_race_numeric_train, X_race_numeric_val = X_race_numeric[train_inds], X_race_numeric[val_inds]
-    X_course_cd_train, X_course_cd_val = X_course_cd[train_inds], X_course_cd[val_inds]
-    X_trk_cond_train, X_trk_cond_val = X_trk_cond[train_inds], X_trk_cond[val_inds]
-    y_train, y_val = y[train_inds], y[val_inds]
+    X_horse_id_train = X_horse_id[train_inds]
+    X_horse_id_val = X_horse_id[val_inds]
+    X_horse_stats_train = X_horse_stats[train_inds]
+    X_horse_stats_val = X_horse_stats[val_inds]
+    X_race_numeric_train = X_race_numeric[train_inds]
+    X_race_numeric_val = X_race_numeric[val_inds]
+    X_course_cd_train = X_course_cd[train_inds]
+    X_course_cd_val = X_course_cd[val_inds]
+    X_trk_cond_train = X_trk_cond[train_inds]
+    X_trk_cond_val = X_trk_cond[val_inds]
+    y_train = y[train_inds]
+    y_val = y[val_inds]
     
-    # Fill NaNs with column means in race numeric arrays
+    # Replace NaNs in X_race_numeric arrays with column means.
     for col_idx in range(X_race_numeric_train.shape[1]):
         col = X_race_numeric_train[:, col_idx]
         mean_val = np.nanmean(col)
@@ -488,32 +465,8 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         col = X_race_numeric_val[:, col_idx]
         mean_val = np.nanmean(col)
         X_race_numeric_val[:, col_idx] = np.where(np.isnan(col), mean_val, col)
-
-    # Optionally, do the same for horse_stats if you suspect any NaNs:
-    for col_idx in range(X_horse_stats_train.shape[1]):
-        col = X_horse_stats_train[:, col_idx]
-        mean_val = np.nanmean(col)
-        X_horse_stats_train[:, col_idx] = np.where(np.isnan(col), mean_val, col)
-    for col_idx in range(X_horse_stats_val.shape[1]):
-        col = X_horse_stats_val[:, col_idx]
-        mean_val = np.nanmean(col)
-        X_horse_stats_val[:, col_idx] = np.where(np.isnan(col), mean_val, col)
     
-    # ---------------------------
-    # Scale numeric features
-    # ---------------------------
-    from sklearn.preprocessing import StandardScaler
-    # 1) scale horse_stats
-    scaler_horse = StandardScaler()
-    X_horse_stats_train = scaler_horse.fit_transform(X_horse_stats_train)
-    X_horse_stats_val = scaler_horse.transform(X_horse_stats_val)
-    
-    # 2) scale race_numeric
-    scaler_race = StandardScaler()
-    X_race_numeric_train = scaler_race.fit_transform(X_race_numeric_train)
-    X_race_numeric_val = scaler_race.transform(X_race_numeric_val)
-    
-    # Next, build dictionaries for training/validation
+    # Build training and validation dictionaries.
     train_dict = {
         "horse_id_input": X_horse_id_train,
         "horse_stats_input": X_horse_stats_train,
@@ -530,15 +483,20 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     }
     
     print(f"num_horses = {num_horses}")
-    print(f"horse_stats_cols => {len(horse_stats_cols)} columns")
-    print(f"race_numeric_cols => {len(race_numeric_cols)} columns")
+    print(f"num_horse_stats = {X_horse_stats.shape[1]}")
+    print(f"num_race_numeric = {X_race_numeric.shape[1]}")
     
-    # Check for NaNs/Infs again if desired
-    check_nan_inf("X_horse_stats_train_scaled", X_horse_stats_train)
-    check_nan_inf("X_race_numeric_train_scaled", X_race_numeric_train)
-
+    # Check for NaNs/Infs.
+    check_nan_inf("X_horse_id_train", X_horse_id_train)
+    check_nan_inf("X_horse_stats_train", X_horse_stats_train)
+    check_nan_inf("X_race_numeric_train", X_race_numeric_train)
+    check_nan_inf("X_course_cd_train", X_course_cd_train)
+    check_nan_inf("X_trk_cond_train", X_trk_cond_train)
+    check_nan_inf("y_train", y_train)
+    
+  
     # ---------------------------
-    # 3) The Optuna Objective => Return -Spearman
+    # Define objective function for Optuna
     # ---------------------------
     def objective(trial):
         """
@@ -547,40 +505,157 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         - race_hid_layers, race_units
         - activation, dropout_rate, l2_reg
         - optimizer_name, learning_rate, batch_size, epochs
-        And we measure *Spearman correlation* for the final returned objective.
-        We'll *return -corr*, so direction='minimize' => 'maximize' correlation.
+        Includes a sub-network for categorical inputs (e.g., course_cd, trk_cond).
         """
 
-        # 1) Define hyperparams
+        # 1) Horse embedding dimensions & MLP
+        #horse_embedding_dim = trial.suggest_int("horse_embedding_dim", 4, 16, step=4)
         horse_embedding_dim = trial.suggest_int("horse_embedding_dim", 32, 128, step=4)
-        horse_hid_layers    = trial.suggest_int("horse_hid_layers", 2, 6)
-        horse_units         = trial.suggest_int("horse_units", 256, 1024, step=32)
-        race_hid_layers     = trial.suggest_int("race_hid_layers", 2, 6)
-        race_units          = trial.suggest_int("race_units", 128, 1024, step=64)
+        #horse_hid_layers = trial.suggest_int("horse_hid_layers", 1, 3)
+        horse_hid_layers = trial.suggest_int("horse_hid_layers", 2, 6)
+        #horse_units = trial.suggest_int("horse_units", 64, 256, step=32)
+        horse_units = trial.suggest_int("horse_units", 256, 1024, step=32)
+
+        # 2) Race sub-network MLP
+        #race_hid_layers = trial.suggest_int("race_hid_layers", 1, 3)
+        race_hid_layers = trial.suggest_int("race_hid_layers", 2, 6)
+        #race_units = trial.suggest_int("race_units", 128, 384, step=64)
+        race_units = trial.suggest_int("race_units", 128, 1024, step=64)
+
+        # 3) General network hyperparams
         activation = trial.suggest_categorical("activation", ["relu", "gelu", "selu", "tanh", "softplus", "elu"])
         dropout_rate = trial.suggest_float("dropout_rate", 0.1, 0.5, step=0.05)
+        # l2_reg = trial.suggest_float("l2_reg", 1e-6, 1e-3, log=True)
         l2_reg = trial.suggest_float("l2_reg", 1e-4, 1e-2, log=True)
-        optimizer_name = trial.suggest_categorical("optimizer", ["adam", "nadam", "rmsprop"])
-        learning_rate  = trial.suggest_float("learning_rate", 1e-5, 1e-3, log=True)
-        batch_size     = trial.suggest_categorical("batch_size", [256, 512, 1024, 2048, 4096])
-        epochs         = trial.suggest_int("epochs", 100, 150, step=10)
 
-        # 2) Build the Keras model (same code as you had, just not repeated here)
-        model = build_final_model(
-            horse_vocab_size=num_horses,
-            horse_embedding_dim=horse_embedding_dim,
-            horse_stats_dim=X_horse_stats.shape[1],
-            race_dim=X_race_numeric.shape[1],
-            horse_hid_layers=horse_hid_layers,
-            horse_units=horse_units,
-            race_hid_layers=race_hid_layers,
-            race_units=race_units,
-            activation=activation,
-            dropout_rate=dropout_rate,
-            l2_reg=l2_reg
+        # 4) Optimization hyperparams
+        optimizer_name = trial.suggest_categorical("optimizer", ["adam", "nadam", "rmsprop"])
+        learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-3, log=True)
+        batch_size = trial.suggest_categorical("batch_size", [256, 512, 1024, 2048, 4096])
+        epochs = trial.suggest_int("epochs", 100, 150, step=10)
+
+        # -------------------------------------------------
+        # A) Define Keras Inputs
+        # -------------------------------------------------
+        # -- Horse sub-network
+        horse_id_inp = keras.Input(shape=(), name="horse_id_input", dtype=tf.int32)
+        horse_stats_inp = keras.Input(shape=(X_horse_stats.shape[1],), name="horse_stats_input")
+
+        # -- Race numeric sub-network
+        race_numeric_inp = keras.Input(shape=(X_race_numeric.shape[1],), name="race_numeric_input")
+
+        # -- Example categorical race inputs (course_cd, trk_cond)
+        #    If these are string features:
+        course_cd_in = keras.Input(shape=(1,), name="course_cd_input", dtype=tf.string)
+        trk_cond_in = keras.Input(shape=(1,), name="trk_cond_input", dtype=tf.string)
+
+        # -------------------------------------------------
+        # B) Horse sub-network
+        # -------------------------------------------------
+        # Horse ID embedding
+        horse_id_embedding = layers.Embedding(
+            input_dim=num_horses + 1,   # must match your horse_id range
+            output_dim=horse_embedding_dim,
+            name="horse_id_embedding"
+        )
+        horse_id_emb = layers.Flatten()(horse_id_embedding(horse_id_inp))
+
+        # MLP on horse stats
+        x_horse = horse_stats_inp
+        for _ in range(horse_hid_layers):
+            x_horse = layers.Dense(
+                horse_units,
+                activation=activation,
+                kernel_regularizer=l2(l2_reg)
+            )(x_horse)
+            if dropout_rate > 0:
+                x_horse = layers.Dropout(dropout_rate)(x_horse)
+
+        # Combine horse ID embedding + stats => project to horse_embedding_dim
+        combined_horse = layers.Concatenate()([horse_id_emb, x_horse])
+        horse_embedding_out = layers.Dense(
+            horse_embedding_dim,
+            activation="linear",
+            kernel_regularizer=l2(l2_reg),
+            name="horse_embedding_out"
+        )(combined_horse)
+
+        # -------------------------------------------------
+        # C) Race numeric sub-network
+        # -------------------------------------------------
+        x_race = race_numeric_inp
+        for _ in range(race_hid_layers):
+            x_race = layers.Dense(
+                race_units,
+                activation=activation,
+                kernel_regularizer=l2(l2_reg)
+            )(x_race)
+            if dropout_rate > 0:
+                x_race = layers.Dropout(dropout_rate)(x_race)
+
+        # -------------------------------------------------
+        # D) Categorical sub-network example
+        # -------------------------------------------------
+
+        # 1) course_cd
+        vocab_course_cd = [
+            'CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM',
+            'TTP', 'TKD', 'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP',
+            'TGG', 'CBY', 'LRL', 'TED', 'IND', 'ASD', 'TCD', 'LAD', 'TOP'
+        ]
+        # Suppose embed_dim=4 per your cat_feature_info
+        course_cd_lookup = layers.StringLookup(vocabulary=vocab_course_cd, output_mode="int")
+        course_cd_idx = course_cd_lookup(course_cd_in)
+        course_cd_embed_layer = layers.Embedding(
+            input_dim=len(vocab_course_cd) + 1,  # +1 for OOV/unknown
+            output_dim=4,                        # from cat_feature_info["course_cd"]["embed_dim"]
+            name="course_cd_embed"
+        )
+        course_cd_emb = layers.Flatten()(course_cd_embed_layer(course_cd_idx))
+
+        # 2) trk_cond
+        vocab_trk_cond = [
+            'FM', 'FT', 'FZ', 'GD', 'HD', 'HY', 'MY', 'SF', 'SL', 'SY', 'WF', 'YL'
+        ]
+        # Suppose embed_dim=3 per your cat_feature_info
+        trk_cond_lookup = layers.StringLookup(vocabulary=vocab_trk_cond, output_mode="int")
+        trk_cond_idx = trk_cond_lookup(trk_cond_in)
+        trk_cond_embed_layer = layers.Embedding(
+            input_dim=len(vocab_trk_cond) + 1,  # +1 for OOV/unknown
+            output_dim=3,                      # from cat_feature_info["trk_cond"]["embed_dim"]
+            name="trk_cond_embed"
+        )
+        trk_cond_emb = layers.Flatten()(trk_cond_embed_layer(trk_cond_idx))
+        # -------------------------------------------------
+        # E) Combine all sub-networks
+        # -------------------------------------------------
+        final_concat = layers.Concatenate()([
+            horse_embedding_out,
+            x_race,
+            course_cd_emb,
+            trk_cond_emb
+        ])
+        output = layers.Dense(
+            1,
+            activation="linear",
+            kernel_regularizer=l2(l2_reg),
+            name="output"
+        )(final_concat)
+
+        model = keras.Model(
+            inputs=[
+                horse_id_inp,
+                horse_stats_inp,
+                race_numeric_inp,
+                course_cd_in,
+                trk_cond_in
+            ],
+            outputs=output
         )
 
-        # 3) Compile
+        # -------------------------------------------------
+        # F) Compile with chosen optimizer
+        # -------------------------------------------------
         if optimizer_name == "adam":
             optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
         elif optimizer_name == "nadam":
@@ -588,40 +663,49 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         else:
             optimizer = keras.optimizers.RMSprop(learning_rate=learning_rate)
 
-        model.compile(optimizer=optimizer, loss="huber", metrics=["mae"])  # or "mse"
+        model.compile(
+            optimizer=optimizer,
+            loss="huber",
+            metrics=["mae"]
+        )
 
-        # 4) Prepare data & define callbacks
+        # -------------------------------------------------
+        # G) Prepare training dict & validation dict
+        # -------------------------------------------------
         train_dict_local = {
-            "horse_id_input":     X_horse_id_train,
-            "horse_stats_input":  X_horse_stats_train,
+            "horse_id_input": X_horse_id_train,
+            "horse_stats_input": X_horse_stats_train,
             "race_numeric_input": X_race_numeric_train,
-            "course_cd_input":    X_course_cd_train,
-            "trk_cond_input":     X_trk_cond_train
+            "course_cd_input": X_course_cd_train,
+            "trk_cond_input": X_trk_cond_train
         }
-        val_dict_local   = {
-            "horse_id_input":     X_horse_id_val,
-            "horse_stats_input":  X_horse_stats_val,
+        val_dict_local = {
+            "horse_id_input": X_horse_id_val,
+            "horse_stats_input": X_horse_stats_val,
             "race_numeric_input": X_race_numeric_val,
-            "course_cd_input":    X_course_cd_val,
-            "trk_cond_input":     X_trk_cond_val
+            "course_cd_input": X_course_cd_val,
+            "trk_cond_input": X_trk_cond_val
         }
 
-        spearman_cb = SpearmanMetricCallback(val_dict_local, y_val)
-        # We'll monitor "val_spearman" => set mode="max"
-        early_stop = EarlyStopping(monitor="val_spearman", mode="max", patience=30, restore_best_weights=True)
-        reduce_lr  = ReduceLROnPlateau(monitor="val_spearman", mode="max", factor=0.5, patience=3, min_lr=1e-6, verbose=1)
-        ranking_cb = RankingMetricCallback({
-            "horse_id_val": X_horse_id_val,
-            "horse_stats_val": X_horse_stats_val,
-            "race_numeric_val": X_race_numeric_val,
-            "course_cd_val": X_course_cd_val,
-            "trk_cond_val": X_trk_cond_val,
-            "y_val": y_val
-        })
+        # -------------------------------------------------
+        # H) Callbacks & Training
+        # -------------------------------------------------
+                # 5) Define callbacks
+        callbacks = [
+            SpearmanMetricCallback(val_dict_local, y_val),  # Must go first => sets logs["val_spearman"]
+            EarlyStopping(monitor="val_loss", mode="min", patience=30, restore_best_weights=True),
+            ReduceLROnPlateau(monitor="val_loss", mode="min", factor=0.5, patience=3, min_lr=1e-6, verbose=1),         # We skip TFKerasPruningCallback, because no pruning in final run
+            RankingMetricCallback({
+                "horse_id_val": X_horse_id_val,
+                "horse_stats_val": X_horse_stats_val,
+                "race_numeric_val": X_race_numeric_val,
+                "course_cd_val": X_course_cd_val,
+                "trk_cond_val": X_trk_cond_val,
+                "y_val": y_val
+            })
+        ]
 
-        callbacks = [spearman_cb, early_stop, reduce_lr, ranking_cb]
-
-        # 5) Fit
+        
         model.fit(
             train_dict_local,
             y_train,
@@ -632,12 +716,12 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
             verbose=1
         )
 
-        # 6) Evaluate final Spearman
-        preds_val = model.predict(val_dict_local).ravel()
-        corr, _   = stats.spearmanr(y_val, preds_val)
-
-        # 7) Return negative correlation for Optuna => "minimize" => effectively "maximize corr"
-        return corr
+        # -------------------------------------------------
+        # I) Evaluate and return val_loss for Optuna
+        # -------------------------------------------------
+            # Evaluate on validation
+        val_loss, val_mae = model.evaluate(val_dict_local, y_val, verbose=0)
+        return val_loss  # Optimize loss instead of Spearman
 
     # ---------------------------
     # run_optuna_study function.
@@ -705,6 +789,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
             horse_embedding_dim=best_params["horse_embedding_dim"],
             horse_stats_dim=len(horse_stats_cols),
             race_dim=len(race_numeric_cols),
+            cat_feature_info=cat_feature_info,
             horse_hid_layers=best_params["horse_hid_layers"],
             horse_units=best_params["horse_units"],
             race_hid_layers=best_params["race_hid_layers"],
@@ -814,6 +899,43 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     print("[INFO] Saved raw horse_id_embedding weights to DB table: horse_embedding_raw_weights.")
     
     # ---------------------------
+    # Option B: Extract Row-Level Embeddings via Submodel.
+    # ---------------------------
+    # try:
+    #     submodel = keras.Model(
+    #         inputs=[
+    #             final_model.get_layer("horse_id_input").input,
+    #             final_model.get_layer("horse_stats_input").input
+    #         ],
+    #         outputs=final_model.get_layer("horse_embedding_out").output
+    #     )
+    # except Exception as e:
+    #     print("[WARN] Could not build submodel for 'horse_embedding_out':", e)
+    #     submodel = None
+    
+    # if submodel is not None:
+    #     row_embeddings = submodel.predict({
+    #         "horse_id_input": historical_pdf["horse_id"].astype(int).values,
+    #         "horse_stats_input": historical_pdf[horse_stats_cols].astype(float).values
+    #     })
+    #     print(f"[INFO] Row-level embeddings shape (Option B): {row_embeddings.shape}")
+    #     embed_df_row = pd.DataFrame(row_embeddings, columns=[f"embrow_{i}" for i in range(row_embeddings.shape[1])])
+    #     embed_df_row["row_idx"] = historical_pdf.index
+    #     merged_df_row = pd.concat([historical_pdf.reset_index(drop=True), embed_df_row.reset_index(drop=True)], axis=1)
+    #     row_embed_sdf = spark.createDataFrame(merged_df_row)
+        
+    #     # Suppose you want to fill forward "global_speed_score_iq" in the future rows
+        
+    #     row_embed_sdf.write.format("jdbc") \
+    #         .option("url", jdbc_url) \
+    #         .option("dbtable", "horse_embedding_out_rowlevel") \
+    #         .option("user", jdbc_properties["user"]) \
+    #         .option("driver", jdbc_properties["driver"]) \
+    #         .mode("overwrite") \
+    #         .save()
+    #     print("[INFO] Saved row-level 'horse_embedding_out' to DB table: horse_embedding_out_rowlevel.")
+    
+    # ---------------------------
     # Merge embeddings with historical data using Option A.
     # ---------------------------
     merged_raw = pd.merge(historical_pdf, embed_df_raw, on="horse_id", how="left")
@@ -834,6 +956,9 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     historical_with_embed_sdf = spark.createDataFrame(merged_df)
     all_df = historical_with_embed_sdf.unionByName(future_df, allowMissingColumns=True)
     all_df = fill_forward_locf(all_df, embedding_cols, "horse_id", "race_date")
+    # cols_to_locf = ["global_speed_score_iq"]
+    #all_df = fill_forward_locf(all_df, cols_to_locf, "horse_id", "race_date")
+    # all_df.printSchema()
     print("Columns in final DF:", all_df.columns)
     
     staging_table = "horse_embedding_final"
@@ -849,7 +974,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     
     current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M")
     model_filename = f"horse_embedding_data-{current_time}"
-    all_df.write.mode("overwrite").parquet(f"{parquet_dir}{model_filename}")
+    save_parquet(spark, all_df, model_filename, parquet_dir)
     print(f"[INFO] Final merged DataFrame saved as Parquet: {model_filename}")
     
     print("*** Horse embedding job completed successfully ***")

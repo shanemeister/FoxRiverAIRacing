@@ -240,15 +240,15 @@ def main():
             ###################################################
             # 4) Prep data for Training or Predictions
             ###################################################
-            # # Load the Parquet file into a Pandas DataFrame.
-            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250312_1948.parquet", engine="pyarrow")
-            # Pandas will typically map timestamp/date columns to datetime64[ns].
-            #healthcheck_report = time_series_data_healthcheck(horse_embedding)
-            #pprint.pprint(healthcheck_report)            
-            time_start = time.time()
-            logging.info("Starting build_catboost_model: Training CatBoost Models -- 20 total")
-            # # All models are saved to: ./data/models/all_models.json
-            scored_sdf = build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
+            # # # Load the Parquet file into a Pandas DataFrame.
+            # horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250312_1948.parquet", engine="pyarrow")
+            # # Pandas will typically map timestamp/date columns to datetime64[ns].
+            # #healthcheck_report = time_series_data_healthcheck(horse_embedding)
+            # #pprint.pprint(healthcheck_report)            
+            # time_start = time.time()
+            # logging.info("Starting build_catboost_model: Training CatBoost Models -- 20 total")
+            # # # All models are saved to: ./data/models/all_models.json
+            # scored_sdf = build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
             
             total_time = time.time() - time_start
             logging.info(f"Training 20 Catboost models Horse embedding took {total_time} to complete.")

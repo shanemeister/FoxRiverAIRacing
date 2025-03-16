@@ -1,35 +1,6 @@
-2025-03-15 16:43:19 - INFO - Logging has been set up successfully.
-2025-03-15 16:43:19 - INFO - Starting main function...
-2025-03-15 16:43:19 - INFO - Mode: load
-2025-03-15 16:43:19 - INFO - Running training data ingestion steps...
-2025-03-15 16:43:31 - INFO - Rows with valid relevance: 132494
-2025-03-15 16:43:31 - INFO - Correlation (global_speed_score_iq vs relevance): -0.0135
-2025-03-15 16:43:31 - INFO - RMSE (global_speed_score_iq vs relevance): 77.9837
-2025-03-15 16:43:33 - INFO - No duplicates found based on composite key (race_group_col, horse_id, class_col).
-2025-03-15 16:43:33 - INFO - Original record count: 133030, enriched record count: 133030
-2025-03-15 16:43:33 - INFO - Row counts match after joining aggregated data.
-2025-03-15 16:43:33 - INFO - Top 5 horses by global_speed_score_iq:
-2025-03-15 16:43:38 - INFO - Horse 26399 / FinPos=4 => Speed=137.54998092578484
-2025-03-15 16:43:38 - INFO - Horse 61538 / FinPos=3 => Speed=134.4392713353034
-2025-03-15 16:43:38 - INFO - Horse 78451 / FinPos=7 => Speed=133.93430433911806
-2025-03-15 16:43:38 - INFO - Horse 78455 / FinPos=3 => Speed=133.6538540541637
-2025-03-15 16:43:38 - INFO - Horse 27906 / FinPos=8 => Speed=133.31094434295596
-2025-03-15 16:43:38 - INFO - Bottom 5 horses by global_speed_score_iq:
-2025-03-15 16:43:40 - INFO - Horse 27891 / FinPos=7 => Speed=71.34345164549387
-2025-03-15 16:43:40 - INFO - Horse 43050 / FinPos=6 => Speed=73.47866520202366
-2025-03-15 16:43:40 - INFO - Horse 78224 / FinPos=3 => Speed=73.66206716776465
-2025-03-15 16:43:40 - INFO - Horse 108558 / FinPos=1 => Speed=74.37451332064252
-2025-03-15 16:43:40 - INFO - Horse 22878 / FinPos=3 => Speed=74.82082626996768
-2025-03-15 16:43:40 - INFO - Evaluation & report generation completed in 14.75 seconds.
-2025-03-15 16:43:45 - INFO - Final DF total count: 133030
-2025-03-15 16:43:45 - INFO - Final DF count for historical: 132494
-2025-03-15 16:43:45 - INFO - Final DF count for future: 536
-2025-03-15 16:44:04 - INFO - Global_speed_score job completed successfully.
-2025-03-15 16:44:04 - INFO - Saving global_speed_score DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score.parquet...
-2025-03-15 16:44:04 - INFO - Schema of global_speed_score DataFrame:
-2025-03-15 16:44:05 - INFO - global_speed_score DataFrame saved successfully.
-2025-03-15 16:44:05 - INFO - Ingestion job succeeded and Speed Figure Catboost model complete
-2025-03-15 16:44:05 - INFO - global_speed_score saved as parquet file.
-2025-03-15 16:44:05 - INFO - Creating global_speed_score took 45.87411141395569 to complete.
-2025-03-15 16:44:20 - INFO - Spark session stopped.
-2025-03-15 16:44:20 - INFO - Closing down clientserver connection
+2025-03-15 23:52:06 - INFO - Logging has been set up successfully.
+2025-03-15 23:52:06 - INFO - Starting main function...
+2025-03-15 23:52:06 - INFO - Mode: train
+2025-03-15 23:52:06 - INFO - Running training data ingestion steps...
+2025-03-15 23:52:15 - INFO - Spark session stopped.
+2025-03-15 23:52:15 - INFO - Closing down clientserver connection
