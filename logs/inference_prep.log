@@ -1,6 +1,27 @@
-2025-03-15 23:52:06 - INFO - Logging has been set up successfully.
-2025-03-15 23:52:06 - INFO - Starting main function...
-2025-03-15 23:52:06 - INFO - Mode: train
-2025-03-15 23:52:06 - INFO - Running training data ingestion steps...
-2025-03-15 23:52:15 - INFO - Spark session stopped.
-2025-03-15 23:52:15 - INFO - Closing down clientserver connection
+2025-03-19 11:23:15 - INFO - Logging has been set up successfully.
+2025-03-19 11:23:15 - INFO - Starting main function...
+2025-03-19 11:23:15 - INFO - Mode: train
+2025-03-19 11:23:15 - INFO - Running training data ingestion steps...
+2025-03-19 11:23:18 - INFO - Mixed precision compatibility check (mixed_float16): OK
+Your GPUs will likely run quickly with dtype policy mixed_float16 as they all have compute capability of at least 7.0
+2025-03-19 11:23:18 - INFO - Using MirroredStrategy with devices ('/job:localhost/replica:0/task:0/device:GPU:0', '/job:localhost/replica:0/task:0/device:GPU:1')
+2025-03-19 11:23:38 - INFO - Proposed hyperparams: {'horse_embedding_dim': 12, 'horse_hid_layers': 4, 'horse_units': 256, 'activation': 'selu', 'dropout_rate': 0.7, 'l2_reg': 1.5528476196419266e-05, 'optimizer': 'nadam', 'learning_rate': 0.017200882227996636, 'batch_size': 8, 'epochs': 170}
+2025-03-19 11:23:38 - INFO - Shapes => X_horse_stats_train: (308578, 56), X_horse_id_train: (308578,), y_train: (308578,)
+2025-03-19 11:23:38 - INFO - X_horse_stats_train => NaN: 0, Inf: 0, shape: (308578, 56)
+2025-03-19 11:23:38 - INFO - y_train => NaN: 0, Inf: 0, shape: (308578,)
+2025-03-19 11:23:38 - INFO - Collective all_reduce tensors: 10 all_reduces, num_devices = 2, group_size = 2, implementation = CommunicationImplementation.NCCL, num_packs = 1
+2025-03-19 11:23:38 - INFO - Collective all_reduce IndexedSlices: 1 all_reduces, num_devices =2, group_size = 2, implementation = CommunicationImplementation.NCCL
+2025-03-19 11:23:39 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:23:39 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:23:39 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:23:39 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:23:39 - INFO - Collective all_reduce tensors: 10 all_reduces, num_devices = 2, group_size = 2, implementation = CommunicationImplementation.NCCL, num_packs = 1
+2025-03-19 11:23:39 - INFO - Collective all_reduce IndexedSlices: 1 all_reduces, num_devices =2, group_size = 2, implementation = CommunicationImplementation.NCCL
+2025-03-19 11:23:39 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:23:39 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:23:39 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:23:39 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:25:47 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:25:47 - INFO - Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+2025-03-19 11:29:57 - INFO - Spark session stopped.
+2025-03-19 11:29:57 - INFO - Closing down clientserver connection

@@ -8,6 +8,7 @@ def sql_queries():
                 UPPER(TRIM(r.course_cd)) AS course_cd,
                 r.race_date AS race_date,
                 r.race_number AS race_number,
+                CONCAT(r.course_cd, '_', r.race_date, '_', r.race_number) AS race_id,
                 r.post_time AS post_time,
                 UPPER(TRIM(r2.saddle_cloth_number)) AS saddle_cloth_number,
                 h.horse_id AS horse_id,
@@ -124,8 +125,14 @@ def sql_queries():
                 jast_j.itm_percentage AS jock_itm_percent,    -- (Jockey) in-the-money %
                 tast_t.win_percentage AS trainer_win_percent, -- (Trainer) overall win %
                 tast_t.itm_percentage AS trainer_itm_percent, -- (Trainer) in-the-money %
+                tjstat.win_percentage AS jt_win_percent,      -- (Jockey+Trainer) combined win %
+                tjstat.itm_percentage AS jt_itm_percent,      -- (Jockey+Trainer) combined ITM %
+                jtrack.win_percentage AS jock_win_track,      -- (Jockey) track-specific win %
+                jtrack.itm_percentage AS jock_itm_track,      -- (Jockey) track-specific ITM %
                 ttrack.win_percentage AS trainer_win_track,   -- (Trainer) track-specific win %
                 ttrack.itm_percentage AS trainer_itm_track,   -- (Trainer) track-specific ITM %
+                jttrack.win_percentage AS jt_win_track,       -- (Jockey+Trainer) track-specific win %
+                jttrack.itm_percentage AS jt_itm_track,       -- (Jockey+Trainer) track-specific ITM %               
                 -- ============================
                 -- SIRE/DAM (PEDIGREE) STATS
                 -- ============================
@@ -147,6 +154,13 @@ def sql_queries():
                 has_all.fourth AS all_fourth,     -- (Horse) total 4th place finishes
                 has_all.earnings AS all_earnings, -- (Horse) total earnings
                 COALESCE(has_all.itm_percentage,0) AS horse_itm_percentage, -- (Horse) overall ITM %
+                -- ---------------------------
+                has_cond.starts AS cond_starts,   -- (Horse) starts under certain condition
+                has_cond.win AS cond_win,         -- (Horse) wins under certain condition
+                has_cond.place AS cond_place,     -- (Horse) places under certain condition
+                has_cond.show AS cond_show,       -- (Horse) shows under certain condition
+                has_cond.fourth AS cond_fourth,   -- (Horse) 4th place under condition
+                has_cond.earnings AS cond_earnings, -- (Horse) earnings under condition             
                 -- ============================
                 -- NET SENTIMENT (MISC)
                 -- ============================

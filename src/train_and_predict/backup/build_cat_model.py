@@ -17,8 +17,6 @@ from src.train_and_predict.final_predictions import main_inference
 from sklearn.metrics import root_mean_squared_error, mean_squared_error, mean_absolute_error, ndcg_score
 import scipy.stats as stats
 from sklearn.model_selection import TimeSeriesSplit
-from scipy import stats
-from scipy.stats import spearmanr
 
 ###############################################################################
 # Create a class to enable calculation of NDCG from the objective function 
@@ -26,7 +24,7 @@ from scipy.stats import spearmanr
 
 class DataSplits:
     def __init__(self, X_train, y_train, train_group_id, X_valid, y_valid, valid_group_id, X_holdout, y_holdout, holdout_group_id,
-        train_data, valid_data, holdout_data, cat_cols, all_feature_cols):
+        train_data, valid_data, holdout_data, cat_cols):
         # build X, y, group_id for each split
         self.X_train = X_train
         self.y_train = y_train
@@ -41,8 +39,6 @@ class DataSplits:
         self.valid_data = valid_data
         self.holdout_data = holdout_data
         self.cat_cols = cat_cols
-        self.all_feature_cols = all_feature_cols
-        self.train_data = train_data
         # Create CatBoost Pools
         
         self.train_pool = Pool(
@@ -88,64 +84,6 @@ class DataSplits:
 
         return float(np.mean(all_ndcgs)) if all_ndcgs else 0.0  
 
-import pandas as pd
-
-def top3_in_top3_fraction(
-    model,
-    df: pd.DataFrame,
-    group_col: str = "group_id",
-    horse_col: str = "horse_id",
-    label_col: str = "relevance",
-    feature_cols = None
-) -> float:
-    """
-    Computes the fraction of races (with at least 6 horses) where
-    the model's predicted top-3 exactly matches the actual top-3.
-    """
-    if feature_cols is not None:
-        df = df.copy()
-        df["prediction"] = model.predict(df[feature_cols])
-    elif "prediction" not in df.columns:
-        raise ValueError(
-            "No `feature_cols` provided and `df` has no 'prediction' column. "
-            "Cannot compute predictions."
-        )
-
-    total_groups = 0
-    strict_top3_hits = 0
-    perfect_order_count = 0
-    
-    for gid, group in df.groupby(group_col):
-        if len(group) < 5:
-            continue
-
-        total_groups += 1
-        try:
-            # Sort descending by predicted score
-            group_sorted_pred = group.sort_values("prediction", ascending=False)
-            # Sort descending by true relevance
-            group_sorted_true = group.sort_values(label_col, ascending=False)
-            
-            # top3_true_ids = group_sorted_true.head(3)[horse_col].values
-            # top3_pred_ids = group_sorted_pred.head(3)[horse_col].values
-
-            pred_top3 = set(group_sorted_pred.head(3)[horse_col])
-            true_top3 = set(group_sorted_true.head(3)[horse_col])
-            # Just require the top-3 to match exactly but not necessarily in order
-            if pred_top3 == true_top3:
-                strict_top3_hits += 1
-            
-            # if np.array_equal(top3_pred_ids, top3_true_ids):
-            #     # The first horse is exactly the same, the second is exactly the same, and the third is exactly the same, in order
-            #     perfect_order_count += 1
-        except Exception as e:
-            print(f"Error in group {gid}: {e}")
-            
-    if total_groups == 0:
-        return 0.0
-
-    return strict_top3_hits / total_groups
-
 ###############################################################################
 # Last Occurrence Carried Forward (LOCF) for future columns
 ###############################################################################   
@@ -162,19 +100,19 @@ def locf_across_hist_future(hist_df, fut_df, columns_to_locf, date_col="race_dat
     import pandas as pd
 
     # 1) Concatenate
-    embed = pd.concat([hist_df, fut_df], ignore_index=True)
+    combined = pd.concat([hist_df, fut_df], ignore_index=True)
 
     # 2) Sort by horse_id + race_date
-    embed.sort_values(by=["horse_id", date_col], inplace=True)
+    combined.sort_values(by=["horse_id", date_col], inplace=True)
 
     # 3) Forward fill within each horse_id
-    embed[columns_to_locf] = (
-        embed.groupby("horse_id", group_keys=False)[columns_to_locf]
+    combined[columns_to_locf] = (
+        combined.groupby("horse_id", group_keys=False)[columns_to_locf]
                 .ffill()
     )
 
     # 4) Re-split out the future subset
-    fut_df_filled = embed[embed["data_flag"] == "future"].copy()
+    fut_df_filled = combined[combined["data_flag"] == "future"].copy()
     return fut_df_filled
 ###############################################################################
 # Helper function to get a timestamp for filenames
@@ -184,8 +122,8 @@ def get_timestamp():
 ###############################################################################
 # Helper function: The Optuna objective for ranking
 ###############################################################################
-def objective(trial, catboost_loss_functions, eval_metric ,data_splits):
-    logging.info(f"Trial {trial.number} with {catboost_loss_functions}, {eval_metric}") # {eval_metric}")
+def objective(trial, catboost_loss_functions, eval_metric, data_splits):
+    logging.info(f"Trial {trial.number} with {catboost_loss_functions}, {eval_metric}")
 
     params = {
         "loss_function": catboost_loss_functions,
@@ -193,41 +131,34 @@ def objective(trial, catboost_loss_functions, eval_metric ,data_splits):
         "task_type": "GPU",
         "devices": "0,1",
         "thread_count": 96,
-        "iterations": trial.suggest_int("iterations", 4000, 5000, step=100),
-        "depth": trial.suggest_int("depth", 4, 6),
-        "learning_rate": trial.suggest_float("learning_rate", 0.02, 0.1, log=True),
-        "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 9.5, 19.7, log=True),  # Increased range
-        "grow_policy": trial.suggest_categorical("grow_policy", ["Lossguide", "SymmetricTree","Depthwise" ]),
-        "random_strength": trial.suggest_float("random_strength", 1.33, 2.80, log=True),  # Increased range
-        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 9, 40),  # Increased range
-        "bagging_temperature": trial.suggest_float("bagging_temperature", 0.5, 1.0, step=0.1),
-        "border_count": trial.suggest_int("border_count", 100, 255, step=20),
+        "iterations": trial.suggest_int("iterations", 1000, 5000, step=500),
+        "depth": trial.suggest_int("depth", 4, 12),
+        "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.3, log=True),
+        "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 100.0, log=True),  # Increased range
+        "grow_policy": trial.suggest_categorical("grow_policy", ["Depthwise", "Lossguide", "SymmetricTree"]),
+        "random_strength": trial.suggest_float("random_strength", 1.0, 20.0, log=True),  # Increased range
+        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 1, 50),  # Increased range
+        "bagging_temperature": trial.suggest_float("bagging_temperature", 0.0, 1.0, step=0.1),
+        "border_count": trial.suggest_int("border_count", 1, 255),
         "od_type": trial.suggest_categorical("od_type", ["IncToDec", "Iter"]),
         "random_seed": 42,
-        "verbose": 100,
+        "verbose": 50,
         "early_stopping_rounds": trial.suggest_int("early_stopping_rounds", 50, 200, step=10),
         "allow_writing_files": False
     }
+    
     
     model = CatBoostRanker(**params)
     model.fit(
         data_splits.train_pool, 
         eval_set=data_splits.valid_pool, 
-        use_best_model=True,
+        use_best_model=True, 
         early_stopping_rounds=params["early_stopping_rounds"]
     )
     
-    fraction = top3_in_top3_fraction(
-        model=model,
-        df=data_splits.valid_data,
-        group_col="race_id",
-        horse_col="horse_id",
-        label_col="relevance",
-        feature_cols=data_splits.all_feature_cols
-    )
-    print(f"top3_in_top3_fraction = {fraction:.4f}")
-    
-    return fraction
+    # Compute NDCG@4 via your class method
+    valid_ndcg = data_splits.compute_ndcg(model, k=4)
+    return valid_ndcg
 
 ###############################################################################
 # The run_optuna function
@@ -238,7 +169,7 @@ def run_optuna(catboost_loss_functions, eval_metric, n_trials=20, data_splits=No
 
     # Define the storage URL and a study name.
     storage = "sqlite:///optuna_study.db"
-    study_name = f"catboost_{catboost_loss_functions}_{eval_metric}_v1"  # "catboost_optuna_study_rmse_min" #"catboost_optuna_study"
+    study_name = "catboost_optuna_top4_2"  # "catboost_optuna_study_rmse_min" #"catboost_optuna_study"
 
     # Create the study, loading existing trials if the study already exists.
     study = optuna.create_study(
@@ -287,13 +218,8 @@ def train_and_save_model(
     recognized_params["task_type"] = "GPU"
 
     final_model = CatBoostRanker(**recognized_params)
-    final_model.fit(
-        train_pool,
-        eval_set=valid_pool,
-        use_best_model=True,
-        early_stopping_rounds=best_params.get("early_stopping_rounds", 100),
-        verbose=100
-    )
+    final_model.fit(train_pool, verbose=100)
+
     # Save model to disk
     os.makedirs(save_dir, exist_ok=True)
     model_filename = f"catboost_{model_key}.cbm"
@@ -322,27 +248,27 @@ def train_and_save_model(
     enriched_valid["relevance"] = valid_labels
 
     # Combine train & valid for DB
-    embed_data = pd.concat([enriched_train, enriched_valid], ignore_index=True)
+    combined_data = pd.concat([enriched_train, enriched_valid], ignore_index=True)
 
     # Sort + rank per group_id
-    embed_data = embed_data.sort_values(by=["group_id", "prediction"], ascending=[True, False])
-    embed_data["rank"] = embed_data.groupby("group_id").cumcount() + 1
+    combined_data = combined_data.sort_values(by=["group_id", "prediction"], ascending=[True, False])
+    combined_data["rank"] = combined_data.groupby("group_id").cumcount() + 1
 
-    # Check for duplicates in embed_data
+    # Check for duplicates in combined_data
     def check_duplicates(data, subset_cols):
         duplicates = data[data.duplicated(subset=subset_cols, keep=False)]
         if not duplicates.empty:
-            print(f"Found duplicates in embed_data based on columns {subset_cols}:")
+            print(f"Found duplicates in combined_data based on columns {subset_cols}:")
             print(duplicates)
         else:
-            print(f"No duplicates found in embed_data based on columns {subset_cols}.")
+            print(f"No duplicates found in combined_data based on columns {subset_cols}.")
 
     # Check for duplicates based on 'horse_id' and 'group_id'
-    check_duplicates(embed_data, ["horse_id", "group_id"])
+    check_duplicates(combined_data, ["horse_id", "group_id"])
 
     # Write to DB (append mode)
     try:
-        spark_df = spark.createDataFrame(embed_data)
+        spark_df = spark.createDataFrame(combined_data)
         (
             spark_df.write.format("jdbc")
             .option("url", jdbc_url)
@@ -353,45 +279,32 @@ def train_and_save_model(
             .save()
         )
         print("Table read successfully. Row count:", spark_df.count())
-        print(f"Appended {len(embed_data)} rows to '{db_table}' (train+valid).")
+        print(f"Appended {len(combined_data)} rows to '{db_table}' (train+valid).")
     except Exception as e:
         print(f"Error saving train+valid predictions: {e}")
         raise
 
-    return final_model, model_path, model_key, embed_data
+    return final_model, model_path, model_key, combined_data
 
-def compute_metrics_with_trifecta(holdout_merged, model_key):
+import numpy as np
+from sklearn.metrics import ndcg_score, mean_absolute_error
+from scipy import stats
+
+def compute_metrics(holdout_merged, model_key):
     """
-    Computes ranking metrics for each race (group_id),
-    including trifecta-related metrics:
-
-      - Top-3 in the predicted top-3 (partial credit: fraction correct among 3).
-      - A boolean “top3_in_top4” for whether all actual top-3 finishers 
-        are contained in the predicted top-4 (for trifecta “box 4”).
-
-    Parameters
-    ----------
-    holdout_merged : pd.DataFrame
-        Must have columns:
-          ['group_id', 'horse_id', 'relevance', 'prediction', 'official_fin']
-    model_key : str
-        The model name or key to store in metrics.
-
-    Returns
-    -------
-    metrics : dict
-        A dictionary of computed metrics.
+    Computes ranking metrics for each race (group_id).
+    Assumes:
+      - 'group_id' identifies each race.
+      - 'horse_id' uniquely identifies each horse in that race.
+      - 'relevance' is higher for better-finishing horses (descending = best).
+      - 'prediction' is the model's predicted score, higher = better rank.
     """
-
-    top4_accuracy = 0
-    top1_accuracy = 0
+    
+    top4_accuracy_list = []
+    top1_accuracy_list = []
+    top2_accuracy_list = []
     perfect_order_count = 0
-
-    # TRIFECTA-RELATED
-    # partial credit for top-3 in predicted top-3
-    top3_in_top3 = 0
-    # boolean: did we get *all 3* actual top-3 horses in predicted top-4?
-    top3_in_top4_hits = 0
+    
     reciprocal_ranks = []
     prediction_std_devs = []
     
@@ -400,171 +313,150 @@ def compute_metrics_with_trifecta(holdout_merged, model_key):
     
     all_relevance = []     # For per-race true relevance arrays
     all_predictions = []   # For per-race predicted score arrays
-
+    
     total_groups = 0
-    ndcg_values_3 = []
 
     # Group by race
     for gid, group in holdout_merged.groupby("group_id"):
-        # If the race has <5 horses, skip or continue
-        if len(group) < 5:
+        # If the race has <2 horses, some metrics don't make sense (top2, MRR, etc.)
+        if len(group) < 2:
             continue
         
         total_groups += 1
         
-        # Sort descending by predicted score
+        # Sort descending by prediction (higher score = better rank)
         group_sorted_pred = group.sort_values("prediction", ascending=False).reset_index(drop=True)
-        # Sort descending by true relevance (bigger = better finish)
+        # Sort descending by "relevance" (assuming bigger = better)
         group_sorted_true = group.sort_values("relevance", ascending=False).reset_index(drop=True)
-
-        # =============== 
+        
+        # ------------------
         # 1) Top-4 Accuracy
-        # ===============
-        if len(group) >= 5:
+        # ------------------
+        # Only compute if the race has at least 4 horses
+        if len(group) >= 4:
             top4_pred_ids = group_sorted_pred.head(4)["horse_id"].values
             top4_true_ids = group_sorted_true.head(4)["horse_id"].values
             
-            # sets for ignoring order
+            # Convert to sets for ignoring order
             pred_set_4 = set(top4_pred_ids)
             true_set_4 = set(top4_true_ids)
-            correct_top4 = len(pred_set_4.intersection(true_set_4))
-            if correct_top4 == 4:
-                top4_accuracy += 1
             
-            # perfect order (only if the first 4 exactly match in sequence)
+            correct_top4 = len(pred_set_4.intersection(true_set_4))  # how many of the correct top4 are identified
+            top4_accuracy_list.append(correct_top4 / 4.0)
+            
+            # Check perfect order (exact sequence match)
+            # np.array_equal is fine for comparing arrays element-wise
             if np.array_equal(top4_pred_ids, top4_true_ids):
                 perfect_order_count += 1
-
-        # =============== 
+        
+        # ----------------
         # 2) Top-1 Accuracy
-        # ===============
+        # ----------------
+        # Compare predicted winner vs. actual winner
         top1_pred = group_sorted_pred.iloc[0]["horse_id"]
         top1_true = group_sorted_true.iloc[0]["horse_id"]
-        if top1_pred == top1_true:
-            top1_accuracy += 1
-        # =============== 
-        # 3) TRIFECTA METRICS
-        # ===============
-        if len(group) >= 5:
-            # Actual top-3 finishers
-            top3_true_ids = group_sorted_true.head(3)["horse_id"].values
-            # Predicted top-3
-            top3_pred_ids = group_sorted_pred.head(3)["horse_id"].values
-            # Also predicted top-4 for "boxing" scenario
-            top4_pred_ids = group_sorted_pred.head(4)["horse_id"].values
-
-            # partial fraction: how many of the true top-3 appear in predicted top-3?
-            pred_set_3 = set(top3_pred_ids)
-            true_set_3 = set(top3_true_ids)
-            intersect_3 = len(pred_set_3.intersection(true_set_3))
-            if intersect_3 == 3:
-                top3_in_top3 += 1
-                
-            # did we get *all* actual top-3 in predicted top-4? -> yes or no
-            pred_set_4 = set(top4_pred_ids)
-            if true_set_3.issubset(pred_set_4):
-                top3_in_top4_hits += 1
-
-        # =============== 
-        # 4) MRR for the winner
-        # ===============
+        top1_accuracy_list.append(1 if top1_pred == top1_true else 0)
+        
+        # ----------------
+        # 3) Top-2 Accuracy
+        # ----------------
+        # If you want the fraction of top2 that match ignoring order:
+        # Convert to sets, measure intersection
+        if len(group) >= 2:
+            pred_ids_top2 = set(group_sorted_pred.head(2)["horse_id"].values)
+            true_ids_top2 = set(group_sorted_true.head(2)["horse_id"].values)
+            correct_top2 = len(pred_ids_top2 & true_ids_top2)
+            top2_accuracy_list.append(correct_top2 / 2.0)
+        
+        # ---------------
+        # 4) MRR (Winner)
+        # ---------------
+        # MRR on the winner only: find rank of actual winner in predicted order
         try:
             rank = group_sorted_pred.index[group_sorted_pred["horse_id"] == top1_true][0] + 1
         except IndexError:
             rank = None
-        reciprocal_ranks.append(1/rank if rank is not None else 0)
-
-        # =============== 
-        # 5) Prediction std dev
-        # ===============
+        reciprocal_ranks.append(1 / rank if rank is not None else 0)
+        
+        # --------------------
+        # 5) Prediction StdDev
+        # --------------------
         stddev = group_sorted_pred["prediction"].std()
         if stddev is not None:
             prediction_std_devs.append(stddev)
         
-        # =============== 
-        # 6) For RMSE & MAE
-        # ===============
+        # -------------------------
+        # 6) Collect for RMSE/MAE
+        # -------------------------
+        # All true/pred for this race (no sorting needed, but either is fine)
         all_true_vals.extend(group["relevance"].values)
         all_pred_vals.extend(group["prediction"].values)
-
-        # ===============
-        # 7) NDCG@3
-        # ===============
+        
+        # -------------------------
+        # 7) NDCG Calculation
+        # -------------------------
+        # We'll do NDCG@3 as an example (like your code):
+        # group_sorted_true["relevance"] are the 'true' labels in descending rank
+        # group_sorted_pred["prediction"] are predicted scores in descending rank
         all_relevance.append(group_sorted_true["relevance"].values)
         all_predictions.append(group_sorted_pred["prediction"].values)
+    
+    # End group loop
+    
+    # ====================
+    # Compute Aggregate Metrics
+    # ====================
 
-    # end for loop
-
+    # Ensure we don't divide by zero if total_groups==0
     if total_groups == 0:
-        logging.warning("No races with >=2 horses. Metrics not computed.")
+        logging.warning("No groups had 2 or more horses! Metrics not computed.")
         return {}
-
-    # ---------------------
-    # Compute Aggregates
-    # ---------------------
-    avg_top4_accuracy = float(top4_accuracy / total_groups)
-    avg_top1_accuracy = float(top1_accuracy / total_groups)
-
-    perfect_order_percentage = float(perfect_order_count / total_groups)
-
-    # top3_in_top3: average fraction
-    avg_top3_in_top3 = float(top3_in_top3 / total_groups)
-    # top3_in_top4: fraction of races that have all top-3 actual in predicted top-4
-    top3_in_top4_fraction = float(top3_in_top4_hits) / float(total_groups)
-
+    
+    avg_top4_accuracy = float(np.mean(top4_accuracy_list)) if top4_accuracy_list else 0.0
+    avg_top1_accuracy = float(np.mean(top1_accuracy_list)) if top1_accuracy_list else 0.0
+    avg_top2_accuracy = float(np.mean(top2_accuracy_list)) if top2_accuracy_list else 0.0
+    
+    perfect_order_percentage = float(perfect_order_count / (total_groups))  # fraction of total races
     MRR = float(np.mean(reciprocal_ranks)) if reciprocal_ranks else 0.0
     prediction_variance = float(np.mean(prediction_std_devs)) if prediction_std_devs else 0.0
-
-    if len(all_true_vals) < 2:
-        RMSE = 0.0
-        MAE = 0.0
-        spearman_corr = 0.0
-    else:
-        # RMSE
-        RMSE = float(np.sqrt(np.mean((np.array(all_true_vals)-np.array(all_pred_vals))**2)))
-        # MAE
-        MAE = float(mean_absolute_error(all_true_vals, all_pred_vals))
-        # Spearman
+    
+    # RMSE
+    # (If you have a custom root_mean_squared_error, use that)
+    RMSE = float(np.sqrt(np.mean((np.array(all_true_vals) - np.array(all_pred_vals))**2))) if all_true_vals else 0.0
+    # Or if you prefer scikit-learn's mean_squared_error:
+    # from sklearn.metrics import mean_squared_error
+    # RMSE = float(np.sqrt(mean_squared_error(all_true_vals, all_pred_vals)))
+    
+    # MAE
+    MAE = float(mean_absolute_error(all_true_vals, all_pred_vals)) if len(all_true_vals) > 1 else 0.0
+    
+    # Spearman correlation
+    spearman_corr = 0.0
+    if len(all_true_vals) > 1:
         spearman_corr = float(stats.spearmanr(all_true_vals, all_pred_vals)[0])
-
-    # No manual sorting of group here
-    y_true = group["relevance"].values
-    y_pred = group["prediction"].values
-
-    ndcg_3 = ndcg_score([y_true], [y_pred], k=3)
-    ndcg_values_3.append(ndcg_3)
-
-    # NDCG@3
+    
+    # NDCG@3 for each group
+    ndcg_values = []
     for t, p in zip(all_relevance, all_predictions):
-        ndcg_values_3.append(ndcg_score([t], [p], k=3))
-    avg_ndcg_3 = float(np.mean(ndcg_values_3)) if ndcg_values_3 else 0.0
-
-    # If you want NDCG@4:
-    # ndcg_values_4 = []
-    # for t, p in zip(all_relevance, all_predictions):
-    #     ndcg_values_4.append(ndcg_score([t], [p], k=4))
-    # avg_ndcg_4 = float(np.mean(ndcg_values_4))
-
+        # SciKit's ndcg_score expects a 2D array: [ [relevance], [predictions] ]
+        ndcg_values.append(ndcg_score([t], [p], k=3))
+    avg_ndcg_3 = float(np.mean(ndcg_values)) if ndcg_values else 0.0
+    
     metrics = {
         "model_key": model_key,
-        "total_groups_evaluated": total_groups,
-
-        "avg_top_1_accuracy": avg_top1_accuracy,
         "avg_top_4_accuracy": avg_top4_accuracy,
-        "perfect_order_percentage": perfect_order_percentage, # top4 exact sequence
-        "avg_top3_in_top3": avg_top3_in_top3,  # partial fraction correct
-        "top3_in_top4_fraction": top3_in_top4_fraction,  # all 3 in predicted top4?
-
-        "MRR": MRR,
+        "avg_top_1_accuracy": avg_top1_accuracy,
+        "avg_top_2_accuracy": avg_top2_accuracy,
+        "perfect_order_percentage": perfect_order_percentage,  # top-4 in the correct order
         "avg_ndcg_3": avg_ndcg_3,
-        #"avg_ndcg_4": avg_ndcg_4, # if you want
-
+        "MRR": MRR,
         "spearman_corr": spearman_corr,
         "RMSE": RMSE,
         "MAE": MAE,
-        "prediction_variance": prediction_variance
+        "prediction_variance": prediction_variance,
+        "total_groups_evaluated": total_groups
     }
-
+    
     return metrics
 
 ###############################################################################
@@ -627,7 +519,7 @@ def evaluate_and_save_results(
     holdout_merged = holdout_merged.sort_values(by=["group_id", "prediction"], ascending=[True, False])
     holdout_merged["rank"] = holdout_merged.groupby("group_id").cumcount() + 1
     
-    metrics = compute_metrics_with_trifecta(holdout_merged, model_key)
+    metrics = compute_metrics(holdout_merged, model_key)
 
     print(metrics)
     logging.info(f"Holdout Evaluation Results:\n{json.dumps(metrics, indent=2)}")
@@ -704,13 +596,13 @@ def main_script(
             logging.info(f"=== Starting cross-validation for {loss_func} with {eval_met} ===")
             
             # 1) Run cross-validation
-            top3_in_top3_fraction = cross_validate_model(
+            avg_ndcg_score = cross_validate_model(
                 catboost_loss_functions=loss_func,
                 eval_metric=eval_met,
                 data_splits=data_splits,
                 n_splits=5
             )
-            logging.info(f"Cross-validation top3-in-top3 fraction score: {top3_in_top3_fraction}")
+            logging.info(f"Cross-validation NDCG@4 score: {avg_ndcg_score}")
 
             # 2) Run Optuna
             study = run_optuna(
@@ -804,7 +696,7 @@ def split_data_and_train(
 
     # 5) Build X,y for each split, referencing final_feature_cols
     
-    all_feature_cols = final_feature_cols + cat_cols  # + embed_cols + cat_cols
+    all_feature_cols = final_feature_cols + embed_cols + cat_cols
 
     X_train = train_data[all_feature_cols].copy()
     y_train = train_data[label_col].values
@@ -826,17 +718,16 @@ def split_data_and_train(
         X_train, y_train, train_group_id,
         X_valid, y_valid, valid_group_id,
         X_holdout, y_holdout, holdout_group_id,
-        train_data, valid_data, holdout_data, cat_cols, all_feature_cols)
+        train_data, valid_data, holdout_data, cat_cols)
     
     # 7) minimal catboost training
     catboost_loss_functions = [
         # "YetiRank:top=1",
         # "YetiRank:top=2",
-        "YetiRank:top=3",
-        "YetiRank:top=4",
-        "YetiRank"
+        # "YetiRank:top=3",
+        "YetiRank:top=4"
     ]
-    catboost_eval_metrics = ["NDCG:top=3", "NDCG:top=4"]
+    catboost_eval_metrics = ["NDCG:top=2"] #["NDCG:top=1", "NDCG:top=2", "NDCG:top=3", "NDCG:top=4"]
 
     db_table = "catboost_enriched_results"
     all_models = main_script(
@@ -870,20 +761,20 @@ def split_data_and_train(
     return all_models
 
 def make_future_predictions(
-    pdf,
-    all_feature_cols,
+    pdf, 
+    all_feature_cols, 
     cat_cols,
-    model_path,
-    model_type="ranker",
-    alpha=5.0
+    model_path, 
+    model_type="ranker"
 ):
     """
     1) Load CatBoost model from model_path
-    2) Create Pool for inference (cat_features, group_id if ranker)
+    2) Build a Pool (with cat_features) for inference
     3) Predict
-    4) Return pdf with new column 'model_score'
+    4) Return pdf with new column 'prediction'
     """
     try:
+        from catboost import CatBoostRanker, Pool
         if model_type.lower() == "ranker":
             model = CatBoostRanker()
         else:
@@ -894,46 +785,54 @@ def make_future_predictions(
         logging.info(f"Loaded CatBoost model: {model_path}")
     except Exception as e:
         logging.error(f"Error loading CatBoost model: {e}", exc_info=True)
-        raise
+        raise   
 
     try:
-        # If group_id in columns, sort by it so ranker sees contiguous groups
+        # Sort by group_id so the ranker sees each group in contiguous rows
         if "group_id" in pdf.columns:
             pdf.sort_values("group_id", inplace=True)
-
-        # Prepare data for the CatBoost Pool
+        # Build X from final_feature_cols
         X_infer = pdf[all_feature_cols].copy()
+                
+        # Print columns of fut_df
+        print("Columns in fut_df:")
+        print(pdf.columns)
+
+        # Check if 'group_id' is in the columns
+        if 'group_id' not in pdf.columns:
+            print("The 'group_id' column is NOT present in fut_df. Exiting the program.")
+            sys.exit(1)
+        
         group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
+        pred_pool = Pool(
+            data=X_infer,
+            group_id=group_ids,
+            cat_features=cat_cols
+        )
 
-        pred_pool = Pool(data=X_infer, group_id=group_ids, cat_features=cat_cols)
         predictions = model.predict(pred_pool)
-        # Replace raw_score with exponentiated version
-        # e.g. model_score = exp(raw_score / alpha)
-        pdf["model_score"] = np.exp(predictions / alpha)
-
+        pdf["model_score"] = predictions
     except Exception as e:
         logging.error(f"Error making predictions: {e}", exc_info=True)
         raise
-
+    
     return pdf
 
 def do_future_inference_multi(
-    spark,
-    fut_df,
+    spark, 
+    fut_df, 
     cat_cols,
     embed_cols,
     final_feature_cols,
     db_url,
     db_properties,
-    models_dir="./data/models/catboost",
+    models_dir="./data/models/catboost", 
     output_dir="./data/predictions"
 ):
     """
-    1) Combine final_feature_cols, embed_cols, cat_cols
-    2) Load each .cbm CatBoost model from 'models_dir'
-    3) Predict => store in 'score' columns
-    4) For each model, also produce a 'rank' column per race (group_id).
-    5) Write final predictions to DB
+    1) Gather final_feature_cols + cat_cols + embed_cols to form 'all_feature_cols'.
+    2) Load each .cbm model in models_dir, run inference, store in a new column.
+    3) Save final fut_df to a DB table, returning a Spark DataFrame of the results.
     """
 
     logging.info("=== Starting Multi-Model Future Inference ===")
@@ -941,29 +840,28 @@ def do_future_inference_multi(
     # [1] Combine columns for inference
     all_feature_cols = final_feature_cols + embed_cols + cat_cols
 
-    # [2] Make a copy to avoid warnings
+    # [2] Make a copy to avoid SettingWithCopyWarning
     fut_df = fut_df.copy()
 
-    # [3] Convert categorical columns to 'category' dtype
+    # [3] Convert categorical columns to category dtype
     for c in cat_cols:
         if c in fut_df.columns:
-            fut_df[c] = fut_df[c].astype("category")
-
+            fut_df.loc[:, c] = fut_df[c].astype("category")
+    
     # [4] Check for missing columns
     missing_cols = set(all_feature_cols) - set(fut_df.columns)
     if missing_cols:
         logging.warning(f"Future DF is missing columns: {missing_cols}")
 
-    # [5] Find any .cbm files in the models_dir
+    # [5] Gather .cbm files from the models directory
     try:
         model_files = [
-            f for f in os.listdir(models_dir)
+            f for f in os.listdir(models_dir) 
             if f.endswith(".cbm") and os.path.isfile(os.path.join(models_dir, f))
         ]
         model_files.sort()
         if not model_files:
             logging.error(f"No CatBoost model files found in {models_dir}!")
-            # Return Spark DF anyway
             return spark.createDataFrame(fut_df)
 
         logging.info("Found these CatBoost model files:")
@@ -973,73 +871,55 @@ def do_future_inference_multi(
         logging.error(f"Error accessing model directory '{models_dir}': {e}", exc_info=True)
         raise
 
-    # [6] For each model, run predictions
+    # [6] Inference for each model
     for file in model_files:
         model_path = os.path.join(models_dir, file)
         logging.info(f"=== Making predictions with model: {file} ===")
+        # Make sure group_id is included
 
-        # 6A) Prepare data for inference
+        # Build a copy for inference
         inference_df = fut_df[all_feature_cols].copy()
-
-        # Bring over 'group_id' if it exists
+        
         if "group_id" in fut_df.columns:
             inference_df["group_id"] = fut_df["group_id"]
-        else:
-            logging.warning("No 'group_id' column found. Ranker grouping won't apply correctly.")
+    
+        # Optional: Sort by group_id if you are using a ranker
+        if "group_id" in fut_df.columns:
+            inference_df = inference_df.sort_values("group_id")
 
-        # 6B) Make predictions
+        # Log some debug info safely
+        try:
+            logging.info("Checking null counts in inference_df:\n%s", inference_df.isnull().sum())
+        except Exception as e:
+            logging.error(f"Error logging inference_df null counts: {e}", exc_info=True)
+
+        # 6A) Run predictions
         scored_df = make_future_predictions(
-            pdf=inference_df,
+            pdf=inference_df, 
             all_feature_cols=all_feature_cols,
-            cat_cols=cat_cols,
-            model_path=model_path,
-            model_type="ranker",  # or "regressor" if needed
-            alpha=5.0
+            cat_cols=cat_cols, 
+            model_path=model_path, 
+            model_type="ranker"  # or "regressor" if needed
         )
 
-        # 6C) Generate a safe column prefix from the model filename
-        # e.g. "catboost_YetiRank_top2_20250310_213012.cbm" => "YetiRank_top2"
+        # 6B) Create a safe column name from the model filename
+        # Example: "catboost_YetiRank_top2_20250310_213012.cbm" -> "YetiRank_top2"
         model_col = file
-        model_col = re.sub(r'^catboost_', '', model_col)
-        model_col = re.sub(r'\.cbm$', '', model_col)
-        model_col = re.sub(r'_\d{8}_\d{6}$', '', model_col)
-        model_col = re.sub(r'[^a-zA-Z0-9_]', '_', model_col)
+        model_col = re.sub(r'^catboost_', '', model_col)     # remove "catboost_" prefix
+        model_col = re.sub(r'\.cbm$', '', model_col)          # remove ".cbm"
+        model_col = re.sub(r'_\d{8}_\d{6}$', '', model_col)    # remove timestamp
+        model_col = re.sub(r'[^a-zA-Z0-9_]', '_', model_col)   # replace special chars with '_'
 
-        # 6D) Insert model_score into fut_df by matching index
-        fut_df.loc[inference_df.index, f"{model_col}_score"] = scored_df["model_score"].values
-
-        # 6E) SHIFT and RANK without losing the original index
-        score_col = f"{model_col}_score"
-        score_pos_col = f"{model_col}_score_pos"
-        rank_col = f"{model_col}_rank"
-
-        if "group_id" in fut_df.columns:
-            # Shift scores so min = 0.1 per group
-            fut_df[score_pos_col] = (
-                fut_df[score_col]
-                - fut_df.groupby("group_id")[score_col].transform("min")
-                + 0.1
-            )
-
-            # Rank descending (largest score => rank=1)
-            # method="first" ensures stable ranking by order of appearance
-            fut_df[rank_col] = fut_df.groupby("group_id")[score_col] \
-                                    .transform(lambda s: s.rank(method="first", ascending=False))
-            # Optionally cast rank to int
-            fut_df[rank_col] = fut_df[rank_col].astype(int)
-
-        else:
-            # No group_id => shift entire column
-            min_val = fut_df[score_col].min()
-            fut_df[score_pos_col] = fut_df[score_col] - min_val + 0.1
-
-            # Rank entire set descending
-            fut_df[rank_col] = fut_df[score_col].rank(method="first", ascending=False).astype(int)
+        # 6C) Insert scores back into fut_df
+        #     Because 'inference_df' is a subset, we match by index:
+        fut_df.loc[inference_df.index, model_col] = scored_df["model_score"].values
 
     # [7] Write final predictions to DB
+    # Build a dynamic table name
+    today = date.today()
     today_str = datetime.now().strftime("%Y%m%d_%H%M%S")
     table_name = f"predictions_{today_str}_1"
-
+    
     logging.info(f"Writing predictions to DB table: {table_name}")
     scored_sdf = spark.createDataFrame(fut_df)
     scored_sdf.write.format("jdbc") \
@@ -1049,7 +929,7 @@ def do_future_inference_multi(
         .option("driver", db_properties["driver"]) \
         .mode("overwrite") \
         .save()
-
+    
     logging.info(f"Wrote {fut_df.shape[0]} predictions to DB table '{table_name}'.")
     logging.info("=== Finished Multi-Model Future Inference ===")
 
@@ -1065,51 +945,63 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
     # Then use Pandas boolean indexing
     historical_pdf = horse_embedding[horse_embedding["data_flag"] != "future"].copy()
     future_pdf = horse_embedding[horse_embedding["data_flag"] == "future"].copy()
-    cols_to_locf = ["global_speed_score_iq"]
-    future_pdf = locf_across_hist_future(historical_pdf, future_pdf, cols_to_locf, date_col="race_date")
+    # cols_to_locf = ["global_speed_score_iq_prev"]
+    # future_pdf = locf_across_hist_future(historical_pdf, future_pdf, cols_to_locf, date_col="race_date")
         
     # Transform the Spark DataFrame to Pandas.
     hist_pdf, fut_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_pdf, future_pdf, drop_label=False)
     logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
     logging.info(f"Shape of future Pandas DF: {fut_pdf.shape}")
 
-    hist_pdf = assign_piecewise_log_labels(hist_pdf)
+    hist_pdf = assign_labels(hist_pdf, alpha=0.8)
     logging.info(f"Shape of Historical Pandas DF: {hist_pdf.shape}")
         
-    fut_pdf = assign_piecewise_log_labels(fut_pdf)
+    fut_pdf = assign_labels(fut_pdf, alpha=0.8)
     logging.info(f"Shape of Future Pandas DF: {fut_pdf.shape}")
 
-    hist_embed_cols, fut_embed_cols = build_embed_cols(hist_pdf)  # This is now your dynamic list of embed columns.
+    hist_embed_cols, fut_embed_cols = build_embed_cols(hist_pdf)  # This is now your dynamic list of combined columns.
     
         # 1) Prepare columns to match training
-    final_feature_cols = ["class_rating", "par_time", "running_time", "total_distance_ran", 
-                          "avgtime_gate1", "avgtime_gate2", "avgtime_gate3", "avgtime_gate4", 
-                          "dist_bk_gate1", "dist_bk_gate2", "dist_bk_gate3", "dist_bk_gate4", 
-                          "speed_q1", "speed_q2", "speed_q3", "speed_q4", "speed_var", "avg_speed_fullrace", 
-                          "accel_q1", "accel_q2", "accel_q3", "accel_q4", "avg_acceleration", "max_acceleration", 
-                          "jerk_q1", "jerk_q2", "jerk_q3", "jerk_q4", "avg_jerk", "max_jerk", 
-                          "dist_q1", "dist_q2", "dist_q3", "dist_q4", "total_dist_covered", 
-                          "strfreq_q1", "strfreq_q2", "strfreq_q3", "strfreq_q4", "avg_stride_length", 
-                          "net_progress_gain", "prev_speed_rating", "previous_class", "weight",
-                          "claimprice", "previous_distance", "prev_official_fin",
-                          "power","avgspd", "starts", "avg_spd_sd", "ave_cl_sd", "hi_spd_sd", "pstyerl",
-                          "purse", "distance_meters", "morn_odds", "jock_win_percent",
-                            "jock_itm_percent", "trainer_win_percent", "trainer_itm_percent", "jt_win_percent",
-                            "jt_itm_percent", "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
-                            "jt_win_track", "jt_itm_track", "sire_itm_percentage", "sire_roi", "dam_itm_percentage",
-                            "dam_roi", "all_starts", "all_win", "all_place", "all_show", "all_fourth", "all_earnings",
-                            "horse_itm_percentage", "cond_starts", "cond_win", "cond_place", "cond_show", "cond_fourth",
-                            "cond_earnings", "net_sentiment", "total_races_5", "avg_fin_5", "avg_speed_5", "best_speed",
-                            "avg_beaten_len_5", "avg_dist_bk_gate1_5",
-                            "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5", "avg_dist_bk_gate4_5", "avg_speed_fullrace_5",
-                            "avg_stride_length_5", "avg_strfreq_q1_5", "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5",
-                            "prev_speed", "speed_improvement", "days_off", "avg_workout_rank_3",
-                            "count_workouts_3", "age_at_race_day", "class_offset", "class_multiplier",
-                            "official_distance", "base_speed", "dist_penalty", "horse_mean_rps", "horse_std_rps",
-                            "global_speed_score_iq", "race_count_agg", "race_avg_speed_agg", "race_std_speed_agg",
-                            "race_avg_relevance_agg", "race_std_relevance_agg", "race_class_count_agg", "race_class_avg_speed_agg",
-                            "race_class_min_speed_agg", "race_class_max_speed_agg"]
-
+    # final_feature_cols = [
+    #     "global_speed_score_iq_prev", "Spar", "class_rating", "previous_distance", 
+    #     "off_finish_last_race", "prev_speed_rating", "purse", "claimprice", "power", 
+    #     "avgspd", "avg_spd_sd","ave_cl_sd", "hi_spd_sd", "pstyerl", "horse_itm_percentage",
+    #     "total_races_5", "avg_dist_bk_gate1_5", "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5", 
+    #     "avg_dist_bk_gate4_5","avg_speed_fullrace_5","avg_stride_length_5","avg_strfreq_q1_5",
+    #     "avg_speed_5","avg_fin_5","best_speed","avg_beaten_len_5","prev_speed",
+    #     "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5", "speed_improvement", 
+    #     "age_at_race_day", "count_workouts_3","avg_workout_rank_3","weight","days_off", 
+    #     "starts", "race_count","has_gps", "cond_starts","cond_win","cond_place","cond_show",
+    #     "cond_fourth","cond_earnings","all_starts", "all_win", "all_place", "all_show", 
+    #     "all_fourth","all_earnings","morn_odds","net_sentiment", "distance_meters", 
+    #     "jt_itm_percent","jt_win_percent","trainer_win_track","trainer_itm_track",
+    #     "trainer_win_percent","trainer_itm_percent","jock_win_track","jock_win_percent",
+    #     "jock_itm_track","jt_win_track","jt_itm_track","jock_itm_percent",
+    #     "sire_itm_percentage","sire_roi","dam_itm_percentage","dam_roi"
+    # ]
+        
+    final_feature_cols = ["global_speed_score_iq","horse_mean_rps","horse_std_rps","power","base_speed",
+        "speed_improvement",'avgspd','starts','avg_spd_sd','ave_cl_sd',
+        'hi_spd_sd','pstyerl','sire_itm_percentage','sire_roi','dam_itm_percentage','dam_roi',
+        'all_starts','all_win','all_place','all_show','all_fourth','all_earnings','horse_itm_percentage',
+        'best_speed', 'weight','jock_win_percent', 'jock_itm_percent','trainer_win_percent','trainer_itm_percent',
+        'jt_win_percent','jt_itm_percent','jock_win_track','jock_itm_track','trainer_win_track',
+        'trainer_itm_track','jt_win_track','jt_itm_track','cond_starts','cond_win','cond_place','cond_show',
+        'cond_fourth','cond_earnings', 'par_time','running_time','total_distance_ran','previous_distance',
+        'distance_meters','avgtime_gate1','avgtime_gate2','avgtime_gate3','avgtime_gate4',
+        'dist_bk_gate1','dist_bk_gate2','dist_bk_gate3','dist_bk_gate4',
+        'speed_q1','speed_q2','speed_q3','speed_q4','speed_var','avg_speed_fullrace',
+        'accel_q1','accel_q2','accel_q3','accel_q4','avg_acceleration','max_acceleration',
+        'jerk_q1','jerk_q2','jerk_q3','jerk_q4','avg_jerk','max_jerk',
+        'dist_q1','dist_q2','dist_q3','dist_q4','total_dist_covered',
+        'strfreq_q1','strfreq_q2','strfreq_q3','strfreq_q4','avg_stride_length','net_progress_gain',
+        'prev_speed_rating','previous_class', 'purse','class_rating','morn_odds',
+        'net_sentiment','avg_fin_5','avg_speed_5','avg_beaten_len_5','avg_dist_bk_gate1_5','avg_dist_bk_gate2_5','avg_dist_bk_gate3_5',
+        'avg_dist_bk_gate4_5','avg_speed_fullrace_5','avg_stride_length_5','avg_strfreq_q1_5','avg_strfreq_q2_5',
+        'avg_strfreq_q3_5','avg_strfreq_q4_5','prev_speed','days_off','avg_workout_rank_3',
+        'has_gps','age_at_race_day', 'race_avg_speed_agg','race_std_speed_agg','race_avg_relevance_agg','race_std_relevance_agg',
+        'race_class_avg_speed_agg','race_class_min_speed_agg','race_class_max_speed_agg', 'claimprice']
+    
     # 6) Train the model(s) using historical data
     all_models = split_data_and_train(
         df=hist_pdf,
@@ -1155,7 +1047,24 @@ def transform_horse_df_to_pandas(hist_df, fut_df, drop_label=False):
     # Now you can safely convert to Pandas
     hist_pdf = hist_df.copy()
     fut_pdf = fut_df.copy()
-
+    
+    # Historical: Create race_id + group_id
+    hist_pdf["race_id"] = (
+        hist_pdf["course_cd"].astype(str)
+        + "_"
+        + hist_pdf["race_date"].astype(str)
+        + "_"
+        + hist_pdf["race_number"].astype(str)
+    )
+    
+    # Future: Create race_id + group_id
+    fut_pdf["race_id"] = (
+        fut_pdf["course_cd"].astype(str)
+        + "_"
+        + fut_pdf["race_date"].astype(str)
+        + "_"
+        + fut_pdf["race_number"].astype(str)
+    )
     # Historical: Create group_id and sort ascending for historical data
     hist_pdf["group_id"] = hist_pdf["race_id"].astype("category").cat.codes
     hist_pdf = hist_pdf.sort_values("group_id", ascending=True).reset_index(drop=True)
@@ -1228,61 +1137,60 @@ def transform_horse_df_to_pandas(hist_df, fut_df, drop_label=False):
     # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
     return hist_pdf, fut_pdf, cat_cols, excluded_cols
 
-# def assign_labels(df, alpha=0.8):
-#     """
-#     1) Exponential label in [0,1] for ranking,
-#     2) Binary label for top-4 or not.
-#     """
-#     def _exp_label(fin):
-#         return alpha ** (fin - 1)
+def assign_labels(df, alpha=0.8):
+    """
+    1) Exponential label in [0,1] for ranking,
+    2) Binary label for top-4 or not.
+    """
+    def _exp_label(fin):
+        return alpha ** (fin - 1)
 
-#     df["relevance"] = df["official_fin"].apply(_exp_label)
-#     df["top4_label"] = (df["official_fin"] <= 4).astype(int)
-#     return df
+    df["relevance"] = df["official_fin"].apply(_exp_label)
+    df["top4_label"] = (df["official_fin"] <= 4).astype(int)
+    return df
 
 def build_embed_cols(hist):
     """
-    1) Create a list of embedding columns.
-    2) Return the list of embedding columns for historical and future data.
+    1) Create a list of combined columns for embedding.
+    2) Return the list of combined columns.
     """
-    all_embed_cols = [c for c in hist.columns if c.startswith("embed_")]
-    all_embed_cols_sorted = sorted(all_embed_cols, key=lambda x: int(x.split("_")[1]))
+    all_combined_cols = [c for c in hist.columns if c.startswith("combined_")]
     
-    # For both historical and future datasets, use the same sorted list.
-    hist_embed_cols = all_embed_cols_sorted
-    fut_embed_cols = all_embed_cols_sorted
+    all_combined_cols_sorted = sorted(all_combined_cols, key=lambda x: int(x.split("_")[1]))
+    # Historical:
+    hist_embed_cols = all_combined_cols_sorted  # This is now your dynamic list of combined columns.
+    
+    fut_embed_cols = all_combined_cols_sorted  # This is now your dynamic list of combined columns.
     return hist_embed_cols, fut_embed_cols
 
 # Retired function
-def assign_piecewise_log_labels(df):
-    """
-    If official_fin <= 4, assign them to a high relevance band (with small differences).
-    Otherwise, use a log-based formula that drops more sharply.
-    """
-    def _relevance(fin):
-        if fin == 1:
-            return 70 #40  # Could be 40 for 1st
-        elif fin == 2:
-            return 56 # 38  # Slightly lower than 1st, but still high
-        elif fin == 3:
-            return 44 #36
-        elif fin == 4:
-            return 34
-        else:
-            # For 5th place or worse, drop off fast with a log formula:
-            # e.g. alpha=30, beta=4 => 5th => 30 / log(4+5)=30/log(9)= ~9
-            alpha = 30.0
-            beta  = 4.0
-            return alpha / np.log(beta + fin)
+# def assign_piecewise_log_labels(df):
+#     """
+#     If official_fin <= 4, assign them to a high relevance band (with small differences).
+#     Otherwise, use a log-based formula that drops more sharply.
+#     """
+#     def _relevance(fin):
+#         if fin == 1:
+#             return 40  # Could be 40 for 1st
+#         elif fin == 2:
+#             return 38  # Slightly lower than 1st, but still high
+#         elif fin == 3:
+#             return 36
+#         elif fin == 4:
+#             return 34
+#         else:
+#             # For 5th place or worse, drop off fast with a log formula:
+#             # e.g. alpha=30, beta=4 => 5th => 30 / log(4+5)=30/log(9)= ~9
+#             alpha = 30.0
+#             beta  = 4.0
+#             return alpha / np.log(beta + fin)
     
-    df["relevance"] = df["official_fin"].apply(_relevance)
-    df["top4_label"] = (df["official_fin"] <= 4).astype(int)
-    return df
+#     df["relevance"] = df["official_fin"].apply(_relevance)
+#     return df
 
 def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_splits=5):
     tscv = TimeSeriesSplit(n_splits=n_splits)
     ndcg_scores = []
-    top3_hits_list = []
 
     for train_index, valid_index in tscv.split(data_splits.X_train):
         logging.info(f"Train indices: {train_index[:10]}... Valid indices: {valid_index[:10]}...")
@@ -1311,29 +1219,8 @@ def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_sp
         )
         model.fit(train_pool, eval_set=valid_pool, use_best_model=True, early_stopping_rounds=100)
 
-        # ndcg_score = data_splits.compute_ndcg(model, k=4)
-        # ndcg_scores.append(ndcg_score)
+        ndcg_score = data_splits.compute_ndcg(model, k=4)
+        ndcg_scores.append(ndcg_score)
 
-    # avg_ndcg_score = np.mean(ndcg_scores)
-    # return avg_ndcg_score
-        X_valid_fold["prediction"] = model.predict(X_valid_fold[data_splits.all_feature_cols])
-            
-        # 2) Now group by valid_group_id_fold for the fold
-        fold_df = X_valid_fold.copy()
-        fold_df["relevance"] = y_valid_fold  # or rename if needed
-        fold_df["race_id"] = valid_group_id_fold  # or group_col
-        fold_df["horse_id"] = data_splits.train_data["horse_id"].iloc[valid_index].values
-
-        fraction = top3_in_top3_fraction(
-            model=model,
-            df=fold_df,
-            group_col="race_id",
-            horse_col="horse_id",
-            label_col="relevance",
-            feature_cols=data_splits.all_feature_cols
-        )
-        logging.info(f"top3_in_top3_fraction = {fraction:.4f}")
-        top3_hits_list.append(fraction)
-
-        # Return average across folds
-    return float(np.mean(top3_hits_list))
+    avg_ndcg_score = np.mean(ndcg_scores)
+    return avg_ndcg_score

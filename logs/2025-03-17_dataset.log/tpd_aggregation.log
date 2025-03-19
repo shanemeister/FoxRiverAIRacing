@@ -1,12 +1,12 @@
-2025-03-15 05:00:03 - INFO - Logging has been set up successfully.
-2025-03-15 05:00:03 - INFO - Loading gpspoint data from PostgreSQL...
-2025-03-15 05:00:04 - INFO - Saving gpspoint DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/gpspoint.parquet...
-2025-03-15 05:02:52 - INFO - gpspoint data loaded and saved successfully.
-2025-03-15 05:02:52 - INFO - Loading sectionals data from PostgreSQL...
-2025-03-15 05:02:52 - INFO - Saving sectionals DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/sectionals.parquet...
-2025-03-15 05:03:08 - INFO - sectionals data loaded and saved successfully.
-2025-03-15 05:03:08 - INFO - Loading runners data from PostgreSQL...
-2025-03-15 05:03:08 - ERROR - Error loading runners data: An error occurred while calling o59.jdbc.
+2025-03-17 05:00:04 - INFO - Logging has been set up successfully.
+2025-03-17 05:00:04 - INFO - Loading gpspoint data from PostgreSQL...
+2025-03-17 05:00:04 - INFO - Saving gpspoint DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/gpspoint.parquet...
+2025-03-17 05:02:56 - INFO - gpspoint data loaded and saved successfully.
+2025-03-17 05:02:56 - INFO - Loading sectionals data from PostgreSQL...
+2025-03-17 05:02:56 - INFO - Saving sectionals DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/sectionals.parquet...
+2025-03-17 05:03:12 - INFO - sectionals data loaded and saved successfully.
+2025-03-17 05:03:12 - INFO - Loading runners data from PostgreSQL...
+2025-03-17 05:03:12 - ERROR - Error loading runners data: An error occurred while calling o59.jdbc.
 : org.postgresql.util.PSQLException: ERROR: column "off_finish_last_race" does not exist
   Position: 702
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
@@ -40,7 +40,7 @@
 	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
 	at java.base/java.lang.Thread.run(Thread.java:829)
 
-2025-03-15 05:03:08 - ERROR - Error during Spark initialization: An error occurred while calling o59.jdbc.
+2025-03-17 05:03:12 - ERROR - Error during Spark initialization: An error occurred while calling o59.jdbc.
 : org.postgresql.util.PSQLException: ERROR: column "off_finish_last_race" does not exist
   Position: 702
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
@@ -74,4 +74,4 @@
 	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
 	at java.base/java.lang.Thread.run(Thread.java:829)
 
-2025-03-15 05:03:08 - INFO - Closing down clientserver connection
+2025-03-17 05:03:12 - INFO - Closing down clientserver connection

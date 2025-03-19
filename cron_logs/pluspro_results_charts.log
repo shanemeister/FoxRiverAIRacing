@@ -1234,3 +1234,121 @@ fatal error: Could not connect to the endpoint URL: "https://rshane.s3.us-east-1
 2025-03-15 02:44:02 - Job completed
 2025-03-15 02:30:01 - Results: 437 files, PlusPro: 90 files, Backup: Success
 2025-03-15 02:44:02 - Job completed
+2025-03-16 02:30:01 - Starting ingestion job
+2025-03-16 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-16 02:30:01 - Starting download job
+2025-03-16 02:35:23 - Download job succeeded
+2025-03-16 02:35:23 - Results files downloaded: 442
+2025-03-16 02:35:23 - PlusPro files downloaded: 85
+2025-03-16 02:35:23 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-16 02:44:46 - Sync to S3 succeeded
+2025-03-16 02:44:46 - Job completed
+2025-03-16 02:30:01 - Results: 442 files, PlusPro: 85 files, Backup: Success
+2025-03-16 02:44:46 - Job completed
+2025-03-17 02:30:01 - Starting ingestion job
+2025-03-17 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-17 02:30:01 - Starting download job
+2025-03-17 02:35:08 - Download job succeeded
+2025-03-17 02:35:08 - Results files downloaded: 442
+2025-03-17 02:35:08 - PlusPro files downloaded: 74
+2025-03-17 02:35:08 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-17 02:44:34 - Sync to S3 succeeded
+2025-03-17 02:44:34 - Job completed
+2025-03-17 02:30:01 - Results: 442 files, PlusPro: 74 files, Backup: Success
+2025-03-17 02:44:34 - Job completed
+2025-03-18 02:30:01 - Starting ingestion job
+2025-03-18 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-18 02:30:01 - Starting download job
+2025-03-18 02:32:20 - Download job failed
+CSRF Token: jM4np9HfXC1vjLDRg533TBNykbkH4kSmPPy093Tl
+Traceback (most recent call last):
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 715, in urlopen
+    httplib_response = self._make_request(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 467, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 462, in _make_request
+    httplib_response = conn.getresponse()
+                       ^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 1395, in getresponse
+    response.begin()
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 294, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 801, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/util/retry.py", line 552, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/packages/six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 715, in urlopen
+    httplib_response = self._make_request(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 467, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 462, in _make_request
+    httplib_response = conn.getresponse()
+                       ^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 1395, in getresponse
+    response.begin()
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 294, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 59, in login
+    login_response = session.post(login_url, data=payload, headers=headers)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 724, in send
+    history = [resp for resp in gen]
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 724, in <listcomp>
+    history = [resp for resp in gen]
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 265, in resolve_redirects
+    resp = self.send(
+           ^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/adapters.py", line 682, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2025-03-19 02:30:01 - Starting ingestion job
+2025-03-19 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-19 02:30:01 - Starting download job
+2025-03-19 02:34:44 - Download job succeeded
+2025-03-19 02:34:44 - Results files downloaded: 428
+2025-03-19 02:34:44 - PlusPro files downloaded: 48
+2025-03-19 02:34:44 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-19 02:44:42 - Sync to S3 succeeded
+2025-03-19 02:44:42 - Job completed
+2025-03-19 02:30:01 - Results: 428 files, PlusPro: 48 files, Backup: Success
+2025-03-19 02:44:42 - Job completed
