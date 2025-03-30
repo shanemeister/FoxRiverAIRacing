@@ -1363,3 +1363,146 @@ requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected(
 2025-03-21 02:47:30 - Job completed
 2025-03-21 02:30:01 - Results: 432 files, PlusPro: 78 files, Backup: Success
 2025-03-21 02:47:30 - Job completed
+2025-03-22 02:30:01 - Starting ingestion job
+2025-03-22 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-22 02:30:01 - Starting download job
+2025-03-22 02:35:00 - Download job succeeded
+2025-03-22 02:35:00 - Results files downloaded: 445
+2025-03-22 02:35:00 - PlusPro files downloaded: 88
+2025-03-22 02:35:00 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-22 02:47:16 - Sync to S3 succeeded
+2025-03-22 02:47:16 - Job completed
+2025-03-22 02:30:01 - Results: 445 files, PlusPro: 88 files, Backup: Success
+2025-03-22 02:47:16 - Job completed
+2025-03-23 02:30:01 - Starting ingestion job
+2025-03-23 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-23 02:30:01 - Starting download job
+2025-03-23 02:35:29 - Download job succeeded
+2025-03-23 02:35:29 - Results files downloaded: 453
+2025-03-23 02:35:29 - PlusPro files downloaded: 84
+2025-03-23 02:35:29 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-23 02:47:46 - Sync to S3 succeeded
+2025-03-23 02:47:46 - Job completed
+2025-03-23 02:30:01 - Results: 453 files, PlusPro: 84 files, Backup: Success
+2025-03-23 02:47:46 - Job completed
+2025-03-24 02:30:01 - Starting ingestion job
+2025-03-24 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-24 02:30:01 - Starting download job
+2025-03-24 02:34:44 - Download job succeeded
+2025-03-24 02:34:44 - Results files downloaded: 455
+2025-03-24 02:34:44 - PlusPro files downloaded: 71
+2025-03-24 02:34:44 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-24 02:46:36 - Sync to S3 succeeded
+2025-03-24 02:46:36 - Job completed
+2025-03-24 02:30:01 - Results: 455 files, PlusPro: 71 files, Backup: Success
+2025-03-24 02:46:36 - Job completed
+2025-03-25 02:30:01 - Starting ingestion job
+2025-03-25 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-25 02:30:01 - Starting download job
+2025-03-25 02:37:19 - Download job succeeded
+2025-03-25 02:37:19 - Results files downloaded: 447
+2025-03-25 02:37:19 - PlusPro files downloaded: 55
+2025-03-25 02:37:19 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-25 02:49:14 - Sync to S3 succeeded
+2025-03-25 02:49:14 - Job completed
+2025-03-25 02:30:01 - Results: 447 files, PlusPro: 55 files, Backup: Success
+2025-03-25 02:49:14 - Job completed
+2025-03-26 02:30:01 - Starting ingestion job
+2025-03-26 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-26 02:30:01 - Starting download job
+2025-03-26 02:36:39 - Download job succeeded
+2025-03-26 02:36:39 - Results files downloaded: 437
+2025-03-26 02:36:39 - PlusPro files downloaded: 45
+2025-03-26 02:36:39 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-26 02:48:40 - Sync to S3 succeeded
+2025-03-26 02:48:40 - Job completed
+2025-03-26 02:30:01 - Results: 437 files, PlusPro: 45 files, Backup: Success
+2025-03-26 02:48:40 - Job completed
+2025-03-27 02:30:01 - Starting ingestion job
+2025-03-27 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-27 02:30:01 - Starting download job
+2025-03-27 02:30:21 - Download job failed
+Traceback (most recent call last):
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connection.py", line 174, in _new_conn
+    conn = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/util/connection.py", line 72, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/socket.py", line 962, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 715, in urlopen
+    httplib_response = self._make_request(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 404, in _make_request
+    self._validate_conn(conn)
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1060, in _validate_conn
+    conn.connect()
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connection.py", line 363, in connect
+    self.sock = conn = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connection.py", line 186, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPSConnection object at 0x7f172a20e5d0>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 801, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/util/retry.py", line 594, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='www.trackmaster.com', port=443): Max retries exceeded with url: /myAccountLogin (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f172a20e5d0>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 34, in login
+    response = session.get(login_url)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='www.trackmaster.com', port=443): Max retries exceeded with url: /myAccountLogin (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f172a20e5d0>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+2025-03-28 02:30:01 - Starting ingestion job
+2025-03-28 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-28 02:30:01 - Starting download job
+2025-03-28 02:37:42 - Download job succeeded
+2025-03-28 02:37:42 - Results files downloaded: 444
+2025-03-28 02:37:42 - PlusPro files downloaded: 70
+2025-03-28 02:37:42 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-28 02:47:38 - Sync to S3 succeeded
+2025-03-28 02:47:38 - Job completed
+2025-03-28 02:30:01 - Results: 444 files, PlusPro: 70 files, Backup: Success
+2025-03-28 02:47:38 - Job completed
+2025-03-29 02:30:01 - Starting ingestion job
+2025-03-29 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-29 02:30:01 - Starting download job
+2025-03-29 02:37:47 - Download job succeeded
+2025-03-29 02:37:47 - Results files downloaded: 456
+2025-03-29 02:37:47 - PlusPro files downloaded: 78
+2025-03-29 02:37:47 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-29 02:47:51 - Sync to S3 succeeded
+2025-03-29 02:47:51 - Job completed
+2025-03-29 02:30:01 - Results: 456 files, PlusPro: 78 files, Backup: Success
+2025-03-29 02:47:51 - Job completed

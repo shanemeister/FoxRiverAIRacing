@@ -19,43 +19,28 @@ from pyspark.sql import functions as F
 def setup_logging(log_file):
     """Sets up logging configuration to write logs to a file and the console."""
     try:
-        # Default log directory
         log_dir = '/home/exx/myCode/horse-racing/FoxRiverAIRacing/logs'
-        
-        # Ensure the log directory exists
         os.makedirs(log_dir, exist_ok=True)
         log_file = os.path.join(log_dir, 'inference_prep.log')
 
-        # Clear the log file by opening it in write mode
+        # Clear the log file
         with open(log_file, 'w'):
-            pass  # This will truncate the file without writing anything
+            pass
         
-        # Create a logger and clear existing handlers
         logger = logging.getLogger()
         if logger.hasHandlers():
             logger.handlers.clear()
-
         logger.setLevel(logging.INFO)
 
-        # Create file handler
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
-        # Create console handler
-        #console_handler = logging.StreamHandler()
-        #console_handler.setLevel(logging.INFO)
-
-        # Define a common format
         formatter = logging.Formatter(
             '%(asctime)s - %(levelname)s - %(message)s',
             datefmt='%Y-%m-%d %H:%M:%S'
         )
         file_handler.setFormatter(formatter)
-        #console_handler.setFormatter(formatter)
-
-        # Add handlers to the logger
         logger.addHandler(file_handler)
-        #logger.addHandler(console_handler)
 
         logger.info("Logging has been set up successfully.")
     except Exception as e:
@@ -85,34 +70,43 @@ def get_db_pool(config):
     return pool.SimpleConnectionPool(1, 10, **db_pool_args)
 
 ########################################
-# 2) SAFE SOFTMAX
+# 2) POWER-BASED TEMPERATURE SCALING
 ########################################
-def safe_softmax(arr):
-    """A stable softmax for 1D array to reduce overflow."""
-    arr = np.array(arr, dtype=float)
-    shift = np.max(arr)
-    exp_scores = np.exp(arr - shift)  # shift so max is 0
-    return exp_scores / np.sum(exp_scores)
+import numpy as np
 
-########################################
-# 3) MULTINOMIAL TEMPERATURE SCALING
-########################################
-def apply_temperature_scaling(arr, T):
+def apply_temperature_scaling(scores, T):
     """
-    p_i = exp(logit_i / T) / sum_j exp(logit_j / T)
-    with a shift to prevent overflow.
+    p_i = (scores_i)^(1/T) / sum_j (scores_j)^(1/T),
+    computed stably via a log-sum-exp style approach.
+    scores must be >= 0.
+
+    We'll do:
+      x_i = log(scores_i + eps)
+      y_i = (1/T) * x_i
+      shift = max(y_i)
+      z_i = exp(y_i - shift)
+      prob_i = z_i / sum(z_j)
     """
-    arr = np.array(arr, dtype=float)
-    # Scale by 1/T
-    scaled_logits = arr / T
-    shift = np.max(scaled_logits)
-    exp_vals = np.exp(scaled_logits - shift)
-    return exp_vals / exp_vals.sum()
+    eps = 1e-12
+    scores = np.array(scores, dtype=float)
+
+    # Take log
+    log_scores = np.log(scores + eps)
+    # Multiply by (1/T)
+    scaled_logs = (1.0 / T) * log_scores
+
+    # Shift so max is 0 to avoid overflow
+    shift = np.max(scaled_logs)
+    shifted = np.exp(scaled_logs - shift)  # now in [0..1] range
+    denom = np.sum(shifted) + eps
+
+    return shifted / denom
 
 def neg_log_likelihood_temperature(T, df):
     """
     Summed over all races: -log(prob_of_winner).
-    df has columns: [race_key, score (0..1), winner (0/1)].
+    df has columns: [race_key, score (>=0), winner (0/1)].
+    For each race, p_i = score_i^(1/T) / sum_j score_j^(1/T).
     """
     eps = 1e-12
     total_nll = 0.0
@@ -120,8 +114,11 @@ def neg_log_likelihood_temperature(T, df):
     for _, grp in df.groupby('race_key', sort=False):
         scores = grp['score'].values
         winners = grp['winner'].values
+
+        # compute probabilities for each horse
         probs = apply_temperature_scaling(scores, T)
-        # negative log-likelihood
+
+        # negative log-likelihood for the winner
         log_probs = np.log(probs + eps)
         total_nll += -np.sum(winners * log_probs)
 
@@ -151,7 +148,7 @@ def fit_temperature_scaling(df_cal):
     return best_T
 
 ########################################
-# 4) MAIN
+# 3) MAIN
 ########################################
 def main():
     # -------------------------
@@ -161,7 +158,6 @@ def main():
     log_file = os.path.join(script_dir, "calibrate_multinomial.log")
     setup_logging(log_file)
 
-    # Initialize Spark, read config
     spark, jdbc_url, jdbc_properties, parquet_dir, _ = initialize_environment()
     config_path = os.path.join(script_dir, '../../config.ini')
     config = read_config(config_path)
@@ -181,7 +177,8 @@ def main():
             CASE WHEN official_fin=1 THEN 1 ELSE 0 END AS winner
         FROM catboost_enriched_results
         WHERE data_flag = 'historical'
-          AND model_key = 'YetiRank:top=4_NDCG:top=4_20250312_214018'
+          AND model_key = 'YetiRank:top=1_NDCG:top=3_20250329_153033'
+          AND prediction > 0  -- ensure we only take positive scores
     """
     try:
         cursor.execute(sql_cal)
@@ -208,9 +205,7 @@ def main():
         df_cal['race_number'].astype(str)
     )
 
-    # Convert raw score => per-race softmax
-    df_cal['score'] = df_cal.groupby('race_key')['score'].transform(safe_softmax)
-    # Fit T
+    # Fit T on raw scores (already exponentiated from the ranker)
     T_best = fit_temperature_scaling(df_cal)
 
     # -------------------------
@@ -220,20 +215,25 @@ def main():
     cursor = conn.cursor()
     sql_future = """
         SELECT
-         morn_odds, group_id, post_time,track_name, has_gps, horse_name,
-         global_speed_score_iq, course_cd, race_date,race_number,
-         horse_id, saddle_cloth_number,top_4_ndcg_top_4 AS model_score
-        FROM predictions_20250312_214426_1
-        WHERE race_date >= CURRENT_DATE
+         morn_odds, group_id, post_time, track_name, has_gps, horse_name,
+         global_speed_score_iq, course_cd, race_date, race_number,
+         horse_id, saddle_cloth_number,
+         top1_top3_score AS model_score, 
+         top1_top3_rank AS rank
+        FROM predictions_20250329_172326_1
+        WHERE race_date >= CURRENT_DATE  - INTERVAL '1 day'
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
     try:
         cursor.execute(sql_future)
         rows = cursor.fetchall()
         future_df = pd.DataFrame(rows, columns=[
-            "morn_odds", "group_id", "post_time","track_name", "has_gps", "horse_name",
-         "global_speed_score_iq", "course_cd", "race_date","race_number",
-         "horse_id", "saddle_cloth_number" , "score"
+            "morn_odds", "group_id", "post_time", "track_name", 
+            "has_gps", "horse_name", "global_speed_score_iq", 
+            "course_cd", "race_date", "race_number",
+            "horse_id", "saddle_cloth_number",
+            "score",            # <--- read top1_top4_score into 'score'
+            "rank"
         ])
         logging.info(f"Loaded {len(future_df)} future predictions.")
     except Exception as e:
@@ -247,51 +247,42 @@ def main():
         logging.info("No future predictions found. Nothing to calibrate.")
         sys.exit(0)
 
+    # Build race_key
     future_df['race_key'] = (
         future_df['course_cd'].astype(str) + "_" +
         future_df['race_date'].astype(str) + "_" +
         future_df['race_number'].astype(str)
     )
 
-    # 1) Softmax for each race
-    future_df['unscaled_prob'] = future_df.groupby('race_key')['score'].transform(safe_softmax)
+    # Apply T-based scaling to get final probabilities
+    def group_temp_scaling(scores, T):
+        # scores is a Series
+        arr = scores.values
+        # apply p_i = score_i^(1/T) / sum_j score_j^(1/T)
+        p_i = apply_temperature_scaling(arr, T)
+        return pd.Series(p_i, index=scores.index)
 
-    # 2) Temperature scaling
-    #   We'll group only on ["unscaled_prob"], not the entire DataFrame,
-    #   to avoid the DeprecationWarning about grouping columns.
-    def group_temp_scaling(series, T):
-        arr = series.values
-        scaled_probs = apply_temperature_scaling(arr, T)  # returns a NumPy array
-        # Return as a Series with the same index as 'series'
-        return pd.Series(scaled_probs, index=series.index)
-
-    # Instead of .apply(lambda g: group_temp_scaling(g, T_best)) on the entire DF,
-    # we group specifically on the "unscaled_prob" column:
-
-    # "grouped_result" is a Series of arrays. We assign it back to future_df['calibrated_prob']
+    # do it per-race
     future_df['calibrated_prob'] = (
-    future_df.groupby('race_key', group_keys=False)['unscaled_prob']
-            .apply(lambda s: group_temp_scaling(s, T_best))
-)
-    # Now we have a fully calibrated DataFrame in Pandas
+        future_df.groupby('race_key', group_keys=False)['score']
+                 .apply(lambda s: group_temp_scaling(s, T_best))
+    )
 
-    # -------------------------
-    # D) Convert to Spark DF, overwrite predictions_2025_03_07_1_calibrated
-    # -------------------------
+    # Convert to Spark, overwrite your desired table
     spark_df = spark.createDataFrame(future_df)
 
     (
         spark_df.write
         .format("jdbc")
         .option("url", jdbc_url)
-        .option("dbtable", "predictions_20250312_214426_1_calibrated")
+        .option("dbtable", "predictions_20250329_172326_1_calibrated")
         .option("user", jdbc_properties["user"])
         .option("driver", jdbc_properties["driver"])
         .mode("overwrite")
         .save()
     )
 
-    logging.info("Wrote calibrated predictions to predictions_20250312_214426_1_calibrated via Spark.")
+    logging.info("Wrote calibrated predictions to predictions_20250329_172326_1_calibrated.")
     spark.stop()
     logging.info("All done with calibration pipeline.")
 

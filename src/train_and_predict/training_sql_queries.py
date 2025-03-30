@@ -15,6 +15,9 @@ def sql_queries():
                 h.horse_name AS horse_name,
                 re.official_fin AS official_fin,
                 r.rr_par_time AS par_time,  -- par_time for a race track pre-computed
+                r2.post_position AS post_position,
+                r2.avg_purse_val_calc AS avg_purse_val,       -- av_pur_val Average Purse Value Calculation
+                -- ============================
                 -- ---------------------------
                 -- Running/Distance Metrics (prev)
                 -- ---------------------------
@@ -105,6 +108,24 @@ def sql_queries():
                 -- ============================
                 -- RACE-RELATED STATS
                 -- ============================
+                hsl.score AS sec_score,                     -- (Horse) Sectionals LSTM score
+                hsl.dim1 AS sec_dim1,                        -- (Horse) Sectionals LSTM dim1
+                hsl.dim2 AS sec_dim2,                        -- (Horse) Sectionals LSTM dim2
+                hsl.dim3 AS sec_dim3,                        -- (Horse) Sectionals LSTM dim3
+                hsl.dim4 AS sec_dim4,                        -- (Horse) Sectionals LSTM dim4
+                hsl.dim5 AS sec_dim5,                        -- (Horse) Sectionals LSTM dim5
+                hsl.dim6 AS sec_dim6,                        -- (Horse) Sectionals LSTM dim6
+                hsl.dim7 AS sec_dim7,                        -- (Horse) Sectionals LSTM dim7
+                hsl.dim8 AS sec_dim8,                        -- (Horse) Sectionals LSTM dim8
+                hsg.score AS gps_score,                    -- (Horse) GPS LSTM score
+                hsg.dim1 AS gps_dim1,                        -- (Horse) GPS LSTM dim1
+                hsg.dim2 AS gps_dim2,                        -- (Horse) GPS LSTM dim2
+                hsg.dim3 AS gps_dim3,                        -- (Horse) GPS LSTM dim3
+                hsg.dim4 AS gps_dim4,                        -- (Horse) GPS LSTM dim4
+                hsg.dim5 AS gps_dim5,                        -- (Horse) GPS LSTM dim5
+                hsg.dim6 AS gps_dim6,                        -- (Horse) GPS LSTM dim6
+                hsg.dim7 AS gps_dim7,                        -- (Horse) GPS LSTM dim7
+                hsg.dim8 AS gps_dim8,                        -- (Horse) GPS LSTM dim8
                 r.purse AS purse,                            -- (Race) purse amount
                 TRIM(r.surface) AS surface,                  -- (Race) current surface
                 r.distance_meters AS distance_meters,        -- (Race) current race distance
@@ -232,6 +253,8 @@ def sql_queries():
                 AND r2.axciskey = re.axciskey
             JOIN horse h 
                 ON r2.axciskey = h.axciskey
+            LEFT JOIN horse_sectionals_lstm hsl on h.horse_id=hsl.horse_id
+            LEFT JOIN horse_scores_lstm_gps hsg on h.horse_id=hsg.horse_id
             LEFT JOIN LATERAL(
                         SELECT h2.* 
                         FROM horse_form_agg h2 
@@ -371,7 +394,9 @@ def sql_queries():
             LEFT JOIN track_conditions tc ON r.trk_cond=tc.code
             JOIN course c ON r.course_cd=c.course_cd
             WHERE r2.breed_type='TB'
-            AND c.course_cd <> 'CMR'
+            AND r.course_cd in('CNL','SAR','PIM','TSA','BEL','MVR','TWO','KEE','TAM',
+                            'TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP',
+                            'TGG','CBY','LRL','TED','IND','TCD','TOP')
         """
     }
     return queries

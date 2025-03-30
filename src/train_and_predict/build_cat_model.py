@@ -146,6 +146,69 @@ def top3_in_top3_fraction(
 
     return strict_top3_hits / total_groups
 
+def metric_first_and_top3_in_top4(
+    model,
+    df: pd.DataFrame,
+    group_col: str = "group_id",
+    horse_col: str = "horse_id",
+    label_col: str = "relevance",
+    feature_cols=None
+) -> float:
+    """
+    For each race (group), we do two checks:
+      1) Predicted 1st matches the actual 1st.
+      2) Actual top-3 is a subset of the predicted top-4.
+    If both hold, we count it as a 'hit'.
+    We return the fraction of races (with >=5 horses) that are hits.
+    """
+
+    # If we need to predict within this function
+    if feature_cols is not None:
+        df = df.copy()
+        df["prediction"] = model.predict(df[feature_cols])
+    elif "prediction" not in df.columns:
+        raise ValueError(
+            "No `feature_cols` provided and `df` has no 'prediction' column. "
+            "Cannot compute predictions."
+        )
+
+    total_groups = 0
+    hits = 0  # count of races that pass both checks
+
+    for gid, group in df.groupby(group_col):
+        # skip very small races if desired
+        if len(group) < 5:
+            continue
+
+        total_groups += 1
+        try:
+            # Sort by predicted descending
+            group_sorted_pred = group.sort_values("prediction", ascending=False)
+            # Sort by actual label descending
+            group_sorted_true = group.sort_values(label_col, ascending=False)
+
+            # 1) Check the predicted first vs. actual first
+            predicted_first = group_sorted_pred.iloc[0][horse_col]
+            actual_first = group_sorted_true.iloc[0][horse_col]
+            if predicted_first != actual_first:
+                # If first horse is wrong, no need to check the next condition
+                continue
+
+            # 2) Check actual top-3 is contained in predicted top-4
+            predicted_top4 = set(group_sorted_pred.head(4)[horse_col])
+            actual_top3 = set(group_sorted_true.head(3)[horse_col])
+
+            if actual_top3.issubset(predicted_top4):
+                hits += 1
+
+        except Exception as e:
+            print(f"Error in group {gid}: {e}")
+
+    if total_groups == 0:
+        return 0.0
+
+    return hits / total_groups
+
 ###############################################################################
 # Last Occurrence Carried Forward (LOCF) for future columns
 ###############################################################################   
@@ -217,7 +280,7 @@ def objective(trial, catboost_loss_functions, eval_metric ,data_splits):
         early_stopping_rounds=params["early_stopping_rounds"]
     )
     
-    fraction = top3_in_top3_fraction(
+    fraction = metric_first_and_top3_in_top4(
         model=model,
         df=data_splits.valid_data,
         group_col="race_id",
@@ -225,14 +288,14 @@ def objective(trial, catboost_loss_functions, eval_metric ,data_splits):
         label_col="relevance",
         feature_cols=data_splits.all_feature_cols
     )
-    print(f"top3_in_top3_fraction = {fraction:.4f}")
+    print(f"metric_first_and_top3_in_top4 = {fraction:.4f}")
     
     return fraction
 
 ###############################################################################
 # The run_optuna function
 ###############################################################################
-def run_optuna(catboost_loss_functions, eval_metric, n_trials=20, data_splits=None):
+def run_optuna(catboost_loss_functions, eval_metric, n_trials=50, data_splits=None):
     """Creates an Optuna study with SQLite storage and runs the objective to maximize NDCG (higher is better)."""
     import optuna
 
@@ -493,6 +556,7 @@ def compute_metrics_with_trifecta(holdout_merged, model_key):
         all_relevance.append(group_sorted_true["relevance"].values)
         all_predictions.append(group_sorted_pred["prediction"].values)
 
+
     # end for loop
 
     if total_groups == 0:
@@ -704,19 +768,19 @@ def main_script(
             logging.info(f"=== Starting cross-validation for {loss_func} with {eval_met} ===")
             
             # 1) Run cross-validation
-            top3_in_top3_fraction = cross_validate_model(
+            top3_in_top3 = cross_validate_model(
                 catboost_loss_functions=loss_func,
                 eval_metric=eval_met,
                 data_splits=data_splits,
                 n_splits=5
             )
-            logging.info(f"Cross-validation top3-in-top3 fraction score: {top3_in_top3_fraction}")
+            logging.info(f"Cross-validation top3-in-top3 fraction score: {top3_in_top3}")
 
             # 2) Run Optuna
             study = run_optuna(
                 catboost_loss_functions=loss_func,
                 eval_metric=eval_met,
-                n_trials=20,
+                n_trials=50,
                 data_splits=data_splits
             )
 
@@ -804,7 +868,7 @@ def split_data_and_train(
 
     # 5) Build X,y for each split, referencing final_feature_cols
     
-    all_feature_cols = final_feature_cols + cat_cols  # + embed_cols + cat_cols
+    all_feature_cols = final_feature_cols + embed_cols + cat_cols
 
     X_train = train_data[all_feature_cols].copy()
     y_train = train_data[label_col].values
@@ -830,11 +894,8 @@ def split_data_and_train(
     
     # 7) minimal catboost training
     catboost_loss_functions = [
-        # "YetiRank:top=1",
-        # "YetiRank:top=2",
-        "YetiRank:top=3",
-        "YetiRank:top=4",
-        "YetiRank"
+        "YetiRank:top=1",
+        "YetiRank",
     ]
     catboost_eval_metrics = ["NDCG:top=3", "NDCG:top=4"]
 
@@ -1082,7 +1143,9 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
     hist_embed_cols, fut_embed_cols = build_embed_cols(hist_pdf)  # This is now your dynamic list of embed columns.
     
         # 1) Prepare columns to match training
-    final_feature_cols = ["class_rating", "par_time", "running_time", "total_distance_ran", 
+    final_feature_cols = ["sec_score", "sec_dim1", "sec_dim2", "sec_dim3", "sec_dim4", "sec_dim5", "sec_dim6", "sec_dim7", "sec_dim8",
+                          "gps_score", "gps_dim1", "gps_dim2", "gps_dim3", "gps_dim4", "gps_dim5", "gps_dim6", "gps_dim7", "gps_dim8",
+                          "class_rating", "par_time", "running_time", "total_distance_ran", 
                           "avgtime_gate1", "avgtime_gate2", "avgtime_gate3", "avgtime_gate4", 
                           "dist_bk_gate1", "dist_bk_gate2", "dist_bk_gate3", "dist_bk_gate4", 
                           "speed_q1", "speed_q2", "speed_q3", "speed_q4", "speed_var", "avg_speed_fullrace", 
@@ -1094,21 +1157,21 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
                           "claimprice", "previous_distance", "prev_official_fin",
                           "power","avgspd", "starts", "avg_spd_sd", "ave_cl_sd", "hi_spd_sd", "pstyerl",
                           "purse", "distance_meters", "morn_odds", "jock_win_percent",
-                            "jock_itm_percent", "trainer_win_percent", "trainer_itm_percent", "jt_win_percent",
-                            "jt_itm_percent", "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
-                            "jt_win_track", "jt_itm_track", "sire_itm_percentage", "sire_roi", "dam_itm_percentage",
-                            "dam_roi", "all_starts", "all_win", "all_place", "all_show", "all_fourth", "all_earnings",
-                            "horse_itm_percentage", "cond_starts", "cond_win", "cond_place", "cond_show", "cond_fourth",
-                            "cond_earnings", "net_sentiment", "total_races_5", "avg_fin_5", "avg_speed_5", "best_speed",
-                            "avg_beaten_len_5", "avg_dist_bk_gate1_5",
-                            "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5", "avg_dist_bk_gate4_5", "avg_speed_fullrace_5",
-                            "avg_stride_length_5", "avg_strfreq_q1_5", "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5",
-                            "prev_speed", "speed_improvement", "days_off", "avg_workout_rank_3",
-                            "count_workouts_3", "age_at_race_day", "class_offset", "class_multiplier",
-                            "official_distance", "base_speed", "dist_penalty", "horse_mean_rps", "horse_std_rps",
-                            "global_speed_score_iq", "race_count_agg", "race_avg_speed_agg", "race_std_speed_agg",
-                            "race_avg_relevance_agg", "race_std_relevance_agg", "race_class_count_agg", "race_class_avg_speed_agg",
-                            "race_class_min_speed_agg", "race_class_max_speed_agg"]
+                          "jock_itm_percent", "trainer_win_percent", "trainer_itm_percent", "jt_win_percent",
+                          "jt_itm_percent", "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
+                          "jt_win_track", "jt_itm_track", "sire_itm_percentage", "sire_roi", "dam_itm_percentage",
+                          "dam_roi", "all_starts", "all_win", "all_place", "all_show", "all_fourth", "all_earnings",
+                          "horse_itm_percentage", "cond_starts", "cond_win", "cond_place", "cond_show", "cond_fourth",
+                          "cond_earnings", "net_sentiment", "total_races_5", "avg_fin_5", "avg_speed_5", "best_speed",
+                          "avg_beaten_len_5", "avg_dist_bk_gate1_5",
+                          "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5", "avg_dist_bk_gate4_5", "avg_speed_fullrace_5",
+                          "avg_stride_length_5", "avg_strfreq_q1_5", "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5",
+                          "prev_speed", "speed_improvement", "days_off", "avg_workout_rank_3",
+                          "count_workouts_3", "age_at_race_day", "class_offset", "class_multiplier",
+                          "official_distance", "base_speed", "dist_penalty", "horse_mean_rps", "horse_std_rps",
+                          "global_speed_score_iq", "race_count_agg", "race_avg_speed_agg", "race_std_speed_agg",
+                          "race_avg_relevance_agg", "race_std_relevance_agg", "race_class_count_agg", "race_class_avg_speed_agg",
+                          "race_class_min_speed_agg", "race_class_max_speed_agg", "post_position", "avg_purse_val"]
 
     # 6) Train the model(s) using historical data
     all_models = split_data_and_train(
@@ -1304,8 +1367,8 @@ def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_sp
         model = CatBoostRanker(
             loss_function=catboost_loss_functions,
             eval_metric=eval_metric,
-            task_type="GPU",
-            devices="0,1",
+            task_type="CPU",
+            # devices="0,1",
             random_seed=42,
             verbose=50
         )
@@ -1324,7 +1387,7 @@ def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_sp
         fold_df["race_id"] = valid_group_id_fold  # or group_col
         fold_df["horse_id"] = data_splits.train_data["horse_id"].iloc[valid_index].values
 
-        fraction = top3_in_top3_fraction(
+        fraction = metric_first_and_top3_in_top4(
             model=model,
             df=fold_df,
             group_col="race_id",
@@ -1332,7 +1395,7 @@ def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_sp
             label_col="relevance",
             feature_cols=data_splits.all_feature_cols
         )
-        logging.info(f"top3_in_top3_fraction = {fraction:.4f}")
+        logging.info(f"metric_first_and_top3_in_top4 = {fraction:.4f}")
         top3_hits_list.append(fraction)
 
         # Return average across folds

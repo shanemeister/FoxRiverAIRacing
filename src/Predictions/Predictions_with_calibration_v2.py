@@ -156,40 +156,35 @@ def add_race_chart(doc, race_df):
 
     doc.add_picture(buf, width=Inches(6))
     buf.close()
-    
-def add_overlay_chart(doc, race_df):
+
+def add_overlay_chart(doc: Document, race_df: pd.DataFrame) -> None:
     """
-    Chart #2: Overlay (Value) Chart. Compares our model's probability vs. track implied probability 
-              from fractional morning line odds (in column: morn_odds).
+    Create a bar chart showing overlay = (our prob) - (track implied prob).
+    Negative bars mean the horse is overbet by the track (less value).
+    Positive bars mean potentially good value.
     """
     if 'morn_odds' not in race_df.columns:
         doc.add_paragraph("No 'morn_odds' column found, skipping overlay chart.")
         return
 
     # Make a copy so we don't alter the original DataFrame
-    race_df = race_df.copy()
+    chart_df = race_df.copy()
 
-    # Convert fractional odds => implied probability
-    # e.g. if morn_odds=5 => 5-1 => implied prob = 1/6=0.1667
-    #    if morn_odds=9/2 => 4.5 => implied prob=1/5.5=0.1818
-    race_df['track_implied_prob'] = 1.0 / (race_df['morn_odds'].astype(float) + 1.0)
+    # Convert fractional odds => implied probability: 1 / (odds + 1)
+    chart_df['track_implied_prob'] = 1.0 / (chart_df['morn_odds'].astype(float) + 1.0)
 
-    # overlay = (our prob) - (track implied prob)
-    race_df['overlay'] = race_df['winning_probability'] - race_df['track_implied_prob']
+    chart_df['overlay'] = chart_df['winning_probability'] - chart_df['track_implied_prob']
+    chart_df.sort_values('overlay', ascending=True, inplace=True)
 
-    # Sort ascending by overlay
-    race_df_sorted = race_df.sort_values('overlay', ascending=True)
-    num_horses = len(race_df_sorted)
+    num_horses = len(chart_df)
 
-    fig, ax = plt.subplots(figsize=(8, max(2, num_horses*0.3)))
-    ax.barh(race_df_sorted['horse_name'], race_df_sorted['overlay'], color='skyblue')
-    ax.set_xlabel('Overlay Amount (Our Probability - Track Implied)')
-    ax.set_title('Value / Overlay Chart')
-    # Vertical line at 0 for visual reference
-    ax.axvline(0, color='black', linewidth=1)
+    fig, ax = plt.subplots(figsize=(8, max(2, num_horses * 0.3)))
+    ax.barh(chart_df['horse_name'], chart_df['overlay'], color='skyblue')
+    ax.set_xlabel('Overlay (Model Prob - Track Prob)')
+    ax.set_title('Value/Overlay Chart')
+    ax.axvline(0, color='black', linewidth=1)  # Center line
 
     plt.tight_layout()
-
     buf = BytesIO()
     plt.savefig(buf, format='png')
     plt.close(fig)
@@ -197,6 +192,47 @@ def add_overlay_chart(doc, race_df):
 
     doc.add_picture(buf, width=Inches(6))
     buf.close()
+        
+# def add_overlay_chart(doc, race_df):
+#     """
+#     Chart #2: Overlay (Value) Chart. Compares our model's probability vs. track implied probability 
+#               from fractional morning line odds (in column: morn_odds).
+#     """
+#     if 'morn_odds' not in race_df.columns:
+#         doc.add_paragraph("No 'morn_odds' column found, skipping overlay chart.")
+#         return
+
+#     # Make a copy so we don't alter the original DataFrame
+#     race_df = race_df.copy()
+
+#     # Convert fractional odds => implied probability
+#     # e.g. if morn_odds=5 => 5-1 => implied prob = 1/6=0.1667
+#     #    if morn_odds=9/2 => 4.5 => implied prob=1/5.5=0.1818
+#     race_df['track_implied_prob'] = 1.0 / (race_df['morn_odds'].astype(float) + 1.0)
+
+#     # overlay = (our prob) - (track implied prob)
+#     race_df['overlay'] = race_df['winning_probability'] - race_df['track_implied_prob']
+
+#     # Sort ascending by overlay
+#     race_df_sorted = race_df.sort_values('overlay', ascending=True)
+#     num_horses = len(race_df_sorted)
+
+#     fig, ax = plt.subplots(figsize=(8, max(2, num_horses*0.3)))
+#     ax.barh(race_df_sorted['horse_name'], race_df_sorted['overlay'], color='skyblue')
+#     ax.set_xlabel('Overlay Amount (Our Probability - Track Implied)')
+#     ax.set_title('Value / Overlay Chart')
+#     # Vertical line at 0 for visual reference
+#     ax.axvline(0, color='black', linewidth=1)
+
+#     plt.tight_layout()
+
+#     buf = BytesIO()
+#     plt.savefig(buf, format='png')
+#     plt.close(fig)
+#     buf.seek(0)
+
+#     doc.add_picture(buf, width=Inches(6))
+#     buf.close()
 
 ############################################################
 # 4) Write Predictions to DOCX
@@ -281,7 +317,7 @@ def write_predictions_to_docx(pred_df, output_docx):
                 cells[3].text = f"{gs_val:.1f}"
 
             # Model Score
-            ms_val = row['yetirank_ndcg_top_2']
+            ms_val = row['score']
             if pd.isna(ms_val):
                 cells[4].text = "N/A"
             else:
@@ -345,10 +381,10 @@ def main():
             race_number,
             horse_id,
             saddle_cloth_number,
-            score AS yetirank_ndcg_top_2,
+            score,
             calibrated_prob AS winning_probability
-        FROM predictions_20250312_214426_1_calibrated
-        WHERE race_date >= CURRENT_DATE -1
+        FROM predictions_20250329_172326_1_calibrated
+        WHERE race_date >= CURRENT_DATE -- INTERVAL '1 day'
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
 
@@ -359,7 +395,7 @@ def main():
         columns = [
             "morn_odds", "group_id", "post_time", "track_name", "has_gps", "horse_name",
             "global_speed_score_iq", "course_cd", "race_date", "race_number",
-            "horse_id", "saddle_cloth_number", "yetirank_ndcg_top_2",
+            "horse_id", "saddle_cloth_number", "score",
             "winning_probability"
         ]
         pred_df = pd.DataFrame(rows, columns=columns)
@@ -384,7 +420,7 @@ def main():
     # B) Generate the DOCX with 2 charts
     # ==============================
     current_date = datetime.now().strftime("%Y-%m-%d")
-    output_docx = os.path.join(script_dir, f"final_predictions_calibrated_{current_date}.docx")
+    output_docx = os.path.join(script_dir, f"final_predictions_calibrated_{current_date}v2.docx")
 
     write_predictions_to_docx(pred_df, output_docx)
     logging.info("Predictions document created successfully.")

@@ -313,23 +313,6 @@ def impute_performance_features(df):
     
     return df
 
-def filter_course_cd(train_df):
-    # List of course_cd identifiers to keep for "future" data_flag
-    course_cd_list = [
-    'CNL','SAR','PIM','TSA','BEL','MVR','TWO','CLS','KEE','TAM',
-    'TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP',
-    'TGG','CBY','LRL','TED','IND','CTD','ASD','TCD','LAD','TOP'
-    ]
-
-    filtered_df = train_df.filter(
-        # Condition A: keep if has_gps=1 (GPS data) OR 
-        # condition B: keep if course_cd is in the TPD list
-        (F.col("has_gps") == 1) 
-        | (F.col("course_cd").isin(course_cd_list))
-    )
-            
-    return filtered_df
-
 # def remove_performance_columns(df):
 #     """
 #     Removes the three specified columns (dist_bk_gate4, running_time, total_distance_ran)
@@ -430,57 +413,57 @@ def remove_performance_columns(df):
 
     return df_final
 
-def remove_future_races_with_unmatched_horses(df):
-    """
-    Deletes all future races (data_flag='future') that contain unmatched horses 
-    (i.e. horses that do not appear in the historical subset).
+# def remove_future_races_with_unmatched_horses(df):
+#     """
+#     Deletes all future races (data_flag='future') that contain unmatched horses 
+#     (i.e. horses that do not appear in the historical subset).
     
-    Steps:
-    1) Split df into historical vs. future.
-    2) Identify horses in historical -> distinct horse_ids.
-    3) Left-anti join future on those horse_ids to find "unmatched_future_df".
-    4) Distinctly gather the (course_cd, race_date, race_number) from unmatched_future_df.
-    5) Filter out those race keys from future_df.
-    6) Recombine historical + the 'cleaned' future subset.
-    7) Return the final DataFrame.
-    """
+#     Steps:
+#     1) Split df into historical vs. future.
+#     2) Identify horses in historical -> distinct horse_ids.
+#     3) Left-anti join future on those horse_ids to find "unmatched_future_df".
+#     4) Distinctly gather the (course_cd, race_date, race_number) from unmatched_future_df.
+#     5) Filter out those race keys from future_df.
+#     6) Recombine historical + the 'cleaned' future subset.
+#     7) Return the final DataFrame.
+#     """
 
-    import pyspark.sql.functions as F
+#     import pyspark.sql.functions as F
 
-    # Split
-    df_hist = df.filter(F.col("data_flag") == "historical")
-    df_future = df.filter(F.col("data_flag") == "future")
+#     # Split
+#     df_hist = df.filter(F.col("data_flag") == "historical")
+#     df_future = df.filter(F.col("data_flag") == "future")
 
-    # 1) Distinct horse_ids in historical
-    historical_horses_df = df_hist.select("horse_id").distinct()
+#     # 1) Distinct horse_ids in historical
+#     historical_horses_df = df_hist.select("horse_id").distinct()
 
-    # 2) Find unmatched future rows via left_anti on horse_id
-    unmatched_future_df = df_future.join(historical_horses_df, on="horse_id", how="left_anti")
+#     # 2) Find unmatched future rows via left_anti on horse_id
+#     unmatched_future_df = df_future.join(historical_horses_df, on="horse_id", how="left_anti")
 
-    # 3) Distinct race keys for those unmatched rows
-    unmatched_races = (
-        unmatched_future_df
-        .select("course_cd", "race_date", "race_number")
-        .distinct()
-    )
+#     # 3) Distinct race keys for those unmatched rows
+#     unmatched_races = (
+#         unmatched_future_df
+#         .select("course_cd", "race_date", "race_number")
+#         .distinct()
+#     )
 
-    # 4) Filter out those race keys from df_future
-    #    i.e. keep future rows that do NOT appear in unmatched_races
-    joined_for_filter = df_future.join(
-        unmatched_races,
-        on=["course_cd","race_date","race_number"],
-        how="left_anti"
-    )
+#     # 4) Filter out those race keys from df_future
+#     #    i.e. keep future rows that do NOT appear in unmatched_races
+#     joined_for_filter = df_future.join(
+#         unmatched_races,
+#         on=["course_cd","race_date","race_number"],
+#         how="left_anti"
+#     )
 
-    # 5) Recombine historical + the "cleaned" future
-    df_final = df_hist.unionByName(joined_for_filter)
+#     # 5) Recombine historical + the "cleaned" future
+#     df_final = df_hist.unionByName(joined_for_filter)
 
-    # 6) Log final row counts
-    fut_count_final = df_final.filter(F.col("data_flag") == "future").count()
-    hist_count_final = df_final.filter(F.col("data_flag") == "historical").count()
-    logging.info(f"[remove_future_races_with_unmatched_horses] final future={fut_count_final}, historical={hist_count_final}")
+#     # 6) Log final row counts
+#     fut_count_final = df_final.filter(F.col("data_flag") == "future").count()
+#     hist_count_final = df_final.filter(F.col("data_flag") == "historical").count()
+#     logging.info(f"[remove_future_races_with_unmatched_horses] final future={fut_count_final}, historical={hist_count_final}")
 
-    return df_final
+#     return df_final
 
 def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     """
@@ -511,10 +494,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     future_count = train_df.filter(F.col("data_flag") == "future").count()
     historical_count = train_df.filter(F.col("data_flag") == "historical").count()
     logging.info(f"Before filtering on has_gps and course_cd list: data_flag='future': {future_count}")
-    logging.info(f"Before filtering on has_gps and course_cd list: data_flag='historical': {historical_count}")
-    
-    # Apply the filter to the train_df DataFrame
-    train_df = filter_course_cd(train_df)        
+    logging.info(f"Before filtering on has_gps and course_cd list: data_flag='historical': {historical_count}")      
     
     # Log the counts after filtering
     future_count = train_df.filter(F.col("data_flag") == "future").count()
@@ -690,7 +670,7 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     logging.info(f"5. Just before impute_performance_columns: Number of rows with data_flag='future': {future_count}")
     logging.info(f"5. Just before impute_performance_columns:  Number of rows with data_flag='historical': {historical_count}")
     
-    train_df = remove_future_races_with_unmatched_horses(train_df)
+    # train_df = remove_future_races_with_unmatched_horses(train_df)
     
     train_df = remove_performance_columns(train_df) # dist_bk_gate4, running_time, total_distance_ran
     # Log the counts
@@ -719,5 +699,10 @@ def load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     logging.info(f"Data written to Parquet in {time.time() - start_time:.2f} seconds")
     logging.info("Data cleansing complete. train_df being returned.")
     
+    # Log the counts after filtering
+    #future_df = train_df.filter(F.col("data_flag") == "future")
+    #historical_df = train_df.filter(F.col("data_flag") == "historical")
+    
+    #return historical_df
     return train_df
         

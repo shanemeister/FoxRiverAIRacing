@@ -513,3 +513,920 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 25/03/21 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
 [Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                Spark session created successfully.
 2025-03-21 05:03:04 - Python script failed with exit code 1
+2025-03-22 05:00:01 - Starting stat_type_update job
+2025-03-22 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-22 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/03/22 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/03/22 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/03/22 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/03/22 05:00:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/22 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/03/22 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 4:>                  (0 + 1) / 1][Stage 5:>                  (0 + 1) / 1][Stage 4:>                                                          (0 + 1) / 1][Stage 8:>                                                        (0 + 50) / 50][Stage 8:=>                                                       (1 + 49) / 50]                                                                                [Stage 22:>   (0 + 1) / 1][Stage 23:>   (0 + 1) / 1][Stage 24:>   (0 + 1) / 1][Stage 22:>                 (0 + 1) / 1][Stage 24:>                 (0 + 1) / 1][Stage 22:>                                                         (0 + 1) / 1][Stage 28:>                                                     (0 + 100) / 100][Stage 28:>                                                      (1 + 99) / 100][Stage 28:=>                                                     (2 + 98) / 100][Stage 28:=>                                                     (3 + 97) / 100][Stage 28:========================>                             (45 + 55) / 100]                                                                                [Stage 29:>                 (0 + 1) / 1][Stage 30:>                 (0 + 1) / 1][Stage 29:>                                                         (0 + 1) / 1]                                                                                [Stage 47:>   (0 + 1) / 1][Stage 48:>   (0 + 1) / 1][Stage 49:>   (0 + 1) / 1][Stage 47:>                 (0 + 1) / 1][Stage 49:>                 (0 + 1) / 1][Stage 47:>                                                         (0 + 1) / 1][Stage 58:>                                                     (0 + 128) / 200][Stage 58:>                                                     (1 + 128) / 200][Stage 58:>                                                     (3 + 128) / 200][Stage 58:=>                                                    (4 + 128) / 200][Stage 58:=>                                                    (5 + 128) / 200][Stage 58:========================>                            (92 + 108) / 200][Stage 58:====================================>                (139 + 61) / 200][Stage 64:>                                                       (0 + 40) / 40][Stage 64:=>                                                      (1 + 39) / 40][Stage 64:============>                                           (9 + 31) / 40][Stage 64:======================================================> (39 + 1) / 40]                                                                                [Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 66:>                 (0 + 1) / 1][Stage 67:>                 (0 + 1) / 1][Stage 66:>                                                         (0 + 1) / 1][Stage 76:>                                                     (0 + 128) / 200][Stage 76:>                                                     (1 + 128) / 200][Stage 76:>                                                     (2 + 128) / 200][Stage 76:>                                                     (3 + 128) / 200][Stage 76:===>                                                 (15 + 128) / 200][Stage 76:==============>                                      (54 + 128) / 200][Stage 76:==============>                                      (55 + 128) / 200][Stage 76:=========================>                           (95 + 105) / 200][Stage 76:==================================>                  (130 + 70) / 200][Stage 76:=====================================>               (141 + 59) / 200][Stage 76:=========================================>           (157 + 43) / 200][Stage 76:===============================================>     (181 + 19) / 200][Stage 76:=================================================>   (187 + 13) / 200]                                                                                [Stage 77:>                                                         (0 + 1) / 1][Stage 79:>                                                       (0 + 67) / 67][Stage 79:>                                                       (1 + 66) / 67][Stage 79:=>                                                      (2 + 65) / 67][Stage 79:=====>                                                  (6 + 61) / 67][Stage 79:======================>                                (27 + 40) / 67][Stage 79:=======================================================>(66 + 1) / 67]                                                                                Spark session created successfully.
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- time_stamp: timestamp (nullable = true)
+ |-- longitude: double (nullable = true)
+ |-- latitude: double (nullable = true)
+ |-- speed: double (nullable = true)
+ |-- progress: double (nullable = true)
+ |-- stride_frequency: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- location: string (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- gate_name: string (nullable = true)
+ |-- gate_numeric: double (nullable = true)
+ |-- length_to_finish: double (nullable = true)
+ |-- sectional_time: double (nullable = true)
+ |-- running_time: double (nullable = true)
+ |-- distance_back: double (nullable = true)
+ |-- distance_ran: double (nullable = true)
+ |-- number_of_strides: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- country: string (nullable = true)
+ |-- axciskey: string (nullable = true)
+ |-- post_position: long (nullable = true)
+ |-- todays_cls: long (nullable = true)
+ |-- owner_name: string (nullable = true)
+ |-- turf_mud_mark: string (nullable = true)
+ |-- avg_purse_val_calc: decimal(10,2) (nullable = true)
+ |-- weight: decimal(10,2) (nullable = true)
+ |-- wght_shift: decimal(10,2) (nullable = true)
+ |-- cldate: date (nullable = true)
+ |-- price: decimal(10,2) (nullable = true)
+ |-- bought_fr: string (nullable = true)
+ |-- power: decimal(10,2) (nullable = true)
+ |-- med: string (nullable = true)
+ |-- equip: string (nullable = true)
+ |-- morn_odds: decimal(10,2) (nullable = true)
+ |-- breeder: string (nullable = true)
+ |-- ae_flag: string (nullable = true)
+ |-- power_symb: string (nullable = true)
+ |-- horse_comm: string (nullable = true)
+ |-- breed_type: string (nullable = true)
+ |-- lst_salena: string (nullable = true)
+ |-- lst_salepr: double (nullable = true)
+ |-- lst_saleda: date (nullable = true)
+ |-- claimprice: double (nullable = true)
+ |-- avgspd: double (nullable = true)
+ |-- avgcls: double (nullable = true)
+ |-- apprweight: double (nullable = true)
+ |-- jock_key: string (nullable = true)
+ |-- train_key: string (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- previous_surface: string (nullable = true)
+ |-- previous_class: decimal(10,2) (nullable = true)
+ |-- net_sentiment: integer (nullable = true)
+ |-- avg_spd_sd: double (nullable = true)
+ |-- ave_cl_sd: double (nullable = true)
+ |-- hi_spd_sd: double (nullable = true)
+ |-- pstyerl: double (nullable = true)
+ |-- previous_distance: integer (nullable = true)
+ |-- prev_official_fin: double (nullable = true)
+ |-- race_count: integer (nullable = true)
+ |-- prev_speed_rating: double (nullable = true)
+ |-- gps_rawspeed: decimal(38,18) (nullable = true)
+ |-- gcsf_speed_figure: decimal(38,18) (nullable = true)
+
+root
+ |-- axciskey: string (nullable = true)
+ |-- horse_name: string (nullable = true)
+ |-- foal_date: date (nullable = true)
+ |-- sex: string (nullable = true)
+ |-- wh_foaled: string (nullable = true)
+ |-- color: string (nullable = true)
+ |-- horse_id: integer (nullable = true)
+
+Executing: CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)
+Executing: CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Executing: ALTER TABLE gps_aggregated_locf ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+Executing: CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)
+Executing: CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-03-22 05:08:54 - Python script succeeded
+2025-03-22 05:08:54 - Job completed
+2025-03-23 05:00:02 - Starting stat_type_update job
+2025-03-23 05:00:02 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-23 05:00:02 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/03/23 05:00:03 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/03/23 05:00:03 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/03/23 05:00:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/03/23 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/23 05:00:04 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 4:>                  (0 + 1) / 1][Stage 5:>                  (0 + 1) / 1][Stage 4:>                                                          (0 + 1) / 1][Stage 8:>                                                        (0 + 50) / 50][Stage 8:===============================>                        (28 + 22) / 50]                                                                                [Stage 22:>   (0 + 1) / 1][Stage 23:>   (0 + 1) / 1][Stage 24:>   (0 + 1) / 1][Stage 22:>                 (0 + 1) / 1][Stage 24:>                 (0 + 1) / 1][Stage 22:>                                                         (0 + 1) / 1][Stage 28:>                                                     (0 + 100) / 100][Stage 28:=>                                                     (2 + 98) / 100][Stage 28:================================>                     (60 + 40) / 100]                                                                                [Stage 29:>                 (0 + 1) / 1][Stage 30:>                 (0 + 1) / 1][Stage 29:>                                                         (0 + 1) / 1]                                                                                [Stage 47:>   (0 + 1) / 1][Stage 48:>   (0 + 1) / 1][Stage 49:>   (0 + 1) / 1][Stage 47:>                 (0 + 1) / 1][Stage 49:>                 (0 + 1) / 1][Stage 47:>                                                         (0 + 1) / 1][Stage 58:>                                                     (0 + 128) / 200][Stage 58:>                                                     (1 + 128) / 200][Stage 58:>                                                     (2 + 128) / 200][Stage 58:=>                                                    (5 + 128) / 200][Stage 58:==================================>                  (130 + 70) / 200][Stage 58:====================================>                (139 + 61) / 200][Stage 64:===============================================>        (34 + 6) / 40]                                                                                [Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 66:>                                                         (0 + 1) / 1][Stage 76:>                                                     (0 + 128) / 200][Stage 76:>                                                     (1 + 128) / 200][Stage 76:>                                                     (2 + 128) / 200][Stage 76:>                                                     (3 + 128) / 200][Stage 76:=>                                                    (4 + 128) / 200][Stage 76:=>                                                    (7 + 128) / 200][Stage 76:==>                                                  (10 + 128) / 200][Stage 76:===>                                                 (14 + 128) / 200][Stage 76:=========>                                           (37 + 128) / 200][Stage 76:================>                                    (62 + 128) / 200][Stage 76:==============================>                      (116 + 84) / 200][Stage 76:=====================================>               (140 + 60) / 200][Stage 76:=========================================>           (155 + 45) / 200]                                                                                [Stage 77:>                                                         (0 + 1) / 1][Stage 79:>                                                       (0 + 67) / 67][Stage 79:>                                                       (1 + 66) / 67][Stage 79:=======================================================>(66 + 1) / 67]                                                                                Spark session created successfully.
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- time_stamp: timestamp (nullable = true)
+ |-- longitude: double (nullable = true)
+ |-- latitude: double (nullable = true)
+ |-- speed: double (nullable = true)
+ |-- progress: double (nullable = true)
+ |-- stride_frequency: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- location: string (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- gate_name: string (nullable = true)
+ |-- gate_numeric: double (nullable = true)
+ |-- length_to_finish: double (nullable = true)
+ |-- sectional_time: double (nullable = true)
+ |-- running_time: double (nullable = true)
+ |-- distance_back: double (nullable = true)
+ |-- distance_ran: double (nullable = true)
+ |-- number_of_strides: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- country: string (nullable = true)
+ |-- axciskey: string (nullable = true)
+ |-- post_position: long (nullable = true)
+ |-- todays_cls: long (nullable = true)
+ |-- owner_name: string (nullable = true)
+ |-- turf_mud_mark: string (nullable = true)
+ |-- avg_purse_val_calc: decimal(10,2) (nullable = true)
+ |-- weight: decimal(10,2) (nullable = true)
+ |-- wght_shift: decimal(10,2) (nullable = true)
+ |-- cldate: date (nullable = true)
+ |-- price: decimal(10,2) (nullable = true)
+ |-- bought_fr: string (nullable = true)
+ |-- power: decimal(10,2) (nullable = true)
+ |-- med: string (nullable = true)
+ |-- equip: string (nullable = true)
+ |-- morn_odds: decimal(10,2) (nullable = true)
+ |-- breeder: string (nullable = true)
+ |-- ae_flag: string (nullable = true)
+ |-- power_symb: string (nullable = true)
+ |-- horse_comm: string (nullable = true)
+ |-- breed_type: string (nullable = true)
+ |-- lst_salena: string (nullable = true)
+ |-- lst_salepr: double (nullable = true)
+ |-- lst_saleda: date (nullable = true)
+ |-- claimprice: double (nullable = true)
+ |-- avgspd: double (nullable = true)
+ |-- avgcls: double (nullable = true)
+ |-- apprweight: double (nullable = true)
+ |-- jock_key: string (nullable = true)
+ |-- train_key: string (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- previous_surface: string (nullable = true)
+ |-- previous_class: decimal(10,2) (nullable = true)
+ |-- net_sentiment: integer (nullable = true)
+ |-- avg_spd_sd: double (nullable = true)
+ |-- ave_cl_sd: double (nullable = true)
+ |-- hi_spd_sd: double (nullable = true)
+ |-- pstyerl: double (nullable = true)
+ |-- previous_distance: integer (nullable = true)
+ |-- prev_official_fin: double (nullable = true)
+ |-- race_count: integer (nullable = true)
+ |-- prev_speed_rating: double (nullable = true)
+ |-- gps_rawspeed: decimal(38,18) (nullable = true)
+ |-- gcsf_speed_figure: decimal(38,18) (nullable = true)
+
+root
+ |-- axciskey: string (nullable = true)
+ |-- horse_name: string (nullable = true)
+ |-- foal_date: date (nullable = true)
+ |-- sex: string (nullable = true)
+ |-- wh_foaled: string (nullable = true)
+ |-- color: string (nullable = true)
+ |-- horse_id: integer (nullable = true)
+
+Executing: CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)
+Executing: CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Executing: ALTER TABLE gps_aggregated_locf ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+Executing: CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)
+Executing: CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-03-23 05:08:30 - Python script succeeded
+2025-03-23 05:08:30 - Job completed
+2025-03-24 05:00:01 - Starting stat_type_update job
+2025-03-24 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-24 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/03/24 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/03/24 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/03/24 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/03/24 05:00:02 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/24 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/03/24 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 4:>                  (0 + 1) / 1][Stage 5:>                  (0 + 1) / 1][Stage 4:>                                                          (0 + 1) / 1][Stage 8:>                                                        (0 + 50) / 50]                                                                                [Stage 22:>   (0 + 1) / 1][Stage 23:>   (0 + 1) / 1][Stage 24:>   (0 + 1) / 1][Stage 22:>                 (0 + 1) / 1][Stage 24:>                 (0 + 1) / 1][Stage 22:>                                                         (0 + 1) / 1][Stage 28:>                                                     (0 + 100) / 100][Stage 28:=>                                                     (3 + 97) / 100][Stage 28:==>                                                    (5 + 95) / 100]                                                                                [Stage 29:>                 (0 + 1) / 1][Stage 30:>                 (0 + 1) / 1][Stage 29:>                                                         (0 + 1) / 1]                                                                                [Stage 47:>   (0 + 1) / 1][Stage 48:>   (0 + 1) / 1][Stage 49:>   (0 + 1) / 1][Stage 47:>                 (0 + 1) / 1][Stage 49:>                 (0 + 1) / 1][Stage 47:>                                                         (0 + 1) / 1][Stage 58:>                                                     (0 + 128) / 200][Stage 58:>                                                     (1 + 128) / 200][Stage 58:>                                                     (2 + 128) / 200][Stage 58:=>                                                    (6 + 128) / 200][Stage 58:=>                                                    (7 + 128) / 200][Stage 58:==>                                                  (11 + 128) / 200][Stage 58:===>                                                 (13 + 128) / 200][Stage 58:====================================>                (137 + 63) / 200][Stage 64:==========>                                             (8 + 33) / 41]                                                                                [Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 66:>                 (0 + 1) / 1][Stage 67:>                 (0 + 1) / 1][Stage 66:>                                                         (0 + 1) / 1][Stage 76:>                                                     (0 + 128) / 200][Stage 76:>                                                     (2 + 128) / 200][Stage 76:==================================>                  (130 + 70) / 200][Stage 76:========================================>            (154 + 46) / 200]                                                                                [Stage 77:>                                                         (0 + 1) / 1][Stage 79:>                                                       (0 + 67) / 67][Stage 79:=======================================================>(66 + 1) / 67]                                                                                Spark session created successfully.
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- time_stamp: timestamp (nullable = true)
+ |-- longitude: double (nullable = true)
+ |-- latitude: double (nullable = true)
+ |-- speed: double (nullable = true)
+ |-- progress: double (nullable = true)
+ |-- stride_frequency: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- location: string (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- gate_name: string (nullable = true)
+ |-- gate_numeric: double (nullable = true)
+ |-- length_to_finish: double (nullable = true)
+ |-- sectional_time: double (nullable = true)
+ |-- running_time: double (nullable = true)
+ |-- distance_back: double (nullable = true)
+ |-- distance_ran: double (nullable = true)
+ |-- number_of_strides: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- country: string (nullable = true)
+ |-- axciskey: string (nullable = true)
+ |-- post_position: long (nullable = true)
+ |-- todays_cls: long (nullable = true)
+ |-- owner_name: string (nullable = true)
+ |-- turf_mud_mark: string (nullable = true)
+ |-- avg_purse_val_calc: decimal(10,2) (nullable = true)
+ |-- weight: decimal(10,2) (nullable = true)
+ |-- wght_shift: decimal(10,2) (nullable = true)
+ |-- cldate: date (nullable = true)
+ |-- price: decimal(10,2) (nullable = true)
+ |-- bought_fr: string (nullable = true)
+ |-- power: decimal(10,2) (nullable = true)
+ |-- med: string (nullable = true)
+ |-- equip: string (nullable = true)
+ |-- morn_odds: decimal(10,2) (nullable = true)
+ |-- breeder: string (nullable = true)
+ |-- ae_flag: string (nullable = true)
+ |-- power_symb: string (nullable = true)
+ |-- horse_comm: string (nullable = true)
+ |-- breed_type: string (nullable = true)
+ |-- lst_salena: string (nullable = true)
+ |-- lst_salepr: double (nullable = true)
+ |-- lst_saleda: date (nullable = true)
+ |-- claimprice: double (nullable = true)
+ |-- avgspd: double (nullable = true)
+ |-- avgcls: double (nullable = true)
+ |-- apprweight: double (nullable = true)
+ |-- jock_key: string (nullable = true)
+ |-- train_key: string (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- previous_surface: string (nullable = true)
+ |-- previous_class: decimal(10,2) (nullable = true)
+ |-- net_sentiment: integer (nullable = true)
+ |-- avg_spd_sd: double (nullable = true)
+ |-- ave_cl_sd: double (nullable = true)
+ |-- hi_spd_sd: double (nullable = true)
+ |-- pstyerl: double (nullable = true)
+ |-- previous_distance: integer (nullable = true)
+ |-- prev_official_fin: double (nullable = true)
+ |-- race_count: integer (nullable = true)
+ |-- prev_speed_rating: double (nullable = true)
+ |-- gps_rawspeed: decimal(38,18) (nullable = true)
+ |-- gcsf_speed_figure: decimal(38,18) (nullable = true)
+
+root
+ |-- axciskey: string (nullable = true)
+ |-- horse_name: string (nullable = true)
+ |-- foal_date: date (nullable = true)
+ |-- sex: string (nullable = true)
+ |-- wh_foaled: string (nullable = true)
+ |-- color: string (nullable = true)
+ |-- horse_id: integer (nullable = true)
+
+Executing: CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)
+Executing: CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Executing: ALTER TABLE gps_aggregated_locf ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+Executing: CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)
+Executing: CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-03-24 05:08:30 - Python script succeeded
+2025-03-24 05:08:30 - Job completed
+2025-03-25 05:00:01 - Starting stat_type_update job
+2025-03-25 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-25 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/03/25 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/03/25 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/03/25 05:00:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/03/25 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/25 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/03/25 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 4:>                                                          (0 + 1) / 1][Stage 4:>                  (0 + 1) / 1][Stage 5:>                  (0 + 1) / 1][Stage 4:>                                                          (0 + 1) / 1][Stage 8:>                                                        (0 + 50) / 50]                                                                                [Stage 22:>   (0 + 1) / 1][Stage 23:>   (0 + 1) / 1][Stage 24:>   (0 + 1) / 1][Stage 22:>                 (0 + 1) / 1][Stage 24:>                 (0 + 1) / 1][Stage 22:>                                                         (0 + 1) / 1][Stage 28:>                                                     (0 + 100) / 100][Stage 28:>                                                      (1 + 99) / 100][Stage 28:=>                                                     (3 + 97) / 100][Stage 28:==========================>                           (49 + 51) / 100]                                                                                [Stage 29:>                 (0 + 1) / 1][Stage 30:>                 (0 + 1) / 1][Stage 29:>                                                         (0 + 1) / 1]                                                                                [Stage 47:>   (0 + 1) / 1][Stage 48:>   (0 + 1) / 1][Stage 49:>   (0 + 1) / 1][Stage 47:>                 (0 + 1) / 1][Stage 49:>                 (0 + 1) / 1][Stage 47:>                                                         (0 + 1) / 1][Stage 58:>                                                     (0 + 128) / 200][Stage 58:>                                                     (1 + 128) / 200][Stage 58:>                                                     (3 + 128) / 200][Stage 58:=>                                                    (4 + 128) / 200][Stage 58:==>                                                   (8 + 128) / 200][Stage 58:===>                                                 (14 + 128) / 200][Stage 58:======>                                              (25 + 129) / 200][Stage 58:===========>                                         (44 + 129) / 200][Stage 58:========================================>            (153 + 47) / 200][Stage 64:>                                                       (0 + 41) / 41][Stage 64:==========>                                             (8 + 33) / 41]                                                                                [Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 66:>                 (0 + 1) / 1][Stage 67:>                 (0 + 1) / 1][Stage 66:>                                                         (0 + 1) / 1][Stage 76:>                                                     (0 + 128) / 200][Stage 76:>                                                     (1 + 128) / 200][Stage 76:>                                                     (2 + 128) / 200][Stage 76:>                                                     (3 + 128) / 200][Stage 76:=>                                                    (5 + 128) / 200][Stage 76:=>                                                    (6 + 128) / 200][Stage 76:====>                                                (17 + 128) / 200][Stage 76:=====>                                               (20 + 128) / 200][Stage 76:================>                                    (61 + 128) / 200][Stage 76:====================================>                (136 + 64) / 200][Stage 76:==========================================>          (160 + 40) / 200][Stage 76:=============================================>       (172 + 28) / 200][Stage 76:================================================>    (182 + 18) / 200]                                                                                [Stage 77:>                                                         (0 + 1) / 1][Stage 79:>                                                       (0 + 67) / 67][Stage 79:=>                                                      (2 + 65) / 67][Stage 79:====>                                                   (5 + 62) / 67][Stage 79:==========>                                            (13 + 54) / 67][Stage 79:============================>                          (35 + 32) / 67][Stage 79:====================================================>   (63 + 4) / 67][Stage 79:=======================================================>(66 + 1) / 67]                                                                                Spark session created successfully.
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- time_stamp: timestamp (nullable = true)
+ |-- longitude: double (nullable = true)
+ |-- latitude: double (nullable = true)
+ |-- speed: double (nullable = true)
+ |-- progress: double (nullable = true)
+ |-- stride_frequency: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- location: string (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- gate_name: string (nullable = true)
+ |-- gate_numeric: double (nullable = true)
+ |-- length_to_finish: double (nullable = true)
+ |-- sectional_time: double (nullable = true)
+ |-- running_time: double (nullable = true)
+ |-- distance_back: double (nullable = true)
+ |-- distance_ran: double (nullable = true)
+ |-- number_of_strides: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- country: string (nullable = true)
+ |-- axciskey: string (nullable = true)
+ |-- post_position: long (nullable = true)
+ |-- todays_cls: long (nullable = true)
+ |-- owner_name: string (nullable = true)
+ |-- turf_mud_mark: string (nullable = true)
+ |-- avg_purse_val_calc: decimal(10,2) (nullable = true)
+ |-- weight: decimal(10,2) (nullable = true)
+ |-- wght_shift: decimal(10,2) (nullable = true)
+ |-- cldate: date (nullable = true)
+ |-- price: decimal(10,2) (nullable = true)
+ |-- bought_fr: string (nullable = true)
+ |-- power: decimal(10,2) (nullable = true)
+ |-- med: string (nullable = true)
+ |-- equip: string (nullable = true)
+ |-- morn_odds: decimal(10,2) (nullable = true)
+ |-- breeder: string (nullable = true)
+ |-- ae_flag: string (nullable = true)
+ |-- power_symb: string (nullable = true)
+ |-- horse_comm: string (nullable = true)
+ |-- breed_type: string (nullable = true)
+ |-- lst_salena: string (nullable = true)
+ |-- lst_salepr: double (nullable = true)
+ |-- lst_saleda: date (nullable = true)
+ |-- claimprice: double (nullable = true)
+ |-- avgspd: double (nullable = true)
+ |-- avgcls: double (nullable = true)
+ |-- apprweight: double (nullable = true)
+ |-- jock_key: string (nullable = true)
+ |-- train_key: string (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- previous_surface: string (nullable = true)
+ |-- previous_class: decimal(10,2) (nullable = true)
+ |-- net_sentiment: integer (nullable = true)
+ |-- avg_spd_sd: double (nullable = true)
+ |-- ave_cl_sd: double (nullable = true)
+ |-- hi_spd_sd: double (nullable = true)
+ |-- pstyerl: double (nullable = true)
+ |-- previous_distance: integer (nullable = true)
+ |-- prev_official_fin: double (nullable = true)
+ |-- race_count: integer (nullable = true)
+ |-- prev_speed_rating: double (nullable = true)
+ |-- gps_rawspeed: decimal(38,18) (nullable = true)
+ |-- gcsf_speed_figure: decimal(38,18) (nullable = true)
+
+root
+ |-- axciskey: string (nullable = true)
+ |-- horse_name: string (nullable = true)
+ |-- foal_date: date (nullable = true)
+ |-- sex: string (nullable = true)
+ |-- wh_foaled: string (nullable = true)
+ |-- color: string (nullable = true)
+ |-- horse_id: integer (nullable = true)
+
+Executing: CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)
+Executing: CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Executing: ALTER TABLE gps_aggregated_locf ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+Executing: CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)
+Executing: CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-03-25 05:08:07 - Python script succeeded
+2025-03-25 05:08:07 - Job completed
+2025-03-26 05:00:01 - Starting stat_type_update job
+2025-03-26 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-26 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/03/26 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/03/26 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/03/26 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/03/26 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/26 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+25/03/26 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+25/03/26 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4042. Attempting port 4043.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 4:>                  (0 + 1) / 1][Stage 5:>                  (0 + 1) / 1][Stage 4:>                                                          (0 + 1) / 1][Stage 8:>                                                        (0 + 50) / 50][Stage 8:==>                                                      (2 + 48) / 50]                                                                                [Stage 22:>   (0 + 1) / 1][Stage 23:>   (0 + 1) / 1][Stage 24:>   (0 + 1) / 1][Stage 22:>                 (0 + 1) / 1][Stage 24:>                 (0 + 1) / 1][Stage 22:>                                                         (0 + 1) / 1][Stage 28:>                                                     (0 + 100) / 100][Stage 28:>                                                      (1 + 99) / 100]                                                                                [Stage 29:>                 (0 + 1) / 1][Stage 30:>                 (0 + 1) / 1][Stage 29:>                                                         (0 + 1) / 1]                                                                                [Stage 47:>   (0 + 1) / 1][Stage 48:>   (0 + 1) / 1][Stage 49:>   (0 + 1) / 1][Stage 47:>                 (0 + 1) / 1][Stage 49:>                 (0 + 1) / 1][Stage 47:>                                                         (0 + 1) / 1][Stage 58:>                                                     (0 + 128) / 200][Stage 58:>                                                     (1 + 128) / 200][Stage 58:>                                                     (3 + 128) / 200][Stage 58:=>                                                    (4 + 128) / 200][Stage 58:=>                                                    (7 + 128) / 200][Stage 58:==>                                                  (10 + 128) / 200][Stage 58:==================================>                  (132 + 68) / 200][Stage 58:======================================>              (144 + 56) / 200][Stage 58:=========================================>           (158 + 42) / 200][Stage 64:>                                                       (0 + 41) / 41][Stage 64:=>                                                      (1 + 40) / 41][Stage 64:====================>                                  (15 + 26) / 41]                                                                                [Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 66:>                 (0 + 1) / 1][Stage 67:>                 (0 + 1) / 1][Stage 66:>                                                         (0 + 1) / 1][Stage 76:>                                                     (0 + 128) / 200][Stage 76:>                                                     (3 + 128) / 200][Stage 76:=>                                                    (4 + 128) / 200][Stage 76:=>                                                    (7 + 128) / 200][Stage 76:===>                                                 (13 + 128) / 200][Stage 76:=======================>                             (87 + 113) / 200][Stage 76:===================================>                 (135 + 65) / 200][Stage 76:====================================>                (136 + 64) / 200][Stage 76:========================================>            (154 + 46) / 200][Stage 76:================================================>    (183 + 17) / 200][Stage 76:=====================================================>(199 + 1) / 200]                                                                                [Stage 77:>                                                         (0 + 1) / 1][Stage 79:>                                                       (0 + 67) / 67][Stage 79:==>                                                     (3 + 64) / 67][Stage 79:======================>                                (28 + 39) / 67][Stage 79:================================================>       (58 + 9) / 67][Stage 79:=======================================================>(66 + 1) / 67]                                                                                Spark session created successfully.
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- time_stamp: timestamp (nullable = true)
+ |-- longitude: double (nullable = true)
+ |-- latitude: double (nullable = true)
+ |-- speed: double (nullable = true)
+ |-- progress: double (nullable = true)
+ |-- stride_frequency: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- location: string (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- gate_name: string (nullable = true)
+ |-- gate_numeric: double (nullable = true)
+ |-- length_to_finish: double (nullable = true)
+ |-- sectional_time: double (nullable = true)
+ |-- running_time: double (nullable = true)
+ |-- distance_back: double (nullable = true)
+ |-- distance_ran: double (nullable = true)
+ |-- number_of_strides: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- country: string (nullable = true)
+ |-- axciskey: string (nullable = true)
+ |-- post_position: long (nullable = true)
+ |-- todays_cls: long (nullable = true)
+ |-- owner_name: string (nullable = true)
+ |-- turf_mud_mark: string (nullable = true)
+ |-- avg_purse_val_calc: decimal(10,2) (nullable = true)
+ |-- weight: decimal(10,2) (nullable = true)
+ |-- wght_shift: decimal(10,2) (nullable = true)
+ |-- cldate: date (nullable = true)
+ |-- price: decimal(10,2) (nullable = true)
+ |-- bought_fr: string (nullable = true)
+ |-- power: decimal(10,2) (nullable = true)
+ |-- med: string (nullable = true)
+ |-- equip: string (nullable = true)
+ |-- morn_odds: decimal(10,2) (nullable = true)
+ |-- breeder: string (nullable = true)
+ |-- ae_flag: string (nullable = true)
+ |-- power_symb: string (nullable = true)
+ |-- horse_comm: string (nullable = true)
+ |-- breed_type: string (nullable = true)
+ |-- lst_salena: string (nullable = true)
+ |-- lst_salepr: double (nullable = true)
+ |-- lst_saleda: date (nullable = true)
+ |-- claimprice: double (nullable = true)
+ |-- avgspd: double (nullable = true)
+ |-- avgcls: double (nullable = true)
+ |-- apprweight: double (nullable = true)
+ |-- jock_key: string (nullable = true)
+ |-- train_key: string (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- previous_surface: string (nullable = true)
+ |-- previous_class: decimal(10,2) (nullable = true)
+ |-- net_sentiment: integer (nullable = true)
+ |-- avg_spd_sd: double (nullable = true)
+ |-- ave_cl_sd: double (nullable = true)
+ |-- hi_spd_sd: double (nullable = true)
+ |-- pstyerl: double (nullable = true)
+ |-- previous_distance: integer (nullable = true)
+ |-- prev_official_fin: double (nullable = true)
+ |-- race_count: integer (nullable = true)
+ |-- prev_speed_rating: double (nullable = true)
+ |-- gps_rawspeed: decimal(38,18) (nullable = true)
+ |-- gcsf_speed_figure: decimal(38,18) (nullable = true)
+
+root
+ |-- axciskey: string (nullable = true)
+ |-- horse_name: string (nullable = true)
+ |-- foal_date: date (nullable = true)
+ |-- sex: string (nullable = true)
+ |-- wh_foaled: string (nullable = true)
+ |-- color: string (nullable = true)
+ |-- horse_id: integer (nullable = true)
+
+Executing: CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)
+Executing: CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Executing: ALTER TABLE gps_aggregated_locf ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+Executing: CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)
+Executing: CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-03-26 05:08:06 - Python script succeeded
+2025-03-26 05:08:06 - Job completed
+2025-03-27 05:00:01 - Starting stat_type_update job
+2025-03-27 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-27 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/03/27 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/03/27 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/03/27 05:00:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/03/27 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/27 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 4:>                  (0 + 1) / 1][Stage 5:>                  (0 + 1) / 1][Stage 4:>                                                          (0 + 1) / 1][Stage 8:>                                                        (0 + 50) / 50][Stage 8:=>                                                       (1 + 49) / 50]                                                                                [Stage 22:>   (0 + 1) / 1][Stage 23:>   (0 + 1) / 1][Stage 24:>   (0 + 1) / 1][Stage 22:>                 (0 + 1) / 1][Stage 24:>                 (0 + 1) / 1][Stage 22:>                                                         (0 + 1) / 1][Stage 28:>                                                     (0 + 100) / 100][Stage 28:>                                                      (1 + 99) / 100][Stage 28:======================>                               (42 + 58) / 100]                                                                                [Stage 29:>                 (0 + 1) / 1][Stage 30:>                 (0 + 1) / 1][Stage 29:>                                                         (0 + 1) / 1]                                                                                [Stage 47:>   (0 + 1) / 1][Stage 48:>   (0 + 1) / 1][Stage 49:>   (0 + 1) / 1][Stage 47:>                 (0 + 1) / 1][Stage 49:>                 (0 + 1) / 1][Stage 47:>                                                         (0 + 1) / 1][Stage 58:>                                                     (0 + 128) / 200][Stage 58:>                                                     (1 + 128) / 200][Stage 58:=>                                                    (4 + 128) / 200][Stage 58:=============>                                       (52 + 129) / 200][Stage 58:=====================================>               (140 + 60) / 200][Stage 64:>                                                       (0 + 41) / 41][Stage 64:=>                                                      (1 + 40) / 41][Stage 64:======================>                                (17 + 24) / 41]                                                                                [Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 66:>                 (0 + 1) / 1][Stage 67:>                 (0 + 1) / 1][Stage 66:>                                                         (0 + 1) / 1][Stage 76:>                                                     (0 + 128) / 200][Stage 76:>                                                     (1 + 128) / 200][Stage 76:=====>                                               (20 + 128) / 200][Stage 76:==================================>                  (129 + 71) / 200][Stage 76:==================================>                  (130 + 70) / 200][Stage 76:=========================================>           (158 + 42) / 200][Stage 76:===============================================>     (178 + 22) / 200]                                                                                [Stage 77:>                                                         (0 + 1) / 1][Stage 79:>                                                       (0 + 67) / 67][Stage 79:>                                                       (1 + 66) / 67][Stage 79:=====>                                                  (6 + 61) / 67][Stage 79:=====================>                                 (26 + 41) / 67][Stage 79:=======================================================>(66 + 1) / 67]                                                                                Spark session created successfully.
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- time_stamp: timestamp (nullable = true)
+ |-- longitude: double (nullable = true)
+ |-- latitude: double (nullable = true)
+ |-- speed: double (nullable = true)
+ |-- progress: double (nullable = true)
+ |-- stride_frequency: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- location: string (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- gate_name: string (nullable = true)
+ |-- gate_numeric: double (nullable = true)
+ |-- length_to_finish: double (nullable = true)
+ |-- sectional_time: double (nullable = true)
+ |-- running_time: double (nullable = true)
+ |-- distance_back: double (nullable = true)
+ |-- distance_ran: double (nullable = true)
+ |-- number_of_strides: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- country: string (nullable = true)
+ |-- axciskey: string (nullable = true)
+ |-- post_position: long (nullable = true)
+ |-- todays_cls: long (nullable = true)
+ |-- owner_name: string (nullable = true)
+ |-- turf_mud_mark: string (nullable = true)
+ |-- avg_purse_val_calc: decimal(10,2) (nullable = true)
+ |-- weight: decimal(10,2) (nullable = true)
+ |-- wght_shift: decimal(10,2) (nullable = true)
+ |-- cldate: date (nullable = true)
+ |-- price: decimal(10,2) (nullable = true)
+ |-- bought_fr: string (nullable = true)
+ |-- power: decimal(10,2) (nullable = true)
+ |-- med: string (nullable = true)
+ |-- equip: string (nullable = true)
+ |-- morn_odds: decimal(10,2) (nullable = true)
+ |-- breeder: string (nullable = true)
+ |-- ae_flag: string (nullable = true)
+ |-- power_symb: string (nullable = true)
+ |-- horse_comm: string (nullable = true)
+ |-- breed_type: string (nullable = true)
+ |-- lst_salena: string (nullable = true)
+ |-- lst_salepr: double (nullable = true)
+ |-- lst_saleda: date (nullable = true)
+ |-- claimprice: double (nullable = true)
+ |-- avgspd: double (nullable = true)
+ |-- avgcls: double (nullable = true)
+ |-- apprweight: double (nullable = true)
+ |-- jock_key: string (nullable = true)
+ |-- train_key: string (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- previous_surface: string (nullable = true)
+ |-- previous_class: decimal(10,2) (nullable = true)
+ |-- net_sentiment: integer (nullable = true)
+ |-- avg_spd_sd: double (nullable = true)
+ |-- ave_cl_sd: double (nullable = true)
+ |-- hi_spd_sd: double (nullable = true)
+ |-- pstyerl: double (nullable = true)
+ |-- previous_distance: integer (nullable = true)
+ |-- prev_official_fin: double (nullable = true)
+ |-- race_count: integer (nullable = true)
+ |-- prev_speed_rating: double (nullable = true)
+ |-- gps_rawspeed: decimal(38,18) (nullable = true)
+ |-- gcsf_speed_figure: decimal(38,18) (nullable = true)
+
+root
+ |-- axciskey: string (nullable = true)
+ |-- horse_name: string (nullable = true)
+ |-- foal_date: date (nullable = true)
+ |-- sex: string (nullable = true)
+ |-- wh_foaled: string (nullable = true)
+ |-- color: string (nullable = true)
+ |-- horse_id: integer (nullable = true)
+
+Executing: CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)
+Executing: CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Executing: ALTER TABLE gps_aggregated_locf ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+Executing: CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)
+Executing: CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-03-27 05:08:28 - Python script succeeded
+2025-03-27 05:08:28 - Job completed
+2025-03-28 05:00:01 - Starting stat_type_update job
+2025-03-28 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-28 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/03/28 05:00:03 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/03/28 05:00:03 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/03/28 05:00:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/03/28 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/28 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 4:>                  (0 + 1) / 1][Stage 5:>                  (0 + 1) / 1][Stage 4:>                                                          (0 + 1) / 1][Stage 8:>                                                        (0 + 50) / 50][Stage 8:========================================>               (36 + 14) / 50]                                                                                [Stage 22:>   (0 + 1) / 1][Stage 23:>   (0 + 1) / 1][Stage 24:>   (0 + 1) / 1][Stage 22:>                 (0 + 1) / 1][Stage 24:>                 (0 + 1) / 1][Stage 22:>                                                         (0 + 1) / 1][Stage 28:>                                                     (0 + 100) / 100][Stage 28:>                                                      (1 + 99) / 100]                                                                                [Stage 29:>                 (0 + 1) / 1][Stage 30:>                 (0 + 1) / 1][Stage 29:>                                                         (0 + 1) / 1]                                                                                [Stage 47:>   (0 + 1) / 1][Stage 48:>   (0 + 1) / 1][Stage 49:>   (0 + 1) / 1][Stage 47:>                 (0 + 1) / 1][Stage 49:>                 (0 + 1) / 1][Stage 47:>                                                         (0 + 1) / 1][Stage 58:>                                                     (0 + 128) / 200][Stage 58:>                                                     (1 + 128) / 200][Stage 58:=>                                                    (5 + 128) / 200][Stage 58:=>                                                    (7 + 128) / 200][Stage 58:==>                                                  (10 + 128) / 200][Stage 58:===>                                                 (13 + 128) / 200][Stage 58:===>                                                 (15 + 128) / 200][Stage 58:======================>                              (84 + 116) / 200][Stage 58:==========================================>          (160 + 40) / 200][Stage 64:=========>                                              (7 + 34) / 41]                                                                                [Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 66:>                 (0 + 1) / 1][Stage 67:>                 (0 + 1) / 1][Stage 66:>                                                         (0 + 1) / 1][Stage 76:>                                                     (0 + 128) / 200][Stage 76:=>                                                    (5 + 128) / 200][Stage 76:=>                                                    (7 + 128) / 200][Stage 76:==>                                                   (8 + 128) / 200][Stage 76:==================================>                  (132 + 68) / 200][Stage 76:====================================>                (136 + 64) / 200][Stage 76:====================================>                (139 + 61) / 200][Stage 76:=====================================>               (140 + 60) / 200][Stage 76:========================================>            (152 + 48) / 200][Stage 76:=====================================================>(199 + 1) / 200]                                                                                [Stage 77:>                                                         (0 + 1) / 1][Stage 79:>                                                       (0 + 67) / 67][Stage 79:=======================>                               (29 + 38) / 67][Stage 79:=======================================================>(66 + 1) / 67]                                                                                Spark session created successfully.
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- time_stamp: timestamp (nullable = true)
+ |-- longitude: double (nullable = true)
+ |-- latitude: double (nullable = true)
+ |-- speed: double (nullable = true)
+ |-- progress: double (nullable = true)
+ |-- stride_frequency: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- location: string (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- gate_name: string (nullable = true)
+ |-- gate_numeric: double (nullable = true)
+ |-- length_to_finish: double (nullable = true)
+ |-- sectional_time: double (nullable = true)
+ |-- running_time: double (nullable = true)
+ |-- distance_back: double (nullable = true)
+ |-- distance_ran: double (nullable = true)
+ |-- number_of_strides: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- country: string (nullable = true)
+ |-- axciskey: string (nullable = true)
+ |-- post_position: long (nullable = true)
+ |-- todays_cls: long (nullable = true)
+ |-- owner_name: string (nullable = true)
+ |-- turf_mud_mark: string (nullable = true)
+ |-- avg_purse_val_calc: decimal(10,2) (nullable = true)
+ |-- weight: decimal(10,2) (nullable = true)
+ |-- wght_shift: decimal(10,2) (nullable = true)
+ |-- cldate: date (nullable = true)
+ |-- price: decimal(10,2) (nullable = true)
+ |-- bought_fr: string (nullable = true)
+ |-- power: decimal(10,2) (nullable = true)
+ |-- med: string (nullable = true)
+ |-- equip: string (nullable = true)
+ |-- morn_odds: decimal(10,2) (nullable = true)
+ |-- breeder: string (nullable = true)
+ |-- ae_flag: string (nullable = true)
+ |-- power_symb: string (nullable = true)
+ |-- horse_comm: string (nullable = true)
+ |-- breed_type: string (nullable = true)
+ |-- lst_salena: string (nullable = true)
+ |-- lst_salepr: double (nullable = true)
+ |-- lst_saleda: date (nullable = true)
+ |-- claimprice: double (nullable = true)
+ |-- avgspd: double (nullable = true)
+ |-- avgcls: double (nullable = true)
+ |-- apprweight: double (nullable = true)
+ |-- jock_key: string (nullable = true)
+ |-- train_key: string (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- previous_surface: string (nullable = true)
+ |-- previous_class: decimal(10,2) (nullable = true)
+ |-- net_sentiment: integer (nullable = true)
+ |-- avg_spd_sd: double (nullable = true)
+ |-- ave_cl_sd: double (nullable = true)
+ |-- hi_spd_sd: double (nullable = true)
+ |-- pstyerl: double (nullable = true)
+ |-- previous_distance: integer (nullable = true)
+ |-- prev_official_fin: double (nullable = true)
+ |-- race_count: integer (nullable = true)
+ |-- prev_speed_rating: double (nullable = true)
+ |-- gps_rawspeed: decimal(38,18) (nullable = true)
+ |-- gcsf_speed_figure: decimal(38,18) (nullable = true)
+
+root
+ |-- axciskey: string (nullable = true)
+ |-- horse_name: string (nullable = true)
+ |-- foal_date: date (nullable = true)
+ |-- sex: string (nullable = true)
+ |-- wh_foaled: string (nullable = true)
+ |-- color: string (nullable = true)
+ |-- horse_id: integer (nullable = true)
+
+Executing: CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)
+Executing: CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Executing: ALTER TABLE gps_aggregated_locf ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+Executing: CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)
+Executing: CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-03-28 05:07:58 - Python script succeeded
+2025-03-28 05:07:58 - Job completed
+2025-03-29 05:00:01 - Starting stat_type_update job
+2025-03-29 05:00:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-29 05:00:01 - Running Python script: /home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_preprocessing/tpd_aggregation_update.py
+25/03/29 05:00:02 WARN Utils: Your hostname, mail.relufox.ai resolves to a loopback address: 127.0.0.1; using 192.168.4.25 instead (on interface eno2)
+25/03/29 05:00:02 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+25/03/29 05:00:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/03/29 05:00:03 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/29 05:00:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1][Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 1) / 1]                                                                                [Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 4:>                  (0 + 1) / 1][Stage 5:>                  (0 + 1) / 1][Stage 4:>                                                          (0 + 1) / 1][Stage 8:>                                                        (0 + 50) / 50][Stage 8:====================================================>    (46 + 4) / 50]                                                                                [Stage 22:>                 (0 + 1) / 1][Stage 23:>                 (0 + 1) / 1][Stage 22:>   (0 + 1) / 1][Stage 23:>   (0 + 1) / 1][Stage 24:>   (0 + 1) / 1][Stage 22:>                 (0 + 1) / 1][Stage 24:>                 (0 + 1) / 1][Stage 22:>                                                         (0 + 1) / 1][Stage 28:>                                                     (0 + 100) / 100][Stage 28:>                                                      (1 + 99) / 100][Stage 28:======================================================>(99 + 1) / 100]                                                                                [Stage 29:>                 (0 + 1) / 1][Stage 30:>                 (0 + 1) / 1][Stage 29:>                                                         (0 + 1) / 1]                                                                                [Stage 47:>   (0 + 1) / 1][Stage 48:>   (0 + 1) / 1][Stage 49:>   (0 + 1) / 1][Stage 47:>                 (0 + 1) / 1][Stage 49:>                 (0 + 1) / 1][Stage 47:>                                                         (0 + 1) / 1][Stage 58:>                                                     (0 + 128) / 200][Stage 58:>                                                     (1 + 128) / 200][Stage 58:=>                                                    (4 + 128) / 200][Stage 58:=>                                                    (5 + 128) / 200][Stage 58:=>                                                    (6 + 128) / 200][Stage 58:==>                                                   (8 + 128) / 200][Stage 58:==>                                                  (10 + 128) / 200][Stage 58:===============================>                     (118 + 82) / 200][Stage 58:========================================>            (151 + 49) / 200][Stage 58:=============================================>       (172 + 28) / 200][Stage 64:>                                                       (0 + 41) / 41]                                                                                [Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 65:>   (0 + 1) / 1][Stage 66:>   (0 + 1) / 1][Stage 67:>   (0 + 1) / 1][Stage 66:>                 (0 + 1) / 1][Stage 67:>                 (0 + 1) / 1][Stage 66:>                                                         (0 + 1) / 1][Stage 76:>                                                     (0 + 128) / 200][Stage 76:>                                                     (1 + 128) / 200][Stage 76:>                                                     (2 + 128) / 200][Stage 76:==================================>                  (129 + 71) / 200][Stage 76:==================================>                  (130 + 70) / 200][Stage 76:===========================================>         (166 + 34) / 200]                                                                                [Stage 77:>                                                         (0 + 1) / 1][Stage 79:>                                                       (0 + 67) / 67][Stage 79:======================================================> (65 + 2) / 67][Stage 79:=======================================================>(66 + 1) / 67]                                                                                Spark session created successfully.
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- time_stamp: timestamp (nullable = true)
+ |-- longitude: double (nullable = true)
+ |-- latitude: double (nullable = true)
+ |-- speed: double (nullable = true)
+ |-- progress: double (nullable = true)
+ |-- stride_frequency: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- location: string (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- gate_name: string (nullable = true)
+ |-- gate_numeric: double (nullable = true)
+ |-- length_to_finish: double (nullable = true)
+ |-- sectional_time: double (nullable = true)
+ |-- running_time: double (nullable = true)
+ |-- distance_back: double (nullable = true)
+ |-- distance_ran: double (nullable = true)
+ |-- number_of_strides: double (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+
+root
+ |-- course_cd: string (nullable = true)
+ |-- race_date: date (nullable = true)
+ |-- race_number: integer (nullable = true)
+ |-- saddle_cloth_number: string (nullable = true)
+ |-- country: string (nullable = true)
+ |-- axciskey: string (nullable = true)
+ |-- post_position: long (nullable = true)
+ |-- todays_cls: long (nullable = true)
+ |-- owner_name: string (nullable = true)
+ |-- turf_mud_mark: string (nullable = true)
+ |-- avg_purse_val_calc: decimal(10,2) (nullable = true)
+ |-- weight: decimal(10,2) (nullable = true)
+ |-- wght_shift: decimal(10,2) (nullable = true)
+ |-- cldate: date (nullable = true)
+ |-- price: decimal(10,2) (nullable = true)
+ |-- bought_fr: string (nullable = true)
+ |-- power: decimal(10,2) (nullable = true)
+ |-- med: string (nullable = true)
+ |-- equip: string (nullable = true)
+ |-- morn_odds: decimal(10,2) (nullable = true)
+ |-- breeder: string (nullable = true)
+ |-- ae_flag: string (nullable = true)
+ |-- power_symb: string (nullable = true)
+ |-- horse_comm: string (nullable = true)
+ |-- breed_type: string (nullable = true)
+ |-- lst_salena: string (nullable = true)
+ |-- lst_salepr: double (nullable = true)
+ |-- lst_saleda: date (nullable = true)
+ |-- claimprice: double (nullable = true)
+ |-- avgspd: double (nullable = true)
+ |-- avgcls: double (nullable = true)
+ |-- apprweight: double (nullable = true)
+ |-- jock_key: string (nullable = true)
+ |-- train_key: string (nullable = true)
+ |-- post_time: timestamp (nullable = true)
+ |-- previous_surface: string (nullable = true)
+ |-- previous_class: decimal(10,2) (nullable = true)
+ |-- net_sentiment: integer (nullable = true)
+ |-- avg_spd_sd: double (nullable = true)
+ |-- ave_cl_sd: double (nullable = true)
+ |-- hi_spd_sd: double (nullable = true)
+ |-- pstyerl: double (nullable = true)
+ |-- previous_distance: integer (nullable = true)
+ |-- prev_official_fin: double (nullable = true)
+ |-- race_count: integer (nullable = true)
+ |-- prev_speed_rating: double (nullable = true)
+ |-- gps_rawspeed: decimal(38,18) (nullable = true)
+ |-- gcsf_speed_figure: decimal(38,18) (nullable = true)
+
+root
+ |-- axciskey: string (nullable = true)
+ |-- horse_name: string (nullable = true)
+ |-- foal_date: date (nullable = true)
+ |-- sex: string (nullable = true)
+ |-- wh_foaled: string (nullable = true)
+ |-- color: string (nullable = true)
+ |-- horse_id: integer (nullable = true)
+
+Executing: CREATE INDEX idx_sectionals_aggregated_locf ON public.sectionals_aggregated_locf USING btree (as_of_date)
+Executing: CREATE INDEX idx_sectionals_aggregated_locf_horse_id ON public.sectionals_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Executing: ALTER TABLE sectionals_aggregated ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+DDL statements executed successfully.
+Executing: ALTER TABLE gps_aggregated_locf ADD PRIMARY KEY (course_cd, race_date, race_number, saddle_cloth_number)
+Executing: CREATE INDEX idx_gps_aggregated_locf ON public.gps_aggregated_locf USING btree (race_date)
+Executing: CREATE INDEX gps_aggregated_locf_horse_id ON public.gps_aggregated_locf USING btree (horse_id)
+DDL statements executed successfully.
+Net sentiment updated successfully.
+Distance_meters updated successfully.
+rr_par_time updated successfully.
+finish_time updated successfully.
+2025-03-29 05:08:10 - Python script succeeded
+2025-03-29 05:08:10 - Job completed

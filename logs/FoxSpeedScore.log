@@ -1,0 +1,22 @@
+2025-03-25 12:39:08 - INFO - Logging has been set up successfully.
+2025-03-25 12:39:08 - INFO - Starting LSTM scoring...
+2025-03-25 12:39:12 - INFO - Joined future/historical DF count: 1043441
+2025-03-25 12:39:13 - INFO - Distinct horses in joined DF: 1364
+2025-03-25 12:39:16 - INFO - Number of horses in final DF: 1368
+2025-03-25 12:39:16 - INFO - Number of horses with a valid padded sequence: 1368
+2025-03-25 12:39:16 - INFO - Horse ID: 11410
+2025-03-25 12:39:16 - INFO - Sequence snippet: [Row(speed=12.49, progress=0.0, stride_frequency=1.87), Row(speed=11.14, progress=0.0, stride_frequency=1.92), Row(speed=11.53, progress=0.0, stride_frequency=1.95), Row(speed=11.85, progress=0.0, stride_frequency=1.97), Row(speed=13.52, progress=0.0, stride_frequency=2.0)]
+2025-03-25 12:39:16 - INFO - Horse ID: 26720
+2025-03-25 12:39:16 - INFO - Sequence snippet: [Row(speed=11.52, progress=0.0, stride_frequency=1.97), Row(speed=11.8, progress=0.0, stride_frequency=1.98), Row(speed=11.95, progress=0.0, stride_frequency=2.0), Row(speed=12.15, progress=0.0, stride_frequency=2.0), Row(speed=11.53, progress=0.0, stride_frequency=2.0)]
+2025-03-25 12:39:16 - INFO - Horse ID: 104028
+2025-03-25 12:39:16 - INFO - Sequence snippet: [Row(speed=16.75, progress=1221.4, stride_frequency=1.86), Row(speed=11.58, progress=0.0, stride_frequency=1.86), Row(speed=10.86, progress=0.0, stride_frequency=1.87), Row(speed=11.17, progress=0.0, stride_frequency=1.89), Row(speed=15.51, progress=585.3, stride_frequency=1.91)]
+2025-03-25 12:39:16 - INFO - Horse ID: 106116
+2025-03-25 12:39:16 - INFO - Sequence snippet: [Row(speed=17.28, progress=944.1, stride_frequency=1.66), Row(speed=16.57, progress=1029.3, stride_frequency=1.8), Row(speed=13.62, progress=0.0, stride_frequency=1.93), Row(speed=12.61, progress=0.0, stride_frequency=1.98), Row(speed=12.37, progress=0.0, stride_frequency=1.99)]
+2025-03-25 12:39:16 - INFO - Horse ID: 36819
+2025-03-25 12:39:16 - INFO - Sequence snippet: [Row(speed=12.35, progress=0.0, stride_frequency=2.0), Row(speed=12.73, progress=0.0, stride_frequency=2.09), Row(speed=13.17, progress=0.0, stride_frequency=2.1), Row(speed=13.14, progress=0.0, stride_frequency=2.11), Row(speed=12.4, progress=0.0, stride_frequency=2.11)]
+2025-03-25 12:39:17 - INFO - Rows sent to model: 1368
+2025-03-25 12:39:17 - INFO - Loaded scaler_X and scaler_y from disk.
+2025-03-25 12:39:17 - INFO - Inverse-transformed predictions to original scale.
+2025-03-25 12:39:18 - INFO - ✅ Wrote 1368 predictions to DB.
+2025-03-25 12:39:18 - INFO - Done.
+2025-03-25 12:39:18 - INFO - Closing down clientserver connection
