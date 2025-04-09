@@ -383,7 +383,7 @@ def main():
             saddle_cloth_number,
             score,
             calibrated_prob AS winning_probability
-        FROM predictions_20250329_172326_1_calibrated
+        FROM predictions_20250405_111030_1_calibrated
         WHERE race_date >= CURRENT_DATE -- INTERVAL '1 day'
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """

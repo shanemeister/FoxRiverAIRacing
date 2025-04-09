@@ -13,7 +13,9 @@ def sql_queries():
                 UPPER(TRIM(r2.saddle_cloth_number)) AS saddle_cloth_number,
                 h.horse_id AS horse_id,
                 h.horse_name AS horse_name,
-                re.official_fin AS official_fin,
+                re.official_fin AS official_fin, -- official finish position, use as target possibly
+                sa.dist_bk_gate4 AS dist_bk_gate4_target, -- distance behind at gate 4
+                sa.running_time AS running_time_target, -- total running time
                 r.rr_par_time AS par_time,  -- par_time for a race track pre-computed
                 r2.post_position AS post_position,
                 r2.avg_purse_val_calc AS avg_purse_val,       -- av_pur_val Average Purse Value Calculation
@@ -117,15 +119,17 @@ def sql_queries():
                 hsl.dim6 AS sec_dim6,                        -- (Horse) Sectionals LSTM dim6
                 hsl.dim7 AS sec_dim7,                        -- (Horse) Sectionals LSTM dim7
                 hsl.dim8 AS sec_dim8,                        -- (Horse) Sectionals LSTM dim8
-                hsg.score AS gps_score,                    -- (Horse) GPS LSTM score
-                hsg.dim1 AS gps_dim1,                        -- (Horse) GPS LSTM dim1
-                hsg.dim2 AS gps_dim2,                        -- (Horse) GPS LSTM dim2
-                hsg.dim3 AS gps_dim3,                        -- (Horse) GPS LSTM dim3
-                hsg.dim4 AS gps_dim4,                        -- (Horse) GPS LSTM dim4
-                hsg.dim5 AS gps_dim5,                        -- (Horse) GPS LSTM dim5
-                hsg.dim6 AS gps_dim6,                        -- (Horse) GPS LSTM dim6
-                hsg.dim7 AS gps_dim7,                        -- (Horse) GPS LSTM dim7
-                hsg.dim8 AS gps_dim8,                        -- (Horse) GPS LSTM dim8
+                hsl.dim9 AS sec_dim9,                        -- (Horse) Sectionals LSTM dim9
+                hsl.dim10 AS sec_dim10,                      -- (Horse) Sectionals LSTM dim10
+                hsl.dim11 AS sec_dim11,                      -- (Horse) Sectionals LSTM dim11
+                hsl.dim12 AS sec_dim12,                      -- (Horse) Sectionals LSTM dim12
+                hsl.dim13 AS sec_dim13,                      -- (Horse) Sectionals LSTM dim13
+                hsl.dim14 AS sec_dim14,                      -- (Horse) Sectionals LSTM dim14
+                hsl.dim15 AS sec_dim15,                      -- (Horse) Sectionals LSTM dim15
+                hsl.dim16 AS sec_dim16,                      -- (Horse) Sectionals LSTM dim16
+                -- =============================
+                -- End of Sectionals LSTM
+                -- =============================
                 r.purse AS purse,                            -- (Race) purse amount
                 TRIM(r.surface) AS surface,                  -- (Race) current surface
                 r.distance_meters AS distance_meters,        -- (Race) current race distance
@@ -254,7 +258,6 @@ def sql_queries():
             JOIN horse h 
                 ON r2.axciskey = h.axciskey
             LEFT JOIN horse_sectionals_lstm hsl on h.horse_id=hsl.horse_id
-            LEFT JOIN horse_scores_lstm_gps hsg on h.horse_id=hsg.horse_id
             LEFT JOIN LATERAL(
                         SELECT h2.* 
                         FROM horse_form_agg h2 
@@ -397,6 +400,34 @@ def sql_queries():
             AND r.course_cd in('CNL','SAR','PIM','TSA','BEL','MVR','TWO','KEE','TAM',
                             'TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP',
                             'TGG','CBY','LRL','TED','IND','TCD','TOP')
+             AND (
+                -- For FUTURE races (>= CURRENT_DATE), no restriction on null columns
+                r.race_date >= CURRENT_DATE
+            OR
+                -- For HISTORICAL races (< CURRENT_DATE), disallow null columns
+                (
+                r.race_date < CURRENT_DATE
+                AND sa.dist_bk_gate4     IS NOT NULL
+                AND sa.running_time      IS NOT NULL
+                AND hsl.score            IS NOT NULL
+                AND hsl.dim1             IS NOT NULL
+                AND hsl.dim2             IS NOT NULL
+                AND hsl.dim3             IS NOT NULL
+                AND hsl.dim4             IS NOT NULL
+                AND hsl.dim5             IS NOT NULL
+                AND hsl.dim6             IS NOT NULL
+                AND hsl.dim7             IS NOT NULL
+                AND hsl.dim8             IS NOT NULL
+                AND hsl.dim9             IS NOT NULL
+                AND hsl.dim10            IS NOT NULL
+                AND hsl.dim11            IS NOT NULL
+                AND hsl.dim12            IS NOT NULL
+                AND hsl.dim13            IS NOT NULL
+                AND hsl.dim14            IS NOT NULL
+                AND hsl.dim15            IS NOT NULL
+                AND hsl.dim16            IS NOT NULL
+                )
+            )
         """
     }
     return queries

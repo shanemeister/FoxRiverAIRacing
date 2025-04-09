@@ -472,3 +472,80 @@ write /dev/stdout: no space left on device
 2025-03-29 06:19:59 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
 2025-03-29 06:29:03 - Sync to S3 succeeded
 2025-03-29 06:29:03 - Job completed
+2025-03-30 06:15:01 - Starting database backup job
+2025-03-30 06:15:02 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-30 06:15:02 - Starting database backup
+2025-03-30 06:20:08 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-03-30_foxriverai.sql
+2025-03-30 06:20:08 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-03-30 06:29:31 - Sync to S3 succeeded
+2025-03-30 06:29:31 - Job completed
+2025-03-31 06:15:01 - Starting database backup job
+2025-03-31 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-31 06:15:01 - Starting database backup
+2025-03-31 06:20:09 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-03-31_foxriverai.sql
+2025-03-31 06:20:09 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-03-31 06:29:32 - Sync to S3 succeeded
+2025-03-31 06:29:32 - Job completed
+2025-04-01 06:15:01 - Starting database backup job
+2025-04-01 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-01 06:15:01 - Starting database backup
+2025-04-01 06:20:10 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-01_foxriverai.sql
+2025-04-01 06:20:10 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-01 06:29:34 - Sync to S3 succeeded
+2025-04-01 06:29:34 - Job completed
+2025-04-02 06:15:01 - Starting database backup job
+2025-04-02 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-02 06:15:01 - Starting database backup
+2025-04-02 06:20:12 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-02_foxriverai.sql
+2025-04-02 06:20:12 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-02 06:29:36 - Sync to S3 succeeded
+2025-04-02 06:29:36 - Job completed
+2025-04-03 06:15:01 - Starting database backup job
+2025-04-03 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-03 06:15:01 - Starting database backup
+2025-04-03 06:20:11 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-03_foxriverai.sql
+2025-04-03 06:20:11 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-03 06:29:34 - Sync to S3 succeeded
+2025-04-03 06:29:34 - Job completed
+2025-04-04 06:15:01 - Starting database backup job
+2025-04-04 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-04 06:15:01 - Starting database backup
+2025-04-04 06:20:09 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-04_foxriverai.sql
+2025-04-04 06:20:09 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-04 06:29:31 - Sync to S3 succeeded
+2025-04-04 06:29:31 - Job completed
+2025-04-05 06:15:01 - Starting database backup job
+2025-04-05 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-05 06:15:02 - Starting database backup
+2025-04-05 06:22:37 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-05_foxriverai.sql
+2025-04-05 06:22:37 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-05 06:32:04 - Sync to S3 succeeded
+2025-04-05 06:32:04 - Job completed
+2025-04-06 06:15:01 - Starting database backup job
+2025-04-06 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-06 06:15:01 - Starting database backup
+2025-04-06 06:20:14 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-06_foxriverai.sql
+2025-04-06 06:20:14 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-06 06:29:41 - Sync to S3 succeeded
+2025-04-06 06:29:41 - Job completed
+2025-04-07 06:15:01 - Starting database backup job
+2025-04-07 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-07 06:15:01 - Starting database backup
+2025-04-07 06:20:12 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-07_foxriverai.sql
+2025-04-07 06:20:12 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-07 06:29:40 - Sync to S3 succeeded
+2025-04-07 06:29:40 - Job completed
+2025-04-08 06:15:01 - Starting database backup job
+2025-04-08 06:15:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-08 06:15:01 - Starting database backup
+2025-04-08 06:20:13 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-08_foxriverai.sql
+2025-04-08 06:20:13 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-08 06:29:42 - Sync to S3 succeeded
+2025-04-08 06:29:42 - Job completed
+2025-04-08 10:15:30 - Starting database backup job
+2025-04-08 10:15:30 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-08 10:15:30 - Starting database backup
+2025-04-08 10:17:19 - Backup succeeded: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/backups/2025-04-08_foxriverai.sql
+2025-04-08 10:17:19 - Syncing to S3: s3://rshane/FoxRiverAIRacing/db_backups
+2025-04-08 10:20:10 - Sync to S3 succeeded
+2025-04-08 10:20:10 - Job completed

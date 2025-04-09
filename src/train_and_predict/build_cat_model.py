@@ -123,7 +123,7 @@ def top3_in_top3_fraction(
         try:
             # Sort descending by predicted score
             group_sorted_pred = group.sort_values("prediction", ascending=False)
-            # Sort descending by true relevance
+            # Sort ascending by true relevance
             group_sorted_true = group.sort_values(label_col, ascending=False)
             
             # top3_true_ids = group_sorted_true.head(3)[horse_col].values
@@ -146,7 +146,7 @@ def top3_in_top3_fraction(
 
     return strict_top3_hits / total_groups
 
-def metric_first_and_top3_in_top4(
+def metric_top1_hit(
     model,
     df: pd.DataFrame,
     group_col: str = "group_id",
@@ -157,9 +157,7 @@ def metric_first_and_top3_in_top4(
     """
     For each race (group), we do two checks:
       1) Predicted 1st matches the actual 1st.
-      2) Actual top-3 is a subset of the predicted top-4.
-    If both hold, we count it as a 'hit'.
-    We return the fraction of races (with >=5 horses) that are hits.
+    We return the fraction of races (with >=4 horses) that are hits.
     """
 
     # If we need to predict within this function
@@ -177,29 +175,23 @@ def metric_first_and_top3_in_top4(
 
     for gid, group in df.groupby(group_col):
         # skip very small races if desired
-        if len(group) < 5:
+        if len(group) < 4:
             continue
 
         total_groups += 1
         try:
             # Sort by predicted descending
             group_sorted_pred = group.sort_values("prediction", ascending=False)
-            # Sort by actual label descending
+            # Sort by actual label ascending
             group_sorted_true = group.sort_values(label_col, ascending=False)
 
             # 1) Check the predicted first vs. actual first
             predicted_first = group_sorted_pred.iloc[0][horse_col]
             actual_first = group_sorted_true.iloc[0][horse_col]
-            if predicted_first != actual_first:
-                # If first horse is wrong, no need to check the next condition
-                continue
-
-            # 2) Check actual top-3 is contained in predicted top-4
-            predicted_top4 = set(group_sorted_pred.head(4)[horse_col])
-            actual_top3 = set(group_sorted_true.head(3)[horse_col])
-
-            if actual_top3.issubset(predicted_top4):
+            if predicted_first == actual_first:
+                # If first horse correct, no need to check the next condition
                 hits += 1
+                continue
 
         except Exception as e:
             print(f"Error in group {gid}: {e}")
@@ -247,31 +239,57 @@ def get_timestamp():
 ###############################################################################
 # Helper function: The Optuna objective for ranking
 ###############################################################################
-def objective(trial, catboost_loss_functions, eval_metric ,data_splits):
-    logging.info(f"Trial {trial.number} with {catboost_loss_functions}, {eval_metric}") # {eval_metric}")
+def objective(trial, catboost_loss_functions, eval_metric, data_splits):
+    logging.info(f"Trial {trial.number} with {catboost_loss_functions}, {eval_metric}")
 
+    # If user picks "YetiRankPairwise", force CPU (GPU not supported).
+    if catboost_loss_functions == "YetiRankPairwise":
+        chosen_task_type = "CPU"
+    else:
+        chosen_task_type = "GPU"
+
+    # Example smaller search space for CPU-based YetiRankPairwise
     params = {
         "loss_function": catboost_loss_functions,
         "eval_metric": eval_metric,
-        "task_type": "GPU",
-        "devices": "0,1",
+        "task_type": chosen_task_type,
         "thread_count": 96,
-        "iterations": trial.suggest_int("iterations", 4000, 5000, step=100),
-        "depth": trial.suggest_int("depth", 4, 6),
-        "learning_rate": trial.suggest_float("learning_rate", 0.02, 0.1, log=True),
-        "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 9.5, 19.7, log=True),  # Increased range
-        "grow_policy": trial.suggest_categorical("grow_policy", ["Lossguide", "SymmetricTree","Depthwise" ]),
-        "random_strength": trial.suggest_float("random_strength", 1.33, 2.80, log=True),  # Increased range
-        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 9, 40),  # Increased range
-        "bagging_temperature": trial.suggest_float("bagging_temperature", 0.5, 1.0, step=0.1),
-        "border_count": trial.suggest_int("border_count", 100, 255, step=20),
-        "od_type": trial.suggest_categorical("od_type", ["IncToDec", "Iter"]),
+
+        # Keep a smaller iteration range so we don’t train as long
+        "iterations": trial.suggest_int("iterations", 500, 2000, step=250),
+
+        # Let’s keep depth relatively small (3–6)
+        "depth": trial.suggest_int("depth", 3, 6),
+
+        # Maybe we still do a small log range on learning_rate
+        "learning_rate": trial.suggest_float("learning_rate", 1e-4, 1e-2, log=True),
+
+        # Let’s keep l2_leaf_reg but smaller range
+        "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 5, 12, log=True),
+
+        # We can fix or reduce grow_policy:
+        "grow_policy": "SymmetricTree",  # or trial.suggest_categorical("grow_policy", ["SymmetricTree"])
+
+        # random_strength can be narrower
+        "random_strength": trial.suggest_float("random_strength", 1.0, 2.0),
+
+        # min_data_in_leaf => narrower range
+        "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 5, 30, step=5),
+
+        # bagging_temperature => keep a small discrete range
+        "bagging_temperature": trial.suggest_float("bagging_temperature", 0.1, 0.7, step=0.2),
+
+        # border_count => we can fix or keep it small
+        "border_count": 128,
+
+        "od_type": "Iter",  # or trial.suggest_categorical("od_type", ["Iter", "IncToDec"])
+        "early_stopping_rounds": 100,  # smaller for quicker stops
+
         "random_seed": 42,
         "verbose": 100,
-        "early_stopping_rounds": trial.suggest_int("early_stopping_rounds", 50, 200, step=10),
         "allow_writing_files": False
     }
-    
+
     model = CatBoostRanker(**params)
     model.fit(
         data_splits.train_pool, 
@@ -280,7 +298,7 @@ def objective(trial, catboost_loss_functions, eval_metric ,data_splits):
         early_stopping_rounds=params["early_stopping_rounds"]
     )
     
-    fraction = metric_first_and_top3_in_top4(
+    fraction = metric_top1_hit(
         model=model,
         df=data_splits.valid_data,
         group_col="race_id",
@@ -288,22 +306,16 @@ def objective(trial, catboost_loss_functions, eval_metric ,data_splits):
         label_col="relevance",
         feature_cols=data_splits.all_feature_cols
     )
-    print(f"metric_first_and_top3_in_top4 = {fraction:.4f}")
+    print(f"metric_top1_hit = {fraction:.4f}")
     
     return fraction
 
-###############################################################################
-# The run_optuna function
-###############################################################################
-def run_optuna(catboost_loss_functions, eval_metric, n_trials=50, data_splits=None):
-    """Creates an Optuna study with SQLite storage and runs the objective to maximize NDCG (higher is better)."""
+
+def run_optuna(catboost_loss_functions, eval_metric, n_trials=20, data_splits=None):
     import optuna
-
-    # Define the storage URL and a study name.
     storage = "sqlite:///optuna_study.db"
-    study_name = f"catboost_{catboost_loss_functions}_{eval_metric}_v1"  # "catboost_optuna_study_rmse_min" #"catboost_optuna_study"
+    study_name = f"catboost_{catboost_loss_functions}_{eval_metric}_v1"
 
-    # Create the study, loading existing trials if the study already exists.
     study = optuna.create_study(
         study_name=study_name,
         storage=storage,
@@ -311,10 +323,10 @@ def run_optuna(catboost_loss_functions, eval_metric, n_trials=50, data_splits=No
         direction="maximize"
     )
     
-    def _objective(trial):
-        return objective(trial, catboost_loss_functions, eval_metric, data_splits)
-    
-    study.optimize(_objective, n_trials=n_trials)
+    study.optimize(
+        lambda trial: objective(trial, catboost_loss_functions, eval_metric, data_splits),
+        n_trials=n_trials
+    )
     return study
 
 ###############################################################################
@@ -476,9 +488,9 @@ def compute_metrics_with_trifecta(holdout_merged, model_key):
         total_groups += 1
         
         # Sort descending by predicted score
-        group_sorted_pred = group.sort_values("prediction", ascending=False).reset_index(drop=True)
-        # Sort descending by true relevance (bigger = better finish)
-        group_sorted_true = group.sort_values("relevance", ascending=False).reset_index(drop=True)
+        group_sorted_pred = group.sort_values("prediction", ascending=True).reset_index(drop=False)
+        # Sort ascending by true relevance (bigger = better finish)
+        group_sorted_true = group.sort_values("relevance", ascending=True).reset_index(drop=False)
 
         # =============== 
         # 1) Top-4 Accuracy
@@ -780,11 +792,30 @@ def main_script(
             study = run_optuna(
                 catboost_loss_functions=loss_func,
                 eval_metric=eval_met,
-                n_trials=50,
+                n_trials=20,
                 data_splits=data_splits
             )
 
             best_score = study.best_value
+            # best_params = {
+            #     "loss_function": "YetiRankPairwise",
+            #     "eval_metric": "NDCG:top=1",
+            #     "iterations": 3500,
+            #     "depth": 4,
+            #     "learning_rate": 0.008300520898622559,
+            #     "l2_leaf_reg": 15.936699217265362,
+            #     "grow_policy": "SymmetricTree",
+            #     "random_strength": 1.794094876538993,
+            #     "min_data_in_leaf": 27,
+            #     "bagging_temperature": 0.5,
+            #     "border_count": 180,
+            #     "od_type": "Iter",
+            #     "early_stopping_rounds": 130,
+            #     "random_seed": 42,
+            #     "verbose": 100,
+            #     "allow_writing_files": False
+            # }
+            # best_score = 0.8139363582793164
             best_params = study.best_params
             logging.info(f"Best score: {best_score}, Best params: {best_params}")
 
@@ -894,10 +925,12 @@ def split_data_and_train(
     
     # 7) minimal catboost training
     catboost_loss_functions = [
-        "YetiRank:top=1",
-        "YetiRank",
+        "YetiRankPairwise"
+        # "YetiRank",
+        # "QueryRMSE"
     ]
-    catboost_eval_metrics = ["NDCG:top=3", "NDCG:top=4"]
+    
+    catboost_eval_metrics = ["NDCG:top=1"] # , "NDCG:top=2"]
 
     db_table = "catboost_enriched_results"
     all_models = main_script(
@@ -1134,17 +1167,15 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
     logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
     logging.info(f"Shape of future Pandas DF: {fut_pdf.shape}")
 
+    # Instead of assign_piecewise_log_labels(...)
     hist_pdf = assign_piecewise_log_labels(hist_pdf)
     logging.info(f"Shape of Historical Pandas DF: {hist_pdf.shape}")
-        
-    fut_pdf = assign_piecewise_log_labels(fut_pdf)
-    logging.info(f"Shape of Future Pandas DF: {fut_pdf.shape}")
-
+    
     hist_embed_cols, fut_embed_cols = build_embed_cols(hist_pdf)  # This is now your dynamic list of embed columns.
     
         # 1) Prepare columns to match training
     final_feature_cols = ["sec_score", "sec_dim1", "sec_dim2", "sec_dim3", "sec_dim4", "sec_dim5", "sec_dim6", "sec_dim7", "sec_dim8",
-                          "gps_score", "gps_dim1", "gps_dim2", "gps_dim3", "gps_dim4", "gps_dim5", "gps_dim6", "gps_dim7", "gps_dim8",
+                          "sec_dim9", "sec_dim10", "sec_dim11", "sec_dim12", "sec_dim13", "sec_dim14", "sec_dim15", "sec_dim16",
                           "class_rating", "par_time", "running_time", "total_distance_ran", 
                           "avgtime_gate1", "avgtime_gate2", "avgtime_gate3", "avgtime_gate4", 
                           "dist_bk_gate1", "dist_bk_gate2", "dist_bk_gate3", "dist_bk_gate4", 
@@ -1178,7 +1209,7 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
         df=hist_pdf,
         label_col="relevance",
         cat_cols=cat_cols,
-        embed_cols=hist_embed_cols,   # could also just pass fut_embed_cols if identical
+        embed_cols=fut_embed_cols,   # could also just pass fut_embed_cols if identical
         final_feature_cols=final_feature_cols,
         jdbc_url=jdbc_url,
         jdbc_properties=jdbc_properties,
@@ -1324,22 +1355,15 @@ def assign_piecewise_log_labels(df):
     """
     def _relevance(fin):
         if fin == 1:
-            return 70 #40  # Could be 40 for 1st
+            return 100 #40  # Could be 40 for 1st
         elif fin == 2:
-            return 56 # 38  # Slightly lower than 1st, but still high
-        elif fin == 3:
-            return 44 #36
-        elif fin == 4:
-            return 34
+            return 75 # 38  # Slightly lower than 1st, but still high
         else:
-            # For 5th place or worse, drop off fast with a log formula:
-            # e.g. alpha=30, beta=4 => 5th => 30 / log(4+5)=30/log(9)= ~9
-            alpha = 30.0
+            alpha = 20.0
             beta  = 4.0
             return alpha / np.log(beta + fin)
     
     df["relevance"] = df["official_fin"].apply(_relevance)
-    df["top4_label"] = (df["official_fin"] <= 4).astype(int)
     return df
 
 def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_splits=5):
@@ -1387,7 +1411,7 @@ def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_sp
         fold_df["race_id"] = valid_group_id_fold  # or group_col
         fold_df["horse_id"] = data_splits.train_data["horse_id"].iloc[valid_index].values
 
-        fraction = metric_first_and_top3_in_top4(
+        fraction = metric_top1_hit(
             model=model,
             df=fold_df,
             group_col="race_id",
@@ -1395,7 +1419,7 @@ def cross_validate_model(catboost_loss_functions, eval_metric, data_splits, n_sp
             label_col="relevance",
             feature_cols=data_splits.all_feature_cols
         )
-        logging.info(f"metric_first_and_top3_in_top4 = {fraction:.4f}")
+        logging.info(f"metric_top1_hit = {fraction:.4f}")
         top3_hits_list.append(fraction)
 
         # Return average across folds

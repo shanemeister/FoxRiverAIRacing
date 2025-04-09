@@ -79,13 +79,6 @@ def apply_temperature_scaling(scores, T):
     p_i = (scores_i)^(1/T) / sum_j (scores_j)^(1/T),
     computed stably via a log-sum-exp style approach.
     scores must be >= 0.
-
-    We'll do:
-      x_i = log(scores_i + eps)
-      y_i = (1/T) * x_i
-      shift = max(y_i)
-      z_i = exp(y_i - shift)
-      prob_i = z_i / sum(z_j)
     """
     eps = 1e-12
     scores = np.array(scores, dtype=float)
@@ -97,7 +90,7 @@ def apply_temperature_scaling(scores, T):
 
     # Shift so max is 0 to avoid overflow
     shift = np.max(scaled_logs)
-    shifted = np.exp(scaled_logs - shift)  # now in [0..1] range
+    shifted = np.exp(scaled_logs - shift)
     denom = np.sum(shifted) + eps
 
     return shifted / denom
@@ -151,9 +144,7 @@ def fit_temperature_scaling(df_cal):
 # 3) MAIN
 ########################################
 def main():
-    # -------------------------
-    # A) Setup / Environment
-    # -------------------------
+    # A) Setup environment + DB
     script_dir = os.path.dirname(os.path.abspath(__file__))
     log_file = os.path.join(script_dir, "calibrate_multinomial.log")
     setup_logging(log_file)
@@ -163,9 +154,10 @@ def main():
     config = read_config(config_path)
     db_pool = get_db_pool(config)
 
-    # -------------------------
-    # B) Load HISTORICAL => Pandas => Fit T
-    # -------------------------
+    #
+    # B) Query the calibration subset from `predictions_20250407_211045_1`
+    #    => must have official_fin != null + > 0 to define who the winner is, plus score>0
+    #
     conn = db_pool.getconn()
     cursor = conn.cursor()
     sql_cal = """
@@ -173,12 +165,13 @@ def main():
             course_cd,
             race_date,
             race_number,
-            prediction AS model_score,
+            top_1_score AS score,
             CASE WHEN official_fin=1 THEN 1 ELSE 0 END AS winner
-        FROM catboost_enriched_results
-        WHERE data_flag = 'historical'
-          AND model_key = 'YetiRank:top=1_NDCG:top=3_20250329_153033'
-          AND prediction > 0  -- ensure we only take positive scores
+        FROM predictions_20250407_211045_1
+        WHERE official_fin IS NOT NULL
+          AND official_fin > 0
+          AND top_1_score > 0
+        ORDER BY course_cd, race_date, race_number
     """
     try:
         cursor.execute(sql_cal)
@@ -186,7 +179,7 @@ def main():
         df_cal = pd.DataFrame(rows, columns=[
             "course_cd","race_date","race_number","score","winner"
         ])
-        logging.info(f"Loaded {len(df_cal)} rows of calibration data.")
+        logging.info(f"Loaded {len(df_cal)} calibration rows from predictions_20250407_211045_1.")
     except Exception as e:
         logging.error(f"Error loading calibration data: {e}", exc_info=True)
         sys.exit(1)
@@ -198,93 +191,106 @@ def main():
         logging.error("No calibration data found. Exiting.")
         sys.exit(1)
 
-    # Build race_key
-    df_cal['race_key'] = (
-        df_cal['course_cd'].astype(str) + "_" +
-        df_cal['race_date'].astype(str) + "_" +
-        df_cal['race_number'].astype(str)
+    # build a race_key
+    df_cal["race_key"] = (
+        df_cal["course_cd"].astype(str)
+        + "_"
+        + df_cal["race_date"].astype(str)
+        + "_"
+        + df_cal["race_number"].astype(str)
     )
 
-    # Fit T on raw scores (already exponentiated from the ranker)
+    # Fit T
     T_best = fit_temperature_scaling(df_cal)
 
-    # -------------------------
-    # C) Load FUTURE => Calibrate => Spark Write
-    # -------------------------
+    #
+    # C) Query the "future" subset => official_fin IS NULL, or race_date>=CURRENT_DATE
+    #
     conn = db_pool.getconn()
     cursor = conn.cursor()
+
     sql_future = """
         SELECT
-         morn_odds, group_id, post_time, track_name, has_gps, horse_name,
-         global_speed_score_iq, course_cd, race_date, race_number,
-         horse_id, saddle_cloth_number,
-         top1_top3_score AS model_score, 
-         top1_top3_rank AS rank
-        FROM predictions_20250329_172326_1
-        WHERE race_date >= CURRENT_DATE  - INTERVAL '1 day'
+            course_cd,
+            race_date,
+            race_number,
+            horse_id,
+            saddle_cloth_number,
+            top_1_score AS score,
+            top_1_rank AS "rank",
+            group_id,
+            post_time,
+            track_name,
+            has_gps,
+            horse_name,
+            global_speed_score_iq,
+            morn_odds,
+            official_fin
+        FROM predictions_20250407_211045_1
+        WHERE official_fin IS NULL
+          AND race_date >= CURRENT_DATE
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
     try:
         cursor.execute(sql_future)
         rows = cursor.fetchall()
-        future_df = pd.DataFrame(rows, columns=[
-            "morn_odds", "group_id", "post_time", "track_name", 
-            "has_gps", "horse_name", "global_speed_score_iq", 
-            "course_cd", "race_date", "race_number",
-            "horse_id", "saddle_cloth_number",
-            "score",            # <--- read top1_top4_score into 'score'
-            "rank"
-        ])
-        logging.info(f"Loaded {len(future_df)} future predictions.")
+        future_cols = [
+            "course_cd","race_date","race_number","horse_id","saddle_cloth_number",
+            "score","rank","group_id","post_time","track_name","has_gps",
+            "horse_name","global_speed_score_iq","morn_odds","official_fin"
+        ]
+        future_df = pd.DataFrame(rows, columns=future_cols)
+        logging.info(f"Loaded {len(future_df)} future predictions from same table.")
     except Exception as e:
-        logging.error(f"Error loading future predictions: {e}", exc_info=True)
+        logging.error(f"Error loading future data: {e}", exc_info=True)
         sys.exit(1)
     finally:
         cursor.close()
         db_pool.putconn(conn)
 
     if future_df.empty:
-        logging.info("No future predictions found. Nothing to calibrate.")
+        logging.info("No future rows found to calibrate. Exiting.")
         sys.exit(0)
 
-    # Build race_key
-    future_df['race_key'] = (
-        future_df['course_cd'].astype(str) + "_" +
-        future_df['race_date'].astype(str) + "_" +
-        future_df['race_number'].astype(str)
+    # build race_key
+    future_df["race_key"] = (
+        future_df["course_cd"].astype(str)
+        + "_"
+        + future_df["race_date"].astype(str)
+        + "_"
+        + future_df["race_number"].astype(str)
     )
 
-    # Apply T-based scaling to get final probabilities
+    # apply T-based scaling => final "calibrated_prob"
     def group_temp_scaling(scores, T):
-        # scores is a Series
         arr = scores.values
-        # apply p_i = score_i^(1/T) / sum_j score_j^(1/T)
         p_i = apply_temperature_scaling(arr, T)
         return pd.Series(p_i, index=scores.index)
 
-    # do it per-race
-    future_df['calibrated_prob'] = (
-        future_df.groupby('race_key', group_keys=False)['score']
+    future_df["calibrated_prob"] = (
+        future_df.groupby("race_key", group_keys=False)["score"]
                  .apply(lambda s: group_temp_scaling(s, T_best))
     )
 
-    # Convert to Spark, overwrite your desired table
+    # D) Write final => predictions_20250407_211045_1_calibrated
     spark_df = spark.createDataFrame(future_df)
+    calibrate_table = "predictions_20250407_211045_1_calibrated"
 
     (
         spark_df.write
         .format("jdbc")
         .option("url", jdbc_url)
-        .option("dbtable", "predictions_20250329_172326_1_calibrated")
+        .option("dbtable", calibrate_table)
         .option("user", jdbc_properties["user"])
         .option("driver", jdbc_properties["driver"])
         .mode("overwrite")
         .save()
     )
 
-    logging.info("Wrote calibrated predictions to predictions_20250329_172326_1_calibrated.")
+    logging.info(f"Wrote calibrated future predictions to {calibrate_table}")
     spark.stop()
     logging.info("All done with calibration pipeline.")
+
 
 if __name__ == "__main__":
     main()

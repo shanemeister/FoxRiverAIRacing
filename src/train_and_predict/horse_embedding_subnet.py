@@ -81,31 +81,31 @@ def fill_forward_locf(df, columns, horse_id_col="horse_id", date_col="race_date"
     return df
 
 
-def assign_piecewise_log_labels_spark(df):
-    """
-    For each row in the DataFrame, assign a relevance score based on 'official_fin':
-      - If official_fin == 1, relevance = 70
-      - If official_fin == 2, relevance = 56
-      - If official_fin == 3, relevance = 44
-      - If official_fin == 4, relevance = 34
-      - Otherwise, relevance = 30 / log(4 + official_fin)
-    Also creates a 'top4_label' column which is 1 when official_fin <= 4, else 0.
-    """
-    df = df.withColumn(
-        "relevance",
-        F.when(F.col("official_fin") == 1, 70)
-         .when(F.col("official_fin") == 2, 56)
-         .when(F.col("official_fin") == 3, 44)
-         .when(F.col("official_fin") == 4, 34)
-         .otherwise(30.0 / F.log(4.0 + F.col("official_fin")))
-    )
+# def assign_piecewise_log_labels_spark(df):
+#     """
+#     For each row in the DataFrame, assign a relevance score based on 'official_fin':
+#       - If official_fin == 1, relevance = 70
+#       - If official_fin == 2, relevance = 56
+#       - If official_fin == 3, relevance = 44
+#       - If official_fin == 4, relevance = 34
+#       - Otherwise, relevance = 30 / log(4 + official_fin)
+#     Also creates a 'top4_label' column which is 1 when official_fin <= 4, else 0.
+#     """
+#     df = df.withColumn(
+#         "relevance",
+#         F.when(F.col("official_fin") == 1, 100)
+#          .when(F.col("official_fin") == 2, 75)
+#          .otherwise(20.0 / F.log(4.0 + F.col("official_fin")))
+#     )    
+#         #  .when(F.col("official_fin") == 3, 44)
+#         #  .when(F.col("official_fin") == 4, 34)
     
-    df = df.withColumn(
-        "top4_label",
-        F.when(F.col("official_fin") <= 4, 1).otherwise(0)
-    )
+#     df = df.withColumn(
+#         "top4_label",
+#         F.when(F.col("official_fin") <= 4, 1).otherwise(0)
+#     )
     
-    return df
+#     return df
 
 
 def impute_with_race_and_global_mean(df, cols_to_impute, race_col="race_id"):
@@ -176,7 +176,8 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     # 1) Mixed precision + Multi-GPU
     tf.keras.mixed_precision.set_global_policy("mixed_float16")
    # 2) Preprocess
-    global_speed_score = assign_piecewise_log_labels_spark(global_speed_score)
+    global_speed_score = global_speed_score.withColumn("relevance", F.col("running_time_target"))
+        
     columns_to_drop = [
         "logistic_score", "median_logistic", "median_logistic_clamped", "par_diff_ratio",
         "raw_performance_score", "standardized_score", "wide_factor"
@@ -200,23 +201,38 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     idx_to_horse_id = {i: horse for i, horse in enumerate(unique_horses)}
 
     # Define columns for horse stats
-    horse_stats_cols = [
-        "global_speed_score_iq", "starts", "dam_itm_percentage", "cond_starts", 
-        "previous_class", "age_at_race_day", "avg_workout_rank_3", "speed_improvement", 
-        "horse_mean_rps", "trainer_win_percent", "horse_itm_percentage", "days_off", 
-        "base_speed", "sire_itm_percentage", "jt_win_track", "cond_show", 
-        "jock_win_percent", "horse_std_rps", "jock_win_track", "weight",
-        "avgtime_gate1", "avgtime_gate2", "avgtime_gate3", "avgtime_gate4", 
-        "dist_bk_gate1", "dist_bk_gate2", "dist_bk_gate3", "dist_bk_gate4", 
-        "speed_q1", "speed_q2", "speed_q3", "speed_q4", "speed_var", "avg_speed_fullrace", 
-        "accel_q1", "accel_q2", "accel_q3", "accel_q4", "avg_acceleration", "max_acceleration", 
-        "jerk_q1", "jerk_q2", "jerk_q3", "jerk_q4", "avg_jerk", "max_jerk", 
-        "dist_q1", "dist_q2", "dist_q3", "dist_q4", "total_dist_covered", 
-        "strfreq_q1", "strfreq_q2", "strfreq_q3", "strfreq_q4", "avg_stride_length"
-    ]
+    horse_stats_cols = ["sec_score", "sec_dim1", "sec_dim2", "sec_dim3", "sec_dim4", 
+                        "sec_dim5", "sec_dim6", "sec_dim7", "sec_dim8",
+                        "sec_dim9", "sec_dim10", "sec_dim11", "sec_dim12", 
+                        "sec_dim13", "sec_dim14", "sec_dim15", "sec_dim16",
+                        "global_speed_score_iq", "starts", "dam_itm_percentage", "cond_starts", 
+                        "previous_class", "age_at_race_day", "avg_workout_rank_3", "speed_improvement", 
+                        "horse_mean_rps", "trainer_win_percent", "horse_itm_percentage", "days_off", 
+                        "base_speed", "sire_itm_percentage", "jt_win_track", "cond_show", 
+                        "jock_win_percent", "horse_std_rps", "jock_win_track", "weight",
+                        "avgtime_gate1", "avgtime_gate2", "avgtime_gate3", "avgtime_gate4", 
+                        "dist_bk_gate1", "dist_bk_gate2", "dist_bk_gate3", "dist_bk_gate4", 
+                        "speed_q1", "speed_q2", "speed_q3", "speed_q4", "speed_var", "avg_speed_fullrace", 
+                        "accel_q1", "accel_q2", "accel_q3", "accel_q4", "avg_acceleration", "max_acceleration", 
+                        "jerk_q1", "jerk_q2", "jerk_q3", "jerk_q4", "avg_jerk", "max_jerk", 
+                        "dist_q1", "dist_q2", "dist_q3", "dist_q4", "total_dist_covered", 
+                        "strfreq_q1", "strfreq_q2", "strfreq_q3", "strfreq_q4", "avg_stride_length"
+                    ]
 
     X_horse_stats = historical_pdf[horse_stats_cols].astype(float).values
     y = historical_pdf["relevance"].values
+    
+    # for col in horse_stats_cols:
+    #     corr, _ = spearmanr(historical_pdf[col], y)
+    #     print(col, corr)
+    
+    # for c in horse_stats_cols:
+    #     if c not in historical_pdf.columns:
+    #         print(f"{c} is missing!")
+            
+    # for c in horse_stats_cols:
+    #     vals = historical_pdf[c].values
+    #     print(c, "NaN count=", np.isnan(vals).sum(), "std dev=", np.nanstd(vals))
 
     # train/val split
     all_inds = np.arange(len(historical_pdf))
@@ -225,6 +241,31 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     X_horse_stats_val   = X_horse_stats[val_inds]
     y_train = y[train_inds]
     y_val   = y[val_inds]
+    
+    y_train_2d = y_train.reshape(-1, 1)
+    y_val_2d   = y_val.reshape(-1, 1)
+
+    scaler_y = StandardScaler()
+    y_train_scaled_2d = scaler_y.fit_transform(y_train_2d)
+    y_val_scaled_2d   = scaler_y.transform(y_val_2d)
+
+    y_train_scaled = y_train_scaled_2d.flatten()
+    y_val_scaled   = y_val_scaled_2d.flatten()
+    y_train = y_train_scaled
+    y_val   = y_val_scaled
+    
+    # Check for NaN or Inf in y_train and y_val
+
+    print("Check y_train for NaN or Inf")
+    print("Any NaN in y_train?", np.isnan(y_train).any())
+    print("Any Inf in y_train?", np.isinf(y_train).any())
+    print("y_train min:", np.min(y_train), "y_train max:", np.max(y_train))
+
+    # Similarly for y_val
+    print("Check y_val for NaN or Inf")
+    print("Any NaN in y_val?", np.isnan(y_val).any())
+    print("Any Inf in y_val?", np.isinf(y_val).any())
+    print("y_val min:", np.min(y_val), "y_val max:", np.max(y_val))
 
     # Map horse IDs -> indices
     def map_horse_id_to_idx(horse_id):
@@ -240,6 +281,16 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     X_horse_stats_val   = scaler.transform(X_horse_stats_val)
 
     print(f"[INFO] horse_stats shape = {X_horse_stats.shape}, y shape = {y.shape}")
+
+    print("Check X_horse_stats_train for NaN/Inf:")
+    print("Any NaN in X_horse_stats_train?", np.isnan(X_horse_stats_train).any())
+    print("Any Inf in X_horse_stats_train?", np.isinf(X_horse_stats_train).any())
+    print("Min:", np.nanmin(X_horse_stats_train), "Max:", np.nanmax(X_horse_stats_train))
+
+    print("Check X_horse_stats_val for NaN/Inf:")
+    print("Any NaN in X_horse_stats_val?", np.isnan(X_horse_stats_val).any())
+    print("Any Inf in X_horse_stats_val?", np.isinf(X_horse_stats_val).any())
+    print("Min:", np.nanmin(X_horse_stats_val), "Max:", np.nanmax(X_horse_stats_val))
 
     # --------------------------
     # Helper: create_tf_datasets with drop_remainder=True
@@ -300,11 +351,11 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
             l2_reg=l2_reg
         )
         if optimizer_name == "adam":
-            opt = keras.optimizers.Adam(learning_rate=learning_rate)
+            opt = keras.optimizers.Adam(learning_rate=learning_rate, clipnorm=1.0)
         elif optimizer_name == "nadam":
-            opt = keras.optimizers.Nadam(learning_rate=learning_rate)
+            opt = keras.optimizers.Nadam(learning_rate=learning_rate, clipnorm=1.0)
         else:
-            opt = keras.optimizers.RMSprop(learning_rate=learning_rate)
+            opt = keras.optimizers.RMSprop(learning_rate=learning_rate, clipnorm=1.0)
 
         model.compile(optimizer=opt, loss="mse", metrics=["mae"])
 

@@ -7,7 +7,7 @@ import json
 
 def main():
     # 1) Load your horse_embeddings Parquet into a Pandas DataFrame
-    horse_embedding_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250316_2245.parquet"
+    horse_embedding_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250404_1946.parquet"
     df = pd.read_parquet(horse_embedding_path)
 
     print("\n=== Columns in horse_embeddings DF ===")
@@ -37,14 +37,26 @@ def main():
         return sorted_combined
 
     # 4) Add a 'relevance' label from official_fin (like in training)
-    def assign_labels(df, alpha=0.8):
-        def _exp_label(fin):
-            return alpha ** (fin - 1)
-        df["relevance"] = df["official_fin"].apply(_exp_label)
-        df["top4_label"] = (df["official_fin"] <= 4).astype(int)
+    def assign_piecewise_log_labels(df):
+        """
+        If official_fin <= 4, assign them to a high relevance band (with small differences).
+        Otherwise, use a log-based formula that drops more sharply.
+        """
+        def _relevance(fin):
+            if fin == 1:
+                return 100 #40  # Could be 40 for 1st
+            elif fin == 2:
+                return 75 # 38  # Slightly lower than 1st, but still high
+            else:
+                alpha = 20.0
+                beta  = 4.0
+                return alpha / np.log(beta + fin)
+        
+        df["relevance"] = df["official_fin"].apply(_relevance)
         return df
 
-    df = assign_labels(df, alpha=0.8)
+
+    df = assign_piecewise_log_labels(df)
     # remove any row that has a missing official_fin or missing relevance
     df = df.dropna(subset=["relevance"])
     # or if official_fin is missing, do:
@@ -70,27 +82,35 @@ def main():
     df = pd.concat([df, pd.DataFrame(new_numeric_cols, index=df.index)], axis=1)
 
     # 7) Hardcode or load your numeric final features
-    final_feature_cols = ["global_speed_score_iq","horse_mean_rps","horse_std_rps","power","base_speed",
-        "speed_improvement",'avgspd','starts','avg_spd_sd','ave_cl_sd',
-        'hi_spd_sd','pstyerl','sire_itm_percentage','sire_roi','dam_itm_percentage','dam_roi',
-        'all_starts','all_win','all_place','all_show','all_fourth','all_earnings','horse_itm_percentage',
-        'best_speed', 'weight','jock_win_percent', 'jock_itm_percent','trainer_win_percent','trainer_itm_percent',
-        'jt_win_percent','jt_itm_percent','jock_win_track','jock_itm_track','trainer_win_track',
-        'trainer_itm_track','jt_win_track','jt_itm_track','cond_starts','cond_win','cond_place','cond_show',
-        'cond_fourth','cond_earnings', 'par_time','running_time','total_distance_ran','previous_distance',
-        'distance_meters','avgtime_gate1','avgtime_gate2','avgtime_gate3','avgtime_gate4',
-        'dist_bk_gate1','dist_bk_gate2','dist_bk_gate3','dist_bk_gate4',
-        'speed_q1','speed_q2','speed_q3','speed_q4','speed_var','avg_speed_fullrace',
-        'accel_q1','accel_q2','accel_q3','accel_q4','avg_acceleration','max_acceleration',
-        'jerk_q1','jerk_q2','jerk_q3','jerk_q4','avg_jerk','max_jerk',
-        'dist_q1','dist_q2','dist_q3','dist_q4','total_dist_covered',
-        'strfreq_q1','strfreq_q2','strfreq_q3','strfreq_q4','avg_stride_length','net_progress_gain',
-        'prev_speed_rating','previous_class', 'purse','class_rating','morn_odds',
-        'net_sentiment','avg_fin_5','avg_speed_5','avg_beaten_len_5','avg_dist_bk_gate1_5','avg_dist_bk_gate2_5','avg_dist_bk_gate3_5',
-        'avg_dist_bk_gate4_5','avg_speed_fullrace_5','avg_stride_length_5','avg_strfreq_q1_5','avg_strfreq_q2_5',
-        'avg_strfreq_q3_5','avg_strfreq_q4_5','prev_speed','days_off','avg_workout_rank_3',
-        'has_gps','age_at_race_day', 'race_avg_speed_agg','race_std_speed_agg','race_avg_relevance_agg','race_std_relevance_agg',
-        'race_class_avg_speed_agg','race_class_min_speed_agg','race_class_max_speed_agg', 'claimprice']
+    final_feature_cols = ["sec_score", "sec_dim1", "sec_dim2", "sec_dim3", "sec_dim4", "sec_dim5", "sec_dim6", "sec_dim7", "sec_dim8",
+                          "sec_dim9", "sec_dim10", "sec_dim11", "sec_dim12", "sec_dim13", "sec_dim14", "sec_dim15", "sec_dim16",
+                          "class_rating", "par_time", "running_time", "total_distance_ran", 
+                          "avgtime_gate1", "avgtime_gate2", "avgtime_gate3", "avgtime_gate4", 
+                          "dist_bk_gate1", "dist_bk_gate2", "dist_bk_gate3", "dist_bk_gate4", 
+                          "speed_q1", "speed_q2", "speed_q3", "speed_q4", "speed_var", "avg_speed_fullrace", 
+                          "accel_q1", "accel_q2", "accel_q3", "accel_q4", "avg_acceleration", "max_acceleration", 
+                          "jerk_q1", "jerk_q2", "jerk_q3", "jerk_q4", "avg_jerk", "max_jerk", 
+                          "dist_q1", "dist_q2", "dist_q3", "dist_q4", "total_dist_covered", 
+                          "strfreq_q1", "strfreq_q2", "strfreq_q3", "strfreq_q4", "avg_stride_length", 
+                          "net_progress_gain", "prev_speed_rating", "previous_class", "weight",
+                          "claimprice", "previous_distance", "prev_official_fin",
+                          "power","avgspd", "starts", "avg_spd_sd", "ave_cl_sd", "hi_spd_sd", "pstyerl",
+                          "purse", "distance_meters", "morn_odds", "jock_win_percent",
+                          "jock_itm_percent", "trainer_win_percent", "trainer_itm_percent", "jt_win_percent",
+                          "jt_itm_percent", "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
+                          "jt_win_track", "jt_itm_track", "sire_itm_percentage", "sire_roi", "dam_itm_percentage",
+                          "dam_roi", "all_starts", "all_win", "all_place", "all_show", "all_fourth", "all_earnings",
+                          "horse_itm_percentage", "cond_starts", "cond_win", "cond_place", "cond_show", "cond_fourth",
+                          "cond_earnings", "net_sentiment", "total_races_5", "avg_fin_5", "avg_speed_5", "best_speed",
+                          "avg_beaten_len_5", "avg_dist_bk_gate1_5",
+                          "avg_dist_bk_gate2_5", "avg_dist_bk_gate3_5", "avg_dist_bk_gate4_5", "avg_speed_fullrace_5",
+                          "avg_stride_length_5", "avg_strfreq_q1_5", "avg_strfreq_q2_5", "avg_strfreq_q3_5", "avg_strfreq_q4_5",
+                          "prev_speed", "speed_improvement", "days_off", "avg_workout_rank_3",
+                          "count_workouts_3", "age_at_race_day", "class_offset", "class_multiplier",
+                          "official_distance", "base_speed", "dist_penalty", "horse_mean_rps", "horse_std_rps",
+                          "global_speed_score_iq", "race_count_agg", "race_avg_speed_agg", "race_std_speed_agg",
+                          "race_avg_relevance_agg", "race_std_relevance_agg", "race_class_count_agg", "race_class_avg_speed_agg",
+                          "race_class_min_speed_agg", "race_class_max_speed_agg", "post_position", "avg_purse_val"]
     
     # 8) Build embed_cols
     embed_cols = build_embed_cols(df)
@@ -138,7 +158,7 @@ def main():
     )
 
     # 15) Load the existing model
-    model_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank:top=3_NDCG:top=3_20250317_150237.cbm"
+    model_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRankPairwise_NDCG:top=1_20250405_110718.cbm"
     model = CatBoostRanker()
     model.load_model(model_path)
 

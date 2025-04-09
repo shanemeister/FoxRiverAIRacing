@@ -1506,3 +1506,182 @@ requests.exceptions.ConnectionError: HTTPSConnectionPool(host='www.trackmaster.c
 2025-03-29 02:47:51 - Job completed
 2025-03-29 02:30:01 - Results: 456 files, PlusPro: 78 files, Backup: Success
 2025-03-29 02:47:51 - Job completed
+2025-03-30 02:30:01 - Starting ingestion job
+2025-03-30 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-30 02:30:01 - Starting download job
+2025-03-30 02:38:01 - Download job succeeded
+2025-03-30 02:38:01 - Results files downloaded: 462
+2025-03-30 02:38:01 - PlusPro files downloaded: 70
+2025-03-30 02:38:01 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-30 02:48:25 - Sync to S3 succeeded
+2025-03-30 02:48:25 - Job completed
+2025-03-30 02:30:01 - Results: 462 files, PlusPro: 70 files, Backup: Success
+2025-03-30 02:48:25 - Job completed
+2025-03-31 02:30:01 - Starting ingestion job
+2025-03-31 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-03-31 02:30:01 - Starting download job
+2025-03-31 02:40:59 - Download job succeeded
+2025-03-31 02:40:59 - Results files downloaded: 465
+2025-03-31 02:40:59 - PlusPro files downloaded: 57
+2025-03-31 02:40:59 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-03-31 02:51:32 - Sync to S3 succeeded
+2025-03-31 02:51:32 - Job completed
+2025-03-31 02:30:01 - Results: 465 files, PlusPro: 57 files, Backup: Success
+2025-03-31 02:51:32 - Job completed
+2025-04-01 02:30:01 - Starting ingestion job
+2025-04-01 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-01 02:30:01 - Starting download job
+2025-04-01 02:38:59 - Download job failed
+CSRF Token: imuzQ0bkikBKnYVdhrm73sYH8qaaiDmWYwPT7BRu
+Traceback (most recent call last):
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 715, in urlopen
+    httplib_response = self._make_request(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 467, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 462, in _make_request
+    httplib_response = conn.getresponse()
+                       ^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 1395, in getresponse
+    response.begin()
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 294, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 801, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/util/retry.py", line 552, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/packages/six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 715, in urlopen
+    httplib_response = self._make_request(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 467, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/urllib3/connectionpool.py", line 462, in _make_request
+    httplib_response = conn.getresponse()
+                       ^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 1395, in getresponse
+    response.begin()
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/http/client.py", line 294, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 59, in login
+    login_response = session.post(login_url, data=payload, headers=headers)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 724, in send
+    history = [resp for resp in gen]
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 724, in <listcomp>
+    history = [resp for resp in gen]
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 265, in resolve_redirects
+    resp = self.send(
+           ^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exx/anaconda3/envs/mamba_env/envs/tf_gpu/lib/python3.11/site-packages/requests/adapters.py", line 682, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2025-04-02 02:30:01 - Starting ingestion job
+2025-04-02 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-02 02:30:01 - Starting download job
+2025-04-03 02:30:01 - Starting ingestion job
+2025-04-03 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-03 02:30:01 - Starting download job
+2025-04-03 02:39:19 - Download job succeeded
+2025-04-03 02:39:19 - Results files downloaded: 442
+2025-04-03 02:39:19 - PlusPro files downloaded: 55
+2025-04-03 02:39:19 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-03 02:49:59 - Sync to S3 succeeded
+2025-04-03 02:49:59 - Job completed
+2025-04-03 02:30:01 - Results: 442 files, PlusPro: 55 files, Backup: Success
+2025-04-03 02:49:59 - Job completed
+2025-04-04 02:30:01 - Starting ingestion job
+2025-04-04 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-04 02:30:01 - Starting download job
+2025-04-04 02:39:28 - Download job succeeded
+2025-04-04 02:39:28 - Results files downloaded: 445
+2025-04-04 02:39:28 - PlusPro files downloaded: 70
+2025-04-04 02:39:28 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-04 02:50:03 - Sync to S3 succeeded
+2025-04-04 02:50:03 - Job completed
+2025-04-04 02:30:01 - Results: 445 files, PlusPro: 70 files, Backup: Success
+2025-04-04 02:50:03 - Job completed
+2025-04-05 02:30:01 - Starting ingestion job
+2025-04-05 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-05 02:30:01 - Starting download job
+2025-04-05 02:41:21 - Download job succeeded
+2025-04-05 02:41:21 - Results files downloaded: 456
+2025-04-05 02:41:21 - PlusPro files downloaded: 81
+2025-04-05 02:41:21 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-05 02:52:21 - Sync to S3 succeeded
+2025-04-05 02:52:21 - Job completed
+2025-04-05 02:30:01 - Results: 456 files, PlusPro: 81 files, Backup: Success
+2025-04-05 02:52:21 - Job completed
+2025-04-06 02:30:01 - Starting ingestion job
+2025-04-06 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-06 02:30:01 - Starting download job
+2025-04-06 02:45:58 - Download job succeeded
+2025-04-06 02:45:58 - Results files downloaded: 464
+2025-04-06 02:45:58 - PlusPro files downloaded: 75
+2025-04-06 02:45:58 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-06 02:56:34 - Sync to S3 succeeded
+2025-04-06 02:56:34 - Job completed
+2025-04-06 02:30:01 - Results: 464 files, PlusPro: 75 files, Backup: Success
+2025-04-06 02:56:34 - Job completed
+2025-04-07 02:30:01 - Starting ingestion job
+2025-04-07 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-07 02:30:01 - Starting download job
+2025-04-07 02:47:48 - Download job succeeded
+2025-04-07 02:47:48 - Results files downloaded: 471
+2025-04-07 02:47:48 - PlusPro files downloaded: 62
+2025-04-07 02:47:48 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-07 02:58:29 - Sync to S3 succeeded
+2025-04-07 02:58:29 - Job completed
+2025-04-07 02:30:01 - Results: 471 files, PlusPro: 62 files, Backup: Success
+2025-04-07 02:58:29 - Job completed
+2025-04-08 02:30:01 - Starting ingestion job
+2025-04-08 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-08 02:30:01 - Starting download job
+2025-04-08 09:42:16 - Starting ingestion job
+2025-04-08 09:42:16 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-08 09:42:16 - Starting download job
+2025-04-08 09:48:03 - Download job succeeded
+2025-04-08 09:48:03 - Results files downloaded: 465
+2025-04-08 09:48:03 - PlusPro files downloaded: 48
+2025-04-08 09:48:03 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-08 09:58:50 - Sync to S3 succeeded
+2025-04-08 09:58:50 - Job completed
+2025-04-08 09:42:16 - Results: 465 files, PlusPro: 48 files, Backup: Success
+2025-04-08 09:58:50 - Job completed
