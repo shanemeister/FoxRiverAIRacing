@@ -67,9 +67,6 @@ class DataSplits:
         )    
             
     def compute_ndcg(self, model, k=4):
-        import numpy as np
-        from sklearn.metrics import ndcg_score
-
         # 1) Generate predictions on the validation features
         val_preds = model.predict(self.X_valid)  # 'X_valid' matches your __init__ attribute
 
@@ -116,7 +113,7 @@ def top3_in_top3_fraction(
     perfect_order_count = 0
     
     for gid, group in df.groupby(group_col):
-        if len(group) < 5:
+        if len(group) < 4:
             continue
 
         total_groups += 1
@@ -202,36 +199,6 @@ def metric_top1_hit(
     return hits / total_groups
 
 ###############################################################################
-# Last Occurrence Carried Forward (LOCF) for future columns
-###############################################################################   
-def locf_across_hist_future(hist_df, fut_df, columns_to_locf, date_col="race_date"):
-    """
-    1) Concatenate hist_df + fut_df
-    2) Sort by (horse_id, race_date)
-    3) Group by horse_id and ffill the specified columns
-    4) Slice out the 'future' rows again.
-
-    Returns a new `fut_df_filled` with columns_to_locf carried forward 
-    from historical values.
-    """
-    import pandas as pd
-
-    # 1) Concatenate
-    embed = pd.concat([hist_df, fut_df], ignore_index=True)
-
-    # 2) Sort by horse_id + race_date
-    embed.sort_values(by=["horse_id", date_col], inplace=True)
-
-    # 3) Forward fill within each horse_id
-    embed[columns_to_locf] = (
-        embed.groupby("horse_id", group_keys=False)[columns_to_locf]
-                .ffill()
-    )
-
-    # 4) Re-split out the future subset
-    fut_df_filled = embed[embed["data_flag"] == "future"].copy()
-    return fut_df_filled
-###############################################################################
 # Helper function to get a timestamp for filenames
 ###############################################################################
 def get_timestamp():
@@ -289,6 +256,11 @@ def objective(trial, catboost_loss_functions, eval_metric, data_splits):
         "verbose": 100,
         "allow_writing_files": False
     }
+    
+    # If you want multi-GPU usage (e.g., devices 0 and 1)
+    if chosen_task_type == "GPU":
+        params["devices"] = "0,1"
+
 
     model = CatBoostRanker(**params)
     model.fit(
@@ -311,7 +283,7 @@ def objective(trial, catboost_loss_functions, eval_metric, data_splits):
     return fraction
 
 
-def run_optuna(catboost_loss_functions, eval_metric, n_trials=20, data_splits=None):
+def run_optuna(catboost_loss_functions, eval_metric, n_trials=30, data_splits=None):
     import optuna
     storage = "sqlite:///optuna_study.db"
     study_name = f"catboost_{catboost_loss_functions}_{eval_metric}_v1"
@@ -435,7 +407,13 @@ def train_and_save_model(
 
     return final_model, model_path, model_key, embed_data
 
-def compute_metrics_with_trifecta(holdout_merged, model_key):
+def compute_metrics_with_trifecta(
+    holdout_merged, 
+    model_key,
+    holdout_preds, 
+    holdout_labels,
+    holdout_group_id
+):    
     """
     Computes ranking metrics for each race (group_id),
     including trifecta-related metrics:
@@ -472,25 +450,21 @@ def compute_metrics_with_trifecta(holdout_merged, model_key):
     
     all_true_vals = []
     all_pred_vals = []
-    
-    all_relevance = []     # For per-race true relevance arrays
-    all_predictions = []   # For per-race predicted score arrays
 
     total_groups = 0
-    ndcg_values_3 = []
 
     # Group by race
     for gid, group in holdout_merged.groupby("group_id"):
         # If the race has <5 horses, skip or continue
-        if len(group) < 5:
+        if len(group) < 4:
             continue
         
         total_groups += 1
         
         # Sort descending by predicted score
-        group_sorted_pred = group.sort_values("prediction", ascending=True).reset_index(drop=False)
+        group_sorted_pred = group.sort_values("prediction", ascending=False).reset_index(drop=False)
         # Sort ascending by true relevance (bigger = better finish)
-        group_sorted_true = group.sort_values("relevance", ascending=True).reset_index(drop=False)
+        group_sorted_true = group.sort_values("relevance", ascending=False).reset_index(drop=False)
 
         # =============== 
         # 1) Top-4 Accuracy
@@ -562,13 +536,6 @@ def compute_metrics_with_trifecta(holdout_merged, model_key):
         all_true_vals.extend(group["relevance"].values)
         all_pred_vals.extend(group["prediction"].values)
 
-        # ===============
-        # 7) NDCG@3
-        # ===============
-        all_relevance.append(group_sorted_true["relevance"].values)
-        all_predictions.append(group_sorted_pred["prediction"].values)
-
-
     # end for loop
 
     if total_groups == 0:
@@ -591,7 +558,7 @@ def compute_metrics_with_trifecta(holdout_merged, model_key):
     MRR = float(np.mean(reciprocal_ranks)) if reciprocal_ranks else 0.0
     prediction_variance = float(np.mean(prediction_std_devs)) if prediction_std_devs else 0.0
 
-    if len(all_true_vals) < 2:
+    if len(all_true_vals) < 4:
         RMSE = 0.0
         MAE = 0.0
         spearman_corr = 0.0
@@ -604,22 +571,45 @@ def compute_metrics_with_trifecta(holdout_merged, model_key):
         spearman_corr = float(stats.spearmanr(all_true_vals, all_pred_vals)[0])
 
     # No manual sorting of group here
-    y_true = group["relevance"].values
-    y_pred = group["prediction"].values
+    # y_true = group["relevance"].values
+    # y_pred = group["prediction"].values
 
-    ndcg_3 = ndcg_score([y_true], [y_pred], k=3)
-    ndcg_values_3.append(ndcg_3)
+    # ndcg_3 = ndcg_score([y_true], [y_pred], k=3)
+    # ndcg_values_3.append(ndcg_3)
 
     # NDCG@3
-    for t, p in zip(all_relevance, all_predictions):
-        ndcg_values_3.append(ndcg_score([t], [p], k=3))
-    avg_ndcg_3 = float(np.mean(ndcg_values_3)) if ndcg_values_3 else 0.0
+    # NDCG@4
+    
+    ndcg_values_3 = []
+    ndcg_values_4 = []
+    
+    unique_gids = np.unique(holdout_group_id)
+    for gid in unique_gids:
+        mask = (holdout_group_id == gid)
+        # skip single-horse groups, etc.
+        if np.sum(mask) < 4:
+            continue
+        
+        # Grab the "ground truth" and "predictions" in
+        # the original, unsorted order
+        group_true = holdout_labels[mask].reshape(1, -1)
+        group_pred = holdout_preds[mask].reshape(1, -1)
+        
+        ndcg_val = ndcg_score(group_true, group_pred, k=3)
+        ndcg_values_3.append(ndcg_val)
 
-    # If you want NDCG@4:
-    # ndcg_values_4 = []
-    # for t, p in zip(all_relevance, all_predictions):
-    #     ndcg_values_4.append(ndcg_score([t], [p], k=4))
-    # avg_ndcg_4 = float(np.mean(ndcg_values_4))
+        ndcg_val4 = ndcg_score(group_true, group_pred, k=4)
+        ndcg_values_4.append(ndcg_val4)
+
+    if ndcg_values_3:
+        avg_ndcg_3 = float(np.mean(ndcg_values_3))
+    else:
+        avg_ndcg_3 = 0.0
+
+    if ndcg_values_4:
+        avg_ndcg_4 = float(np.mean(ndcg_values_4))
+    else:
+        avg_ndcg_4 = 0.0
 
     metrics = {
         "model_key": model_key,
@@ -633,7 +623,7 @@ def compute_metrics_with_trifecta(holdout_merged, model_key):
 
         "MRR": MRR,
         "avg_ndcg_3": avg_ndcg_3,
-        #"avg_ndcg_4": avg_ndcg_4, # if you want
+        "avg_ndcg_4": avg_ndcg_4, 
 
         "spearman_corr": spearman_corr,
         "RMSE": RMSE,
@@ -703,7 +693,7 @@ def evaluate_and_save_results(
     holdout_merged = holdout_merged.sort_values(by=["group_id", "prediction"], ascending=[True, False])
     holdout_merged["rank"] = holdout_merged.groupby("group_id").cumcount() + 1
     
-    metrics = compute_metrics_with_trifecta(holdout_merged, model_key)
+    metrics = compute_metrics_with_trifecta(holdout_merged, model_key, holdout_preds, holdout_labels, holdout_group_id)
 
     print(metrics)
     logging.info(f"Holdout Evaluation Results:\n{json.dumps(metrics, indent=2)}")
@@ -792,7 +782,7 @@ def main_script(
             study = run_optuna(
                 catboost_loss_functions=loss_func,
                 eval_metric=eval_met,
-                n_trials=20,
+                n_trials=30,
                 data_splits=data_splits
             )
 
@@ -925,12 +915,12 @@ def split_data_and_train(
     
     # 7) minimal catboost training
     catboost_loss_functions = [
-        "YetiRankPairwise"
-        # "YetiRank",
-        # "QueryRMSE"
+        #"YetiRankPairwise"
+        "YetiRank",
+        "QueryRMSE"
     ]
     
-    catboost_eval_metrics = ["NDCG:top=1"] # , "NDCG:top=2"]
+    catboost_eval_metrics = ["NDCG:top=3" , "NDCG:top=4"]
 
     db_table = "catboost_enriched_results"
     all_models = main_script(
@@ -963,192 +953,6 @@ def split_data_and_train(
     print("Done building minimal CatBoost model.")
     return all_models
 
-def make_future_predictions(
-    pdf,
-    all_feature_cols,
-    cat_cols,
-    model_path,
-    model_type="ranker",
-    alpha=5.0
-):
-    """
-    1) Load CatBoost model from model_path
-    2) Create Pool for inference (cat_features, group_id if ranker)
-    3) Predict
-    4) Return pdf with new column 'model_score'
-    """
-    try:
-        if model_type.lower() == "ranker":
-            model = CatBoostRanker()
-        else:
-            from catboost import CatBoostRegressor
-            model = CatBoostRegressor()
-
-        model.load_model(model_path)
-        logging.info(f"Loaded CatBoost model: {model_path}")
-    except Exception as e:
-        logging.error(f"Error loading CatBoost model: {e}", exc_info=True)
-        raise
-
-    try:
-        # If group_id in columns, sort by it so ranker sees contiguous groups
-        if "group_id" in pdf.columns:
-            pdf.sort_values("group_id", inplace=True)
-
-        # Prepare data for the CatBoost Pool
-        X_infer = pdf[all_feature_cols].copy()
-        group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
-
-        pred_pool = Pool(data=X_infer, group_id=group_ids, cat_features=cat_cols)
-        predictions = model.predict(pred_pool)
-        # Replace raw_score with exponentiated version
-        # e.g. model_score = exp(raw_score / alpha)
-        pdf["model_score"] = np.exp(predictions / alpha)
-
-    except Exception as e:
-        logging.error(f"Error making predictions: {e}", exc_info=True)
-        raise
-
-    return pdf
-
-def do_future_inference_multi(
-    spark,
-    fut_df,
-    cat_cols,
-    embed_cols,
-    final_feature_cols,
-    db_url,
-    db_properties,
-    models_dir="./data/models/catboost",
-    output_dir="./data/predictions"
-):
-    """
-    1) Combine final_feature_cols, embed_cols, cat_cols
-    2) Load each .cbm CatBoost model from 'models_dir'
-    3) Predict => store in 'score' columns
-    4) For each model, also produce a 'rank' column per race (group_id).
-    5) Write final predictions to DB
-    """
-
-    logging.info("=== Starting Multi-Model Future Inference ===")
-
-    # [1] Combine columns for inference
-    all_feature_cols = final_feature_cols + embed_cols + cat_cols
-
-    # [2] Make a copy to avoid warnings
-    fut_df = fut_df.copy()
-
-    # [3] Convert categorical columns to 'category' dtype
-    for c in cat_cols:
-        if c in fut_df.columns:
-            fut_df[c] = fut_df[c].astype("category")
-
-    # [4] Check for missing columns
-    missing_cols = set(all_feature_cols) - set(fut_df.columns)
-    if missing_cols:
-        logging.warning(f"Future DF is missing columns: {missing_cols}")
-
-    # [5] Find any .cbm files in the models_dir
-    try:
-        model_files = [
-            f for f in os.listdir(models_dir)
-            if f.endswith(".cbm") and os.path.isfile(os.path.join(models_dir, f))
-        ]
-        model_files.sort()
-        if not model_files:
-            logging.error(f"No CatBoost model files found in {models_dir}!")
-            # Return Spark DF anyway
-            return spark.createDataFrame(fut_df)
-
-        logging.info("Found these CatBoost model files:")
-        for m in model_files:
-            logging.info(f"  {m}")
-    except Exception as e:
-        logging.error(f"Error accessing model directory '{models_dir}': {e}", exc_info=True)
-        raise
-
-    # [6] For each model, run predictions
-    for file in model_files:
-        model_path = os.path.join(models_dir, file)
-        logging.info(f"=== Making predictions with model: {file} ===")
-
-        # 6A) Prepare data for inference
-        inference_df = fut_df[all_feature_cols].copy()
-
-        # Bring over 'group_id' if it exists
-        if "group_id" in fut_df.columns:
-            inference_df["group_id"] = fut_df["group_id"]
-        else:
-            logging.warning("No 'group_id' column found. Ranker grouping won't apply correctly.")
-
-        # 6B) Make predictions
-        scored_df = make_future_predictions(
-            pdf=inference_df,
-            all_feature_cols=all_feature_cols,
-            cat_cols=cat_cols,
-            model_path=model_path,
-            model_type="ranker",  # or "regressor" if needed
-            alpha=5.0
-        )
-
-        # 6C) Generate a safe column prefix from the model filename
-        # e.g. "catboost_YetiRank_top2_20250310_213012.cbm" => "YetiRank_top2"
-        model_col = file
-        model_col = re.sub(r'^catboost_', '', model_col)
-        model_col = re.sub(r'\.cbm$', '', model_col)
-        model_col = re.sub(r'_\d{8}_\d{6}$', '', model_col)
-        model_col = re.sub(r'[^a-zA-Z0-9_]', '_', model_col)
-
-        # 6D) Insert model_score into fut_df by matching index
-        fut_df.loc[inference_df.index, f"{model_col}_score"] = scored_df["model_score"].values
-
-        # 6E) SHIFT and RANK without losing the original index
-        score_col = f"{model_col}_score"
-        score_pos_col = f"{model_col}_score_pos"
-        rank_col = f"{model_col}_rank"
-
-        if "group_id" in fut_df.columns:
-            # Shift scores so min = 0.1 per group
-            fut_df[score_pos_col] = (
-                fut_df[score_col]
-                - fut_df.groupby("group_id")[score_col].transform("min")
-                + 0.1
-            )
-
-            # Rank descending (largest score => rank=1)
-            # method="first" ensures stable ranking by order of appearance
-            fut_df[rank_col] = fut_df.groupby("group_id")[score_col] \
-                                    .transform(lambda s: s.rank(method="first", ascending=False))
-            # Optionally cast rank to int
-            fut_df[rank_col] = fut_df[rank_col].astype(int)
-
-        else:
-            # No group_id => shift entire column
-            min_val = fut_df[score_col].min()
-            fut_df[score_pos_col] = fut_df[score_col] - min_val + 0.1
-
-            # Rank entire set descending
-            fut_df[rank_col] = fut_df[score_col].rank(method="first", ascending=False).astype(int)
-
-    # [7] Write final predictions to DB
-    today_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-    table_name = f"predictions_{today_str}_1"
-
-    logging.info(f"Writing predictions to DB table: {table_name}")
-    scored_sdf = spark.createDataFrame(fut_df)
-    scored_sdf.write.format("jdbc") \
-        .option("url", db_url) \
-        .option("dbtable", table_name) \
-        .option("user", db_properties["user"]) \
-        .option("driver", db_properties["driver"]) \
-        .mode("overwrite") \
-        .save()
-
-    logging.info(f"Wrote {fut_df.shape[0]} predictions to DB table '{table_name}'.")
-    logging.info("=== Finished Multi-Model Future Inference ===")
-
-    return scored_sdf
-
 ###############################################################################
 # Build catboost model - single table approach
 ###############################################################################
@@ -1157,21 +961,18 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
     print("DEBUG: datetime is =>", datetime)
         
     # Then use Pandas boolean indexing
-    historical_pdf = horse_embedding[horse_embedding["data_flag"] != "future"].copy()
-    future_pdf = horse_embedding[horse_embedding["data_flag"] == "future"].copy()
-    cols_to_locf = ["global_speed_score_iq"]
-    future_pdf = locf_across_hist_future(historical_pdf, future_pdf, cols_to_locf, date_col="race_date")
+    historical_pdf = horse_embedding
         
     # Transform the Spark DataFrame to Pandas.
-    hist_pdf, fut_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_pdf, future_pdf, drop_label=False)
+    hist_pdf, cat_cols, excluded_cols = transform_horse_df_to_pandas(historical_pdf, drop_label=False)
     logging.info(f"Shape of historical Pandas DF: {hist_pdf.shape}")
-    logging.info(f"Shape of future Pandas DF: {fut_pdf.shape}")
+
 
     # Instead of assign_piecewise_log_labels(...)
     hist_pdf = assign_piecewise_log_labels(hist_pdf)
     logging.info(f"Shape of Historical Pandas DF: {hist_pdf.shape}")
     
-    hist_embed_cols, fut_embed_cols = build_embed_cols(hist_pdf)  # This is now your dynamic list of embed columns.
+    hist_embed_cols = build_embed_cols(hist_pdf)  # This is now your dynamic list of embed columns.
     
         # 1) Prepare columns to match training
     final_feature_cols = ["sec_score", "sec_dim1", "sec_dim2", "sec_dim3", "sec_dim4", "sec_dim5", "sec_dim6", "sec_dim7", "sec_dim8",
@@ -1209,35 +1010,16 @@ def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, acti
         df=hist_pdf,
         label_col="relevance",
         cat_cols=cat_cols,
-        embed_cols=fut_embed_cols,   # could also just pass fut_embed_cols if identical
+        embed_cols=hist_embed_cols,   # could also just pass fut_embed_cols if identical
         final_feature_cols=final_feature_cols,
         jdbc_url=jdbc_url,
         jdbc_properties=jdbc_properties,
         spark=spark
     )
 
-    # 7) **Infer on the future data** (Placeholder function call)
-    # After training is done, you have fut_pdf with the same columns/transform as hist_pdf
-    # Check if 'group_id' is in the columns
-    if 'group_id' not in fut_pdf.columns:
-        print("The 'group_id' column is NOT present in fut_df. Exiting the program.")
-        sys.exit(1)
-    
-    scored_sdf = do_future_inference_multi(
-        spark=spark,
-        fut_df=fut_pdf,
-        cat_cols=cat_cols,
-        embed_cols=fut_embed_cols,       # or hist_embed_cols if they match
-        final_feature_cols=final_feature_cols,
-        db_url=jdbc_url,
-        db_properties=jdbc_properties,
-        models_dir="./data/models/catboost",  # or your actual path
-        output_dir="./data/predictions"
-    )
+    return all_models
 
-    return scored_sdf
-
-def transform_horse_df_to_pandas(hist_df, fut_df, drop_label=False):
+def transform_horse_df_to_pandas(hist_df, drop_label=False):
     """
     1) Convert df_spark to Pandas.
     2) 'official_fin' Transform the Label to “Bigger = Better” log-based or exponential-based formula to positions ≥ 5 to make them much less relevant
@@ -1248,15 +1030,10 @@ def transform_horse_df_to_pandas(hist_df, fut_df, drop_label=False):
     # Check the dtypes in Pandas (should show datetime64[ns] for the above columns)
     # Now you can safely convert to Pandas
     hist_pdf = hist_df.copy()
-    fut_pdf = fut_df.copy()
 
     # Historical: Create group_id and sort ascending for historical data
     hist_pdf["group_id"] = hist_pdf["race_id"].astype("category").cat.codes
     hist_pdf = hist_pdf.sort_values("group_id", ascending=True).reset_index(drop=True)
-    
-    # Future: Create group_id and sort ascending for future data
-    fut_pdf["group_id"] = fut_pdf["race_id"].astype("category").cat.codes
-    fut_pdf = fut_pdf.sort_values("group_id", ascending=True).reset_index(drop=True)
     
     # Historical: Convert selected datetime columns to numeric
     datetime_columns = ["first_race_date_5", "most_recent_race_5", "prev_race_date"]
@@ -1271,18 +1048,9 @@ def transform_horse_df_to_pandas(hist_df, fut_df, drop_label=False):
     # Future: Convert selected datetime columns to numeric
     datetime_columns = ["first_race_date_5", "most_recent_race_5", "prev_race_date"]
     new_numeric_cols = {}
-    for col in datetime_columns:
-        fut_pdf[col] = pd.to_datetime(fut_pdf[col])
-        new_numeric_cols[col + "_numeric"] = (fut_pdf[col] - pd.Timestamp("1970-01-01")).dt.days
-    # Future: Drop the original datetime columns
-    fut_pdf.drop(columns=datetime_columns, inplace=True, errors="ignore")
-    fut_pdf = pd.concat([fut_pdf, pd.DataFrame(new_numeric_cols, index=fut_pdf.index)], axis=1)
 
     # Historical: Convert main race_date to datetime
     hist_pdf["race_date"] = pd.to_datetime(hist_pdf["race_date"])
-
-    # Future: Convert main race_date to datetime
-    fut_pdf["race_date"] = pd.to_datetime(fut_pdf["race_date"])
     
     # # Make certain columns categorical
     cat_cols = ["course_cd", "trk_cond", "sex", "equip", "surface", "med",
@@ -1304,7 +1072,6 @@ def transform_horse_df_to_pandas(hist_df, fut_df, drop_label=False):
         "date_of_birth",
         "time_behind",
         "track_name",       # Metadata
-        "data_flag",        # Used for filtering only
         "group_id",         # Grouping information, not a feature
     ]
 
@@ -1312,15 +1079,9 @@ def transform_horse_df_to_pandas(hist_df, fut_df, drop_label=False):
     for c in cat_cols:
         if c in hist_pdf.columns:
             hist_pdf[c] = hist_pdf[c].astype("category")
-            
-    
-    # Future: Convert to categorical data type
-    for c in cat_cols:
-        if c in fut_pdf.columns:
-            fut_pdf[c] = fut_pdf[c].astype("category")
-                          
+
     # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
-    return hist_pdf, fut_pdf, cat_cols, excluded_cols
+    return hist_pdf, cat_cols, excluded_cols
 
 # def assign_labels(df, alpha=0.8):
 #     """
@@ -1344,8 +1105,7 @@ def build_embed_cols(hist):
     
     # For both historical and future datasets, use the same sorted list.
     hist_embed_cols = all_embed_cols_sorted
-    fut_embed_cols = all_embed_cols_sorted
-    return hist_embed_cols, fut_embed_cols
+    return hist_embed_cols
 
 # Retired function
 def assign_piecewise_log_labels(df):

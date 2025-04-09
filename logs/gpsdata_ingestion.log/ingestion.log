@@ -1,11 +1,33 @@
-2025-04-08 10:01:36 - INFO - Logging has been set up successfully.
-2025-04-08 10:01:36 - INFO - Setting up logging for GPSData
-2025-04-08 10:01:36 - INFO - Starting ingestion job
-2025-04-08 10:01:36 - INFO - Starting ingestion for: GPSData
-2025-04-08 10:01:36 - INFO - Total number of files in the directory: 8979
-2025-04-08 10:01:36 - INFO - Number of valid files matching the pattern: 8979
-2025-04-08 10:01:36 - INFO - Total number of files skipped: 7931
-2025-04-08 10:01:36 - INFO - Total number of files skipped due to cutoff date: 26
-2025-04-08 10:01:36 - INFO - Total number of files skipped due to bad course_cd: 1022
-2025-04-08 10:01:36 - INFO - Ingestion for GPSData succeeded
-2025-04-08 10:01:36 - INFO - Setting up logging for Routes
+2025-04-09 03:00:34 - INFO - Logging has been set up successfully.
+2025-04-09 03:00:34 - INFO - Setting up logging for GPSData
+2025-04-09 03:00:34 - INFO - Starting ingestion job
+2025-04-09 03:00:34 - INFO - Starting ingestion for: GPSData
+2025-04-09 03:00:34 - INFO - Total number of files in the directory: 8990
+2025-04-09 03:00:34 - INFO - Number of valid files matching the pattern: 8990
+2025-04-09 03:00:34 - INFO - Total number of files skipped: 7931
+2025-04-09 03:00:34 - INFO - Total number of files skipped due to cutoff date: 26
+2025-04-09 03:00:34 - INFO - Total number of files skipped due to bad course_cd: 1022
+2025-04-09 03:00:34 - INFO - Processing GPSData data from file 75202504081300
+2025-04-09 03:00:34 - INFO - Successfully processed: filename: 75202504081300 course_cd: KEE
+2025-04-09 03:00:34 - INFO - Processing GPSData data from file 75202504081332
+2025-04-09 03:00:34 - INFO - Successfully processed: filename: 75202504081332 course_cd: KEE
+2025-04-09 03:00:34 - INFO - Processing GPSData data from file 75202504081404
+2025-04-09 03:00:35 - INFO - Successfully processed: filename: 75202504081404 course_cd: KEE
+2025-04-09 03:00:35 - INFO - Processing GPSData data from file 75202504081436
+2025-04-09 03:00:35 - INFO - Successfully processed: filename: 75202504081436 course_cd: KEE
+2025-04-09 03:00:35 - INFO - Processing GPSData data from file 75202504081508
+2025-04-09 03:00:35 - INFO - Successfully processed: filename: 75202504081508 course_cd: KEE
+2025-04-09 03:00:35 - INFO - Processing GPSData data from file 75202504081540
+2025-04-09 03:00:36 - INFO - Successfully processed: filename: 75202504081540 course_cd: KEE
+2025-04-09 03:00:36 - INFO - Processing GPSData data from file 75202504081614
+2025-04-09 03:00:36 - INFO - Successfully processed: filename: 75202504081614 course_cd: KEE
+2025-04-09 03:00:36 - INFO - Processing GPSData data from file 75202504081648
+2025-04-09 03:00:36 - INFO - Successfully processed: filename: 75202504081648 course_cd: KEE
+2025-04-09 03:00:36 - INFO - Processing GPSData data from file 75202504081720
+2025-04-09 03:00:36 - INFO - Successfully processed: filename: 75202504081720 course_cd: KEE
+2025-04-09 03:00:36 - INFO - Processing GPSData data from file 75202504081752
+2025-04-09 03:00:36 - INFO - Successfully processed: filename: 75202504081752 course_cd: KEE
+2025-04-09 03:00:36 - INFO - Processing GPSData data from file 75202504081826
+2025-04-09 03:00:37 - INFO - Successfully processed: filename: 75202504081826 course_cd: KEE
+2025-04-09 03:00:37 - INFO - Ingestion for GPSData succeeded
+2025-04-09 03:00:37 - INFO - Setting up logging for Routes

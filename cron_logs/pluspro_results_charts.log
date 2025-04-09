@@ -1685,3 +1685,14 @@ requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected(
 2025-04-08 09:58:50 - Job completed
 2025-04-08 09:42:16 - Results: 465 files, PlusPro: 48 files, Backup: Success
 2025-04-08 09:58:50 - Job completed
+2025-04-09 02:30:01 - Starting ingestion job
+2025-04-09 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-09 02:30:01 - Starting download job
+2025-04-09 02:45:46 - Download job succeeded
+2025-04-09 02:45:46 - Results files downloaded: 454
+2025-04-09 02:45:46 - PlusPro files downloaded: 40
+2025-04-09 02:45:46 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-09 02:49:59 - Sync to S3 succeeded
+2025-04-09 02:49:59 - Job completed
+2025-04-09 02:30:01 - Results: 454 files, PlusPro: 40 files, Backup: Success
+2025-04-09 02:49:59 - Job completed

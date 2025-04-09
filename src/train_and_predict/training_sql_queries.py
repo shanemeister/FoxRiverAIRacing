@@ -139,10 +139,10 @@ def sql_queries():
                 TRIM(r.race_type) AS race_type,              -- (Race) type (stakes, allowance, etc.)
                 TRIM(r.stk_clm_md) AS stk_clm_md,            -- (Race) whether stakes, claiming, maiden, etc.
                 TRIM(r2.turf_mud_mark) AS turf_mud_mark,     -- (Race) special mark for turf or mud conditions
-                CASE 
-                    WHEN r.race_date < CURRENT_DATE THEN 'historical'
-                    ELSE 'future'
-                END AS data_flag,                            -- (Race) indicates if race is past or upcoming
+                -- CASE 
+                --    WHEN r.race_date < CURRENT_DATE THEN 'historical'
+                --    ELSE 'future'
+                -- END AS data_flag,                            -- (Race) indicates if race is past or upcoming
                 -- ============================
                 -- JOCKEY / TRAINER STATS
                 -- ============================
@@ -397,6 +397,7 @@ def sql_queries():
             LEFT JOIN track_conditions tc ON r.trk_cond=tc.code
             JOIN course c ON r.course_cd=c.course_cd
             WHERE r2.breed_type='TB'
+            AND r2.race_date < CURRENT_DATE
             AND r.course_cd in('CNL','SAR','PIM','TSA','BEL','MVR','TWO','KEE','TAM',
                             'TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP',
                             'TGG','CBY','LRL','TED','IND','TCD','TOP')

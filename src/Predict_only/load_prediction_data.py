@@ -137,17 +137,8 @@ def impute_date_of_birth_with_median(df):
         F.when(F.col("date_of_birth").isNull(), median_date).otherwise(F.col("date_of_birth"))
     ).drop("date_of_birth_ts")
     print("3a. Missing date_of_birth values imputed with median date.")
-    
-    # Log the counts
-    prediction_count = df.filter(F.col("data_flag") == "future").count()
-    historical_count = df.filter(F.col("data_flag") == "historical").count()
-    logging.info(f"3. After processing impute_data_of_birth_with_median function: Number of rows with data_flag='future': {prediction_count}")
-    logging.info(f"3. After processing impute_data_of_birth_with_median function:  Number of rows with data_flag='historical': {historical_count}")
-    
-    return df
 
-import pyspark.sql.functions as F
-from pyspark.sql import DataFrame
+    return df
 
 def fill_missing_sectionals(
     df: DataFrame,
@@ -232,10 +223,7 @@ def fill_missing_sectionals(
 
 def manage_tpd_cols_by_flag(df):
     """
-    1) For rows where data_flag='historical': drop any row that has a null in the TPD columns.
-    2) For rows where data_flag='future': fill null TPD columns with 0.
-
-    Logs row counts before/after for each subset.
+     1) Fill null TPD columns with 0.
     """
     
     tpd_cols = [
@@ -254,11 +242,7 @@ def manage_tpd_cols_by_flag(df):
         df = df.withColumn(c, F.when(F.col(c).isNull(), F.lit(0)).otherwise(F.col(c)))
     #  - Log count after
     fut_count_after = df.count()
-    logging.info(f"manage_tpd_cols_by_flag [future]: before={fut_count_before}, after={fut_count_after}")
-
-    # 3) Union them back
-    #    The unionByName ensures columns line up by name
-    #    (Spark 2.3+ recommended).
+    logging.info(f"manage_tpd_cols_by_flag before={fut_count_before}, after={fut_count_after}")
 
     return df
 
@@ -321,15 +305,6 @@ def fix_outliers(df):
 
     return df
 
-def drop_historical_missing_official_fin(df):
-    """
-    Remove rows from the DataFrame where:
-      - data_flag is 'historical' AND
-      - official_fin is null.
-    Future races (data_flag != 'historical') are kept even if official_fin is null.
-    """
-    return df.filter(~((F.col("data_flag") == "historical") & (F.col("official_fin").isNull())))
-
 def impute_performance_features(df):
     """
     Impute missing values for the performance features according to the following rules:
@@ -383,24 +358,6 @@ def impute_performance_features(df):
     
     return df
 
-# def remove_performance_columns(df):
-#     """
-#     Removes the three specified columns (dist_bk_gate4, running_time, total_distance_ran)
-#     from the DataFrame and logs the final row counts for historical vs. future.
-#     """
-
-#     cols_to_drop = ["dist_bk_gate4", "running_time", "total_distance_ran"]
-
-#     # 1) Drop the columns
-#     df = df.drop(*cols_to_drop)
-
-#     # 2) Log final row counts
-#     prediction_count = df.filter(F.col("data_flag") == "future").count()
-#     historical_count = df.filter(F.col("data_flag") == "historical").count()
-#     logging.info(f"[remove_performance_columns] final future={prediction_count}, historical={historical_count}")
-
-#     return df
-
 def remove_performance_columns(df):
     """
     1) For historical rows: drop if dist_bk_gate4, running_time, or total_distance_ran is null 
@@ -431,58 +388,6 @@ def remove_performance_columns(df):
     # no_unmatched_races_df.show(50, False)
 
     return df
-
-# def remove_future_races_with_unmatched_horses(df):
-#     """
-#     Deletes all future races (data_flag='future') that contain unmatched horses 
-#     (i.e. horses that do not appear in the historical subset).
-    
-#     Steps:
-#     1) Split df into historical vs. future.
-#     2) Identify horses in historical -> distinct horse_ids.
-#     3) Left-anti join future on those horse_ids to find "unmatched_future_df".
-#     4) Distinctly gather the (course_cd, race_date, race_number) from unmatched_future_df.
-#     5) Filter out those race keys from future_df.
-#     6) Recombine historical + the 'cleaned' future subset.
-#     7) Return the final DataFrame.
-#     """
-
-#     import pyspark.sql.functions as F
-
-#     # Split
-#     df_hist = df.filter(F.col("data_flag") == "historical")
-#     df_future = df.filter(F.col("data_flag") == "future")
-
-#     # 1) Distinct horse_ids in historical
-#     historical_horses_df = df_hist.select("horse_id").distinct()
-
-#     # 2) Find unmatched future rows via left_anti on horse_id
-#     unmatched_future_df = df_future.join(historical_horses_df, on="horse_id", how="left_anti")
-
-#     # 3) Distinct race keys for those unmatched rows
-#     unmatched_races = (
-#         unmatched_future_df
-#         .select("course_cd", "race_date", "race_number")
-#         .distinct()
-#     )
-
-#     # 4) Filter out those race keys from df_future
-#     #    i.e. keep future rows that do NOT appear in unmatched_races
-#     joined_for_filter = df_future.join(
-#         unmatched_races,
-#         on=["course_cd","race_date","race_number"],
-#         how="left_anti"
-#     )
-
-#     # 5) Recombine historical + the "cleaned" future
-#     df_final = df_hist.unionByName(joined_for_filter)
-
-#     # 6) Log final row counts
-#     fut_count_final = df_final.filter(F.col("data_flag") == "future").count()
-#     hist_count_final = df_final.filter(F.col("data_flag") == "historical").count()
-#     logging.info(f"[remove_future_races_with_unmatched_horses] final future={fut_count_final}, historical={hist_count_final}")
-
-#     return df_final
 
 def load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     """
@@ -528,7 +433,7 @@ def load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir):
         .filter(F.col("cnt") > 1)
     )
     
-    # prediction_df = impute_par_time_all_steps(prediction_df)
+    prediction_df = impute_par_time_all_steps(prediction_df)
     
     cols_to_impute = ['accel_q1','accel_q2','accel_q3','accel_q4','avg_acceleration','avg_jerk','avg_speed_fullrace',
                     'avg_stride_length','avgtime_gate1','avgtime_gate2','avgtime_gate3','avgtime_gate4','dist_bk_gate1',
@@ -563,7 +468,7 @@ def load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     logging.info("Decimal columns converted to double.")
     print("2. Decimal columns converted to double.")
     
-    # prediction_df=impute_date_of_birth_with_median(prediction_df)
+    prediction_df=impute_date_of_birth_with_median(prediction_df)
     
     logging.info("Imputing date_of_birth with median date.")
     # 3b. Create age_at_race_day
@@ -681,27 +586,15 @@ def load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     prediction_count = prediction_df.count()
     logging.info(f"5. Just before impute_performance_columns: Prediction_count: {prediction_count}")
     
-    # prediction_df = remove_future_races_with_unmatched_horses(prediction_df)
-    
     # prediction_df = remove_performance_columns(prediction_df) # dist_bk_gate4, running_time, total_distance_ran
     # Log the counts
 
     prediction_df = impute_performance_features(prediction_df)
 
-
-    # Log the counts
-    logging.info(f"6. Just AFTER deleting columns with NaN/null: Number of rows with data_flag='future': {prediction_count}")
-
-
     start_time = time.time()
     prediction_df.write.mode("overwrite").parquet(f"{parquet_dir}/prediction_df")
     logging.info(f"Data written to Parquet in {time.time() - start_time:.2f} seconds")
     logging.info("Data cleansing complete. prediction_df being returned.")
-    
-    # Log the counts after filtering
-    #future_df = prediction_df.filter(F.col("data_flag") == "future")
-    #historical_df = prediction_df.filter(F.col("data_flag") == "historical")
-    
-    #return historical_df
+        
     return prediction_df
         

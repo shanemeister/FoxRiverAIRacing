@@ -80,34 +80,6 @@ def fill_forward_locf(df, columns, horse_id_col="horse_id", date_col="race_date"
         df = df.withColumn(c, F.last(F.col(c), ignorenulls=True).over(w))
     return df
 
-
-# def assign_piecewise_log_labels_spark(df):
-#     """
-#     For each row in the DataFrame, assign a relevance score based on 'official_fin':
-#       - If official_fin == 1, relevance = 70
-#       - If official_fin == 2, relevance = 56
-#       - If official_fin == 3, relevance = 44
-#       - If official_fin == 4, relevance = 34
-#       - Otherwise, relevance = 30 / log(4 + official_fin)
-#     Also creates a 'top4_label' column which is 1 when official_fin <= 4, else 0.
-#     """
-#     df = df.withColumn(
-#         "relevance",
-#         F.when(F.col("official_fin") == 1, 100)
-#          .when(F.col("official_fin") == 2, 75)
-#          .otherwise(20.0 / F.log(4.0 + F.col("official_fin")))
-#     )    
-#         #  .when(F.col("official_fin") == 3, 44)
-#         #  .when(F.col("official_fin") == 4, 34)
-    
-#     df = df.withColumn(
-#         "top4_label",
-#         F.when(F.col("official_fin") <= 4, 1).otherwise(0)
-#     )
-    
-#     return df
-
-
 def impute_with_race_and_global_mean(df, cols_to_impute, race_col="race_id"):
     for col in cols_to_impute:
         race_mean_col = f"{col}_race_mean"
@@ -189,8 +161,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     global_speed_score = impute_with_race_and_global_mean(global_speed_score, cols_to_impute)
     
     # Separate historical/future
-    historical_df_spark = global_speed_score.filter(F.col("data_flag") == "historical")
-    future_df = global_speed_score.filter(F.col("data_flag") == "future")
+    historical_df_spark = global_speed_score
 
     historical_pdf = historical_df_spark.toPandas()
     print("historical_pdf shape:", historical_pdf.shape)
@@ -379,14 +350,14 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
             load_if_exists=True,
             direction="maximize"
         )
-        study.optimize(objective, n_trials=25)  # or more
+        study.optimize(objective, n_trials=5)  # or more
         return study
 
     # -------------------------------------------------
     #  B) run_final_model
     # -------------------------------------------------
     def run_final_model(action, study_name, storage_url, jdbc_url, jdbc_properties, spark,
-                        historical_pdf, future_df):
+                        historical_pdf):
         # run or load the study
         if action == "train":
             study = run_optuna_study(study_name, storage_url)
@@ -469,8 +440,14 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         embed_cols = [c for c in merged_df.columns if c.startswith("embed_")]
 
         historical_embed_sdf = spark.createDataFrame(merged_df)
-        all_df = historical_embed_sdf.unionByName(future_df, allowMissingColumns=True)
-        all_df = fill_forward_locf(all_df, embed_cols, "horse_id", "race_date")
+    
+        all_df = fill_forward_locf(
+                historical_embed_sdf,
+                embed_cols,
+                "horse_id",
+                "race_date"
+            )
+
 
         # Save final
         staging_table = "horse_embedding_final"
@@ -492,11 +469,11 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     # Pipeline
     # -----------
     def run_pipeline():
-        study_name = "horse_embedding_v2"
+        study_name = "horse_embedding_v1"
         storage_url = "sqlite:///horse_embedding_optuna_study.db"
         model_filename = run_final_model(
             action, study_name, storage_url, jdbc_url, jdbc_properties,
-            spark, historical_pdf, future_df
+            spark, historical_pdf
         )
         logging.info("[INFO] Pipeline completed. Final model data: %s", model_filename)
         return model_filename

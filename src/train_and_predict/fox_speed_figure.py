@@ -811,16 +811,6 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     # 1) Create a "relevance" column for finishing position
     enhanced_df = assign_labels_spark(df_input, alpha=0.8)
 
-    # # Separate historical and future data
-    # historical_df = enhanced_df.filter(F.col("data_flag") == "historical")
-    # future_df = enhanced_df.filter(F.col("data_flag") == "future")
-
-    # # Log the counts
-    # historical_count = historical_df.count()
-    # future_count = future_df.count()
-    # logging.info(f"Number of historical rows: {historical_count}")
-    # logging.info(f"Number of future rows: {future_count}")
-    
     # Process historical data
     # enhanced_df = mark_and_fill_missing(enhanced_df)         # Step 2
     enhanced_df = class_multiplier(enhanced_df)              # Step 3
@@ -856,13 +846,9 @@ def create_custom_speed_figure(df_input, jdbc_url, jdbc_properties, parquet_dir)
     
     enriched_df = impute_race_avg_relevance_agg(enriched_df, "horse_id","race_date", race_key, "race_avg_relevance_agg")
     
-    count_hist = enriched_df.filter(F.col("data_flag") == "historical").count()
-    count_fut = enriched_df.filter(F.col("data_flag") == "future").count()
     count_total = enriched_df.count()
 
     logging.info(f"Final DF total count: {count_total}")
-    logging.info(f"Final DF count for historical: {count_hist}")
-    logging.info(f"Final DF count for future: {count_fut}")
     
     # Drop the column "col_name"
     enriched_df = enriched_df.drop("col_name")
