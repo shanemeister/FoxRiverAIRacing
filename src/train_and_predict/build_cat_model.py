@@ -1,6 +1,7 @@
 import io
 import json
 import os
+import time
 import re
 import sys
 import logging
@@ -19,6 +20,7 @@ import scipy.stats as stats
 from sklearn.model_selection import TimeSeriesSplit
 from scipy import stats
 from scipy.stats import spearmanr
+from src.train_and_predict.horse_embed_query import horse_embedding_queries
 
 ###############################################################################
 # Create a class to enable calculation of NDCG from the objective function 
@@ -223,13 +225,13 @@ def objective(trial, catboost_loss_functions, eval_metric, data_splits):
         "thread_count": 96,
 
         # Keep a smaller iteration range so we don’t train as long
-        "iterations": trial.suggest_int("iterations", 500, 2000, step=250),
+        "iterations": trial.suggest_int("iterations", 500, 5000, step=50),
 
         # Let’s keep depth relatively small (3–6)
-        "depth": trial.suggest_int("depth", 3, 6),
+        "depth": trial.suggest_int("depth", 3, 9),
 
         # Maybe we still do a small log range on learning_rate
-        "learning_rate": trial.suggest_float("learning_rate", 1e-4, 1e-2, log=True),
+        "learning_rate": trial.suggest_float("learning_rate", 1e-5, 1e-2, log=True),
 
         # Let’s keep l2_leaf_reg but smaller range
         "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 5, 12, log=True),
@@ -238,7 +240,7 @@ def objective(trial, catboost_loss_functions, eval_metric, data_splits):
         "grow_policy": "SymmetricTree",  # or trial.suggest_categorical("grow_policy", ["SymmetricTree"])
 
         # random_strength can be narrower
-        "random_strength": trial.suggest_float("random_strength", 1.0, 2.0),
+        "random_strength": trial.suggest_float("random_strength", 1.5, 3.0),
 
         # min_data_in_leaf => narrower range
         "min_data_in_leaf": trial.suggest_int("min_data_in_leaf", 5, 30, step=5),
@@ -916,11 +918,11 @@ def split_data_and_train(
     # 7) minimal catboost training
     catboost_loss_functions = [
         #"YetiRankPairwise"
-        "YetiRank",
+        # "YetiRank",
         "QueryRMSE"
     ]
     
-    catboost_eval_metrics = ["NDCG:top=3" , "NDCG:top=4"]
+    catboost_eval_metrics = ["NDCG:top=2", "NDCG:top=3"]
 
     db_table = "catboost_enriched_results"
     all_models = main_script(
@@ -956,7 +958,34 @@ def split_data_and_train(
 ###############################################################################
 # Build catboost model - single table approach
 ###############################################################################
-def build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action):
+def build_catboost_model(spark, jdbc_url, jdbc_properties, action):
+    
+    horse_embedding = None
+    queries = horse_embedding_queries()
+    for name, query in queries.items():
+        if name == "horse_embedding":
+            logging.info("Query training_data located and loading from PostgreSQL...")
+            start_time = time.time()
+            horse_embedding = spark.read.jdbc(
+                url=jdbc_url,
+                table=f"({query}) AS subquery",
+                properties=jdbc_properties
+            )
+            logging.info(f"Data loaded from PostgreSQL in {time.time() - start_time:.2f} seconds.")
+
+    if horse_embedding is None:
+        logging.error("No training_data query found; train_df is not defined.")
+        # Handle the error or exit
+    else:
+        horse_embedding.cache()
+        rows_horse_embedding = horse_embedding.count()
+        logging.info(f"Data loaded from PostgreSQL. Count: {rows_horse_embedding}")
+    
+    horse_embedding.printSchema()
+    horse_embedding = horse_embedding.toPandas()
+    row_count = horse_embedding.count()
+    logging.info(f"Row count: {row_count}")
+    logging.info(f"Count operation completed in {time.time() - start_time:.2f} seconds.")
     
     print("DEBUG: datetime is =>", datetime)
         
@@ -1083,24 +1112,15 @@ def transform_horse_df_to_pandas(hist_df, drop_label=False):
     # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
     return hist_pdf, cat_cols, excluded_cols
 
-# def assign_labels(df, alpha=0.8):
-#     """
-#     1) Exponential label in [0,1] for ranking,
-#     2) Binary label for top-4 or not.
-#     """
-#     def _exp_label(fin):
-#         return alpha ** (fin - 1)
-
-#     df["relevance"] = df["official_fin"].apply(_exp_label)
-#     df["top4_label"] = (df["official_fin"] <= 4).astype(int)
-#     return df
-
 def build_embed_cols(hist):
     """
     1) Create a list of embedding columns.
     2) Return the list of embedding columns for historical and future data.
     """
     all_embed_cols = [c for c in hist.columns if c.startswith("embed_")]
+    
+    print("[DEBUG] all_embed_cols:", all_embed_cols)
+    
     all_embed_cols_sorted = sorted(all_embed_cols, key=lambda x: int(x.split("_")[1]))
     
     # For both historical and future datasets, use the same sorted list.

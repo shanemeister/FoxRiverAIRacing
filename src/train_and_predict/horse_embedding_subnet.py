@@ -286,7 +286,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
     #  A) objective for Optuna
     # -------------------------------------------------
     def objective(trial):
-        horse_embedding_dim = trial.suggest_int("horse_embedding_dim", 4, 32, step=2)
+        horse_embedding_dim = 9 # trial.suggest_int("horse_embedding_dim", 8, 32, step=2)
         horse_hid_layers    = trial.suggest_int("horse_hid_layers", 1, 2)
         horse_units         = trial.suggest_int("horse_units", 8, 64, step=8)
         activation          = trial.suggest_categorical("activation", ["relu", "gelu"])
@@ -294,7 +294,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         l2_reg              = trial.suggest_float("l2_reg", 1e-6, 1e-2, log=True)
         optimizer_name      = trial.suggest_categorical("optimizer", ["adam"])
         learning_rate       = trial.suggest_float("learning_rate", 1e-5, 1e-1, log=True)
-        batch_size          = trial.suggest_categorical("batch_size", [64, 128])
+        batch_size          = trial.suggest_categorical("batch_size", [64, 128, 256])
         epochs              = trial.suggest_int("epochs", 50, 100, step=50)
 
         train_ds, val_ds = create_tf_datasets(
@@ -350,7 +350,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
             load_if_exists=True,
             direction="maximize"
         )
-        study.optimize(objective, n_trials=5)  # or more
+        study.optimize(objective, n_trials=30)  # or more
         return study
 
     # -------------------------------------------------
@@ -387,7 +387,7 @@ def embed_and_train(spark, jdbc_url, parquet_dir, jdbc_properties, global_speed_
         final_model = build_horse_embedding_model(
             horse_stats_input_dim=X_horse_stats.shape[1],
             num_horses=num_horses,
-            horse_embedding_dim=best_params["horse_embedding_dim"],
+            horse_embedding_dim=9, # best_params["horse_embedding_dim"],
             horse_hid_layers=best_params["horse_hid_layers"],
             horse_units=best_params["horse_units"],
             activation=best_params["activation"],

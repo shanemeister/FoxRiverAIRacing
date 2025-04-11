@@ -6,6 +6,7 @@ import re
 import sys
 import logging
 import datetime
+import decimal
 from datetime import datetime, date
 import pandas as pd
 import numpy as np
@@ -13,12 +14,12 @@ from catboost import CatBoostRanker, Pool
 from pyspark.sql.functions import col, when, isnan, lit
 
 def make_future_predictions(
-    pdf,
-    all_feature_cols,
-    cat_cols,
-    model_path,
-    model_type="ranker"
-):
+        pdf,
+        all_feature_cols,
+        cat_cols,
+        embed_cols,
+        model_path,
+        model_type):
     """
     1) Load CatBoost model from model_path
     2) Create Pool for inference (cat_features, group_id if ranker)
@@ -32,37 +33,45 @@ def make_future_predictions(
         model = CatBoostRanker()
     else:
         model = CatBoostRegressor()
-
+        
+    input("Press Enter to continue...1")
+    
     model.load_model(model_path)
     logging.info(f"Loaded CatBoost model: {model_path}")
 
+    input("Press Enter to continue...2")
+    
     # 2) Sort by group_id if available (contiguous blocks for ranker)
-    if "group_id" in pdf.columns:
-        pdf.sort_values("group_id", inplace=True)
-
+    pdf.sort_values("group_id", inplace=True)
+    input("Press Enter to continue...3")
+    
     # 3) Prepare data for inference
     X_infer = pdf[all_feature_cols].copy()
     group_ids = pdf["group_id"].values if "group_id" in pdf.columns else None
-
+    input("Press Enter to continue...4")
+    
     pred_pool = Pool(data=X_infer, group_id=group_ids, cat_features=cat_cols)
+    input("Press Enter to continue...5")
     
     # 4) Raw predictions
     predictions = model.predict(pred_pool)
+    input("Press Enter to continue...6")
+    
     pdf["model_score"] = predictions  # no exponentiation
 
     return pdf
 
 def do_future_inference_multi(
-    spark,
-    fut_df,
-    cat_cols,
-    embed_cols,
-    final_feature_cols,
-    db_url,
-    db_properties,
-    models_dir="./data/models/catboost",
-    output_dir="./data/predictions"
-):
+        spark,
+        fut_df,
+        cat_cols,
+        embed_cols,       # or hist_embed_cols if they match
+        final_feature_cols,
+        db_url,
+        db_properties,
+        models_dir="/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost",  # or your actual path
+        output_dir="/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/predictions"
+    ):
     """
     1) Combine final_feature_cols, embed_cols, cat_cols
     2) Load each .cbm CatBoost model from 'models_dir'
@@ -76,18 +85,14 @@ def do_future_inference_multi(
     # 1) Combine columns for inference
     all_feature_cols = final_feature_cols + embed_cols + cat_cols
 
-    # 2) Copy fut_df
-    fut_df = fut_df.copy()
-
-    # 3) Convert cat columns
-    for c in cat_cols:
-        if c in fut_df.columns:
-            fut_df[c] = fut_df[c].astype("category")
+    # print("All feature columns:", all_feature_cols)
 
     # 4) Check missing
     missing_cols = set(all_feature_cols) - set(fut_df.columns)
     if missing_cols:
         logging.warning(f"Future DF is missing columns: {missing_cols}")
+        print("Check logs for list of missing columns.")
+        sys.exit(1)
 
     # 5) Find .cbm files
     try:
@@ -98,7 +103,8 @@ def do_future_inference_multi(
         model_files.sort()
         if not model_files:
             logging.error(f"No CatBoost model files found in {models_dir}!")
-            return spark.createDataFrame(fut_df)
+            print(f"Check logs: model files found in {models_dir}!")
+            sys.exit(1)
 
         logging.info("Found these CatBoost model files:")
         for m in model_files:
@@ -119,12 +125,16 @@ def do_future_inference_multi(
             inference_df["group_id"] = fut_df["group_id"]
         else:
             logging.warning("No 'group_id' column found. Ranker grouping won't apply correctly.")
+            print("Check logs -- no 'group_id' found.")
+            sys.exit(1)
+            
 
         # 6B) Predict (no exponentiation!)
         scored_df = make_future_predictions(
             pdf=inference_df,
             all_feature_cols=all_feature_cols,
             cat_cols=cat_cols,
+            embed_cols=embed_cols,
             model_path=model_path,
             model_type="ranker",  # or "regressor"
         )
@@ -160,14 +170,14 @@ def do_future_inference_multi(
     logging.info(f"Writing predictions to DB table: {table_name}")
     scored_sdf = spark.createDataFrame(fut_df)
 
-    # If official_fin is present, convert NaN => NULL
-    from pyspark.sql.functions import col, when, isnan, lit
-    if "official_fin" in scored_sdf.columns:
-        scored_sdf = scored_sdf.withColumn(
-            "official_fin",
-            when(isnan(col("official_fin")), lit(None).cast("double"))
-            .otherwise(col("official_fin"))
-        )
+    # # If official_fin is present, convert NaN => NULL
+    # from pyspark.sql.functions import col, when, isnan, lit
+    # if "official_fin" in scored_sdf.columns:
+    #     scored_sdf = scored_sdf.withColumn(
+    #         "official_fin",
+    #         when(isnan(col("official_fin")), lit(None).cast("double"))
+    #         .otherwise(col("official_fin"))
+    #     )
 
     scored_sdf.write.format("jdbc") \
         .option("url", db_url) \
@@ -182,61 +192,87 @@ def do_future_inference_multi(
 
     return scored_sdf
 
+def cast_decimal_columns_to_float(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    For every column that is object dtype AND actually contains
+    Python decimal.Decimal values (disregarding NaNs),
+    cast the column to float.
+    
+    Returns the same DataFrame with the columns cast in-place.
+    """
+    for col in df.columns:
+        # Only consider object-dtype columns
+        if df[col].dtype == 'O':
+            # Drop NaN to avoid errors in isinstance check
+            non_na_vals = df[col].dropna()
+            # Check if *all* non-null values are decimal.Decimal
+            # If you prefer a partial check (like "mostly decimal" or a sample), adjust accordingly
+            if len(non_na_vals) > 0 and all(isinstance(val, decimal.Decimal) for val in non_na_vals):
+                df[col] = df[col].astype(float)
+    return df
+
 def merge_with_embedding_and_coalesce(
     predictions_df: pd.DataFrame,
     horse_embedding_df: pd.DataFrame,
-    join_key: str = "horse_id"
+    join_cols: list = None
 ) -> pd.DataFrame:
     """
     1) Identify which columns appear in both vs. only in horse_embedding_df.
-    2) Merge them on `join_key`.
+    2) Merge them on all columns in `join_cols` (e.g. ["race_id", "horse_id"]).
     3) For common columns, if predictions_df col is NULL or 0, use the embed col.
     4) Return the resulting DataFrame.
     """
+    predictions_df = cast_decimal_columns_to_float(predictions_df)
+    horse_embedding_df = cast_decimal_columns_to_float(horse_embedding_df)    
+    if join_cols is None:
+        # Example default: both 'race_id' and 'horse_id' are needed
+        # Adjust this to match your actual multi-key columns (like
+        # ["course_cd", "race_date", "race_number", "horse_id"] if you prefer).
+        join_cols = ["race_id", "horse_id"]
 
+    # Get the sets of columns
     pred_cols = set(predictions_df.columns)
     embed_cols = set(horse_embedding_df.columns)
 
-    # Columns that exist in both dataframes
-    common_cols = pred_cols & embed_cols
+    # Columns that exist in both dataframes (besides the join keys)
+    # We'll remove the join cols from consideration so we don't treat them as "common" in the coalesce logic.
+    common_nonkey_cols = (pred_cols & embed_cols) - set(join_cols)
 
     # Columns that exist only in the embedding => brand-new columns in predictions
-    missing_cols = embed_cols - pred_cols
+    missing_cols = (embed_cols - pred_cols) - set(join_cols)
 
-    # We want to retrieve from `horse_embedding_df` both the columns that
-    # are missing plus the columns that are common (so we can coalesce).
-    columns_to_merge = [join_key] + list(common_cols) + list(missing_cols)
+    # We'll merge on both the columns that are common (so we can coalesce)
+    # and the new columns that only exist in the embedding
+    # plus the join columns themselves
+    columns_to_merge = list(set(join_cols) | common_nonkey_cols | missing_cols)
 
-    # Filter embed to only the columns we want
+    # Filter the embedding DataFrame to only the columns we need
     embed_subset = horse_embedding_df[columns_to_merge].copy()
 
-    # Merge
-    # We'll add a suffix (e.g. "_emb") for the embedding columns so we can coalesce easily
+    # Merge on the multi-column join
     merged_df = predictions_df.merge(
         embed_subset,
-        on=join_key,
+        on=join_cols,
         how="left",
-        suffixes=("", "_emb")  # so common columns from embedding become colname_emb
+        suffixes=("", "_emb")
     )
 
-    # For each column that appears in both:
+    # For each column that appears in both dataframes (besides the join key):
     # If predictions_df col is null or 0 => use the embedding col
-    for col in common_cols:
+    for col in common_nonkey_cols:
         embed_col = f"{col}_emb"
         if embed_col in merged_df.columns:
-            # Condition: (col is null) OR (col == 0)
-            # np.where(condition, if_true, if_false)
             merged_df[col] = np.where(
                 (merged_df[col].isna()) | (merged_df[col] == 0),
                 merged_df[embed_col],
                 merged_df[col]
             )
-            # Drop the temporary col from embedding
+            # Drop the temporary "_emb" column
             merged_df.drop(columns=[embed_col], inplace=True, errors="ignore")
 
     return merged_df
 
-def transform_horse_df_to_pandas(df, drop_label=False):
+def transform_horse_df_to_pandas(pdf, drop_label=False):
     """
     3) Create race_id, group_id, convert date columns, etc.
     4) Return the transformed Pandas DataFrame.
@@ -245,41 +281,37 @@ def transform_horse_df_to_pandas(df, drop_label=False):
     # Check the dtypes in Pandas (should show datetime64[ns] for the above columns)
     # Now you can safely convert to Pandas
     # Create group_id and sort ascending
-    df["group_id"] = df["race_id"].astype("category").cat.codes
-    df = df.sort_values("group_id", ascending=True).reset_index(drop=True)
+        
+    # Convert to categorical data type
+    # # Make certain columns categorical
+    cat_cols = []
+    cat_cols = ["course_cd", "trk_cond", "sex", "equip", "surface", "med",
+                 "race_type", "stk_clm_md", "turf_mud_mark", "layoff_cat","previous_surface"]
+                     
+    for c in cat_cols:
+        if c in pdf.columns:
+            pdf[c] = pdf[c].astype("category")
+            
+            
+    pdf["group_id"] = pdf["race_id"].astype("category").cat.codes
+    pdf = pdf.sort_values("group_id", ascending=True).reset_index(drop=True)
     
     # Historical: Convert selected datetime columns to numeric
     datetime_columns = ["first_race_date_5", "most_recent_race_5", "prev_race_date"]
     new_numeric_cols = {}
     for col in datetime_columns:
-        df[col] = pd.to_datetime(df[col])
-        new_numeric_cols[col + "_numeric"] = (df[col] - pd.Timestamp("1970-01-01")).dt.days
+        pdf[col] = pd.to_datetime(pdf[col])
+        new_numeric_cols[col + "_numeric"] = (pdf[col] - pd.Timestamp("1970-01-01")).dt.days
     # Historical: Drop the original datetime columns
-    df.drop(columns=datetime_columns, inplace=True, errors="ignore")
-    df = pd.concat([df, pd.DataFrame(new_numeric_cols, index=df.index)], axis=1)
+    pdf.drop(columns=datetime_columns, inplace=True, errors="ignore")
+    pdf = pd.concat([pdf, pd.DataFrame(new_numeric_cols, index=pdf.index)], axis=1)
 
 
     # Historical: Convert main race_date to datetime
-    df["race_date"] = pd.to_datetime(df["race_date"])
-    
-    # # Make certain columns categorical
-    cat_cols = ["course_cd", "trk_cond", "sex", "equip", "surface", "med",
-                 "race_type", "stk_clm_md", "turf_mud_mark", "layoff_cat","previous_surface"]
-    # cat_cols = []
-    
-    # Historical: Convert to categorical data type
-    for c in cat_cols:
-        if c in df.columns:
-            df[c] = df[c].astype("category")
-            
-    
-    # Future: Convert to categorical data type
-    for c in cat_cols:
-        if c in df.columns:
-            df[c] = df[c].astype("category")
-                          
+    pdf["race_date"] = pd.to_datetime(pdf["race_date"])
+         
     # Return the transformed Pandas DataFrame, along with cat_cols and excluded_cols
-    return df, cat_cols
+    return pdf, cat_cols
 
 def build_embed_cols(df):
     """
@@ -291,22 +323,34 @@ def build_embed_cols(df):
     
     # For both historical and future datasets, use the same sorted list.
     embed_cols = all_embed_cols_sorted
+    print("Embedding columns:", embed_cols)
+
     return embed_cols
 
-def race_predictions(spark, predictions_df, horse_embedding, jdbc_url, jdbc_properties, action):
-    # Print all column names prediction_df
-    #print("Columns in prediction_df DataFrame:", predictions_df.columns.tolist())
-    # Print all column names prediction_df
-    #print("Columns in horse_embedding DataFrame:", horse_embedding.columns.tolist())
+def race_predictions(spark, predictions_pdf, horse_embedding, jdbc_url, jdbc_properties, action):
+    """
+    Removing horse_embedding_df from the function signature because it is not needed. The raw
+    weights from horse_embedding_df are now imported directly from the database during the
+    ingestion process (load_prediction.py - load_prediction_data).
+    
+    If for some reason there is a failure in this section you can always reload the predictions_df
+    from parquet. 
+    """
+    # # Print all column names prediction_df
+    # print("Columns in prediction_df DataFrame:", predictions_pdf.columns.tolist())
+    # # Print all column names prediction_df
+    # print("Columns in horse_embedding DataFrame:", horse_embedding.columns.tolist())
+    
+   
     
     # Merge the two DataFrames
-    merged_df = merge_with_embedding_and_coalesce(predictions_df,horse_embedding)
+    merged_df = merge_with_embedding_and_coalesce(predictions_pdf,horse_embedding)
     
     # Print all column names prediction_df
-    print("Columns in horse_embedding DataFrame:", merged_df.columns.tolist())
+    print("Columns in merged_df DataFrame:", merged_df.columns.tolist())
     
     embed_cols = build_embed_cols(merged_df)
-    
+
             # 1) Prepare columns to match training
     final_feature_cols = ["sec_score", "sec_dim1", "sec_dim2", "sec_dim3", "sec_dim4", "sec_dim5", "sec_dim6", "sec_dim7", "sec_dim8",
                           "sec_dim9", "sec_dim10", "sec_dim11", "sec_dim12", "sec_dim13", "sec_dim14", "sec_dim15", "sec_dim16",
@@ -340,8 +384,8 @@ def race_predictions(spark, predictions_df, horse_embedding, jdbc_url, jdbc_prop
 
     pred_pdf, cat_cols = transform_horse_df_to_pandas(merged_df, drop_label=False)
     
-    if 'group_id' not in merged_df.columns:
-        print("The 'group_id' column is NOT present in fut_df. Exiting the program.")
+    if 'group_id' not in pred_pdf.columns:
+        print("The 'group_id' column is NOT present in pred_pdf. Exiting the program.")
         sys.exit(1)
         
     scored_sdf = do_future_inference_multi(

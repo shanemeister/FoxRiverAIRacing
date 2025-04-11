@@ -48,79 +48,68 @@ class ExactaWager(Wager):
         
         return combo == (actual_1st, actual_2nd)
 
-class Pick3Wager(Wager):
+import logging
+import itertools
+# from src.wagering.wager_types import Wager  # or wherever your Wager base class is located
+
+class MultiRaceWager(Wager):
     """
-    A Pick 3 class that uses 'rank' (instead of program_num) for combos.
-    If top_n=2, we pick the two horses with the highest or lowest 'prediction' 
-    and store their 'rank' attributes in combos.
+    A general multi-race wager class for multi-leg bets:
+      e.g. Daily Double (num_legs=2), Pick 3 (num_legs=3), etc.
+
+    It uses program_num for combos, so we can compare them to official 
+    winners that the track lists in program_num form.
     """
-    def __init__(self, base_amount=2.0, top_n=2, box=True):
-        super().__init__(base_amount)
+    def __init__(self, base_amount=2.0, num_legs=3, top_n=2, box=True):
+        super().__init__(base_amount=base_amount)
+        self.num_legs = num_legs
         self.top_n = top_n
         self.box = box
 
-    def generate_combos(self, three_races):
+    def generate_combos(self, list_of_races):
         """
-        For each of the 3 races, gather top_n horses by prediction, 
-        but store the 'rank' attribute in combos.
+        For each Race in list_of_races:
+          - Take the top_n horses by .get_sorted_by_prediction()
+          - Gather their .program_num
+        If box=True => cartesian product across the legs
+        If box=False => single “straight” combo from each leg’s first pick
         """
-        if len(three_races) != 3:
-            logging.warning("generate_combos received a set of len != 3.")
+        if len(list_of_races) != self.num_legs:
+            logging.warning(f"[MultiRaceWager] generate_combos: expected {self.num_legs} races, got {len(list_of_races)}")
             return []
 
-        leg_top_ranks = []
-        for idx, race in enumerate(three_races, start=1):
-            sorted_horses = race.get_sorted_by_prediction()  
-            top_horses = sorted_horses[:self.top_n]   # e.g. 2 horses
+        all_legs_picks = []
+        for idx, race in enumerate(list_of_races, start=1):
+            sorted_horses = race.get_sorted_by_prediction()
+            top_horses = sorted_horses[: self.top_n]
+            picks_for_leg = [h.program_num for h in top_horses]
+            logging.info(f"[Leg {idx}] top picks => {picks_for_leg}")
+            all_legs_picks.append(picks_for_leg)
 
-            # LOG: how many total horses and which ranks we're taking
-            logging.info(f"Race {idx}: Found {len(sorted_horses)} horses in sorted list.")
-            ranks_str = [str(h.rank) for h in top_horses]
-            ranks_str = [str(h.rank) for h in top_horses]
-        
-            logging.info(f"Race {idx}: Found {len(sorted_horses)} horses in sorted list.")
-            logging.info(f"Race {idx}: Taking top {self.top_n} => {ranks_str}")
-
-            leg_top_ranks.append(ranks_str)
-
-        # Combine them across the 3 legs
-        combos = []
         if self.box:
-            # If top_n=2 => 2 x 2 x 2 = 8 combos
-            for r1 in leg_top_ranks[0]:
-                for r2 in leg_top_ranks[1]:
-                    for r3 in leg_top_ranks[2]:
-                        combos.append((r1, r2, r3))
+            combos = list(itertools.product(*all_legs_picks))
         else:
-            # single combo if box=False
-            if all(leg_top_ranks) and len(leg_top_ranks[0])>0 and len(leg_top_ranks[1])>0 and len(leg_top_ranks[2])>0:
-                combos.append((
-                    leg_top_ranks[0][0],
-                    leg_top_ranks[1][0],
-                    leg_top_ranks[2][0]
-                ))
+            # only one “straight” combo
+            combos = []
+            if all(len(p) >= 1 for p in all_legs_picks):
+                one_combo = tuple(p[0] for p in all_legs_picks)
+                combos.append(one_combo)
 
-        logging.info(f"Generated {len(combos)} combos: {combos}")
+        logging.info(f"Generated {len(combos)} combos => {combos}")
         return combos
 
-    def check_if_win(self, combo, three_races, actual_winning_combo):
+    def check_if_win(self, combo, list_of_races, actual_winning_combo):
         """
-        'combo' might be ('1','2','1') if you're referencing rank=1 or rank=2. 
-        'actual_winning_combo' might also be e.g. [ ['1'], ['2'], ['1'] ] 
-        if the official 'rank' winners for each leg is rank=1 or rank=2, etc.
-        Return True if each leg in combo is found in the sub-list for that leg's winners.
+        combo: e.g. ("7","1","6") if you have 3 legs
+        actual_winning_combo: e.g. [ ["7"], ["1"], ["6"] ]
+        We require combo[i] in actual_winning_combo[i].
         """
-        if len(three_races) != 3:
-            logging.info("Error in check_if_win method: not 3 races.")
+        if len(list_of_races) != self.num_legs:
             return False
-        if not actual_winning_combo or len(actual_winning_combo) < 3:
-            logging.info("No actual winning combo found or not enough legs in actual combo.")
+        if len(actual_winning_combo) < self.num_legs:
             return False
 
-        # If there's a possibility of multiple 'rank' winners (dead heats?), 
-        # actual_winning_combo[leg] might be e.g. ['1','2']. 
-        # We'll check if combo[i] is in that sub-list.
-        for i in range(3):
+        for i in range(self.num_legs):
             if combo[i] not in actual_winning_combo[i]:
                 return False
         return True

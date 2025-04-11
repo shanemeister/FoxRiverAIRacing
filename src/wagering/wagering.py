@@ -12,31 +12,49 @@ from src.wagering.wagering_functions import build_race_objects, build_wagers_dic
 from src.wagering.wagering_queries import wager_queries
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
-from src.wagering.wagers import implement_ExactaWager, analyze_pick3_wagers
+from src.wagering.wagers import implement_ExactaWager, implement_multi_race_wager
 from src.wagering.wagering_helper_functions import (setup_logging, read_config, get_db_pool, parse_winners_str, get_user_wager_preferences,
                                                     convert_timestamp_columns, gather_bet_metrics, save_results_to_parquet)
+from src.data_preprocessing.data_prep1.data_utils import save_parquet
     
-def implement_strategy(parquet_dir, races_pdf, wagers_pdf):
+def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
     # 1) Gather user inputs for the wager
     user_prefs = get_user_wager_preferences()
     wager_type = user_prefs["wager_type"]
     base_amount = user_prefs["base_amount"]
+    num_legs = user_prefs["num_legs"]
     is_box = True
+
 
     # 2) Build Race objects, Wagers dict, etc.
     all_races = build_race_objects(races_pdf)
+    # Check for missing or null values in 'wager_type'
     wagers_dict = build_wagers_dict(wagers_pdf)
-
     # 3) Instantiate the correct Wager subclass
     #    We'll do just an example for 'Exacta' or 'Daily Double'
     if wager_type == "Exacta":
         bet_results = implement_ExactaWager(all_races, wagers_dict, base_amount=base_amount, top_n=2, box=is_box)
-        print("parquet_dir: ", parquet_dir)
-        filename=f"{parquet_dir}exacta_bet_results.parquet"
-        print("filename: ", filename)
-        save_results_to_parquet(bet_results, filename )
-    elif wager_type == "Pick 3":
-        results = analyze_pick3_wagers( races_pdf, wagers_pdf, base_amount=base_amount, parquet_path=parquet_dir)
+        bet_results = spark.createDataFrame(bet_results)
+        #bet_results.write.mode("overwrite").parquet(f"{parquet_dir}/exacta_results")
+        save_parquet(spark, bet_results, "exacta_wagering", parquet_dir)
+    elif wager_type in ["Pick 3", "Pick 4", "Pick 5", "Pick 6"]:
+        bet_results = implement_multi_race_wager(all_races, wagers_dict, wager_type, num_legs, base_amount=2.0)
+        for i,row in bet_results.iterrows():
+            print(row.to_dict())  # debug each row
+        input("Press Enter to continue...")
+        bet_results = spark.createDataFrame(bet_results)
+        # Convert wager_type to a filename
+        filename = wager_type.lower().replace(" ", "") + "_wagering"
+        save_parquet(spark, bet_results, filename, parquet_dir)
+    # elif wager_type == "Daily Double":
+    #     # use OOP approach:
+    #     dd_pdf = implement_DailyDouble_OOP(all_races, wagers_dict, wagers_pdf, base_amount=base_amount)
+    #     dd_spark = spark.createDataFrame(dd_pdf)
+    #     save_parquet(spark, dd_spark, "daily_double_wagering", parquet_dir)
+    # elif wager_type == "Pick 3":
+    #     results = analyze_pick3_wagers(races_pdf, wagers_pdf, base_amount=base_amount, parquet_path=parquet_dir)
+    #     results = spark.createDataFrame(results)
+    #     save_parquet(spark, results, "pick3_wagering", parquet_dir)
     else:
         print(f"'{wager_type}' not yet implemented. Defaulting to Exacta.")
               
@@ -86,7 +104,10 @@ def main():
         wagers_df.printSchema()
         wagers_pdf = wagers_df.toPandas()
         # wagers_df_pandas["race_date"] = pd.to_datetime(wagers_df_pandas["race_date"], errors="coerce")
-        
+        decimal_cols = ['num_tickets', 'payoff', 'pool_total']
+        for col in decimal_cols:
+            wagers_pdf[col] = wagers_pdf[col].astype(float)
+            
         conn = db_pool.getconn()
         
         logging.info("Ingestion job succeeded")
@@ -96,14 +117,16 @@ def main():
         conn = db_pool.getconn()
         try:
             # wagers_df is a pandas DataFrame
-            wagers_pdf['parsed_winners'] = wagers_pdf['winners'].astype(str).apply(parse_winners_str)
+            wagers_pdf['winners'] = wagers_pdf['winners'].astype(str)
+            wagers_pdf['parsed_winners'] = wagers_pdf['winners'].apply(parse_winners_str)   
         except Exception as e:
             logging.error(f"Error updating wagers winners parsing: {e}")
             conn.rollback()
         try:
-            implement_strategy(parquet_dir, races_pdf, wagers_pdf)
+            implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf)
         except Exception as e:
-            logging.error(f"Error updating placeholder 2: {e}")
+            logging.error(f"Error in implement_strategy: {e}")
+            raise
     except Exception as e:
         logging.error(f"Error during Spark initialization: {e}")
         sys.exit(1)

@@ -1,21 +1,34 @@
 import logging
 import time
+import os
+import pandas as pd
 import src.wagering.wager_types as wt
 from src.wagering.wagering_helper_functions import (gather_bet_metrics, group_races_for_pick3)
-from src.wagering.wager_types import Pick3Wager 
+from src.wagering.wager_types import MultiRaceWager, ExactaWager
 from src.wagering.wagering_helper_functions import parse_winners_str
-def implement_ExactaWager(all_races, wagers_dict, base_amount=2.0, top_n=2, box=True):
-    my_wager = wt.ExactaWager(base_amount=base_amount, top_n=top_n, box=box)
+from src.wagering.wagering_functions import find_race
+import logging
+import pandas as pd
+from src.wagering.wagering_helper_functions import gather_bet_metrics
 
+def implement_ExactaWager(all_races, wagers_dict, base_amount=2.0, top_n=2, box=True):
+    """
+    Generates a list of bets (combos) for each race, calculates the cost/payoff,
+    and returns a DataFrame with row-level metrics per race/bet scenario.
+
+    Differences from your original version:
+      1) We store 'actual_winning_combo' and 'generated_combos' as arrays/lists
+         instead of strings, matching the style of pick3 code.
+    """
     total_cost = 0.0
     total_payoff = 0.0
-    bet_results = []  # will hold dicts for each race
+    bet_results = []  # will hold dicts for each race (row_data)
 
     # Counters for wagers, wins, losses
     total_wagers = 0
     total_wins = 0
     total_losses = 0
-
+    my_wager = ExactaWager(base_amount=2.0, top_n=2, box=True)
     # Filter races by field size
     filtered_races = []
     for race in all_races:
@@ -24,8 +37,9 @@ def implement_ExactaWager(all_races, wagers_dict, base_amount=2.0, top_n=2, box=
             filtered_races.append(race)
 
     for race in filtered_races:
-        combos = my_wager.generate_combos(race)       # list of combos (tickets)
-        cost = my_wager.calculate_cost(combos)        # total $ cost for these combos
+        # Generate combos (list of lists), e.g. [["3","7"],["2","5"], ...]
+        combos = my_wager.generate_combos(race)
+        cost = my_wager.calculate_cost(combos)   # total $ cost for these combos
 
         key = (race.course_cd, race.race_date, race.race_number, "Exacta")
         race_wager_info = wagers_dict.get(key, None)
@@ -35,7 +49,7 @@ def implement_ExactaWager(all_races, wagers_dict, base_amount=2.0, top_n=2, box=
         winning_combo_found = False
 
         if race_wager_info:
-            actual_combo = race_wager_info['winning_combo']  # e.g., [["7"], ["6"]]
+            actual_combo = race_wager_info['winning_combo']  # e.g. [["7"], ["6"]]
             race_payoff = float(race_wager_info['payoff'])
             posted_base = float(race_wager_info['num_tickets'])
             logging.info(f"\n--- Debugging Race ---")
@@ -59,7 +73,7 @@ def implement_ExactaWager(all_races, wagers_dict, base_amount=2.0, top_n=2, box=
         total_payoff += payoff
 
         # Count wagers, wins, losses
-        num_tickets = len(combos)  # how many exacta combos we bet on in this race
+        num_tickets = len(combos)  # how many exacta combos we bet in this race
         total_wagers += num_tickets
 
         if winning_combo_found:
@@ -80,6 +94,11 @@ def implement_ExactaWager(all_races, wagers_dict, base_amount=2.0, top_n=2, box=
             actual_combo=actual_combo,
             field_size=field_size
         )
+
+        # === Add the combos as arrays (instead of storing them as strings) ===
+        row_data["actual_winning_combo"] = actual_combo      # list of lists, e.g. [["7"], ["6"]]
+        row_data["generated_combos"] = combos                # list of lists, e.g. [["3","7"],["2","5"],...]
+
         bet_results.append(row_data)
 
     net = total_payoff - total_cost
@@ -90,145 +109,107 @@ def implement_ExactaWager(all_races, wagers_dict, base_amount=2.0, top_n=2, box=
           f"Net: ${net:.2f}, ROI: {roi:.2%}")
     print(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}")
 
-    return bet_results
+    # ------------------------------------------------------------------------
+    # Convert bet_results (list of dicts) into a Pandas DataFrame
+    # ------------------------------------------------------------------------
+    df_results = pd.DataFrame(bet_results)
 
-def analyze_pick3_wagers(races_pdf, wagers_pdf, base_amount=2.0, parquet_path=None):
-    """
-    1) Build a dictionary of top-2 picks for each race (or top-N).
-    2) For each 'Pick 3' in wagers_pdf, parse winners, compute combos cost, check if hit.
-    3) Accumulate total cost/payoff, compute net, ROI at the end.
-    4) Optionally save results to Parquet if parquet_path is provided.
-    5) Keep track of total wagers, total wins, and total losses.
-    """
-    import logging
-    import pandas as pd
-    from decimal import Decimal
-
-    # ---- STEP A: BUILD PREDICTED DICT (top-2 picks) ----
-    predicted_dict = {}
-    group_cols = ["course_cd", "race_date", "race_number"]
-    sorted_df = races_pdf.sort_values(by="rank", ascending=True)
-
-    for (cc, dt, rn), grp in sorted_df.groupby(group_cols):
-        # Take top 2 picks (or fewer if not enough data)
-        top2 = grp.head(2)
-        picks = top2["saddle_cloth_number"].str.strip().str.upper().tolist()
-        predicted_dict[(cc, dt, rn)] = picks  # e.g. ["3","5"]
-
-    # ---- STEP B: FILTER 'Pick 3' ROWS ----
-    pick3_rows = wagers_pdf[wagers_pdf["wager_type"] == "Pick 3"]
-
-    # We'll collect row-level info in a list
-    results = []
-
-    # Summaries
-    total_cost = 0.0
-    total_payoff = 0.0
-
-    # 1) New counters
-    total_wagers = 0     # total number of pick-3 combo tickets
-    total_wins = 0       # total number of hits (winning tickets)
-    total_losses = 0     # total number of losing tickets
-
-    for _, wrow in pick3_rows.iterrows():
-        cc = wrow["course_cd"]
-        dt = wrow["race_date"]
-        final_rn = wrow["race_number"]
-
-        # parse winners => e.g. "7-3-4"
-        winners_str = wrow.get("winners") or ""
-        leg_winners = winners_str.split("-")
-        if len(leg_winners) < 3:
-            logging.info(f"Skipping pick3 row with incomplete winners: '{winners_str}'")
-            continue
-
-        # triple of consecutive races
-        first_leg = final_rn - 2
-        second_leg = final_rn - 1
-        third_leg = final_rn
-
-        # predicted picks for each leg
-        pred1_array = predicted_dict.get((cc, dt, first_leg), [])
-        pred2_array = predicted_dict.get((cc, dt, second_leg), [])
-        pred3_array = predicted_dict.get((cc, dt, third_leg), [])
-
-        # cost = (# of combos) * base_amount
-        num_combos = len(pred1_array) * len(pred2_array) * len(pred3_array)
-        cost = num_combos * float(base_amount)
-
-        # actual winners for each leg
-        actual1 = leg_winners[0].strip().upper()
-        actual2 = leg_winners[1].strip().upper()
-        actual3 = leg_winners[2].strip().upper()
-
-        # check coverage
-        leg1_hit = (actual1 in pred1_array)
-        leg2_hit = (actual2 in pred2_array)
-        leg3_hit = (actual3 in pred3_array)
-        hit = (leg1_hit and leg2_hit and leg3_hit)
-
-        # payoff scaling
-        posted_payoff_dec = wrow.get("payoff", 0.0)
-        posted_base_dec = wrow.get("num_tickets", 2.0)
-
-        posted_payoff = float(posted_payoff_dec) if isinstance(posted_payoff_dec, (Decimal, float)) else float(posted_payoff_dec)
-        posted_base = float(posted_base_dec) if isinstance(posted_base_dec, (Decimal, float)) else float(posted_base_dec)
-
-        payoff = 0.0
-        if hit and num_combos > 0:
-            # scale posted payoff by (base_amount / posted_base)
-            payoff = posted_payoff * (float(base_amount) / posted_base)
-
-        # Accumulate cost/payoff
-        total_cost += cost
-        total_payoff += payoff
-
-        # 2) Update counters for wagers, wins, and losses
-        # Each combo is one "ticket"
-        total_wagers += num_combos
-        if hit and num_combos > 0:
-            # exactly 1 winning combo, rest are losses
-            total_wins += 1
-            total_losses += (num_combos - 1)
-        else:
-            total_losses += num_combos
-
-        # Logging
-        logging.info(
-            f"\nPick3 final_leg={final_rn} => triple=({first_leg},{second_leg},{third_leg}),"
-            f" winners={leg_winners}, predicted=({pred1_array},{pred2_array},{pred3_array}),"
-            f" combos={num_combos}, cost={cost:.2f}, hit={hit}, payoff={payoff:.2f}"
+    # Optionally, compute per-row profit/ROI if each row has cost & payoff
+    if "cost" in df_results.columns and "payoff" in df_results.columns:
+        df_results["profit"] = df_results["payoff"] - df_results["cost"]
+        df_results["row_roi"] = df_results.apply(
+            lambda row: (row["profit"] / row["cost"]) if row["cost"] > 0 else 0.0,
+            axis=1
         )
 
-        row_data = {
-            "course_cd": cc,
-            "race_date": dt,
-            "final_leg": final_rn,
-            "triple": (first_leg, second_leg, third_leg),
-            "actual_combo": leg_winners,
-            "predicted": [pred1_array, pred2_array, pred3_array],
-            "num_combos": num_combos,
-            "cost": cost,
-            "hit": hit,
-            "payoff": payoff,
-            "wager_payoff_posted": posted_payoff,
-            "wager_posted_base": posted_base
-        }
+    # Return the DataFrame with combos as arrays
+    return df_results
+
+def implement_multi_race_wager(all_races, wagers_dict, wager_type, num_legs, base_amount=2.0):
+    import logging
+    import pandas as pd
+
+    results = []
+
+    # Build the multi-leg wager
+    my_wager = MultiRaceWager(
+        base_amount=base_amount,
+        num_legs=num_legs,
+        top_n=2,    # or some user param
+        box=True    # or some user param
+    )
+
+    # 1) Filter by 4th item in key => must match wager_type exactly
+    wagers_subset = {
+        k: v
+        for k, v in wagers_dict.items()
+        if k[3] == wager_type
+    }
+    logging.info(f"Filtered wagers_subset for '{wager_type}': {len(wagers_subset)} entries")
+
+    # 2) For each
+    for (course_cd, date, final_rn, wtype), wrow in wagers_subset.items():
+        leg_winners = wrow["winning_combo"]  # e.g. [['1'],['1'],['5']]
+        if len(leg_winners) < num_legs:
+            continue
+
+        # Build consecutive legs => e.g. final_rn=5 => [3,4,5] if num_legs=3
+        leg_numbers = [final_rn - (num_legs - 1) + i for i in range(num_legs)]
+
+        # Gather the Race objects
+        race_objs = []
+        missing_leg = False
+        for leg_num in leg_numbers:
+            r_obj = find_race(all_races, course_cd, date, leg_num)
+            if r_obj is None:
+                missing_leg = True
+                break
+            race_objs.append(r_obj)
+        if missing_leg or len(race_objs) < num_legs:
+            continue
+
+        # 3) Generate combos => my_wager
+        all_combos = my_wager.generate_combos(race_objs)
+        cost = my_wager.calculate_cost(all_combos)
+
+        posted_payoff = float(wrow.get("payoff", 0.0))
+        posted_base   = float(wrow.get("num_tickets", 2.0))
+
+        # 4) check if we hit
+        payoff = 0.0
+        if len(leg_winners) == num_legs:
+            for combo in all_combos:
+                if my_wager.check_if_win(combo, race_objs, leg_winners):
+                    payoff = posted_payoff*(my_wager.base_amount / posted_base)
+                    break
+
+        # 5) gather bet metrics => returns a fully sanitized dict
+        final_race = race_objs[-1]
+        row_data = gather_bet_metrics(
+            race=final_race,
+            combos=all_combos,
+            cost=cost,
+            payoff=payoff,
+            my_wager=my_wager,
+            actual_combo=leg_winners,
+            field_size=len(final_race.horses)
+        )
+
+        # Additional fields => convert to strings or numeric
+        # e.g. legs => string
+        legs_str = '|'.join(str(x) for x in leg_numbers)
+        row_data["legs_str"] = legs_str
+
+        # We can store official winners as a string too
+        row_data["official_winners_str"] = str(leg_winners)
+
+        # Store param as string or numeric
+        row_data["wager_type"] = str(wager_type)
+        row_data["course_cd"]  = str(course_cd)
+        row_data["race_date"]  = str(date)
+        row_data["final_leg"]  = int(final_rn)
+
         results.append(row_data)
 
-    # ---- Summaries & ROI ----
-    net = total_payoff - total_cost
-    roi = (net / total_cost) if total_cost > 0 else 0.0
-
-    logging.info(f"\nSUMMARY: total pick3 cost={total_cost:.2f}, payoff={total_payoff:.2f}, net={net:.2f}, ROI={roi:.2%}")
-    logging.info(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}")
-    print(f"Pick 3 => Cost: {total_cost:.2f}, Return: {total_payoff:.2f}, Net: {net:.2f}, ROI: {roi:.2%}")
-    print(f"Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}")
-
-    # ---- Optionally save to Parquet
-    if parquet_path:
-        df = pd.DataFrame(results)
-        df.to_parquet(parquet_path, index=False)
-        logging.info(f"Saved {len(df)} pick3 results to {parquet_path}")
-
-    return results
+    df_results = pd.DataFrame(results)
+    return df_results

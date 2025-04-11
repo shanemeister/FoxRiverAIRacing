@@ -160,10 +160,10 @@ def main():
         action = args.mode
         
         if args.mode == "load" or args.mode == "train":
-            logging.info("Running training data ingestion steps...")
-            ###################################################
-            # 1. Load Training data
-            ###################################################
+            # logging.info("Running training data ingestion steps...")
+            # ###################################################
+            # # 1. Load Training data
+            # ###################################################
             # time_start = time.time()
             # logging.info("Running training data ingestion steps...")
             # train_df = load_base_training_data(spark, jdbc_url, jdbc_properties, parquet_dir)
@@ -174,9 +174,9 @@ def main():
             # logging.info(f"Loading train_df took {total_time} to complete.")
             # input("Press Enter to continue and begin step 2 ...")
             
-            # ###################################################
-            # # 2. Compute the custom speed figure
-            # ###################################################
+            # # ###################################################
+            # # # 2. Compute the custom speed figure
+            # # ###################################################
             # time_start = time.time()
             # train_df = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/train_df")
             # # # After loading your data and creating the custom speed figure, e.g.:
@@ -194,10 +194,10 @@ def main():
             
             # total_time = time.time() - time_start
             # logging.info(f"Creating global_speed_score took {total_time} to complete.")
-            # input("Press Enter to continue and begin step 3 ...")          
-            ###################################################
-            # 3) Embed horse_id and compute custom_speed_figure
-            ##################################################
+            # # input("Press Enter to continue and begin step 3 ...")          
+            # ###################################################
+            # # 3) Embed horse_id and compute custom_speed_figure
+            # ##################################################
             # time_start = time.time()
             # global_speed_score = spark.read.parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/global_speed_score.parquet")
             
@@ -227,19 +227,16 @@ def main():
             # # Step 4: Use model_filename to load the saved Parquet file
             # parquet_path = os.path.join(parquet_dir, f"{model_filename}.parquet")
             # logging.info(f"Loading Parquet file from: {parquet_path}")
-            # horse_embedding = spark.read.parquet(parquet_path)
-            
-            # horse_embedding = horse_embedding.toPandas()
-            
+            # total_time = time.time() - time_start
+            # logging.info(f"Creating Horse Embedding with 30 Trials took {total_time} to complete.")
             # input("Press Enter to continue and begin step 4 ...")
-            # Reload the Parquet file into a Spark DataFrame
-        if args.mode == "train":
-            logging.info("Running prediction data ingestion steps...")
+            # # Reload the Parquet file into a Spark DataFrame
+            # logging.info("Running prediction data ingestion steps...")
             ###################################################
             # 4) Prep data for Training or Predictions
             ###################################################
             # Load the Parquet file into a Pandas DataFrame.
-            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250409_0121.parquet", engine="pyarrow")
+            # horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250409_1552.parquet", engine="pyarrow")
             # Pandas will typically map timestamp/date columns to datetime64[ns].
             #healthcheck_report = time_series_data_healthcheck(horse_embedding)
             #pprint.pprint(healthcheck_report)            
@@ -247,7 +244,7 @@ def main():
             logging.info("Starting build_catboost_model: Training CatBoost Models -- 20 total")
             # # All models are saved to: ./data/models/all_models.json
             # global_speed_score = global_speed_score.toPandas()
-            scored_sdf = build_catboost_model(spark, horse_embedding, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
+            scored_sdf = build_catboost_model(spark, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
             
             # total_time = time.time() - time_start
             # logging.info(f"Training 20 Catboost models Horse embedding took {total_time} to complete.")

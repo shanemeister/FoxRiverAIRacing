@@ -160,23 +160,23 @@ def main():
             ###################################################
             # 1. Load Training data
             ###################################################
-            time_start = time.time()
-            logging.info("Running training data ingestion steps...")
-            prediction_df = load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir)
-            healthcheck_report = time_series_data_healthcheck(prediction_df)
-            pprint.pprint(healthcheck_report)
-            logging.info("Ingestion job for prediction data succeeded")
-            total_time = time.time() - time_start
-            logging.info(f"Loading prediction_df took {total_time} to complete.")
-            input("Press Enter to continue and begin step 2 ...")
+            # time_start = time.time()
+            # logging.info("Running training data ingestion steps...")
+            # prediction_df = load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir)
+            # healthcheck_report = time_series_data_healthcheck(prediction_df)
+            # pprint.pprint(healthcheck_report)
+            # logging.info("Ingestion job for prediction data succeeded")
+            # total_time = time.time() - time_start
+            # logging.info(f"Loading prediction_df took {total_time} to complete.")
+            # input("Press Enter to continue and begin step 2 ...")
             
             # ###################################################
             # # 2. Merge with horse_embedding data and makre predictions
             # ###################################################
         if args.mode == "predict":
-            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250404_1946.parquet", engine="pyarrow")
-            prediction_df = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/prediction_df", engine="pyarrow")
-            scored_sdf = race_predictions(spark, prediction_df, horse_embedding, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
+            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250409_1552.parquet", engine="pyarrow")
+            predictions_pdf = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/prediction_df", engine="pyarrow")
+            scored_sdf = race_predictions(spark, predictions_pdf, horse_embedding, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
             
             # # total_time = time.time() - time_start
             # # logging.info(f"Training 20 Catboost models Horse embedding took {total_time} to complete.")

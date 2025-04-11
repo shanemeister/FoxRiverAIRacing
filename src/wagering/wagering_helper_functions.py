@@ -143,44 +143,71 @@ def convert_timestamp_columns(spark_df, timestamp_format="yyyy-MM-dd HH:mm:ss"):
 
 def gather_bet_metrics(race, combos, cost, payoff, my_wager, actual_combo, field_size):
     """
-    Builds a single dict of metrics for a race bet outcome.
-    
-    :param race:       A Race object (with surface, distance, track_condition, etc.)
-    :param combos:     The generated combos for that race
-    :param cost:       Total cost for those combos
-    :param payoff:     Total payoff (0 if no hit)
-    :param my_wager:   The Wager instance (has base_amount, etc.)
-    :param actual_combo: The winning combo (for debugging or analysis)
-    :return:           A dict of data describing this bet result
+    Builds a single dict of metrics for a (multi-)race bet outcome,
+    returning only str, float, int, or None for each column
+    to avoid Spark's type inference issues.
     """
+    import math
+
     net = payoff - cost
-    # Simple flag if we hit or not (payoff > 0 means at least one combo won)
     hit_flag = 1 if payoff > 0 else 0
-    
-    return {
-        "course_cd":       race.course_cd,
-        "race_date":       race.race_date,
-        "race_number":     race.race_number,
-        "surface":         race.surface,
-        "distance_meters": race.distance_meters,
-        "track_condition": race.track_condition,
-        "avg_purse_val_calc": race.avg_purse_val_calc,
-        "race_type":        race.race_type,
-        
-        "base_amount":     my_wager.base_amount,
-        "combos_generated": len(combos),
-        "cost":            cost,
-        "payoff":          payoff,
-        "net":             net,
-        "hit_flag":        hit_flag,
-        
-        # Optional debugging fields
-        "actual_winning_combo": str(actual_combo),
-        "generated_combos":     str(combos),
-        "roi":                  net / cost if cost > 0 else 0.0,
-        # NEW: store field_size
-        "field_size":      field_size
+
+    # Convert race fields to strings/floats
+    course_cd = str(race.course_cd) if race.course_cd else None
+    race_date = str(race.race_date) if race.race_date else None
+    race_number = int(race.race_number) if race.race_number is not None else None
+    surface = str(race.surface) if race.surface else None
+    track_condition = str(race.track_condition) if race.track_condition else None
+    race_type = str(race.race_type) if race.race_type else None
+
+    distance_meters = float(race.distance_meters) if race.distance_meters else None
+    avg_purse_val_calc = float(race.avg_purse_val_calc) if race.avg_purse_val_calc else None
+
+    # my_wager => only store base_amount as float, not the object itself
+    base_amount = float(my_wager.base_amount) if my_wager else 2.0
+
+    # combos => turn into a single string
+    # e.g. combos = [('3','1','5'), ('3','2','5')] => ["3-1-5", "3-2-5"] => "3-1-5|3-2-5"
+    combo_str_list = ['-'.join(c) for c in combos]
+    generated_combos_str = '|'.join(combo_str_list)
+
+    # actual_combo => also string
+    # e.g. "[['3'], ['1'], ['5']]"
+    actual_winning_combo_str = str(actual_combo)
+
+    # float or int for cost/payoff etc.
+    cost_float = float(cost)
+    payoff_float = float(payoff)
+    net_float = float(net)
+    combos_generated = len(combos)
+    field_size_int = int(field_size)
+    roi_float = net_float / cost_float if cost_float > 0 else 0.0
+
+    row_data = {
+        "course_cd":         course_cd,            # str or None
+        "race_date":         race_date,            # str or None
+        "race_number":       race_number,          # int or None
+        "surface":           surface,              # str or None
+        "distance_meters":   distance_meters,      # float or None
+        "track_condition":   track_condition,      # str or None
+        "avg_purse_val_calc":avg_purse_val_calc,   # float or None
+        "race_type":         race_type,            # str or None
+
+        "base_amount":       base_amount,          # float
+        "combos_generated":  combos_generated,      # int
+        "cost":              cost_float,           # float
+        "payoff":            payoff_float,         # float
+        "net":               net_float,            # float
+        "hit_flag":          hit_flag,             # int
+
+        "actual_winning_combo":  actual_winning_combo_str,  # str
+        "generated_combos":      generated_combos_str,      # str
+
+        "roi":               roi_float,            # float
+        "field_size":        field_size_int        # int
     }
+
+    return row_data
 
 def save_results_to_parquet(rows, filename="my_bet_results.parquet"):
     """
@@ -248,6 +275,8 @@ def get_user_wager_preferences():
         if box_choice == "y":
             is_box = True
 
+    if selected_wager_type in ["Pick 3", "Pick 4", "Pick 5", "Pick 6"]:
+        num_legs = int(selected_wager_type[-1])  # Extract the last character and convert it to an integer        box_choice = input("Box this wager? (y/n): ").strip().lower()
     # (Optional) Key horse prompt
     # For now, skip or implement a simple version:
     # key_horse_input = input("Enter a key horse program number or leave blank for none: ").strip()
@@ -258,6 +287,7 @@ def get_user_wager_preferences():
         "wager_type": selected_wager_type,
         "base_amount": base_amount,
         "is_box": is_box,
+        "num_legs": num_legs if selected_wager_type in ["Pick 3", "Pick 4", "Pick 5", "Pick 6"] else None,
         # "key_horse": key_horse,  # If you implement that logic
     }
 

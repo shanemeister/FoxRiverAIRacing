@@ -69,43 +69,45 @@ def parse_winners_str(winners_str: str):
     parsed = [p.split('/') for p in parts]
     return parsed
 
-def build_wagers_dict(wagers_pdf: pd.DataFrame) -> Dict[Tuple[Any, Any, Any, str], Dict[str, Any]]:
-    """
-    Creates a dictionary keyed by (course_cd, race_date, race_number, wager_type)
-    with a value dict of { 'winning_combo': list_of_lists, 'payoff': float }.
-    
-    Example Result:
-    {
-      ('TAM', '2022-01-21', 3, 'Exacta'): {
-         'winning_combo': [['7'], ['6']],
-         'payoff': 38.20
-      },
-      ...
-    }
-    """
+def build_wagers_dict(wagers_pdf):
     wagers_dict = {}
-    
     for _, row in wagers_pdf.iterrows():
+        # Build the tuple key:
         key = (
-            row['course_cd'],
-            row['race_date'],
-            row['race_number'],
-            row['wager_type']
+            row["course_cd"],
+            row["race_date"],
+            row["race_number"],
+            row["wager_type"]
         )
-        
+        # Parse the winners
         winners_str = str(row.get('winners', ''))
         parsed_winners = parse_winners_str(winners_str)
 
-        # Convert payoff to float (some rows might be None or NaN)
+        # Convert payoff to float
         payoff_val = row.get('payoff')
         payoff_val = float(payoff_val) if payoff_val is not None else 0.0
 
-        # You could also store 'pool_total' or 'post_time' if needed
+        # Store EVERY needed field in the value:
         wagers_dict[key] = {
-            'winning_combo': parsed_winners,
-            'wager_id': row['wager_id'],
-            'num_tickets': row['num_tickets'],
-            'payoff': payoff_val
+            "course_cd":   row["course_cd"],
+            "race_date":   row["race_date"],
+            "race_number": row["race_number"],
+            "wager_type":  row["wager_type"],  # Now the value dict also has 'wager_type'
+            "winning_combo": parsed_winners,
+            "wager_id":    row["wager_id"],
+            "num_tickets": row["num_tickets"],
+            "payoff":      payoff_val
         }
-            
     return wagers_dict
+
+def find_race(all_races, course_cd, race_date, race_number):
+    """
+    Returns the Race object from all_races that matches (course_cd, race_date, race_number),
+    or None if not found.
+    """
+    for r in all_races:
+        if (r.course_cd == course_cd and 
+            r.race_date == race_date and 
+            r.race_number == race_number):
+            return r
+    return None

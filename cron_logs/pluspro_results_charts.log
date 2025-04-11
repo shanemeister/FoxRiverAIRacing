@@ -1696,3 +1696,36 @@ requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected(
 2025-04-09 02:49:59 - Job completed
 2025-04-09 02:30:01 - Results: 454 files, PlusPro: 40 files, Backup: Success
 2025-04-09 02:49:59 - Job completed
+2025-04-10 02:30:01 - Starting ingestion job
+2025-04-10 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-10 02:30:01 - Starting download job
+2025-04-10 02:43:01 - Download job succeeded
+2025-04-10 02:43:01 - Results files downloaded: 448
+2025-04-10 02:43:01 - PlusPro files downloaded: 49
+2025-04-10 02:43:01 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-10 02:47:07 - Sync to S3 succeeded
+2025-04-10 02:47:07 - Job completed
+2025-04-10 02:30:01 - Results: 448 files, PlusPro: 49 files, Backup: Success
+2025-04-10 02:47:07 - Job completed
+2025-04-10 13:37:21 - Starting ingestion job
+2025-04-10 13:37:21 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-10 13:37:21 - Starting download job
+2025-04-10 13:42:12 - Download job succeeded
+2025-04-10 13:42:12 - Results files downloaded: 450
+2025-04-10 13:42:12 - PlusPro files downloaded: 58
+2025-04-10 13:42:12 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-10 13:46:39 - Sync to S3 succeeded
+2025-04-10 13:46:39 - Job completed
+2025-04-10 13:37:21 - Results: 450 files, PlusPro: 58 files, Backup: Success
+2025-04-10 13:46:39 - Job completed
+2025-04-11 02:30:01 - Starting ingestion job
+2025-04-11 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-04-11 02:30:01 - Starting download job
+2025-04-11 02:43:34 - Download job succeeded
+2025-04-11 02:43:34 - Results files downloaded: 454
+2025-04-11 02:43:34 - PlusPro files downloaded: 59
+2025-04-11 02:43:34 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-04-11 02:44:28 - Sync to S3 succeeded
+2025-04-11 02:44:28 - Job completed
+2025-04-11 02:30:01 - Results: 454 files, PlusPro: 59 files, Backup: Success
+2025-04-11 02:44:28 - Job completed

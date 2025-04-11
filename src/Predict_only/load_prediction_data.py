@@ -11,6 +11,7 @@ from pyspark.sql.functions import (col, count, row_number, abs, unix_timestamp,
                                    row_number, mean as F_mean, countDistinct, last, first, when)
 from src.Predict_only.prediction_sql_queries import sql_queries
 from pyspark.sql.functions import current_date
+from pyspark.sql.types import DecimalType, DoubleType
 
 def forward_fill_par_time(
     df,
@@ -457,14 +458,22 @@ def load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     
     logging.info("Convert Decimal Columns to Double.")
     # 2. Convert Decimal Columns to Double
-    decimal_cols = ["weight", "power", "distance_meters", "morn_odds", "total_races_5", "avg_fin_5",
-                    "class_rating", "all_earnings", "cond_earnings","purse", "best_speed",
-                "jock_win_percent", "jock_itm_percent", "trainer_itm_percent", 
-                    "trainer_win_percent", "jt_win_percent", "jt_itm_percent",
-                    "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
-                    "jt_win_track", "jt_itm_track", 'previous_distance', 'horse_itm_percentage' ]
+    decimal_cols = [
+    field.name for field in prediction_df.schema.fields
+    if isinstance(field.dataType, DecimalType)]
+
+    # Convert DecimalType columns to double
     for col_name in decimal_cols:
         prediction_df = prediction_df.withColumn(col_name, F.col(col_name).cast("double"))
+        
+    # decimal_cols = ["weight", "power", "distance_meters", "morn_odds", "total_races_5", "avg_fin_5",
+    #                 "class_rating", "all_earnings", "cond_earnings","purse", "best_speed",
+    #             "jock_win_percent", "jock_itm_percent", "trainer_itm_percent", 
+    #                 "trainer_win_percent", "jt_win_percent", "jt_itm_percent",
+    #                 "jock_win_track", "jock_itm_track", "trainer_win_track", "trainer_itm_track",
+    #                 "jt_win_track", "jt_itm_track", 'previous_distance', 'horse_itm_percentage' ]
+    # for col_name in decimal_cols:
+    #     prediction_df = prediction_df.withColumn(col_name, F.col(col_name).cast("double"))
     logging.info("Decimal columns converted to double.")
     print("2. Decimal columns converted to double.")
     
