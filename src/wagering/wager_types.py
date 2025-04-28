@@ -48,10 +48,111 @@ class ExactaWager(Wager):
         
         return combo == (actual_1st, actual_2nd)
 
-import logging
-import itertools
-# from src.wagering.wager_types import Wager  # or wherever your Wager base class is located
+class TrifectaWager(Wager):
+    """
+    A Trifecta wager predicts the exact order of the top 3 finishers.
+    If box=True, we generate permutations of the top_n horses taken 3 at a time.
+    If box=False, we only generate a single "straight" combo from the top 3.
+    """
 
+    def __init__(self, base_amount, top_n, box):
+        super().__init__(base_amount=base_amount)
+        self.top_n = top_n
+        self.box = box
+
+    def generate_combos(self, race: Race):
+        """
+        Generate trifecta combos for 'race'.
+          - If box=True and top_n=4, we create all permutations of the top 4 horses taken 3 at a time.
+            E.g. (horseA,horseB,horseC), (horseA,horseC,horseB), ...
+          - If box=False, we pick only (top_horse[0], top_horse[1], top_horse[2]) (assuming top_n>=3).
+        """
+        sorted_horses = race.get_sorted_by_prediction()
+        top_horses = sorted_horses[: self.top_n]
+
+        combos = []
+        if self.box:
+            # All permutations of the chosen top_n, taken 3 at a time
+            for perm in itertools.permutations(top_horses, 3):
+                combos.append(
+                    (perm[0].program_num, perm[1].program_num, perm[2].program_num)
+                )
+        else:
+            # A single "straight" trifecta from the top 3
+            if len(top_horses) >= 3:
+                combos.append((
+                    top_horses[0].program_num,
+                    top_horses[1].program_num,
+                    top_horses[2].program_num
+                ))
+        return combos
+
+    def check_if_win(self, combo, race: Race, actual_winning_combo):
+        """
+        actual_winning_combo is typically [[WIN1],[WIN2],[WIN3]] (the first 3 finishers).
+        We compare to combo = (prognum1, prognum2, prognum3).
+        """
+        if not actual_winning_combo or len(actual_winning_combo) < 3:
+            return False
+        
+        actual_1st = actual_winning_combo[0][0]
+        actual_2nd = actual_winning_combo[1][0]
+        actual_3rd = actual_winning_combo[2][0]
+
+        return combo == (actual_1st, actual_2nd, actual_3rd)
+
+class SuperfectaWager(Wager):
+    """
+    A Superfecta wager predicts the exact order of the top 4 finishers.
+    If box=True, we generate permutations of the top_n horses taken 4 at a time.
+    If box=False, we pick only the single "straight" combo from the top 4.
+    """
+
+    def __init__(self, base_amount=2.0, top_n=4, box=True):
+        super().__init__(base_amount=base_amount)
+        self.top_n = top_n
+        self.box = box
+
+    def generate_combos(self, race: Race):
+        """
+        Generate superfecta combos for 'race'.
+          - If box=True and top_n=5, we create permutations of top 5 horses taken 4 at a time.
+          - If box=False, just the single combo (top1, top2, top3, top4).
+        """
+        sorted_horses = race.get_sorted_by_prediction()
+        top_horses = sorted_horses[: self.top_n]
+
+        combos = []
+        if self.box:
+            for perm in itertools.permutations(top_horses, 4):
+                combos.append(
+                    (perm[0].program_num, perm[1].program_num, perm[2].program_num, perm[3].program_num)
+                )
+        else:
+            if len(top_horses) >= 4:
+                combos.append((
+                    top_horses[0].program_num,
+                    top_horses[1].program_num,
+                    top_horses[2].program_num,
+                    top_horses[3].program_num
+                ))
+        return combos
+
+    def check_if_win(self, combo, race: Race, actual_winning_combo):
+        """
+        actual_winning_combo is typically [[WIN1],[WIN2],[WIN3],[WIN4]].
+        We compare to combo = (p1, p2, p3, p4).
+        """
+        if not actual_winning_combo or len(actual_winning_combo) < 4:
+            return False
+
+        actual_1st = actual_winning_combo[0][0]
+        actual_2nd = actual_winning_combo[1][0]
+        actual_3rd = actual_winning_combo[2][0]
+        actual_4th = actual_winning_combo[3][0]
+
+        return combo == (actual_1st, actual_2nd, actual_3rd, actual_4th)
+    
 class MultiRaceWager(Wager):
     """
     A general multi-race wager class for multi-leg bets:
@@ -113,3 +214,13 @@ class MultiRaceWager(Wager):
             if combo[i] not in actual_winning_combo[i]:
                 return False
         return True
+    
+    def get_top_n_for_leg(self, leg_index, race):
+        """
+        Return the program_nums of the top_n horses in the given race.
+        This matches the logic in generate_combos() but for logging/debug.
+        """
+        sorted_horses = race.get_sorted_by_prediction()
+        top_horses = sorted_horses[: self.top_n]
+        picks_for_leg = [h.program_num for h in top_horses]
+        return picks_for_leg

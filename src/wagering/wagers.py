@@ -10,7 +10,7 @@ from src.wagering.wagering_functions import find_race
 import logging
 import pandas as pd
 from src.wagering.wagering_helper_functions import gather_bet_metrics
-from pyspark.sql.functions import col, sum as F_sum, when, count as F_count
+from pyspark.sql.functions import col, sum as F_sum, when, count as F_count, lit
 
 def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box):
     """
@@ -56,6 +56,7 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
             logging.info(f"\n--- Debugging Race ---")
             logging.info(f"Race Key: {key}")
             logging.info(f"Generated Combos: {combos}")
+            logging.info(f"Posted Base: {posted_base:.2f}")
             logging.info(f"Cost for Combos: {cost:.2f}")
             logging.info(f"Actual Winning Combo: {actual_combo}")
             logging.info(f"Listed Payoff: {race_payoff:.2f}")
@@ -150,6 +151,7 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
     df_results = spark.createDataFrame(bet_results, schema=schema)
 
     # Optionally, compute per-row profit/ROI if each row has cost & payoff
+    df_results = df_results.withColumn("bet_type", lit(f"exacta_top{top_n}_box"))
     df_results = df_results.withColumn("profit", col("payoff") - col("cost"))
     df_results = df_results.withColumn(
         "row_roi",
@@ -158,7 +160,14 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
     # Return the DataFrame with combos as arrays
     return df_results
 
-def implement_TrifectaWager(spark, all_races, wagers_dict, base_amount=2.0, top_n=4, box=True):
+def implement_TrifectaWager(
+            spark,
+            all_races,
+            wagers_dict,
+            base_amount,
+            top_n, 
+            box
+        ):
     """
     Generates a list of bets (combos) for each race using trifecta logic,
     calculates the cost/payoff, and returns a Spark DataFrame with row-level metrics 
@@ -203,10 +212,11 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, base_amount=2.0, top_
         if race_wager_info:
             actual_combo = race_wager_info.get('winning_combo')  # e.g. [["5"], ["3"], ["8"]]
             race_payoff = float(race_wager_info.get('payoff', 0))
-            posted_base = float(race_wager_info.get('num_tickets', 1))
+            posted_base = float(race_wager_info.get('num_tickets'))
             logging.info(f"\n--- Debugging Race ---")
             logging.info(f"Race Key: {key}")
             logging.info(f"Generated Combos: {combos}")
+            logging.info(f"Posted Base: {posted_base:.2f}")
             logging.info(f"Cost for Combos: {cost:.2f}")
             logging.info(f"Actual Winning Combo: {actual_combo}")
             logging.info(f"Listed Payoff: {race_payoff:.2f}")
@@ -282,6 +292,8 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, base_amount=2.0, top_
     ])
 
     df_results = spark.createDataFrame(bet_results, schema=schema)
+    
+    df_results = df_results.withColumn("bet_type", lit(f"trifecta_top{top_n}_box"))
     df_results = df_results.withColumn("profit", col("payoff") - col("cost"))
     df_results = df_results.withColumn(
         "row_roi",
@@ -290,7 +302,14 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, base_amount=2.0, top_
 
     return df_results
 
-def implement_SuperfectaWager(spark, all_races, wagers_dict, base_amount=2.0, top_n=4, box=True):
+def implement_SuperfectaWager(
+            spark,
+            all_races,
+            wagers_dict,
+            base_amount,
+            top_n, 
+            box
+        ):
     """
     Generates a list of bets (combos) for each race using superfecta logic, calculates the cost and payoff,
     and returns a Spark DataFrame with row-level metrics per race bet scenario.
@@ -333,6 +352,7 @@ def implement_SuperfectaWager(spark, all_races, wagers_dict, base_amount=2.0, to
             logging.info(f"\n--- Debugging Race ---")
             logging.info(f"Race Key: {key}")
             logging.info(f"Generated Combos: {combos}")
+            logging.info(f"Posted Base: {posted_base:.2f}")
             logging.info(f"Cost for Combos: {cost:.2f}")
             logging.info(f"Actual Winning Combo: {actual_combo}")
             logging.info(f"Listed Payoff: {race_payoff:.2f}")
@@ -422,8 +442,8 @@ def implement_SuperfectaWager(spark, all_races, wagers_dict, base_amount=2.0, to
 
     # Convert bet_results into a Spark DataFrame with the defined schema
     df_results = spark.createDataFrame(bet_results, schema=schema)
-
-    from pyspark.sql.functions import col, when
+    
+    df_results = df_results.withColumn("bet_type", lit(f"superfecta_top{top_n}_box"))
     df_results = df_results.withColumn("profit", col("payoff") - col("cost"))
     df_results = df_results.withColumn(
         "row_roi",
@@ -433,11 +453,15 @@ def implement_SuperfectaWager(spark, all_races, wagers_dict, base_amount=2.0, to
     return df_results
 
 def implement_multi_race_wager(
-    spark, all_races, wagers_dict, wager_type, num_legs,
-    base_amount=2.0,
-    top_n=2,      # default to 1 or 2, your choice
-    box=True     # default to False
-):
+            spark,
+            all_races,
+            wagers_dict,
+            wager_type,
+            num_legs,
+            base_amount,
+            top_n,
+            box
+        ):
 
     results = []
 
@@ -492,9 +516,9 @@ def implement_multi_race_wager(
         # 3) Generate combos using my_wager and calculate cost
         all_combos = my_wager.generate_combos(race_objs)
         cost = my_wager.calculate_cost(all_combos)
-
+        
         posted_payoff = float(wrow.get("payoff", 0.0))
-        posted_base   = float(wrow.get("num_tickets", 2.0))
+        posted_base   = float(wrow.get("num_tickets"))
 
         # 4) Check if any generated combo matches the winning combo
         payoff = 0.0
@@ -514,6 +538,8 @@ def implement_multi_race_wager(
 
         logging.info(f"Generated {len(all_combos)} combos => {all_combos}")
         logging.info(f"Actual Winning Combo: {leg_winners}")
+        logging.info(f"Posted Base: ${posted_base:.2f}")
+        logging.info(f"Listed Payoff: {posted_payoff:.2f}")
         logging.info(f"Cost for Combo Set: ${cost:.2f}")
         logging.info(f"Payoff: ${payoff:.2f}")
 
@@ -570,7 +596,7 @@ def implement_multi_race_wager(
     
     df_results = spark.createDataFrame(results, schema=schema)
 
-    from pyspark.sql.functions import col, when
+    df_results = df_results.withColumn("bet_type", lit(f"{wager_type}_top{top_n}_box"))
     df_results = df_results.withColumn("profit", col("payoff") - col("cost"))
     df_results = df_results.withColumn(
         "row_roi",
@@ -578,24 +604,27 @@ def implement_multi_race_wager(
     )
     # Aggregate totals
     agg = df_results.agg(
-        F_sum("cost").alias("total_cost"),
-        F_sum("payoff").alias("total_payoff"),
-        F_sum("hit_flag").alias("total_hits"),
-        F_count("*").alias("total_races")
+    F_sum("cost").alias("total_cost"),
+    F_sum("payoff").alias("total_payoff"),
+    F_sum("hit_flag").alias("total_hits"),
+    F_sum("combos_generated").alias("sum_combos"),
+    F_count("*").alias("num_final_leg_rows")
     ).collect()[0]
 
     total_cost = agg["total_cost"] or 0.0
     total_payoff = agg["total_payoff"] or 0.0
     total_hits = agg["total_hits"] or 0
-    total_races = agg["total_races"] or 0
+    sum_combos = agg["sum_combos"] or 0
+    num_final_leg_rows = agg["num_final_leg_rows"] or 0
 
     net = total_payoff - total_cost
     roi = (net / total_cost) if total_cost > 0 else 0.0
-    misses = total_races - total_hits
+    misses = total_hits - num_final_leg_rows  # or however you track that
 
-    print(f"\nMulti-Race Wager ({wager_type}, {num_legs} legs) =>")
-    print(f"Total Wagers: {total_races}, Hits: {total_hits}, Misses: {misses}")
-    print(f"Total Cost: ${total_cost:.2f}, Total Payoff: ${total_payoff:.2f}")
+    print(f"Multi-Race Wager ({wager_type}, {num_legs} legs) =>")
+    print(f"  Total final-leg rows: {num_final_leg_rows}")
+    print(f"  Sum of combos_generated: {sum_combos}")
+    print(f"  Total cost: ${total_cost:.2f}, payoff: ${total_payoff:.2f}, ROI: {roi:.2%}")
     print(f"Net: ${net:.2f}, ROI: {roi:.2%}")
 
     return df_results

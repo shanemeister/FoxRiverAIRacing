@@ -267,14 +267,41 @@ def get_user_wager_preferences():
         print("Invalid amount. Defaulting to 2.0")
         base_amount = 2.0
 
+    TOP_N_DEFAULTS = {
+    "Exacta": 2,
+    "Trifecta": 3,
+    "Superfecta": 4,
+    "Daily Double": 1,
+    "Pick 3": 1,
+    "Pick 4": 1,
+    "Pick 5": 1,
+    "Pick 6": 1,
+    "Quinella": 2,
+    }
+
+    def get_top_n_input(wager_type):
+        # 1) Figure out the default for this wager type
+        default_top_n = TOP_N_DEFAULTS.get(wager_type, 2)  # fallback=2 for unknown types
+
+        # 2) Prompt user with the default in parentheses
+        msg = f"Enter the number of top horses to consider (default {default_top_n}): "
+        raw = input(msg).strip()
+
+        # 3) Use the default if user pressed Enter, otherwise convert to int
+        return int(raw) if raw else default_top_n
+    
+    top_n = get_top_n_input(selected_wager_type)
+    
     # If single-race exotic, ask about box
     # (Daily Double, Pick 3, etc. won't box in the same sense, but let's keep it simple)
     is_box = False
-    if selected_wager_type in ["Exacta", "Trifecta", "Superfecta", "Quinella"]:
-        box_choice = input("Box this wager? (y/n): ").strip().lower()
-        if box_choice == "y":
-            is_box = True
+    box_choice = input("Box this wager? (y/n): ").strip().lower()
+    if box_choice == "y":
+         is_box = True
 
+    if selected_wager_type == "Daily Double":
+        num_legs = 2
+        
     if selected_wager_type in ["Pick 3", "Pick 4", "Pick 5", "Pick 6"]:
         num_legs = int(selected_wager_type[-1])  # Extract the last character and convert it to an integer        box_choice = input("Box this wager? (y/n): ").strip().lower()
     # (Optional) Key horse prompt
@@ -288,6 +315,7 @@ def get_user_wager_preferences():
         "base_amount": base_amount,
         "is_box": is_box,
         "num_legs": num_legs if selected_wager_type in ["Pick 3", "Pick 4", "Pick 5", "Pick 6"] else None,
+        "top_n": top_n,
         # "key_horse": key_horse,  # If you implement that logic
     }
 
