@@ -14,6 +14,8 @@ def sql_queries():
                 h.horse_id AS horse_id,
                 h.horse_name AS horse_name,
                 re.official_fin AS official_fin, -- official finish position, use as target possibly
+                sa.dist_bk_gate4 AS dist_bk_gate4_target, -- distance behind at gate 4
+                sa.running_time AS running_time_target, -- total running time
                 r.rr_par_time AS par_time,  -- par_time for a race track pre-computed
                 r2.post_position AS post_position,
                 r2.avg_purse_val_calc AS avg_purse_val,       -- av_pur_val Average Purse Value Calculation
@@ -137,6 +139,10 @@ def sql_queries():
                 TRIM(r.race_type) AS race_type,              -- (Race) type (stakes, allowance, etc.)
                 TRIM(r.stk_clm_md) AS stk_clm_md,            -- (Race) whether stakes, claiming, maiden, etc.
                 TRIM(r2.turf_mud_mark) AS turf_mud_mark,     -- (Race) special mark for turf or mud conditions
+                -- CASE 
+                --    WHEN r.race_date < CURRENT_DATE THEN 'historical'
+                --    ELSE 'future'
+                -- END AS data_flag,                            -- (Race) indicates if race is past or upcoming
                 -- ============================
                 -- JOCKEY / TRAINER STATS
                 -- ============================
@@ -264,22 +270,16 @@ def sql_queries():
                 AND s.type='LIFETIME'
             LEFT JOIN stat_dam d ON h.axciskey=d.axciskey 
                 AND d.type='LIFETIME'            
-            LEFT JOIN LATERAL (
-                                SELECT s.*
-                                FROM sectionals_aggregated_locf s
-                                WHERE s.horse_id = h.horse_id
-                                    AND s.as_of_date <= r2.race_date
-                                ORDER BY s.as_of_date DESC
-                                LIMIT 1
-                                ) sa ON TRUE
-            LEFT JOIN LATERAL (
-                    SELECT gl.*
-                    FROM gps_aggregated_locf gl
-                    WHERE gl.horse_id = h.horse_id
-                        AND gl.race_date <= r2.race_date
-                    ORDER BY gl.race_date DESC
-                    LIMIT 1
-                    ) gal ON TRUE
+            LEFT JOIN sectionals_aggregated_locf sa
+                                ON h.horse_id = sa.horse_id
+                                AND r2.course_cd = sa.course_cd
+                                AND r2.race_date = sa.race_date
+                                AND r2.race_number = sa.race_number
+            LEFT JOIN gps_aggregated_locf gal
+                                ON h.horse_id = gal.horse_id
+                                AND r2.course_cd = gal.course_cd
+                                AND r2.race_date = gal.race_date
+                                AND r2.race_number = gal.race_number
             LEFT JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey 
                 AND has_all.stat_type='ALL_RACES' 
                 AND has_all.as_of_date=(SELECT MAX(a2.as_of_date) 
@@ -391,7 +391,6 @@ def sql_queries():
             LEFT JOIN track_conditions tc ON r.trk_cond=tc.code
             JOIN course c ON r.course_cd=c.course_cd
             WHERE r2.breed_type='TB'
-            AND r2.race_date >= CURRENT_DATE - INTERVAL '6 MONTHS'
             AND r.course_cd in('CNL','SAR','PIM','TSA','BEL','MVR','TWO','KEE','TAM',
                             'TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP',
                             'TGG','CBY','LRL','TED','IND','TCD','TOP')

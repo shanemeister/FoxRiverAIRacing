@@ -3,7 +3,8 @@ def form_sql_queries():
     # Define SQL queries without trailing semicolons
     queries = {
         "races": """
-            select r.course_cd, r.race_date, r.race_number, r2.saddle_cloth_number, h.horse_id, r2.todays_cls , re.official_fin , re.speed_rating , sa.running_time , sa.dist_bk_gate1, sa.dist_bk_gate2, sa.dist_bk_gate3, sa.dist_bk_gate4 , ga.avg_speed_fullrace , ga.avg_stride_length, ga.strfreq_q1 , ga.strfreq_q2 , ga.strfreq_q3 , ga.strfreq_q4 
+            select r.course_cd, r.race_date, r.race_number, r2.saddle_cloth_number, h.horse_id, r2.todays_cls , re.official_fin , 
+                re.speed_rating , sa.running_time , sa.dist_bk_gate1, sa.dist_bk_gate2, sa.dist_bk_gate3, sa.dist_bk_gate4 , ga.avg_speed_fullrace , ga.avg_stride_length, ga.strfreq_q1 , ga.strfreq_q2 , ga.strfreq_q3 , ga.strfreq_q4 
             from races r 
             join runners r2 on r.course_cd = r2.course_cd
                 and r.race_date = r2.race_date

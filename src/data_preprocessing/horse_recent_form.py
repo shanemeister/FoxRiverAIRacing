@@ -191,13 +191,21 @@ def compute_recent_form_metrics(
     #    So we do lag1_speed = race i-1, lag2_speed = race i-2, and improvement = lag1 - lag2.
     race_df_asc = (
         race_df_asc
-        # This is the previous race's speed rating
         .withColumn("lag1_speed", F.lag("speed_rating", 1).over(window_race))
-        # This is the race before the previous race
         .withColumn("lag2_speed", F.lag("speed_rating", 2).over(window_race))
-        .withColumn("speed_improvement", F.col("lag1_speed") - F.col("lag2_speed"))
+        .withColumn("speed_improvement",
+            when(
+                # exactly one prior race: lag2 null but lag1 exists
+                col("lag2_speed").isNull() & col("lag1_speed").isNotNull(),
+                lit(0)
+            ).when(
+                # two or more prior races: true delta
+                col("lag1_speed").isNotNull() & col("lag2_speed").isNotNull(),
+                col("lag1_speed") - col("lag2_speed")
+            )
+        )
     )
-
+    
     # 8) Days off = difference in race_date from the prior race
     race_df_asc = (
         race_df_asc

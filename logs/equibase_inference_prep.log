@@ -1,0 +1,13 @@
+2025-04-25 13:20:13 - INFO - Logging has been set up successfully.
+2025-04-25 13:20:13 - INFO - Starting main function...
+2025-04-25 13:20:13 - INFO - Running training data ingestion steps...
+2025-04-25 13:20:14 - INFO - === Starting Multi-Model Future Inference ===
+2025-04-25 13:20:14 - INFO - Found these CatBoost model files:
+2025-04-25 13:20:14 - INFO -   catboost_YetiRank_NDCG:top=4_20250423_180441.cbm
+2025-04-25 13:20:14 - INFO - === Making predictions with model: catboost_YetiRank_NDCG:top=4_20250423_180441.cbm ===
+2025-04-25 13:20:14 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=4_20250423_180441.cbm
+2025-04-25 13:20:15 - INFO - Writing predictions to DB table: predictions_20250425_132015_1
+2025-04-25 13:22:56 - INFO - Wrote 812298 predictions to DB table 'predictions_20250425_132015_1'.
+2025-04-25 13:22:56 - INFO - === Finished Multi-Model Future Inference ===
+2025-04-25 13:22:57 - INFO - Spark session stopped.
+2025-04-25 13:22:57 - INFO - Closing down clientserver connection

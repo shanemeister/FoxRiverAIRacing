@@ -20,6 +20,9 @@ def wager_queries():
             	and r.saddle_cloth_number = p.saddle_cloth_number 
             WHERE p."rank" is not null
             AND r.race_date >= '2024-07-01' -- CURRENT_DATE - INTERVAL '6 MONTHS' -- >= '2024-06-30'
+            AND r.course_cd in('CNL','SAR','PIM','TSA','BEL','MVR','TWO','KEE','TAM',
+                            'TTP','TKD','ELP','PEN','HOU','DMR','TLS','AQU','MTH','TGP',
+                            'TGG','CBY','LRL','TED','IND','TCD','TOP')
         """,
         "wagers": """
             SELECT ew.course_cd , ew.race_date , ew.race_number , ew.wager_id, ew.num_tickets, ew.wager_type, ew.winners, ew.payoff, ew.pool_total, ew.post_time 

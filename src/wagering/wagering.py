@@ -39,14 +39,9 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
     # 1) Gather user inputs for the wager
     user_prefs = get_user_wager_preferences()
     wager_type = user_prefs["wager_type"]
-    base_amount = user_prefs["base_amount"]
+    wager_amount = user_prefs["wager_amount"]
     top_n = user_prefs["top_n"]
-    # If user picks 'Daily Double', we force num_legs=2 if it's not set
-    if wager_type == "Daily Double":
-        num_legs = 2
-    else:
-        num_legs = user_prefs["num_legs"]
-
+    num_legs = user_prefs["num_legs"]
     box = user_prefs["is_box"]
 
     # 2) Build Race objects, Wagers dict
@@ -59,7 +54,7 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
             spark,
             all_races,
             wagers_dict,
-            base_amount=base_amount,
+            wager_amount,
             top_n=top_n,
             box=box
         )
@@ -70,8 +65,8 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
             spark,
             all_races,
             wagers_dict,
-            base_amount,
-            top_n=top_n, 
+            wager_amount,
+            top_n=top_n,
             box=box
         )
         filename = wager_type.lower().replace(" ", "") + "_wagering"
@@ -82,8 +77,8 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
             spark,
             all_races,
             wagers_dict,
-            base_amount,
-            top_n=top_n, 
+            wager_amount,
+            top_n=top_n,
             box=box
         )
         filename = wager_type.lower().replace(" ", "") + "_wagering"
@@ -96,8 +91,8 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
             all_races,
             wagers_dict,
             wager_type,
-            num_legs,
-            base_amount=base_amount,
+            num_legs=num_legs,
+            wager_amount=wager_amount,
             top_n=top_n,
             box=box
         )
@@ -105,16 +100,8 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
         save_parquet(spark, bet_results_df, filename, parquet_dir)
 
     else:
-        logging.info(f"'{wager_type}' not yet implemented. Defaulting to Exacta.")
-        bet_results_df = implement_ExactaWager(
-            spark,
-            all_races,
-            wagers_dict,
-            base_amount=base_amount,
-            top_n=2,
-            box=False
-        )
-        save_parquet(spark, bet_results_df, "exacta_wagering", parquet_dir)
+        logging.info(f"'{wager_type}' not yet implemented.")
+        
 
 
 def main():

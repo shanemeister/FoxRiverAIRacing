@@ -103,17 +103,9 @@ class Wager(ABC):
         return len(combos) * self.base_amount
     
     def calculate_payoff(self, posted_payoff: float, posted_base: float = 2.0) -> float:
-            """
-            posted_payoff:  The payoff given by the track for posted_base bet.
-            posted_base:    The bet size for which the track payoff is quoted 
-                            (e.g., 0.50, 1.00, 2.00 from the 'num_tickets' column).
-            
-            This scales the posted payoff to *your* base_amount. 
-            For example, if posted_base=1.0 (Trifecta payoff for a $1 bet)
-            and you are actually betting $2, your final payoff is posted_payoff * (2 / 1).
-            """
-            scaling_factor = self.base_amount / posted_base
-            return posted_payoff * scaling_factor
+        
+        scaling_factor = self.base_amount / posted_base
+        return posted_payoff * scaling_factor
         
     def __repr__(self):
         return f"{self.__class__.__name__}(base_amount={self.base_amount})"
@@ -153,47 +145,6 @@ class HorseEntry:
                 f"official_fin={self.official_fin}, prediction={self.prediction}, rank={self.rank}, "
                 f"final_odds={self.final_odds})")
 
-class ExactaWager(Wager):
-    def __init__(self, base_amount=1.0, top_n=2, box=True):
-        super().__init__(base_amount)
-        self.top_n = top_n  # how many top picks to use
-        self.box = box      # True => box them, False => pick them in strict order
-    
-    def generate_combos(self, race):
-        # Example: for top_n=2, if box=True, combos might be (Pick1, Pick2) and (Pick2, Pick1)
-        sorted_horses = race.get_sorted_by_prediction()
-        # get top_n horses
-        top_horses = sorted_horses[:self.top_n]
-        
-        combos = []
-        if self.box:
-            # e.g., if top_n=2 => 2 permutations
-            import itertools
-            for perm in itertools.permutations(top_horses, 2):
-                # store combos as tuple of program_nums or horse_ids
-                combos.append(tuple(h.program_num for h in perm))
-        else:
-            # only one exact order: e.g. (Pick1=1st, Pick2=2nd)
-            combos.append((top_horses[0].program_num, top_horses[1].program_num))
-        return combos
-    
-    def check_if_win(self, combo, race, actual_winning_combo):
-        """
-        combo is something like ('7', '6')
-        actual_winning_combo might be from your parsed string => [["7"], ["6"]] for an exacta
-        so we check if combo == (first_horse, second_horse).
-        """
-        # The actual winning combo for an EXACTA should have 2 positions => [[WINNER], [SECOND]]
-        if len(actual_winning_combo) != 2:
-            return False  # not an exacta or data missing
-        
-        # Flatten them, since each position might be a list of 1 horse
-        actual_1st = actual_winning_combo[0][0]
-        actual_2nd = actual_winning_combo[1][0]
-        
-        return combo == (actual_1st, actual_2nd)
-    
-    
 class BettingSimulation:
     def __init__(self, wagers_data):
         """

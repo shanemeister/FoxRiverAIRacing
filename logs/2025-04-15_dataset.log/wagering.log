@@ -1,0 +1,1836 @@
+2025-04-15 16:31:27 - INFO - Logging has been set up successfully.
+2025-04-15 16:31:27 - INFO - Loading races data from PostgreSQL...
+2025-04-15 16:31:28 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
+2025-04-15 16:31:29 - INFO - races data loaded and saved successfully.
+2025-04-15 16:31:29 - INFO - Loading wagers data from PostgreSQL...
+2025-04-15 16:31:30 - INFO - Saving wagers DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/wagers.parquet...
+2025-04-15 16:31:31 - INFO - wagers data loaded and saved successfully.
+2025-04-15 16:31:31 - INFO - DataFrame 'races' loaded. Schema:
+2025-04-15 16:31:31 - INFO - DataFrame 'wagers' loaded. Schema:
+2025-04-15 16:31:34 - INFO - Ingestion job succeeded
+2025-04-15 16:31:47 - INFO - Filtered wagers_subset for 'Daily Double': 48263 entries
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['8', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '5'), ('8', '7'), ('6', '5'), ('6', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['8', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '5'), ('8', '7'), ('6', '5'), ('6', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $12.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '3'), ('5', '9'), ('7', '3'), ('7', '9')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '3'), ('5', '9'), ('7', '3'), ('7', '9')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $10.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '9']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '5'), ('3', '3'), ('9', '5'), ('9', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '9']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '5'), ('3', '3'), ('9', '5'), ('9', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $22.40
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['5', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '2'), ('5', '1'), ('3', '2'), ('3', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['5', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '2'), ('5', '1'), ('3', '2'), ('3', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $70.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['10', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '10'), ('2', '7'), ('1', '10'), ('1', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['10', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '10'), ('2', '7'), ('1', '10'), ('1', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['10']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $37.60
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['10', '7']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '4'), ('10', '5'), ('7', '4'), ('7', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['10', '7']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '4'), ('10', '5'), ('7', '4'), ('7', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['10'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $29.60
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '4'), ('4', '8'), ('5', '4'), ('5', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '4'), ('4', '8'), ('5', '4'), ('5', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $29.60
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['12', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '12'), ('4', '7'), ('8', '12'), ('8', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['12', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '12'), ('4', '7'), ('8', '12'), ('8', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['12', '7']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '4'), ('12', '1'), ('7', '4'), ('7', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['12', '7']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '4'), ('12', '1'), ('7', '4'), ('7', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '9'), ('4', '4'), ('1', '9'), ('1', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-15, Final Leg #11)
+2025-04-15 16:31:47 - INFO - Legs: [10, 11]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '9'), ('4', '4'), ('1', '9'), ('1', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '4'), ('1', '2'), ('5', '4'), ('5', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-16, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '4'), ('1', '2'), ('5', '4'), ('5', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '5'), ('4', '2'), ('2', '5'), ('2', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-16, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '5'), ('4', '2'), ('2', '5'), ('2', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '6'), ('5', '4'), ('2', '6'), ('2', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-16, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '6'), ('5', '4'), ('2', '6'), ('2', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $47.20
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['12', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '12'), ('6', '4'), ('4', '12'), ('4', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-16, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['12', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '12'), ('6', '4'), ('4', '12'), ('4', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['12']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $26.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['12', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '9'), ('12', '6'), ('4', '9'), ('4', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-16, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['12', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '9'), ('12', '6'), ('4', '9'), ('4', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['12'], ['7']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['6', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '6'), ('9', '2'), ('6', '6'), ('6', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-16, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['6', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '6'), ('9', '2'), ('6', '6'), ('6', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['7'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['6', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '4'), ('6', '8'), ('2', '4'), ('2', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-16, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['6', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '4'), ('6', '8'), ('2', '4'), ('2', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['8']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $21.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '4'), ('4', '10'), ('8', '4'), ('8', '10')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-16, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '4'), ('4', '10'), ('8', '4'), ('8', '10')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['8'], ['10']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $36.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '9']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '1A']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '9'), ('4', '1A'), ('9', '9'), ('9', '1A')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '9']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '1A']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '9'), ('4', '1A'), ('9', '9'), ('9', '1A')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['8'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '1A']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '9'), ('9', '5'), ('1A', '9'), ('1A', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '1A']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '9'), ('9', '5'), ('1A', '9'), ('1A', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '12'), ('9', '3'), ('5', '12'), ('5', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '12'), ('9', '3'), ('5', '12'), ('5', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['12']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $23.40
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '12']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '9'), ('12', '12'), ('3', '9'), ('3', '12')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '12']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '9'), ('12', '12'), ('3', '9'), ('3', '12')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['12'], ['12']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $82.40
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '12']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['10', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '10'), ('9', '6'), ('12', '10'), ('12', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '12']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['10', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '10'), ('9', '6'), ('12', '10'), ('12', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['12'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['10', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '1'), ('10', '9'), ('6', '1'), ('6', '9')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['10', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '1'), ('10', '9'), ('6', '1'), ('6', '9')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '9']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '9'), ('1', '6'), ('9', '9'), ('9', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '9']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '9'), ('1', '6'), ('9', '9'), ('9', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['8']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '2'), ('9', '6'), ('6', '2'), ('6', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '2'), ('9', '6'), ('6', '2'), ('6', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['8'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['11', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '11'), ('2', '10'), ('6', '11'), ('6', '10')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-21, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['11', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '11'), ('2', '10'), ('6', '11'), ('6', '10')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['11']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $42.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['8', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '7'), ('8', '11'), ('4', '7'), ('4', '11')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['8', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '7'), ('8', '11'), ('4', '7'), ('4', '11')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['8'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '11']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '2'), ('7', '5'), ('11', '2'), ('11', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '11']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '2'), ('7', '5'), ('11', '2'), ('11', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '1'), ('2', '6'), ('5', '1'), ('5', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '1'), ('2', '6'), ('5', '1'), ('5', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '13']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '3'), ('1', '13'), ('6', '3'), ('6', '13')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '13']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '3'), ('1', '13'), ('6', '3'), ('6', '13')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '13']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['8', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '8'), ('3', '2'), ('13', '8'), ('13', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '13']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['8', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '8'), ('3', '2'), ('13', '8'), ('13', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['8']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['8', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '4'), ('8', '1'), ('2', '4'), ('2', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['8', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '4'), ('8', '1'), ('2', '4'), ('2', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['8'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $19.60
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['10', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '10'), ('4', '8'), ('1', '10'), ('1', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['10', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '10'), ('4', '8'), ('1', '10'), ('1', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['8']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $20.40
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['10', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '1'), ('10', '10'), ('8', '1'), ('8', '10')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['10', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '1'), ('10', '10'), ('8', '1'), ('8', '10')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['8'], ['10']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $36.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '5'), ('1', '3'), ('10', '5'), ('10', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '5'), ('1', '3'), ('10', '5'), ('10', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['10'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['5', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['13', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '13'), ('5', '5'), ('3', '13'), ('3', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-22, Final Leg #11)
+2025-04-15 16:31:47 - INFO - Legs: [10, 11]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['5', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['13', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '13'), ('5', '5'), ('3', '13'), ('3', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['11', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '11'), ('5', '9'), ('2', '11'), ('2', '9')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-23, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['11', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '11'), ('5', '9'), ('2', '11'), ('2', '9')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $62.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['11', '9']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '2'), ('11', '5'), ('9', '2'), ('9', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-23, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['11', '9']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '2'), ('11', '5'), ('9', '2'), ('9', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $71.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['8', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '8'), ('2', '3'), ('5', '8'), ('5', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-23, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['8', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '8'), ('2', '3'), ('5', '8'), ('5', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['8', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '3'), ('8', '11'), ('3', '3'), ('3', '11')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-23, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['8', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '3'), ('8', '11'), ('3', '3'), ('3', '11')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '11']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['11', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '11'), ('3', '1'), ('11', '11'), ('11', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-23, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '11']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['11', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '11'), ('3', '1'), ('11', '11'), ('11', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['11']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $47.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['11', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '3'), ('11', '4'), ('1', '3'), ('1', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-23, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['11', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '3'), ('11', '4'), ('1', '3'), ('1', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['11'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '7'), ('3', '5'), ('4', '7'), ('4', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-23, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '7'), ('3', '5'), ('4', '7'), ('4', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '4'), ('7', '7'), ('5', '4'), ('5', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-23, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '4'), ('7', '7'), ('5', '4'), ('5', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['7']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '3'), ('1', '1'), ('2', '3'), ('2', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '3'), ('1', '1'), ('2', '3'), ('2', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '9'), ('3', '5'), ('1', '9'), ('1', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '9'), ('3', '5'), ('1', '9'), ('1', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '7'), ('9', '2'), ('5', '7'), ('5', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '7'), ('9', '2'), ('5', '7'), ('5', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '2'), ('7', '6'), ('2', '2'), ('2', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '2'), ('7', '6'), ('2', '2'), ('2', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['11', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '11'), ('2', '10'), ('6', '11'), ('6', '10')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['11', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '11'), ('2', '10'), ('6', '11'), ('6', '10')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['10']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $27.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['11', '10']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['13', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '13'), ('11', '9'), ('10', '13'), ('10', '9')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['11', '10']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['13', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '13'), ('11', '9'), ('10', '13'), ('10', '9')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['10'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['13', '9']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('13', '3'), ('13', '5'), ('9', '3'), ('9', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['13', '9']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('13', '3'), ('13', '5'), ('9', '3'), ('9', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['8', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '8'), ('3', '10'), ('5', '8'), ('5', '10')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['8', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '8'), ('3', '10'), ('5', '8'), ('5', '10')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['7']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['8', '10']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['11', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '11'), ('8', '6'), ('10', '11'), ('10', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['8', '10']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['11', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '11'), ('8', '6'), ('10', '11'), ('10', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['7'], ['11']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['11', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '6'), ('11', '4'), ('6', '6'), ('6', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-28, Final Leg #11)
+2025-04-15 16:31:47 - INFO - Legs: [10, 11]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['11', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '6'), ('11', '4'), ('6', '6'), ('6', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['11'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $27.40
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['10', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '7'), ('10', '4'), ('6', '7'), ('6', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['10', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '7'), ('10', '4'), ('6', '7'), ('6', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['10']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['11', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '11'), ('7', '1'), ('4', '11'), ('4', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['11', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '11'), ('7', '1'), ('4', '11'), ('4', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['10'], ['11']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['11', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['6', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '6'), ('11', '8'), ('1', '6'), ('1', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['11', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['6', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '6'), ('11', '8'), ('1', '6'), ('1', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['11'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['6', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '6'), ('6', '4'), ('8', '6'), ('8', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['6', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '6'), ('6', '4'), ('8', '6'), ('8', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['8']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '6'), ('6', '4'), ('4', '6'), ('4', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '6'), ('6', '4'), ('4', '6'), ('4', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['8'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['10', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '10'), ('6', '2'), ('4', '10'), ('4', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['6', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['10', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '10'), ('6', '2'), ('4', '10'), ('4', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $49.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['10', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '1'), ('10', '3'), ('2', '1'), ('2', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['10', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '1'), ('10', '3'), ('2', '1'), ('2', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $29.20
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '3'), ('1', '8'), ('3', '3'), ('3', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '3'), ('1', '8'), ('3', '3'), ('3', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $17.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '3'), ('3', '6'), ('8', '3'), ('8', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '3'), ('3', '6'), ('8', '3'), ('8', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '1'), ('3', '3'), ('6', '1'), ('6', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #11)
+2025-04-15 16:31:47 - INFO - Legs: [10, 11]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '1'), ('3', '3'), ('6', '1'), ('6', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '5'), ('1', '7'), ('3', '5'), ('3', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #12)
+2025-04-15 16:31:47 - INFO - Legs: [11, 12]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '5'), ('1', '7'), ('3', '5'), ('3', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $7.60
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['8', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '8'), ('5', '6'), ('7', '8'), ('7', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #13)
+2025-04-15 16:31:47 - INFO - Legs: [12, 13]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['8', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '8'), ('5', '6'), ('7', '8'), ('7', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $15.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['8', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '9'), ('8', '2'), ('6', '9'), ('6', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-29, Final Leg #14)
+2025-04-15 16:31:47 - INFO - Legs: [13, 14]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['8', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '9'), ('8', '2'), ('6', '9'), ('6', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $35.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '3'), ('12', '7'), ('3', '3'), ('3', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '3'), ('12', '7'), ('3', '3'), ('3', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['10']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '7']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '3'), ('3', '1'), ('7', '3'), ('7', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '7']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '3'), ('3', '1'), ('7', '3'), ('7', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['10'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '9'), ('3', '1'), ('1', '9'), ('1', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '9'), ('3', '1'), ('1', '9'), ('1', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '2'), ('9', '6'), ('1', '2'), ('1', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '2'), ('9', '6'), ('1', '2'), ('1', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '4'), ('2', '10'), ('6', '4'), ('6', '10')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '4'), ('2', '10'), ('6', '4'), ('6', '10')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['10']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '10']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '5'), ('4', '2'), ('10', '5'), ('10', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '10']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '5'), ('4', '2'), ('10', '5'), ('10', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['10'], ['5']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $15.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '12'), ('5', '3'), ('2', '12'), ('2', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['5', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '12'), ('5', '3'), ('2', '12'), ('2', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['5'], ['12']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $13.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '7'), ('12', '2'), ('3', '7'), ('3', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['12', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('12', '7'), ('12', '2'), ('3', '7'), ('3', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['12'], ['7']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $13.60
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '5'), ('7', '1'), ('2', '5'), ('2', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-03-30, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '5'), ('7', '1'), ('2', '5'), ('2', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['7'], ['8']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '3'), ('7', '4'), ('8', '3'), ('8', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '3'), ('7', '4'), ('8', '3'), ('8', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['7'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '1'), ('3', '3'), ('4', '1'), ('4', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '1'), ('3', '3'), ('4', '1'), ('4', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '4'), ('1', '6'), ('3', '4'), ('3', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '4'), ('1', '6'), ('3', '4'), ('3', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $38.20
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '2'), ('4', '7'), ('6', '2'), ('6', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '2'), ('4', '7'), ('6', '2'), ('6', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $31.80
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '7']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '1'), ('2', '10'), ('7', '1'), ('7', '10')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '7']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '1'), ('2', '10'), ('7', '1'), ('7', '10')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['7']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '12']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '7'), ('1', '12'), ('10', '7'), ('10', '12')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '12']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '7'), ('1', '12'), ('10', '7'), ('10', '12')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['7'], ['13']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '12']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['10', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '10'), ('7', '4'), ('12', '10'), ('12', '4')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '12']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['10', '4']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '10'), ('7', '4'), ('12', '10'), ('12', '4')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['13'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['10', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '7'), ('10', '8'), ('4', '7'), ('4', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['10', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '7'), ('10', '8'), ('4', '7'), ('4', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['12', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '12'), ('7', '11'), ('8', '12'), ('8', '11')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-04, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['12', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '12'), ('7', '11'), ('8', '12'), ('8', '11')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['12']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '7'), ('3', '9'), ('4', '7'), ('4', '9')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '4']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '7'), ('3', '9'), ('4', '7'), ('4', '9')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '9']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '2'), ('7', '8'), ('9', '2'), ('9', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '9']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '2'), ('7', '8'), ('9', '2'), ('9', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '3'), ('2', '7'), ('8', '3'), ('8', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '3'), ('2', '7'), ('8', '3'), ('8', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '7']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '3'), ('3', '5'), ('7', '3'), ('7', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '7']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '3'), ('3', '5'), ('7', '3'), ('7', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['8']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '9'), ('3', '6'), ('5', '9'), ('5', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '9'), ('3', '6'), ('5', '9'), ('5', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['8'], ['11']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '1'), ('9', '11'), ('6', '1'), ('6', '11')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '1'), ('9', '11'), ('6', '1'), ('6', '11')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['11'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '11']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '1'), ('1', '10'), ('11', '1'), ('11', '10')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '11']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '1'), ('1', '10'), ('11', '1'), ('11', '10')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '1'), ('1', '6'), ('10', '1'), ('10', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '10']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '1'), ('1', '6'), ('10', '1'), ('10', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '5'), ('1', '8'), ('6', '5'), ('6', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-11, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '5'), ('1', '8'), ('6', '5'), ('6', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['8']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $13.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['10', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '10'), ('4', '9'), ('5', '10'), ('5', '9')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['10', '9']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '10'), ('4', '9'), ('5', '10'), ('5', '9')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['11']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['10', '9']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['8', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '8'), ('10', '5'), ('9', '8'), ('9', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['10', '9']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['8', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '8'), ('10', '5'), ('9', '8'), ('9', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['11'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['8', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '5'), ('8', '7'), ('5', '5'), ('5', '7')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['8', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '5'), ('8', '7'), ('5', '5'), ('5', '7')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['7']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '9'), ('5', '6'), ('7', '9'), ('7', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['5', '7']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('5', '9'), ('5', '6'), ('7', '9'), ('7', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['7'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $27.40
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['11', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '11'), ('9', '2'), ('6', '11'), ('6', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['9', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['11', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('9', '11'), ('9', '2'), ('6', '11'), ('6', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['11', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '4'), ('11', '3'), ('2', '4'), ('2', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['11', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('11', '4'), ('11', '3'), ('2', '4'), ('2', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '3'), ('4', '1'), ('3', '3'), ('3', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '3'), ('4', '1'), ('3', '3'), ('3', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '4'), ('3', '2'), ('1', '4'), ('1', '2')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '2']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '4'), ('3', '2'), ('1', '4'), ('1', '2')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['1']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '2']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['1', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '1'), ('4', '8'), ('2', '1'), ('2', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #10)
+2025-04-15 16:31:47 - INFO - Legs: [9, 10]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '2']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['1', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '1'), ('4', '8'), ('2', '1'), ('2', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['1'], ['4']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['1', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['6', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '6'), ('1', '5'), ('8', '6'), ('8', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #11)
+2025-04-15 16:31:47 - INFO - Legs: [10, 11]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['1', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['6', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('1', '6'), ('1', '5'), ('8', '6'), ('8', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['4'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['6', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['5', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '5'), ('6', '1'), ('5', '5'), ('5', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-12, Final Leg #12)
+2025-04-15 16:31:47 - INFO - Legs: [11, 12]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['6', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['5', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('6', '5'), ('6', '1'), ('5', '5'), ('5', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['7', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '7'), ('2', '3'), ('5', '7'), ('5', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-13, Final Leg #2)
+2025-04-15 16:31:47 - INFO - Legs: [1, 2]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['7', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '7'), ('2', '3'), ('5', '7'), ('5', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['9']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['7', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '4'), ('7', '6'), ('3', '4'), ('3', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-13, Final Leg #3)
+2025-04-15 16:31:47 - INFO - Legs: [2, 3]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['7', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('7', '4'), ('7', '6'), ('3', '4'), ('3', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['9'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '6']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['3', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '3'), ('4', '11'), ('6', '3'), ('6', '11')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-13, Final Leg #4)
+2025-04-15 16:31:47 - INFO - Legs: [3, 4]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '6']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['3', '11']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '3'), ('4', '11'), ('6', '3'), ('6', '11')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['11']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['3', '11']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['2', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '2'), ('3', '3'), ('11', '2'), ('11', '3')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-13, Final Leg #5)
+2025-04-15 16:31:47 - INFO - Legs: [4, 5]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['3', '11']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['2', '3']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('3', '2'), ('3', '3'), ('11', '2'), ('11', '3')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['11'], ['2']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $38.00
+2025-04-15 16:31:47 - INFO - => Match Found! ✅
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['2', '3']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['8', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '8'), ('2', '1'), ('3', '8'), ('3', '1')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-13, Final Leg #6)
+2025-04-15 16:31:47 - INFO - Legs: [5, 6]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['2', '3']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['8', '1']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('2', '8'), ('2', '1'), ('3', '8'), ('3', '1')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['2'], ['6']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['8', '1']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '4'), ('8', '5'), ('1', '4'), ('1', '5')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-13, Final Leg #7)
+2025-04-15 16:31:47 - INFO - Legs: [6, 7]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['8', '1']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('8', '4'), ('8', '5'), ('1', '4'), ('1', '5')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['6'], ['3']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['10', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '10'), ('4', '8'), ('5', '10'), ('5', '8')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-13, Final Leg #8)
+2025-04-15 16:31:47 - INFO - Legs: [7, 8]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['4', '5']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['10', '8']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('4', '10'), ('4', '8'), ('5', '10'), ('5', '8')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['3'], ['12']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:47 - INFO - [Leg 1] top picks => ['10', '8']
+2025-04-15 16:31:47 - INFO - [Leg 2] top picks => ['13', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '13'), ('10', '6'), ('8', '13'), ('8', '6')]
+2025-04-15 16:31:47 - INFO - 
+--- Multi-Race Wager Debug ---
+2025-04-15 16:31:47 - INFO - Race Key: (TOP, 2025-04-13, Final Leg #9)
+2025-04-15 16:31:47 - INFO - Legs: [8, 9]
+2025-04-15 16:31:47 - INFO - Top Picks per Leg:
+2025-04-15 16:31:47 - INFO -   [Leg 1] top picks => ['10', '8']
+2025-04-15 16:31:47 - INFO -   [Leg 2] top picks => ['13', '6']
+2025-04-15 16:31:47 - INFO - Generated 4 combos => [('10', '13'), ('10', '6'), ('8', '13'), ('8', '6')]
+2025-04-15 16:31:47 - INFO - Actual Winning Combo: [['12'], ['10']]
+2025-04-15 16:31:47 - INFO - Cost for Combo Set: $8.00
+2025-04-15 16:31:47 - INFO - Payoff: $0.00
+2025-04-15 16:31:47 - INFO - => No Match ❌
+
+2025-04-15 16:31:50 - INFO - Closing down clientserver connection

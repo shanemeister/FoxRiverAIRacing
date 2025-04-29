@@ -359,38 +359,7 @@ def impute_performance_features(df):
     
     return df
 
-def remove_performance_columns(df):
-    """
-    1) For historical rows: drop if dist_bk_gate4, running_time, or total_distance_ran is null 
-       (also set dist_bk_gate4=0 if official_fin=1).
-    2) For future rows: keep as is.
-    3) Then do these calculations:
-       - # of future rows that match a historical horse_id vs. unmatched
-       - # of future races that have unmatched horses
-       - # of future races that have NO unmatched horses
-       - final row counts for future / historical
-    4) Return the combined DataFrame.
-    """
-
-    import pyspark.sql.functions as F
-    import logging
-
-    # (A) In historical, set dist_bk_gate4=0 if official_fin=1
-    df = df.withColumn(
-        "dist_bk_gate4",
-        F.when(F.col("official_fin") == 1, 0.0).otherwise(F.col("dist_bk_gate4"))
-    )
-
-    # 2) Count final row totals
-    prediction_count = df.count()
-
-    # Optionally show a subset of unmatched_races_df, no_unmatched_races_df
-    # unmatched_races_df.show(50, False)
-    # no_unmatched_races_df.show(50, False)
-
-    return df
-
-def load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir):
+def load_prediction_data_final(spark, jdbc_url, jdbc_properties, parquet_dir):
     """
     Load Parquet file used to train
     """
@@ -407,14 +376,6 @@ def load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir):
             )
             logging.info(f"Data loaded from PostgreSQL in {time.time() - start_time:.2f} seconds.")
 
-    if prediction_df is None:
-        logging.error("No training_data query found; prediction_df is not defined.")
-        # Handle the error or exit
-    else:
-        prediction_df.cache()
-        rows_prediction_df = prediction_df.count()
-        logging.info(f"Data loaded from PostgreSQL. Count: {rows_prediction_df}")
-    
     # Log the counts after filtering
     prediction_count = prediction_df.count()
     logging.info(f"Before filtering on has_gps and course_cd list: Predictions: {prediction_count}")
@@ -595,9 +556,6 @@ def load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir):
     prediction_count = prediction_df.count()
     logging.info(f"5. Just before impute_performance_columns: Prediction_count: {prediction_count}")
     
-    # prediction_df = remove_performance_columns(prediction_df) # dist_bk_gate4, running_time, total_distance_ran
-    # Log the counts
-
     prediction_df = impute_performance_features(prediction_df)
 
     start_time = time.time()

@@ -17,7 +17,7 @@ from pyspark.sql.functions import (
 )
 from psycopg2 import sql, pool, DatabaseError
 from pyspark.sql import SparkSession
-from src.Predict_only.load_prediction_data import load_prediction_data
+from src.Predict_only.load_prediction_data import load_prediction_data_final
 from src.Predict_only.join_horse_embedding_and_predict import race_predictions
 from src.data_preprocessing.data_prep2.data_healthcheck import time_series_data_healthcheck
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment, save_parquet
@@ -94,7 +94,7 @@ def read_config(script_dir):
 def get_db_pool(config):
     """Creates a connection pool to PostgreSQL."""
     try:
-        db_pool_args = {
+        db_pool = {
             'user': config['database']['user'],
             'host': config['database']['host'],
             'port': config['database']['port'],
@@ -103,14 +103,14 @@ def get_db_pool(config):
         
         password = config['database'].get('password')
         if password:
-            db_pool_args['password'] = password
+            db_pool['password'] = password
             logging.info("Password found in configuration. Using provided password.")
         else:
             logging.info("No password in config. Attempting .pgpass or other authentication.")
 
         db_pool = pool.SimpleConnectionPool(
             1, 20,  # min and max connections
-            **db_pool_args
+            **db_pool
         )
         if db_pool:
             logging.info("Connection pool created successfully.")
@@ -135,12 +135,6 @@ def main():
     db_pool = get_db_pool(config)
     conn = db_pool.getconn()
     
-    # Parse command-line arguments
-    # Parse command-line arguments
-    parser = argparse.ArgumentParser(description="Run training or prediction tasks.")
-    parser.add_argument("mode", choices=["load", "train", "predict"], help="Mode to run: load, train or predict")
-    args = parser.parse_args()
-
     # Determine the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
     print(f"Script_dir: {script_dir}")
@@ -151,32 +145,27 @@ def main():
         spark.catalog.clearCache()
         setup_logging()
         logging.info("Starting main function...")
-        logging.info(f"Mode: {args.mode}")
         # Used to determine if we are training or predicting in build_catboost_model function
-        action = args.mode
         
-        if args.mode == "load":
-            logging.info("Running training data ingestion steps...")
-            ###################################################
-            # 1. Load Training data
-            ###################################################
-            # time_start = time.time()
-            # logging.info("Running training data ingestion steps...")
-            # prediction_df = load_prediction_data(spark, jdbc_url, jdbc_properties, parquet_dir)
-            # healthcheck_report = time_series_data_healthcheck(prediction_df)
-            # pprint.pprint(healthcheck_report)
-            # logging.info("Ingestion job for prediction data succeeded")
-            # total_time = time.time() - time_start
-            # logging.info(f"Loading prediction_df took {total_time} to complete.")
-            # input("Press Enter to continue and begin step 2 ...")
-            
-            # ###################################################
-            # # 2. Merge with horse_embedding data and makre predictions
-            # ###################################################
-        if args.mode == "predict":
-            horse_embedding = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/horse_embedding_data-20250409_1552.parquet", engine="pyarrow")
-            predictions_pdf = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/prediction_df", engine="pyarrow")
-            scored_sdf = race_predictions(spark, predictions_pdf, horse_embedding, jdbc_url, jdbc_properties, action) #spark, parquet_dir, speed_figure) # model_filename)
+        logging.info("Running training data ingestion steps...")
+        ###################################################
+        # 1. Load Training data
+        ###################################################
+        time_start = time.time()
+        logging.info("Running training data ingestion steps...")
+        prediction_df = load_prediction_data_final(spark, jdbc_url, jdbc_properties, parquet_dir)
+        healthcheck_report = time_series_data_healthcheck(prediction_df)
+        pprint.pprint(healthcheck_report)
+        logging.info("Ingestion job for prediction data succeeded")
+        total_time = time.time() - time_start
+        logging.info(f"Loading prediction_df took {total_time} to complete.")
+        input("Press Enter to continue and begin step 2 ...")
+        
+        # ###################################################
+        # # 2. Merge with horse_embedding data and make predictions
+        # ###################################################
+        predictions_pdf = pd.read_parquet("/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/prediction_df", engine="pyarrow")
+        scored_sdf = race_predictions(spark, predictions_pdf, jdbc_url, jdbc_properties) #spark, parquet_dir, speed_figure) # model_filename)
             
             # # total_time = time.time() - time_start
             # # logging.info(f"Training 20 Catboost models Horse embedding took {total_time} to complete.")

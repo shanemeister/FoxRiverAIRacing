@@ -1,39 +1,59 @@
-2025-04-11 04:15:01,980 - INFO - Logging initialized in /home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/stat_type_update_jy.log
-2025-04-11 04:15:01,985 - INFO - === Begin processing for ALL_RACES_J (All races stats for jockey) ===
-2025-04-11 04:15:01,987 - INFO - Last processed date for ALL_RACES_J is 2025-04-09
-2025-04-11 04:15:01,990 - INFO - 1 new race_dates to process for ALL_RACES_J: [datetime.date(2025, 4, 10)] ...
-2025-04-11 04:15:01,990 - INFO - Processing stat_type=ALL_RACES_J, race_date=2025-04-10
-2025-04-11 04:15:03,721 - INFO - Committed ALL_RACES_J stats for 2025-04-10.
-2025-04-11 04:15:03,721 - INFO - === Done processing ALL_RACES_J, last_date=2025-04-10 ===
-2025-04-11 04:15:03,721 - INFO - === Begin processing for ALL_RACES_JT (All races stats for jockey-trainer) ===
-2025-04-11 04:15:03,721 - INFO - Last processed date for ALL_RACES_JT is 2025-04-09
-2025-04-11 04:15:03,722 - INFO - 1 new race_dates to process for ALL_RACES_JT: [datetime.date(2025, 4, 10)] ...
-2025-04-11 04:15:03,722 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-04-10
-2025-04-11 04:15:03,944 - INFO - Committed ALL_RACES_JT stats for 2025-04-10.
-2025-04-11 04:15:03,944 - INFO - === Done processing ALL_RACES_JT, last_date=2025-04-10 ===
-2025-04-11 04:15:03,944 - INFO - === Begin processing for ALL_RACES_T (All races stats for trainer) ===
-2025-04-11 04:15:03,944 - INFO - Last processed date for ALL_RACES_T is 2025-04-09
-2025-04-11 04:15:03,944 - INFO - 1 new race_dates to process for ALL_RACES_T: [datetime.date(2025, 4, 10)] ...
-2025-04-11 04:15:03,944 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-04-10
-2025-04-11 04:15:05,125 - INFO - Committed ALL_RACES_T stats for 2025-04-10.
-2025-04-11 04:15:05,125 - INFO - === Done processing ALL_RACES_T, last_date=2025-04-10 ===
-2025-04-11 04:15:05,125 - INFO - === Begin processing for ALL_RACES_J_TRACK (All races stats for jockey by track) ===
-2025-04-11 04:15:05,125 - INFO - Last processed date for ALL_RACES_J_TRACK is 2025-04-09
-2025-04-11 04:15:05,126 - INFO - 1 new race_dates to process for ALL_RACES_J_TRACK: [datetime.date(2025, 4, 10)] ...
-2025-04-11 04:15:05,126 - INFO - Processing stat_type=ALL_RACES_J_TRACK, race_date=2025-04-10
-2025-04-11 04:15:05,552 - INFO - Committed ALL_RACES_J_TRACK stats for 2025-04-10.
-2025-04-11 04:15:05,553 - INFO - === Done processing ALL_RACES_J_TRACK, last_date=2025-04-10 ===
-2025-04-11 04:15:05,553 - INFO - === Begin processing for ALL_RACES_T_TRACK (All races stats for trainer by track) ===
-2025-04-11 04:15:05,553 - INFO - Last processed date for ALL_RACES_T_TRACK is 2025-04-09
-2025-04-11 04:15:05,553 - INFO - 1 new race_dates to process for ALL_RACES_T_TRACK: [datetime.date(2025, 4, 10)] ...
-2025-04-11 04:15:05,553 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-04-10
-2025-04-11 04:15:05,936 - INFO - Committed ALL_RACES_T_TRACK stats for 2025-04-10.
-2025-04-11 04:15:05,936 - INFO - === Done processing ALL_RACES_T_TRACK, last_date=2025-04-10 ===
-2025-04-11 04:15:05,936 - INFO - === Begin processing for ALL_RACES_JT_TRACK (All races stats for jockey-trainer by track) ===
-2025-04-11 04:15:05,936 - INFO - Last processed date for ALL_RACES_JT_TRACK is 2025-04-09
-2025-04-11 04:15:05,937 - INFO - 1 new race_dates to process for ALL_RACES_JT_TRACK: [datetime.date(2025, 4, 10)] ...
-2025-04-11 04:15:05,937 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-04-10
-2025-04-11 04:15:06,102 - INFO - Committed ALL_RACES_JT_TRACK stats for 2025-04-10.
-2025-04-11 04:15:06,102 - INFO - === Done processing ALL_RACES_JT_TRACK, last_date=2025-04-10 ===
-2025-04-11 04:15:06,102 - INFO - All stat_types processed successfully.
-2025-04-11 04:15:06,102 - INFO - Database connection closed.
+2025-04-29 04:15:01,400 - INFO - Logging initialized in /home/exx/myCode/horse-racing/FoxRiverAIRacing/logs/stat_type_update_jy.log
+2025-04-29 04:15:01,406 - INFO - === Begin processing for ALL_RACES_J (All races stats for jockey) ===
+2025-04-29 04:15:01,407 - INFO - Last processed date for ALL_RACES_J is 2025-04-27
+2025-04-29 04:15:01,410 - INFO - 1 new race_dates to process for ALL_RACES_J: [datetime.date(2025, 4, 28)] ...
+2025-04-29 04:15:01,410 - INFO - Processing stat_type=ALL_RACES_J, race_date=2025-04-28
+2025-04-29 04:15:02,420 - INFO - Committed ALL_RACES_J stats for 2025-04-28.
+2025-04-29 04:15:02,420 - INFO - === Done processing ALL_RACES_J, last_date=2025-04-28 ===
+2025-04-29 04:15:02,420 - INFO - === Begin processing for ALL_RACES_JT (All races stats for jockey-trainer) ===
+2025-04-29 04:15:02,420 - INFO - Last processed date for ALL_RACES_JT is 2025-04-26
+2025-04-29 04:15:02,421 - INFO - 2 new race_dates to process for ALL_RACES_JT: [datetime.date(2025, 4, 27), datetime.date(2025, 4, 28)] ...
+2025-04-29 04:15:02,421 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-04-27
+2025-04-29 04:15:02,568 - ERROR - Error in race_date 2025-04-27 for ALL_RACES_JT: insert or update on table "trainer_jockey_stats" violates foreign key constraint "trainer_jockey_stats_train_key_fkey"
+DETAIL:  Key (train_key)=(955005) is not present in table "trainer".
+
+2025-04-29 04:15:02,569 - INFO - Rolled back to sp_stat
+2025-04-29 04:15:02,569 - INFO - Processing stat_type=ALL_RACES_JT, race_date=2025-04-28
+2025-04-29 04:15:02,800 - INFO - Committed ALL_RACES_JT stats for 2025-04-28.
+2025-04-29 04:15:02,800 - INFO - === Done processing ALL_RACES_JT, last_date=2025-04-28 ===
+2025-04-29 04:15:02,800 - INFO - === Begin processing for ALL_RACES_T (All races stats for trainer) ===
+2025-04-29 04:15:02,800 - INFO - Last processed date for ALL_RACES_T is 2025-04-26
+2025-04-29 04:15:02,801 - INFO - 2 new race_dates to process for ALL_RACES_T: [datetime.date(2025, 4, 27), datetime.date(2025, 4, 28)] ...
+2025-04-29 04:15:02,801 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-04-27
+2025-04-29 04:15:03,345 - ERROR - Error in race_date 2025-04-27 for ALL_RACES_T: insert or update on table "trainer_accum_stats" violates foreign key constraint "trainer_accum_stats_train_key_fkey"
+DETAIL:  Key (train_key)=(955005) is not present in table "trainer".
+
+2025-04-29 04:15:03,345 - INFO - Rolled back to sp_stat
+2025-04-29 04:15:03,345 - INFO - Processing stat_type=ALL_RACES_T, race_date=2025-04-28
+2025-04-29 04:15:03,981 - INFO - Committed ALL_RACES_T stats for 2025-04-28.
+2025-04-29 04:15:03,981 - INFO - === Done processing ALL_RACES_T, last_date=2025-04-28 ===
+2025-04-29 04:15:03,981 - INFO - === Begin processing for ALL_RACES_J_TRACK (All races stats for jockey by track) ===
+2025-04-29 04:15:03,981 - INFO - Last processed date for ALL_RACES_J_TRACK is 2025-04-27
+2025-04-29 04:15:03,982 - INFO - 1 new race_dates to process for ALL_RACES_J_TRACK: [datetime.date(2025, 4, 28)] ...
+2025-04-29 04:15:03,982 - INFO - Processing stat_type=ALL_RACES_J_TRACK, race_date=2025-04-28
+2025-04-29 04:15:04,198 - INFO - Committed ALL_RACES_J_TRACK stats for 2025-04-28.
+2025-04-29 04:15:04,198 - INFO - === Done processing ALL_RACES_J_TRACK, last_date=2025-04-28 ===
+2025-04-29 04:15:04,198 - INFO - === Begin processing for ALL_RACES_T_TRACK (All races stats for trainer by track) ===
+2025-04-29 04:15:04,198 - INFO - Last processed date for ALL_RACES_T_TRACK is 2025-04-26
+2025-04-29 04:15:04,199 - INFO - 2 new race_dates to process for ALL_RACES_T_TRACK: [datetime.date(2025, 4, 27), datetime.date(2025, 4, 28)] ...
+2025-04-29 04:15:04,199 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-04-27
+2025-04-29 04:15:04,663 - ERROR - Error in race_date 2025-04-27 for ALL_RACES_T_TRACK: insert or update on table "trainer_accum_stats_by_track" violates foreign key constraint "fk_train_accum_stats_by_track_jock"
+DETAIL:  Key (train_key)=(971266) is not present in table "trainer".
+
+2025-04-29 04:15:04,664 - INFO - Rolled back to sp_stat
+2025-04-29 04:15:04,664 - INFO - Processing stat_type=ALL_RACES_T_TRACK, race_date=2025-04-28
+2025-04-29 04:15:04,875 - INFO - Committed ALL_RACES_T_TRACK stats for 2025-04-28.
+2025-04-29 04:15:04,875 - INFO - === Done processing ALL_RACES_T_TRACK, last_date=2025-04-28 ===
+2025-04-29 04:15:04,875 - INFO - === Begin processing for ALL_RACES_JT_TRACK (All races stats for jockey-trainer by track) ===
+2025-04-29 04:15:04,875 - INFO - Last processed date for ALL_RACES_JT_TRACK is 2025-04-26
+2025-04-29 04:15:04,876 - INFO - 2 new race_dates to process for ALL_RACES_JT_TRACK: [datetime.date(2025, 4, 27), datetime.date(2025, 4, 28)] ...
+2025-04-29 04:15:04,876 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-04-27
+2025-04-29 04:15:04,915 - ERROR - Error in race_date 2025-04-27 for ALL_RACES_JT_TRACK: insert or update on table "jt_accum_stats_by_track" violates foreign key constraint "fk_jt_accum_stats_by_track_jock"
+DETAIL:  Key (train_key)=(971266) is not present in table "trainer".
+
+2025-04-29 04:15:04,915 - INFO - Rolled back to sp_stat
+2025-04-29 04:15:04,915 - INFO - Processing stat_type=ALL_RACES_JT_TRACK, race_date=2025-04-28
+2025-04-29 04:15:05,028 - INFO - Committed ALL_RACES_JT_TRACK stats for 2025-04-28.
+2025-04-29 04:15:05,028 - INFO - === Done processing ALL_RACES_JT_TRACK, last_date=2025-04-28 ===
+2025-04-29 04:15:05,028 - INFO - All stat_types processed successfully.
+2025-04-29 04:15:05,028 - INFO - Database connection closed.

@@ -157,41 +157,41 @@ def add_race_chart(doc, race_df):
     doc.add_picture(buf, width=Inches(6))
     buf.close()
 
-def add_overlay_chart(doc: Document, race_df: pd.DataFrame) -> None:
-    """
-    Create a bar chart showing overlay = (our prob) - (track implied prob).
-    Negative bars mean the horse is overbet by the track (less value).
-    Positive bars mean potentially good value.
-    """
-    if 'morn_odds' not in race_df.columns:
-        doc.add_paragraph("No 'morn_odds' column found, skipping overlay chart.")
-        return
+# def add_overlay_chart(doc: Document, race_df: pd.DataFrame) -> None:
+#     """
+#     Create a bar chart showing overlay = (our prob) - (track implied prob).
+#     Negative bars mean the horse is overbet by the track (less value).
+#     Positive bars mean potentially good value.
+#     """
+#     if 'morn_odds' not in race_df.columns:
+#         doc.add_paragraph("No 'morn_odds' column found, skipping overlay chart.")
+#         return
 
-    # Make a copy so we don't alter the original DataFrame
-    chart_df = race_df.copy()
+#     # Make a copy so we don't alter the original DataFrame
+#     chart_df = race_df.copy()
 
-    # Convert fractional odds => implied probability: 1 / (odds + 1)
-    chart_df['track_implied_prob'] = 1.0 / (chart_df['morn_odds'].astype(float) + 1.0)
+#     # Convert fractional odds => implied probability: 1 / (odds + 1)
+#     chart_df['track_implied_prob'] = 1.0 / (chart_df['morn_odds'].astype(float) + 1.0)
 
-    chart_df['overlay'] = chart_df['winning_probability'] - chart_df['track_implied_prob']
-    chart_df.sort_values('overlay', ascending=True, inplace=True)
+#     chart_df['overlay'] = chart_df['winning_probability'] - chart_df['track_implied_prob']
+#     chart_df.sort_values('overlay', ascending=True, inplace=True)
 
-    num_horses = len(chart_df)
+#     num_horses = len(chart_df)
 
-    fig, ax = plt.subplots(figsize=(8, max(2, num_horses * 0.3)))
-    ax.barh(chart_df['horse_name'], chart_df['overlay'], color='skyblue')
-    ax.set_xlabel('Overlay (Model Prob - Track Prob)')
-    ax.set_title('Value/Overlay Chart')
-    ax.axvline(0, color='black', linewidth=1)  # Center line
+#     fig, ax = plt.subplots(figsize=(8, max(2, num_horses * 0.3)))
+#     ax.barh(chart_df['horse_name'], chart_df['overlay'], color='skyblue')
+#     ax.set_xlabel('Overlay (Model Prob - Track Prob)')
+#     ax.set_title('Value/Overlay Chart')
+#     ax.axvline(0, color='black', linewidth=1)  # Center line
 
-    plt.tight_layout()
-    buf = BytesIO()
-    plt.savefig(buf, format='png')
-    plt.close(fig)
-    buf.seek(0)
+#     plt.tight_layout()
+#     buf = BytesIO()
+#     plt.savefig(buf, format='png')
+#     plt.close(fig)
+#     buf.seek(0)
 
-    doc.add_picture(buf, width=Inches(6))
-    buf.close()
+#     doc.add_picture(buf, width=Inches(6))
+#     buf.close()
         
 # def add_overlay_chart(doc, race_df):
 #     """
@@ -244,11 +244,17 @@ def write_predictions_to_docx(pred_df, output_docx):
       - Table of horses
       - Chart #1: Race Probabilities
       - Chart #2: Overlay/Value Chart
+      - Exacta advice paragraph
       - Page break
+    At the end, adds Multi‐Race Bet Recommendations (DD, Pick 3, Pick 4).
     """
     if pred_df.empty:
         logging.info("No predictions to write to DOCX (DataFrame is empty).")
         return
+
+    # thresholds for gap analysis (tune as needed)
+    THR_GAP12 = 0.10
+    THR_GAP23 = 0.05
 
     # Natural sorting by 'saddle_cloth_number'
     pred_df['saddle_cloth_key'] = pred_df['saddle_cloth_number'].apply(parse_saddle_cloth)
@@ -258,7 +264,10 @@ def write_predictions_to_docx(pred_df, output_docx):
         ['track_name', 'course_cd', 'race_date', 'race_number', 'saddle_cloth_key']
     )
 
-    race_groups = pred_df.groupby(['track_name', 'course_cd', 'race_date', 'race_number', 'post_time'], sort=False)
+    race_groups = pred_df.groupby(
+        ['track_name', 'course_cd', 'race_date', 'race_number', 'post_time'],
+        sort=False
+    )
 
     doc = Document()
     style = doc.styles['Normal']
@@ -267,7 +276,14 @@ def write_predictions_to_docx(pred_df, output_docx):
     style.paragraph_format.space_after = Pt(0)
     style.paragraph_format.space_before = Pt(0)
 
+    # Collect for multi‐race logic
+    multi = []
+
     for (track_name, course_cd, race_date, race_number, post_time), race_df in race_groups:
+        # build race key
+        race_key = f"{course_cd}_{race_date.strftime('%Y-%m-%d')}_{int(race_number)}"
+
+        # header
         header_text = (
             f"Race: {course_cd} | {race_date.strftime('%Y-%m-%d')} "
             f"| Race #{int(race_number)} | Post: {post_time} | Track: {track_name}"
@@ -275,8 +291,7 @@ def write_predictions_to_docx(pred_df, output_docx):
         doc.add_heading(header_text, level=1)
         doc.add_paragraph(f"Track: {track_name}")
 
-        # Make a table with 6 columns (added one for Morning Odds if you like)
-        # Or keep 5 if you prefer
+        # table
         table = doc.add_table(rows=1, cols=6)
         hdr_cells = table.rows[0].cells
         hdr_cells[0].text = "Program #"
@@ -285,69 +300,105 @@ def write_predictions_to_docx(pred_df, output_docx):
         hdr_cells[3].text = "GCSF"
         hdr_cells[4].text = "Model Score"
         hdr_cells[5].text = "Win Prob (%)"
-        
-        # Check if any horse is missing data
-        race_has_missing = race_df['has_gps'].eq(0).any()
 
         race_df = race_df.reset_index(drop=True)
-
         for _, row in race_df.iterrows():
             cells = table.add_row().cells
             cells[0].text = str(row['saddle_cloth_number'])
+            cells[1].text = row['horse_name']
 
-            horse_name = row['horse_name']
-            cells[1].text = horse_name
-
-            # Morning Odds => Convert decimal => fractional string
-            # If 'morn_odds' is actually a probability in (0..1):
-            # Convert the prob in 'morn_odds' to a friendly fraction
+            # Morning Odds
             morn_prob = row['morn_odds']
-            if pd.notna(morn_prob):
-                # Attempt exact lookup
-                frac_str = MORN_ODDS_LOOKUP.get(morn_prob, "??-??")
-                cells[2].text = frac_str
-            else:
-                cells[2].text = "N/A"
-                
+            cells[2].text = MORN_ODDS_LOOKUP.get(morn_prob, "N/A") if pd.notna(morn_prob) else "N/A"
+
             # Global Speed
-            gs_val = row['global_speed_score_iq']
-            if pd.isna(gs_val):
-                cells[3].text = "N/A"
-            else:
-                cells[3].text = f"{gs_val:.1f}"
+            gs = row['rank']
+            cells[3].text = f"{gs:.1f}" if pd.notna(gs) else "N/A"
 
             # Model Score
-            ms_val = row['score']
-            if pd.isna(ms_val):
-                cells[4].text = "N/A"
-            else:
-                cells[4].text = f"{ms_val:.2f}"
+            ms = row['score']
+            cells[4].text = f"{ms:.2f}" if pd.notna(ms) else "N/A"
 
-            # Probability
-            wp_val = row['winning_probability']
-            if pd.isna(wp_val):
-                cells[5].text = "N/A"
-            else:
-                cells[5].text = f"{wp_val * 100:.2f}"
+            # Win Prob
+            wp = row['winning_probability']
+            cells[5].text = f"{wp * 100:.2f}" if pd.notna(wp) else "N/A"
 
-        # Chart #1: Race Probabilities
+        # charts
         add_race_chart(doc, race_df)
-        # Chart #2: Overlay Chart (if 'morn_odds' is present)
-        add_overlay_chart(doc, race_df)
+        #add_overlay_chart(doc, race_df)
 
-        
-        doc.add_paragraph(
-            "NOTE: GCSF - Global Combined Speed Figure",
-            style='Normal'
-        )
+        # gap analysis on CatBoost score
+        sorted_df = race_df.sort_values('score', ascending=False).reset_index(drop=True)
+        s = sorted_df['score'].values
+        gap12 = s[0] - s[1] if len(s) > 1 else 0.0
+        gap23 = s[1] - s[2] if len(s) > 2 else 0.0
 
+        # exacta advice
+        if gap12 > THR_GAP12 and gap23 > THR_GAP23:
+            advice = (
+                f"Exacta advice: key {sorted_df.loc[0,'saddle_cloth_number']} → "
+                f"{sorted_df.loc[1,'saddle_cloth_number']} (1 ticket)"
+            )
+            confident = True
+        elif gap12 > THR_GAP12:
+            advice = (
+                f"Exacta advice: key {sorted_df.loc[0,'saddle_cloth_number']} → "
+                f"[{sorted_df.loc[1,'saddle_cloth_number']},"
+                f"{sorted_df.loc[2,'saddle_cloth_number']}] (2 tickets)"
+            )
+            confident = True
+        else:
+            advice = (
+                f"Exacta advice: box "
+                f"[{sorted_df.loc[0,'saddle_cloth_number']},"
+                f"{sorted_df.loc[1,'saddle_cloth_number']},"
+                f"{sorted_df.loc[2,'saddle_cloth_number']}] (6 tickets)"
+            )
+            confident = False
+
+        doc.add_paragraph(advice, style='Normal')
+        doc.add_paragraph("NOTE: GCSF - Global Combined Speed Figure", style='Normal')
         doc.add_page_break()
 
+        multi.append({
+            "race_key":  race_key,
+            "track":     track_name,
+            "race_num":  race_number,
+            "confident": confident
+        })
+
+    # remove helper column
     pred_df.drop(columns=['saddle_cloth_key'], inplace=True)
 
-    doc.save(output_docx)
-    logging.info(f"Predictions saved to DOCX: {output_docx}")
+    # Multi‐Race Bet Recommendations
+    doc.add_heading("Multi-Race Bet Recommendations", level=1)
+    # Daily Double
+    for i in range(len(multi) - 1):
+        if (multi[i]["confident"] and multi[i+1]["confident"]
+            and multi[i]["track"] == multi[i+1]["track"]):
+            doc.add_paragraph(
+                f"Daily Double advised: {multi[i]['race_key']} + {multi[i+1]['race_key']}"
+            )
+    # Pick 3
+    for i in range(len(multi) - 2):
+        if all(multi[j]["confident"] for j in (i, i+1, i+2)) \
+           and len({multi[j]["track"] for j in (i, i+1, i+2)}) == 1:
+            doc.add_paragraph(
+                f"Pick 3 advised: {multi[i]['race_key']}, "
+                f"{multi[i+1]['race_key']}, {multi[i+2]['race_key']}"
+            )
+    # Pick 4
+    for i in range(len(multi) - 3):
+        if all(multi[j]["confident"] for j in (i, i+1, i+2, i+3)) \
+           and len({multi[j]["track"] for j in (i,i+1,i+2,i+3)}) == 1:
+            doc.add_paragraph(
+                f"Pick 4 advised: {multi[i]['race_key']}, "
+                f"{multi[i+1]['race_key']}, {multi[i+2]['race_key']}, {multi[i+3]['race_key']}"
+            )
 
+    doc.save(output_docx)
+    logging.info(f"Predictions & betting advice saved to {output_docx}")
+    
 ############################################################
 # 5) Main
 ############################################################
@@ -375,15 +426,15 @@ def main():
             track_name,
             has_gps,
             horse_name,
-            global_speed_score_iq,
             course_cd,
             race_date,
             race_number,
+            rank,
             horse_id,
             saddle_cloth_number,
             score,
             calibrated_prob AS winning_probability
-        FROM predictions_20250405_111030_1_calibrated
+        FROM predictions_20250426_151421_1_calibrated
         WHERE race_date >= CURRENT_DATE -- INTERVAL '1 day'
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
@@ -394,7 +445,7 @@ def main():
         rows = cursor.fetchall()
         columns = [
             "morn_odds", "group_id", "post_time", "track_name", "has_gps", "horse_name",
-            "global_speed_score_iq", "course_cd", "race_date", "race_number",
+            "course_cd", "race_date", "race_number", "rank",
             "horse_id", "saddle_cloth_number", "score",
             "winning_probability"
         ]

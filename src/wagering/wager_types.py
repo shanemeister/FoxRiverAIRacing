@@ -3,14 +3,14 @@ from .wagering_classes import Wager, Race
 import logging
 
 class ExactaWager(Wager):
-    def __init__(self, base_amount=2.0, top_n=2, box=False):
+    def __init__(self, wager_amount, top_n, box):
         """
-        :param base_amount: e.g. $1 base
+        :param wager_amount: e.g. $1 base
         :param top_n: number of top predicted horses used to form combos
         :param box: if True, generate all permutations for those top_n horses 
                     in 1st/2nd. If False, only the single "top1->top2" order.
         """
-        super().__init__(base_amount)
+        super().__init__(wager_amount)
         self.top_n = top_n
         self.box = box
 
@@ -55,8 +55,8 @@ class TrifectaWager(Wager):
     If box=False, we only generate a single "straight" combo from the top 3.
     """
 
-    def __init__(self, base_amount, top_n, box):
-        super().__init__(base_amount=base_amount)
+    def __init__(self, wager_amount, top_n, box):
+        super().__init__(wager_amount)
         self.top_n = top_n
         self.box = box
 
@@ -108,8 +108,8 @@ class SuperfectaWager(Wager):
     If box=False, we pick only the single "straight" combo from the top 4.
     """
 
-    def __init__(self, base_amount=2.0, top_n=4, box=True):
-        super().__init__(base_amount=base_amount)
+    def __init__(self, wager_amount, top_n, box):
+        super().__init__(wager_amount)
         self.top_n = top_n
         self.box = box
 
@@ -161,8 +161,8 @@ class MultiRaceWager(Wager):
     It uses program_num for combos, so we can compare them to official 
     winners that the track lists in program_num form.
     """
-    def __init__(self, base_amount=2.0, num_legs=3, top_n=2, box=True):
-        super().__init__(base_amount=base_amount)
+    def __init__(self, wager_amount, num_legs, top_n, box):
+        super().__init__(wager_amount)
         self.num_legs = num_legs
         self.top_n = top_n
         self.box = box

@@ -1,0 +1,570 @@
+2025-04-25 17:57:36 - INFO - Logging has been set up successfully.
+2025-04-25 17:57:36 - INFO - Starting main function...
+2025-04-25 17:57:36 - INFO - Running training data ingestion steps...
+2025-04-25 17:57:36 - INFO - Query training_data located and loading from PostgreSQL...
+2025-04-25 17:57:37 - INFO - Data loaded from PostgreSQL in 1.15 seconds.
+2025-04-25 18:08:14 - INFO - Data loaded from PostgreSQL. Count: 808421
+2025-04-25 18:08:14 - INFO - Row count: 808421
+2025-04-25 18:08:14 - INFO - Count operation completed in 637.79 seconds.
+2025-04-25 18:08:14 - INFO - Checking for duplicates on primary keys...
+2025-04-25 18:08:16 - INFO - Number of duplicate records found: 0
+2025-04-25 18:08:16 - INFO - No duplicate records found.
+2025-04-25 18:08:16 - INFO - Convert Decimal Columns to Double.
+2025-04-25 18:08:16 - INFO - Decimal columns converted to double.
+2025-04-25 18:08:17 - INFO - Imputing date_of_birth with median date.
+2025-04-25 18:08:17 - INFO - Created age_at_race_day.
+2025-04-25 18:08:17 - INFO - Imputing categorical and numeric columns.
+2025-04-25 18:08:17 - INFO - Filling missing values for columns.
+2025-04-25 18:08:18 - INFO - Numeric columns cast to double.
+2025-04-25 18:08:20 - INFO - 5. Just after impute_performance_columns:  Number of rows training data: 808421
+2025-04-25 18:08:34 - INFO - Data written to Parquet in 10.37 seconds
+2025-04-25 18:08:34 - INFO - Data cleansing complete. train_df being returned.
+2025-04-25 18:08:46 - INFO - Ingestion job for training data succeeded
+2025-04-25 18:08:46 - INFO - Loading train_df took 669.7764132022858 to complete.
+2025-04-25 18:10:36 - INFO - Starting build_catboost_model: Training CatBoost Models -- 20 total
+2025-04-25 18:10:38 - INFO - Shape of historical Pandas DF: (808366, 85)
+2025-04-25 18:10:38 - INFO - Shape of Historical Pandas DF: (808366, 86)
+2025-04-25 18:10:38 - INFO - train_data - horse_id and group_id combination unique: True
+2025-04-25 18:10:38 - INFO - valid_data - horse_id and group_id combination unique: True
+2025-04-25 18:10:38 - INFO - holdout_data - horse_id and group_id combination unique: True
+2025-04-25 18:10:38 - INFO - === Starting cross-validation for YetiRank with NDCG:top=1 ===
+2025-04-25 18:10:38 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [86466 86467 86468 86469 86470 86471 86472 86473 86474 86475]...
+2025-04-25 18:10:38 - INFO - X_train_fold shape: (86466, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:10:38 - INFO - y_train_fold shape: (86466,), y_valid_fold shape: (86461,)
+2025-04-25 18:11:20 - INFO - metric_top4_hit = 0.2254
+2025-04-25 18:11:20 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [172927 172928 172929 172930 172931 172932 172933 172934 172935 172936]...
+2025-04-25 18:11:20 - INFO - X_train_fold shape: (172927, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:11:20 - INFO - y_train_fold shape: (172927,), y_valid_fold shape: (86461,)
+2025-04-25 18:12:48 - INFO - metric_top4_hit = 0.2305
+2025-04-25 18:12:48 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [259388 259389 259390 259391 259392 259393 259394 259395 259396 259397]...
+2025-04-25 18:12:49 - INFO - X_train_fold shape: (259388, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:12:49 - INFO - y_train_fold shape: (259388,), y_valid_fold shape: (86461,)
+2025-04-25 18:14:47 - INFO - metric_top4_hit = 0.1853
+2025-04-25 18:14:47 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [345849 345850 345851 345852 345853 345854 345855 345856 345857 345858]...
+2025-04-25 18:14:47 - INFO - X_train_fold shape: (345849, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:14:47 - INFO - y_train_fold shape: (345849,), y_valid_fold shape: (86461,)
+2025-04-25 18:16:31 - INFO - metric_top4_hit = 0.2120
+2025-04-25 18:16:31 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [432310 432311 432312 432313 432314 432315 432316 432317 432318 432319]...
+2025-04-25 18:16:32 - INFO - X_train_fold shape: (432310, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:16:32 - INFO - y_train_fold shape: (432310,), y_valid_fold shape: (86461,)
+2025-04-25 18:19:43 - INFO - metric_top4_hit = 0.1711
+2025-04-25 18:19:43 - INFO - Cross-validation top3-in-top3 fraction score: 0.2048407502844999
+2025-04-25 18:19:43 - INFO - Trial 0 with YetiRank, NDCG:top=1
+2025-04-25 18:20:08 - INFO - Trial 1 with YetiRank, NDCG:top=1
+2025-04-25 18:20:20 - INFO - Trial 2 with YetiRank, NDCG:top=1
+2025-04-25 18:20:43 - INFO - Trial 3 with YetiRank, NDCG:top=1
+2025-04-25 18:20:57 - INFO - Trial 4 with YetiRank, NDCG:top=1
+2025-04-25 18:21:17 - INFO - Trial 5 with YetiRank, NDCG:top=1
+2025-04-25 18:21:39 - INFO - Trial 6 with YetiRank, NDCG:top=1
+2025-04-25 18:21:52 - INFO - Trial 7 with YetiRank, NDCG:top=1
+2025-04-25 18:22:26 - INFO - Trial 8 with YetiRank, NDCG:top=1
+2025-04-25 18:22:39 - INFO - Trial 9 with YetiRank, NDCG:top=1
+2025-04-25 18:22:53 - INFO - Trial 10 with YetiRank, NDCG:top=1
+2025-04-25 18:23:09 - INFO - Trial 11 with YetiRank, NDCG:top=1
+2025-04-25 18:23:31 - INFO - Trial 12 with YetiRank, NDCG:top=1
+2025-04-25 18:23:54 - INFO - Trial 13 with YetiRank, NDCG:top=1
+2025-04-25 18:24:14 - INFO - Trial 14 with YetiRank, NDCG:top=1
+2025-04-25 18:24:34 - INFO - Trial 15 with YetiRank, NDCG:top=1
+2025-04-25 18:24:53 - INFO - Trial 16 with YetiRank, NDCG:top=1
+2025-04-25 18:25:24 - INFO - Trial 17 with YetiRank, NDCG:top=1
+2025-04-25 18:25:40 - INFO - Trial 18 with YetiRank, NDCG:top=1
+2025-04-25 18:26:11 - INFO - Trial 19 with YetiRank, NDCG:top=1
+2025-04-25 18:26:25 - INFO - Best score: 0.1782955799312001, Best params: {'bootstrap_type': 'Bernoulli', 'depth': 9, 'iterations': 3300, 'l2_leaf_reg': 7.9140607732470825, 'learning_rate': 0.0005202659736574975, 'min_data_in_leaf': 10, 'random_strength': 2.7628245829289697}
+2025-04-25 18:28:57 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=1_20250425_182625.cbm
+2025-04-25 18:28:57 - INFO - Evaluating model: YetiRank_NDCG:top=1_20250425_182625 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=1_20250425_182625.cbm
+2025-04-25 18:28:57 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=1_20250425_182625.cbm
+2025-04-25 18:28:57 - INFO - Final holdout_merged dataset size: (174863, 88)
+2025-04-25 18:29:35 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank_NDCG:top=1_20250425_182625",
+  "total_groups_evaluated": 23043,
+  "avg_top_1_accuracy": 0.3279520895716704,
+  "avg_top_4_accuracy": 0.1432973137178319,
+  "perfect_order_percentage": 0.012758755370394479,
+  "avg_top3_in_top3": 0.13223104630473462,
+  "top3_in_top4_fraction": 0.3367183092479278,
+  "MRR": 0.5485563707702753,
+  "avg_ndcg_3": 0.7433689063274271,
+  "avg_ndcg_4": 0.7721439463948498,
+  "spearman_corr": 0.46123365050677523,
+  "RMSE": 86.83895130262646,
+  "MAE": 73.86004255400667,
+  "prediction_variance": 0.007972053587919638
+}
+2025-04-25 18:29:35 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-04-25 18:30:08 - INFO - Appended 174863 holdout rows to DB table 'catboost_enriched_results'.
+2025-04-25 18:30:08 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank_NDCG:top=1_20250425_182625.json
+2025-04-25 18:30:08 - INFO - === Starting cross-validation for YetiRank with NDCG:top=2 ===
+2025-04-25 18:30:08 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [86466 86467 86468 86469 86470 86471 86472 86473 86474 86475]...
+2025-04-25 18:30:08 - INFO - X_train_fold shape: (86466, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:30:08 - INFO - y_train_fold shape: (86466,), y_valid_fold shape: (86461,)
+2025-04-25 18:30:55 - INFO - metric_top4_hit = 0.2263
+2025-04-25 18:30:55 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [172927 172928 172929 172930 172931 172932 172933 172934 172935 172936]...
+2025-04-25 18:30:55 - INFO - X_train_fold shape: (172927, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:30:55 - INFO - y_train_fold shape: (172927,), y_valid_fold shape: (86461,)
+2025-04-25 18:32:06 - INFO - metric_top4_hit = 0.2276
+2025-04-25 18:32:06 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [259388 259389 259390 259391 259392 259393 259394 259395 259396 259397]...
+2025-04-25 18:32:06 - INFO - X_train_fold shape: (259388, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:32:06 - INFO - y_train_fold shape: (259388,), y_valid_fold shape: (86461,)
+2025-04-25 18:33:45 - INFO - metric_top4_hit = 0.1852
+2025-04-25 18:33:45 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [345849 345850 345851 345852 345853 345854 345855 345856 345857 345858]...
+2025-04-25 18:33:46 - INFO - X_train_fold shape: (345849, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:33:46 - INFO - y_train_fold shape: (345849,), y_valid_fold shape: (86461,)
+2025-04-25 18:36:03 - INFO - metric_top4_hit = 0.2132
+2025-04-25 18:36:03 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [432310 432311 432312 432313 432314 432315 432316 432317 432318 432319]...
+2025-04-25 18:36:03 - INFO - X_train_fold shape: (432310, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:36:03 - INFO - y_train_fold shape: (432310,), y_valid_fold shape: (86461,)
+2025-04-25 18:39:54 - INFO - metric_top4_hit = 0.1727
+2025-04-25 18:39:54 - INFO - Cross-validation top3-in-top3 fraction score: 0.20498657774956203
+2025-04-25 18:39:54 - INFO - Trial 0 with YetiRank, NDCG:top=2
+2025-04-25 18:40:20 - INFO - Trial 1 with YetiRank, NDCG:top=2
+2025-04-25 18:40:36 - INFO - Trial 2 with YetiRank, NDCG:top=2
+2025-04-25 18:41:03 - INFO - Trial 3 with YetiRank, NDCG:top=2
+2025-04-25 18:41:17 - INFO - Trial 4 with YetiRank, NDCG:top=2
+2025-04-25 18:41:38 - INFO - Trial 5 with YetiRank, NDCG:top=2
+2025-04-25 18:42:04 - INFO - Trial 6 with YetiRank, NDCG:top=2
+2025-04-25 18:42:26 - INFO - Trial 7 with YetiRank, NDCG:top=2
+2025-04-25 18:42:51 - INFO - Trial 8 with YetiRank, NDCG:top=2
+2025-04-25 18:43:10 - INFO - Trial 9 with YetiRank, NDCG:top=2
+2025-04-25 18:43:29 - INFO - Trial 10 with YetiRank, NDCG:top=2
+2025-04-25 18:43:46 - INFO - Trial 11 with YetiRank, NDCG:top=2
+2025-04-25 18:44:15 - INFO - Trial 12 with YetiRank, NDCG:top=2
+2025-04-25 18:44:47 - INFO - Trial 13 with YetiRank, NDCG:top=2
+2025-04-25 18:45:07 - INFO - Trial 14 with YetiRank, NDCG:top=2
+2025-04-25 18:45:43 - INFO - Trial 15 with YetiRank, NDCG:top=2
+2025-04-25 18:46:04 - INFO - Trial 16 with YetiRank, NDCG:top=2
+2025-04-25 18:46:18 - INFO - Trial 17 with YetiRank, NDCG:top=2
+2025-04-25 18:46:37 - INFO - Trial 18 with YetiRank, NDCG:top=2
+2025-04-25 18:46:52 - INFO - Trial 19 with YetiRank, NDCG:top=2
+2025-04-25 18:47:06 - INFO - Best score: 0.17738690205750632, Best params: {'bootstrap_type': 'Bernoulli', 'depth': 9, 'iterations': 2900, 'l2_leaf_reg': 7.676445933149639, 'learning_rate': 0.002047007826581551, 'min_data_in_leaf': 10, 'random_strength': 3.2791609608377046}
+2025-04-25 18:53:56 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=2_20250425_184706.cbm
+2025-04-25 18:53:56 - INFO - Evaluating model: YetiRank_NDCG:top=2_20250425_184706 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=2_20250425_184706.cbm
+2025-04-25 18:53:56 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=2_20250425_184706.cbm
+2025-04-25 18:53:57 - INFO - Final holdout_merged dataset size: (174863, 88)
+2025-04-25 18:54:36 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank_NDCG:top=2_20250425_184706",
+  "total_groups_evaluated": 23043,
+  "avg_top_1_accuracy": 0.33415787874842684,
+  "avg_top_4_accuracy": 0.15045783969101245,
+  "perfect_order_percentage": 0.013583300785488,
+  "avg_top3_in_top3": 0.13887080675259297,
+  "top3_in_top4_fraction": 0.3517337152280519,
+  "MRR": 0.5542457001739647,
+  "avg_ndcg_3": 0.7497722451041061,
+  "avg_ndcg_4": 0.7776687113443815,
+  "spearman_corr": 0.4613337326379129,
+  "RMSE": 86.73502916779805,
+  "MAE": 73.89891786890952,
+  "prediction_variance": 0.5583462741045633
+}
+2025-04-25 18:54:36 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-04-25 18:55:10 - INFO - Appended 174863 holdout rows to DB table 'catboost_enriched_results'.
+2025-04-25 18:55:10 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank_NDCG:top=2_20250425_184706.json
+2025-04-25 18:55:10 - INFO - === Starting cross-validation for YetiRank with NDCG:top=3 ===
+2025-04-25 18:55:10 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [86466 86467 86468 86469 86470 86471 86472 86473 86474 86475]...
+2025-04-25 18:55:10 - INFO - X_train_fold shape: (86466, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:55:10 - INFO - y_train_fold shape: (86466,), y_valid_fold shape: (86461,)
+2025-04-25 18:55:56 - INFO - metric_top4_hit = 0.2264
+2025-04-25 18:55:56 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [172927 172928 172929 172930 172931 172932 172933 172934 172935 172936]...
+2025-04-25 18:55:56 - INFO - X_train_fold shape: (172927, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:55:56 - INFO - y_train_fold shape: (172927,), y_valid_fold shape: (86461,)
+2025-04-25 18:57:41 - INFO - metric_top4_hit = 0.2297
+2025-04-25 18:57:41 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [259388 259389 259390 259391 259392 259393 259394 259395 259396 259397]...
+2025-04-25 18:57:41 - INFO - X_train_fold shape: (259388, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:57:41 - INFO - y_train_fold shape: (259388,), y_valid_fold shape: (86461,)
+2025-04-25 18:59:38 - INFO - metric_top4_hit = 0.1855
+2025-04-25 18:59:38 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [345849 345850 345851 345852 345853 345854 345855 345856 345857 345858]...
+2025-04-25 18:59:38 - INFO - X_train_fold shape: (345849, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 18:59:38 - INFO - y_train_fold shape: (345849,), y_valid_fold shape: (86461,)
+2025-04-25 19:02:47 - INFO - metric_top4_hit = 0.2133
+2025-04-25 19:02:47 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [432310 432311 432312 432313 432314 432315 432316 432317 432318 432319]...
+2025-04-25 19:02:47 - INFO - X_train_fold shape: (432310, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:02:47 - INFO - y_train_fold shape: (432310,), y_valid_fold shape: (86461,)
+2025-04-25 19:07:06 - INFO - metric_top4_hit = 0.1732
+2025-04-25 19:07:06 - INFO - Cross-validation top3-in-top3 fraction score: 0.20564056654700238
+2025-04-25 19:07:06 - INFO - Trial 0 with YetiRank, NDCG:top=3
+2025-04-25 19:07:18 - INFO - Trial 1 with YetiRank, NDCG:top=3
+2025-04-25 19:07:33 - INFO - Trial 2 with YetiRank, NDCG:top=3
+2025-04-25 19:07:48 - INFO - Trial 3 with YetiRank, NDCG:top=3
+2025-04-25 19:08:10 - INFO - Trial 4 with YetiRank, NDCG:top=3
+2025-04-25 19:08:28 - INFO - Trial 5 with YetiRank, NDCG:top=3
+2025-04-25 19:08:49 - INFO - Trial 6 with YetiRank, NDCG:top=3
+2025-04-25 19:09:08 - INFO - Trial 7 with YetiRank, NDCG:top=3
+2025-04-25 19:09:22 - INFO - Trial 8 with YetiRank, NDCG:top=3
+2025-04-25 19:09:44 - INFO - Trial 9 with YetiRank, NDCG:top=3
+2025-04-25 19:09:59 - INFO - Trial 10 with YetiRank, NDCG:top=3
+2025-04-25 19:10:20 - INFO - Trial 11 with YetiRank, NDCG:top=3
+2025-04-25 19:10:35 - INFO - Trial 12 with YetiRank, NDCG:top=3
+2025-04-25 19:10:55 - INFO - Trial 13 with YetiRank, NDCG:top=3
+2025-04-25 19:11:16 - INFO - Trial 14 with YetiRank, NDCG:top=3
+2025-04-25 19:11:36 - INFO - Trial 15 with YetiRank, NDCG:top=3
+2025-04-25 19:12:06 - INFO - Trial 16 with YetiRank, NDCG:top=3
+2025-04-25 19:12:33 - INFO - Trial 17 with YetiRank, NDCG:top=3
+2025-04-25 19:12:47 - INFO - Trial 18 with YetiRank, NDCG:top=3
+2025-04-25 19:13:17 - INFO - Trial 19 with YetiRank, NDCG:top=3
+2025-04-25 19:13:31 - INFO - Best score: 0.1785552021808269, Best params: {'bootstrap_type': 'Bernoulli', 'depth': 9, 'iterations': 3350, 'l2_leaf_reg': 7.696214295481927, 'learning_rate': 0.0005337982718803734, 'min_data_in_leaf': 10, 'random_strength': 2.746075605091014}
+2025-04-25 19:15:58 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=3_20250425_191331.cbm
+2025-04-25 19:15:58 - INFO - Evaluating model: YetiRank_NDCG:top=3_20250425_191331 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=3_20250425_191331.cbm
+2025-04-25 19:15:58 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=3_20250425_191331.cbm
+2025-04-25 19:15:58 - INFO - Final holdout_merged dataset size: (174863, 88)
+2025-04-25 19:16:37 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank_NDCG:top=3_20250425_191331",
+  "total_groups_evaluated": 23043,
+  "avg_top_1_accuracy": 0.3266501757583648,
+  "avg_top_4_accuracy": 0.14347090222627262,
+  "perfect_order_percentage": 0.012715358243284295,
+  "avg_top3_in_top3": 0.1317102807794124,
+  "top3_in_top4_fraction": 0.3369786920105889,
+  "MRR": 0.5479617440234549,
+  "avg_ndcg_3": 0.7433233573669921,
+  "avg_ndcg_4": 0.7721467590793573,
+  "spearman_corr": 0.4610213829234776,
+  "RMSE": 86.83856146292327,
+  "MAE": 73.86015055710234,
+  "prediction_variance": 0.00999667450930191
+}
+2025-04-25 19:16:37 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-04-25 19:17:10 - INFO - Appended 174863 holdout rows to DB table 'catboost_enriched_results'.
+2025-04-25 19:17:10 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank_NDCG:top=3_20250425_191331.json
+2025-04-25 19:17:10 - INFO - === Starting cross-validation for YetiRank with NDCG:top=4 ===
+2025-04-25 19:17:10 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [86466 86467 86468 86469 86470 86471 86472 86473 86474 86475]...
+2025-04-25 19:17:10 - INFO - X_train_fold shape: (86466, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:17:10 - INFO - y_train_fold shape: (86466,), y_valid_fold shape: (86461,)
+2025-04-25 19:18:04 - INFO - metric_top4_hit = 0.2285
+2025-04-25 19:18:04 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [172927 172928 172929 172930 172931 172932 172933 172934 172935 172936]...
+2025-04-25 19:18:04 - INFO - X_train_fold shape: (172927, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:18:04 - INFO - y_train_fold shape: (172927,), y_valid_fold shape: (86461,)
+2025-04-25 19:19:33 - INFO - metric_top4_hit = 0.2307
+2025-04-25 19:19:33 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [259388 259389 259390 259391 259392 259393 259394 259395 259396 259397]...
+2025-04-25 19:19:33 - INFO - X_train_fold shape: (259388, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:19:33 - INFO - y_train_fold shape: (259388,), y_valid_fold shape: (86461,)
+2025-04-25 19:22:08 - INFO - metric_top4_hit = 0.1872
+2025-04-25 19:22:08 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [345849 345850 345851 345852 345853 345854 345855 345856 345857 345858]...
+2025-04-25 19:22:08 - INFO - X_train_fold shape: (345849, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:22:08 - INFO - y_train_fold shape: (345849,), y_valid_fold shape: (86461,)
+2025-04-25 19:24:26 - INFO - metric_top4_hit = 0.2132
+2025-04-25 19:24:26 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [432310 432311 432312 432313 432314 432315 432316 432317 432318 432319]...
+2025-04-25 19:24:26 - INFO - X_train_fold shape: (432310, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:24:26 - INFO - y_train_fold shape: (432310,), y_valid_fold shape: (86461,)
+2025-04-25 19:28:29 - INFO - metric_top4_hit = 0.1729
+2025-04-25 19:28:29 - INFO - Cross-validation top3-in-top3 fraction score: 0.2064984045626408
+2025-04-25 19:28:29 - INFO - Trial 0 with YetiRank, NDCG:top=4
+2025-04-25 19:28:50 - INFO - Trial 1 with YetiRank, NDCG:top=4
+2025-04-25 19:29:07 - INFO - Trial 2 with YetiRank, NDCG:top=4
+2025-04-25 19:29:25 - INFO - Trial 3 with YetiRank, NDCG:top=4
+2025-04-25 19:29:47 - INFO - Trial 4 with YetiRank, NDCG:top=4
+2025-04-25 19:30:06 - INFO - Trial 5 with YetiRank, NDCG:top=4
+2025-04-25 19:30:24 - INFO - Trial 6 with YetiRank, NDCG:top=4
+2025-04-25 19:30:53 - INFO - Trial 7 with YetiRank, NDCG:top=4
+2025-04-25 19:31:05 - INFO - Trial 8 with YetiRank, NDCG:top=4
+2025-04-25 19:31:34 - INFO - Trial 9 with YetiRank, NDCG:top=4
+2025-04-25 19:31:51 - INFO - Trial 10 with YetiRank, NDCG:top=4
+2025-04-25 19:32:07 - INFO - Trial 11 with YetiRank, NDCG:top=4
+2025-04-25 19:32:25 - INFO - Trial 12 with YetiRank, NDCG:top=4
+2025-04-25 19:32:49 - INFO - Trial 13 with YetiRank, NDCG:top=4
+2025-04-25 19:33:08 - INFO - Trial 14 with YetiRank, NDCG:top=4
+2025-04-25 19:33:23 - INFO - Trial 15 with YetiRank, NDCG:top=4
+2025-04-25 19:33:37 - INFO - Trial 16 with YetiRank, NDCG:top=4
+2025-04-25 19:33:59 - INFO - Trial 17 with YetiRank, NDCG:top=4
+2025-04-25 19:34:25 - INFO - Trial 18 with YetiRank, NDCG:top=4
+2025-04-25 19:34:39 - INFO - Trial 19 with YetiRank, NDCG:top=4
+2025-04-25 19:34:58 - INFO - Best score: 0.1782955799312001, Best params: {'bootstrap_type': 'Bernoulli', 'depth': 9, 'iterations': 4350, 'l2_leaf_reg': 9.145440075748981, 'learning_rate': 0.000972333324806165, 'min_data_in_leaf': 15, 'random_strength': 2.8714542241827488}
+2025-04-25 19:37:25 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=4_20250425_193458.cbm
+2025-04-25 19:37:25 - INFO - Evaluating model: YetiRank_NDCG:top=4_20250425_193458 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=4_20250425_193458.cbm
+2025-04-25 19:37:25 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=4_20250425_193458.cbm
+2025-04-25 19:37:25 - INFO - Final holdout_merged dataset size: (174863, 88)
+2025-04-25 19:38:05 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "YetiRank_NDCG:top=4_20250425_193458",
+  "total_groups_evaluated": 23043,
+  "avg_top_1_accuracy": 0.32617280736015275,
+  "avg_top_4_accuracy": 0.14281994531961983,
+  "perfect_order_percentage": 0.013062535260165776,
+  "avg_top3_in_top3": 0.13075554398298833,
+  "top3_in_top4_fraction": 0.3388013713492167,
+  "MRR": 0.5470841080592416,
+  "avg_ndcg_3": 0.7423523340759356,
+  "avg_ndcg_4": 0.7718749893571873,
+  "spearman_corr": 0.46071429402227215,
+  "RMSE": 86.83926201907144,
+  "MAE": 73.85994794406342,
+  "prediction_variance": 0.006295261106681051
+}
+2025-04-25 19:38:05 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-04-25 19:38:39 - INFO - Appended 174863 holdout rows to DB table 'catboost_enriched_results'.
+2025-04-25 19:38:39 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_YetiRank_NDCG:top=4_20250425_193458.json
+2025-04-25 19:38:39 - INFO - === Starting cross-validation for QueryRMSE with NDCG:top=1 ===
+2025-04-25 19:38:39 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [86466 86467 86468 86469 86470 86471 86472 86473 86474 86475]...
+2025-04-25 19:38:39 - INFO - X_train_fold shape: (86466, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:38:39 - INFO - y_train_fold shape: (86466,), y_valid_fold shape: (86461,)
+2025-04-25 19:38:52 - INFO - metric_top4_hit = 0.2231
+2025-04-25 19:38:52 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [172927 172928 172929 172930 172931 172932 172933 172934 172935 172936]...
+2025-04-25 19:38:52 - INFO - X_train_fold shape: (172927, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:38:52 - INFO - y_train_fold shape: (172927,), y_valid_fold shape: (86461,)
+2025-04-25 19:39:21 - INFO - metric_top4_hit = 0.2290
+2025-04-25 19:39:21 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [259388 259389 259390 259391 259392 259393 259394 259395 259396 259397]...
+2025-04-25 19:39:21 - INFO - X_train_fold shape: (259388, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:39:21 - INFO - y_train_fold shape: (259388,), y_valid_fold shape: (86461,)
+2025-04-25 19:39:55 - INFO - metric_top4_hit = 0.1861
+2025-04-25 19:39:55 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [345849 345850 345851 345852 345853 345854 345855 345856 345857 345858]...
+2025-04-25 19:39:55 - INFO - X_train_fold shape: (345849, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:39:55 - INFO - y_train_fold shape: (345849,), y_valid_fold shape: (86461,)
+2025-04-25 19:40:45 - INFO - metric_top4_hit = 0.2139
+2025-04-25 19:40:45 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [432310 432311 432312 432313 432314 432315 432316 432317 432318 432319]...
+2025-04-25 19:40:45 - INFO - X_train_fold shape: (432310, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:40:45 - INFO - y_train_fold shape: (432310,), y_valid_fold shape: (86461,)
+2025-04-25 19:41:30 - INFO - metric_top4_hit = 0.1706
+2025-04-25 19:41:30 - INFO - Cross-validation top3-in-top3 fraction score: 0.20454402027538893
+2025-04-25 19:41:30 - INFO - Trial 0 with QueryRMSE, NDCG:top=1
+2025-04-25 19:41:48 - INFO - Trial 1 with QueryRMSE, NDCG:top=1
+2025-04-25 19:42:06 - INFO - Trial 2 with QueryRMSE, NDCG:top=1
+2025-04-25 19:42:19 - INFO - Trial 3 with QueryRMSE, NDCG:top=1
+2025-04-25 19:43:16 - INFO - Trial 4 with QueryRMSE, NDCG:top=1
+2025-04-25 19:44:09 - INFO - Trial 5 with QueryRMSE, NDCG:top=1
+2025-04-25 19:44:46 - INFO - Trial 6 with QueryRMSE, NDCG:top=1
+2025-04-25 19:45:10 - INFO - Trial 7 with QueryRMSE, NDCG:top=1
+2025-04-25 19:46:07 - INFO - Trial 8 with QueryRMSE, NDCG:top=1
+2025-04-25 19:46:27 - INFO - Trial 9 with QueryRMSE, NDCG:top=1
+2025-04-25 19:47:41 - INFO - Trial 10 with QueryRMSE, NDCG:top=1
+2025-04-25 19:48:06 - INFO - Trial 11 with QueryRMSE, NDCG:top=1
+2025-04-25 19:48:55 - INFO - Trial 12 with QueryRMSE, NDCG:top=1
+2025-04-25 19:49:46 - INFO - Trial 13 with QueryRMSE, NDCG:top=1
+2025-04-25 19:50:13 - INFO - Trial 14 with QueryRMSE, NDCG:top=1
+2025-04-25 19:51:06 - INFO - Trial 15 with QueryRMSE, NDCG:top=1
+2025-04-25 19:52:04 - INFO - Trial 16 with QueryRMSE, NDCG:top=1
+2025-04-25 19:53:04 - INFO - Trial 17 with QueryRMSE, NDCG:top=1
+2025-04-25 19:53:24 - INFO - Trial 18 with QueryRMSE, NDCG:top=1
+2025-04-25 19:53:55 - INFO - Trial 19 with QueryRMSE, NDCG:top=1
+2025-04-25 19:54:45 - INFO - Best score: 0.19082235347569287, Best params: {'bootstrap_type': 'Bayesian', 'depth': 9, 'iterations': 2950, 'l2_leaf_reg': 8.540315796150207, 'learning_rate': 0.004574765038893146, 'min_data_in_leaf': 15, 'random_strength': 2.5009849291632578}
+2025-04-25 19:57:02 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=1_20250425_195445.cbm
+2025-04-25 19:57:02 - INFO - Evaluating model: QueryRMSE_NDCG:top=1_20250425_195445 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=1_20250425_195445.cbm
+2025-04-25 19:57:02 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=1_20250425_195445.cbm
+2025-04-25 19:57:02 - INFO - Final holdout_merged dataset size: (174863, 88)
+2025-04-25 19:57:41 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "QueryRMSE_NDCG:top=1_20250425_195445",
+  "total_groups_evaluated": 23043,
+  "avg_top_1_accuracy": 0.33003515167295927,
+  "avg_top_4_accuracy": 0.1455973614546717,
+  "perfect_order_percentage": 0.013409712277047259,
+  "avg_top3_in_top3": 0.13348956299093,
+  "top3_in_top4_fraction": 0.34270711278913335,
+  "MRR": 0.5499878585349227,
+  "avg_ndcg_3": 0.7456172851315049,
+  "avg_ndcg_4": 0.773903028767186,
+  "spearman_corr": 0.46380039794956723,
+  "RMSE": 86.32839538768032,
+  "MAE": 74.17932505225313,
+  "prediction_variance": 3.583649588646504
+}
+2025-04-25 19:57:41 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-04-25 19:58:15 - INFO - Appended 174863 holdout rows to DB table 'catboost_enriched_results'.
+2025-04-25 19:58:15 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_QueryRMSE_NDCG:top=1_20250425_195445.json
+2025-04-25 19:58:15 - INFO - === Starting cross-validation for QueryRMSE with NDCG:top=2 ===
+2025-04-25 19:58:15 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [86466 86467 86468 86469 86470 86471 86472 86473 86474 86475]...
+2025-04-25 19:58:15 - INFO - X_train_fold shape: (86466, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:58:15 - INFO - y_train_fold shape: (86466,), y_valid_fold shape: (86461,)
+2025-04-25 19:58:40 - INFO - metric_top4_hit = 0.2265
+2025-04-25 19:58:40 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [172927 172928 172929 172930 172931 172932 172933 172934 172935 172936]...
+2025-04-25 19:58:40 - INFO - X_train_fold shape: (172927, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:58:40 - INFO - y_train_fold shape: (172927,), y_valid_fold shape: (86461,)
+2025-04-25 19:59:04 - INFO - metric_top4_hit = 0.2267
+2025-04-25 19:59:04 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [259388 259389 259390 259391 259392 259393 259394 259395 259396 259397]...
+2025-04-25 19:59:04 - INFO - X_train_fold shape: (259388, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:59:04 - INFO - y_train_fold shape: (259388,), y_valid_fold shape: (86461,)
+2025-04-25 19:59:37 - INFO - metric_top4_hit = 0.1859
+2025-04-25 19:59:37 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [345849 345850 345851 345852 345853 345854 345855 345856 345857 345858]...
+2025-04-25 19:59:37 - INFO - X_train_fold shape: (345849, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 19:59:37 - INFO - y_train_fold shape: (345849,), y_valid_fold shape: (86461,)
+2025-04-25 20:00:21 - INFO - metric_top4_hit = 0.2132
+2025-04-25 20:00:21 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [432310 432311 432312 432313 432314 432315 432316 432317 432318 432319]...
+2025-04-25 20:00:21 - INFO - X_train_fold shape: (432310, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 20:00:21 - INFO - y_train_fold shape: (432310,), y_valid_fold shape: (86461,)
+2025-04-25 20:01:08 - INFO - metric_top4_hit = 0.1708
+2025-04-25 20:01:08 - INFO - Cross-validation top3-in-top3 fraction score: 0.20464098917202925
+2025-04-25 20:01:08 - INFO - Trial 0 with QueryRMSE, NDCG:top=2
+2025-04-25 20:02:42 - INFO - Trial 1 with QueryRMSE, NDCG:top=2
+2025-04-25 20:03:39 - INFO - Trial 2 with QueryRMSE, NDCG:top=2
+2025-04-25 20:03:53 - INFO - Trial 3 with QueryRMSE, NDCG:top=2
+2025-04-25 20:04:06 - INFO - Trial 4 with QueryRMSE, NDCG:top=2
+2025-04-25 20:04:25 - INFO - Trial 5 with QueryRMSE, NDCG:top=2
+2025-04-25 20:04:38 - INFO - Trial 6 with QueryRMSE, NDCG:top=2
+2025-04-25 20:04:51 - INFO - Trial 7 with QueryRMSE, NDCG:top=2
+2025-04-25 20:05:06 - INFO - Trial 8 with QueryRMSE, NDCG:top=2
+2025-04-25 20:06:14 - INFO - Trial 9 with QueryRMSE, NDCG:top=2
+2025-04-25 20:07:24 - INFO - Trial 10 with QueryRMSE, NDCG:top=2
+2025-04-25 20:08:25 - INFO - Trial 11 with QueryRMSE, NDCG:top=2
+2025-04-25 20:09:39 - INFO - Trial 12 with QueryRMSE, NDCG:top=2
+2025-04-25 20:10:30 - INFO - Trial 13 with QueryRMSE, NDCG:top=2
+2025-04-25 20:11:26 - INFO - Trial 14 with QueryRMSE, NDCG:top=2
+2025-04-25 20:12:15 - INFO - Trial 15 with QueryRMSE, NDCG:top=2
+2025-04-25 20:12:26 - INFO - Trial 16 with QueryRMSE, NDCG:top=2
+2025-04-25 20:13:12 - INFO - Trial 17 with QueryRMSE, NDCG:top=2
+2025-04-25 20:14:29 - INFO - Trial 18 with QueryRMSE, NDCG:top=2
+2025-04-25 20:15:52 - INFO - Trial 19 with QueryRMSE, NDCG:top=2
+2025-04-25 20:17:24 - INFO - Best score: 0.19809177646524306, Best params: {'bootstrap_type': 'Bayesian', 'depth': 8, 'iterations': 4750, 'l2_leaf_reg': 7.032538438986221, 'learning_rate': 0.004926691967724329, 'min_data_in_leaf': 5, 'random_strength': 2.738833681994002}
+2025-04-25 20:21:15 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=2_20250425_201724.cbm
+2025-04-25 20:21:15 - INFO - Evaluating model: QueryRMSE_NDCG:top=2_20250425_201724 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=2_20250425_201724.cbm
+2025-04-25 20:21:15 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=2_20250425_201724.cbm
+2025-04-25 20:21:15 - INFO - Final holdout_merged dataset size: (174863, 88)
+2025-04-25 20:21:54 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "QueryRMSE_NDCG:top=2_20250425_201724",
+  "total_groups_evaluated": 23043,
+  "avg_top_1_accuracy": 0.34283730417046393,
+  "avg_top_4_accuracy": 0.15961463351126157,
+  "perfect_order_percentage": 0.014798420344573189,
+  "avg_top3_in_top3": 0.1473766436661893,
+  "top3_in_top4_fraction": 0.36922275745345656,
+  "MRR": 0.5624369741509437,
+  "avg_ndcg_3": 0.7568419949215109,
+  "avg_ndcg_4": 0.7840353261225167,
+  "spearman_corr": 0.46105161935316924,
+  "RMSE": 86.50209494402213,
+  "MAE": 76.2964487278122,
+  "prediction_variance": 19.919041834194694
+}
+2025-04-25 20:21:54 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-04-25 20:22:27 - INFO - Appended 174863 holdout rows to DB table 'catboost_enriched_results'.
+2025-04-25 20:22:27 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_QueryRMSE_NDCG:top=2_20250425_201724.json
+2025-04-25 20:22:27 - INFO - === Starting cross-validation for QueryRMSE with NDCG:top=3 ===
+2025-04-25 20:22:27 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [86466 86467 86468 86469 86470 86471 86472 86473 86474 86475]...
+2025-04-25 20:22:27 - INFO - X_train_fold shape: (86466, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 20:22:27 - INFO - y_train_fold shape: (86466,), y_valid_fold shape: (86461,)
+2025-04-25 20:22:54 - INFO - metric_top4_hit = 0.2264
+2025-04-25 20:22:54 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [172927 172928 172929 172930 172931 172932 172933 172934 172935 172936]...
+2025-04-25 20:22:54 - INFO - X_train_fold shape: (172927, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 20:22:54 - INFO - y_train_fold shape: (172927,), y_valid_fold shape: (86461,)
+2025-04-25 20:23:21 - INFO - metric_top4_hit = 0.2293
+2025-04-25 20:23:21 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [259388 259389 259390 259391 259392 259393 259394 259395 259396 259397]...
+2025-04-25 20:23:21 - INFO - X_train_fold shape: (259388, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 20:23:21 - INFO - y_train_fold shape: (259388,), y_valid_fold shape: (86461,)
+2025-04-25 20:24:02 - INFO - metric_top4_hit = 0.1893
+2025-04-25 20:24:02 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [345849 345850 345851 345852 345853 345854 345855 345856 345857 345858]...
+2025-04-25 20:24:02 - INFO - X_train_fold shape: (345849, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 20:24:02 - INFO - y_train_fold shape: (345849,), y_valid_fold shape: (86461,)
+2025-04-25 20:24:53 - INFO - metric_top4_hit = 0.2139
+2025-04-25 20:24:53 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [432310 432311 432312 432313 432314 432315 432316 432317 432318 432319]...
+2025-04-25 20:24:53 - INFO - X_train_fold shape: (432310, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 20:24:53 - INFO - y_train_fold shape: (432310,), y_valid_fold shape: (86461,)
+2025-04-25 20:25:53 - INFO - metric_top4_hit = 0.1712
+2025-04-25 20:25:53 - INFO - Cross-validation top3-in-top3 fraction score: 0.2060196609414206
+2025-04-25 20:25:53 - INFO - Trial 0 with QueryRMSE, NDCG:top=3
+2025-04-25 20:27:23 - INFO - Trial 1 with QueryRMSE, NDCG:top=3
+2025-04-25 20:27:41 - INFO - Trial 2 with QueryRMSE, NDCG:top=3
+2025-04-25 20:29:29 - INFO - Trial 3 with QueryRMSE, NDCG:top=3
+2025-04-25 20:30:36 - INFO - Trial 4 with QueryRMSE, NDCG:top=3
+2025-04-25 20:32:33 - INFO - Trial 5 with QueryRMSE, NDCG:top=3
+2025-04-25 20:32:52 - INFO - Trial 6 with QueryRMSE, NDCG:top=3
+2025-04-25 20:33:11 - INFO - Trial 7 with QueryRMSE, NDCG:top=3
+2025-04-25 20:33:32 - INFO - Trial 8 with QueryRMSE, NDCG:top=3
+2025-04-25 20:35:15 - INFO - Trial 9 with QueryRMSE, NDCG:top=3
+2025-04-25 20:36:58 - INFO - Trial 10 with QueryRMSE, NDCG:top=3
+2025-04-25 20:38:29 - INFO - Trial 11 with QueryRMSE, NDCG:top=3
+2025-04-25 20:40:25 - INFO - Trial 12 with QueryRMSE, NDCG:top=3
+2025-04-25 20:42:21 - INFO - Trial 13 with QueryRMSE, NDCG:top=3
+2025-04-25 20:44:20 - INFO - Trial 14 with QueryRMSE, NDCG:top=3
+2025-04-25 20:45:38 - INFO - Trial 15 with QueryRMSE, NDCG:top=3
+2025-04-25 20:47:30 - INFO - Trial 16 with QueryRMSE, NDCG:top=3
+2025-04-25 20:49:21 - INFO - Trial 17 with QueryRMSE, NDCG:top=3
+2025-04-25 20:50:35 - INFO - Trial 18 with QueryRMSE, NDCG:top=3
+2025-04-25 20:51:34 - INFO - Trial 19 with QueryRMSE, NDCG:top=3
+2025-04-25 20:53:15 - INFO - Best score: 0.19861102096449665, Best params: {'bootstrap_type': 'Bernoulli', 'depth': 9, 'iterations': 4200, 'l2_leaf_reg': 7.076524928705372, 'learning_rate': 0.004850359893769568, 'min_data_in_leaf': 10, 'random_strength': 3.441901753234141}
+2025-04-25 20:59:57 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=3_20250425_205315.cbm
+2025-04-25 20:59:57 - INFO - Evaluating model: QueryRMSE_NDCG:top=3_20250425_205315 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=3_20250425_205315.cbm
+2025-04-25 20:59:57 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=3_20250425_205315.cbm
+2025-04-25 20:59:57 - INFO - Final holdout_merged dataset size: (174863, 88)
+2025-04-25 21:00:36 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "QueryRMSE_NDCG:top=3_20250425_205315",
+  "total_groups_evaluated": 23043,
+  "avg_top_1_accuracy": 0.34769778240680466,
+  "avg_top_4_accuracy": 0.16382415484094953,
+  "perfect_order_percentage": 0.0165343054289806,
+  "avg_top3_in_top3": 0.15670702599487915,
+  "top3_in_top4_fraction": 0.3812437616629779,
+  "MRR": 0.5670964500836914,
+  "avg_ndcg_3": 0.7616244771576982,
+  "avg_ndcg_4": 0.7882817905636673,
+  "spearman_corr": 0.44217274884060276,
+  "RMSE": 87.52887026299791,
+  "MAE": 77.2554971809759,
+  "prediction_variance": 20.628884466154645
+}
+2025-04-25 21:00:36 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-04-25 21:01:09 - INFO - Appended 174863 holdout rows to DB table 'catboost_enriched_results'.
+2025-04-25 21:01:09 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_QueryRMSE_NDCG:top=3_20250425_205315.json
+2025-04-25 21:01:09 - INFO - === Starting cross-validation for QueryRMSE with NDCG:top=4 ===
+2025-04-25 21:01:09 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [86466 86467 86468 86469 86470 86471 86472 86473 86474 86475]...
+2025-04-25 21:01:09 - INFO - X_train_fold shape: (86466, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 21:01:09 - INFO - y_train_fold shape: (86466,), y_valid_fold shape: (86461,)
+2025-04-25 21:01:36 - INFO - metric_top4_hit = 0.2275
+2025-04-25 21:01:36 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [172927 172928 172929 172930 172931 172932 172933 172934 172935 172936]...
+2025-04-25 21:01:36 - INFO - X_train_fold shape: (172927, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 21:01:36 - INFO - y_train_fold shape: (172927,), y_valid_fold shape: (86461,)
+2025-04-25 21:02:09 - INFO - metric_top4_hit = 0.2311
+2025-04-25 21:02:09 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [259388 259389 259390 259391 259392 259393 259394 259395 259396 259397]...
+2025-04-25 21:02:09 - INFO - X_train_fold shape: (259388, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 21:02:09 - INFO - y_train_fold shape: (259388,), y_valid_fold shape: (86461,)
+2025-04-25 21:02:50 - INFO - metric_top4_hit = 0.1895
+2025-04-25 21:02:50 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [345849 345850 345851 345852 345853 345854 345855 345856 345857 345858]...
+2025-04-25 21:02:50 - INFO - X_train_fold shape: (345849, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 21:02:50 - INFO - y_train_fold shape: (345849,), y_valid_fold shape: (86461,)
+2025-04-25 21:03:42 - INFO - metric_top4_hit = 0.2141
+2025-04-25 21:03:42 - INFO - Train indices: [0 1 2 3 4 5 6 7 8 9]... Valid indices: [432310 432311 432312 432313 432314 432315 432316 432317 432318 432319]...
+2025-04-25 21:03:42 - INFO - X_train_fold shape: (432310, 68), X_valid_fold shape: (86461, 68)
+2025-04-25 21:03:42 - INFO - y_train_fold shape: (432310,), y_valid_fold shape: (86461,)
+2025-04-25 21:04:41 - INFO - metric_top4_hit = 0.1719
+2025-04-25 21:04:41 - INFO - Cross-validation top3-in-top3 fraction score: 0.2067964380502057
+2025-04-25 21:04:41 - INFO - Trial 0 with QueryRMSE, NDCG:top=4
+2025-04-25 21:06:16 - INFO - Trial 1 with QueryRMSE, NDCG:top=4
+2025-04-25 21:07:43 - INFO - Trial 2 with QueryRMSE, NDCG:top=4
+2025-04-25 21:09:19 - INFO - Trial 3 with QueryRMSE, NDCG:top=4
+2025-04-25 21:10:31 - INFO - Trial 4 with QueryRMSE, NDCG:top=4
+2025-04-25 21:12:06 - INFO - Trial 5 with QueryRMSE, NDCG:top=4
+2025-04-25 21:12:20 - INFO - Trial 6 with QueryRMSE, NDCG:top=4
+2025-04-25 21:13:23 - INFO - Trial 7 with QueryRMSE, NDCG:top=4
+2025-04-25 21:14:29 - INFO - Trial 8 with QueryRMSE, NDCG:top=4
+2025-04-25 21:15:49 - INFO - Trial 9 with QueryRMSE, NDCG:top=4
+2025-04-25 21:16:47 - INFO - Trial 10 with QueryRMSE, NDCG:top=4
+2025-04-25 21:18:16 - INFO - Trial 11 with QueryRMSE, NDCG:top=4
+2025-04-25 21:19:45 - INFO - Trial 12 with QueryRMSE, NDCG:top=4
+2025-04-25 21:21:14 - INFO - Trial 13 with QueryRMSE, NDCG:top=4
+2025-04-25 21:22:48 - INFO - Trial 14 with QueryRMSE, NDCG:top=4
+2025-04-25 21:25:04 - INFO - Trial 15 with QueryRMSE, NDCG:top=4
+2025-04-25 21:26:57 - INFO - Trial 16 with QueryRMSE, NDCG:top=4
+2025-04-25 21:29:14 - INFO - Trial 17 with QueryRMSE, NDCG:top=4
+2025-04-25 21:31:13 - INFO - Trial 18 with QueryRMSE, NDCG:top=4
+2025-04-25 21:33:21 - INFO - Trial 19 with QueryRMSE, NDCG:top=4
+2025-04-25 21:35:31 - INFO - Best score: 0.19646913740507563, Best params: {'bootstrap_type': 'Bayesian', 'depth': 9, 'iterations': 4950, 'l2_leaf_reg': 9.245054578421595, 'learning_rate': 0.0033154287286853335, 'min_data_in_leaf': 10, 'random_strength': 3.1527707425253846}
+2025-04-25 21:40:32 - INFO - Saved model with train+valid predictions to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=4_20250425_213531.cbm
+2025-04-25 21:40:32 - INFO - Evaluating model: QueryRMSE_NDCG:top=4_20250425_213531 from /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=4_20250425_213531.cbm
+2025-04-25 21:40:32 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_QueryRMSE_NDCG:top=4_20250425_213531.cbm
+2025-04-25 21:40:32 - INFO - Final holdout_merged dataset size: (174863, 88)
+2025-04-25 21:41:11 - INFO - Holdout Evaluation Results:
+{
+  "model_key": "QueryRMSE_NDCG:top=4_20250425_213531",
+  "total_groups_evaluated": 23043,
+  "avg_top_1_accuracy": 0.34231653864514167,
+  "avg_top_4_accuracy": 0.15926745649438007,
+  "perfect_order_percentage": 0.014755023217463003,
+  "avg_top3_in_top3": 0.1476370264288504,
+  "top3_in_top4_fraction": 0.3690491689450158,
+  "MRR": 0.5621877647395158,
+  "avg_ndcg_3": 0.756769419355235,
+  "avg_ndcg_4": 0.7839987425577801,
+  "spearman_corr": 0.46142343059933866,
+  "RMSE": 86.45280308012622,
+  "MAE": 76.24978520514982,
+  "prediction_variance": 19.903196728566375
+}
+2025-04-25 21:41:11 - INFO - No duplicates found in holdout_merged based on columns ['horse_id', 'group_id'].
+2025-04-25 21:41:44 - INFO - Appended 174863 holdout rows to DB table 'catboost_enriched_results'.
+2025-04-25 21:41:44 - INFO - Saved holdout metrics to ./data/training/holdout_metrics/holdout_metrics_QueryRMSE_NDCG:top=4_20250425_213531.json
+2025-04-25 21:41:44 - INFO - === Done training & evaluating all models ===
+2025-04-25 21:41:44 - INFO - Saved final_feature_cols to /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/training/final_feature_cols_20250425_214144.json
+2025-04-25 21:41:44 - INFO - Training 20 Catboost models Horse embedding took 12667.2852165699 to complete.
+2025-04-25 21:41:45 - INFO - Spark session stopped.
+2025-04-25 21:41:45 - INFO - Closing down clientserver connection

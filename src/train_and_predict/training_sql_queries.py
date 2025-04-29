@@ -270,22 +270,16 @@ def sql_queries():
                 AND s.type='LIFETIME'
             LEFT JOIN stat_dam d ON h.axciskey=d.axciskey 
                 AND d.type='LIFETIME'            
-            LEFT JOIN LATERAL (
-                                SELECT s.*
-                                FROM sectionals_aggregated_locf s
-                                WHERE s.horse_id = h.horse_id
-                                    AND s.as_of_date <= r2.race_date
-                                ORDER BY s.as_of_date DESC
-                                LIMIT 1
-                                ) sa ON TRUE
-            LEFT JOIN LATERAL (
-                    SELECT gl.*
-                    FROM gps_aggregated_locf gl
-                    WHERE gl.horse_id = h.horse_id
-                        AND gl.race_date <= r2.race_date
-                    ORDER BY gl.race_date DESC
-                    LIMIT 1
-                    ) gal ON TRUE
+            LEFT JOIN sectionals_aggregated_locf sa
+                                ON h.horse_id = sa.horse_id
+                                AND r2.course_cd = sa.course_cd
+                                AND r2.race_date = sa.race_date
+                                AND r2.race_number = sa.race_number
+            LEFT JOIN gps_aggregated_locf gal
+                                ON h.horse_id = gal.horse_id
+                                AND r2.course_cd = gal.course_cd
+                                AND r2.race_date = gal.race_date
+                                AND r2.race_number = gal.race_number
             LEFT JOIN horse_accum_stats has_all ON has_all.axciskey=r2.axciskey 
                 AND has_all.stat_type='ALL_RACES' 
                 AND has_all.as_of_date=(SELECT MAX(a2.as_of_date) 

@@ -1,6 +1,7 @@
 import logging
 import time
 import os
+import json
 import pandas as pd
 import src.wagering.wager_types as wt
 from src.wagering.wagering_helper_functions import (gather_bet_metrics, group_races_for_pick3)
@@ -11,8 +12,10 @@ import logging
 import pandas as pd
 from src.wagering.wagering_helper_functions import gather_bet_metrics
 from pyspark.sql.functions import col, sum as F_sum, when, count as F_count, lit
+from pyspark.sql.types import (StructType, StructField, StringType, FloatType, IntegerType)
+import pyspark.sql.functions as F
 
-def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box):
+def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, box):
     """
     Generates a list of bets (combos) for each race, calculates the cost/payoff,
     and returns a DataFrame with row-level metrics per race/bet scenario.
@@ -29,22 +32,40 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
     total_wagers = 0
     total_wins = 0
     total_losses = 0
-    my_wager = ExactaWager(base_amount, top_n, box)
+    bad_race_wager_info = 0
     # Filter races by field size
     filtered_races = []
-    for race in all_races:
-        field_size = len(race.horses)
-        if 4 <= field_size <= 14:
-            filtered_races.append(race)
-
+    filtered_races = [race for race in all_races if 4 <= len(race.horses) <= 20]
+    
     for race in filtered_races:
+        key = (race.course_cd, race.race_date, race.race_number, "Exacta")
+        race_wager_info = wagers_dict.get(key, None)
+        num_tickets = race_wager_info["num_tickets"] if race_wager_info and "num_tickets" in race_wager_info else None 
+        # Set base_amount for this race
+
+        if race_wager_info and "num_tickets" in race_wager_info:
+            try:
+                num_tickets_val = float(num_tickets)
+                if num_tickets_val is None or num_tickets_val == 0.0:
+                    print(f"Debug 3: num_tickets is None or zero for {key}, BAD DATA")
+                    bad_race_wager_info += 1
+                    continue
+                else:
+                    race_base_amount = num_tickets_val
+            except Exception as e:
+                logging.info(f"Debug 3: Could not convert num_tickets to float for {key}: {e} (value: {num_tickets}, type: {type(num_tickets)})")
+                bad_race_wager_info += 1
+                continue
+        else:
+            logging.info(f"Debug1 New Race: key={key}, race_wager_info={race_wager_info}, num_tickets={num_tickets} (type: {type(num_tickets)})") 
+            bad_race_wager_info += 1 
+            continue   
+            
+        my_wager = ExactaWager(wager_amount, top_n, box)
         # Generate combos (list of lists), e.g. [["3","7"],["2","5"], ...]
         combos = my_wager.generate_combos(race)
         cost = my_wager.calculate_cost(combos)   # total $ cost for these combos
-
-        key = (race.course_cd, race.race_date, race.race_number, "Exacta")
-        race_wager_info = wagers_dict.get(key, None)
-
+        
         payoff = 0.0
         actual_combo = None
         winning_combo_found = False
@@ -55,21 +76,24 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
             posted_base = float(race_wager_info['num_tickets'])
             logging.info(f"\n--- Debugging Race ---")
             logging.info(f"Race Key: {key}")
+            logging.info(f"Wager Amount: {wager_amount}")
             logging.info(f"Generated Combos: {combos}")
             logging.info(f"Posted Base: {posted_base:.2f}")
             logging.info(f"Cost for Combos: {cost:.2f}")
             logging.info(f"Actual Winning Combo: {actual_combo}")
             logging.info(f"Listed Payoff: {race_payoff:.2f}")
+            logging.info(f"Bad Race Wager info so far: {bad_race_wager_info}")
 
             # Check each combo to see if it matches the actual winning combo
             for combo in combos:
-                if my_wager.check_if_win(combo, race, actual_combo):
-                    payoff = my_wager.calculate_payoff(race_payoff, posted_base)
+                if my_wager.check_if_win(combo, race, actual_combo):                    
+                    payoff = my_wager.calculate_payoff(race_payoff, race_base_amount)
                     logging.info(f"=> Match Found! Winning Combo: {combo}, Payoff = {payoff:.2f}")
                     winning_combo_found = True
                     break
         else:
             logging.debug(f"No wager info found for {key}")
+            bad_race_wager_info += 1
 
         total_cost += cost
         total_payoff += payoff
@@ -77,7 +101,8 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
         # Count wagers, wins, losses
         num_tickets = len(combos)  # how many exacta combos we bet in this race
         total_wagers += num_tickets
-
+        logging.info(f"Total Wagers: {total_wagers}, Cost: {total_cost}, Total Payoff: {total_payoff}, Net: {total_payoff - total_cost}")
+        logging.info(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}") 
         if winning_combo_found:
             # Exactly 1 of the combos is a winner; the rest lose
             total_wins += 1
@@ -114,7 +139,6 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
     # ------------------------------------------------------------------------
     # Convert bet_results (list of dicts) into a Pandas DataFrame
     # ------------------------------------------------------------------------
-    import json
 
     # Preprocess bet_results to flatten nested structures
     for row in bet_results:
@@ -122,10 +146,8 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
             row["actual_winning_combo"] = json.dumps(row["actual_winning_combo"])  # Convert to JSON string
         if "generated_combos" in row:
             row["generated_combos"] = json.dumps(row["generated_combos"])  # Convert to JSON string
-        df_results = pd.DataFrame(bet_results)
-        
-    from pyspark.sql.types import StructType, StructField, StringType, FloatType, IntegerType
-
+    df_results = pd.DataFrame(bet_results)
+    
     schema = StructType([
         StructField("course_cd", StringType(), True),
         StructField("race_date", StringType(), True),
@@ -135,6 +157,7 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
         StructField("track_condition", StringType(), True),
         StructField("avg_purse_val_calc", FloatType(), True),
         StructField("race_type", StringType(), True),
+        StructField("wager_amount", StringType(), True),
         StructField("base_amount", FloatType(), True),
         StructField("combos_generated", IntegerType(), True),
         StructField("cost", FloatType(), True),
@@ -160,14 +183,7 @@ def implement_ExactaWager(spark, all_races, wagers_dict, base_amount, top_n, box
     # Return the DataFrame with combos as arrays
     return df_results
 
-def implement_TrifectaWager(
-            spark,
-            all_races,
-            wagers_dict,
-            base_amount,
-            top_n, 
-            box
-        ):
+def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, box):
     """
     Generates a list of bets (combos) for each race using trifecta logic,
     calculates the cost/payoff, and returns a Spark DataFrame with row-level metrics 
@@ -183,15 +199,43 @@ def implement_TrifectaWager(
     """
     total_cost = 0.0
     total_payoff = 0.0
-    bet_results = []  # will hold a dictionary for each race's wager metrics
+    bet_results = []  # will hold dicts for each race (row_data)
 
     # Counters for wagers, wins, losses
     total_wagers = 0
     total_wins = 0
     total_losses = 0
+    bad_race_wager_info = 0
+    # Filter races by field size
+    filtered_races = []
+    filtered_races = [race for race in all_races if 5 <= len(race.horses) <= 20]
+    
+    for race in filtered_races:
+        key = (race.course_cd, race.race_date, race.race_number, "Trifecta")
+        race_wager_info = wagers_dict.get(key, None)
+        num_tickets = race_wager_info["num_tickets"] if race_wager_info and "num_tickets" in race_wager_info else None 
+        # Set base_amount for this race
+
+        if race_wager_info and "num_tickets" in race_wager_info:
+            try:
+                num_tickets_val = float(num_tickets)
+                if num_tickets_val is None or num_tickets_val == 0.0:
+                    print(f"Debug 3: num_tickets is None or zero for {key}, setting race_base_amount = 1.0")
+                    bad_race_wager_info += 1
+                    continue
+                else:
+                    race_base_amount = num_tickets_val
+            except Exception as e:
+                logging.info(f"Debug 3: Could not convert num_tickets to float for {key}: {e} (value: {num_tickets}, type: {type(num_tickets)})")
+                bad_race_wager_info += 1
+                continue
+        else:
+            logging.info(f"Debug1 New Race: key={key}, race_wager_info={race_wager_info}, num_tickets={num_tickets} (type: {type(num_tickets)})") 
+            bad_race_wager_info += 1 
+            continue 
     
     # Instantiate the trifecta wager
-    my_wager = TrifectaWager(base_amount=base_amount, top_n=top_n, box=box)
+    my_wager = TrifectaWager(wager_amount, top_n, box)
     
     # Filter races by field size (ensure there are at least 5 horses for a trifecta)
     filtered_races = [race for race in all_races if len(race.horses) >= 5]
@@ -212,19 +256,20 @@ def implement_TrifectaWager(
         if race_wager_info:
             actual_combo = race_wager_info.get('winning_combo')  # e.g. [["5"], ["3"], ["8"]]
             race_payoff = float(race_wager_info.get('payoff', 0))
-            posted_base = float(race_wager_info.get('num_tickets'))
             logging.info(f"\n--- Debugging Race ---")
             logging.info(f"Race Key: {key}")
+            logging.info(f"Wager Amount: {wager_amount}")
             logging.info(f"Generated Combos: {combos}")
-            logging.info(f"Posted Base: {posted_base:.2f}")
+            logging.info(f"Posted Base: {race_base_amount:.2f}")
             logging.info(f"Cost for Combos: {cost:.2f}")
             logging.info(f"Actual Winning Combo: {actual_combo}")
             logging.info(f"Listed Payoff: {race_payoff:.2f}")
+            logging.info(f"Bad Race Wager info so far: {bad_race_wager_info}")
 
             # Check if any generated combo matches the actual winning combo
             for combo in combos:
                 if my_wager.check_if_win(combo, race, actual_combo):
-                    payoff = my_wager.calculate_payoff(race_payoff, posted_base)
+                    payoff = my_wager.calculate_payoff(race_payoff, race_base_amount)
                     logging.info(f"=> Match Found! Winning Combo: {combo}, Payoff = {payoff:.2f}")
                     winning_combo_found = True
                     break
@@ -236,6 +281,8 @@ def implement_TrifectaWager(
 
         num_tickets = len(combos)
         total_wagers += num_tickets
+        logging.info(f"Total Wagers: {total_wagers}, Cost: {total_cost}, Total Payoff: {total_payoff}, Net: {total_payoff - total_cost}")
+        logging.info(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}") 
         if winning_combo_found:
             total_wins += 1
             total_losses += (num_tickets - 1)
@@ -269,7 +316,7 @@ def implement_TrifectaWager(
     print(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}")
 
     # Convert bet_results (list of dicts) into a Spark DataFrame
-    from pyspark.sql.types import StructType, StructField, StringType, FloatType, IntegerType
+
     schema = StructType([
         StructField("course_cd", StringType(), True),
         StructField("race_date", StringType(), True),
@@ -279,7 +326,8 @@ def implement_TrifectaWager(
         StructField("track_condition", StringType(), True),
         StructField("avg_purse_val_calc", FloatType(), True),
         StructField("race_type", StringType(), True),
-        StructField("base_amount", FloatType(), True),
+        StructField("wager_amount", StringType(), True),
+        StructField("race_base_amount", FloatType(), True),
         StructField("combos_generated", IntegerType(), True),
         StructField("cost", FloatType(), True),
         StructField("payoff", FloatType(), True),
@@ -302,14 +350,7 @@ def implement_TrifectaWager(
 
     return df_results
 
-def implement_SuperfectaWager(
-            spark,
-            all_races,
-            wagers_dict,
-            base_amount,
-            top_n, 
-            box
-        ):
+def implement_SuperfectaWager(spark, all_races, wagers_dict, wager_amount, top_n, box):
     """
     Generates a list of bets (combos) for each race using superfecta logic, calculates the cost and payoff,
     and returns a Spark DataFrame with row-level metrics per race bet scenario.
@@ -324,15 +365,37 @@ def implement_SuperfectaWager(
     total_wagers = 0
     total_wins = 0
     total_losses = 0
-    my_wager = SuperfectaWager(base_amount=base_amount, top_n=top_n, box=box)
-    
-    # Filter races by field size (for superfecta, ensure at least 4 horses)
+    bad_race_wager_info = 0
+    # Filter races by field size
     filtered_races = []
-    for race in all_races:
-        field_size = len(race.horses)
-        if 4 <= field_size <= 14:
-            filtered_races.append(race)
+    filtered_races = [race for race in all_races if 6 <= len(race.horses) <= 20]
+    
+    for race in filtered_races:
+        key = (race.course_cd, race.race_date, race.race_number, "Superfecta")
+        race_wager_info = wagers_dict.get(key, None)
+        num_tickets = race_wager_info["num_tickets"] if race_wager_info and "num_tickets" in race_wager_info else None 
+        # Set base_amount for this race
 
+        if race_wager_info and "num_tickets" in race_wager_info:
+            try:
+                num_tickets_val = float(num_tickets)
+                if num_tickets_val is None or num_tickets_val == 0.0:
+                    print(f"Debug 3: num_tickets is None or zero for {key}, setting race_base_amount = 1.0")
+                    bad_race_wager_info += 1
+                    continue
+                else:
+                    race_base_amount = num_tickets_val
+            except Exception as e:
+                logging.info(f"Debug 3: Could not convert num_tickets to float for {key}: {e} (value: {num_tickets}, type: {type(num_tickets)})")
+                bad_race_wager_info += 1
+                continue
+        else:
+            logging.info(f"Debug1 New Race: key={key}, race_wager_info={race_wager_info}, num_tickets={num_tickets} (type: {type(num_tickets)})") 
+            bad_race_wager_info += 1 
+            continue 
+    
+    my_wager = SuperfectaWager(wager_amount, top_n, box)
+    
     for race in filtered_races:
         # Generate combos (list of tuples), e.g. [("3", "7", "2", "5"), ...]
         combos = my_wager.generate_combos(race)
@@ -346,21 +409,21 @@ def implement_SuperfectaWager(
         winning_combo_found = False
 
         if race_wager_info:
-            actual_combo = race_wager_info['winning_combo']  # e.g. [["1"], ["2"], ["3"], ["4"]]
-            race_payoff = float(race_wager_info['payoff'])
-            posted_base = float(race_wager_info['num_tickets'])
+            actual_combo = race_wager_info.get('winning_combo')  # e.g. [["5"], ["3"], ["8"]]
+            race_payoff = float(race_wager_info.get('payoff', 0))
             logging.info(f"\n--- Debugging Race ---")
             logging.info(f"Race Key: {key}")
+            logging.info(f"Wager Amount: {wager_amount}")
             logging.info(f"Generated Combos: {combos}")
-            logging.info(f"Posted Base: {posted_base:.2f}")
+            logging.info(f"Posted Base: {race_base_amount:.2f}")
             logging.info(f"Cost for Combos: {cost:.2f}")
             logging.info(f"Actual Winning Combo: {actual_combo}")
             logging.info(f"Listed Payoff: {race_payoff:.2f}")
-
+            logging.info(f"Bad Race Wager info so far: {bad_race_wager_info}")
             # Check each combo to see if it matches the actual winning combo
             for combo in combos:
                 if my_wager.check_if_win(combo, race, actual_combo):
-                    payoff = my_wager.calculate_payoff(race_payoff, posted_base)
+                    payoff = my_wager.calculate_payoff(race_payoff, race_base_amount)
                     logging.info(f"=> Match Found! Winning Combo: {combo}, Payoff = {payoff:.2f}")
                     winning_combo_found = True
                     break
@@ -373,7 +436,8 @@ def implement_SuperfectaWager(
         # Count wagers, wins, losses
         num_tickets = len(combos)  # how many superfecta combos we bet in this race
         total_wagers += num_tickets
-
+        logging.info(f"Total Wagers: {total_wagers}, Cost: {total_cost}, Total Payoff: {total_payoff}, Net: {total_payoff - total_cost}")
+        logging.info(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}")   
         if winning_combo_found:
             # Exactly 1 of the combos is a winner; the rest lose
             total_wins += 1
@@ -409,15 +473,12 @@ def implement_SuperfectaWager(
     # ------------------------------------------------------------------------
     # Convert bet_results (list of dicts) into a Pandas DataFrame
     # ------------------------------------------------------------------------
-    import json
     for row in bet_results:
         if "actual_winning_combo" in row:
             row["actual_winning_combo"] = json.dumps(row["actual_winning_combo"])  # Convert to JSON string
         if "generated_combos" in row:
             row["generated_combos"] = json.dumps(row["generated_combos"])  # Convert to JSON string
     df_results = pd.DataFrame(bet_results)
-
-    from pyspark.sql.types import StructType, StructField, StringType, FloatType, IntegerType
 
     schema = StructType([
         StructField("course_cd", StringType(), True),
@@ -428,7 +489,8 @@ def implement_SuperfectaWager(
         StructField("track_condition", StringType(), True),
         StructField("avg_purse_val_calc", FloatType(), True),
         StructField("race_type", StringType(), True),
-        StructField("base_amount", FloatType(), True),
+        StructField("wager_amount", StringType(), True),
+        StructField("race_base_amount", FloatType(), True),
         StructField("combos_generated", IntegerType(), True),
         StructField("cost", FloatType(), True),
         StructField("payoff", FloatType(), True),
@@ -453,27 +515,34 @@ def implement_SuperfectaWager(
     return df_results
 
 def implement_multi_race_wager(
-            spark,
-            all_races,
-            wagers_dict,
-            wager_type,
-            num_legs,
-            base_amount,
-            top_n,
-            box
-        ):
-
+    spark,
+    all_races,
+    wagers_dict,
+    wager_type,
+    num_legs,
+    wager_amount,  # e.g. 2
+    top_n,
+    box
+):    
+    # Master counters
+    total_cost = 0.0
+    total_payoff = 0.0
+    total_wagers = 0
+    total_wins = 0
+    total_losses = 0
+    bad_race_wager_info = 0
+    
     results = []
 
     # Build the multi-leg wager
     my_wager = MultiRaceWager(
-        base_amount=base_amount,
-        num_legs=num_legs,
-        top_n=top_n,
+        wager_amount,  # user-specified base
+        num_legs,
+        top_n,
         box=box
     )
-
-    # 1) Filter by the 4th item in key => must match wager_type exactly
+    
+    # 1) Filter wagers by the 4th item in key => must match wager_type exactly
     wagers_subset = {
         k: v
         for k, v in wagers_dict.items()
@@ -483,25 +552,28 @@ def implement_multi_race_wager(
 
     # 2) Process each wager from the subset
     for (course_cd, date, final_rn, wtype), wrow in wagers_subset.items():
-        # Safely retrieve winning_combo; if missing or its length is insufficient, skip this entry.
+        
+        # Safely retrieve winning_combo; if missing or length < num_legs, skip
         leg_winners = wrow.get("winning_combo")
         if not leg_winners or len(leg_winners) < num_legs:
             continue
-
-        # Convert final_rn to an integer safely.
+        
+        # Attempt to convert final_rn to int
         if final_rn is None:
             logging.debug(f"Skipping key ({course_cd}, {date}, {final_rn}, {wtype}) because final_rn is None")
+            bad_race_wager_info += 1
             continue
         try:
             final_rn_int = int(final_rn)
         except Exception as e:
             logging.debug(f"Cannot convert final_rn ({final_rn}) to int for key ({course_cd}, {date}, {final_rn}, {wtype}): {e}")
+            bad_race_wager_info += 1
             continue
 
-        # Build consecutive legs => e.g. if final_rn_int=5 and num_legs=3 then leg_numbers = [3, 4, 5]
+        # 3) Build consecutive legs => if final_rn_int=5 & num_legs=3 => [3,4,5]
         leg_numbers = [final_rn_int - (num_legs - 1) + i for i in range(num_legs)]
 
-        # Gather the Race objects for each leg
+        # 4) Gather the Race objects for each leg, ensuring 4 <= #horses <= 20
         race_objs = []
         missing_leg = False
         for leg_num in leg_numbers:
@@ -509,37 +581,56 @@ def implement_multi_race_wager(
             if r_obj is None:
                 missing_leg = True
                 break
+            # Filter by 4..20 horses in each leg
+            if not (4 <= len(r_obj.horses) <= 20):
+                missing_leg = True
+                break
             race_objs.append(r_obj)
+
         if missing_leg or len(race_objs) < num_legs:
+            bad_race_wager_info += 1
             continue
 
-        # 3) Generate combos using my_wager and calculate cost
+        # 5) parse the posted_base (num_tickets) for multi-race
+        try:
+            posted_base = float(wrow["num_tickets"])
+            if posted_base is None or posted_base <= 0.0:
+                logging.debug(f"Skipping multi-race {course_cd} {date}, final_rn={final_rn}, posted_base=0.0 or None invalid")
+                bad_race_wager_info += 1
+                continue
+        except (TypeError, ValueError, KeyError) as e:
+            logging.debug(f"Skipping because posted_base invalid for key=({course_cd},{date},{final_rn},{wtype}): {e}")
+            bad_race_wager_info += 1
+            continue
+
+        # 6) Generate combos and cost
         all_combos = my_wager.generate_combos(race_objs)
-        cost = my_wager.calculate_cost(all_combos)
+        cost = my_wager.calculate_cost(all_combos)  # (#combos * user base)
         
         posted_payoff = float(wrow.get("payoff", 0.0))
-        posted_base   = float(wrow.get("num_tickets"))
 
-        # 4) Check if any generated combo matches the winning combo
+        # 7) Check if any combo matches the winning combo -> scale payoff
         payoff = 0.0
+        winning_found = False
         if len(leg_winners) == num_legs:
             for combo in all_combos:
                 if my_wager.check_if_win(combo, race_objs, leg_winners):
                     payoff = posted_payoff * (my_wager.base_amount / posted_base)
+                    winning_found = True
                     break
 
         logging.info("\n--- Multi-Race Wager Debug ---")
         logging.info(f"Race Key: ({course_cd}, {date}, Final Leg #{final_rn})")
         logging.info(f"Legs: {leg_numbers}")
         logging.info("Top Picks per Leg:")
-        for i, race in enumerate(race_objs):
-            top_picks = my_wager.get_top_n_for_leg(i, race)
+        for i, race_obj in enumerate(race_objs):
+            top_picks = my_wager.get_top_n_for_leg(i, race_obj)
             logging.info(f"  [Leg {i+1}] top picks => {top_picks}")
 
         logging.info(f"Generated {len(all_combos)} combos => {all_combos}")
         logging.info(f"Actual Winning Combo: {leg_winners}")
         logging.info(f"Posted Base: ${posted_base:.2f}")
-        logging.info(f"Listed Payoff: {posted_payoff:.2f}")
+        logging.info(f"Listed Payoff: ${posted_payoff:.2f}")
         logging.info(f"Cost for Combo Set: ${cost:.2f}")
         logging.info(f"Payoff: ${payoff:.2f}")
 
@@ -547,9 +638,31 @@ def implement_multi_race_wager(
             logging.info("=> Match Found! ✅\n")
         else:
             logging.info("=> No Match ❌\n")
-            
-        # 5) Gather bet metrics into a sanitized dict
-        final_race = race_objs[-1]
+
+        # Increment master counters
+        total_cost += cost
+        total_payoff += payoff
+        
+        num_tickets = len(all_combos)  # combos = "tickets" for final leg
+        total_wagers += num_tickets
+        if winning_found:
+            total_wins += 1  # exactly 1 final-leg "hit"
+            total_losses += (num_tickets - 1)
+        else:
+            total_losses += num_tickets
+        
+        # Log incremental totals
+        net_so_far = total_payoff - total_cost
+        logging.info(
+            f"[Running Totals] total_wagers={total_wagers}, "
+            f"cost={total_cost:.2f}, payoff={total_payoff:.2f}, net={net_so_far:.2f}, "
+            f"wins={total_wins}, losses={total_losses}, bad_race_wager_info={bad_race_wager_info}"
+        )
+
+        # 8) Gather row-level metrics
+        final_race = race_objs[-1]  # the final leg
+        field_size = len(final_race.horses)
+
         row_data = gather_bet_metrics(
             race=final_race,
             combos=all_combos,
@@ -557,22 +670,19 @@ def implement_multi_race_wager(
             payoff=payoff,
             my_wager=my_wager,
             actual_combo=leg_winners,
-            field_size=len(final_race.horses)
+            field_size=field_size
         )
-
-        # Additional fields (convert as needed)
-        legs_str = '|'.join(str(x) for x in leg_numbers)
-        row_data["legs_str"] = legs_str
+        row_data["legs_str"] = '|'.join(str(x) for x in leg_numbers)
         row_data["official_winners_str"] = str(leg_winners)
         row_data["wager_type"] = str(wager_type)
         row_data["course_cd"] = str(course_cd)
         row_data["race_date"] = str(date)
         row_data["final_leg"] = int(final_rn)
-
+        row_data["race_base_amount"] = posted_base
+        
         results.append(row_data)
-    
-    from pyspark.sql.types import StructType, StructField, StringType, FloatType, IntegerType
 
+    # 9) Build Spark DataFrame
     schema = StructType([
         StructField("course_cd", StringType(), True),
         StructField("race_date", StringType(), True),
@@ -582,6 +692,7 @@ def implement_multi_race_wager(
         StructField("track_condition", StringType(), True),
         StructField("avg_purse_val_calc", FloatType(), True),
         StructField("race_type", StringType(), True),
+        StructField("wager_amount", StringType(), True),
         StructField("base_amount", FloatType(), True),
         StructField("combos_generated", IntegerType(), True),
         StructField("cost", FloatType(), True),
@@ -591,40 +702,28 @@ def implement_multi_race_wager(
         StructField("actual_winning_combo", StringType(), True),
         StructField("generated_combos", StringType(), True),
         StructField("roi", FloatType(), True),
-        StructField("field_size", IntegerType(), True)
+        StructField("field_size", IntegerType(), True),
+        StructField("race_base_amount", FloatType(), True),
     ])
-    
+
     df_results = spark.createDataFrame(results, schema=schema)
 
+    # compute profit, row_roi, etc.
     df_results = df_results.withColumn("bet_type", lit(f"{wager_type}_top{top_n}_box"))
     df_results = df_results.withColumn("profit", col("payoff") - col("cost"))
     df_results = df_results.withColumn(
         "row_roi",
         when(col("cost") > 0, col("profit") / col("cost")).otherwise(0.0)
     )
-    # Aggregate totals
-    agg = df_results.agg(
-    F_sum("cost").alias("total_cost"),
-    F_sum("payoff").alias("total_payoff"),
-    F_sum("hit_flag").alias("total_hits"),
-    F_sum("combos_generated").alias("sum_combos"),
-    F_count("*").alias("num_final_leg_rows")
-    ).collect()[0]
 
-    total_cost = agg["total_cost"] or 0.0
-    total_payoff = agg["total_payoff"] or 0.0
-    total_hits = agg["total_hits"] or 0
-    sum_combos = agg["sum_combos"] or 0
-    num_final_leg_rows = agg["num_final_leg_rows"] or 0
-
+    # Summaries
     net = total_payoff - total_cost
-    roi = (net / total_cost) if total_cost > 0 else 0.0
-    misses = total_hits - num_final_leg_rows  # or however you track that
+    roi = (net / total_cost) if total_cost else 0.0
 
-    print(f"Multi-Race Wager ({wager_type}, {num_legs} legs) =>")
-    print(f"  Total final-leg rows: {num_final_leg_rows}")
-    print(f"  Sum of combos_generated: {sum_combos}")
-    print(f"  Total cost: ${total_cost:.2f}, payoff: ${total_payoff:.2f}, ROI: {roi:.2%}")
-    print(f"Net: ${net:.2f}, ROI: {roi:.2%}")
+    print(f"--- Multi-Race Wager Summary ({wager_type}, {num_legs} legs) ---")
+    print(f"  total_wagers: {total_wagers}, wins: {total_wins}, losses: {total_losses}")
+    print(f"  bad_race_wager_info: {bad_race_wager_info}")
+    print(f"  cost: ${total_cost:.2f}, payoff: ${total_payoff:.2f}, net: ${net:.2f}")
+    print(f"  ROI: {roi:.2%}")
 
     return df_results
