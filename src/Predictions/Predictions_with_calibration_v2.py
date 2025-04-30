@@ -237,7 +237,7 @@ def add_race_chart(doc, race_df):
 ############################################################
 # 4) Write Predictions to DOCX
 ############################################################
-def write_predictions_to_docx(pred_df, output_docx):
+def write_predictions_to_docx(pred_df, bandit_picks_dict, output_docx):
     """
     Write predictions to a DOCX file as race cards, each with:
       - Race header
@@ -245,6 +245,7 @@ def write_predictions_to_docx(pred_df, output_docx):
       - Chart #1: Race Probabilities
       - Chart #2: Overlay/Value Chart
       - Exacta advice paragraph
+      - Bandit recommendation paragraph
       - Page break
     At the end, adds Multi‐Race Bet Recommendations (DD, Pick 3, Pick 4).
     """
@@ -297,7 +298,7 @@ def write_predictions_to_docx(pred_df, output_docx):
         hdr_cells[0].text = "Program #"
         hdr_cells[1].text = "Horse Name"
         hdr_cells[2].text = "Morn Odds"
-        hdr_cells[3].text = "GCSF"
+        hdr_cells[3].text = "Rank"
         hdr_cells[4].text = "Model Score"
         hdr_cells[5].text = "Win Prob (%)"
 
@@ -357,7 +358,27 @@ def write_predictions_to_docx(pred_df, output_docx):
             confident = False
 
         doc.add_paragraph(advice, style='Normal')
-        doc.add_paragraph("NOTE: GCSF - Global Combined Speed Figure", style='Normal')
+
+        # --- Define Bandit Lookup Key ---
+        # Ensure lookup key types match dictionary key types (str, date, int)
+        lookup_date = race_date.date() if hasattr(race_date, 'date') else race_date # Convert timestamp/datetime to date
+        try:
+            lookup_race_num = int(race_number) # Convert float race_number to int
+        except (ValueError, TypeError):
+            lookup_race_num = -1 # Handle potential conversion errors gracefully
+        bandit_lookup_key = (course_cd, lookup_date, lookup_race_num)
+        bandit_rec = bandit_picks_dict.get(bandit_lookup_key)
+        if bandit_rec:
+            bandit_advice = (
+                f"Bandit Recommendation: {bandit_rec['chosen_arm']} "
+                f"(Expected Net: {bandit_rec['expected_net']:.2f})"
+            )
+            doc.add_paragraph(bandit_advice, style='Intense Quote') # Use a distinct style if desired
+        else:
+            # Optionally add a placeholder if no bandit recommendation exists
+            # doc.add_paragraph("No bandit recommendation available.", style='Normal') # Uncomment if you want a placeholder
+            pass # Or just do nothing if no recommendation
+
         doc.add_page_break()
 
         multi.append({
@@ -411,6 +432,9 @@ def main():
     spark, jdbc_url, jdbc_properties, parquet_dir, _ = initialize_environment()
 
     # ==============================
+    # PATH TO BANDIT PICKS CSV
+    # ==============================
+    bandit_picks_csv_path = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/multi_arm_bandit_future_picks20250429.csv"
     # A) SELECT FROM THE CALIBRATED TABLE
     # ==============================
     conn = db_pool.getconn()
@@ -434,7 +458,7 @@ def main():
             saddle_cloth_number,
             score,
             calibrated_prob AS winning_probability
-        FROM predictions_20250426_151421_1_calibrated
+        FROM predictions_20250429_221506_1_calibrated
         WHERE race_date >= CURRENT_DATE -- INTERVAL '1 day'
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
@@ -468,12 +492,37 @@ def main():
         sys.exit(0)
 
     # ==============================
+    # C) Load Bandit Picks and create lookup dictionary
+    # ==============================
+    bandit_picks_dict = {}
+    try:
+        bandit_picks_df = pd.read_csv(bandit_picks_csv_path)
+        # Convert race_date string to datetime.date objects to match pred_df
+        bandit_picks_df['race_date'] = pd.to_datetime(bandit_picks_df['race_date']).dt.date
+        # Convert race_number to int if it's not already
+        bandit_picks_df['race_number'] = bandit_picks_df['race_number'].astype(int)
+
+        # Create the dictionary for quick lookup
+        for _, row in bandit_picks_df.iterrows():
+            key = (row['course_cd'], row['race_date'], row['race_number'])
+            bandit_picks_dict[key] = {
+                'chosen_arm': row['chosen_arm'],
+                'expected_net': row['expected_net']
+            }
+        logging.info(f"Loaded {len(bandit_picks_df)} bandit picks from {bandit_picks_csv_path}")
+    except FileNotFoundError:
+        logging.warning(f"Bandit picks file not found at {bandit_picks_csv_path}. Bandit recommendations will be skipped.")
+    except Exception as e:
+        logging.error(f"Error loading or processing bandit picks CSV: {e}", exc_info=True)
+        # Continue without bandit picks if loading fails
+
+    # ==============================
     # B) Generate the DOCX with 2 charts
     # ==============================
     current_date = datetime.now().strftime("%Y-%m-%d")
     output_docx = os.path.join(script_dir, f"final_predictions_calibrated_{current_date}v2.docx")
 
-    write_predictions_to_docx(pred_df, output_docx)
+    write_predictions_to_docx(pred_df, bandit_picks_dict, output_docx)
     logging.info("Predictions document created successfully.")
     print(f"Predictions complete. Document saved to: {output_docx}")
 

@@ -1,108 +1,111 @@
+#!/usr/bin/env python3
+import logging
+import os
+import numpy as np
 import pandas as pd
-from datetime import date
+from datetime import datetime
+from pyspark.sql import SparkSession, functions as F
+
 from src.wagering_bandit.wagering_bandit.bandit import ContextualBandit
-from src.data_preprocessing.data_prep1.data_utils import initialize_environment
-from src.wagering.wagering_helper_functions import setup_logging, read_config, get_db_pool
-import itertools
-import pandas as pd
 
-def build_deployment_context(races_pdf: pd.DataFrame, top_n: int):
-    """
-    Input: races_pdf with columns:
-      - race_key
-      - saddle_cloth_number
-      - field_size
-      - distance_meters
-      - score (model’s calibrated_prob)
-      - morn_odds
-      - …any other per-horse features…
+################################################################################
+# CONFIG - Adjust these paths/names to match your environment
+################################################################################
 
-    top_n: how many of the top scoring horses to form arms from
+# The “combined” Parquet with all races (past + future)
+COMBINED_PARQUET = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/combined_wagering.parquet"
 
-    Returns: DataFrame X_df where each row is one Exacta arm:
-      - race_key
-      - arm: tuple of two saddle_cloth_numbers (horse A then horse B)
-      - features for (A,B):
-         * field_size
-         * distance_meters
-         * morn_odds_A, morn_odds_B
-         * score_A, score_B
-         * prob_gap = score_A – score_B
-         * etc.
-    """
+# The trained multi-arm bandit
+MULTI_ARM_BANDIT_PATH = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/multi_arm_bandit_20250429.pkl"
 
-    rows = []
-    for race_key, grp in races_pdf.groupby("race_key"):
-        # pick top_n by model score
-        top_horses = (
-            grp
-            .sort_values("score", ascending=False)
-            .head(top_n)
-            .reset_index(drop=True)
-        )
+# The columns needed for bandit context (same as training)
+FEATURE_COLS = [
+    "race_number",
+    "field_size",
+    "distance_meters",
+    "avg_purse_val_calc",
+    "avg_morn_odds",
+    "fav_morn_odds",
+    "max_prob",
+    "second_prob",
+    "prob_gap",
+    "std_prob"
+]
 
-        # for every 2‐permutation of those N horses
-        for A, B in itertools.permutations(top_horses["saddle_cloth_number"], 2):
-            row_A = top_horses[top_horses["saddle_cloth_number"] == A].iloc[0]
-            row_B = top_horses[top_horses["saddle_cloth_number"] == B].iloc[0]
+# The final picks CSV output
+OUTPUT_CSV = "multi_arm_bandit_future_picks20250429.csv"
 
-            rows.append({
-                "race_key":       race_key,
-                "arm":            (A, B),
-                "field_size":     row_A["field_size"],  # same for entire race
-                "distance_meters": row_A["distance_meters"],
-                "morn_odds_A":    row_A["morn_odds"],
-                "morn_odds_B":    row_B["morn_odds"],
-                "score_A":        row_A["score"],
-                "score_B":        row_B["score"],
-                "prob_gap":       row_A["score"] - row_B["score"],
-                # add any other engineered features here…
-            })
-
-    X_df = pd.DataFrame(rows)
-    return X_df
+################################################################################
 
 def main():
-    setup_logging("logs/bandit_deploy.log")
-    config   = read_config()
-    db_pool  = get_db_pool(config)
-    spark, jdbc_url, jdbc_props, _, _ = initialize_environment()
+    # Start Spark
+    spark = (SparkSession.builder
+             .appName("PredictMultiArmBanditFromCombined")
+             .getOrCreate())
+    spark.conf.set("spark.sql.debug.maxToStringFields", 1000)
 
-    # 1) Load only the FUTURE rows from your calibrated table
-    sql_future = f"""
-      SELECT *
-      FROM predictions_20250426_151421_1_calibrated
-      WHERE race_date >= CURRENT_DATE
-      ORDER BY race_key, calibrated_prob DESC
-    """
-    future_df = (
-      spark.read.format("jdbc")
-            .option("url", jdbc_url)
-            .option("dbtable", f"({sql_future}) as t")
-            .option("user", jdbc_props["user"])
-            .option("driver", jdbc_props["driver"])
-            .load()
-      .toPandas()
-    )
+    logging.basicConfig(level=logging.INFO)
+    logging.info(f"Reading combined Parquet: {COMBINED_PARQUET}")
 
-    # 2) build your X context matrix for each horse/race
-    #    build_deployment_context should calculate e.g. the top pick’s prob,
-    #    the gap to 2nd, field_size, maybe avg_morn, etc.
-    X_df = build_deployment_context(future_df, top_n=2)
+    # 1) Read the single combined Parquet (all races, past + future)
+    sdf = spark.read.parquet(COMBINED_PARQUET)
 
-    # 3) load your trained bandit, get arm & expected reward
+    # 2) Filter to future races. 
+    #    Because race_date is a string, we might parse it or do a comparison.
+    #    If your 'race_date' column is stored as string, do a to_date cast:
+    sdf = sdf.withColumn("race_dt", F.to_date("race_date", "yyyy-MM-dd"))
+    # Then filter where race_dt >= current_date
+    sdf_filtered = sdf.withColumn("race_dt", F.to_date(F.col("race_date"), "yyyy-MM-dd")) \
+                    .filter(F.col("race_dt") >= F.current_date())
+
+    # Convert to Pandas
+    pdf = sdf_filtered.toPandas()
+    if pdf.empty:
+        print("No future races found in the combined Parquet. Exiting.")
+        spark.stop()
+        return
+
+    # 3) If your combined file is *already* aggregated to one-row-per-race,
+    #    you can skip the aggregator. If it still has one row per horse,
+    #    do the aggregator logic (like add_race_level_features, groupby, etc.)
+    #    For example:
+    # pdf = add_race_level_features(pdf)  # if needed
+
+    # 4) Now each race should have the same numeric columns as training
+    #    We'll group or assume each row is one race. 
+    #    If there's indeed only one row per race, just iterate directly:
+    #    If not, you need to groupby and pick the aggregator row. 
+    #    We'll assume it's already aggregated.
+
+    # 5) Load multi-arm bandit
+    logging.info(f"Loading multi-arm bandit from {MULTI_ARM_BANDIT_PATH}")
     cb = ContextualBandit()
-    cb.load("exacta_bandit.pkl")
+    cb.load(MULTI_ARM_BANDIT_PATH)
+    print("Bandit arms:", cb.mab.arms)
+    picks = []
+    for idx, row in pdf.iterrows():
+        # Build the context array for this row
+        context = row[FEATURE_COLS].astype(float).values.reshape(1, -1)
 
-    feature_cols = ["field_size", "calibrated_prob", "morn_odds", "prob_gap"]  # same as train
-    arms, exps = cb.recommend(X_df[feature_cols].values)
-    X_df["arm"]        = arms
-    X_df["exp_reward"] = exps
+        # Ask bandit for best arm
+        best_arms, best_exps = cb.recommend(context)
+        chosen_arm = best_arms[0]
+        exp_reward = best_exps[0]
 
-    # 4) pick the best per race
-    picks = X_df.loc[X_df.groupby("race_key")["exp_reward"].idxmax()]
-    picks.to_csv("today_exacta_recs.csv", index=False)
-    print("Wrote today_exacta_recs.csv")
+        picks.append({
+            "course_cd":   row.get("course_cd", ""),
+            "race_date":   row.get("race_date", ""),
+            "race_number": row.get("race_number", None),
+            "chosen_arm":  chosen_arm,
+            "expected_net": exp_reward
+        })
 
-if __name__=="__main__":
+    # 6) Save picks
+    picks_df = pd.DataFrame(picks)
+    picks_df.to_csv(OUTPUT_CSV, index=False)
+    print(f"Wrote {OUTPUT_CSV} with {len(picks_df)} picks.")
+
+    spark.stop()
+
+if __name__ == "__main__":
     main()

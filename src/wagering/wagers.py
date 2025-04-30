@@ -4,7 +4,6 @@ import os
 import json
 import pandas as pd
 import src.wagering.wager_types as wt
-from src.wagering.wagering_helper_functions import (gather_bet_metrics, group_races_for_pick3)
 from src.wagering.wager_types import MultiRaceWager, ExactaWager, TrifectaWager, SuperfectaWager
 from src.wagering.wagering_helper_functions import parse_winners_str
 from src.wagering.wagering_functions import find_race
@@ -119,8 +118,14 @@ def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, bo
             payoff=payoff,
             my_wager=my_wager,
             actual_combo=actual_combo,
-            field_size=field_size
+            field_size=field_size,
         )
+        row_data["fav_morn_odds"]   = float(race.fav_morn_odds) if race.fav_morn_odds is not None else None
+        row_data["avg_morn_odds"]   = float(race.avg_morn_odds) if race.avg_morn_odds is not None else None
+        row_data["max_prob"]        = float(race.max_prob)
+        row_data["second_prob"]     = float(race.second_prob)
+        row_data["prob_gap"]        = float(race.prob_gap)
+        row_data["std_prob"]        = float(race.std_prob)
 
         # === Add the combos as arrays (instead of storing them as strings) ===
         row_data["actual_winning_combo"] = actual_combo      # list of lists, e.g. [["7"], ["6"]]
@@ -157,19 +162,28 @@ def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, bo
         StructField("track_condition", StringType(), True),
         StructField("avg_purse_val_calc", FloatType(), True),
         StructField("race_type", StringType(), True),
-        StructField("wager_amount", StringType(), True),
+        StructField("wager_amount",  FloatType(), True),
+        StructField("dollar_odds",  FloatType(), True),
+        StructField("rank",  FloatType(), True),
+        StructField("score",  FloatType(), True),
+        StructField("fav_morn_odds",  FloatType(), True),
+        StructField("avg_morn_odds",  FloatType(), True),
+        StructField("max_prob",  FloatType(), True),
+        StructField("second_prob",  FloatType(), True),
+        StructField("prob_gap",  FloatType(), True),
+        StructField("std_prob",  FloatType(), True),  
         StructField("base_amount", FloatType(), True),
         StructField("combos_generated", IntegerType(), True),
         StructField("cost", FloatType(), True),
         StructField("payoff", FloatType(), True),
         StructField("net", FloatType(), True),
         StructField("hit_flag", IntegerType(), True),
-        StructField("actual_winning_combo", StringType(), True),  # Store as JSON string
-        StructField("generated_combos", StringType(), True),      # Store as JSON string
+        StructField("actual_winning_combo", StringType(), True),
+        StructField("generated_combos", StringType(), True),
         StructField("roi", FloatType(), True),
-        StructField("field_size", IntegerType(), True)
+        StructField("field_size", IntegerType(), True),
+        StructField("race_base_amount", FloatType(), True),
     ])
-
     # Convert bet_results into a Spark DataFrame with the defined schema
     df_results = spark.createDataFrame(bet_results, schema=schema)
 
@@ -298,9 +312,14 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
             payoff=payoff,
             my_wager=my_wager,
             actual_combo=actual_combo,
-            field_size=field_size
+            field_size=field_size,
         )
-        
+        row_data["fav_morn_odds"]   = float(race.fav_morn_odds) if race.fav_morn_odds is not None else None
+        row_data["avg_morn_odds"]   = float(race.avg_morn_odds) if race.avg_morn_odds is not None else None
+        row_data["max_prob"]        = float(race.max_prob)
+        row_data["second_prob"]     = float(race.second_prob)
+        row_data["prob_gap"]        = float(race.prob_gap)
+        row_data["std_prob"]        = float(race.std_prob)      
         # Store the combos as arrays (lists) converted to JSON strings for persistence
         import json
         row_data["actual_winning_combo"] = json.dumps(actual_combo)  # e.g. '[["5"], ["3"], ["8"]]'
@@ -326,17 +345,27 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
         StructField("track_condition", StringType(), True),
         StructField("avg_purse_val_calc", FloatType(), True),
         StructField("race_type", StringType(), True),
-        StructField("wager_amount", StringType(), True),
-        StructField("race_base_amount", FloatType(), True),
+        StructField("wager_amount",  FloatType(), True),
+        StructField("dollar_odds",  FloatType(), True),
+        StructField("rank",  FloatType(), True),
+        StructField("score",  FloatType(), True),
+        StructField("fav_morn_odds",  FloatType(), True),
+        StructField("avg_morn_odds",  FloatType(), True),
+        StructField("max_prob",  FloatType(), True),
+        StructField("second_prob",  FloatType(), True),
+        StructField("prob_gap",  FloatType(), True),
+        StructField("std_prob",  FloatType(), True),  
+        StructField("base_amount", FloatType(), True),
         StructField("combos_generated", IntegerType(), True),
         StructField("cost", FloatType(), True),
         StructField("payoff", FloatType(), True),
         StructField("net", FloatType(), True),
         StructField("hit_flag", IntegerType(), True),
-        StructField("actual_winning_combo", StringType(), True),  # JSON string
-        StructField("generated_combos", StringType(), True),      # JSON string
+        StructField("actual_winning_combo", StringType(), True),
+        StructField("generated_combos", StringType(), True),
         StructField("roi", FloatType(), True),
-        StructField("field_size", IntegerType(), True)
+        StructField("field_size", IntegerType(), True),
+        StructField("race_base_amount", FloatType(), True),
     ])
 
     df_results = spark.createDataFrame(bet_results, schema=schema)
@@ -454,9 +483,15 @@ def implement_SuperfectaWager(spark, all_races, wagers_dict, wager_amount, top_n
             payoff=payoff,
             my_wager=my_wager,
             actual_combo=actual_combo,
-            field_size=field_size
+            field_size=field_size,
         )
-
+        row_data["fav_morn_odds"]   = float(race.fav_morn_odds) if race.fav_morn_odds is not None else None
+        row_data["avg_morn_odds"]   = float(race.avg_morn_odds) if race.avg_morn_odds is not None else None
+        row_data["max_prob"]        = float(race.max_prob)
+        row_data["second_prob"]     = float(race.second_prob)
+        row_data["prob_gap"]        = float(race.prob_gap)
+        row_data["std_prob"]        = float(race.std_prob)
+        
         # === Add the combos as arrays (instead of storing them as strings) ===
         row_data["actual_winning_combo"] = actual_combo      # list of lists, e.g. [["1"], ["2"], ["3"], ["4"]]
         row_data["generated_combos"] = combos                # list of tuples, e.g. [("3", "7", "2", "5"), ...]
@@ -489,17 +524,27 @@ def implement_SuperfectaWager(spark, all_races, wagers_dict, wager_amount, top_n
         StructField("track_condition", StringType(), True),
         StructField("avg_purse_val_calc", FloatType(), True),
         StructField("race_type", StringType(), True),
-        StructField("wager_amount", StringType(), True),
-        StructField("race_base_amount", FloatType(), True),
+        StructField("wager_amount",  FloatType(), True),
+        StructField("dollar_odds",  FloatType(), True),
+        StructField("rank",  FloatType(), True),
+        StructField("score",  FloatType(), True),
+        StructField("fav_morn_odds",  FloatType(), True),
+        StructField("avg_morn_odds",  FloatType(), True),
+        StructField("max_prob",  FloatType(), True),
+        StructField("second_prob",  FloatType(), True),
+        StructField("prob_gap",  FloatType(), True),
+        StructField("std_prob",  FloatType(), True),  
+        StructField("base_amount", FloatType(), True),
         StructField("combos_generated", IntegerType(), True),
         StructField("cost", FloatType(), True),
         StructField("payoff", FloatType(), True),
         StructField("net", FloatType(), True),
         StructField("hit_flag", IntegerType(), True),
-        StructField("actual_winning_combo", StringType(), True),  # Store as JSON string
-        StructField("generated_combos", StringType(), True),      # Store as JSON string
+        StructField("actual_winning_combo", StringType(), True),
+        StructField("generated_combos", StringType(), True),
         StructField("roi", FloatType(), True),
-        StructField("field_size", IntegerType(), True)
+        StructField("field_size", IntegerType(), True),
+        StructField("race_base_amount", FloatType(), True),
     ])
 
     # Convert bet_results into a Spark DataFrame with the defined schema
@@ -672,6 +717,13 @@ def implement_multi_race_wager(
             actual_combo=leg_winners,
             field_size=field_size
         )
+        row_data["fav_morn_odds"]   = float(final_race.fav_morn_odds) if final_race.fav_morn_odds is not None else None
+        row_data["avg_morn_odds"]   = float(final_race.avg_morn_odds) if final_race.avg_morn_odds is not None else None
+        row_data["max_prob"]        = float(final_race.max_prob)
+        row_data["second_prob"]     = float(final_race.second_prob)
+        row_data["prob_gap"]        = float(final_race.prob_gap)
+        row_data["std_prob"]        = float(final_race.std_prob)
+        
         row_data["legs_str"] = '|'.join(str(x) for x in leg_numbers)
         row_data["official_winners_str"] = str(leg_winners)
         row_data["wager_type"] = str(wager_type)
@@ -692,7 +744,16 @@ def implement_multi_race_wager(
         StructField("track_condition", StringType(), True),
         StructField("avg_purse_val_calc", FloatType(), True),
         StructField("race_type", StringType(), True),
-        StructField("wager_amount", StringType(), True),
+        StructField("wager_amount",  FloatType(), True),
+        StructField("dollar_odds",  FloatType(), True),
+        StructField("rank",  FloatType(), True),
+        StructField("score",  FloatType(), True),
+        StructField("fav_morn_odds",  FloatType(), True),
+        StructField("avg_morn_odds",  FloatType(), True),
+        StructField("max_prob",  FloatType(), True),
+        StructField("second_prob",  FloatType(), True),
+        StructField("prob_gap",  FloatType(), True),
+        StructField("std_prob",  FloatType(), True),  
         StructField("base_amount", FloatType(), True),
         StructField("combos_generated", IntegerType(), True),
         StructField("cost", FloatType(), True),
@@ -705,7 +766,7 @@ def implement_multi_race_wager(
         StructField("field_size", IntegerType(), True),
         StructField("race_base_amount", FloatType(), True),
     ])
-
+    
     df_results = spark.createDataFrame(results, schema=schema)
 
     # compute profit, row_roi, etc.

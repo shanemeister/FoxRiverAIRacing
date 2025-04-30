@@ -166,7 +166,7 @@ def main():
             race_number,
             top_4_score AS score,
             CASE WHEN official_fin=1 THEN 1 ELSE 0 END AS winner
-        FROM predictions_20250426_151421_1
+        FROM predictions_20250429_221506_1
         WHERE official_fin IS NOT NULL
           AND official_fin > 0
           AND top_4_score > 0
@@ -178,7 +178,7 @@ def main():
         df_cal = pd.DataFrame(rows, columns=[
             "course_cd","race_date","race_number","score","winner"
         ])
-        logging.info(f"Loaded {len(df_cal)} calibration rows from predictions_20250426_151421_1.")
+        logging.info(f"Loaded {len(df_cal)} calibration rows from predictions_20250429_221506_1.")
     except Exception as e:
         logging.error(f"Error loading calibration data: {e}", exc_info=True)
         sys.exit(1)
@@ -222,7 +222,7 @@ def main():
             horse_name,
             morn_odds,
             official_fin
-        FROM predictions_20250426_151421_1
+        FROM predictions_20250429_221506_1
         ORDER BY course_cd, race_date, race_number, saddle_cloth_number
     """
     cursor.execute(sql_all)
@@ -255,7 +255,7 @@ def main():
 
     # F) write the fully‐calibrated table back
     spark_full = spark.createDataFrame(full_df)
-    out_table = "predictions_20250426_151421_1_calibrated"
+    out_table = "predictions_20250429_221506_1_calibrated"
     (
         spark_full.write
                   .format("jdbc")

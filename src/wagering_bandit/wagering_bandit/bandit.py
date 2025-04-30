@@ -1,4 +1,5 @@
 import logging
+import numpy as np
 import time
 from mabwiser.mab import MAB, LearningPolicy, NeighborhoodPolicy
 from .config import settings
@@ -37,11 +38,12 @@ def get_neighborhood_policy(neighbor_name: str, k=5, n_clusters=10):
 
 class ContextualBandit:
     def __init__(self, arms=None):
-        arms = arms or settings.BANDIT_ARMS
+        # Instead of arms = arms or settings.BANDIT_ARMS
+        if arms is None or (isinstance(arms, (list, np.ndarray)) and len(arms) == 0):
+            arms = settings.BANDIT_ARMS
 
         learning_policy_obj = get_learning_policy(
-            settings.BANDIT_POLICY, 
-            epsilon=settings.BANDIT_EPSILON
+            settings.BANDIT_POLICY, epsilon=settings.BANDIT_EPSILON
         )
 
         neighborhood_policy_obj = get_neighborhood_policy(
@@ -78,20 +80,38 @@ class ContextualBandit:
     def recommend(self, contexts):
         """
         Returns:
-          best_arm_for_each_row: np.array or list of best arms
-          exp_value_for_each_row: list of floats (the chosen arm's expected reward)
+        best_arm_for_each_row: list of string arm names
+        exp_value_for_each_row: list of floats (the chosen arm's expected reward)
         """
-        # 1) best arm for each row
-        best_arms = self.mab.predict(contexts)
+        import numpy as np
 
-        # 2) dictionary of expected rewards for *all* arms in each row
-        #    e.g. [ {armA: rA, armB: rB, ...}, {armA: rA2, ...}, ... ]
-        all_exps = self.mab.predict_expectations(contexts)
+        # 1) Convert 'contexts' into a NumPy array if it's not already
+        #    This also handles a single Python list or list-of-lists.
+        if not isinstance(contexts, np.ndarray):
+            contexts = np.array(contexts, dtype=float)
 
-        # 3) Retrieve just the best arm's expected reward (numeric float)
+        # 2) If shape is (d,), reshape to (1,d) so MABWiser returns lists
+        if contexts.ndim == 1:
+            contexts = contexts.reshape(1, -1)
+
+        # 3) Use MABWiser to get predictions and expectations
+        best_arms = self.mab.predict(contexts)              # can be list or single item
+        all_exps  = self.mab.predict_expectations(contexts) # can be list or single item
+
+        # 4) MABWiser returns:
+        #    - if N>1: best_arms is a list of length N, all_exps is a list of N dicts
+        #    - if N=1: best_arms is a single string, all_exps is a single dict
+        #    We'll unify them so we *always* treat them as list-of-length-N.
+        if isinstance(best_arms, str):
+            # Single row => best_arms is e.g. "Daily Double_top1_box"
+            # all_exps is e.g. {"Daily Double_top1_box": 0.90, "Pick 4_top1_box": 0.14, ...}
+            best_arms = [best_arms]
+            all_exps  = [all_exps]
+
+        # 5) For each row i, pick the chosen_arm's expected reward
         best_arm_exps = []
         for i, chosen_arm in enumerate(best_arms):
-            # all_exps[i] is a dict: { "no_bet": 0.0, "exacta": 1.23, ... }
+            # all_exps[i] is a dict: { "exacta_top2_box": float, "no_bet": float, ... }
             best_arm_exps.append(all_exps[i][chosen_arm])
 
         return best_arms, best_arm_exps

@@ -1,6 +1,6 @@
-2025-04-27 16:35:34 - INFO - Logging has been set up successfully.
-2025-04-27 16:35:36 - INFO - Loaded 126757 calibration rows from predictions_20250426_151421_1.
-2025-04-27 16:36:13 - INFO - Fitted T successfully. T=1.4533
-2025-04-27 16:36:35 - INFO - Wrote fully calibrated predictions (hist + fut) to predictions_20250426_151421_1_calibrated
-2025-04-27 16:36:36 - INFO - All done with calibration pipeline.
-2025-04-27 16:36:36 - INFO - Closing down clientserver connection
+2025-04-29 22:26:04 - INFO - Logging has been set up successfully.
+2025-04-29 22:26:06 - INFO - Loaded 126794 calibration rows from predictions_20250429_221506_1.
+2025-04-29 22:26:43 - INFO - Fitted T successfully. T=1.4517
+2025-04-29 22:27:03 - INFO - Wrote fully calibrated predictions (hist + fut) to predictions_20250429_221506_1_calibrated
+2025-04-29 22:27:04 - INFO - All done with calibration pipeline.
+2025-04-29 22:27:04 - INFO - Closing down clientserver connection

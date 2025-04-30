@@ -30,6 +30,91 @@ from src.wagering.wagering_helper_functions import (
 )
 from src.data_preprocessing.data_prep1.data_utils import save_parquet
 
+import numpy as np
+import pandas as pd
+
+def add_race_level_features(races_pdf: pd.DataFrame, top_n_for_std: int = 4) -> pd.DataFrame:
+    """
+    For each (course_cd, race_date, race_number), compute and append:
+      - fav_morn_odds: minimum (lowest) morning-line odds across all horses
+      - avg_morn_odds: mean of morning-line odds across all horses
+      - max_prob: highest 'score' among horses
+      - second_prob: second-highest 'score' (0 if only one horse in group)
+      - prob_gap: max_prob - second_prob
+      - std_prob: std of top_n_for_std 'score' (default top 4 horses)
+    These new columns are added to every row for that race.
+    
+    Parameters
+    ----------
+    races_pdf : pd.DataFrame
+        Must have columns:
+          ["course_cd", "race_date", "race_number", "morn_odds", "score"]
+        plus anything else you need. Each row is one horse in that race.
+    top_n_for_std : int
+        How many top horses (by 'score') to include when computing std_prob.
+
+    Returns
+    -------
+    pd.DataFrame
+        Same shape as races_pdf, but with new columns appended:
+          ["fav_morn_odds", "avg_morn_odds", "max_prob",
+           "second_prob", "prob_gap", "std_prob"]
+    """
+    def _calc_features(grp: pd.DataFrame) -> pd.DataFrame:
+        grp = grp.copy()
+
+        # 1) fav/avg morning line odds
+        if "morn_odds" in grp.columns and grp["morn_odds"].notna().any():
+            grp["fav_morn_odds"] = grp["morn_odds"].min()
+            grp["avg_morn_odds"] = grp["morn_odds"].mean()
+        else:
+            grp["fav_morn_odds"] = np.nan
+            grp["avg_morn_odds"] = np.nan
+        
+        # 2) sort descending by 'score'
+        if "score" not in grp.columns:
+            # If 'score' is missing, fill these new columns with NaN/0
+            grp["max_prob"] = 0.0
+            grp["second_prob"] = 0.0
+            grp["prob_gap"] = 0.0
+            grp["std_prob"] = 0.0
+            return grp
+        
+        sorted_grp = grp.sort_values("score", ascending=False)
+
+        # a) max_prob = top horse
+        if len(sorted_grp) > 0:
+            top1 = sorted_grp.iloc[0]["score"]
+        else:
+            top1 = 0.0
+        
+        # b) second_prob = second horse
+        if len(sorted_grp) > 1:
+            top2 = sorted_grp.iloc[1]["score"]
+        else:
+            top2 = 0.0
+        
+        # c) prob_gap
+        gap = top1 - top2
+        
+        # d) std of top_n_for_std horses
+        top_scores = sorted_grp["score"].head(top_n_for_std)
+        std_top_n = top_scores.std(ddof=0)  # population std
+
+        grp["max_prob"] = top1
+        grp["second_prob"] = top2
+        grp["prob_gap"] = gap
+        grp["std_prob"] = std_top_n if not np.isnan(std_top_n) else 0.0
+        
+        return grp
+
+    # Group by (course_cd, race_date, race_number) and apply
+    out_df = races_pdf.groupby(
+        ["course_cd","race_date","race_number"], 
+        group_keys=False
+    ).apply(_calc_features)
+
+    return out_df
 
 def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
     """
@@ -153,6 +238,10 @@ def main():
         races_pdf = races_df.toPandas()
         wagers_pdf = wagers_df.toPandas()
 
+        races_pdf = add_race_level_features(races_pdf)
+        
+        print(races_pdf.dtypes)
+        
         # Convert numeric columns
         decimal_cols = ['num_tickets', 'payoff', 'pool_total']
         for col in decimal_cols:

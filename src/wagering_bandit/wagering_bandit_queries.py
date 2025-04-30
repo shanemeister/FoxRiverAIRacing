@@ -13,7 +13,6 @@ def wager_queries():
                         re.official_fin,
                         CAST(r.morn_odds AS float8)        AS morn_odds,
                         r.avg_purse_val_calc,
-                        re.dollar_odds,
                         r2.race_type,
                         r2.trk_cond       AS track_condition,
                         r2.surface,

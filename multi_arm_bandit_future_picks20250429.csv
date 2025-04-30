@@ -1,0 +1,319 @@
+course_cd,race_date,race_number,chosen_arm,expected_net
+IND,2025-04-29,4,Daily Double_top1_box,0.9026245819618994
+IND,2025-04-30,8,Pick 4_top1_box,0.0
+IND,2025-04-30,2,Pick 3_top1_box,0.0
+PEN,2025-05-03,6,Daily Double_top1_box,0.9536797632888457
+PEN,2025-05-03,1,Daily Double_top1_box,0.0
+PEN,2025-05-01,3,Daily Double_top1_box,0.0
+TAM,2025-04-30,5,Daily Double_top1_box,0.0
+TAM,2025-04-30,1,Daily Double_top1_box,0.0
+TAM,2025-04-30,7,no_bet,0.0
+TCD,2025-05-01,10,Pick 4_top1_box,0.0
+TCD,2025-05-02,5,Pick 3_top1_box,0.0
+TCD,2025-05-01,1,Daily Double_top1_box,0.0
+TCD,2025-05-02,4,exacta_top2_box,71.63999938964844
+TCD,2025-05-03,9,Daily Double_top1_box,0.0
+TCD,2025-04-30,4,no_bet,0.0
+TCD,2025-05-03,1,Daily Double_top1_box,0.5600000381469726
+TGP,2025-05-01,4,no_bet,0.0
+TLS,2025-05-03,2,Pick 3_top1_box,0.9667037996731267
+TLS,2025-05-03,1,Daily Double_top1_box,0.0
+TLS,2025-05-04,1,Daily Double_top1_box,0.5600000381469726
+TLS,2025-05-04,7,Daily Double_top1_box,38.79999923706055
+TOP,2025-05-01,3,Daily Double_top1_box,0.0
+TOP,2025-05-02,10,exacta_top2_box,-2.0
+IND,2025-04-29,7,Pick 4_top1_box,0.0
+IND,2025-04-29,8,Pick 4_top1_box,0.0
+IND,2025-04-30,5,Pick 4_top1_box,0.0
+PEN,2025-05-02,2,Daily Double_top1_box,0.5600000381469726
+PEN,2025-05-03,4,exacta_top2_box,7.0
+TCD,2025-05-03,3,Pick 3_top1_box,0.6334281833776382
+TCD,2025-05-02,6,Pick 3_top1_box,-2.0
+TCD,2025-05-01,5,exacta_top2_box,0.0
+TCD,2025-05-03,7,superfecta_top4_box,-2.0
+TCD,2025-05-01,12,Pick 4_top1_box,0.0
+TCD,2025-05-03,14,Pick 4_top1_box,0.0
+TCD,2025-05-03,11,Daily Double_top1_box,48.20000076293945
+TGP,2025-05-01,2,Pick 3_top1_box,0.0
+TLS,2025-05-04,8,Pick 4_top1_box,0.0
+TOP,2025-05-02,5,superfecta_top4_box,0.7845940058086849
+TOP,2025-05-02,8,Daily Double_top1_box,0.0
+IND,2025-04-29,2,Pick 3_top1_box,0.0
+IND,2025-04-30,4,Daily Double_top1_box,8.800000190734863
+PEN,2025-05-03,5,no_bet,0.0
+TAM,2025-04-30,9,Pick 4_top1_box,0.7817986143605216
+TCD,2025-04-29,2,Daily Double_top1_box,24.399999618530273
+TCD,2025-04-29,6,Daily Double_top1_box,0.06755460750001241
+TCD,2025-04-30,10,Pick 4_top1_box,0.0
+TCD,2025-04-30,8,Daily Double_top1_box,0.0
+TCD,2025-04-30,3,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-01,9,Pick 4_top1_box,0.0
+TCD,2025-04-29,7,Daily Double_top1_box,-2.0
+TLS,2025-05-03,3,Pick 3_top1_box,0.0
+TLS,2025-05-02,1,Daily Double_top1_box,0.0
+TLS,2025-05-02,6,exacta_top2_box,0.0
+TLS,2025-05-03,6,Daily Double_top1_box,15.299999237060547
+TOP,2025-05-01,1,superfecta_top4_box,-2.0
+TOP,2025-05-02,6,Pick 4_top1_box,0.0
+IND,2025-04-30,1,exacta_top2_box,37.20000076293945
+IND,2025-04-30,7,Daily Double_top1_box,0.1187634278884745
+PEN,2025-05-01,2,exacta_top2_box,-2.0
+PEN,2025-05-01,1,Daily Double_top1_box,0.0
+PEN,2025-05-02,4,Pick 4_top1_box,0.07531829104359833
+PEN,2025-05-02,5,exacta_top2_box,0.0
+TAM,2025-04-30,4,Daily Double_top1_box,0.22465600857605983
+TCD,2025-04-29,4,Daily Double_top1_box,0.0
+TCD,2025-05-03,10,exacta_top2_box,-2.0
+TCD,2025-05-03,4,Pick 4_top1_box,0.0
+TCD,2025-04-29,8,no_bet,0.0
+TCD,2025-05-01,2,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-02,1,Daily Double_top1_box,0.0
+TGP,2025-05-01,9,exacta_top2_box,12.800000190734863
+TGP,2025-05-01,5,Daily Double_top1_box,0.0
+TLS,2025-05-02,3,Pick 3_top1_box,0.0
+TLS,2025-05-02,7,Pick 4_top1_box,0.024310450288953844
+TLS,2025-05-04,3,Pick 4_top1_box,0.0
+TOP,2025-05-01,9,Pick 3_top1_box,123.80000305175781
+TOP,2025-05-01,6,Pick 3_top1_box,0.0
+TOP,2025-05-01,8,Daily Double_top1_box,0.0
+TOP,2025-05-01,5,Pick 3_top1_box,0.5368118415926837
+TOP,2025-05-02,9,Pick 4_top1_box,0.0
+IND,2025-04-29,3,Pick 4_top1_box,0.0
+PEN,2025-05-02,7,trifecta_top3_box,59.5
+PEN,2025-05-01,4,Pick 4_top1_box,0.0
+TAM,2025-04-30,6,Pick 3_top1_box,0.0
+TCD,2025-04-29,3,Pick 4_top1_box,0.002295924971384755
+TCD,2025-05-03,5,trifecta_top3_box,0.8806091699165184
+TCD,2025-05-02,2,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-02,10,exacta_top2_box,0.0
+TCD,2025-05-02,8,exacta_top2_box,14.199999809265137
+TCD,2025-05-02,11,Pick 4_top1_box,0.0
+TGP,2025-05-01,3,Daily Double_top1_box,0.0
+TLS,2025-05-03,5,Pick 3_top1_box,0.12355067505683803
+TLS,2025-05-02,2,Pick 3_top1_box,0.0
+TLS,2025-05-04,6,Daily Double_top1_box,0.5600000381469726
+TLS,2025-05-03,9,Pick 3_top1_box,0.6301340060817774
+TOP,2025-05-02,3,no_bet,0.0
+TOP,2025-05-02,4,Daily Double_top1_box,27.799999237060547
+IND,2025-04-30,3,trifecta_top3_box,0.8499627308556988
+PEN,2025-05-03,7,Pick 3_top1_box,0.9723124227592276
+PEN,2025-05-01,7,Pick 4_top1_box,0.0
+TAM,2025-04-30,3,Pick 3_top1_box,0.0
+TAM,2025-04-30,2,Pick 3_top1_box,0.0
+TCD,2025-05-01,4,Pick 3_top1_box,0.0
+TCD,2025-04-30,9,Pick 4_top1_box,0.0
+TCD,2025-05-01,11,Pick 4_top1_box,0.0
+TCD,2025-04-30,1,Daily Double_top1_box,0.1940660178411635
+TCD,2025-05-02,9,Pick 4_top1_box,0.0
+TCD,2025-05-02,12,Pick 4_top1_box,0.0
+TCD,2025-04-29,9,Pick 4_top1_box,0.0
+TGP,2025-05-01,1,Daily Double_top1_box,0.5600000381469726
+TGP,2025-05-01,6,no_bet,0.0
+TLS,2025-05-02,8,Pick 4_top1_box,0.0
+TLS,2025-05-04,2,Daily Double_top1_box,13.0
+TOP,2025-05-02,12,Daily Double_top1_box,0.5600000381469726
+TOP,2025-05-02,7,no_bet,0.0
+IND,2025-04-29,6,no_bet,0.0
+PEN,2025-05-01,6,Pick 3_top1_box,0.0
+PEN,2025-05-03,3,Daily Double_top1_box,0.0
+TAM,2025-04-30,8,Daily Double_top1_box,0.5600000381469726
+TCD,2025-04-29,5,Pick 4_top1_box,0.0
+TCD,2025-05-03,8,Daily Double_top1_box,0.0
+TCD,2025-04-30,7,Daily Double_top1_box,0.0
+TCD,2025-05-03,2,Pick 3_top1_box,0.0
+TCD,2025-05-01,8,Pick 4_top1_box,0.0
+TCD,2025-05-01,7,Daily Double_top1_box,0.0
+TCD,2025-04-30,6,Daily Double_top1_box,0.0
+TCD,2025-04-30,5,Daily Double_top1_box,0.0
+TLS,2025-05-03,4,Pick 4_top1_box,0.0
+TLS,2025-05-03,8,exacta_top2_box,12.800000190734863
+TLS,2025-05-03,10,no_bet,0.0
+TLS,2025-05-04,4,Pick 3_top1_box,73.4000015258789
+TOP,2025-05-02,11,Pick 4_top1_box,0.0
+TOP,2025-05-01,2,Pick 3_top1_box,0.0
+IND,2025-04-29,5,Pick 4_top1_box,0.0
+IND,2025-04-29,1,Daily Double_top1_box,0.0
+IND,2025-04-30,6,Pick 4_top1_box,0.0
+PEN,2025-05-02,3,Pick 4_top1_box,0.0
+PEN,2025-05-02,6,Daily Double_top1_box,9.600000381469727
+PEN,2025-05-02,1,Daily Double_top1_box,0.0
+PEN,2025-05-01,5,Pick 3_top1_box,0.0
+TCD,2025-04-29,1,Daily Double_top1_box,0.0
+TCD,2025-04-30,2,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-03,6,Pick 4_top1_box,0.0
+TCD,2025-05-02,3,Pick 4_top1_box,0.0
+TCD,2025-05-03,13,Daily Double_top1_box,0.0
+TCD,2025-05-01,6,Pick 3_top1_box,0.7074085720737456
+TCD,2025-05-01,3,Pick 3_top1_box,0.025308883274573146
+TCD,2025-05-02,13,no_bet,0.3863433831848345
+TCD,2025-05-02,7,Pick 3_top1_box,0.4981047091816806
+TGP,2025-05-01,8,Pick 4_top1_box,0.0
+TGP,2025-05-01,7,Pick 4_top1_box,0.0
+TLS,2025-05-02,4,Pick 3_top1_box,0.0
+TLS,2025-05-02,5,Pick 3_top1_box,0.0
+TLS,2025-05-04,5,Daily Double_top1_box,0.0
+TLS,2025-05-03,7,Pick 3_top1_box,0.0
+TOP,2025-05-01,4,Pick 3_top1_box,0.0
+TOP,2025-05-02,1,Daily Double_top1_box,0.0
+TOP,2025-05-01,7,Pick 4_top1_box,0.0
+TOP,2025-05-02,2,Pick 3_top1_box,0.0
+PEN,2025-05-01,3,Daily Double_top1_box,0.5600000381469726
+PEN,2025-05-03,1,Daily Double_top1_box,0.0
+PEN,2025-05-01,7,Daily Double_top1_box,0.0
+TAM,2025-04-30,4,Daily Double_top1_box,0.0
+TAM,2025-04-30,6,Daily Double_top1_box,-2.0
+TAM,2025-04-30,7,no_bet,0.0
+TCD,2025-05-02,3,superfecta_top4_box,-2.0
+TCD,2025-04-29,1,Pick 3_top1_box,0.0
+TCD,2025-05-01,7,Daily Double_top1_box,0.0
+TCD,2025-05-03,6,Pick 4_top1_box,0.0
+TCD,2025-05-01,5,exacta_top2_box,0.0
+TGP,2025-05-01,6,Pick 4_top1_box,0.0
+TLS,2025-05-04,4,Pick 3_top1_box,73.4000015258789
+TLS,2025-05-03,3,Pick 3_top1_box,0.0
+TOP,2025-05-02,1,Daily Double_top1_box,0.0
+TOP,2025-05-02,10,no_bet,0.0
+TOP,2025-05-01,6,Pick 3_top1_box,0.0
+TOP,2025-05-01,1,Daily Double_top1_box,0.0
+PEN,2025-05-01,1,Daily Double_top1_box,0.0
+TAM,2025-04-30,1,Daily Double_top1_box,0.0
+TCD,2025-05-03,4,Pick 4_top1_box,0.0
+TCD,2025-05-02,6,Pick 4_top1_box,0.0
+TCD,2025-05-03,2,Pick 3_top1_box,0.0
+TCD,2025-04-29,5,Pick 4_top1_box,0.0
+TCD,2025-04-29,8,no_bet,0.0
+TCD,2025-05-02,10,exacta_top2_box,0.0
+TCD,2025-04-30,2,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-01,9,Pick 4_top1_box,0.0
+TGP,2025-05-01,4,Daily Double_top1_box,-2.0
+TLS,2025-05-04,8,Pick 4_top1_box,0.0
+TLS,2025-05-02,1,Daily Double_top1_box,0.0
+TOP,2025-05-02,5,no_bet,0.48308918930914113
+TOP,2025-05-02,12,Daily Double_top1_box,0.5600000381469726
+TOP,2025-05-02,6,Pick 4_top1_box,0.0
+IND,2025-04-29,3,exacta_top2_box,-2.0
+IND,2025-04-29,6,no_bet,0.0
+IND,2025-04-30,6,Pick 4_top1_box,0.0
+PEN,2025-05-01,4,Pick 4_top1_box,0.0
+PEN,2025-05-03,2,Pick 3_top1_box,0.0
+PEN,2025-05-03,5,Pick 4_top1_box,173.0
+PEN,2025-05-01,2,trifecta_top3_box,-2.0
+TAM,2025-04-30,2,no_bet,0.0
+TCD,2025-05-03,12,Daily Double_top1_box,0.0
+TCD,2025-05-03,13,no_bet,0.0
+TCD,2025-05-02,12,Pick 4_top1_box,0.9063923009130196
+TCD,2025-05-02,11,Pick 4_top1_box,0.0
+TCD,2025-05-01,4,Pick 3_top1_box,0.0
+TCD,2025-05-01,11,Pick 4_top1_box,0.0
+TCD,2025-05-01,1,Daily Double_top1_box,0.0
+TGP,2025-05-01,9,exacta_top2_box,0.12265502704075759
+TGP,2025-05-01,7,Pick 4_top1_box,0.0
+TGP,2025-05-01,1,Daily Double_top1_box,0.5600000381469726
+TLS,2025-05-04,2,Daily Double_top1_box,13.0
+TLS,2025-05-03,8,superfecta_top4_box,-2.0
+IND,2025-04-29,4,Daily Double_top1_box,0.5600000381469726
+IND,2025-04-30,2,Pick 3_top1_box,0.0
+IND,2025-04-30,4,Daily Double_top1_box,8.800000190734863
+PEN,2025-05-02,2,Daily Double_top1_box,0.5600000381469726
+TAM,2025-04-30,3,Pick 3_top1_box,0.0
+TCD,2025-05-01,12,Pick 4_top1_box,0.0
+TCD,2025-05-01,3,Pick 3_top1_box,0.0
+TCD,2025-05-02,2,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-02,8,exacta_top2_box,14.199999809265137
+TCD,2025-05-01,8,Pick 4_top1_box,0.42101794378581836
+TCD,2025-05-01,6,Pick 3_top1_box,0.0
+TLS,2025-05-03,10,no_bet,0.0
+TLS,2025-05-03,6,trifecta_top3_box,0.0
+TLS,2025-05-02,3,Pick 3_top1_box,0.0
+TLS,2025-05-02,2,trifecta_top3_box,0.0
+TLS,2025-05-02,4,Pick 3_top1_box,0.0
+TLS,2025-05-03,4,Pick 4_top1_box,0.0
+TOP,2025-05-01,7,Pick 4_top1_box,0.0
+TOP,2025-05-02,2,Pick 3_top1_box,0.7978946021058837
+TOP,2025-05-02,11,Pick 4_top1_box,0.0
+IND,2025-04-30,8,Pick 4_top1_box,0.08632666672794265
+IND,2025-04-29,8,exacta_top2_box,0.0
+IND,2025-04-29,7,Pick 4_top1_box,0.0
+IND,2025-04-30,7,Daily Double_top1_box,0.0
+PEN,2025-05-02,6,Daily Double_top1_box,9.600000381469727
+PEN,2025-05-03,3,Daily Double_top1_box,0.0
+PEN,2025-05-02,4,Pick 4_top1_box,0.0
+TCD,2025-04-30,10,Pick 4_top1_box,0.0
+TCD,2025-04-30,9,Pick 4_top1_box,0.0
+TCD,2025-04-30,5,Daily Double_top1_box,0.0
+TCD,2025-04-30,4,Daily Double_top1_box,0.0
+TCD,2025-05-03,14,Pick 4_top1_box,0.0
+TCD,2025-04-30,3,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-02,9,Pick 4_top1_box,0.9954649629507851
+TCD,2025-05-03,11,Daily Double_top1_box,48.20000076293945
+TCD,2025-04-29,4,Daily Double_top1_box,0.0
+TGP,2025-05-01,5,Daily Double_top1_box,0.0
+TLS,2025-05-02,8,trifecta_top3_box,-2.0
+TLS,2025-05-04,6,Daily Double_top1_box,0.5600000381469726
+TLS,2025-05-03,1,Daily Double_top1_box,0.0
+TOP,2025-05-02,3,Pick 4_top1_box,0.0
+TOP,2025-05-01,2,Pick 3_top1_box,0.0
+TOP,2025-05-02,9,Pick 4_top1_box,0.0
+IND,2025-04-30,3,trifecta_top3_box,272.5
+IND,2025-04-30,1,exacta_top2_box,37.20000076293945
+IND,2025-04-29,5,Pick 4_top1_box,0.0
+IND,2025-04-29,2,Daily Double_top1_box,162.1999969482422
+PEN,2025-05-01,6,Pick 3_top1_box,0.0
+PEN,2025-05-03,7,Pick 3_top1_box,0.0
+PEN,2025-05-02,5,exacta_top2_box,0.0
+TAM,2025-04-30,8,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-01,10,Pick 4_top1_box,0.0
+TCD,2025-05-02,7,Pick 3_top1_box,0.0
+TCD,2025-04-30,7,Daily Double_top1_box,0.0
+TCD,2025-05-02,13,Daily Double_top1_box,0.5600000381469726
+TCD,2025-04-29,9,Pick 4_top1_box,0.0
+TCD,2025-04-29,3,Pick 4_top1_box,0.0
+TCD,2025-04-29,2,Daily Double_top1_box,24.399999618530273
+TCD,2025-05-03,5,Daily Double_top1_box,0.0
+TCD,2025-05-02,5,Pick 3_top1_box,0.0
+TLS,2025-05-03,7,Pick 3_top1_box,0.0
+TLS,2025-05-02,7,Pick 4_top1_box,0.0
+TLS,2025-05-04,7,Daily Double_top1_box,38.79999923706055
+TLS,2025-05-03,9,Pick 3_top1_box,0.0
+TOP,2025-05-01,9,Pick 3_top1_box,123.80000305175781
+TOP,2025-05-02,8,Daily Double_top1_box,0.0
+TOP,2025-05-02,4,Daily Double_top1_box,27.799999237060547
+PEN,2025-05-02,7,trifecta_top3_box,59.5
+PEN,2025-05-03,6,Daily Double_top1_box,0.0
+PEN,2025-05-03,4,exacta_top2_box,0.7542040887943497
+TAM,2025-04-30,9,exacta_top2_box,0.0
+TCD,2025-05-03,3,Pick 3_top1_box,0.0
+TCD,2025-05-03,7,no_bet,0.9897407186535451
+TCD,2025-04-29,6,Daily Double_top1_box,0.06641193158281367
+TCD,2025-05-03,1,Daily Double_top1_box,0.5600000381469726
+TCD,2025-04-30,6,Daily Double_top1_box,0.0
+TCD,2025-05-02,1,Daily Double_top1_box,0.0
+TCD,2025-05-03,9,Daily Double_top1_box,0.0
+TGP,2025-05-01,8,Pick 4_top1_box,0.0
+TLS,2025-05-04,3,Pick 4_top1_box,0.0
+TLS,2025-05-03,5,Pick 3_top1_box,0.0
+TLS,2025-05-04,5,Daily Double_top1_box,0.0
+TOP,2025-05-01,3,Daily Double_top1_box,0.0
+TOP,2025-05-01,4,Pick 4_top1_box,0.0
+TOP,2025-05-01,8,Pick 3_top1_box,0.0
+IND,2025-04-29,1,Daily Double_top1_box,0.0
+IND,2025-04-30,5,exacta_top2_box,-2.0
+PEN,2025-05-02,1,Daily Double_top1_box,0.0
+PEN,2025-05-02,3,Pick 4_top1_box,0.0
+PEN,2025-05-01,5,Pick 3_top1_box,0.0
+TAM,2025-04-30,5,Daily Double_top1_box,0.0
+TCD,2025-04-30,8,Daily Double_top1_box,0.0
+TCD,2025-04-29,7,exacta_top2_box,0.0
+TCD,2025-05-03,10,no_bet,0.18391954533697064
+TCD,2025-04-30,1,Daily Double_top1_box,0.0
+TCD,2025-05-01,2,Daily Double_top1_box,0.5600000381469726
+TCD,2025-05-02,4,exacta_top2_box,71.63999938964844
+TCD,2025-05-03,8,no_bet,0.0
+TGP,2025-05-01,3,Daily Double_top1_box,0.8924294026995058
+TGP,2025-05-01,2,Pick 3_top1_box,0.0
+TLS,2025-05-02,6,exacta_top2_box,0.0
+TLS,2025-05-03,2,Pick 3_top1_box,0.0
+TLS,2025-05-02,5,Pick 3_top1_box,0.0
+TLS,2025-05-04,1,Daily Double_top1_box,0.5796944394084571
+TOP,2025-05-02,7,no_bet,0.0
+TOP,2025-05-01,5,Pick 3_top1_box,0.0

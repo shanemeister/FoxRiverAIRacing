@@ -3,7 +3,8 @@ def wager_queries():
     # Define SQL queries without trailing semicolons
     queries = {
         "races": """
-            SELECT UPPER(TRIM(r.course_cd)) AS course_cd, r.race_date ,r.race_number, UPPER(TRIM(r.saddle_cloth_number)) AS saddle_cloth_number, h.horse_id, re.official_fin , CAST(r.morn_odds AS float8) AS morn_odds , r.avg_purse_val_calc , re.dollar_odds , r2.race_type,
+            SELECT UPPER(TRIM(r.course_cd)) AS course_cd, r.race_date ,r.race_number, UPPER(TRIM(r.saddle_cloth_number)) AS saddle_cloth_number, h.horse_id, re.official_fin , 
+            CAST(r.morn_odds AS float8) AS morn_odds , r.avg_purse_val_calc , re.dollar_odds , r2.race_type,
                     r2.trk_cond as track_condition , r2.surface , r2.distance_meters ,p.calibrated_prob as score, p."rank"
             FROM races r2 
             JOIN runners r on r2.course_cd = r.course_cd 
@@ -14,7 +15,7 @@ def wager_queries():
                 AND r.race_date = re.race_date
                 AND r.race_number = re.race_number
                 AND r.saddle_cloth_number = re.program_num
-            left join predictions_20250426_151421_1_calibrated p on r.course_cd = p.course_cd
+            left join predictions_20250429_221506_1_calibrated p on r.course_cd = p.course_cd
             	and r.race_date = p.race_date
             	and r.race_number = p.race_number
             	and r.saddle_cloth_number = p.saddle_cloth_number 
