@@ -7,10 +7,9 @@ from pyspark.sql.functions import to_timestamp
 from pyspark.sql import Window
 from datetime import datetime
 import pandas as pd
-
 # Local imports
 import src.wagering.wager_types as wt
-from src.wagering.wagering_functions import build_race_objects, build_wagers_dict
+from src.wagering.wagering_functions import build_race_objects, build_wagers_dict, compute_or_load_green_tracks
 from src.wagering.wagering_queries import wager_queries
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
@@ -109,20 +108,60 @@ def add_race_level_features(races_pdf: pd.DataFrame, top_n_for_std: int = 4) -> 
         return grp
 
     # Group by (course_cd, race_date, race_number) and apply
-    out_df = races_pdf.groupby(
-        ["course_cd","race_date","race_number"], 
-        group_keys=False
-    ).apply(_calc_features)
-
+    out_df = (
+        races_pdf
+        .groupby(["course_cd","race_date","race_number"], group_keys=False)
+        .apply(_calc_features)          # ← no include_groups=False
+    )
     return out_df
 
-def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
+# ────────────────────────────────────────────────────────────
+# HISTORICAL EVALUATION (WIN tickets only in this demo)
+# ────────────────────────────────────────────────────────────
+def evaluate_roi(bets_pdf: pd.DataFrame, races_pdf: pd.DataFrame) -> pd.DataFrame:
+    """
+    Join WIN tickets back to official results and compute ROI by
+    track, bet_type, or overall.  Returns a small summary table.
+    """
+    merged = bets_pdf.merge(races_pdf, 
+                        left_on = ["course_cd","race_date","race_number","ticket"],
+                        right_on= ["course_cd","race_date","race_number","saddle_cloth_number"],
+                        how="left")
+
+    merged["won"]   = merged["official_fin"] == 1      # WIN ticket only
+    merged["net"]   = np.where(merged["won"],
+                               merged["stake"] * merged["morn_odds"],   # gross return
+                               -merged["stake"])                        # loss
+
+    roi_tbl = (
+        merged.groupby(["bet_type","course_cd"], dropna=False)
+              .agg(total_staked=("stake","sum"),
+                   net_profit   =("net"  ,"sum"))
+              .reset_index()
+    )
+    roi_tbl["roi_%"] = 100 * roi_tbl["net_profit"] / roi_tbl["total_staked"]
+    return roi_tbl
+
+
+# ────────────────────────────────────────────────────────────
+# SAVE *live* bets (future races) to DB / CSV / etc.
+# ────────────────────────────────────────────────────────────
+def persist_live_bets(live_bets: pd.DataFrame, out_csv: str):
+    """Very light-weight example – just write a CSV you can upload."""
+    if live_bets.empty:
+        logging.info("No live bets generated for today.")
+        return
+    live_bets.to_csv(out_csv, index=False)
+    logging.info(f"Wrote {len(live_bets)} live bets → {out_csv}")
+
+def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf, bets_pdf):
     """
     Decide which wager type to run (Exacta, Trifecta, Daily Double, etc.)
     based on user prefs, then call the relevant function in wagers.py. 
     """
     # 1) Gather user inputs for the wager
     user_prefs = get_user_wager_preferences()
+    Per_Track_ROI = user_prefs["Per_Track_ROI"]
     wager_type = user_prefs["wager_type"]
     wager_amount = user_prefs["wager_amount"]
     top_n = user_prefs["top_n"]
@@ -134,7 +173,9 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
     wagers_dict = build_wagers_dict(wagers_pdf)
 
     # 3) Dispatch to the correct function from wagers.py
-    if wager_type == "Exacta":
+    if Per_Track_ROI:
+        track_ROI = compute_or_load_green_tracks(spark)
+    elif wager_type == "Exacta":
         bet_results_df = implement_ExactaWager(
             spark,
             all_races,
@@ -217,7 +258,9 @@ def main():
         # Load data from your wager_queries
         queries = wager_queries()
         dfs = load_data_from_postgresql(spark, jdbc_url, jdbc_properties, queries, parquet_dir)
-
+        if "races" not in dfs:
+            raise ValueError("No 'races' key found in the loaded dictionary!")
+        
         # Identify "races" and "wagers" from the DFS
         for name, df in dfs.items():
             logging.info(f"DataFrame '{name}' loaded. Schema:")
@@ -233,13 +276,146 @@ def main():
         # Convert timestamp columns
         races_df, _ = convert_timestamp_columns(races_df)
         wagers_df, _ = convert_timestamp_columns(wagers_df)
-
+        if races_df.count() == 0:
+            logging.warning("No rows in 'races' DataFrame. Exiting.")
+            return
         # Convert to Pandas for usage in build_race_objects
         races_pdf = races_df.toPandas()
-        wagers_pdf = wagers_df.toPandas()
-
+        wagers_pdf = wagers_df.toPandas() 
+    
         races_pdf = add_race_level_features(races_pdf)
+
+        ################################################################################
+        # A)  IMPLIED POOL PROBABILITY  (morning-line or tote if you later refresh)
+        ################################################################################
+        # Morning-line fractional odds x-1  →  implied prob = 1 / (x + 1)
         
+
+        races_pdf["implied_prob"] = 1.0 / (races_pdf["morn_odds"] + 1.0)
+    
+        ################################################################################
+        # B)  OVERLAY & KELLY  (single-horse WIN bets)
+        ################################################################################
+        races_pdf["edge"]  = races_pdf["score"] - races_pdf["implied_prob"]
+         
+        races_pdf["kelly"] = (
+            (races_pdf["score"] * races_pdf["morn_odds"]
+            - (1 - races_pdf["score"]))
+            / races_pdf["morn_odds"]
+        ).clip(lower=0)                   # negative edge → stake = 0  
+        ################################################################################
+        # C)  PLACKETT–LUCE joint probabilities  (for exacta / trifecta)
+        ################################################################################
+        # Optional — only if you want mathematically-priced vertical exotics
+        # Convert logits to “skill” parameter s_i = exp(logit)
+        races_pdf["skill"] = np.exp(races_pdf["logit"])
+
+        # -------------------------------------------------
+        # 1)  build a key shared by both data sets
+        # -------------------------------------------------
+        wagers_pdf["race_key"] = (
+            wagers_pdf["course_cd"].str.upper().str.strip() + "_" +
+            wagers_pdf["race_date"].astype(str) + "_" +
+            wagers_pdf["race_number"].astype(str)
+        )
+
+        races_pdf["race_key"] = (
+            races_pdf["course_cd"].str.upper().str.strip() + "_" +
+            races_pdf["race_date"].astype(str) + "_" +
+            races_pdf["race_number"].astype(str)
+        )
+
+        # -------------------------------------------------
+        # 2)  pick the pool you care about (WIN pool here)
+        # -------------------------------------------------
+        win_pool = (
+            wagers_pdf[wagers_pdf["wager_type"] == "Exacta"]
+                .groupby("race_key", as_index=False)["pool_total"]
+                .sum()                                  # → one number per race
+                .rename(columns={"pool_total": "pool_total"})
+        )
+
+        # -------------------------------------------------
+        # 3)  merge into races_pdf
+        # -------------------------------------------------
+        races_pdf = races_pdf.merge(win_pool, on="race_key", how="left")
+
+        # -----------------------------------------------
+        #  AFTER you create implied_prob / edge / kelly / skill
+        # -----------------------------------------------
+        BANKROLL        = 5_000       # current USD bank roll
+        MAX_FRACTION    = 0.05        # risk ≤ 5 % per race
+        MIN_EDGE_SINGLE = 0.02        # ≥ 2 pp overlay to fire
+        MIN_IMPLIED_VOL = 5_000       # ignore tiny pools
+
+        bet_rows = []                 # collect dictionaries
+
+        for (trk, dt, rno), g in races_pdf.groupby(
+                ["course_cd", "race_date", "race_number"]):
+
+            # ───────── 1) WIN bets via Kelly ─────────
+            g = g.sort_values("kelly", ascending=False)
+
+            for _, row in g.iterrows():
+                if row["edge"] < MIN_EDGE_SINGLE:
+                    break                    # sorted -> rest will be smaller
+                if pd.isna(row["pool_total"]) or row["pool_total"] < MIN_IMPLIED_VOL:
+                    continue
+
+                stake = BANKROLL * MAX_FRACTION * row["kelly"]
+                if stake < 2:                # track $2 minimum
+                    continue
+                bet_rows.append({
+                    "course_cd" : trk,
+                    "race_date" : dt,
+                    "race_number": rno,
+                    "bet_type"  : "Exacta",
+                    "ticket"    : str(row["saddle_cloth_number"]),
+                    "stake"     : round(stake, 2),
+                    "edge"      : row["edge"],
+                    "kelly"     : row["kelly"],
+                    "generated_ts": pd.Timestamp.utcnow(),
+                })
+            # ───────── 2) Exacta KEY (best → box next 2) ─────────
+            if len(g) >= 3:
+                key_horse = g.iloc[0]["saddle_cloth_number"]
+                others    = g.iloc[1:3]["saddle_cloth_number"].tolist()
+                ticket    = f"{key_horse}>{'/'.join(map(str, others))}"
+
+                bet_rows.append({
+                    "course_cd" : trk,
+                    "race_date" : dt,
+                    "race_number": rno,
+                    "bet_type"  : "EXACTA_KEY",
+                    "ticket"    : ticket,
+                    "stake"     : 2.00,          # flat stake – tune later
+                    "edge"      : None,
+                    "kelly"     : None,
+                    "generated_ts": pd.Timestamp.utcnow(),
+                })
+
+        bets_pdf = pd.DataFrame(bet_rows)
+        
+        # ────────────────────────────────────────────────────────────
+        #  A)  HISTORICAL back-test  (where past races have official_fin)
+        # ────────────────────────────────────────────────────────────
+        roi_table = evaluate_roi(bets_pdf, races_pdf)
+        print("\n=== Historical ROI table ===")
+        print(roi_table.to_string(index=False))
+
+        # ────────────────────────────────────────────────────────────
+        #  B)  Split live vs. historical
+        # ────────────────────────────────────────────────────────────
+        bets_pdf["race_date"] = pd.to_datetime(bets_pdf["race_date"]).dt.date
+        today = pd.Timestamp.utcnow().normalize().date()
+        live_bets      = bets_pdf[bets_pdf["race_date"] >= today]
+        historical_bets= bets_pdf[bets_pdf["race_date"] <  today]
+
+        # optional: save both
+        persist_live_bets(
+            live_bets,
+            os.path.join(parquet_dir, f"live_bets_{today.strftime('%Y%m%d')}.csv")
+        )
         print(races_pdf.dtypes)
         
         # Convert numeric columns
@@ -247,7 +423,7 @@ def main():
         for col in decimal_cols:
             if col in wagers_pdf.columns:
                 wagers_pdf[col] = wagers_pdf[col].astype(float)
-
+        
         # Acquire a DB connection (if needed)
         conn = db_pool.getconn()
 
@@ -264,7 +440,7 @@ def main():
 
         # 4) Implement the main strategy
         try:
-            implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf)
+            implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf, bets_pdf)
         except Exception as e:
             logging.error(f"Error in implement_strategy: {e}")
             raise

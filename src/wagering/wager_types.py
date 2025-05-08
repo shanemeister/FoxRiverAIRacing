@@ -1,7 +1,38 @@
 import itertools
 from .wagering_classes import Wager, Race
 import logging
+import src.wagering.wagering_classes as wc
+from dataclasses import dataclass, field
+from typing import Callable, List, Tuple
 
+@dataclass
+class WagerStrategy:
+    name: str
+    wager_type: str                       # "Exacta", "Trifecta", ...
+    should_bet: Callable[[wc.Race], bool]
+    build_combos: Callable[[wc.Race], List[Tuple[str,...]]]
+    base_amount: float = 1.0
+
+    bets: int  = field(default=0, init=False)
+    cost: float = field(default=0.0, init=False)
+    payoff: float = field(default=0.0, init=False)
+
+    @property
+    def roi(self):
+        return (self.payoff - self.cost) / self.cost if self.cost else 0.0
+    
+@dataclass
+class ExactaStrategy:
+    name: str
+    should_bet: Callable[[wc.Race], bool]              # race → True/False
+    build_combos: Callable[[wc.Race], List[Tuple[str,str]]]
+    base_amount: float = 1.0                           # $ per combo
+
+    # running totals (filled during back-test)
+    bets: int  = field(default=0, init=False)
+    cost: float = field(default=0.0, init=False)
+    payoff: float = field(default=0.0, init=False)
+    
 class ExactaWager(Wager):
     def __init__(self, wager_amount, top_n, box):
         """

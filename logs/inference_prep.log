@@ -1,6 +1,35 @@
-2025-04-29 22:26:04 - INFO - Logging has been set up successfully.
-2025-04-29 22:26:06 - INFO - Loaded 126794 calibration rows from predictions_20250429_221506_1.
-2025-04-29 22:26:43 - INFO - Fitted T successfully. T=1.4517
-2025-04-29 22:27:03 - INFO - Wrote fully calibrated predictions (hist + fut) to predictions_20250429_221506_1_calibrated
-2025-04-29 22:27:04 - INFO - All done with calibration pipeline.
-2025-04-29 22:27:04 - INFO - Closing down clientserver connection
+2025-05-06 14:57:20 - INFO - Logging has been set up successfully.
+2025-05-06 14:57:20 - INFO - Starting main function...
+2025-05-06 14:57:20 - INFO - Running training data ingestion steps...
+2025-05-06 14:57:20 - INFO - Running training data ingestion steps...
+2025-05-06 14:57:20 - INFO - Query training_data located and loading from PostgreSQL...
+2025-05-06 14:57:21 - INFO - Data loaded from PostgreSQL in 1.19 seconds.
+2025-05-06 14:57:25 - INFO - Before filtering on has_gps and course_cd list: Predictions: 348352
+2025-05-06 14:57:28 - INFO - Row count: 348352
+2025-05-06 14:57:28 - INFO - Count operation completed in 8.25 seconds.
+2025-05-06 14:57:28 - INFO - Checking for duplicates on primary keys...
+2025-05-06 14:57:41 - INFO - Number of duplicate records found: 0
+2025-05-06 14:57:41 - INFO - No duplicate records found.
+2025-05-06 14:57:41 - INFO - Convert Decimal Columns to Double.
+2025-05-06 14:57:43 - INFO - Decimal columns converted to double.
+2025-05-06 14:57:47 - INFO - Imputing date_of_birth with median date.
+2025-05-06 14:57:47 - INFO - Created age_at_race_day.
+2025-05-06 14:57:47 - INFO - Imputing categorical and numeric columns.
+2025-05-06 14:59:04 - INFO - manage_tpd_cols_by_flag before=348352, after=348352
+2025-05-06 14:59:04 - INFO - Filling missing values for columns.
+2025-05-06 14:59:12 - INFO - Numeric columns cast to double.
+2025-05-06 14:59:51 - INFO - 5. Just before impute_performance_columns: Prediction_count: 348352
+2025-05-06 15:01:24 - INFO - Data written to Parquet in 64.48 seconds
+2025-05-06 15:01:24 - INFO - Data cleansing complete. prediction_df being returned.
+2025-05-06 15:02:27 - INFO - Ingestion job for prediction data succeeded
+2025-05-06 15:02:27 - INFO - Loading prediction_df took 307.4011137485504 to complete.
+2025-05-06 15:03:00 - INFO - === Starting Multi-Model Future Inference ===
+2025-05-06 15:03:00 - INFO - Found these CatBoost model files:
+2025-05-06 15:03:00 - INFO -   catboost_YetiRank_NDCG:top=3_20250506_112234.cbm
+2025-05-06 15:03:00 - INFO - === Making predictions with model: catboost_YetiRank_NDCG:top=3_20250506_112234.cbm ===
+2025-05-06 15:03:01 - INFO - Loaded CatBoost model: /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/models/catboost/catboost_YetiRank_NDCG:top=3_20250506_112234.cbm
+2025-05-06 15:03:01 - INFO - Writing predictions to DB table: predictions_20250506_150301_1
+2025-05-06 15:05:33 - INFO - Wrote 348352 predictions to DB table 'predictions_20250506_150301_1'.
+2025-05-06 15:05:33 - INFO - === Finished Multi-Model Future Inference ===
+2025-05-06 15:05:34 - INFO - Spark session stopped.
+2025-05-06 15:05:34 - INFO - Closing down clientserver connection

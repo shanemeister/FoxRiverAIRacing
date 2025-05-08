@@ -222,16 +222,16 @@ def save_results_to_parquet(rows, filename="my_bet_results.parquet"):
     df.to_parquet(filename, index=False)
     logging.info(f"Saved {len(df)} bet results to {filename}")
 
-# def get_base_choice():
-#     # 1) Confirm y/n for posted base
-#     while True:
-#         use_posted_str = input("Use each race's posted base? (y/n): ").strip().lower()
-#         if use_posted_str in ('y', 'n'):
-#             break
-#         else:
-#             print("Please enter 'y' or 'n'.")
+def get_base_choice():
+    # 1) Confirm y/n for posted base
+    while True:
+        use_posted_str = input("Use each race's posted base? (y/n): ").strip().lower()
+        if use_posted_str in ('y', 'n'):
+            break
+        else:
+            print("Please enter 'y' or 'n'.")
 
-#     use_posted_base = (use_posted_str == 'y')
+    use_posted_base = (use_posted_str == 'y')
 
     # 2) If user says "no" (n), we ask for a numeric base_amount
     if not use_posted_base:
@@ -265,6 +265,7 @@ def get_user_wager_preferences():
     """
     print("Please select a Wager Type from the following list:")
     wager_types = [
+        "Per_Track_ROI",
         "Exacta",
         "Daily Double",
         "Trifecta",
@@ -281,7 +282,7 @@ def get_user_wager_preferences():
 
     # Prompt user
     while True:
-        choice = input("Enter the number corresponding to the Wager Type: ")
+        choice = input("Enter the number corresponding to the Activity Desired: ")
         try:
             choice_idx = int(choice) - 1
             if choice_idx < 0 or choice_idx >= len(wager_types):
@@ -290,79 +291,89 @@ def get_user_wager_preferences():
             break
         except ValueError:
             print("Invalid input. Select a number.")
-            
-    # 1) Ask for wager amount
-    while True:
-        get_wager_amnt = input("Enter the amount you wish to wager (Whole Number, 1,2,3, etc.): ").strip()
-        try:
-            wager_amount = int(get_wager_amnt)
-            if wager_amount > 0:
-                break
-            else:
-                print("Please enter a positive integer.")
-        except ValueError:
-            print("Invalid input. Please enter a whole number (e.g., 1, 2, 3).")    
-    
-    # 2) Prompt user with the default in parentheses
-    TOP_N_DEFAULTS = {
-    "Exacta": 2,
-    "Trifecta": 3,
-    "Superfecta": 4,
-    "Daily Double": 1,
-    "Pick 3": 1,
-    "Pick 4": 1,
-    "Pick 5": 1,
-    "Pick 6": 1,
-    "Quinella": 2,
-    }
-
-    default_top_n = TOP_N_DEFAULTS.get(selected_wager_type, 1)
-
-    while True:
-        msg = f"Enter the number of top horses to consider (default {default_top_n}): "
-        raw = input(msg).strip()
-        if not raw:
-            top_n = default_top_n
-            break
-        try:
-            top_n = int(raw)
-            if top_n > 0:
-                break
-            else:
-                print("Please enter a positive integer.")
-        except ValueError:
-            print("Invalid input. Please enter a whole number or press Enter for the default.")
-
-            # 3) Use the default if user pressed Enter, otherwise convert to int
-            return int(raw) if raw else default_top_n
-    
-    # If single-race exotic, ask about box
-    # (Daily Double, Pick 3, etc. won't box in the same sense, but let's keep it simple)
-    is_box = False
-    while True:
-        is_box = input("Box this wager? (y/n): ").strip().lower()
-        if is_box in ('y', 'n'):
-            break
-        else:
-            print("Please enter 'y' or 'n'.")
-            
-    if is_box == "y":
-         is_box = True
-    else:
-         is_box = False
-
-    if selected_wager_type == "Daily Double":
-        num_legs = 2
+    if selected_wager_type == "Per_Track_ROI":
+        return {
+        "Per_Track_ROI": True,
+        "wager_type": None,
+        "wager_amount": None,
+        "is_box": None,
+        "num_legs": None,
+        "top_n": None,
+        }
+    else:    
+        # 1) Ask for wager amount
+        while True:
+            get_wager_amnt = input("Enter the amount you wish to wager (Whole Number, 1,2,3, etc.): ").strip()
+            try:
+                wager_amount = int(get_wager_amnt)
+                if wager_amount > 0:
+                    break
+                else:
+                    print("Please enter a positive integer.")
+            except ValueError:
+                print("Invalid input. Please enter a whole number (e.g., 1, 2, 3).")    
         
-    if selected_wager_type in ["Pick 3", "Pick 4", "Pick 5", "Pick 6"]:
-        num_legs = int(selected_wager_type[-1])  # Extract the last character and convert it to an integer        box_choice = input("Box this wager? (y/n): ").strip().lower()
-    # (Optional) Key horse prompt
-    # For now, skip or implement a simple version:
-    # key_horse_input = input("Enter a key horse program number or leave blank for none: ").strip()
-    # key_horse = key_horse_input if key_horse_input else None
+        # 2) Prompt user with the default in parentheses
+        TOP_N_DEFAULTS = {
+        "Exacta": 2,
+        "Trifecta": 3,
+        "Superfecta": 4,
+        "Daily Double": 1,
+        "Pick 3": 1,
+        "Pick 4": 1,
+        "Pick 5": 1,
+        "Pick 6": 1,
+        "Quinella": 2,
+        }
 
-    # Return a dictionary of choices
+        default_top_n = TOP_N_DEFAULTS.get(selected_wager_type, 1)
+
+        while True:
+            msg = f"Enter the number of top horses to consider (default {default_top_n}): "
+            raw = input(msg).strip()
+            if not raw:
+                top_n = default_top_n
+                break
+            try:
+                top_n = int(raw)
+                if top_n > 0:
+                    break
+                else:
+                    print("Please enter a positive integer.")
+            except ValueError:
+                print("Invalid input. Please enter a whole number or press Enter for the default.")
+
+                # 3) Use the default if user pressed Enter, otherwise convert to int
+                return int(raw) if raw else default_top_n
+        
+        # If single-race exotic, ask about box
+        # (Daily Double, Pick 3, etc. won't box in the same sense, but let's keep it simple)
+        is_box = False
+        while True:
+            is_box = input("Box this wager? (y/n): ").strip().lower()
+            if is_box in ('y', 'n'):
+                break
+            else:
+                print("Please enter 'y' or 'n'.")
+                
+        if is_box == "y":
+            is_box = True
+        else:
+            is_box = False
+
+        if selected_wager_type == "Daily Double":
+            num_legs = 2
+            
+        if selected_wager_type in ["Pick 3", "Pick 4", "Pick 5", "Pick 6"]:
+            num_legs = int(selected_wager_type[-1])  # Extract the last character and convert it to an integer        box_choice = input("Box this wager? (y/n): ").strip().lower()
+        # (Optional) Key horse prompt
+        # For now, skip or implement a simple version:
+        # key_horse_input = input("Enter a key horse program number or leave blank for none: ").strip()
+        # key_horse = key_horse_input if key_horse_input else None
+
+        # Return a dictionary of choices
     return {
+        "Per_Track_ROI": False,
         "wager_type": selected_wager_type,
         "wager_amount": wager_amount,
         "is_box": is_box,

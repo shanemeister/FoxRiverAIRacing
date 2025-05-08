@@ -1,7 +1,142 @@
 import src.wagering.wagering_classes as wc
 import pandas as pd
 from typing import Dict, Any, Tuple, List 
+from src.wagering.wager_types import ExactaWager, ExactaStrategy
+from datetime import date, timedelta
+from pyspark.sql import SparkSession, functions as F
+import yaml, pathlib
+import logging
+# roi_utils.py  (or just paste it where the old helper was)
+import yaml, pathlib, logging
+from datetime import date, timedelta
+from pyspark.sql import functions as F, DataFrame
+from typing import Set
 
+# --------------------------------------------------------------------
+BASE_DIR      = pathlib.Path(
+    "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/track_roi"
+)
+HIST_PARQUET  = BASE_DIR / "exacta_history"
+ROI_YAML      = BASE_DIR / "green_tracks.yaml"
+
+# sensible defaults for weekly refresh
+DEF_LOOKBACK_DAYS = 365
+DEF_MIN_BETS      = 5
+DEF_MIN_ROI       = 0.20
+# --------------------------------------------------------------------
+
+def _load_yaml() -> Set[str]:
+    if not ROI_YAML.exists():
+        return set()
+    data = yaml.safe_load(ROI_YAML.read_text()) or {}
+    return set(data.get("green_tracks", []))
+
+def _write_yaml(track_set: Set[str]) -> None:
+    ROI_YAML.parent.mkdir(parents=True, exist_ok=True)
+    with ROI_YAML.open("w") as f:
+        yaml.safe_dump({"green_tracks": sorted(track_set)}, f)
+
+def compute_or_load_green_tracks(
+        spark,
+        lookback_days: int = DEF_LOOKBACK_DAYS,
+        min_bets: int      = DEF_MIN_BETS,
+        min_roi: float     = DEF_MIN_ROI,
+) -> Set[str]:
+    """
+    Return the current 'green' track set.
+    • If YAML exists and is non-empty → just load & return.
+    • Otherwise compute from the history parquet, write YAML, return set.
+    • If parquet missing, log warning and return empty set.
+    """
+
+    # 1️⃣ fast path – YAML already populated
+    tracks = _load_yaml()
+    if tracks:
+        return tracks          # ← finished
+
+    if not HIST_PARQUET.exists():
+        logging.warning(
+            f"[ROI REFRESH] Parquet history not found at {HIST_PARQUET}. "
+            "No green tracks this run.")
+        return set()
+
+    # 2️⃣ read history & compute
+    df: DataFrame = spark.read.parquet(str(HIST_PARQUET))
+
+    # if race_date is string, Spark can compare ISO strings safely
+    cutoff = (date.today() - timedelta(days=lookback_days)).isoformat()
+
+    stats = (df.filter(F.col("race_date") >= cutoff)
+               .groupBy("course_cd")
+               .agg(
+                   F.count("*").alias("bets"),
+                   ((F.sum("payoff") - F.sum("cost")) /
+                    F.sum("cost")).alias("roi"))
+               .filter(
+                   (F.col("bets") >= min_bets) &
+                   (F.col("roi")  >  min_roi))
+             )
+
+    tracks = {row["course_cd"] for row in stats.collect()}
+    _write_yaml(tracks)
+
+    logging.info(
+        f"[ROI REFRESH] Computed green tracks (lookback {lookback_days}d): "
+        f"{sorted(tracks) if tracks else 'NONE'}")
+    return tracks
+        
+def get_box_close3(r: wc.Race) -> List[Tuple[str,str]]:
+    horses = r.get_sorted_by_prediction()
+
+    # core rule: scores within 0.05 of leader, cap 4
+    box_pool = [h for h in horses[:4]
+                if h.prediction >= r.max_prob - 0.05]
+
+    # Fallback: if we only captured the leader, add next-best horse
+    if len(box_pool) == 1 and len(horses) > 1:
+        box_pool.append(horses[1])
+
+    # build exacta perms
+    combos = [(a.program_num, b.program_num)
+              for a in box_pool for b in box_pool if a != b]
+    return combos
+
+def backtest_strategies(
+        races: List[wc.Race],
+        wagers_dict: dict,
+        strategies: List[ExactaStrategy]
+):
+    for race in races:
+        wkey = (race.course_cd, race.race_date, race.race_number, "Exacta")
+        actual = wagers_dict.get(wkey)
+
+        for strat in strategies:
+            if not strat.should_bet(race):
+                continue
+
+            combos = strat.build_combos(race)
+            bet_cost = len(combos) * strat.base_amount
+            strat.bets   += 1
+            strat.cost   += bet_cost
+
+            # check win
+            payoff = 0.0
+            if actual and len(actual["winning_combo"]) >= 2:
+                posted_payoff = float(actual["payoff"])
+                posted_base   = float(actual["num_tickets"])
+                for c in combos:
+                    if ExactaWager(1,0,False).check_if_win(
+                            c, race, actual["winning_combo"]):
+                        payoff = (strat.base_amount / posted_base) * posted_payoff
+                        break
+            strat.payoff += payoff
+
+    # final report
+    rows = []
+    for s in strategies:
+        roi = (s.payoff - s.cost) / s.cost if s.cost else 0.0
+        rows.append((s.name, s.bets, s.cost, s.payoff, roi))
+    return rows
 
 def build_race_objects(races_pdf: pd.DataFrame) -> List[wc.Race]:
     """
@@ -72,7 +207,7 @@ def build_race_objects(races_pdf: pd.DataFrame) -> List[wc.Race]:
                 horse_id    = str(row.get("horse_id", "")),
                 program_num = str(row["saddle_cloth_number"]),
                 official_fin= row.get("official_fin"),
-                prediction  = row.get("prediction", 0.0),
+                prediction  = row.get("score", 0.0),
                 rank        = row.get("rank"),
                 final_odds  = row.get("dollar_odds")
             )

@@ -4,9 +4,9 @@ import os
 import json
 import pandas as pd
 import src.wagering.wager_types as wt
-from src.wagering.wager_types import MultiRaceWager, ExactaWager, TrifectaWager, SuperfectaWager
+from src.wagering.wager_types import MultiRaceWager, ExactaWager, TrifectaWager, SuperfectaWager, ExactaStrategy, WagerStrategy
 from src.wagering.wagering_helper_functions import parse_winners_str
-from src.wagering.wagering_functions import find_race
+from src.wagering.wagering_functions import find_race, get_box_close3, backtest_strategies, compute_or_load_green_tracks
 import logging
 import pandas as pd
 from src.wagering.wagering_helper_functions import gather_bet_metrics
@@ -35,13 +35,54 @@ def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, bo
     # Filter races by field size
     filtered_races = []
     filtered_races = [race for race in all_races if 4 <= len(race.horses) <= 20]
+    # Set base_amount for this race
+    # strategy_gap_box = ExactaStrategy(
+    #     name="gap>0.10_box_close3",
+    #     should_bet=has_confidence,
+    #     build_combos=get_box_close3,
+    #     base_amount=1.0
+    #     )
+    #GREEN_TRACKS = compute_or_load_green_tracks(spark)
+    # ------------------------------------------------------------------
+    # 0. TEMP: hard-code green tracks for the first run
+    # ------------------------------------------------------------------
+    # GREEN_TRACKS = {"TTP", "TSA", "TCD"}
+    # GREEN_TRACKS = compute_or_load_green_tracks(
+    #     spark,
+    #     lookback_days=365,    # try rolling month
+    #     min_bets=5,         # lower sample guard
+    #     min_roi=0.60         # raise hurdle to 60 %
+    # )
+    GREEN_TRACKS = compute_or_load_green_tracks(spark)
+    # fall-back for the *very first* run
+    # if not GREEN_TRACKS:
+    #     logging.info("No green_tracks.yaml yet – falling back to hard-coded set")
+    #     GREEN_TRACKS = {"TTP", "TSA", "TCD"}
+        
+    # build strategy object
+    strat_x_gap_box = WagerStrategy(
+        name        = "X_gap>0.10_boxClose3",
+        wager_type  = "Exacta",
+        should_bet  = lambda r, g=GREEN_TRACKS: r.prob_gap > 0.10 and r.course_cd in g,
+        build_combos= get_box_close3,
+        base_amount = 1.0
+    )
+    strategies      = [strat_x_gap_box]
+    active_strategy = strat_x_gap_box    # live strategy
+
+    # results = backtest_strategies(all_races, wagers_dict, strategies)
+
+    # logging.info(f"{'Strategy':35}  Bets  Cost    Payoff   ROI")
+    # for name,bets,cost,pay,roi in results:
+    #     logging.info(f"{name:35}  {bets:>4}  ${cost:>7.2f}  ${pay:>8.2f}  {roi:>6.2%}")    
+    
+    active_strategy = strat_x_gap_box
     
     for race in filtered_races:
         key = (race.course_cd, race.race_date, race.race_number, "Exacta")
         race_wager_info = wagers_dict.get(key, None)
-        num_tickets = race_wager_info["num_tickets"] if race_wager_info and "num_tickets" in race_wager_info else None 
-        # Set base_amount for this race
-
+        num_tickets = race_wager_info["num_tickets"] if race_wager_info and "num_tickets" in race_wager_info else None
+            
         if race_wager_info and "num_tickets" in race_wager_info:
             try:
                 num_tickets_val = float(num_tickets)
@@ -60,9 +101,11 @@ def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, bo
             bad_race_wager_info += 1 
             continue   
             
-        my_wager = ExactaWager(wager_amount, top_n, box)
-        # Generate combos (list of lists), e.g. [["3","7"],["2","5"], ...]
-        combos = my_wager.generate_combos(race)
+        if not active_strategy.should_bet(race):
+            continue                                         # skip this race
+
+        combos = active_strategy.build_combos(race)
+        my_wager = ExactaWager(active_strategy.base_amount, 0, True)  # “dummy” – used only for cost/payoff helpers
         cost = my_wager.calculate_cost(combos)   # total $ cost for these combos
         
         payoff = 0.0
@@ -71,6 +114,35 @@ def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, bo
 
         if race_wager_info:
             actual_combo = race_wager_info['winning_combo']  # e.g. [["7"], ["6"]]
+            winner_score = runnerup_score = None
+            winner_rank  = runnerup_rank  = None
+
+            if actual_combo and len(actual_combo) >= 2:
+                # ────────────────────────────────────────────────────────────────
+                #  Winner / runner-up model scores and ranks + gap metrics
+                # ────────────────────────────────────────────────────────────────
+                winner_score = runnerup_score = None
+                winner_rank  = runnerup_rank  = None
+                gap12 = gap23 = None            # default None → Spark NULL
+
+                # Map program numbers → HorseEntry for quick lookup
+                prog_map = {h.program_num: h for h in race.horses}
+
+                # Pull CatBoost scores for the actual 1-2 finishers
+                if actual_combo and len(actual_combo) >= 2:
+                    win_prog, place_prog = actual_combo[0][0], actual_combo[1][0]
+
+                    if win_prog in prog_map:
+                        he = prog_map[win_prog]
+                        winner_score, winner_rank = he.prediction, he.rank
+                    if place_prog in prog_map:
+                        he = prog_map[place_prog]
+                        runnerup_score, runnerup_rank = he.prediction, he.rank
+
+                # Gap metrics based on race-level features you already stored
+                gap12 = race.prob_gap                          # top1 – top2
+                gap23 = race.max_prob - race.second_prob       # top2 – top3
+
             race_payoff = float(race_wager_info['payoff'])
             posted_base = float(race_wager_info['num_tickets'])
             logging.info(f"\n--- Debugging Race ---")
@@ -120,12 +192,25 @@ def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, bo
             actual_combo=actual_combo,
             field_size=field_size,
         )
+        row_data.update({
+            "winner_score"   : float(winner_score)   if winner_score  is not None else None,
+            "runnerup_score" : float(runnerup_score) if runnerup_score is not None else None,
+            "winner_rank"    : float(winner_rank)    if winner_rank   is not None else None,
+            "runnerup_rank"  : float(runnerup_rank)  if runnerup_rank is not None else None,
+            "gap12"          : float(gap12) if gap12 is not None else None,
+            "gap23"          : float(gap23) if gap23 is not None else None,
+        })
+
         row_data["fav_morn_odds"]   = float(race.fav_morn_odds) if race.fav_morn_odds is not None else None
         row_data["avg_morn_odds"]   = float(race.avg_morn_odds) if race.avg_morn_odds is not None else None
         row_data["max_prob"]        = float(race.max_prob)
         row_data["second_prob"]     = float(race.second_prob)
         row_data["prob_gap"]        = float(race.prob_gap)
-        row_data["std_prob"]        = float(race.std_prob)
+        row_data["std_prob"]        = float(race.std_prob) 
+        
+        row_data["strategy"]      = active_strategy.name
+        row_data["tickets_played"]= len(combos)
+        row_data["ticket_cost"]   = cost  
 
         # === Add the combos as arrays (instead of storing them as strings) ===
         row_data["actual_winning_combo"] = actual_combo      # list of lists, e.g. [["7"], ["6"]]
@@ -151,6 +236,7 @@ def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, bo
             row["actual_winning_combo"] = json.dumps(row["actual_winning_combo"])  # Convert to JSON string
         if "generated_combos" in row:
             row["generated_combos"] = json.dumps(row["generated_combos"])  # Convert to JSON string
+
     df_results = pd.DataFrame(bet_results)
     
     schema = StructType([
@@ -183,17 +269,32 @@ def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, bo
         StructField("roi", FloatType(), True),
         StructField("field_size", IntegerType(), True),
         StructField("race_base_amount", FloatType(), True),
+        StructField("winner_score"  , FloatType(), True),
+        StructField("runnerup_score", FloatType(), True),
+        StructField("winner_rank"   , FloatType(), True),
+        StructField("runnerup_rank" , FloatType(), True),
+        StructField("gap12"         , FloatType(), True),
+        StructField("gap23"         , FloatType(), True),
     ])
+
     # Convert bet_results into a Spark DataFrame with the defined schema
     df_results = spark.createDataFrame(bet_results, schema=schema)
-
+    
     # Optionally, compute per-row profit/ROI if each row has cost & payoff
     df_results = df_results.withColumn("bet_type", lit(f"exacta_top{top_n}_box"))
     df_results = df_results.withColumn("profit", col("payoff") - col("cost"))
+
     df_results = df_results.withColumn(
         "row_roi",
         when(col("cost") > 0, col("profit") / col("cost")).otherwise(0.0)
     )
+    
+    # ------------- WRITE HISTORY ONCE / APPEND AFTERWARDS --------------
+    HIST_PARQUET = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/track_roi/exacta_history"
+    df_results.write.mode("append").parquet(HIST_PARQUET)
+    # -------------------------------------------------------------------
+
+    
     # Return the DataFrame with combos as arrays
     return df_results
 
@@ -269,6 +370,38 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
 
         if race_wager_info:
             actual_combo = race_wager_info.get('winning_combo')  # e.g. [["5"], ["3"], ["8"]]
+            winner_score = runnerup_score = None
+            winner_rank  = runnerup_rank  = None
+
+            if actual_combo and len(actual_combo) >= 2:
+                # ────────────────────────────────────────────────────────────────
+                #  Winner / runner-up model scores and ranks + gap metrics
+                # ────────────────────────────────────────────────────────────────
+                winner_score = runnerup_score = None
+                winner_rank  = runnerup_rank  = None
+                gap12 = gap23 = None            # default None → Spark NULL
+
+                # Map program numbers → HorseEntry for quick lookup
+                prog_map = {h.program_num: h for h in race.horses}
+
+                # Pull CatBoost scores for the actual 1-2 finishers
+                if actual_combo and len(actual_combo) >= 2:
+                    win_prog, place_prog = actual_combo[0][0], actual_combo[1][0]
+
+                    if win_prog in prog_map:
+                        he = prog_map[win_prog]
+                        winner_score, winner_rank = he.prediction, he.rank
+                    if place_prog in prog_map:
+                        he = prog_map[place_prog]
+                        runnerup_score, runnerup_rank = he.prediction, he.rank
+
+                # Gap metrics based on race-level features you already stored
+                gap12 = race.prob_gap                          # top1 – top2
+                gap23 = race.max_prob - race.second_prob       # top2 – top3
+
+            # -------------------------------------------------
+            # 1️⃣  Pull model scores / ranks of the actual 1-2 finishers
+            # -------------------------------------------------
             race_payoff = float(race_wager_info.get('payoff', 0))
             logging.info(f"\n--- Debugging Race ---")
             logging.info(f"Race Key: {key}")
@@ -314,6 +447,14 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
             actual_combo=actual_combo,
             field_size=field_size,
         )
+        row_data.update({
+            "winner_score"   : float(winner_score)   if winner_score  is not None else None,
+            "runnerup_score" : float(runnerup_score) if runnerup_score is not None else None,
+            "winner_rank"    : float(winner_rank)    if winner_rank   is not None else None,
+            "runnerup_rank"  : float(runnerup_rank)  if runnerup_rank is not None else None,
+            "gap12"          : float(gap12) if gap12 is not None else None,
+            "gap23"          : float(gap23) if gap23 is not None else None,
+        })
         row_data["fav_morn_odds"]   = float(race.fav_morn_odds) if race.fav_morn_odds is not None else None
         row_data["avg_morn_odds"]   = float(race.avg_morn_odds) if race.avg_morn_odds is not None else None
         row_data["max_prob"]        = float(race.max_prob)
@@ -366,6 +507,12 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
         StructField("roi", FloatType(), True),
         StructField("field_size", IntegerType(), True),
         StructField("race_base_amount", FloatType(), True),
+        StructField("winner_score"  , FloatType(), True),
+        StructField("runnerup_score", FloatType(), True),
+        StructField("winner_rank"   , FloatType(), True),
+        StructField("runnerup_rank" , FloatType(), True),
+        StructField("gap12"         , FloatType(), True),
+        StructField("gap23"         , FloatType(), True),
     ])
 
     df_results = spark.createDataFrame(bet_results, schema=schema)

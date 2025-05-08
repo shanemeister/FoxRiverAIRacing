@@ -18,7 +18,7 @@ from pyspark.sql.functions import (
 from psycopg2 import sql, pool, DatabaseError
 from pyspark.sql import SparkSession
 from src.Predict_only.load_prediction_data import load_prediction_data_final
-from src.Predict_only.join_horse_embedding_and_predict import race_predictions
+from src.Predict_only.create_predictions import race_predictions
 from src.data_preprocessing.data_prep2.data_healthcheck import time_series_data_healthcheck
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment, save_parquet
 

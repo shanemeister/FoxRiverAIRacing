@@ -898,11 +898,11 @@ def split_data_and_train(
     # 7) minimal catboost training
     catboost_loss_functions = [
         # "YetiRankPairwise"
-        "YetiRank",
-        "QueryRMSE"
+        "YetiRank"
+        #"QueryRMSE"
     ]
     
-    catboost_eval_metrics = ["NDCG:top=1", "NDCG:top=2", "NDCG:top=3", "NDCG:top=4"] 
+    catboost_eval_metrics = ["NDCG:top=2", "NDCG:top=3", "NDCG:top=4"] 
 
     db_table = "catboost_enriched_results"
     all_models = main_script(
