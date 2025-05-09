@@ -22,8 +22,8 @@ def wager_queries():
             	and r.saddle_cloth_number = p.saddle_cloth_number 
             WHERE p.top_3_rank is not null
             AND r.morn_odds is not null
-            AND r.morn_odds > 0
-            AND r.race_date >= '2024-07-01' -- CURRENT_DATE - INTERVAL '6 MONTHS' -- >= '2024-06-30'
+            -- AND r.morn_odds > 0
+            AND r.race_date >= CURRENT_DATE - INTERVAL '1 MONTHS' -- >= '2024-06-30'
             AND r.course_cd in('CTD','CTM','ASD','TWO','TGG','TSA','DEL','TGP','TAM','PRM',
                                'HAW','HOO','IND','TCD','ELP','TKD','KEE','TTP','LAD','CNL',
                                'LRL','PIM','CBY','CLS','MED','MTH','AQU','BEL','SAR','MVR',

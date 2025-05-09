@@ -1,0 +1,15 @@
+2025-05-08 20:11:28 - INFO - Logging has been set up successfully.
+2025-05-08 20:11:28 - INFO - Loading races data from PostgreSQL...
+2025-05-08 20:11:29 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
+2025-05-08 20:11:31 - INFO - races data loaded and saved successfully.
+2025-05-08 20:11:31 - INFO - Loading wagers data from PostgreSQL...
+2025-05-08 20:11:31 - INFO - Saving wagers DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/wagers.parquet...
+2025-05-08 20:11:32 - INFO - wagers data loaded and saved successfully.
+2025-05-08 20:11:32 - INFO - DataFrame 'races' loaded. Schema:
+2025-05-08 20:11:32 - INFO - DataFrame 'wagers' loaded. Schema:
+2025-05-08 20:11:56 - INFO - [UPCOMING] Tracks with races ≥ 2025-05-08: ['IND', 'PEN', 'TCD', 'TGP', 'TLS']
+2025-05-08 20:11:56 - INFO - Exacta ▶ 1173 races after filters
+2025-05-08 20:11:56 - INFO - Exacta ▶ Cost $144.00 | Payoff $45.80 | ROI -68.19% | Bankroll $4901.80
+2025-05-08 20:11:56 - ERROR - Error in implement_strategy: field avg_purse_val_calc: FloatType() can not accept object Decimal('1.40') in type <class 'decimal.Decimal'>
+2025-05-08 20:11:56 - ERROR - Error during Spark initialization: field avg_purse_val_calc: FloatType() can not accept object Decimal('1.40') in type <class 'decimal.Decimal'>
+2025-05-08 20:11:56 - INFO - Closing down clientserver connection

@@ -4,81 +4,62 @@ import logging
 import src.wagering.wagering_classes as wc
 from dataclasses import dataclass, field
 from typing import Callable, List, Tuple
-
-@dataclass
-class WagerStrategy:
-    name: str
-    wager_type: str                       # "Exacta", "Trifecta", ...
-    should_bet: Callable[[wc.Race], bool]
-    build_combos: Callable[[wc.Race], List[Tuple[str,...]]]
-    base_amount: float = 1.0
-
-    bets: int  = field(default=0, init=False)
-    cost: float = field(default=0.0, init=False)
-    payoff: float = field(default=0.0, init=False)
-
-    @property
-    def roi(self):
-        return (self.payoff - self.cost) / self.cost if self.cost else 0.0
-    
-@dataclass
-class ExactaStrategy:
-    name: str
-    should_bet: Callable[[wc.Race], bool]              # race → True/False
-    build_combos: Callable[[wc.Race], List[Tuple[str,str]]]
-    base_amount: float = 1.0                           # $ per combo
-
-    # running totals (filled during back-test)
-    bets: int  = field(default=0, init=False)
-    cost: float = field(default=0.0, init=False)
-    payoff: float = field(default=0.0, init=False)
     
 class ExactaWager(Wager):
-    def __init__(self, wager_amount, top_n, box):
-        """
-        :param wager_amount: e.g. $1 base
-        :param top_n: number of top predicted horses used to form combos
-        :param box: if True, generate all permutations for those top_n horses 
-                    in 1st/2nd. If False, only the single "top1->top2" order.
-        """
-        super().__init__(wager_amount)
+    """
+    • `generate_combos`  → still supports the legacy *top-n / box* interface  
+    • `combos_from_style`→ used by the new rule-table engine
+    """
+    def __init__(self, stake, top_n=2, box=True):
+        super().__init__(stake)
         self.top_n = top_n
-        self.box = box
+        self.box   = box
 
+    # ------------------------------------------------------------------ #
+    # ❶  OLD interface – leave untouched so old code keeps working
+    # ------------------------------------------------------------------ #
     def generate_combos(self, race: Race):
-        """
-        If box=True and top_n=3, you'd get permutations of the top 3 horses taken 2 at a time.
-        If box=False, you only pair top_horse_1 as first, top_horse_2 as second, etc.
-        """
         sorted_horses = race.get_sorted_by_prediction()
-        top_horses = sorted_horses[:self.top_n]
-
-        combos = []
+        top = sorted_horses[: self.top_n]
         if self.box:
-            # permutations of the top_n horses, taking 2
-            for perm in itertools.permutations(top_horses, 2):
-                combos.append((perm[0].program_num, perm[1].program_num))
-        else:
-            # just a single combo from #1 to #2, #2 to #3, etc. 
-            # but often we only do (top_horses[0], top_horses[1]) if top_n>=2
-            for i in range(self.top_n - 1):
-                combo = (top_horses[i].program_num, top_horses[i+1].program_num)
-                combos.append(combo)
-        return combos
+            return [
+                (a.program_num, b.program_num)
+                for a, b in itertools.permutations(top, 2)
+            ]
+        return [
+            (top[i].program_num, top[i + 1].program_num)
+            for i in range(self.top_n - 1)
+        ]
 
-    def check_if_win(self, combo, race: Race, actual_winning_combo):
+    # ------------------------------------------------------------------ #
+    # ❷  NEW helper – called by the rule engine
+    # ------------------------------------------------------------------ #
+    @staticmethod
+    def combos_from_style(race: Race, style: str, top_n: int = 3):
         """
-        For an exacta, actual_winning_combo is typically: [[WINNER],[SECOND]].
-        We just see if combo == (WINNER, SECOND).
+        Returns a list[tuple] of program numbers according to `style`.
         """
-        if not actual_winning_combo or len(actual_winning_combo) < 2:
+        top = sorted(race.horses, key=lambda h: h.prediction, reverse=True)[: top_n]
+        nums = [h.program_num for h in top]
+
+        if style == "STRAIGHT":                       # 1 ► 2
+            return [(nums[0], nums[1])]
+
+        if style == "KEY12":                          # 1 ► (2,3)
+            return [(nums[0], nums[1]), (nums[0], nums[2])]
+
+        if style == "BOX123":                         # box of three
+            return list(itertools.permutations(nums, 2))
+
+        raise ValueError(f"Unknown exacta style: {style}")
+
+    # ------------------------------------------------------------------ #
+    def check_if_win(self, combo, race: Race, official):
+        """`official` is [[WIN],[PLC]]."""
+        if not official or len(official) < 2:
             return False
-        
-        actual_1st = actual_winning_combo[0][0]
-        actual_2nd = actual_winning_combo[1][0]
-        
-        return combo == (actual_1st, actual_2nd)
-
+        return combo == (official[0][0], official[1][0])
+    
 class TrifectaWager(Wager):
     """
     A Trifecta wager predicts the exact order of the top 3 finishers.

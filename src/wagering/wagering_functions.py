@@ -1,16 +1,19 @@
 import src.wagering.wagering_classes as wc
 import pandas as pd
-from typing import Dict, Any, Tuple, List 
-from src.wagering.wager_types import ExactaWager, ExactaStrategy
+import numpy as np
+from typing import Dict, Any, Tuple, List, Iterable, Union
+from src.wagering.wager_types import ExactaWager
 from datetime import date, timedelta
-from pyspark.sql import SparkSession, functions as F
+from pyspark.sql import SparkSession, functions as F, DataFrame
 import yaml, pathlib
 import logging
 # roi_utils.py  (or just paste it where the old helper was)
 import yaml, pathlib, logging
 from datetime import date, timedelta
 from pyspark.sql import functions as F, DataFrame
+from pyspark.sql.dataframe import DataFrame as SparkDataFrame
 from typing import Set
+from wager_rules import WAGER_RULES
 
 # --------------------------------------------------------------------
 BASE_DIR      = pathlib.Path(
@@ -25,64 +28,79 @@ DEF_MIN_BETS      = 5
 DEF_MIN_ROI       = 0.20
 # --------------------------------------------------------------------
 
-def _load_yaml() -> Set[str]:
-    if not ROI_YAML.exists():
-        return set()
-    data = yaml.safe_load(ROI_YAML.read_text()) or {}
-    return set(data.get("green_tracks", []))
+# Path objects declared elsewhere in your module
+# BASE_DIR = pathlib.Path(...)
+# ROI_YAML  = BASE_DIR / "green_tracks.yaml"
+UPCOMING_YAML = BASE_DIR / "upcoming_tracks.yaml"  # sibling to ROI_YAML
 
-def _write_yaml(track_set: Set[str]) -> None:
-    ROI_YAML.parent.mkdir(parents=True, exist_ok=True)
-    with ROI_YAML.open("w") as f:
-        yaml.safe_dump({"green_tracks": sorted(track_set)}, f)
+###############################################################################
+#                helper: write yaml (overwrite every run)                    #
+###############################################################################
 
-def compute_or_load_green_tracks(
-        spark,
-        lookback_days: int = DEF_LOOKBACK_DAYS,
-        min_bets: int      = DEF_MIN_BETS,
-        min_roi: float     = DEF_MIN_ROI,
-) -> Set[str]:
+def _write_upcoming_yaml(track_set: Set[str]) -> None:
+    """Persist the current *active* track codes.
+    The file is recreated each run so it never goes stale.
     """
-    Return the current 'green' track set.
-    • If YAML exists and is non-empty → just load & return.
-    • Otherwise compute from the history parquet, write YAML, return set.
-    • If parquet missing, log warning and return empty set.
+    UPCOMING_YAML.parent.mkdir(parents=True, exist_ok=True)
+    with UPCOMING_YAML.open("w") as fh:
+        yaml.safe_dump({"upcoming_tracks": sorted(track_set)}, fh)
+
+###############################################################################
+#                 public: refresh_upcoming_tracks                             #
+###############################################################################
+
+def refresh_upcoming_tracks(races: Union[SparkDataFrame, Iterable], *, today: date | None = None) -> Set[str]:
+    """Return the set of *course_cd* that still have races *on or after* ``today``.
+
+    Parameters
+    ----------
+    races : pyspark.sql.DataFrame  **or**  Iterable[wc.Race | dict]
+        • If a Spark DataFrame, it must have columns ``course_cd`` and ``race_date`` (date or string).
+        • If a plain Python iterable (your ``list[Race]``), each element must expose
+          ``course_cd`` and ``race_date`` attributes.
+    today : datetime.date | None (default **today()**)
+        The cut‑off date.  Races on or after this date are considered *future*.
+
+    Side‑effect
+    -----------
+    Always overwrites *upcoming_tracks.yaml* with the fresh set so the next run
+    starts from a clean slate.
     """
+    if today is None:
+        today = date.today()
+    today_iso = today.isoformat()
 
-    # 1️⃣ fast path – YAML already populated
-    tracks = _load_yaml()
-    if tracks:
-        return tracks          # ← finished
+    # ------------------------------------------------------------------
+    # Spark path
+    # ------------------------------------------------------------------
+    if isinstance(races, SparkDataFrame):
+        future_tracks_df = (
+            races
+            .filter(F.col("race_date") >= today_iso)
+            .select("course_cd")
+            .distinct()
+        )
+        tracks: Set[str] = {row["course_cd"] for row in future_tracks_df.collect()}
 
-    if not HIST_PARQUET.exists():
-        logging.warning(
-            f"[ROI REFRESH] Parquet history not found at {HIST_PARQUET}. "
-            "No green tracks this run.")
-        return set()
+    # ------------------------------------------------------------------
+    # Python list / iterable path (e.g. list[wc.Race])
+    # ------------------------------------------------------------------
+    else:
+        tracks = {
+            getattr(r, "course_cd") if hasattr(r, "course_cd") else r["course_cd"]
+            for r in races
+            if (
+                (getattr(r, "race_date", None) or r["race_date"]) >= today
+            )
+        }
 
-    # 2️⃣ read history & compute
-    df: DataFrame = spark.read.parquet(str(HIST_PARQUET))
-
-    # if race_date is string, Spark can compare ISO strings safely
-    cutoff = (date.today() - timedelta(days=lookback_days)).isoformat()
-
-    stats = (df.filter(F.col("race_date") >= cutoff)
-               .groupBy("course_cd")
-               .agg(
-                   F.count("*").alias("bets"),
-                   ((F.sum("payoff") - F.sum("cost")) /
-                    F.sum("cost")).alias("roi"))
-               .filter(
-                   (F.col("bets") >= min_bets) &
-                   (F.col("roi")  >  min_roi))
-             )
-
-    tracks = {row["course_cd"] for row in stats.collect()}
-    _write_yaml(tracks)
-
+    # Persist and log
+    _write_upcoming_yaml(tracks)
     logging.info(
-        f"[ROI REFRESH] Computed green tracks (lookback {lookback_days}d): "
-        f"{sorted(tracks) if tracks else 'NONE'}")
+        "[UPCOMING] Tracks with races ≥ %s: %s",
+        today_iso,
+        sorted(tracks) if tracks else "NONE",
+    )
     return tracks
         
 def get_box_close3(r: wc.Race) -> List[Tuple[str,str]]:
@@ -101,144 +119,152 @@ def get_box_close3(r: wc.Race) -> List[Tuple[str,str]]:
               for a in box_pool for b in box_pool if a != b]
     return combos
 
-def backtest_strategies(
-        races: List[wc.Race],
-        wagers_dict: dict,
-        strategies: List[ExactaStrategy]
-):
-    for race in races:
-        wkey = (race.course_cd, race.race_date, race.race_number, "Exacta")
-        actual = wagers_dict.get(wkey)
+# def backtest_strategies(
+#         races: List[wc.Race],
+#         wagers_dict: dict,
+#         strategies: List[ExactaStrategy]
+# ):
+#     for race in races:
+#         wkey = (race.course_cd, race.race_date, race.race_number, "Exacta")
+#         actual = wagers_dict.get(wkey)
 
-        for strat in strategies:
-            if not strat.should_bet(race):
-                continue
+#         for strat in strategies:
+#             if not strat.should_bet(race):
+#                 continue
 
-            combos = strat.build_combos(race)
-            bet_cost = len(combos) * strat.base_amount
-            strat.bets   += 1
-            strat.cost   += bet_cost
+#             combos = strat.build_combos(race)
+#             bet_cost = len(combos) * strat.base_amount
+#             strat.bets   += 1
+#             strat.cost   += bet_cost
 
-            # check win
-            payoff = 0.0
-            if actual and len(actual["winning_combo"]) >= 2:
-                posted_payoff = float(actual["payoff"])
-                posted_base   = float(actual["num_tickets"])
-                for c in combos:
-                    if ExactaWager(1,0,False).check_if_win(
-                            c, race, actual["winning_combo"]):
-                        payoff = (strat.base_amount / posted_base) * posted_payoff
-                        break
-            strat.payoff += payoff
+#             # check win
+#             payoff = 0.0
+#             if actual and len(actual["winning_combo"]) >= 2:
+#                 posted_payoff = float(actual["payoff"])
+#                 posted_base   = float(actual["num_tickets"])
+#                 for c in combos:
+#                     if ExactaWager(1,0,False).check_if_win(
+#                             c, race, actual["winning_combo"]):
+#                         payoff = (strat.base_amount / posted_base) * posted_payoff
+#                         break
+#             strat.payoff += payoff
 
-    # final report
-    rows = []
-    for s in strategies:
-        roi = (s.payoff - s.cost) / s.cost if s.cost else 0.0
-        rows.append((s.name, s.bets, s.cost, s.payoff, roi))
-    return rows
+#     # final report
+#     rows = []
+#     for s in strategies:
+#         roi = (s.payoff - s.cost) / s.cost if s.cost else 0.0
+#         rows.append((s.name, s.bets, s.cost, s.payoff, roi))
+#     return rows
 
+############################################################################
+# 1)  CLEAN-UP & FEATURE ADDER
+############################################################################
+DROP_DEFAULT = ["pool_total"]
+
+def clean_races_df(
+    races_df: pd.DataFrame,
+    wagers_df: pd.DataFrame | None = None,
+    cols_to_drop: Iterable[str] = DROP_DEFAULT,
+) -> pd.DataFrame:
+    """
+    • Flattens the *_x / *_y duplicates coming from a merge.
+    • Calculates implied_prob, edge, kelly, skill.
+    • Optionally merges in a *filtered* copy of wagers_df if you still
+      need something (e.g. pool_total before you drop it).
+    """
+    # -------------------------------------------------- #
+    # A)  Deduplicate keys
+    # -------------------------------------------------- #
+    keep_map = {                                   # canonical -> prefer *_x
+        "course_cd":      "course_cd_x" if "course_cd_x" in races_df else "course_cd",
+        "race_date":      "race_date_x" if "race_date_x" in races_df else "race_date",
+        "race_number":    "race_number_x" if "race_number_x" in races_df else "race_number",
+    }
+    races_df = races_df.rename(columns={v: k for k, v in keep_map.items() if v != k})
+
+    # Drop *_y versions if they’re still present
+    races_df = races_df.drop(columns=[c for c in races_df.columns if c.endswith("_y")], errors="ignore")
+
+    # -------------------------------------------------- #
+    # B)  Feature engineering
+    # -------------------------------------------------- #
+    # Avoid divide-by-zero if morn_odds == 0
+    # ----------------------------------------------------------------------
+    # NEW Kelly that works when morn_odds is already a probability (p_ml)
+    # ----------------------------------------------------------------------
+    p_ml = races_df["morn_odds"].clip(upper=0.999)          # guard ÷0
+    b    = (1.0 / p_ml) - 1.0                               # fractional price
+
+    races_df["implied_prob"] = p_ml
+    races_df["edge"]         = races_df["score"] - p_ml
+
+    races_df["kelly"] = (
+        (races_df["score"] * b - (1.0 - races_df["score"])) / b
+    ).clip(lower=0)
+
+    # -------------------------------------------------- #
+    # D)  Final column drop
+    # -------------------------------------------------- #
+    races_df = races_df.drop(columns=list(cols_to_drop), errors="ignore")
+
+    return races_df
+
+############################################################################
+# 2)  RACE-OBJECT BUILDER  (unchanged interface, cleaner internals)
+############################################################################
 def build_race_objects(races_pdf: pd.DataFrame) -> List[wc.Race]:
-    """
-    Groups the DataFrame by (course_cd, race_date, race_number),
-    then for each group:
-      - Compute aggregated race-level features like fav_morn_odds, max_prob, etc.
-      - Create a Race object (with distance, surface, etc. from the group's first row),
-      - Create multiple HorseEntry objects (one per row in the group).
+    race_list: List[wc.Race] = []
 
-    Returns a list of Race objects.
-    """
+    for (trk, dt, rno), grp in races_pdf.groupby(
+            ["course_cd", "race_date", "race_number"]):
 
-    race_list = []
-    group_cols = ["course_cd", "race_date", "race_number"]
+        grp_sorted = grp.sort_values("score", ascending=False)
+        first = grp_sorted.iloc[0]
 
-    for (course_cd, race_date, race_number), group_df in races_pdf.groupby(group_cols):
-        # Pull "race-level" attributes from the first row
-        first_row = group_df.iloc[0]
+        # ---------- race-level aggregates ----------
+        fav_morn = grp["morn_odds"].min(skipna=True)
+        avg_morn = grp["morn_odds"].mean(skipna=True)
+        max_prob = grp_sorted.iloc[0]["score"]
+        second   = grp_sorted.iloc[1]["score"] if len(grp_sorted) > 1 else 0.0
+        prob_gap = max_prob - second
+        std_prob = grp_sorted["score"].head(4).std(ddof=0)
 
-        distance_meters  = first_row.get("distance_meters")
-        surface          = first_row.get("surface")
-        track_condition  = first_row.get("track_condition")  # e.g. "Fast", "Good"
-        avg_purse_val    = first_row.get("avg_purse_val_calc")
-        race_type        = first_row.get("race_type")
-        # 'rank' is often horse-level, but if you want it at race-level, it's up to you
-        # rank             = first_row.get("rank", None)
-
-        # ---- Compute Race-Level Aggregates from group_df ----
-
-        # 1) fav_morn_odds & avg_morn_odds
-        if "morn_odds" in group_df.columns and group_df["morn_odds"].notna().any():
-            fav_morn_odds = group_df["morn_odds"].min()
-            avg_morn_odds = group_df["morn_odds"].mean()
-        else:
-            fav_morn_odds = None
-            avg_morn_odds = None
-
-        # 2) max_prob, second_prob, prob_gap, std_prob from 'score'
-        #    (assuming 'score' is your calibrated_prob for each horse)
-        if "score" in group_df.columns:
-            sorted_grp = group_df.sort_values("score", ascending=False)
-            if len(sorted_grp) > 0:
-                top1 = sorted_grp.iloc[0]["score"]
-            else:
-                top1 = 0.0
-            if len(sorted_grp) > 1:
-                top2 = sorted_grp.iloc[1]["score"]
-            else:
-                top2 = 0.0
-
-            max_prob    = float(top1)
-            second_prob = float(top2)
-            prob_gap    = float(top1 - top2)
-
-            # e.g. std of the top 4 horses
-            top_scores = sorted_grp["score"].head(4)
-            std_prob = float(top_scores.std(ddof=0))  # population std
-        else:
-            max_prob    = 0.0
-            second_prob = 0.0
-            prob_gap    = 0.0
-            std_prob    = 0.0
-
-        # Build the list of HorseEntry objects
-        horses = []
-        for _, row in group_df.iterrows():
+        # ---------- horse entries ----------
+        horses: list[wc.HorseEntry] = []          # ← reset for *each* race
+        for _, row in grp.iterrows():
             entry = wc.HorseEntry(
-                horse_id    = str(row.get("horse_id", "")),
+                horse_id    = str(row["horse_id"]),
                 program_num = str(row["saddle_cloth_number"]),
                 official_fin= row.get("official_fin"),
                 prediction  = row.get("score", 0.0),
                 rank        = row.get("rank"),
-                final_odds  = row.get("dollar_odds")
+                final_odds  = row.get("dollar_odds"),
             )
+            entry.kelly = row.get("kelly", 0.0)
+            entry.edge  = row.get("edge",  0.0)
             horses.append(entry)
 
-        # Create the Race object
-        race_obj = wc.Race(
-            course_cd         = course_cd,
-            race_date         = race_date,
-            race_number       = race_number,
+        # ---------- race object ----------
+        race = wc.Race(
+            course_cd         = trk,
+            race_date         = dt,
+            race_number       = rno,
             horses            = horses,
-            distance_meters   = distance_meters,
-            surface           = surface,
-            track_condition   = track_condition,
-            avg_purse_val_calc= avg_purse_val,
-            race_type         = race_type,
+            distance_meters   = first.get("distance_meters"),
+            surface           = first.get("surface"),
+            track_condition   = first.get("track_condition"),
+            avg_purse_val_calc= first.get("avg_purse_val_calc"),
+            race_type         = first.get("race_type"),
         )
 
-        # Option A: If you updated wc.Race to have these as constructor params, do:
-        # race_obj = wc.Race(..., fav_morn_odds=fav_morn_odds, avg_morn_odds=avg_morn_odds, ...)
-        #
-        # Option B: Just set them as attributes, if Race class doesn't have them natively:
-        race_obj.fav_morn_odds   = fav_morn_odds
-        race_obj.avg_morn_odds   = avg_morn_odds
-        race_obj.max_prob        = max_prob
-        race_obj.second_prob     = second_prob
-        race_obj.prob_gap        = prob_gap
-        race_obj.std_prob        = std_prob
+        race.fav_morn_odds = fav_morn
+        race.avg_morn_odds = avg_morn
+        race.max_prob      = max_prob
+        race.second_prob   = second
+        race.prob_gap      = prob_gap
+        race.std_prob      = std_prob
 
-        # Append to race_list
-        race_list.append(race_obj)
+        race_list.append(race)
 
     return race_list
 
@@ -296,4 +322,17 @@ def find_race(all_races, course_cd, race_date, race_number):
             r.race_date == race_date and 
             r.race_number == race_number):
             return r
+    return None
+
+def choose_rule(race):
+    """Return the first rule whose condition matches this race, else None."""
+    g12 = race.prob_gap                      #   gap top-1  –  top-2
+    g23 = race.max_prob - race.second_prob   #   gap top-2  –  top-3
+
+    for r in WAGER_RULES:
+        if r.min_gap12  is not None and g12 < r.min_gap12:  continue
+        if r.max_gap12  is not None and g12 > r.max_gap12:  continue
+        if r.min_gap23  is not None and g23 < r.min_gap23:  continue
+        if r.max_gap23  is not None and g23 > r.max_gap23:  continue
+        return r
     return None

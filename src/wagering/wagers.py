@@ -3,300 +3,191 @@ import time
 import os
 import json
 import pandas as pd
+import numpy as np
 import src.wagering.wager_types as wt
-from src.wagering.wager_types import MultiRaceWager, ExactaWager, TrifectaWager, SuperfectaWager, ExactaStrategy, WagerStrategy
+from src.wagering.wager_types import MultiRaceWager, ExactaWager, TrifectaWager, SuperfectaWager
 from src.wagering.wagering_helper_functions import parse_winners_str
-from src.wagering.wagering_functions import find_race, get_box_close3, backtest_strategies, compute_or_load_green_tracks
-import logging
-import pandas as pd
+from src.wagering.wagering_functions import find_race, refresh_upcoming_tracks
 from src.wagering.wagering_helper_functions import gather_bet_metrics
 from pyspark.sql.functions import col, sum as F_sum, when, count as F_count, lit
 from pyspark.sql.types import (StructType, StructField, StringType, FloatType, IntegerType)
 import pyspark.sql.functions as F
+from src.wagering.wager_rules import WAGER_RULES, choose_rule
+from decimal import Decimal
 
-def implement_ExactaWager(spark, all_races, wagers_dict, wager_amount, top_n, box):
+# ── CONFIG ───────────────────────────────────────────────
+MIN_FIELD      = 4          # at least 4 runners
+MAX_FIELD      = 20         # at most 20 runners
+
+BANKROLL_START = 5_000.00   # starting cash balance
+TRACK_MIN      = 2.00       # track $2 minimum bet
+# ─────────────────────────────────────────────────────────
+
+def implement_ExactaWager(
+        spark,
+        all_races,                # list[wc.Race]
+        wagers_dict,              # {(trk,date,no,'Exacta'): {...}}
+        user_cap,                 # max $ user typed
+        top_n=3,
+        box=False):
     """
-    Generates a list of bets (combos) for each race, calculates the cost/payoff,
-    and returns a DataFrame with row-level metrics per race/bet scenario.
-
-    Differences from your original version:
-      1) We store 'actual_winning_combo' and 'generated_combos' as arrays/lists
-         instead of strings, matching the style of pick3 code.
+    Build+back-test Exacta bets driven by the rule table.
+    Returns a Spark DataFrame ready for parquet.
     """
-    total_cost = 0.0
-    total_payoff = 0.0
-    bet_results = []  # will hold dicts for each race (row_data)
 
-    # Counters for wagers, wins, losses
-    total_wagers = 0
-    total_wins = 0
-    total_losses = 0
-    bad_race_wager_info = 0
-    # Filter races by field size
-    filtered_races = []
-    filtered_races = [race for race in all_races if 4 <= len(race.horses) <= 20]
-    # Set base_amount for this race
-    # strategy_gap_box = ExactaStrategy(
-    #     name="gap>0.10_box_close3",
-    #     should_bet=has_confidence,
-    #     build_combos=get_box_close3,
-    #     base_amount=1.0
-    #     )
-    #GREEN_TRACKS = compute_or_load_green_tracks(spark)
-    # ------------------------------------------------------------------
-    # 0. TEMP: hard-code green tracks for the first run
-    # ------------------------------------------------------------------
-    # GREEN_TRACKS = {"TTP", "TSA", "TCD"}
-    # GREEN_TRACKS = compute_or_load_green_tracks(
-    #     spark,
-    #     lookback_days=365,    # try rolling month
-    #     min_bets=5,         # lower sample guard
-    #     min_roi=0.60         # raise hurdle to 60 %
-    # )
-    GREEN_TRACKS = compute_or_load_green_tracks(spark)
-    # fall-back for the *very first* run
-    # if not GREEN_TRACKS:
-    #     logging.info("No green_tracks.yaml yet – falling back to hard-coded set")
-    #     GREEN_TRACKS = {"TTP", "TSA", "TCD"}
-        
-    # build strategy object
-    strat_x_gap_box = WagerStrategy(
-        name        = "X_gap>0.10_boxClose3",
-        wager_type  = "Exacta",
-        should_bet  = lambda r, g=GREEN_TRACKS: r.prob_gap > 0.10 and r.course_cd in g,
-        build_combos= get_box_close3,
-        base_amount = 1.0
-    )
-    strategies      = [strat_x_gap_box]
-    active_strategy = strat_x_gap_box    # live strategy
+    bankroll      = BANKROLL_START
+    total_cost    = total_payoff = 0.0
+    total_wagers  = wins = losses = 0
+    bet_rows      = []
 
-    # results = backtest_strategies(all_races, wagers_dict, strategies)
+    # ── 1) filter by field size and keep only tracks that run again ──
+    races = [r for r in all_races if MIN_FIELD <= len(r.horses) <= MAX_FIELD]
+    green = refresh_upcoming_tracks(races)            # ← your helper
 
-    # logging.info(f"{'Strategy':35}  Bets  Cost    Payoff   ROI")
-    # for name,bets,cost,pay,roi in results:
-    #     logging.info(f"{name:35}  {bets:>4}  ${cost:>7.2f}  ${pay:>8.2f}  {roi:>6.2%}")    
-    
-    active_strategy = strat_x_gap_box
-    
-    for race in filtered_races:
-        key = (race.course_cd, race.race_date, race.race_number, "Exacta")
-        race_wager_info = wagers_dict.get(key, None)
-        num_tickets = race_wager_info["num_tickets"] if race_wager_info and "num_tickets" in race_wager_info else None
-            
-        if race_wager_info and "num_tickets" in race_wager_info:
-            try:
-                num_tickets_val = float(num_tickets)
-                if num_tickets_val is None or num_tickets_val == 0.0:
-                    print(f"Debug 3: num_tickets is None or zero for {key}, BAD DATA")
-                    bad_race_wager_info += 1
-                    continue
-                else:
-                    race_base_amount = num_tickets_val
-            except Exception as e:
-                logging.info(f"Debug 3: Could not convert num_tickets to float for {key}: {e} (value: {num_tickets}, type: {type(num_tickets)})")
-                bad_race_wager_info += 1
-                continue
-        else:
-            logging.info(f"Debug1 New Race: key={key}, race_wager_info={race_wager_info}, num_tickets={num_tickets} (type: {type(num_tickets)})") 
-            bad_race_wager_info += 1 
-            continue   
-            
-        if not active_strategy.should_bet(race):
-            continue                                         # skip this race
+    logging.info("Exacta ▶ %d races after filters", len(races))
 
-        combos = active_strategy.build_combos(race)
-        my_wager = ExactaWager(active_strategy.base_amount, 0, True)  # “dummy” – used only for cost/payoff helpers
-        cost = my_wager.calculate_cost(combos)   # total $ cost for these combos
-        
-        payoff = 0.0
-        actual_combo = None
-        winning_combo_found = False
+    # ── 2) iterate race-by-race ──────────────────────────────────────
+    for race in races:
 
-        if race_wager_info:
-            actual_combo = race_wager_info['winning_combo']  # e.g. [["7"], ["6"]]
-            winner_score = runnerup_score = None
-            winner_rank  = runnerup_rank  = None
+        # optional track filter
+        if race.course_cd not in green:
+            continue
 
-            if actual_combo and len(actual_combo) >= 2:
-                # ────────────────────────────────────────────────────────────────
-                #  Winner / runner-up model scores and ranks + gap metrics
-                # ────────────────────────────────────────────────────────────────
-                winner_score = runnerup_score = None
-                winner_rank  = runnerup_rank  = None
-                gap12 = gap23 = None            # default None → Spark NULL
+        # a) pick a rule -------------------------------------------------
+        rule = choose_rule(race)          # returns None → PASS
+        if rule is None:
+            continue
 
-                # Map program numbers → HorseEntry for quick lookup
-                prog_map = {h.program_num: h for h in race.horses}
+        # b) stake sizing ------------------------------------------------
+        stake = bankroll * rule.pct_bankroll
+        stake = max(TRACK_MIN, stake)
+        stake = min(stake, user_cap)      # obey CLI cap
 
-                # Pull CatBoost scores for the actual 1-2 finishers
-                if actual_combo and len(actual_combo) >= 2:
-                    win_prog, place_prog = actual_combo[0][0], actual_combo[1][0]
+        # c) build ticket(s) --------------------------------------------
+        combos = ExactaWager.combos_from_style(race,
+                                               style=rule.bet_style,
+                                               top_n=top_n)
+        wager  = ExactaWager(stake, 0, box=False)      # helper for cost/ROIs
+        cost   = wager.calculate_cost(combos)
 
-                    if win_prog in prog_map:
-                        he = prog_map[win_prog]
-                        winner_score, winner_rank = he.prediction, he.rank
-                    if place_prog in prog_map:
-                        he = prog_map[place_prog]
-                        runnerup_score, runnerup_rank = he.prediction, he.rank
+        # d) historical payoff lookup -----------------------------------
+        key       = (race.course_cd, race.race_date, race.race_number, "Exacta")
+        info      = wagers_dict.get(key)
+        payoff    = 0.0
+        hit_flag  = 0
 
-                # Gap metrics based on race-level features you already stored
-                gap12 = race.prob_gap                          # top1 – top2
-                gap23 = race.max_prob - race.second_prob       # top2 – top3
+        if info:
+            if any(wager.check_if_win(c, race, info["winning_combo"])
+                   for c in combos):
+                payoff   = wager.calculate_payoff(info["payoff"],
+                                                  info["num_tickets"])
+                hit_flag = 1
 
-            race_payoff = float(race_wager_info['payoff'])
-            posted_base = float(race_wager_info['num_tickets'])
-            logging.info(f"\n--- Debugging Race ---")
-            logging.info(f"Race Key: {key}")
-            logging.info(f"Wager Amount: {wager_amount}")
-            logging.info(f"Generated Combos: {combos}")
-            logging.info(f"Posted Base: {posted_base:.2f}")
-            logging.info(f"Cost for Combos: {cost:.2f}")
-            logging.info(f"Actual Winning Combo: {actual_combo}")
-            logging.info(f"Listed Payoff: {race_payoff:.2f}")
-            logging.info(f"Bad Race Wager info so far: {bad_race_wager_info}")
+        # e) bankroll & counters ----------------------------------------
+        bankroll      += payoff - cost
+        total_cost    += cost
+        total_payoff  += payoff
+        total_wagers  += len(combos)
+        wins          += hit_flag
+        losses        += (1 - hit_flag) * len(combos)
 
-            # Check each combo to see if it matches the actual winning combo
-            for combo in combos:
-                if my_wager.check_if_win(combo, race, actual_combo):                    
-                    payoff = my_wager.calculate_payoff(race_payoff, race_base_amount)
-                    logging.info(f"=> Match Found! Winning Combo: {combo}, Payoff = {payoff:.2f}")
-                    winning_combo_found = True
-                    break
-        else:
-            logging.debug(f"No wager info found for {key}")
-            bad_race_wager_info += 1
-
-        total_cost += cost
-        total_payoff += payoff
-
-        # Count wagers, wins, losses
-        num_tickets = len(combos)  # how many exacta combos we bet in this race
-        total_wagers += num_tickets
-        logging.info(f"Total Wagers: {total_wagers}, Cost: {total_cost}, Total Payoff: {total_payoff}, Net: {total_payoff - total_cost}")
-        logging.info(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}") 
-        if winning_combo_found:
-            # Exactly 1 of the combos is a winner; the rest lose
-            total_wins += 1
-            total_losses += (num_tickets - 1)
-        else:
-            total_losses += num_tickets
-
-        # Collect the row data for this race
-        field_size = len(race.horses)
-        row_data = gather_bet_metrics(
-            race=race,
-            combos=combos,
-            cost=cost,
-            payoff=payoff,
-            my_wager=my_wager,
-            actual_combo=actual_combo,
-            field_size=field_size,
-        )
-        row_data.update({
-            "winner_score"   : float(winner_score)   if winner_score  is not None else None,
-            "runnerup_score" : float(runnerup_score) if runnerup_score is not None else None,
-            "winner_rank"    : float(winner_rank)    if winner_rank   is not None else None,
-            "runnerup_rank"  : float(runnerup_rank)  if runnerup_rank is not None else None,
-            "gap12"          : float(gap12) if gap12 is not None else None,
-            "gap23"          : float(gap23) if gap23 is not None else None,
+        # f)   collect row data (trimmed to the essentials) -------------
+        bet_rows.append({
+            "course_cd"      : race.course_cd,
+            "race_date"      : str(race.race_date),
+            "race_number"    : race.race_number,
+            "surface"        : race.surface,
+            "distance_meters": race.distance_meters,
+            "track_condition": race.track_condition,
+            "avg_purse_val_calc": race.avg_purse_val_calc,
+            "race_type"      : race.race_type,
+            "wager_amount"   : stake,
+            "rank"           : race.horses[0].rank if race.horses else None,
+            "score"          : race.max_prob,
+            "fav_morn_odds"  : race.fav_morn_odds,
+            "avg_morn_odds"  : race.avg_morn_odds,
+            "max_prob"       : race.max_prob,
+            "second_prob"    : race.second_prob,
+            "prob_gap"       : race.prob_gap,
+            "std_prob"       : race.std_prob,
+            "cost"           : cost,
+            "payoff"         : payoff,
+            "net"            : payoff - cost,
+            "hit_flag"       : hit_flag,
+            "actual_winning_combo": json.dumps(info["winning_combo"]) if info else None,
+            "generated_combos"    : json.dumps(combos),
+            "field_size"     : len(race.horses),
+            "row_roi"        : (payoff - cost) / cost if cost else 0.0,
+            "strategy"       : rule.name,
         })
 
-        row_data["fav_morn_odds"]   = float(race.fav_morn_odds) if race.fav_morn_odds is not None else None
-        row_data["avg_morn_odds"]   = float(race.avg_morn_odds) if race.avg_morn_odds is not None else None
-        row_data["max_prob"]        = float(race.max_prob)
-        row_data["second_prob"]     = float(race.second_prob)
-        row_data["prob_gap"]        = float(race.prob_gap)
-        row_data["std_prob"]        = float(race.std_prob) 
-        
-        row_data["strategy"]      = active_strategy.name
-        row_data["tickets_played"]= len(combos)
-        row_data["ticket_cost"]   = cost  
-
-        # === Add the combos as arrays (instead of storing them as strings) ===
-        row_data["actual_winning_combo"] = actual_combo      # list of lists, e.g. [["7"], ["6"]]
-        row_data["generated_combos"] = combos                # list of lists, e.g. [["3","7"],["2","5"],...]
-
-        bet_results.append(row_data)
-
+    # ── 3) end-of-run summary ─────────────────────────────────────────
     net = total_payoff - total_cost
-    roi = (net / total_cost) if total_cost > 0 else 0.0
+    roi = (net / total_cost) if total_cost else 0.0
 
-    print(f"Exacta Box (Top {top_n}) => "
-          f"Cost: ${total_cost:.2f}, Return: ${total_payoff:.2f}, "
-          f"Net: ${net:.2f}, ROI: {roi:.2%}")
-    print(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}")
+    logging.info("Exacta ▶ Cost $%.2f | Payoff $%.2f | ROI %5.2f%% | "
+                 "Bankroll $%.2f", total_cost, total_payoff, roi * 100, bankroll)
+    print(f"Exacta ▶ Cost ${total_cost:.2f}, Return ${total_payoff:.2f}, "
+          f"Net ${net:.2f}, ROI {roi:.2%}")
 
-    # ------------------------------------------------------------------------
-    # Convert bet_results (list of dicts) into a Pandas DataFrame
-    # ------------------------------------------------------------------------
+    # ── 4) Spark DataFrame & parquet write ────────────────────────────
+    df_pd = pd.DataFrame(bet_rows)
 
-    # Preprocess bet_results to flatten nested structures
-    for row in bet_results:
-        if "actual_winning_combo" in row:
-            row["actual_winning_combo"] = json.dumps(row["actual_winning_combo"])  # Convert to JSON string
-        if "generated_combos" in row:
-            row["generated_combos"] = json.dumps(row["generated_combos"])  # Convert to JSON string
-
-    df_results = pd.DataFrame(bet_results)
-    
     schema = StructType([
-        StructField("course_cd", StringType(), True),
-        StructField("race_date", StringType(), True),
-        StructField("race_number", IntegerType(), True),
-        StructField("surface", StringType(), True),
-        StructField("distance_meters", FloatType(), True),
-        StructField("track_condition", StringType(), True),
-        StructField("avg_purse_val_calc", FloatType(), True),
-        StructField("race_type", StringType(), True),
-        StructField("wager_amount",  FloatType(), True),
-        StructField("dollar_odds",  FloatType(), True),
-        StructField("rank",  FloatType(), True),
-        StructField("score",  FloatType(), True),
-        StructField("fav_morn_odds",  FloatType(), True),
-        StructField("avg_morn_odds",  FloatType(), True),
-        StructField("max_prob",  FloatType(), True),
-        StructField("second_prob",  FloatType(), True),
-        StructField("prob_gap",  FloatType(), True),
-        StructField("std_prob",  FloatType(), True),  
-        StructField("base_amount", FloatType(), True),
-        StructField("combos_generated", IntegerType(), True),
-        StructField("cost", FloatType(), True),
-        StructField("payoff", FloatType(), True),
-        StructField("net", FloatType(), True),
-        StructField("hit_flag", IntegerType(), True),
-        StructField("actual_winning_combo", StringType(), True),
-        StructField("generated_combos", StringType(), True),
-        StructField("roi", FloatType(), True),
-        StructField("field_size", IntegerType(), True),
-        StructField("race_base_amount", FloatType(), True),
-        StructField("winner_score"  , FloatType(), True),
-        StructField("runnerup_score", FloatType(), True),
-        StructField("winner_rank"   , FloatType(), True),
-        StructField("runnerup_rank" , FloatType(), True),
-        StructField("gap12"         , FloatType(), True),
-        StructField("gap23"         , FloatType(), True),
+        StructField("course_cd",           StringType(),  True),
+        StructField("race_date",           StringType(),  True),
+        StructField("race_number",         IntegerType(), True),
+        StructField("surface",             StringType(),  True),
+        StructField("distance_meters",     FloatType(),   True),
+        StructField("track_condition",     StringType(),  True),
+        StructField("avg_purse_val_calc",  FloatType(),   True),
+        StructField("race_type",           StringType(),  True),
+        StructField("wager_amount",        FloatType(),   True),
+        StructField("rank",                FloatType(),   True),
+        StructField("score",               FloatType(),   True),
+        StructField("fav_morn_odds",       FloatType(),   True),
+        StructField("avg_morn_odds",       FloatType(),   True),
+        StructField("max_prob",            FloatType(),   True),
+        StructField("second_prob",         FloatType(),   True),
+        StructField("prob_gap",            FloatType(),   True),
+        StructField("std_prob",            FloatType(),   True),
+        StructField("cost",                FloatType(),   True),
+        StructField("payoff",              FloatType(),   True),
+        StructField("net",                 FloatType(),   True),
+        StructField("hit_flag",            IntegerType(), True),
+        StructField("actual_winning_combo",StringType(),  True),
+        StructField("generated_combos",    StringType(),  True),
+        StructField("field_size",          IntegerType(), True),
+        StructField("row_roi",             FloatType(),   True),
+        StructField("strategy",            StringType(),  True),
     ])
 
-    # Convert bet_results into a Spark DataFrame with the defined schema
-    df_results = spark.createDataFrame(bet_results, schema=schema)
-    
-    # Optionally, compute per-row profit/ROI if each row has cost & payoff
-    df_results = df_results.withColumn("bet_type", lit(f"exacta_top{top_n}_box"))
-    df_results = df_results.withColumn("profit", col("payoff") - col("cost"))
+    # ------------------------------------------------------------------
+    # 4) Spark DataFrame & parquet write
+    # ------------------------------------------------------------------
+    df_pd = pd.DataFrame(bet_rows)
 
-    df_results = df_results.withColumn(
-        "row_roi",
-        when(col("cost") > 0, col("profit") / col("cost")).otherwise(0.0)
+    INT_COLS = {"race_number", "field_size", "hit_flag"}   # keep these as int
+
+    for col, dtype in df_pd.dtypes.items():
+        if np.issubdtype(dtype, np.number):                # any numeric dtype
+            if col in INT_COLS:
+                df_pd[col] = df_pd[col].astype(int)
+            else:
+                df_pd[col] = df_pd[col].astype(float)
+
+    # now the dtypes match the Spark schema exactly
+    df_spark = (
+        spark.createDataFrame(df_pd, schema=schema)
+            .withColumn("bet_type", lit("exacta_rule_engine"))
     )
-    
-    # ------------- WRITE HISTORY ONCE / APPEND AFTERWARDS --------------
-    HIST_PARQUET = "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/track_roi/exacta_history"
-    df_results.write.mode("append").parquet(HIST_PARQUET)
-    # -------------------------------------------------------------------
 
-    
-    # Return the DataFrame with combos as arrays
-    return df_results
+    hist_path = (
+        "/home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/exacta_history"
+    )
+    df_spark.write.mode("overwrite").parquet(hist_path)
+
+    return df_spark
 
 def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, box):
     """
