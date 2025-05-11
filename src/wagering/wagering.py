@@ -1,24 +1,22 @@
 import logging
 import os
-import sys
-import traceback
+import traceback, sys
 import time
 from pyspark.sql.functions import to_timestamp
 from pyspark.sql import Window
 from datetime import datetime
 import numpy as np
 import pandas as pd
-# Local imports
 import src.wagering.wager_types as wt
-from src.wagering.wagering_functions import build_race_objects, build_wagers_dict, clean_races_df
-from src.wagering.wagering_queries import wager_queries
+from src.wagering.wager_functions import build_race_objects, build_wagers_dict, clean_races_df
+from src.wagering.wager_queries import wager_queries
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
 from src.wagering.wagers import (
     implement_ExactaWager, implement_TrifectaWager, implement_SuperfectaWager,
     implement_multi_race_wager
 )
-from src.wagering.wagering_helper_functions import (
+from src.wagering.wager_helper_functions import (
     setup_logging,
     read_config,
     get_db_pool,
@@ -30,6 +28,10 @@ from src.wagering.wagering_helper_functions import (
 )
 from src.data_preprocessing.data_prep1.data_utils import save_parquet
 from decimal import Decimal
+from wager_config       import (MIN_FIELD, MAX_FIELD, BANKROLL_START,
+                           TRACK_MIN, KELLY_THRESHOLD, KELLY_FRACTION,
+                           MAX_FRACTION, EDGE_MIN)
+from wager_rules  import WAGER_RULES, choose_rule
 
 _DECIMAL_KINDS = ("object", "category")      # pandas dtypes that can hide Decimals
 
@@ -43,45 +45,6 @@ def force_float(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
             if isinstance(df[c].iloc[0], Decimal):          # cheap probe
                 df[c] = pd.to_numeric(df[c], downcast="float", errors="coerce")
     return df
-
-# ----------------------------------------------------------------------
-def add_race_level_features(
-    races_pdf: pd.DataFrame,
-    top_n_for_std: int = 4
-) -> pd.DataFrame:
-    """
-    Add fav_morn_odds, avg_morn_odds, max_prob, second_prob,
-    prob_gap, std_prob to *every* row, grouped by
-    (course_cd, race_date, race_number).
-    """
-    def _calc_features(grp: pd.DataFrame) -> pd.DataFrame:
-        grp = grp.copy()
-
-        # ---------- morning-line summaries ----------
-        if "morn_odds" in grp.columns and grp["morn_odds"].notna().any():
-            grp["fav_morn_odds"] = grp["morn_odds"].min()
-            grp["avg_morn_odds"] = grp["morn_odds"].mean()
-        else:
-            grp["fav_morn_odds"] = np.nan
-            grp["avg_morn_odds"] = np.nan
-
-        # ---------- score-based summaries ----------
-        if "score" not in grp.columns:
-            grp[["max_prob","second_prob","prob_gap","std_prob"]] = 0.0
-            return grp
-
-        srt = grp.sort_values("score", ascending=False)
-        top1 = srt.iloc[0]["score"] if len(srt) > 0 else 0.0
-        top2 = srt.iloc[1]["score"] if len(srt) > 1 else 0.0
-        gap  = top1 - top2
-        std_ = srt["score"].head(top_n_for_std).std(ddof=0) or 0.0
-
-        grp["max_prob"]    = top1
-        grp["second_prob"] = top2
-        grp["prob_gap"]    = gap
-        grp["std_prob"]    = std_
-
-        return grp
 
     # -------- group-level apply (keep whole DataFrame) --------
     out_df = (
@@ -114,7 +77,6 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
     
     # 1) Gather user inputs for the wager
     user_prefs = get_user_wager_preferences()
-    Per_Track_ROI = user_prefs["Per_Track_ROI"]
     wager_type = user_prefs["wager_type"]
     wager_amount = user_prefs["wager_amount"]
     top_n = user_prefs["top_n"]
@@ -140,7 +102,7 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
             top_n=top_n,
             box=box
         )
-        save_parquet(spark, bet_results_df, "exacta_wagering", parquet_dir)
+        #save_parquet(spark, bet_results_df, "exacta_wagering", parquet_dir)
 
     elif wager_type == "Trifecta":
         bet_results_df = implement_TrifectaWager(
@@ -184,8 +146,6 @@ def implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf):
     else:
         logging.info(f"'{wager_type}' not yet implemented.")
         
-
-
 def main():
     """
     Main function to:
@@ -246,44 +206,9 @@ def main():
         wagers_pdf  = force_float(wagers_pdf, numeric_cols)
         # ------------------------------------------------------------------
 
-        races_pdf = add_race_level_features(races_pdf)
-
-        ################################################################################
-        # A)  IMPLIED POOL PROBABILITY  (morning-line or tote if you later refresh)
-        ################################################################################
-        # Morning-line fractional odds x-1  →  implied prob = 1 / (x + 1)
-        # Morning odds is already the implied probability
-        ################################################################################
-        # B)  OVERLAY & KELLY  (single-horse WIN bets)
-        ################################################################################
-        # morn_odds == implied probability ->  p_ml
-        # Moved the following code to clean_races_df
-        # p_ml = races_pdf["morn_odds"].clip(upper=0.999)     # guard divide-by-zero
-        # b    = (1.0 / p_ml) - 1.0                           # back-out fractional price
-
-        # races_pdf["implied_prob"] = p_ml                    # rename for clarity
-        # races_pdf["edge"] = races_pdf["score"] - p_ml
-
-        # races_pdf["kelly"] = (
-        #     (races_pdf["score"] * b - (1 - races_pdf["score"])) / b
-        # ).clip(lower=0)
-        
-        # check = races_pdf.loc[
-        # (races_pdf["edge"] > 0.02) & (races_pdf["kelly"] > 0),
-        # ["course_cd","race_date","race_number",
-        # "saddle_cloth_number","score","implied_prob","edge","kelly"]
-        # ].head(10)
-
-        # print(check)
-        
-        # input("Press Enter to continue...")
-
-        ################################################################################
-        # C)  PLACKETT–LUCE joint probabilities  (for exacta / trifecta)
-        ################################################################################
         # Optional — only if you want mathematically-priced vertical exotics
         # Convert logits to “skill” parameter s_i = exp(logit)
-        races_pdf["skill"] = np.exp(races_pdf["logit"])
+
 
         # -------------------------------------------------
         # 1)  build a key shared by both data sets
@@ -293,18 +218,12 @@ def main():
             wagers_pdf["race_date"].astype(str) + "_" +
             wagers_pdf["race_number"].astype(str)
         )
-
-        races_pdf["race_key"] = (
-            races_pdf["course_cd"].str.upper().str.strip() + "_" +
-            races_pdf["race_date"].astype(str) + "_" +
-            races_pdf["race_number"].astype(str)
-        )
-
         # 4) Implement the main strategy
         try:
             implement_strategy(spark, parquet_dir, races_pdf, wagers_pdf)
         except Exception as e:
-            logging.error(f"Error in implement_strategy: {e}")
+            traceback.print_exc(file=sys.stdout)   # ← TEMP: show real line
+            logging.error("Error in implement_strategy: %s", e)
             raise
 
     except Exception as e:

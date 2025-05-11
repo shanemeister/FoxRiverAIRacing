@@ -1,3 +1,3 @@
-2025-05-06 16:51:59  INFO  Fitted temperature T = 1.1095
-2025-05-06 16:54:58  INFO  ✓ wrote 348,352 rows to predictions_20250506_150301_1_calibrated
-2025-05-06 16:54:59  INFO  Closing down clientserver connection
+2025-05-10 18:12:16  INFO  Fitted temperature T = 1.1097
+2025-05-10 18:16:42  INFO  ✓ wrote 349,818 rows to predictions_20250510_104930_1_calibrated
+2025-05-10 18:16:43  INFO  Closing down clientserver connection

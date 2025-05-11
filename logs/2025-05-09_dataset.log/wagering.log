@@ -1,0 +1,147 @@
+2025-05-09 20:18:03 - INFO - Logging has been set up successfully.
+2025-05-09 20:18:03 - INFO - Loading races data from PostgreSQL...
+2025-05-09 20:18:04 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
+2025-05-09 20:18:06 - INFO - races data loaded and saved successfully.
+2025-05-09 20:18:06 - INFO - Loading wagers data from PostgreSQL...
+2025-05-09 20:18:06 - INFO - Saving wagers DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/wagers.parquet...
+2025-05-09 20:18:07 - INFO - wagers data loaded and saved successfully.
+2025-05-09 20:18:07 - INFO - DataFrame 'races' loaded. Schema:
+2025-05-09 20:18:07 - INFO - DataFrame 'wagers' loaded. Schema:
+2025-05-09 20:18:32 - INFO - [UPCOMING] Tracks with races ≥ 2025-05-09: ['PEN', 'TLS']
+2025-05-09 20:18:32 - INFO - Exacta ▶ 1162 races after filters
+2025-05-09 20:18:32 - INFO - [GAP STATS] gap12 median 0.0664 | 75-pct 0.1459 | 90-pct 0.2482 ; gap23 median 0.0664 | 75-pct 0.1459 | 90-pct 0.2482
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-1  edge1=-0.107  edge2=-0.121
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-2  edge1=-0.179  edge2=-0.103
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-3  edge1=-0.222  edge2=-0.386
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-4  edge1=-0.237  edge2=-0.083
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-5  edge1=-0.328  edge2=-0.062
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-6  edge1=-0.348  edge2=-0.174
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-7  edge1=-0.156  edge2=-0.032
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-1  edge1=-0.093  edge2=-0.089
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-2  edge1=-0.146  edge2=+0.036
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-3  edge1=-0.147  edge2=-0.192
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-4  edge1=-0.255  edge2=-0.171
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-5  edge1=-0.354  edge2=-0.316
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-6  edge1=-0.147  edge2=-0.204
+2025-05-09 20:18:32 - INFO - [SKIP-edge] PEN-7  edge1=-0.420  edge2=+0.147
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 9), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 9), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 9), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 9), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 9), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 9), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 9), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.289  edge2=-0.241
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=-0.133  edge2=-0.057
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.193  edge2=-0.265
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=-0.202  edge2=+0.031
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.186  edge2=+0.085
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=+0.085  edge2=-0.128
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=-0.142  edge2=+0.074
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.297  edge2=-0.130
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.307  edge2=-0.185
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=-0.114  edge2=-0.246
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.170  edge2=-0.068
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=-0.140  edge2=-0.163
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.133  edge2=+0.023
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.259  edge2=-0.206
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=-0.074  edge2=-0.047
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.015  edge2=+0.043
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.167  edge2=-0.289
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=-0.187  edge2=-0.111
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.147  edge2=-0.236
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=-0.148  edge2=-0.037
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.255  edge2=-0.333
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.167  edge2=-0.097
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=-0.232  edge2=-0.055
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.230  edge2=+0.016
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-9  edge1=+0.266  edge2=-0.311
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-10  edge1=+0.187  edge2=-0.046
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.158  edge2=-0.053
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=-0.307  edge2=+0.255
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.227  edge2=+0.057
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=+0.003  edge2=-0.130
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.129  edge2=-0.100
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.313  edge2=-0.369
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=-0.190  edge2=-0.025
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.184  edge2=+0.015
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.210  edge2=-0.247
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=+0.061  edge2=-0.091
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=+0.041  edge2=-0.293
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=-0.443  edge2=-0.121
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.298  edge2=-0.234
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.010  edge2=-0.119
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=+0.037  edge2=-0.074
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.089  edge2=-0.287
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.020  edge2=-0.301
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=-0.113  edge2=-0.099
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.236  edge2=-0.003
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=+0.013  edge2=-0.045
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.259  edge2=-0.059
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.087  edge2=-0.030
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=-0.152  edge2=+0.048
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.218  edge2=-0.170
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-9  edge1=-0.209  edge2=+0.149
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.205  edge2=-0.129
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=-0.426  edge2=-0.230
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.413  edge2=-0.217
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=+0.118  edge2=-0.012
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.238  edge2=-0.210
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.192  edge2=-0.306
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=-0.211  edge2=-0.169
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.179  edge2=-0.047
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-9  edge1=-0.238  edge2=-0.053
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.248  edge2=-0.197
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=+0.013  edge2=+0.025
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.414  edge2=+0.731
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=-0.024  edge2=-0.186
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.345  edge2=-0.051
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.265  edge2=+0.009
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=-0.092  edge2=-0.089
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.040  edge2=-0.149
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.468  edge2=-0.094
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=-0.167  edge2=-0.047
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.188  edge2=-0.241
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=-0.234  edge2=-0.281
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.021  edge2=-0.133
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.071  edge2=-0.200
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.373  edge2=-0.197
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-9  edge1=-0.166  edge2=-0.133
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-10  edge1=-0.048  edge2=-0.177
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-1  edge1=-0.212  edge2=-0.262
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-2  edge1=-0.128  edge2=-0.191
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-3  edge1=-0.265  edge2=-0.035
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-4  edge1=-0.368  edge2=-0.045
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-5  edge1=-0.030  edge2=+0.038
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-6  edge1=-0.023  edge2=-0.188
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-7  edge1=-0.262  edge2=-0.061
+2025-05-09 20:18:32 - INFO - [SKIP-edge] TLS-8  edge1=-0.068  edge2=-0.178
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 9), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 9), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 9), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 9), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 9), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 9), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 9), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 9), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-09 20:18:32 - INFO - Exacta ▶ Cost $0.00 | Payoff $0.00 | ROI  0.00% | Bankroll $5000.00 | Hit-rate 0.0% (0 / 0)
+2025-05-09 20:18:32 - INFO - No wager rows generated – skipping parquet & bet-sheet.
+2025-05-09 20:18:33 - INFO - Closing down clientserver connection

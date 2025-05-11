@@ -6,10 +6,10 @@ import pandas as pd
 import itertools
 from src.wagering_bandit.wagering_bandit.bandit import ContextualBandit
 import src.wagering.wager_types as wt
-from src.wagering.wagering_functions import build_race_objects, build_wagers_dict
+from src.wagering.wager_functions import build_race_objects, build_wagers_dict
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment
 from src.wagering.wagers import implement_ExactaWager, implement_multi_race_wager, implement_TrifectaWager, implement_SuperfectaWager
-from src.wagering.wagering_helper_functions import (setup_logging, read_config, get_db_pool, get_user_wager_preferences)
+from src.wagering.wager_helper_functions import (setup_logging, read_config, get_db_pool, get_user_wager_preferences)
 from wagering_bandit.data_loader import load_predictions_table, assemble_bandit_training_data
 from wagering_bandit.context import build_race_context, load_historical_rewards
 

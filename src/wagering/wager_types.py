@@ -1,7 +1,7 @@
 import itertools
-from .wagering_classes import Wager, Race
+from wager_classes import Wager, Race
 import logging
-import src.wagering.wagering_classes as wc
+import src.wagering.wager_classes as wc
 from dataclasses import dataclass, field
 from typing import Callable, List, Tuple
     
@@ -34,31 +34,69 @@ class ExactaWager(Wager):
     # ------------------------------------------------------------------ #
     # ❷  NEW helper – called by the rule engine
     # ------------------------------------------------------------------ #
+    # ------------------------------------------------------------------ #
+    # ❸  helper used by the rule engine
+    # ------------------------------------------------------------------ #
+    # src/wagering/wagers.py   (ExactaWager)
+
     @staticmethod
     def combos_from_style(race: Race, style: str, top_n: int = 3):
         """
-        Returns a list[tuple] of program numbers according to `style`.
-        """
-        top = sorted(race.horses, key=lambda h: h.prediction, reverse=True)[: top_n]
-        nums = [h.program_num for h in top]
+        Build the (prog_num, prog_num) pairs **by CatBoost rank**.
 
-        if style == "STRAIGHT":                       # 1 ► 2
+        * rank 1  = model’s top choice
+        * rank 2  = second choice
+        * ...
+        """
+        # ------------------------------------------------------------------
+        # ❶  pick the top-N horses by rank (ascending = 1,2,3…)
+        #     tie-break on higher calibrated probability if two have same rank
+        # ------------------------------------------------------------------
+        horses_by_rank = sorted(
+            race.horses,
+            key=lambda h: (int(h.rank),        # NB: rank is stored as float
+                        -h.prediction)      # secondary sort
+        )[:top_n]
+
+        if len(horses_by_rank) < 2:            # not enough runners
+            return []
+
+        nums = [str(h.program_num) for h in horses_by_rank]
+
+        # ------------------------------------------------------------------
+        # ❷  build ticket(s) according to the chosen rule
+        # ------------------------------------------------------------------
+        if style == "STRAIGHT":
             return [(nums[0], nums[1])]
 
-        if style == "KEY12":                          # 1 ► (2,3)
+        if style == "KEY12":
+            if top_n < 3:
+                return []
             return [(nums[0], nums[1]), (nums[0], nums[2])]
 
-        if style == "BOX123":                         # box of three
+        if style == "BOX123":
             return list(itertools.permutations(nums, 2))
 
-        raise ValueError(f"Unknown exacta style: {style}")
+        # 🔽  ← add this block
+        if style == "BOX12":                  # box the two favourites
+            if len(nums) < 2:                 # ← optional safety net
+                return []
+            return [(nums[0], nums[1]), (nums[1], nums[0])]
 
+        raise ValueError(f"Unknown exacta style: {style}")
     # ------------------------------------------------------------------ #
     def check_if_win(self, combo, race: Race, official):
-        """`official` is [[WIN],[PLC]]."""
+        """
+        `official` is usually [[WIN],[PLC]].
+        Compare after casting to str so 9 == "9".
+        """
         if not official or len(official) < 2:
             return False
-        return combo == (official[0][0], official[1][0])
+
+        actual_1st = str(official[0][0])
+        actual_2nd = str(official[1][0])
+
+        return combo == (actual_1st, actual_2nd)
     
 class TrifectaWager(Wager):
     """

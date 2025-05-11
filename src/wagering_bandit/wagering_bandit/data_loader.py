@@ -4,7 +4,7 @@ from .config import settings
 from src.wagering_bandit.wagering_bandit_queries import wager_queries
 from src.data_preprocessing.data_prep1.data_utils import initialize_environment
 from src.data_preprocessing.data_prep1.data_loader import load_data_from_postgresql
-from src.wagering.wagering_helper_functions import (setup_logging, read_config, get_db_pool, parse_winners_str, get_user_wager_preferences,
+from src.wagering.wager_helper_functions import (setup_logging, read_config, get_db_pool, parse_winners_str, get_user_wager_preferences,
                                                     convert_timestamp_columns, gather_bet_metrics, save_results_to_parquet)
 
 def add_race_key(df):

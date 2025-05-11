@@ -6,7 +6,6 @@ calibrate_multinomial_fullcopy.py
 ---------------------------------
 T-calibration that keeps *all* original prediction columns.
 """
-
 import os, sys, logging, configparser
 from datetime import datetime
 import psycopg2, pandas as pd, numpy as np
@@ -45,6 +44,70 @@ def db_pool(cfg):
         password=cfg["database"].get("password", "")
     )
     return pool.SimpleConnectionPool(1, 6, **kw)
+
+# --- put near the top of the file, after EPS helper -----------------
+def add_race_level_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Enrich *df* (one row per horse) with:
+        fav_morn_odds, avg_morn_odds, max_prob, second_prob,
+        prob_gap (=max-second), std_prob,
+        leader_gap, trailing_gap  (per horse), edge, kelly
+    Assumes columns  [course_cd, race_date, race_number,
+                      calibrated_prob, morn_odds]  already exist.
+    """
+
+    def enrich_one_race(g: pd.DataFrame) -> pd.DataFrame:
+        g = g.copy()
+
+        # ---------- race-level aggregates ----------
+        g["fav_morn_odds"] = g["morn_odds"].min()
+        g["avg_morn_odds"] = g["morn_odds"].mean()
+
+        probs_sorted = np.sort(g["calibrated_prob"].values)[::-1]
+        max_p, second_p = probs_sorted[0], probs_sorted[1] if len(probs_sorted) > 1 else 0.0
+        g["max_prob"]    = max_p
+        g["second_prob"] = second_p
+        g["prob_gap"]    = max_p - second_p
+        g["std_prob"]    = g["calibrated_prob"].std(ddof=0)
+
+        # ---------- per-horse gaps ----------
+        # keep a copy of the current labels to restore later
+        orig_idx = g.index
+
+        # 1) sort by prob so neighbours are adjacent
+        g_prob = g.sort_values("calibrated_prob", ascending=False)
+
+        # 2) leader gap: distance to the favourite’s probability
+        top_prob = g_prob.iloc[0]["calibrated_prob"]
+        g_prob["leader_gap"] = top_prob - g_prob["calibrated_prob"]
+
+        # 3) trailing gap: distance to the next horse in this ordering
+        g_prob["trailing_gap"] = (
+            g_prob["calibrated_prob"] - g_prob["calibrated_prob"].shift(-1)
+        )
+
+        # 4) the *true* last-probability horse gets sentinel –1.0
+        worst_idx = g_prob["calibrated_prob"].idxmin()    # label, not position
+        g_prob.loc[worst_idx, "trailing_gap"] = -1.0
+
+        # 5) put rows back to their original file order
+        g = g_prob.reindex(orig_idx)
+
+        return g
+
+    df = (
+        df.groupby(["course_cd", "race_date", "race_number"], sort=False)
+          .apply(enrich_one_race)
+          .reset_index(drop=True)
+    )
+
+    # ---------- edge & Kelly (allow negatives) ----------
+    p_ml = df["morn_odds"].clip(upper=0.999)        # stay in (0,1)
+    b    = (1.0 / p_ml) - 1.0
+    df["edge"]  = df["calibrated_prob"] - p_ml
+    df["kelly"] = (df["calibrated_prob"] * b - (1.0 - df["calibrated_prob"])) / b
+    # no clip(lower=0)  → negative Kelly preserved
+    return df
 
 # -------------------------------------------------------------------------
 # 1 ) temperature scaling utilities
@@ -109,7 +172,7 @@ def main():
     ## ------------------------------------------------------------------ ##
     ## A) names & simple meta
     ## ------------------------------------------------------------------ ##
-    src_table = "predictions_20250506_150301_1"          # <-- change only here
+    src_table = "predictions_20250510_104930_1"          # <-- change only here
     dst_table = f"{src_table}_calibrated"
 
     ## ------------------------------------------------------------------ ##
@@ -191,14 +254,31 @@ def main():
                .values
     )
 
-    full_df["calibrated_prob"]  = probs
-    full_df["calibrated_logit"] = logits
-    
+    # ------------------------------------------------------------------ #
+    # C)  calibrated_prob  &  calibrated_logit  (index-safe)
+    # ------------------------------------------------------------------ #
+    def softmax_vec(scores: np.ndarray, T: float) -> np.ndarray:
+        s = np.clip(scores, -50, 50)
+        s -= s.max()
+        e = np.exp(s / T)
+        return e / (e.sum() + EPS)
+
+    full_df["calibrated_prob"] = (
+        full_df.groupby("race_key")["top_3_score"]
+            .transform(lambda s: softmax_vec(s.values, T_best))
+    )
+
+    full_df["calibrated_logit"] = np.log(
+        full_df["calibrated_prob"] / (1.0 - full_df["calibrated_prob"] + EPS)
+    )    
     ## ------------------------------------------------------------------ ##
-    ## D) write back — overwrite if table exists
+    ## D) add the new race-level & per-horse features
+    ## ------------------------------------------------------------------ ##
+    full_df = add_race_level_features(full_df)
+    ## ------------------------------------------------------------------ ##
+    ## E) write back — overwrite if table exists
     ## ------------------------------------------------------------------ ##
     spark_df = spark.createDataFrame(full_df)
-    
     # Replace NaN with None (NULL) in official_fin
     spark_df = spark_df.withColumn(
         "official_fin",

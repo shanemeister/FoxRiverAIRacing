@@ -1,0 +1,814 @@
+2025-05-10 20:11:45 - INFO - Logging has been set up successfully.
+2025-05-10 20:11:45 - INFO - Loading races data from PostgreSQL...
+2025-05-10 20:11:46 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
+2025-05-10 20:11:48 - INFO - races data loaded and saved successfully.
+2025-05-10 20:11:48 - INFO - Loading wagers data from PostgreSQL...
+2025-05-10 20:11:48 - INFO - Saving wagers DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/wagers.parquet...
+2025-05-10 20:11:50 - INFO - wagers data loaded and saved successfully.
+2025-05-10 20:11:50 - INFO - DataFrame 'races' loaded. Schema:
+2025-05-10 20:11:50 - INFO - DataFrame 'wagers' loaded. Schema:
+2025-05-10 20:12:18 - INFO - [UPCOMING] Tracks with races ≥ 2025-05-10: ['IND', 'MTH', 'PEN', 'PIM', 'TCD', 'TGP', 'TLS', 'TSA', 'TWO']
+2025-05-10 20:12:18 - INFO - Exacta ▶ 425 races after filters
+2025-05-10 20:12:18 - INFO - [GAP STATS] gap12 median 0.0879 | 75-pct 0.1817 | 90-pct 0.3005 ; gap23 median 0.0879 | 75-pct 0.1817 | 90-pct 0.3005
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-1  edge1=+0.028  edge2=-0.039
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-2  edge1=+0.016  edge2=+0.009
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('IND', datetime.date(2025, 5, 3), 3, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('1', '5')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['9'], ['1']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 13.80
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 0
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('1', '5')]
+2025-05-10 20:12:18 - INFO - [IND-3] ✔ prog=1 rank= 1  score=0.5087  kelly=0.401 edge=+0.329  ML= 0.18  2025-05-03  gap12=0.331  gap23=0.331
+2025-05-10 20:12:18 - INFO - [IND-3] ▶ prog=5 rank= 2  score=0.1775  kelly=0.096 edge=+0.088  ML= 0.09  2025-05-03  gap12=0.331  gap23=0.331
+2025-05-10 20:12:18 - INFO - IND-3 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-4  edge1=-0.000  edge2=+0.034
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-6  edge1=+0.070  edge2=-0.018
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-7  edge1=+0.069  edge2=+0.019
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-1  edge1=-0.052  edge2=+0.005
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-2  edge1=-0.084  edge2=-0.057
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-3  edge1=-0.013  edge2=-0.018
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('IND', datetime.date(2025, 5, 5), 4, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('7', '5')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['7'], ['3']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 6.80
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 0
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('7', '5')]
+2025-05-10 20:12:18 - INFO - [IND-4] ✔ prog=7 rank= 1  score=0.4675  kelly=0.290 edge=+0.217  ML= 0.25  2025-05-05  gap12=0.270  gap23=0.270
+2025-05-10 20:12:18 - INFO - [IND-4] ▶ prog=5 rank= 2  score=0.1976  kelly=0.067 edge=+0.058  ML= 0.14  2025-05-05  gap12=0.270  gap23=0.270
+2025-05-10 20:12:18 - INFO - IND-4 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('IND', datetime.date(2025, 5, 5), 5, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('7', '8')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['7'], ['5']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 17.20
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 0
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('7', '8')]
+2025-05-10 20:12:18 - INFO - [IND-5] ✔ prog=7 rank= 1  score=0.4057  kelly=0.163 edge=+0.116  ML= 0.29  2025-05-05  gap12=0.253  gap23=0.253
+2025-05-10 20:12:18 - INFO - [IND-5] ▶ prog=8 rank= 2  score=0.1526  kelly=0.069 edge=+0.063  ML= 0.09  2025-05-05  gap12=0.253  gap23=0.253
+2025-05-10 20:12:18 - INFO - IND-5 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-6  edge1=+0.239  edge2=+0.004
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-7  edge1=+0.029  edge2=-0.069
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-1  edge1=+0.197  edge2=-0.042
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-2  edge1=+0.039  edge2=-0.080
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-3  edge1=+0.219  edge2=-0.131
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-4  edge1=+0.196  edge2=-0.038
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-5  edge1=-0.133  edge2=-0.034
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-7  edge1=-0.023  edge2=+0.152
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('IND', datetime.date(2025, 5, 6), 8, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('5', '8')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['11'], ['10']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 38.40
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 0
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('5', '8')]
+2025-05-10 20:12:18 - INFO - [IND-8] ✔ prog=5 rank= 1  score=0.4764  kelly=0.460 edge=+0.446  ML= 0.03  2025-05-06  gap12=0.282  gap23=0.282
+2025-05-10 20:12:18 - INFO - [IND-8] ▶ prog=8 rank= 2  score=0.1947  kelly=0.152 edge=+0.145  ML= 0.05  2025-05-06  gap12=0.282  gap23=0.282
+2025-05-10 20:12:18 - INFO - IND-8 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-1  edge1=+0.079  edge2=-0.036
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-2  edge1=-0.110  edge2=+0.122
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-3  edge1=+0.257  edge2=-0.031
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-4  edge1=-0.014  edge2=-0.005
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-5  edge1=-0.077  edge2=+0.065
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-2  edge1=-0.315  edge2=+0.008
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('IND', datetime.date(2025, 5, 8), 3, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['10'], ['7']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 57.80
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 0
+2025-05-10 20:12:18 - INFO - IND-3 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-4  edge1=+0.191  edge2=-0.045
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-5  edge1=+0.260  edge2=-0.011
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-7  edge1=+0.091  edge2=-0.021
+2025-05-10 20:12:18 - INFO - [SKIP-edge] IND-8  edge1=-0.016  edge2=+0.006
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 10), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 9), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('PIM', datetime.date(2025, 5, 9), 2, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('5', '2')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['5'], ['7']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 25.00
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 66
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('5', '2')]
+2025-05-10 20:12:18 - INFO - [PIM-2] ✔ prog=5 rank= 1  score=0.5514  kelly=0.252 edge=+0.151  ML= 0.40  2025-05-09  gap12=0.314  gap23=0.314
+2025-05-10 20:12:18 - INFO - [PIM-2] ▶ prog=2 rank= 2  score=0.2378  kelly=0.144 edge=+0.128  ML= 0.11  2025-05-09  gap12=0.314  gap23=0.314
+2025-05-10 20:12:18 - INFO - PIM-2 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('PIM', datetime.date(2025, 5, 9), 3, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['1'], ['10']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 9.80
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 66
+2025-05-10 20:12:18 - INFO - PIM-3 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('PIM', datetime.date(2025, 5, 9), 4, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('7', '5')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['6'], ['7']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 21.40
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 66
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('7', '5')]
+2025-05-10 20:12:18 - INFO - [PIM-4] ✔ prog=7 rank= 1  score=0.4831  kelly=0.438 edge=+0.403  ML= 0.08  2025-05-09  gap12=0.267  gap23=0.267
+2025-05-10 20:12:18 - INFO - [PIM-4] ▶ prog=5 rank= 2  score=0.2161  kelly=0.139 edge=+0.126  ML= 0.09  2025-05-09  gap12=0.267  gap23=0.267
+2025-05-10 20:12:18 - INFO - PIM-4 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('PIM', datetime.date(2025, 5, 9), 5, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('7', '4')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['7'], ['13']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 37.70
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 66
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('7', '4')]
+2025-05-10 20:12:18 - INFO - [PIM-5] ✔ prog=7 rank= 1  score=0.5844  kelly=0.351 edge=+0.224  ML= 0.36  2025-05-09  gap12=0.403  gap23=0.403
+2025-05-10 20:12:18 - INFO - [PIM-5] ▶ prog=4 rank= 2  score=0.1819  kelly=0.081 edge=+0.072  ML= 0.11  2025-05-09  gap12=0.403  gap23=0.403
+2025-05-10 20:12:18 - INFO - PIM-5 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('PIM', datetime.date(2025, 5, 9), 7, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['8'], ['2']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 10.20
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 66
+2025-05-10 20:12:18 - INFO - PIM-7 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 11, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 12, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 13, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 14, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 11, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 12, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 13, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-2  edge1=+0.029  edge2=-0.078
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-3  edge1=+0.115  edge2=-0.033
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-4  edge1=+0.134  edge2=-0.121
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-5  edge1=+0.078  edge2=-0.006
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-6  edge1=+0.013  edge2=-0.060
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 3), 7, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('7', '5'), ('5', '7')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['7'], ['9']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 56.24
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 93
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('7', '5'), ('5', '7')]
+2025-05-10 20:12:18 - INFO - [TCD-7] ✔ prog=7 rank= 1  score=0.3042  kelly=0.130 edge=+0.104  ML= 0.20  2025-05-03  gap12=0.125  gap23=0.125
+2025-05-10 20:12:18 - INFO - [TCD-7] ▶ prog=5 rank= 2  score=0.1793  kelly=0.046 edge=+0.039  ML= 0.14  2025-05-03  gap12=0.125  gap23=0.125
+2025-05-10 20:12:18 - INFO - [TCD-7] ✔ prog=5 rank= 2  score=0.1793  kelly=0.046 edge=+0.039  ML= 0.14  2025-05-03  gap12=0.125  gap23=0.125
+2025-05-10 20:12:18 - INFO - [TCD-7] ▶ prog=7 rank= 1  score=0.3042  kelly=0.130 edge=+0.104  ML= 0.20  2025-05-03  gap12=0.125  gap23=0.125
+2025-05-10 20:12:18 - INFO - TCD-7 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-8  edge1=-0.012  edge2=-0.070
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-9  edge1=+0.123  edge2=+0.010
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-10  edge1=-0.048  edge2=+0.071
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 3), 11, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['10'], ['9']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 115.34
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 93
+2025-05-10 20:12:18 - INFO - TCD-11 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 3), 12, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-13  edge1=+0.143  edge2=-0.069
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-14  edge1=+0.087  edge2=-0.078
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-1  edge1=-0.009  edge2=+0.080
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-3  edge1=+0.128  edge2=-0.051
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-4  edge1=+0.121  edge2=-0.067
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-5  edge1=-0.029  edge2=+0.001
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-6  edge1=+0.093  edge2=-0.083
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-7  edge1=+0.195  edge2=+0.015
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-1  edge1=-0.052  edge2=+0.061
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 9), 3, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('2', '4'), ('4', '2')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['2'], ['4']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 203.50
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 94
+2025-05-10 20:12:18 - INFO - => Match Found! Winning Combo: ('2', '4'), Payoff = 5087.50
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('2', '4'), ('4', '2')]
+2025-05-10 20:12:18 - INFO - [TCD-3] ✔ prog=2 rank= 1  score=0.3487  kelly=0.186 edge=+0.149  ML= 0.20  2025-05-09  gap12=0.147  gap23=0.147
+2025-05-10 20:12:18 - INFO - [TCD-3] ▶ prog=4 rank= 2  score=0.2021  kelly=0.072 edge=+0.062  ML= 0.14  2025-05-09  gap12=0.147  gap23=0.147
+2025-05-10 20:12:18 - INFO - [TCD-3] ✔ prog=4 rank= 2  score=0.2021  kelly=0.072 edge=+0.062  ML= 0.14  2025-05-09  gap12=0.147  gap23=0.147
+2025-05-10 20:12:18 - INFO - [TCD-3] ▶ prog=2 rank= 1  score=0.3487  kelly=0.186 edge=+0.149  ML= 0.20  2025-05-09  gap12=0.147  gap23=0.147
+2025-05-10 20:12:18 - INFO - TCD-3 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | HIT
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-4  edge1=+0.061  edge2=-0.030
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TCD-6  edge1=+0.583  edge2=+0.018
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 9), 7, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('3', '4'), ('4', '3')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['9'], ['3']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 28.70
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 94
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('3', '4'), ('4', '3')]
+2025-05-10 20:12:18 - INFO - [TCD-7] ✔ prog=3 rank= 1  score=0.3467  kelly=0.129 edge=+0.097  ML= 0.25  2025-05-09  gap12=0.136  gap23=0.136
+2025-05-10 20:12:18 - INFO - [TCD-7] ▶ prog=4 rank= 2  score=0.2104  kelly=0.082 edge=+0.070  ML= 0.14  2025-05-09  gap12=0.136  gap23=0.136
+2025-05-10 20:12:18 - INFO - [TCD-7] ✔ prog=4 rank= 2  score=0.2104  kelly=0.082 edge=+0.070  ML= 0.14  2025-05-09  gap12=0.136  gap23=0.136
+2025-05-10 20:12:18 - INFO - [TCD-7] ▶ prog=3 rank= 1  score=0.3467  kelly=0.129 edge=+0.097  ML= 0.25  2025-05-09  gap12=0.136  gap23=0.136
+2025-05-10 20:12:18 - INFO - TCD-7 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 9), 9, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('6', '8'), ('8', '6')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['1'], ['8']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 201.12
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 94
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('6', '8'), ('8', '6')]
+2025-05-10 20:12:18 - INFO - [TCD-9] ✔ prog=6 rank= 1  score=0.3374  kelly=0.151 edge=+0.117  ML= 0.22  2025-05-09  gap12=0.176  gap23=0.176
+2025-05-10 20:12:18 - INFO - [TCD-9] ▶ prog=8 rank= 2  score=0.1614  kelly=0.025 edge=+0.021  ML= 0.14  2025-05-09  gap12=0.176  gap23=0.176
+2025-05-10 20:12:18 - INFO - [TCD-9] ✔ prog=8 rank= 2  score=0.1614  kelly=0.025 edge=+0.021  ML= 0.14  2025-05-09  gap12=0.176  gap23=0.176
+2025-05-10 20:12:18 - INFO - [TCD-9] ▶ prog=6 rank= 1  score=0.3374  kelly=0.151 edge=+0.117  ML= 0.22  2025-05-09  gap12=0.176  gap23=0.176
+2025-05-10 20:12:18 - INFO - TCD-9 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 10), 11, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 3), 1, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['5'], ['4']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 40.00
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - TGP-1 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 3), 2, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('8', '1'), ('1', '8')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['8'], ['10']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 31.70
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('8', '1'), ('1', '8')]
+2025-05-10 20:12:18 - INFO - [TGP-2] ✔ prog=8 rank= 1  score=0.2971  kelly=0.063 edge=+0.047  ML= 0.25  2025-05-03  gap12=0.121  gap23=0.121
+2025-05-10 20:12:18 - INFO - [TGP-2] ▶ prog=1 rank= 2  score=0.1761  kelly=0.042 edge=+0.036  ML= 0.14  2025-05-03  gap12=0.121  gap23=0.121
+2025-05-10 20:12:18 - INFO - [TGP-2] ✔ prog=1 rank= 2  score=0.1761  kelly=0.042 edge=+0.036  ML= 0.14  2025-05-03  gap12=0.121  gap23=0.121
+2025-05-10 20:12:18 - INFO - [TGP-2] ▶ prog=8 rank= 1  score=0.2971  kelly=0.063 edge=+0.047  ML= 0.25  2025-05-03  gap12=0.121  gap23=0.121
+2025-05-10 20:12:18 - INFO - TGP-2 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 3), 3, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['1'], ['4']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 16.90
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - TGP-3 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-4  edge1=-0.045  edge2=-0.029
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-5  edge1=+0.141  edge2=-0.010
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-6  edge1=+0.065  edge2=-0.051
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 3), 7, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['3'], ['2']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 6.40
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - TGP-7 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-8  edge1=+0.213  edge2=-0.184
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 3), 9, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['8'], ['6']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 16.60
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - TGP-9 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-10  edge1=+0.302  edge2=-0.079
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-1  edge1=+0.051  edge2=-0.069
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 4), 2, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('12', '8'), ('8', '12')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['8'], ['12']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 8.50
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('12', '8'), ('8', '12')]
+2025-05-10 20:12:18 - INFO - [TGP-2] ✔ prog=12 rank= 1  score=0.3937  kelly=0.146 edge=+0.104  ML= 0.29  2025-05-04  gap12=0.132  gap23=0.132
+2025-05-10 20:12:18 - INFO - [TGP-2] ▶ prog=8 rank= 2  score=0.2621  kelly=0.078 edge=+0.062  ML= 0.20  2025-05-04  gap12=0.132  gap23=0.132
+2025-05-10 20:12:18 - INFO - [TGP-2] ✔ prog=8 rank= 2  score=0.2621  kelly=0.078 edge=+0.062  ML= 0.20  2025-05-04  gap12=0.132  gap23=0.132
+2025-05-10 20:12:18 - INFO - [TGP-2] ▶ prog=12 rank= 1  score=0.3937  kelly=0.146 edge=+0.104  ML= 0.29  2025-05-04  gap12=0.132  gap23=0.132
+2025-05-10 20:12:18 - INFO - TGP-2 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-3  edge1=+0.088  edge2=-0.125
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-4  edge1=+0.090  edge2=+0.016
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-5  edge1=+0.004  edge2=-0.055
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-6  edge1=+0.230  edge2=-0.053
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-7  edge1=-0.018  edge2=+0.048
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-8  edge1=-0.079  edge2=+0.134
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-9  edge1=-0.173  edge2=-0.003
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-1  edge1=+0.088  edge2=-0.169
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 8), 3, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('1', '3')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['4'], ['1']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 7.90
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('1', '3')]
+2025-05-10 20:12:18 - INFO - [TGP-3] ✔ prog=1 rank= 1  score=0.5330  kelly=0.342 edge=+0.243  ML= 0.29  2025-05-08  gap12=0.353  gap23=0.353
+2025-05-10 20:12:18 - INFO - [TGP-3] ▶ prog=3 rank= 2  score=0.1797  kelly=0.046 edge=+0.040  ML= 0.14  2025-05-08  gap12=0.353  gap23=0.353
+2025-05-10 20:12:18 - INFO - TGP-3 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-4  edge1=+0.174  edge2=-0.042
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 8), 5, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('4', '2'), ('2', '4')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['2'], ['3']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 38.60
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('4', '2'), ('2', '4')]
+2025-05-10 20:12:18 - INFO - [TGP-5] ✔ prog=4 rank= 1  score=0.3857  kelly=0.232 edge=+0.186  ML= 0.20  2025-05-08  gap12=0.124  gap23=0.124
+2025-05-10 20:12:18 - INFO - [TGP-5] ▶ prog=2 rank= 2  score=0.2617  kelly=0.110 edge=+0.092  ML= 0.17  2025-05-08  gap12=0.124  gap23=0.124
+2025-05-10 20:12:18 - INFO - [TGP-5] ✔ prog=2 rank= 2  score=0.2617  kelly=0.110 edge=+0.092  ML= 0.17  2025-05-08  gap12=0.124  gap23=0.124
+2025-05-10 20:12:18 - INFO - [TGP-5] ▶ prog=4 rank= 1  score=0.3857  kelly=0.232 edge=+0.186  ML= 0.20  2025-05-08  gap12=0.124  gap23=0.124
+2025-05-10 20:12:18 - INFO - TGP-5 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-6  edge1=-0.003  edge2=+0.126
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-7  edge1=+0.196  edge2=-0.110
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 8), 8, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('5', '3')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['2'], ['7']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 56.90
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('5', '3')]
+2025-05-10 20:12:18 - INFO - [TGP-8] ✔ prog=5 rank= 1  score=0.5970  kelly=0.463 edge=+0.347  ML= 0.25  2025-05-08  gap12=0.361  gap23=0.361
+2025-05-10 20:12:18 - INFO - [TGP-8] ▶ prog=3 rank= 2  score=0.2364  kelly=0.080 edge=+0.066  ML= 0.17  2025-05-08  gap12=0.361  gap23=0.361
+2025-05-10 20:12:18 - INFO - TGP-8 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-1  edge1=+0.054  edge2=-0.030
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-2  edge1=+0.069  edge2=-0.041
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 9), 3, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['6'], ['7']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 8.30
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - TGP-3 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-4  edge1=-0.105  edge2=-0.086
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-5  edge1=+0.169  edge2=-0.099
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-6  edge1=+0.012  edge2=+0.058
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-7  edge1=-0.128  edge2=-0.112
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 9), 8, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('3', '2')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['3'], ['1']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 9.50
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 115
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('3', '2')]
+2025-05-10 20:12:18 - INFO - [TGP-8] ✔ prog=3 rank= 1  score=0.5082  kelly=0.307 edge=+0.218  ML= 0.29  2025-05-09  gap12=0.295  gap23=0.295
+2025-05-10 20:12:18 - INFO - [TGP-8] ▶ prog=2 rank= 2  score=0.2129  kelly=0.085 edge=+0.073  ML= 0.14  2025-05-09  gap12=0.295  gap23=0.295
+2025-05-10 20:12:18 - INFO - TGP-8 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TGP-9  edge1=-0.019  edge2=+0.069
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 11, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 12, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 3), 1, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('2', '8')]
+2025-05-10 20:12:18 - INFO - Posted Base: 2.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['2'], ['8']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 6.40
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 136
+2025-05-10 20:12:18 - INFO - => Match Found! Winning Combo: ('2', '8'), Payoff = 160.00
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('2', '8')]
+2025-05-10 20:12:18 - INFO - [TLS-1] ✔ prog=2 rank= 1  score=0.6232  kelly=0.246 edge=+0.123  ML= 0.50  2025-05-03  gap12=0.379  gap23=0.379
+2025-05-10 20:12:18 - INFO - [TLS-1] ▶ prog=8 rank= 2  score=0.2438  kelly=0.150 edge=+0.134  ML= 0.11  2025-05-03  gap12=0.379  gap23=0.379
+2025-05-10 20:12:18 - INFO - TLS-1 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | HIT
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-2  edge1=-0.098  edge2=+0.028
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-4  edge1=+0.130  edge2=+0.002
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-6  edge1=-0.028  edge2=-0.116
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-8  edge1=-0.036  edge2=+0.002
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-9  edge1=+0.090  edge2=-0.056
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-10  edge1=+0.189  edge2=-0.021
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-2  edge1=+0.066  edge2=-0.011
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-3  edge1=+0.121  edge2=-0.009
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-4  edge1=-0.012  edge2=+0.225
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-5  edge1=-0.033  edge2=+0.011
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-6  edge1=+0.359  edge2=-0.041
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 4), 7, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('3', '5')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['5'], ['7']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 62.90
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 136
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('3', '5')]
+2025-05-10 20:12:18 - INFO - [TLS-7] ✔ prog=3 rank= 1  score=0.4680  kelly=0.169 edge=+0.108  ML= 0.36  2025-05-04  gap12=0.280  gap23=0.280
+2025-05-10 20:12:18 - INFO - [TLS-7] ▶ prog=5 rank= 2  score=0.1878  kelly=0.056 edge=+0.048  ML= 0.14  2025-05-04  gap12=0.280  gap23=0.280
+2025-05-10 20:12:18 - INFO - TLS-7 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-8  edge1=+0.164  edge2=-0.045
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-1  edge1=+0.301  edge2=-0.178
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-2  edge1=+0.198  edge2=+0.015
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-3  edge1=+0.212  edge2=-0.067
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-4  edge1=+0.113  edge2=-0.193
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-5  edge1=+0.062  edge2=-0.210
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-6  edge1=+0.096  edge2=-0.188
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TLS-7  edge1=+0.050  edge2=-0.092
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 9), 8, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('4', '5')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 24.20
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 136
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('4', '5')]
+2025-05-10 20:12:18 - INFO - [TLS-8] ✔ prog=4 rank= 1  score=0.4611  kelly=0.241 edge=+0.171  ML= 0.29  2025-05-09  gap12=0.296  gap23=0.296
+2025-05-10 20:12:18 - INFO - [TLS-8] ▶ prog=5 rank= 2  score=0.1656  kelly=0.122 edge=+0.116  ML= 0.05  2025-05-09  gap12=0.296  gap23=0.296
+2025-05-10 20:12:18 - INFO - TLS-8 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 10), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-1  edge1=+0.057  edge2=-0.143
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-2  edge1=-0.132  edge2=+0.046
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-3  edge1=-0.055  edge2=-0.008
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-4  edge1=-0.014  edge2=-0.100
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-5  edge1=+0.136  edge2=-0.001
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-6  edge1=+0.163  edge2=-0.110
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-7  edge1=+0.524  edge2=-0.182
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-8  edge1=+0.079  edge2=-0.023
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-9  edge1=+0.039  edge2=+0.008
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-10  edge1=-0.027  edge2=-0.003
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-2  edge1=+0.097  edge2=-0.155
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-4  edge1=+0.017  edge2=-0.089
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-5  edge1=+0.133  edge2=+0.006
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 4), 6, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('3', '2'), ('2', '3')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['2'], ['3']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 39.70
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 154
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('3', '2'), ('2', '3')]
+2025-05-10 20:12:18 - INFO - [TSA-6] ✔ prog=3 rank= 1  score=0.3206  kelly=0.094 edge=+0.071  ML= 0.25  2025-05-04  gap12=0.174  gap23=0.174
+2025-05-10 20:12:18 - INFO - [TSA-6] ▶ prog=2 rank= 2  score=0.1465  kelly=0.041 edge=+0.036  ML= 0.11  2025-05-04  gap12=0.174  gap23=0.174
+2025-05-10 20:12:18 - INFO - [TSA-6] ✔ prog=2 rank= 2  score=0.1465  kelly=0.041 edge=+0.036  ML= 0.11  2025-05-04  gap12=0.174  gap23=0.174
+2025-05-10 20:12:18 - INFO - [TSA-6] ▶ prog=3 rank= 1  score=0.3206  kelly=0.094 edge=+0.071  ML= 0.25  2025-05-04  gap12=0.174  gap23=0.174
+2025-05-10 20:12:18 - INFO - TSA-6 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-8  edge1=+0.114  edge2=-0.078
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-9  edge1=+0.029  edge2=+0.015
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-10  edge1=+0.073  edge2=-0.125
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 9), 1, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('2', '4'), ('4', '2')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['6'], ['1']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 109.50
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 154
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('2', '4'), ('4', '2')]
+2025-05-10 20:12:18 - INFO - [TSA-1] ✔ prog=2 rank= 1  score=0.3794  kelly=0.243 edge=+0.199  ML= 0.18  2025-05-09  gap12=0.128  gap23=0.128
+2025-05-10 20:12:18 - INFO - [TSA-1] ▶ prog=4 rank= 2  score=0.2512  kelly=0.186 edge=+0.171  ML= 0.08  2025-05-09  gap12=0.128  gap23=0.128
+2025-05-10 20:12:18 - INFO - [TSA-1] ✔ prog=4 rank= 2  score=0.2512  kelly=0.186 edge=+0.171  ML= 0.08  2025-05-09  gap12=0.128  gap23=0.128
+2025-05-10 20:12:18 - INFO - [TSA-1] ▶ prog=2 rank= 1  score=0.3794  kelly=0.243 edge=+0.199  ML= 0.18  2025-05-09  gap12=0.128  gap23=0.128
+2025-05-10 20:12:18 - INFO - TSA-1 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-2  edge1=+0.215  edge2=-0.206
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 9), 3, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['5'], ['2']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 37.10
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 154
+2025-05-10 20:12:18 - INFO - TSA-3 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-4  edge1=-0.096  edge2=+0.011
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-5  edge1=+0.251  edge2=-0.078
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-6  edge1=+0.218  edge2=-0.004
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-7  edge1=+0.054  edge2=-0.029
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-8  edge1=+0.064  edge2=-0.009
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TSA-9  edge1=-0.170  edge2=+0.004
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 10), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-1  edge1=+0.096  edge2=-0.368
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TWO', datetime.date(2025, 5, 3), 2, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: []
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 0.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['3'], ['1']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 8.30
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 172
+2025-05-10 20:12:18 - INFO - TWO-2 | Big gap key12 | stake $50.00 | 0 combos | cost 0.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-3  edge1=+0.006  edge2=-0.010
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-4  edge1=+0.054  edge2=-0.059
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-5  edge1=-0.166  edge2=-0.113
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-6  edge1=+0.075  edge2=-0.048
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-7  edge1=-0.103  edge2=+0.131
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-8  edge1=+0.135  edge2=-0.219
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-9  edge1=+0.034  edge2=-0.009
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-10  edge1=+0.057  edge2=-0.125
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-1  edge1=-0.069  edge2=+0.027
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TWO', datetime.date(2025, 5, 4), 2, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('5', '1'), ('1', '5')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 100.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['3'], ['1']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 88.40
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 172
+2025-05-10 20:12:18 - INFO - combo size 2  |  [('5', '1'), ('1', '5')]
+2025-05-10 20:12:18 - INFO - [TWO-2] ✔ prog=5 rank= 1  score=0.3572  kelly=0.041 edge=+0.027  ML= 0.33  2025-05-04  gap12=0.153  gap23=0.153
+2025-05-10 20:12:18 - INFO - [TWO-2] ▶ prog=1 rank= 2  score=0.2043  kelly=0.135 edge=+0.124  ML= 0.08  2025-05-04  gap12=0.153  gap23=0.153
+2025-05-10 20:12:18 - INFO - [TWO-2] ✔ prog=1 rank= 2  score=0.2043  kelly=0.135 edge=+0.124  ML= 0.08  2025-05-04  gap12=0.153  gap23=0.153
+2025-05-10 20:12:18 - INFO - [TWO-2] ▶ prog=5 rank= 1  score=0.3572  kelly=0.041 edge=+0.027  ML= 0.33  2025-05-04  gap12=0.153  gap23=0.153
+2025-05-10 20:12:18 - INFO - TWO-2 | Small gap12 box12 | stake $50.00 | 2 combos | cost 100.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-3  edge1=+0.008  edge2=-0.053
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-4  edge1=+0.202  edge2=-0.013
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-5  edge1=-0.095  edge2=+0.010
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-6  edge1=+0.076  edge2=-0.024
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-7  edge1=+0.332  edge2=-0.165
+2025-05-10 20:12:18 - INFO - 
+--- Debugging Race ---
+2025-05-10 20:12:18 - INFO - Race Key: ('TWO', datetime.date(2025, 5, 4), 8, 'Exacta')
+2025-05-10 20:12:18 - INFO - Wager Amount: 50
+2025-05-10 20:12:18 - INFO - Generated Combos: [('2', '3')]
+2025-05-10 20:12:18 - INFO - Posted Base: 1.00
+2025-05-10 20:12:18 - INFO - Cost for Combos: 50.00
+2025-05-10 20:12:18 - INFO - Actual Winning Combo: [['5'], ['1']]
+2025-05-10 20:12:18 - INFO - Listed Payoff: 11.90
+2025-05-10 20:12:18 - INFO - Bad Race Wager info so far: 172
+2025-05-10 20:12:18 - INFO - combo size 1  |  [('2', '3')]
+2025-05-10 20:12:18 - INFO - [TWO-8] ✔ prog=2 rank= 1  score=0.5093  kelly=0.154 edge=+0.089  ML= 0.42  2025-05-04  gap12=0.320  gap23=0.320
+2025-05-10 20:12:18 - INFO - [TWO-8] ▶ prog=3 rank= 2  score=0.1891  kelly=0.057 edge=+0.049  ML= 0.14  2025-05-04  gap12=0.320  gap23=0.320
+2025-05-10 20:12:18 - INFO - TWO-8 | Huge gaps straight | stake $50.00 | 1 combos | cost 50.00 | miss
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-9  edge1=-0.272  edge2=+0.096
+2025-05-10 20:12:18 - INFO - [SKIP-edge] TWO-10  edge1=-0.062  edge2=-0.046
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 10), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-10 20:12:18 - INFO - Exacta ▶ Cost $1700.00 | Payoff $5247.50 | ROI 208.68% | Bankroll $8547.50 | Hit-rate 6.1% (2 / 33)
+2025-05-10 20:12:18 - INFO - No forward-dated races matched today’s rule set – no bet-sheet generated.
+2025-05-10 20:12:20 - INFO - Closing down clientserver connection

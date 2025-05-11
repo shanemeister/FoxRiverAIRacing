@@ -1,15 +1,19 @@
-2025-05-08 20:11:28 - INFO - Logging has been set up successfully.
-2025-05-08 20:11:28 - INFO - Loading races data from PostgreSQL...
-2025-05-08 20:11:29 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
-2025-05-08 20:11:31 - INFO - races data loaded and saved successfully.
-2025-05-08 20:11:31 - INFO - Loading wagers data from PostgreSQL...
-2025-05-08 20:11:31 - INFO - Saving wagers DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/wagers.parquet...
-2025-05-08 20:11:32 - INFO - wagers data loaded and saved successfully.
-2025-05-08 20:11:32 - INFO - DataFrame 'races' loaded. Schema:
-2025-05-08 20:11:32 - INFO - DataFrame 'wagers' loaded. Schema:
-2025-05-08 20:11:56 - INFO - [UPCOMING] Tracks with races ≥ 2025-05-08: ['IND', 'PEN', 'TCD', 'TGP', 'TLS']
-2025-05-08 20:11:56 - INFO - Exacta ▶ 1173 races after filters
-2025-05-08 20:11:56 - INFO - Exacta ▶ Cost $144.00 | Payoff $45.80 | ROI -68.19% | Bankroll $4901.80
-2025-05-08 20:11:56 - ERROR - Error in implement_strategy: field avg_purse_val_calc: FloatType() can not accept object Decimal('1.40') in type <class 'decimal.Decimal'>
-2025-05-08 20:11:56 - ERROR - Error during Spark initialization: field avg_purse_val_calc: FloatType() can not accept object Decimal('1.40') in type <class 'decimal.Decimal'>
-2025-05-08 20:11:56 - INFO - Closing down clientserver connection
+2025-05-08 23:46:05 - INFO - Logging has been set up successfully.
+2025-05-08 23:46:05 - INFO - Loading races data from PostgreSQL...
+2025-05-08 23:46:06 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
+2025-05-08 23:46:08 - INFO - races data loaded and saved successfully.
+2025-05-08 23:46:08 - INFO - Loading wagers data from PostgreSQL...
+2025-05-08 23:46:08 - INFO - Saving wagers DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/wagers.parquet...
+2025-05-08 23:46:10 - INFO - wagers data loaded and saved successfully.
+2025-05-08 23:46:10 - INFO - DataFrame 'races' loaded. Schema:
+2025-05-08 23:46:10 - INFO - DataFrame 'wagers' loaded. Schema:
+2025-05-08 23:46:40 - INFO - [UPCOMING] Tracks with races ≥ 2025-05-08: ['IND', 'PEN', 'TCD', 'TGP', 'TLS']
+2025-05-08 23:46:40 - INFO - Exacta ▶ 1173 races after filters
+2025-05-08 23:46:52 - INFO - IND-1 | Straight | stake $2.00 | 1 combos | cost 2.00 | miss
+2025-05-08 23:46:54 - INFO - IND-2 | Straight | stake $2.00 | 1 combos | cost 2.00 | miss
+2025-05-08 23:46:55 - INFO - IND-3 | Straight | stake $2.00 | 1 combos | cost 2.00 | miss
+2025-05-08 23:46:56 - INFO - IND-4 | Straight | stake $2.00 | 1 combos | cost 2.00 | miss
+2025-05-08 23:46:58 - INFO - => Match Found! Winning Combo: ('2', '8'), Payoff = 26.00
+2025-05-08 23:46:59 - INFO - IND-5 | Straight | stake $2.00 | 1 combos | cost 2.00 | HIT
+2025-05-08 23:47:01 - INFO - IND-6 | Straight | stake $2.00 | 1 combos | cost 2.00 | miss
+2025-05-08 23:47:03 - INFO - Closing down clientserver connection
