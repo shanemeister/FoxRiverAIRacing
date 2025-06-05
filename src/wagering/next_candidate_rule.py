@@ -1,6 +1,6 @@
 from copy import deepcopy
 from itertools import product
-from wager_rules import WAGER_RULES, choose_rule
+from src.wagering.exacta_rules import WAGER_RULES, choose_rule
 from wagers      import implement_ExactaWager   # <- your function
 from wager_config import *
 
@@ -26,8 +26,8 @@ def find_grid(spark, all_races, wagers_dict):
                 if rr.max_gap23 and g23 > rr.max_gap23:  continue
                 return rr
             return None
-        import wager_rules
-        wager_rules.choose_rule = _choose_rule   # swap in
+        import src.wagering.exacta_rules as exacta_rules
+        exacta_rules.choose_rule = _choose_rule   # swap in
         
         df = implement_ExactaWager(spark, all_races, wagers_dict,
                                 user_cap=2, top_n=3, box=False)

@@ -2,10 +2,11 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 import itertools
 import src.wagering.wager_types as wt
+from dataclasses import dataclass
 from wager_config       import (MIN_FIELD, MAX_FIELD, BANKROLL_START,
                            TRACK_MIN, KELLY_THRESHOLD, KELLY_FRACTION,
                            MAX_FRACTION, EDGE_MIN)
-from wager_rules  import WAGER_RULES, choose_rule
+from src.wagering.exacta_rules  import WAGER_RULES, choose_exacta_rule
 
 class Race:
     """
@@ -114,34 +115,24 @@ class Wager(ABC):
     def __repr__(self):
         return f"{self.__class__.__name__}(base_amount={self.base_amount})"
     
+@dataclass
 class HorseEntry:
-    """
-    Represents a single horse (or entry) in a race.
-    """
-    def __init__(
-        self,
-        horse_id: str,
-        program_num: str,
-        official_fin: Optional[int],
-        prediction: float,
-        rank: float,
-        final_odds: Optional[float] = None
-    ):
-        """
-        :param horse_id:      A unique identifier for the horse
-        :param program_num:   The saddle_cloth_number or program number
-        :param official_fin:  The final finishing position (1 = winner, 2 = second, etc.) 
-                              If None, possibly means not applicable or data missing
-        :param prediction:    The model's predicted probability or score (higher = better)
-        :param final_odds:    The final post-time odds (optional). 
-                              Could be None if not available or for historical partial data
-        """
-        self.horse_id = horse_id
-        self.program_num = program_num
-        self.official_fin = official_fin
-        self.prediction = prediction
-        self.rank = rank
-        self.final_odds = final_odds
+    horse_id: str
+    program_num: str
+    official_fin: Optional[int]
+    prediction: float
+    rank: Optional[int]
+    final_odds: Optional[float]
+
+    # --- new fields --------------------------------------------------
+    leader_gap:   float = 0.0     # vs. race favourite (probability space)
+    trailing_gap: float = 0.0     # vs. next-shorter runner
+
+    # existing optional extras
+    skill:    float = 0.0
+    morn_odds: Optional[float] = None
+    kelly:    float = 0.0
+    edge:     float = 0.0
 
     def __repr__(self):
         return (f"HorseEntry("

@@ -16,7 +16,8 @@ from typing import Set
 from wager_config       import (MIN_FIELD, MAX_FIELD, BANKROLL_START,
                            TRACK_MIN, KELLY_THRESHOLD, KELLY_FRACTION,
                            MAX_FRACTION, EDGE_MIN)
-from wager_rules  import WAGER_RULES, choose_rule
+from src.wagering.exacta_rules  import WAGER_RULES, choose_exacta_rule
+from src.wagering.trifecta_rules import choose_tri_rule
 
 # --------------------------------------------------------------------
 BASE_DIR      = pathlib.Path(
@@ -195,15 +196,15 @@ def clean_races_df(
     # ----------------------------------------------------------------------
     # NEW Kelly that works when morn_odds is already a probability (p_ml)
     # ----------------------------------------------------------------------
-    p_ml = races_df["morn_odds"].clip(upper=0.999)          # guard ÷0
-    b    = (1.0 / p_ml) - 1.0                               # fractional price
+    # p_ml = races_df["morn_odds"].clip(upper=0.999)          # guard ÷0
+    # b    = (1.0 / p_ml) - 1.0                               # fractional price
 
-    races_df["implied_prob"] = p_ml
-    races_df["edge"]         = races_df["score"] - p_ml
+    # races_df["implied_prob"] = p_ml
+    # races_df["edge"]         = races_df["score"] - p_ml
 
-    races_df["kelly"] = (
-        (races_df["score"] * b - (1.0 - races_df["score"])) / b
-    ).clip(lower=0)
+    # races_df["kelly"] = (
+    #     (races_df["score"] * b - (1.0 - races_df["score"])) / b
+    # ).clip(lower=0)
 
     # -------------------------------------------------- #
     # D)  Final column drop
@@ -215,58 +216,81 @@ def clean_races_df(
 ############################################################################
 # 2)  RACE-OBJECT BUILDER  (unchanged interface, cleaner internals)
 ############################################################################
-def build_race_objects(races_pdf: pd.DataFrame) -> List[wc.Race]:
-    race_list: List[wc.Race] = []
+def build_race_objects(races_pdf: pd.DataFrame) -> list[wc.Race]:
+    race_list: list[wc.Race] = []
 
     for (trk, dt, rno), grp in races_pdf.groupby(
             ["course_cd", "race_date", "race_number"]):
 
-        grp_sorted = grp.sort_values("score", ascending=False)
-        first = grp_sorted.iloc[0]
+        # --- sort by calibrated probability (DESC) --------------------
+        grp_sorted = grp.sort_values("score", ascending=False)          # ★
 
-        # ---------- race-level aggregates ----------
+        # Keep explicit row handles for clarity
+        row1   = grp_sorted.iloc[0]
+        row2   = grp_sorted.iloc[1] if len(grp_sorted) > 1 else None
+        row3   = grp_sorted.iloc[2] if len(grp_sorted) > 2 else None
+        row4   = grp_sorted.iloc[3] if len(grp_sorted) > 3 else None
+
+        # ---------- adjacent gaps (already computed per horse) --------
+        gap12 = row2["leader_gap"]      if row2 is not None else float("nan")
+        gap23 = row2["trailing_gap"]    if row2 is not None else float("nan")
+        gap34 = row3["trailing_gap"]    if row3 is not None else float("nan")
+        gap45 = row4["trailing_gap"]    if row4 is not None else float("nan")
+
+        # ---------- race-level aggregates -----------------------------
         fav_morn = grp["morn_odds"].min(skipna=True)
         avg_morn = grp["morn_odds"].mean(skipna=True)
-        max_prob = grp_sorted.iloc[0]["score"]
-        second   = grp_sorted.iloc[1]["score"] if len(grp_sorted) > 1 else 0.0
-        prob_gap = max_prob - second
-        std_prob = grp_sorted["score"].head(4).std(ddof=0)
 
-        # ---------- horse entries ----------
-        horses: list[wc.HorseEntry] = []          # ← reset for *each* race
-        for _, row in grp.iterrows():
-            entry = wc.HorseEntry(
-                horse_id    = str(row["horse_id"]),
-                program_num = str(row["saddle_cloth_number"]),
-                official_fin= row.get("official_fin"),
-                prediction  = row.get("score", 0.0),
-                rank        = row.get("rank"),
-                final_odds  = row.get("dollar_odds"),
+        prob1 = row1["score"]                                              # ★
+        prob2 = row2["score"] if row2 is not None else 0.0                 # ★
+        prob_gap = prob1 - prob2
+        std_prob = grp_sorted["score"].head(4).std(ddof=0)                 # ★
+
+        # ---------- HorseEntry list -----------------------------------
+        horses: list[wc.HorseEntry] = []
+        for _, row in grp_sorted.iterrows():          # keep prob order
+            he = wc.HorseEntry(
+                horse_id      = str(row["horse_id"]),
+                program_num   = str(row["saddle_cloth_number"]),
+                official_fin  = row.get("official_fin"),
+                prediction    = row["score"],                           # ★
+                rank          = int(row["rank"]),
+                final_odds    = row.get("dollar_odds"),
+                leader_gap    = row.get("leader_gap", 0.0),
+                trailing_gap  = row.get("trailing_gap", 0.0),
+                skill         = row.get("skill", 0.0),
             )
-            entry.morn_odds = row.get("morn_odds")   
-            entry.kelly = row.get("kelly", 0.0)
-            entry.edge  = row.get("edge",  0.0)
-            horses.append(entry)
+            he.morn_odds = row.get("morn_odds")
+            he.kelly     = row.get("kelly", 0.0)
+            he.edge      = row.get("edge",  0.0)
+            he.sec_score = row.get("sec_score", 0.0)
+            horses.append(he)
 
-        # ---------- race object ----------
+        # ---------- Race object ---------------------------------------
         race = wc.Race(
-            course_cd         = trk,
-            race_date         = dt,
-            race_number       = rno,
-            horses            = horses,
-            distance_meters   = first.get("distance_meters"),
-            surface           = first.get("surface"),
-            track_condition   = first.get("track_condition"),
-            avg_purse_val_calc= first.get("avg_purse_val_calc"),
-            race_type         = first.get("race_type"),
+            course_cd   = trk,
+            race_date   = dt,
+            race_number = rno,
+            horses      = horses,
+            distance_meters   = row1.get("distance_meters"),
+            surface           = row1.get("surface"),
+            track_condition   = row1.get("track_condition"),
+            avg_purse_val_calc= row1.get("avg_purse_val_calc"),
+            race_type         = row1.get("race_type"),
         )
 
+        # — store aggregates & gaps —
         race.fav_morn_odds = fav_morn
         race.avg_morn_odds = avg_morn
-        race.max_prob      = max_prob
-        race.second_prob   = second
+        race.max_prob      = prob1
+        race.second_prob   = prob2
         race.prob_gap      = prob_gap
         race.std_prob      = std_prob
+
+        race.gap12 = gap12
+        race.gap23 = gap23
+        race.gap34 = gap34
+        race.gap45 = gap45
 
         race_list.append(race)
 

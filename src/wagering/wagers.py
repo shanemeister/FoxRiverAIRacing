@@ -3,6 +3,7 @@ import datetime
 import traceback, sys
 import time
 import os
+import math
 import json
 import pandas as pd
 import numpy as np
@@ -16,12 +17,13 @@ from pyspark.sql.functions import col, sum as F_sum, when, count as F_count, lit
 from pyspark.sql.types import (StructType, StructField, StringType, FloatType, IntegerType)
 from collections import defaultdict
 import pyspark.sql.functions as F
-from src.wagering.wager_rules import WAGER_RULES, choose_rule
+from src.wagering.exacta_rules import WAGER_RULES, choose_exacta_rule
 from decimal import Decimal
 from wager_config       import (MIN_FIELD, MAX_FIELD, BANKROLL_START,
                            TRACK_MIN, KELLY_THRESHOLD, KELLY_FRACTION,
                            MAX_FRACTION, EDGE_MIN)
-from wager_rules  import WAGER_RULES, choose_rule
+from src.wagering.exacta_rules  import WAGER_RULES, choose_exacta_rule
+from src.wagering.trifecta_rules import choose_tri_rule
 
 # ─── tune this if you want less console chatter ─────────────────────────────
 VERBOSE_RACE  = True   # one-line recap for every bet race
@@ -51,21 +53,26 @@ def implement_ExactaWager(
 
     # ── 1) race filter ────────────────────────────────────────────────────
     races = [r for r in all_races if MIN_FIELD <= len(r.horses) <= MAX_FIELD]
-    green = refresh_upcoming_tracks(races)
+    # green = refresh_upcoming_tracks(races)
 
     logging.info("Exacta ▶ %d races after filters", len(races))
     
-    # ----------------------------------------------------------------------
+    # ------------------------------------------------------------------
     # Quick diagnostic – distribution of gap12 and gap23 for THIS run
-    # ----------------------------------------------------------------------
-    if True:                       # ← leave True while you’re tuning; turn off later
+    # ------------------------------------------------------------------
+    if True:                                   # keep True while tuning
         import numpy as np
 
-        gap12_vals = []
-        gap23_vals = []
-        for r in races:                                    # ← 'races' list already filtered
-            gap12_vals.append(r.prob_gap)
-            gap23_vals.append(r.max_prob - r.second_prob)
+        gap12_vals = []          # favourite ↔ second
+        gap23_vals = []          # second ↔ third
+
+        for r in races:                              # races already filtered
+            # locate the *second* horse in this race
+            h2 = next((h for h in r.horses if int(h.rank) == 2), None)
+            if h2 is None:                 # short field, scratched, etc.
+                continue
+            gap12_vals.append(h2.leader_gap)      # 1-2 gap
+            gap23_vals.append(h2.trailing_gap)    # 2-3 gap
 
         g12 = np.array(gap12_vals)
         g23 = np.array(gap23_vals)
@@ -78,12 +85,10 @@ def implement_ExactaWager(
             _pct(g12, .50), _pct(g12, .75), _pct(g12, .90),
             _pct(g23, .50), _pct(g23, .75), _pct(g23, .90),
         )
-    # ----------------------------------------------------------------------
-
-    # # ── 2) main loop ──────────────────────────────────────────────────────
+        # # ── 2) main loop ──────────────────────────────────────────────────────
     for race in races:
-        if race.course_cd not in green:
-            continue
+        # if race.course_cd not in green:
+        #     continue
         key = (race.course_cd, race.race_date, race.race_number, "Exacta")
         # print(f"Debug 1: key = {key}")
         race_wager_info = wagers_dict.get(key, None)
@@ -107,44 +112,66 @@ def implement_ExactaWager(
             logging.info(f"Debug1 New Race: key={key}, race_wager_info={race_wager_info}, num_tickets={num_tickets} (type: {type(num_tickets)})") 
             bad_race_wager_info += 1 
             continue 
-        best2 = sorted(race.horses, key=lambda h: h.rank)[:2]
-        if any(h.edge < 0.02 for h in best2):
-            logging.info("[SKIP-edge] %s-%d  edge1=%+.3f  edge2=%+.3f",
-                        race.course_cd, race.race_number,
-                        best2[0].edge, best2[1].edge)
-            continue        
-        rule = choose_rule(race)
+        
+        best3 = sorted(race.horses, key=lambda h: h.rank)[:3]
+        h1, h2 = best3[0], best3[1]
+        h3 = best3[2] if len(best3) >= 3 else None   # may be missing
+        rule = choose_exacta_rule(race)
         if rule is None:
             continue
+        # --- 0) build the combo list *first* ---------------------------------
+        #     (use a dummy stake=1 just to access the helper)
+        tmp_wager = ExactaWager(1.0, top_n, box)
+        combos    = tmp_wager.combos_from_style(race,
+                                                style = rule.bet_style,
+                                                top_n = top_n)
+        if not combos:                       # safeguard – nothing to bet on
+            continue
+        num_combos = len(combos)             # now we can use it
+
         # ------------------------------------------------------------------
-        # a) SIZE THE STAKE – choose ONE of the formulas below
+        # a) SIZE THE STAKE – gap-weighted, then snapped to the tote unit
         # ------------------------------------------------------------------
+        pct        = rule.pct_bankroll
+        base_amt   = TRACK_MIN               # 1.00, 0.50, 0.10 …
 
-        # ① gap-weighted (1× to 2× depending on gap12)
-        stake = bankroll * rule.pct_bankroll                       # base
-        gap_factor = 1.0 + min(race.prob_gap / 0.10, 1.0)           # 0.00→1.00
-        stake *= gap_factor                                         # up to 2×
+        best3 = sorted(race.horses, key=lambda h: h.rank)[:3]
+        h1, h2 = best3[0], best3[1]
+        h3 = best3[2] if len(best3) >= 3 else None   # may be missing
 
-        # ② Kelly-fraction on the favourite
-        # kelly_raw  = max(h.kelly for h in best2)                  # uncomment
-        # stake      = bankroll * kelly_raw * 0.5                   # 50 % Kelly
+        gap12    = h2.leader_gap
+        gap23    = max(0.0, h2.trailing_gap) if h2 else 0.0
+        gap34    = max(0.0, h3.trailing_gap) if h3 else 0.0
 
-        # ③ plain fixed percentage (classic)
-        # stake = bankroll * rule.pct_bankroll
+        sec1 = getattr(h1, "sec_score", float("nan"))
+        sec2 = getattr(h2, "sec_score", float("nan"))
+        sec3 = getattr(h3, "sec_score", float("nan")) if h3 else float("nan")
 
-        # ---- universal guards ----
-        stake = max(TRACK_MIN, stake)                               # floor
-        stake = min(stake, user_cap)                                # user cap
-        
-        wager  = ExactaWager(stake, top_n, box)   # keep the same top-n
+        stake = bankroll * pct
+        gap_factor12 = min(gap12 / 0.10, 1.0)
+        gap_factor23 = min(gap23 / 0.10, 1.0)
+        stake *= (1.0 + 0.5*gap_factor12 + 0.5*gap_factor23)
+
+        stake = max(base_amt, stake)         # floor
+        # stake = min(stake, user_cap)       # remove if no cap
+
+        def snap(x, base=1.0):
+            return round(base * round(x / base), 2)
+
+        stake_each = snap(stake / num_combos, base_amt)
+
+        # ------------------------------------------------------------------
+        # b) create the real wager object with the *snapped* stake
+        # ------------------------------------------------------------------
+        wager  = ExactaWager(stake_each, top_n, box)
         combos = wager.combos_from_style(race, style=rule.bet_style, top_n=top_n)
-        cost   = wager.calculate_cost(combos)           # cost uses that same stake
+        cost   = wager.calculate_cost(combos)      # always multiple of base_amt
 
         # ── F U T U R E   B E T S ───────────────────────────────────────────
         if race.race_date > today and combos:
             # 👍 combos is non-empty
-            best2 = sorted(race.horses, key=lambda h: h.rank)[:2]
-            if len(best2) < 2:          # ← guard against 1-horse leftovers
+            best3 = sorted(race.horses, key=lambda h: h.rank)[:3]
+            if len(best3) < 3:          # ← guard against 1-horse leftovers
                 continue                #   skip adding this race to future_rows
 
             future_rows.append({
@@ -155,8 +182,8 @@ def implement_ExactaWager(
                 "combo"    : "|".join("-".join(c) for c in combos),
                 "stake"    : round(stake, 2),
                 "gap12"    : race.prob_gap,
-                "edge1"    : best2[0].edge,
-                "edge2"    : best2[1].edge,
+                "edge1"    : best3[0].edge,
+                "edge2"    : best3[1].edge,
             })        
             logging.info("[BET-SHEET] %s-%d  %-9s  stake $%.2f  combo %s",
                     race.course_cd, race.race_number,
@@ -220,7 +247,12 @@ def implement_ExactaWager(
         rule_payoff[rule.name] += payoff
         # print(f"Exacta total cost: {total_cost:.2f}, total_payoff: {total_payoff:.2f}")
         # input(f"Exacta total wagers: {total_wagers}, wins: {wins}, losses: {losses}")
-        # -------- optional per-race console line -------------------------
+        logging.info(
+            "Leader gap (1→2): %.3f | Trailing gap (2→3): %.3f | "
+            "sec_score #1: %.4f  #2: %.4f  #3: %.4f",
+            gap12, gap23, sec1, sec2, sec3
+        )
+                # -------- optional per-race console line -------------------------
         if VERBOSE_RACE:
             logging.info(
                 "%s-%d | %s | stake $%.2f | %d combos | cost %.2f | %s",
@@ -358,6 +390,7 @@ def implement_ExactaWager(
     df_spark.write.mode("append").parquet(hist_path)
 
     return df_spark
+
 def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, box):
     """
     Generates a list of bets (combos) for each race using trifecta logic,
@@ -372,7 +405,17 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
       - check_if_win(combo, race, actual_combo): Checks if the given combo wins.
       - calculate_payoff(race_payoff, posted_base): Calculates the payoff for a win.
     """
-    total_cost = 0.0
+    bankroll          = BANKROLL_START
+    total_cost        = total_payoff = 0.0
+    bad_race_wager_info = 0
+    bet_rows          = []
+    # ─────────────────────────────────────────────────────────────────────────            
+    today        = datetime.date.today()
+    future_rows   = []         # <<< here – one list per entire run
+    # ─────────────────────────────────────────────────────────────────────────            
+    rule_cost         = defaultdict(float)   # for ROI by rule
+    rule_payoff       = defaultdict(float)
+
     total_payoff = 0.0
     bet_results = []  # will hold dicts for each race (row_data)
 
@@ -389,8 +432,8 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
     logging.info("Exacta ▶ %d races after filters", len(filtered_races))
     
     for race in filtered_races:
-        if race.course_cd not in green:
-            continue
+        # if race.course_cd not in green:
+        #     continue
         key = (race.course_cd, race.race_date, race.race_number, "Trifecta")
         print(f"Debug 1: key = {key}")
         race_wager_info = wagers_dict.get(key, None)
@@ -415,12 +458,97 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
             bad_race_wager_info += 1 
             continue 
     
-        # Instantiate the trifecta wager
-        my_wager = TrifectaWager(wager_amount, top_n, box)
+        rule = choose_tri_rule(race)
+        if rule is None:
+            logging.info(f"Debug 2: No rule found for {key}")
+            continue                                  # skip race
 
-        # Generate trifecta combos, e.g., each combo is a list of three horse_ids
-        combos = my_wager.generate_combos(race)
-        cost = my_wager.calculate_cost(combos)   # total cost for these combos
+        # 0️⃣  build combos according to the rule
+        tmp_wager = TrifectaWager(1.0, top_n, box)    # dummy stake
+        combos    = tmp_wager.combos_from_style(race,
+                                                style = rule.bet_style,
+                                                top_n = top_n)
+        num_combos = len(combos)  
+        
+        if not combos:
+            continue
+
+        # ------------------------------------------------------------------
+        # a) SIZE THE STAKE – gap-weighted, then snapped to the tote unit
+        # ------------------------------------------------------------------
+        pct        = rule.pct_bankroll
+        base_amt   = TRACK_MIN               # 1.00, 0.50, 0.10 …
+        
+        best4 = sorted(race.horses, key=lambda h: h.rank)[:4]
+        h1, h2 = best4[0], best4[1]
+        h3 = best4[2] if len(best4) >= 3 else None   # may be missing
+        h4 = best4[3] if len(best4) >= 4 else None   # may be missing
+                
+        gap12    = h2.leader_gap
+        gap23    = max(0.0, h2.trailing_gap) if h2 else 0.0
+        gap34    = max(0.0, h3.trailing_gap) if h3 else 0.0
+        
+        sec1 = getattr(h1, "sec_score", float("nan"))
+        sec2 = getattr(h2, "sec_score", float("nan"))
+        sec3 = getattr(h3, "sec_score", float("nan")) if h3 else float("nan")
+        sec3 = getattr(h4, "sec_score", float("nan")) if h4 else float("nan")
+        
+        stake = bankroll * pct
+        gap_factor12 = min(gap12 / 0.10, 1.0)
+        gap_factor23 = min(gap23 / 0.10, 1.0)
+        stake *= (1.0 + 0.5*gap_factor12 + 0.5*gap_factor23)
+
+        stake = max(base_amt, stake)         # floor
+        # stake = min(stake, user_cap)       # remove if no cap
+
+        def snap(x, base=1.0):
+            return round(base * round(x / base), 2)
+
+        stake_each = snap(stake / num_combos, base_amt)
+
+        # ------------------------------------------------------------------
+        # b) create the real wager object with the *snapped* stake
+        # ------------------------------------------------------------------
+        my_wager  = TrifectaWager(stake_each, top_n, box)
+        combos = my_wager.combos_from_style(race, style=rule.bet_style, top_n=top_n)
+        cost   = my_wager.calculate_cost(combos)      # always multiple of base_amt
+        
+        # ── F U T U R E   B E T S ────────────────────────────────────────────
+        if race.race_date > today and combos:
+            # need at least three ranked horses for a trifecta
+            best4 = sorted(race.horses, key=lambda h: h.rank)[:4]
+            if len(best4) < 3:      # extreme scratch / very short field
+                continue
+
+            future_rows.append({
+                "course_cd": race.course_cd,
+                "race_date": race.race_date.isoformat(),
+                "race_no"  : race.race_number,
+
+                # strategy info
+                "bet_style": rule.bet_style,
+                "stake"    : round(stake, 2),
+
+                # the full set of combos (A-B-C | D-E-F | …)
+                "combo"    : "|".join("-".join(c) for c in combos),
+
+                # gap diagnostics
+                "gap12"    : race.gap12,
+                "gap23"    : race.gap23,
+                "gap34"    : race.gap34,
+
+                # overlay edges on the three principals
+                "edge1"    : best4[0].edge,
+                "edge2"    : best4[1].edge,
+                "edge3"    : best4[2].edge,
+            })
+
+            logging.info("[BET-SHEET] %s-%d  %-11s  stake $%.2f  combos %s",
+                        race.course_cd, race.race_number,
+                        rule.bet_style, stake,
+                        "|".join("-".join(c) for c in combos))
+        # ──────────────────────────────────────────────────────────────────────
+
 
         payoff = 0.0
         actual_combo = None
@@ -453,10 +581,6 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
                         he = prog_map[place_prog]
                         runnerup_score, runnerup_rank = he.prediction, he.rank
 
-                # Gap metrics based on race-level features you already stored
-                gap12 = race.prob_gap                          # top1 – top2
-                gap23 = race.max_prob - race.second_prob       # top2 – top3
-
             # -------------------------------------------------
             # 1️⃣  Pull model scores / ranks of the actual 1-2 finishers
             # -------------------------------------------------
@@ -483,6 +607,12 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
                 else:
                     hit_flag = 0
                     log_combo_metrics(race, combos, hit_flag)
+            logging.info("%s-%d | %s | stake $%.2f | %d combos | cost %.2f | %s",
+                            race.course_cd, race.race_number, rule.name,
+                            stake, len(combos), cost,
+                            "HIT" if hit_flag else "miss")
+            row_data["strategy"] = rule.name
+
         else:
             logging.debug(f"No wager info found for {key}")
 
@@ -493,6 +623,11 @@ def implement_TrifectaWager(spark, all_races, wagers_dict, wager_amount, top_n, 
         total_wagers += num_tickets
         logging.info(f"Total Wagers: {total_wagers}, Cost: {total_cost}, Total Payoff: {total_payoff}, Net: {total_payoff - total_cost}")
         logging.info(f"Total Wagers: {total_wagers}, Wins: {total_wins}, Losses: {total_losses}") 
+        logging.info(
+            "Leader gap (1→2): %.3f | Trailing gap (2→3): %.3f | "
+            "sec_score #1: %.4f  #2: %.4f  #3: %.4f",
+            gap12, gap23, sec1, sec2, sec3
+        )
         if winning_combo_found:
             total_wins += 1
             total_losses += (num_tickets - 1)

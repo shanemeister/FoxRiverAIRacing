@@ -201,3 +201,569 @@ Exception: Failed to download https://www.trackmaster.com/track/download/tch_lin
 2025-05-10 02:45:18 - Job completed
 2025-05-10 02:30:01 - Results: 496 files, PlusPro: 116 files, Backup: Success
 2025-05-10 02:45:18 - Job completed
+2025-05-11 02:30:01 - Starting ingestion job
+2025-05-11 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-11 02:30:01 - Starting download job
+2025-05-11 02:42:08 - Download job succeeded
+2025-05-11 02:42:08 - Results files downloaded: 512
+2025-05-11 02:42:08 - PlusPro files downloaded: 111
+2025-05-11 02:42:08 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-11 02:46:28 - Sync to S3 succeeded
+2025-05-11 02:46:28 - Job completed
+2025-05-11 02:30:01 - Results: 512 files, PlusPro: 111 files, Backup: Success
+2025-05-11 02:46:28 - Job completed
+2025-05-12 02:30:01 - Starting ingestion job
+2025-05-12 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-12 02:30:01 - Starting download job
+2025-05-13 02:30:01 - Starting ingestion job
+2025-05-13 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-13 02:30:01 - Starting download job
+2025-05-14 02:30:01 - Starting ingestion job
+2025-05-14 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-14 02:30:01 - Starting download job
+2025-05-14 02:30:03 - Download job failed
+CSRF Token: DuSYD7yf511r7o8V7ctdqIuUHsephLib6O0sIssK
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-15 02:30:01 - Starting ingestion job
+2025-05-15 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-15 02:30:01 - Starting download job
+2025-05-15 02:30:08 - Download job failed
+CSRF Token: ZBMVHs82Yl1oWzvHbFQybJSmFxnOLYWF9KgXJntJ
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 11:07:21 - Starting ingestion job
+2025-05-16 11:07:21 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 11:07:21 - Starting download job
+2025-05-16 11:07:22 - Download job failed
+CSRF Token: WCNIYZOds8wj7nPg4Y23UzMN9YNT5oIWfd3nlmyM
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 11:08:53 - Starting ingestion job
+2025-05-16 11:08:53 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 11:08:53 - Starting download job
+2025-05-16 11:09:11 - Download job failed
+CSRF Token: lUxPtFglOEhei00Gtb47LrirAHhF5PB7ngew211M
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 11:21:27 - Starting ingestion job
+2025-05-16 11:21:27 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 11:21:27 - Starting download job
+2025-05-16 11:21:29 - Download job failed
+CSRF Token: c0861SPFFz2ziHHLJLFXL7uSzIBFhvpmR0VxYAwO
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 11:21:37 - Starting ingestion job
+2025-05-16 11:21:37 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 11:21:37 - Starting download job
+2025-05-16 11:21:38 - Download job failed
+CSRF Token: 2ok7HrNRs0EVdJPmIgEJolxOjJseCjIrwXNGlzAx
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 11:22:19 - Starting ingestion job
+2025-05-16 11:22:19 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 11:22:19 - Starting download job
+2025-05-16 11:22:21 - Download job failed
+CSRF Token: OqfXIudWpoTiCqR49JtADj9hHTzBtVkSXas4u7Ip
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 11:28:08 - Starting ingestion job
+2025-05-16 11:28:08 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 11:28:08 - Starting download job
+2025-05-16 11:28:10 - Download job failed
+CSRF Token: X7FiVEP9isW51gMifkqS78Vz8xsn2VdHijIt3jpN
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 11:28:19 - Starting ingestion job
+2025-05-16 11:28:19 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 11:28:19 - Starting download job
+2025-05-16 11:28:21 - Download job failed
+CSRF Token: yEDYobsAKO0ErNHQT3exAAlsSvk85AEYEzQwncGL
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 11:48:31 - Starting ingestion job
+2025-05-16 11:48:31 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 11:48:31 - Starting download job
+2025-05-16 11:48:33 - Download job failed
+CSRF Token: 5I14FjrUWIrXz1iLcim4FfJMXVT8iyn0rO7XVrlb
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-16 12:48:01 - Starting ingestion job
+2025-05-16 12:48:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-16 12:48:01 - Starting download job
+2025-05-16 12:48:02 - Download job failed
+CSRF Token: yRG8TPnc1ZbXOD9c5oITpAiPgKNVZiUKcBTNYVr9
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-17 02:30:01 - Starting ingestion job
+2025-05-17 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-17 02:30:01 - Starting download job
+2025-05-17 02:30:03 - Download job failed
+CSRF Token: TeFAhgbLjqHBI3DWQXQHhczZGWTikG81WzUG0u32
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-17 13:45:04 - Starting ingestion job
+2025-05-17 13:45:04 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-17 13:45:04 - Starting download job
+2025-05-17 13:45:05 - Download job failed
+CSRF Token: FhgCW65DVTGSAQMYKR9kr94uZr4AHOOMYR0DVwHS
+Login response status code: 200
+Login response URL: https://www.trackmaster.com
+Login response text snippet: <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];googletag.cmd.push(function(){googletag.defineSlot('/2542414/TM_Desktop_ROS_728x90_ATF_Header',[728,90],'headerAd').defineSizeMapping(googletag.sizeMapping().addS
+Login failed
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 164, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 71, in login
+    raise Exception("Failed to log in")
+Exception: Failed to log in
+2025-05-17 13:51:30 - Starting ingestion job
+2025-05-17 13:51:30 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-17 13:51:30 - Starting download job
+2025-05-17 13:51:36 - Download job succeeded
+2025-05-17 13:51:36 - Results files downloaded: 6
+2025-05-17 13:51:36 - PlusPro files downloaded: 6
+2025-05-17 13:51:36 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-17 13:55:51 - Sync to S3 succeeded
+2025-05-17 13:55:51 - Job completed
+2025-05-17 13:51:30 - Results: 6 files, PlusPro: 6 files, Backup: Success
+2025-05-17 13:55:51 - Job completed
+2025-05-17 14:03:12 - Starting ingestion job
+2025-05-17 14:03:12 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-17 14:03:12 - Starting download job
+2025-05-17 14:07:40 - Download job succeeded
+2025-05-17 14:07:40 - Results files downloaded: 275
+2025-05-17 14:07:40 - PlusPro files downloaded: 275
+2025-05-17 14:07:40 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-17 14:08:39 - Sync to S3 succeeded
+2025-05-17 14:08:39 - Job completed
+2025-05-17 14:03:12 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-17 14:08:39 - Job completed
+2025-05-17 14:14:57 - Starting ingestion job
+2025-05-17 14:14:57 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-17 14:14:57 - Starting download job
+2025-05-17 14:19:13 - Download job succeeded
+2025-05-17 14:19:13 - Results files downloaded: 275
+2025-05-17 14:19:13 - PlusPro files downloaded: 275
+2025-05-17 14:19:13 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-17 14:20:15 - Sync to S3 succeeded
+2025-05-17 14:20:15 - Job completed
+2025-05-17 14:14:57 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-17 14:20:15 - Job completed
+2025-05-18 02:30:01 - Starting ingestion job
+2025-05-18 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-18 02:30:01 - Starting download job
+2025-05-18 02:34:08 - Download job succeeded
+2025-05-18 02:34:08 - Results files downloaded: 275
+2025-05-18 02:34:08 - PlusPro files downloaded: 275
+2025-05-18 02:34:08 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-18 02:38:28 - Sync to S3 succeeded
+2025-05-18 02:38:28 - Job completed
+2025-05-18 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-18 02:38:28 - Job completed
+2025-05-19 02:30:01 - Starting ingestion job
+2025-05-19 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-19 02:30:01 - Starting download job
+2025-05-19 02:35:11 - Download job succeeded
+2025-05-19 02:35:11 - Results files downloaded: 275
+2025-05-19 02:35:11 - PlusPro files downloaded: 275
+2025-05-19 02:35:11 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-19 02:39:31 - Sync to S3 succeeded
+2025-05-19 02:39:31 - Job completed
+2025-05-19 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-19 02:39:31 - Job completed
+2025-05-20 02:30:01 - Starting ingestion job
+2025-05-20 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-20 02:30:01 - Starting download job
+2025-05-20 02:35:15 - Download job succeeded
+2025-05-20 02:35:15 - Results files downloaded: 275
+2025-05-20 02:35:15 - PlusPro files downloaded: 275
+2025-05-20 02:35:15 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-20 02:39:36 - Sync to S3 succeeded
+2025-05-20 02:39:36 - Job completed
+2025-05-20 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-20 02:39:36 - Job completed
+2025-05-21 02:30:01 - Starting ingestion job
+2025-05-21 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-21 02:30:01 - Starting download job
+2025-05-21 02:34:21 - Download job succeeded
+2025-05-21 02:34:21 - Results files downloaded: 275
+2025-05-21 02:34:21 - PlusPro files downloaded: 275
+2025-05-21 02:34:21 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-21 02:38:40 - Sync to S3 succeeded
+2025-05-21 02:38:40 - Job completed
+2025-05-21 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-21 02:38:40 - Job completed
+2025-05-22 02:30:01 - Starting ingestion job
+2025-05-22 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-22 02:30:01 - Starting download job
+2025-05-22 02:34:17 - Download job succeeded
+2025-05-22 02:34:17 - Results files downloaded: 275
+2025-05-22 02:34:17 - PlusPro files downloaded: 275
+2025-05-22 02:34:17 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-22 02:38:42 - Sync to S3 succeeded
+2025-05-22 02:38:42 - Job completed
+2025-05-22 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-22 02:38:42 - Job completed
+2025-05-23 02:30:01 - Starting ingestion job
+2025-05-23 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-23 02:30:01 - Starting download job
+2025-05-23 02:34:14 - Download job succeeded
+2025-05-23 02:34:14 - Results files downloaded: 275
+2025-05-23 02:34:14 - PlusPro files downloaded: 275
+2025-05-23 02:34:14 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-23 02:38:39 - Sync to S3 succeeded
+2025-05-23 02:38:39 - Job completed
+2025-05-23 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-23 02:38:39 - Job completed
+2025-05-24 02:30:01 - Starting ingestion job
+2025-05-24 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-24 02:30:01 - Starting download job
+2025-05-24 02:34:21 - Download job succeeded
+2025-05-24 02:34:21 - Results files downloaded: 275
+2025-05-24 02:34:21 - PlusPro files downloaded: 275
+2025-05-24 02:34:21 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-24 02:38:43 - Sync to S3 succeeded
+2025-05-24 02:38:43 - Job completed
+2025-05-24 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-24 02:38:43 - Job completed
+2025-05-25 02:30:01 - Starting ingestion job
+2025-05-25 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-25 02:30:01 - Starting download job
+2025-05-25 02:34:24 - Download job succeeded
+2025-05-25 02:34:24 - Results files downloaded: 275
+2025-05-25 02:34:24 - PlusPro files downloaded: 275
+2025-05-25 02:34:24 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-25 02:38:47 - Sync to S3 succeeded
+2025-05-25 02:38:47 - Job completed
+2025-05-25 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-25 02:38:47 - Job completed
+2025-05-26 02:30:01 - Starting ingestion job
+2025-05-26 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-26 02:30:01 - Starting download job
+2025-05-26 02:34:31 - Download job succeeded
+2025-05-26 02:34:31 - Results files downloaded: 275
+2025-05-26 02:34:31 - PlusPro files downloaded: 275
+2025-05-26 02:34:31 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-26 02:38:54 - Sync to S3 succeeded
+2025-05-26 02:38:54 - Job completed
+2025-05-26 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-26 02:38:54 - Job completed
+2025-05-27 02:30:01 - Starting ingestion job
+2025-05-27 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-27 02:30:01 - Starting download job
+2025-05-27 02:35:30 - Download job succeeded
+2025-05-27 02:35:30 - Results files downloaded: 275
+2025-05-27 02:35:30 - PlusPro files downloaded: 275
+2025-05-27 02:35:30 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-27 02:39:54 - Sync to S3 succeeded
+2025-05-27 02:39:54 - Job completed
+2025-05-27 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-27 02:39:54 - Job completed
+2025-05-28 02:30:01 - Starting ingestion job
+2025-05-28 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-28 02:30:01 - Starting download job
+2025-05-28 02:34:10 - Download job succeeded
+2025-05-28 02:34:10 - Results files downloaded: 275
+2025-05-28 02:34:10 - PlusPro files downloaded: 275
+2025-05-28 02:34:10 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-28 02:38:35 - Sync to S3 succeeded
+2025-05-28 02:38:35 - Job completed
+2025-05-28 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-28 02:38:35 - Job completed
+2025-05-29 02:30:01 - Starting ingestion job
+2025-05-29 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-29 02:30:01 - Starting download job
+2025-05-29 02:34:08 - Download job succeeded
+2025-05-29 02:34:08 - Results files downloaded: 275
+2025-05-29 02:34:08 - PlusPro files downloaded: 275
+2025-05-29 02:34:08 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-29 02:38:30 - Sync to S3 succeeded
+2025-05-29 02:38:30 - Job completed
+2025-05-29 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-29 02:38:30 - Job completed
+2025-05-30 02:30:01 - Starting ingestion job
+2025-05-30 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-30 02:30:01 - Starting download job
+2025-05-30 02:33:55 - Download job succeeded
+2025-05-30 02:33:55 - Results files downloaded: 275
+2025-05-30 02:33:55 - PlusPro files downloaded: 275
+2025-05-30 02:33:55 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-30 02:38:22 - Sync to S3 succeeded
+2025-05-30 02:38:22 - Job completed
+2025-05-30 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-30 02:38:22 - Job completed
+2025-05-30 12:46:57 - Starting ingestion job
+2025-05-30 12:46:57 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-30 12:46:57 - Starting download job
+2025-05-30 12:51:12 - Download job succeeded
+2025-05-30 12:51:13 - Results files downloaded: 275
+2025-05-30 12:51:13 - PlusPro files downloaded: 275
+2025-05-30 12:51:13 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-30 12:55:35 - Sync to S3 succeeded
+2025-05-30 12:55:35 - Job completed
+2025-05-30 12:46:57 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-30 12:55:35 - Job completed
+2025-05-31 02:30:01 - Starting ingestion job
+2025-05-31 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-31 02:30:01 - Starting download job
+2025-05-31 02:34:00 - Download job succeeded
+2025-05-31 02:34:00 - Results files downloaded: 275
+2025-05-31 02:34:00 - PlusPro files downloaded: 275
+2025-05-31 02:34:00 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-31 02:35:09 - Sync to S3 succeeded
+2025-05-31 02:35:09 - Job completed
+2025-05-31 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-31 02:35:09 - Job completed
+2025-05-31 11:17:59 - Starting ingestion job
+2025-05-31 11:17:59 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-31 11:17:59 - Starting download job
+2025-05-31 11:22:02 - Download job succeeded
+2025-05-31 11:22:02 - Results files downloaded: 275
+2025-05-31 11:22:02 - PlusPro files downloaded: 275
+2025-05-31 11:22:02 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-05-31 11:26:23 - Sync to S3 succeeded
+2025-05-31 11:26:23 - Job completed
+2025-05-31 11:17:59 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-05-31 11:26:23 - Job completed
+2025-05-31 11:43:32 - Starting ingestion job
+2025-05-31 11:43:32 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-05-31 11:43:32 - Starting download job
+2025-05-31 11:43:33 - Download job failed
+CSRF Token: mO4qwda8ovapkry0hp6BqKM6hfTY3nvuPmsMPw9i
+Traceback (most recent call last):
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 197, in <module>
+    login()
+  File "/home/exx/myCode/horse-racing/FoxRiverAIRacing/src/data_download/Trackmaster/plusPro_results_charts.py", line 81, in login
+    'username': USERNAME,
+                ^^^^^^^^
+NameError: name 'USERNAME' is not defined
+2025-06-01 02:30:01 - Starting ingestion job
+2025-06-01 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-06-01 02:30:01 - Starting download job
+2025-06-01 02:34:21 - Download job succeeded
+2025-06-01 02:34:21 - Results files downloaded: 275
+2025-06-01 02:34:21 - PlusPro files downloaded: 275
+2025-06-01 02:34:21 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-06-01 02:35:25 - Sync to S3 succeeded
+2025-06-01 02:35:25 - Job completed
+2025-06-01 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-06-01 02:35:25 - Job completed
+2025-06-02 02:30:01 - Starting ingestion job
+2025-06-02 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-06-02 02:30:01 - Starting download job
+2025-06-02 02:34:03 - Download job succeeded
+2025-06-02 02:34:03 - Results files downloaded: 275
+2025-06-02 02:34:03 - PlusPro files downloaded: 275
+2025-06-02 02:34:03 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-06-02 02:38:27 - Sync to S3 succeeded
+2025-06-02 02:38:27 - Job completed
+2025-06-02 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-06-02 02:38:27 - Job completed
+2025-06-03 02:30:01 - Starting ingestion job
+2025-06-03 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-06-03 02:30:01 - Starting download job
+2025-06-03 02:35:12 - Download job succeeded
+2025-06-03 02:35:12 - Results files downloaded: 275
+2025-06-03 02:35:12 - PlusPro files downloaded: 275
+2025-06-03 02:35:12 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-06-03 02:39:40 - Sync to S3 succeeded
+2025-06-03 02:39:40 - Job completed
+2025-06-03 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-06-03 02:39:40 - Job completed
+2025-06-04 02:30:01 - Starting ingestion job
+2025-06-04 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-06-04 02:30:01 - Starting download job
+2025-06-04 02:34:38 - Download job succeeded
+2025-06-04 02:34:38 - Results files downloaded: 275
+2025-06-04 02:34:38 - PlusPro files downloaded: 275
+2025-06-04 02:34:38 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-06-04 02:39:02 - Sync to S3 succeeded
+2025-06-04 02:39:02 - Job completed
+2025-06-04 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-06-04 02:39:02 - Job completed
+2025-06-05 02:30:01 - Starting ingestion job
+2025-06-05 02:30:01 - Environment variables loaded from /home/exx/myCode/horse-racing/FoxRiverAIRacing/config/.env
+2025-06-05 02:30:01 - Starting download job
+2025-06-05 02:34:36 - Download job succeeded
+2025-06-05 02:34:36 - Results files downloaded: 275
+2025-06-05 02:34:36 - PlusPro files downloaded: 275
+2025-06-05 02:34:36 - Syncing data directory to S3: s3://rshane/FoxRiverAIRacing/data
+2025-06-05 02:39:03 - Sync to S3 succeeded
+2025-06-05 02:39:03 - Job completed
+2025-06-05 02:30:01 - Results: 275 files, PlusPro: 275 files, Backup: Success
+2025-06-05 02:39:03 - Job completed

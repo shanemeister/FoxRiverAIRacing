@@ -31,7 +31,7 @@ from decimal import Decimal
 from wager_config       import (MIN_FIELD, MAX_FIELD, BANKROLL_START,
                            TRACK_MIN, KELLY_THRESHOLD, KELLY_FRACTION,
                            MAX_FRACTION, EDGE_MIN)
-from wager_rules  import WAGER_RULES, choose_rule
+from src.wagering.exacta_rules  import WAGER_RULES, choose_exacta_rule
 
 _DECIMAL_KINDS = ("object", "category")      # pandas dtypes that can hide Decimals
 

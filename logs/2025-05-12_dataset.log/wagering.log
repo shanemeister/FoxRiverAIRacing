@@ -1,0 +1,25 @@
+2025-05-12 15:09:28 - INFO - Logging has been set up successfully.
+2025-05-12 15:09:28 - INFO - Loading races data from PostgreSQL...
+2025-05-12 15:09:29 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
+2025-05-12 15:09:31 - INFO - races data loaded and saved successfully.
+2025-05-12 15:09:31 - INFO - Loading wagers data from PostgreSQL...
+2025-05-12 15:09:31 - INFO - Saving wagers DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/wagers.parquet...
+2025-05-12 15:09:32 - INFO - wagers data loaded and saved successfully.
+2025-05-12 15:09:32 - INFO - DataFrame 'races' loaded. Schema:
+2025-05-12 15:09:32 - INFO - DataFrame 'wagers' loaded. Schema:
+2025-05-12 15:10:00 - INFO - [UPCOMING] Tracks with races ≥ 2025-05-12: ['IND']
+2025-05-12 15:10:00 - INFO - Exacta ▶ 1396 races after filters
+2025-05-12 15:10:00 - INFO - 
+--- Debugging Race ---
+2025-05-12 15:10:00 - INFO - Race Key: ('IND', datetime.date(2025, 4, 15), 1, 'Trifecta')
+2025-05-12 15:10:00 - INFO - Wager Amount: 50
+2025-05-12 15:10:00 - INFO - Generated Combos: [('6', '7', '5')]
+2025-05-12 15:10:00 - INFO - Posted Base: 0.50
+2025-05-12 15:10:00 - INFO - Cost for Combos: 50.00
+2025-05-12 15:10:00 - INFO - Actual Winning Combo: [['7'], ['6'], ['5']]
+2025-05-12 15:10:00 - INFO - Listed Payoff: 7.00
+2025-05-12 15:10:00 - INFO - Bad Race Wager info so far: 0
+2025-05-12 15:10:00 - INFO - combo size 1  |  [('6', '7', '5')]
+2025-05-12 15:10:00 - ERROR - Error in implement_strategy: too many values to unpack (expected 2)
+2025-05-12 15:10:00 - ERROR - Error during Spark initialization: too many values to unpack (expected 2)
+2025-05-12 15:10:00 - INFO - Closing down clientserver connection

@@ -110,32 +110,64 @@ class TrifectaWager(Wager):
         self.top_n = top_n
         self.box = box
 
-    def generate_combos(self, race: Race):
+    @staticmethod
+    def combos_from_style(race: Race, style: str, top_n: int = 3) -> List[Tuple[str, str, str]]:
         """
-        Generate trifecta combos for 'race'.
-          - If box=True and top_n=4, we create all permutations of the top 4 horses taken 3 at a time.
-            E.g. (horseA,horseB,horseC), (horseA,horseC,horseB), ...
-          - If box=False, we pick only (top_horse[0], top_horse[1], top_horse[2]) (assuming top_n>=3).
-        """
-        sorted_horses = race.get_sorted_by_prediction()
-        top_horses = sorted_horses[: self.top_n]
+        Build a list of (win-prog, place-prog, show-prog) triples.
 
-        combos = []
-        if self.box:
-            # All permutations of the chosen top_n, taken 3 at a time
-            for perm in itertools.permutations(top_horses, 3):
-                combos.append(
-                    (perm[0].program_num, perm[1].program_num, perm[2].program_num)
-                )
-        else:
-            # A single "straight" trifecta from the top 3
-            if len(top_horses) >= 3:
-                combos.append((
-                    top_horses[0].program_num,
-                    top_horses[1].program_num,
-                    top_horses[2].program_num
-                ))
-        return combos
+        Styles supported
+        ----------------
+        • STRAIGHT123   : only the exact order 1-2-3  
+        • KEY1_23       : #1 must win; 2 & 3 can swap underneath  
+        • KEY12_3       : 1 or 2 wins, the other is 2nd, #3 must be 3rd  
+        • BOX123        : full 3-horse box (6 perms)
+
+        The *rank* used is the model rank (1 = best).  If the field is too
+        short the function returns an empty list → caller skips the race.
+        """
+        # ---------- 1) horses needed for each style -----------------------
+        required = {
+            "STRAIGHT123": 3,
+            "KEY1_23"    : 3,
+            "KEY12_3"    : 3,
+            "BOX123"     : 3,
+        }.get(style)
+
+        if required is None:
+            raise ValueError(f"Unknown trifecta style: {style}")
+
+        # ---------- 2) pick the top-`required` horses ---------------------
+        horses_by_rank = sorted(
+            race.horses,
+            key=lambda h: (int(h.rank), -h.prediction)   # rank ascending, prob tiebreak
+        )[:required]
+
+        if len(horses_by_rank) < required:              # very short field → no bet
+            return []
+
+        nums = [str(h.program_num) for h in horses_by_rank]  # ['1','2','3', …]
+
+        # ---------- 3) build the combos ----------------------------------
+        if style == "STRAIGHT123":
+            return [(nums[0], nums[1], nums[2])]
+
+        if style == "KEY1_23":               # 1 ⟶ (2,3) boxed underneath
+            return [
+                (nums[0], nums[1], nums[2]),
+                (nums[0], nums[2], nums[1]),
+            ]
+
+        if style == "KEY12_3":               # (1,2) ⟶ 3 boxed on top
+            return [
+                (nums[0], nums[1], nums[2]),
+                (nums[1], nums[0], nums[2]),
+            ]
+
+        if style == "BOX123":                # full 3-horse box
+            return list(itertools.permutations(nums, 3))
+
+        # Should never reach here
+        raise ValueError(f"Unhandled style: {style}")
 
     def check_if_win(self, combo, race: Race, actual_winning_combo):
         """

@@ -1,0 +1,1688 @@
+2025-05-11 14:12:58 - INFO - Logging has been set up successfully.
+2025-05-11 14:12:58 - INFO - Loading races data from PostgreSQL...
+2025-05-11 14:12:59 - INFO - Saving races DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/races.parquet...
+2025-05-11 14:13:01 - INFO - races data loaded and saved successfully.
+2025-05-11 14:13:01 - INFO - Loading wagers data from PostgreSQL...
+2025-05-11 14:13:01 - INFO - Saving wagers DataFrame to Parquet at /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/parquet/wagers.parquet...
+2025-05-11 14:13:03 - INFO - wagers data loaded and saved successfully.
+2025-05-11 14:13:03 - INFO - DataFrame 'races' loaded. Schema:
+2025-05-11 14:13:03 - INFO - DataFrame 'wagers' loaded. Schema:
+2025-05-11 14:13:26 - INFO - [UPCOMING] Tracks with races ≥ 2025-05-11: ['IND', 'MTH', 'PEN', 'PIM', 'TCD', 'TGP', 'TLS', 'TSA', 'TWO']
+2025-05-11 14:13:26 - INFO - Exacta ▶ 1599 races after filters
+2025-05-11 14:13:26 - INFO - [GAP STATS] gap12 median 0.0941 | 75-pct 0.1942 | 90-pct 0.3212 ; gap23 median 0.0407 | 75-pct 0.0790 | 90-pct 0.1300
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 4, 23), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 378.814760788077
+2025-05-11 14:13:26 - INFO - Generated Combos: [('16', '5'), ('16', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 360.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['16'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 57.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('16', '5'), Payoff = 5130.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('16', '5'), ('16', '2')]
+2025-05-11 14:13:26 - INFO - [IND-8] ✔ prog=16 rank= 1  score=0.3995  kelly=-0.365 edge=-0.161  ML= 0.56  2025-04-23  gap12=0.278  gap23=0.278
+2025-05-11 14:13:26 - INFO - [IND-8] ▶ prog=5 rank= 2  score=0.1218  kelly=0.013 edge=+0.012  ML= 0.11  2025-04-23  gap12=0.278  gap23=0.278
+2025-05-11 14:13:26 - INFO - [IND-8] ✔ prog=16 rank= 1  score=0.3995  kelly=-0.365 edge=-0.161  ML= 0.56  2025-04-23  gap12=0.278  gap23=0.278
+2025-05-11 14:13:26 - INFO - [IND-8] ▶ prog=2 rank= 3  score=0.1187  kelly=-0.102 edge=-0.081  ML= 0.20  2025-04-23  gap12=0.278  gap23=0.278
+2025-05-11 14:13:26 - INFO - IND-8 | Big gap key12 | stake $378.81 | 2 combos | cost 360.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 4, 24), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 830.8279195230191
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '4'), ('5', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 840.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['6']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 14.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '4'), ('5', '7')]
+2025-05-11 14:13:26 - INFO - [IND-1] ✔ prog=5 rank= 1  score=0.6424  kelly=0.496 edge=+0.352  ML= 0.29  2025-04-24  gap12=0.526  gap23=0.526
+2025-05-11 14:13:26 - INFO - [IND-1] ▶ prog=4 rank= 2  score=0.1163  kelly=-0.381 edge=-0.244  ML= 0.36  2025-04-24  gap12=0.526  gap23=0.526
+2025-05-11 14:13:26 - INFO - [IND-1] ✔ prog=5 rank= 1  score=0.6424  kelly=0.496 edge=+0.352  ML= 0.29  2025-04-24  gap12=0.526  gap23=0.526
+2025-05-11 14:13:26 - INFO - [IND-1] ▶ prog=7 rank= 3  score=0.0761  kelly=0.017 edge=+0.016  ML= 0.06  2025-04-24  gap12=0.526  gap23=0.526
+2025-05-11 14:13:26 - INFO - IND-1 | Big gap key12 | stake $830.83 | 2 combos | cost 840.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 4, 24), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 732.205740513599
+2025-05-11 14:13:26 - INFO - Generated Combos: [('6', '3'), ('6', '4')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 720.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 21.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('6', '3'), ('6', '4')]
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=6 rank= 1  score=0.4551  kelly=0.273 edge=+0.205  ML= 0.25  2025-04-24  gap12=0.291  gap23=0.291
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=3 rank= 2  score=0.1644  kelly=-0.247 edge=-0.166  ML= 0.33  2025-04-24  gap12=0.291  gap23=0.291
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=6 rank= 1  score=0.4551  kelly=0.273 edge=+0.205  ML= 0.25  2025-04-24  gap12=0.291  gap23=0.291
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=4 rank= 3  score=0.1364  kelly=-0.004 edge=-0.004  ML= 0.14  2025-04-24  gap12=0.291  gap23=0.291
+2025-05-11 14:13:26 - INFO - IND-3 | Big gap key12 | stake $732.21 | 2 combos | cost 720.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 4, 24), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 630.1312801037565
+2025-05-11 14:13:26 - INFO - Generated Combos: [('10', '6'), ('10', '11')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 640.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['11']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 183.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('10', '6'), ('10', '11')]
+2025-05-11 14:13:26 - INFO - [IND-8] ✔ prog=10 rank= 1  score=0.4380  kelly=0.251 edge=+0.188  ML= 0.25  2025-04-24  gap12=0.282  gap23=0.282
+2025-05-11 14:13:26 - INFO - [IND-8] ▶ prog=6 rank= 2  score=0.1561  kelly=0.073 edge=+0.066  ML= 0.09  2025-04-24  gap12=0.282  gap23=0.282
+2025-05-11 14:13:26 - INFO - [IND-8] ✔ prog=10 rank= 1  score=0.4380  kelly=0.251 edge=+0.188  ML= 0.25  2025-04-24  gap12=0.282  gap23=0.282
+2025-05-11 14:13:26 - INFO - [IND-8] ▶ prog=11 rank= 3  score=0.1491  kelly=0.075 edge=+0.069  ML= 0.08  2025-04-24  gap12=0.282  gap23=0.282
+2025-05-11 14:13:26 - INFO - IND-8 | Big gap key12 | stake $630.13 | 2 combos | cost 640.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 4, 30), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 656.9451010903537
+2025-05-11 14:13:26 - INFO - Generated Combos: [('6', '4'), ('6', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 640.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['6']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 35.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('6', '4'), ('6', '1')]
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=6 rank= 1  score=0.4865  kelly=0.234 edge=+0.156  ML= 0.33  2025-04-30  gap12=0.330  gap23=0.330
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=4 rank= 2  score=0.1569  kelly=-0.081 edge=-0.063  ML= 0.22  2025-04-30  gap12=0.330  gap23=0.330
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=6 rank= 1  score=0.4865  kelly=0.234 edge=+0.156  ML= 0.33  2025-04-30  gap12=0.330  gap23=0.330
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=1 rank= 3  score=0.1098  kelly=-0.035 edge=-0.030  ML= 0.14  2025-04-30  gap12=0.330  gap23=0.330
+2025-05-11 14:13:26 - INFO - IND-3 | Big gap key12 | stake $656.95 | 2 combos | cost 640.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 4, 30), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 558.2312936548458
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '6'), ('4', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 560.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['11']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 21.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '6'), ('4', '5')]
+2025-05-11 14:13:26 - INFO - [IND-8] ✔ prog=4 rank= 1  score=0.4048  kelly=0.162 edge=+0.115  ML= 0.29  2025-04-30  gap12=0.293  gap23=0.293
+2025-05-11 14:13:26 - INFO - [IND-8] ▶ prog=6 rank= 2  score=0.1119  kelly=-0.110 edge=-0.088  ML= 0.20  2025-04-30  gap12=0.293  gap23=0.293
+2025-05-11 14:13:26 - INFO - [IND-8] ✔ prog=4 rank= 1  score=0.4048  kelly=0.162 edge=+0.115  ML= 0.29  2025-04-30  gap12=0.293  gap23=0.293
+2025-05-11 14:13:26 - INFO - [IND-8] ▶ prog=5 rank= 3  score=0.0897  kelly=-0.059 edge=-0.050  ML= 0.14  2025-04-30  gap12=0.293  gap23=0.293
+2025-05-11 14:13:26 - INFO - IND-8 | Big gap key12 | stake $558.23 | 2 combos | cost 560.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 5, 3), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 549.0559080466353
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '5'), ('1', '9')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 560.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['9'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 13.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '5'), ('1', '9')]
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=1 rank= 1  score=0.5087  kelly=0.401 edge=+0.329  ML= 0.18  2025-05-03  gap12=0.331  gap23=0.331
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=5 rank= 2  score=0.1775  kelly=0.096 edge=+0.088  ML= 0.09  2025-05-03  gap12=0.331  gap23=0.331
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=1 rank= 1  score=0.5087  kelly=0.401 edge=+0.329  ML= 0.18  2025-05-03  gap12=0.331  gap23=0.331
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=9 rank= 3  score=0.1328  kelly=0.047 edge=+0.043  ML= 0.09  2025-05-03  gap12=0.331  gap23=0.331
+2025-05-11 14:13:26 - INFO - IND-3 | Big gap key12 | stake $549.06 | 2 combos | cost 560.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 5, 5), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 472.9826361846221
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '5'), ('7', '9')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 480.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 6.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '5'), ('7', '9')]
+2025-05-11 14:13:26 - INFO - [IND-4] ✔ prog=7 rank= 1  score=0.4675  kelly=0.290 edge=+0.217  ML= 0.25  2025-05-05  gap12=0.270  gap23=0.270
+2025-05-11 14:13:26 - INFO - [IND-4] ▶ prog=5 rank= 2  score=0.1976  kelly=0.067 edge=+0.058  ML= 0.14  2025-05-05  gap12=0.270  gap23=0.270
+2025-05-11 14:13:26 - INFO - [IND-4] ✔ prog=7 rank= 1  score=0.4675  kelly=0.290 edge=+0.217  ML= 0.25  2025-05-05  gap12=0.270  gap23=0.270
+2025-05-11 14:13:26 - INFO - [IND-4] ▶ prog=9 rank= 3  score=0.1720  kelly=0.090 edge=+0.082  ML= 0.09  2025-05-05  gap12=0.270  gap23=0.270
+2025-05-11 14:13:26 - INFO - IND-4 | Big gap key12 | stake $472.98 | 2 combos | cost 480.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 5, 5), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 419.121259243449
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '8'), ('7', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 400.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 17.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '8'), ('7', '5')]
+2025-05-11 14:13:26 - INFO - [IND-5] ✔ prog=7 rank= 1  score=0.4057  kelly=0.163 edge=+0.116  ML= 0.29  2025-05-05  gap12=0.253  gap23=0.253
+2025-05-11 14:13:26 - INFO - [IND-5] ▶ prog=8 rank= 2  score=0.1526  kelly=0.069 edge=+0.063  ML= 0.09  2025-05-05  gap12=0.253  gap23=0.253
+2025-05-11 14:13:26 - INFO - [IND-5] ✔ prog=7 rank= 1  score=0.4057  kelly=0.163 edge=+0.116  ML= 0.29  2025-05-05  gap12=0.253  gap23=0.253
+2025-05-11 14:13:26 - INFO - [IND-5] ▶ prog=5 rank= 3  score=0.1380  kelly=-0.077 edge=-0.062  ML= 0.20  2025-05-05  gap12=0.253  gap23=0.253
+2025-05-11 14:13:26 - INFO - IND-5 | Big gap key12 | stake $419.12 | 2 combos | cost 400.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 5, 5), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 370.59553385066994
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '6'), ('2', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 360.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['9'], ['2']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 54.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '6'), ('2', '1')]
+2025-05-11 14:13:26 - INFO - [IND-6] ✔ prog=2 rank= 1  score=0.4587  kelly=0.306 edge=+0.239  ML= 0.22  2025-05-05  gap12=0.314  gap23=0.314
+2025-05-11 14:13:26 - INFO - [IND-6] ▶ prog=6 rank= 2  score=0.1443  kelly=0.005 edge=+0.004  ML= 0.14  2025-05-05  gap12=0.314  gap23=0.314
+2025-05-11 14:13:26 - INFO - [IND-6] ✔ prog=2 rank= 1  score=0.4587  kelly=0.306 edge=+0.239  ML= 0.22  2025-05-05  gap12=0.314  gap23=0.314
+2025-05-11 14:13:26 - INFO - [IND-6] ▶ prog=1 rank= 3  score=0.1436  kelly=0.059 edge=+0.054  ML= 0.09  2025-05-05  gap12=0.314  gap23=0.314
+2025-05-11 14:13:26 - INFO - IND-6 | Big gap key12 | stake $370.60 | 2 combos | cost 360.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 5, 6), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 347.2665848586231
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '7'), ('2', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 360.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['6']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 84.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '7'), ('2', '5')]
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=2 rank= 1  score=0.4695  kelly=0.293 edge=+0.219  ML= 0.25  2025-05-06  gap12=0.310  gap23=0.310
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=7 rank= 2  score=0.1592  kelly=-0.184 edge=-0.131  ML= 0.29  2025-05-06  gap12=0.310  gap23=0.310
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=2 rank= 1  score=0.4695  kelly=0.293 edge=+0.219  ML= 0.25  2025-05-06  gap12=0.310  gap23=0.310
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=5 rank= 3  score=0.1552  kelly=0.018 edge=+0.015  ML= 0.14  2025-05-06  gap12=0.310  gap23=0.310
+2025-05-11 14:13:26 - INFO - IND-3 | Big gap key12 | stake $347.27 | 2 combos | cost 360.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 5, 6), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 367.78860038761775
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '8'), ('5', '11')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 360.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['11'], ['10']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 38.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '8'), ('5', '11')]
+2025-05-11 14:13:26 - INFO - [IND-8] ✔ prog=5 rank= 1  score=0.4764  kelly=0.460 edge=+0.446  ML= 0.03  2025-05-06  gap12=0.282  gap23=0.282
+2025-05-11 14:13:26 - INFO - [IND-8] ▶ prog=8 rank= 2  score=0.1947  kelly=0.152 edge=+0.145  ML= 0.05  2025-05-06  gap12=0.282  gap23=0.282
+2025-05-11 14:13:26 - INFO - [IND-8] ✔ prog=5 rank= 1  score=0.4764  kelly=0.460 edge=+0.446  ML= 0.03  2025-05-06  gap12=0.282  gap23=0.282
+2025-05-11 14:13:26 - INFO - [IND-8] ▶ prog=11 rank= 3  score=0.1452  kelly=0.006 edge=+0.005  ML= 0.14  2025-05-06  gap12=0.282  gap23=0.282
+2025-05-11 14:13:26 - INFO - IND-8 | Big gap key12 | stake $367.79 | 2 combos | cost 360.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 5, 7), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 326.51797316920147
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '3'), ('2', '4')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 320.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['7']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 38.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '3'), ('2', '4')]
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=2 rank= 1  score=0.6169  kelly=0.401 edge=+0.257  ML= 0.36  2025-05-07  gap12=0.468  gap23=0.468
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=3 rank= 2  score=0.1489  kelly=-0.038 edge=-0.031  ML= 0.18  2025-05-07  gap12=0.468  gap23=0.468
+2025-05-11 14:13:26 - INFO - [IND-3] ✔ prog=2 rank= 1  score=0.6169  kelly=0.401 edge=+0.257  ML= 0.36  2025-05-07  gap12=0.468  gap23=0.468
+2025-05-11 14:13:26 - INFO - [IND-3] ▶ prog=4 rank= 3  score=0.1096  kelly=-0.113 edge=-0.090  ML= 0.20  2025-05-07  gap12=0.468  gap23=0.468
+2025-05-11 14:13:26 - INFO - IND-3 | Big gap key12 | stake $326.52 | 2 combos | cost 320.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('IND', datetime.date(2025, 5, 8), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 280.3886685715548
+2025-05-11 14:13:26 - INFO - Generated Combos: [('3', '5'), ('3', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 280.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 68.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 0
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('3', '5'), ('3', '6')]
+2025-05-11 14:13:26 - INFO - [IND-4] ✔ prog=3 rank= 1  score=0.4406  kelly=0.254 edge=+0.191  ML= 0.25  2025-05-08  gap12=0.315  gap23=0.315
+2025-05-11 14:13:26 - INFO - [IND-4] ▶ prog=5 rank= 2  score=0.1253  kelly=-0.054 edge=-0.045  ML= 0.17  2025-05-08  gap12=0.315  gap23=0.315
+2025-05-11 14:13:26 - INFO - [IND-4] ✔ prog=3 rank= 1  score=0.4406  kelly=0.254 edge=+0.191  ML= 0.25  2025-05-08  gap12=0.315  gap23=0.315
+2025-05-11 14:13:26 - INFO - [IND-4] ▶ prog=6 rank= 3  score=0.1076  kelly=-0.144 edge=-0.112  ML= 0.22  2025-05-08  gap12=0.315  gap23=0.315
+2025-05-11 14:13:26 - INFO - IND-4 | Big gap key12 | stake $280.39 | 2 combos | cost 280.00 | miss
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 12), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 13), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('IND', datetime.date(2025, 5, 14), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('MTH', datetime.date(2025, 5, 11), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 15), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 16), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PEN', datetime.date(2025, 5, 17), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 9), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('PIM', datetime.date(2025, 5, 9), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 263.8633357448093
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '4'), ('7', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 280.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['13']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 37.70
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 56
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '4'), ('7', '6')]
+2025-05-11 14:13:26 - INFO - [PIM-5] ✔ prog=7 rank= 1  score=0.5844  kelly=0.351 edge=+0.224  ML= 0.36  2025-05-09  gap12=0.403  gap23=0.403
+2025-05-11 14:13:26 - INFO - [PIM-5] ▶ prog=4 rank= 2  score=0.1819  kelly=0.081 edge=+0.072  ML= 0.11  2025-05-09  gap12=0.403  gap23=0.403
+2025-05-11 14:13:26 - INFO - [PIM-5] ✔ prog=7 rank= 1  score=0.5844  kelly=0.351 edge=+0.224  ML= 0.36  2025-05-09  gap12=0.403  gap23=0.403
+2025-05-11 14:13:26 - INFO - [PIM-5] ▶ prog=6 rank= 3  score=0.1572  kelly=0.084 edge=+0.077  ML= 0.08  2025-05-09  gap12=0.403  gap23=0.403
+2025-05-11 14:13:26 - INFO - PIM-5 | Big gap key12 | stake $263.86 | 2 combos | cost 280.00 | miss
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 11, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 12, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 10), 13, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 11, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 12, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('PIM', datetime.date(2025, 5, 11), 13, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TCD', datetime.date(2025, 4, 26), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 241.88452708176044
+2025-05-11 14:13:26 - INFO - Generated Combos: [('8', '4'), ('8', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 240.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['8'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 56.64
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 72
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('8', '4'), ('8', '5')]
+2025-05-11 14:13:26 - INFO - [TCD-7] ✔ prog=8 rank= 1  score=0.4489  kelly=0.336 edge=+0.279  ML= 0.17  2025-04-26  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TCD-7] ▶ prog=4 rank= 2  score=0.1605  kelly=-0.049 edge=-0.039  ML= 0.20  2025-04-26  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TCD-7] ✔ prog=8 rank= 1  score=0.4489  kelly=0.336 edge=+0.279  ML= 0.17  2025-04-26  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TCD-7] ▶ prog=5 rank= 3  score=0.1347  kelly=-0.109 edge=-0.085  ML= 0.22  2025-04-26  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - TCD-7 | Big gap key12 | stake $241.88 | 2 combos | cost 240.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TCD', datetime.date(2025, 4, 30), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 214.96001573623107
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '4'), ('7', '12')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 18.22
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 72
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('7', '4'), Payoff = 911.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '4'), ('7', '12')]
+2025-05-11 14:13:26 - INFO - [TCD-2] ✔ prog=7 rank= 1  score=0.4444  kelly=0.288 edge=+0.224  ML= 0.22  2025-04-30  gap12=0.333  gap23=0.333
+2025-05-11 14:13:26 - INFO - [TCD-2] ▶ prog=4 rank= 2  score=0.1113  kelly=0.023 edge=+0.021  ML= 0.09  2025-04-30  gap12=0.333  gap23=0.333
+2025-05-11 14:13:26 - INFO - [TCD-2] ✔ prog=7 rank= 1  score=0.4444  kelly=0.288 edge=+0.224  ML= 0.22  2025-04-30  gap12=0.333  gap23=0.333
+2025-05-11 14:13:26 - INFO - [TCD-2] ▶ prog=12 rank= 3  score=0.0964  kelly=0.007 edge=+0.006  ML= 0.09  2025-04-30  gap12=0.333  gap23=0.333
+2025-05-11 14:13:26 - INFO - TCD-2 | Big gap key12 | stake $214.96 | 2 combos | cost 200.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TCD', datetime.date(2025, 4, 30), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 284.467950468255
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '3'), ('5', '8')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 280.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['8']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 92.72
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 72
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '3'), ('5', '8')]
+2025-05-11 14:13:26 - INFO - [TCD-8] ✔ prog=5 rank= 1  score=0.5328  kelly=0.303 edge=+0.203  ML= 0.33  2025-04-30  gap12=0.392  gap23=0.392
+2025-05-11 14:13:26 - INFO - [TCD-8] ▶ prog=3 rank= 2  score=0.1403  kelly=-0.075 edge=-0.060  ML= 0.20  2025-04-30  gap12=0.392  gap23=0.392
+2025-05-11 14:13:26 - INFO - [TCD-8] ✔ prog=5 rank= 1  score=0.5328  kelly=0.303 edge=+0.203  ML= 0.33  2025-04-30  gap12=0.392  gap23=0.392
+2025-05-11 14:13:26 - INFO - [TCD-8] ▶ prog=8 rank= 3  score=0.1097  kelly=-0.000 edge=-0.000  ML= 0.11  2025-04-30  gap12=0.392  gap23=0.392
+2025-05-11 14:13:26 - INFO - TCD-8 | Big gap key12 | stake $284.47 | 2 combos | cost 280.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 2), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 258.1076498762858
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '8'), ('5', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 240.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['7']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 12.08
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 72
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '8'), ('5', '2')]
+2025-05-11 14:13:26 - INFO - [TCD-5] ✔ prog=5 rank= 1  score=0.5342  kelly=0.249 edge=+0.154  ML= 0.38  2025-05-02  gap12=0.357  gap23=0.357
+2025-05-11 14:13:26 - INFO - [TCD-5] ▶ prog=8 rank= 2  score=0.1769  kelly=-0.004 edge=-0.003  ML= 0.18  2025-05-02  gap12=0.357  gap23=0.357
+2025-05-11 14:13:26 - INFO - [TCD-5] ✔ prog=5 rank= 1  score=0.5342  kelly=0.249 edge=+0.154  ML= 0.38  2025-05-02  gap12=0.357  gap23=0.357
+2025-05-11 14:13:26 - INFO - [TCD-5] ▶ prog=2 rank= 3  score=0.1503  kelly=-0.133 edge=-0.100  ML= 0.25  2025-05-02  gap12=0.357  gap23=0.357
+2025-05-11 14:13:26 - INFO - TCD-5 | Big gap key12 | stake $258.11 | 2 combos | cost 240.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 2), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 250.5310421076886
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '3'), ('2', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 240.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 25.92
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 72
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '3'), ('2', '5')]
+2025-05-11 14:13:26 - INFO - [TCD-6] ✔ prog=2 rank= 1  score=0.4851  kelly=0.232 edge=+0.155  ML= 0.33  2025-05-02  gap12=0.314  gap23=0.314
+2025-05-11 14:13:26 - INFO - [TCD-6] ▶ prog=3 rank= 2  score=0.1711  kelly=-0.036 edge=-0.029  ML= 0.20  2025-05-02  gap12=0.314  gap23=0.314
+2025-05-11 14:13:26 - INFO - [TCD-6] ✔ prog=2 rank= 1  score=0.4851  kelly=0.232 edge=+0.155  ML= 0.33  2025-05-02  gap12=0.314  gap23=0.314
+2025-05-11 14:13:26 - INFO - [TCD-6] ▶ prog=5 rank= 3  score=0.1281  kelly=-0.118 edge=-0.092  ML= 0.22  2025-05-02  gap12=0.314  gap23=0.314
+2025-05-11 14:13:26 - INFO - TCD-6 | Big gap key12 | stake $250.53 | 2 combos | cost 240.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 2), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 210.29572460555823
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '4'), ('2', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['6']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 301.96
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 72
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '4'), ('2', '6')]
+2025-05-11 14:13:26 - INFO - [TCD-7] ✔ prog=2 rank= 1  score=0.4723  kelly=-0.820 edge=-0.238  ML= 0.71  2025-05-02  gap12=0.342  gap23=0.342
+2025-05-11 14:13:26 - INFO - [TCD-7] ▶ prog=4 rank= 2  score=0.1300  kelly=-0.061 edge=-0.050  ML= 0.18  2025-05-02  gap12=0.342  gap23=0.342
+2025-05-11 14:13:26 - INFO - [TCD-7] ✔ prog=2 rank= 1  score=0.4723  kelly=-0.820 edge=-0.238  ML= 0.71  2025-05-02  gap12=0.342  gap23=0.342
+2025-05-11 14:13:26 - INFO - [TCD-7] ▶ prog=6 rank= 3  score=0.1163  kelly=0.089 edge=+0.086  ML= 0.03  2025-05-02  gap12=0.342  gap23=0.342
+2025-05-11 14:13:26 - INFO - TCD-7 | Big gap key12 | stake $210.30 | 2 combos | cost 200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 2), 10, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 212.15831383996357
+2025-05-11 14:13:26 - INFO - Generated Combos: [('9', '7'), ('9', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['9'], ['7']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 87.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 72
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('9', '7'), Payoff = 4390.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('9', '7'), ('9', '5')]
+2025-05-11 14:13:26 - INFO - [TCD-10] ✔ prog=9 rank= 1  score=0.4250  kelly=0.142 edge=+0.095  ML= 0.33  2025-05-02  gap12=0.265  gap23=0.265
+2025-05-11 14:13:26 - INFO - [TCD-10] ▶ prog=7 rank= 2  score=0.1604  kelly=0.087 edge=+0.080  ML= 0.08  2025-05-02  gap12=0.265  gap23=0.265
+2025-05-11 14:13:26 - INFO - [TCD-10] ✔ prog=9 rank= 1  score=0.4250  kelly=0.142 edge=+0.095  ML= 0.33  2025-05-02  gap12=0.265  gap23=0.265
+2025-05-11 14:13:26 - INFO - [TCD-10] ▶ prog=5 rank= 3  score=0.1183  kelly=-0.025 edge=-0.022  ML= 0.14  2025-05-02  gap12=0.265  gap23=0.265
+2025-05-11 14:13:26 - INFO - TCD-10 | Big gap key12 | stake $212.16 | 2 combos | cost 200.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TCD', datetime.date(2025, 5, 9), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 507.85978693782255
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '1'), ('4', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 520.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 21.72
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 72
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '1'), ('4', '3')]
+2025-05-11 14:13:26 - INFO - [TCD-4] ✔ prog=4 rank= 1  score=0.3913  kelly=0.091 edge=+0.061  ML= 0.33  2025-05-09  gap12=0.251  gap23=0.251
+2025-05-11 14:13:26 - INFO - [TCD-4] ▶ prog=1 rank= 2  score=0.1402  kelly=-0.036 edge=-0.030  ML= 0.17  2025-05-09  gap12=0.251  gap23=0.251
+2025-05-11 14:13:26 - INFO - [TCD-4] ✔ prog=4 rank= 1  score=0.3913  kelly=0.091 edge=+0.061  ML= 0.33  2025-05-09  gap12=0.251  gap23=0.251
+2025-05-11 14:13:26 - INFO - [TCD-4] ▶ prog=3 rank= 3  score=0.1357  kelly=-0.152 edge=-0.114  ML= 0.25  2025-05-09  gap12=0.251  gap23=0.251
+2025-05-11 14:13:26 - INFO - TCD-4 | Big gap key12 | stake $507.86 | 2 combos | cost 520.00 | miss
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TCD', datetime.date(2025, 5, 11), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 3), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 486.8387145254146
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '3'), ('2', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 480.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['8']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 18.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '3'), ('2', '1')]
+2025-05-11 14:13:26 - INFO - [TGP-4] ✔ prog=2 rank= 1  score=0.6378  kelly=0.434 edge=+0.278  ML= 0.36  2025-04-03  gap12=0.521  gap23=0.521
+2025-05-11 14:13:26 - INFO - [TGP-4] ▶ prog=3 rank= 2  score=0.1166  kelly=0.007 edge=+0.007  ML= 0.11  2025-04-03  gap12=0.521  gap23=0.521
+2025-05-11 14:13:26 - INFO - [TGP-4] ✔ prog=2 rank= 1  score=0.6378  kelly=0.434 edge=+0.278  ML= 0.36  2025-04-03  gap12=0.521  gap23=0.521
+2025-05-11 14:13:26 - INFO - [TGP-4] ▶ prog=1 rank= 3  score=0.1000  kelly=-0.084 edge=-0.070  ML= 0.17  2025-04-03  gap12=0.521  gap23=0.521
+2025-05-11 14:13:26 - INFO - TGP-4 | Big gap key12 | stake $486.84 | 2 combos | cost 480.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 4), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 434.86742690654233
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '8'), ('4', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 440.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['8'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 16.90
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '8'), ('4', '7')]
+2025-05-11 14:13:26 - INFO - [TGP-2] ✔ prog=4 rank= 1  score=0.3838  kelly=0.284 edge=+0.244  ML= 0.14  2025-04-04  gap12=0.256  gap23=0.256
+2025-05-11 14:13:26 - INFO - [TGP-2] ▶ prog=8 rank= 2  score=0.1278  kelly=-0.228 edge=-0.162  ML= 0.29  2025-04-04  gap12=0.256  gap23=0.256
+2025-05-11 14:13:26 - INFO - [TGP-2] ✔ prog=4 rank= 1  score=0.3838  kelly=0.284 edge=+0.244  ML= 0.14  2025-04-04  gap12=0.256  gap23=0.256
+2025-05-11 14:13:26 - INFO - [TGP-2] ▶ prog=7 rank= 3  score=0.1211  kelly=-0.072 edge=-0.059  ML= 0.18  2025-04-04  gap12=0.256  gap23=0.256
+2025-05-11 14:13:26 - INFO - TGP-2 | Big gap key12 | stake $434.87 | 2 combos | cost 440.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 4), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 403.26439412666565
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '2'), ('1', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 400.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 5.50
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '2'), ('1', '6')]
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=1 rank= 1  score=0.6221  kelly=0.410 edge=+0.262  ML= 0.36  2025-04-04  gap12=0.489  gap23=0.489
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=2 rank= 2  score=0.1336  kelly=0.026 edge=+0.024  ML= 0.11  2025-04-04  gap12=0.489  gap23=0.489
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=1 rank= 1  score=0.6221  kelly=0.410 edge=+0.262  ML= 0.36  2025-04-04  gap12=0.489  gap23=0.489
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=6 rank= 3  score=0.1252  kelly=-0.411 edge=-0.255  ML= 0.38  2025-04-04  gap12=0.489  gap23=0.489
+2025-05-11 14:13:26 - INFO - TGP-3 | Big gap key12 | stake $403.26 | 2 combos | cost 400.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 4), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 397.64086592430385
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '8'), ('5', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 400.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['8'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 13.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '8'), ('5', '6')]
+2025-05-11 14:13:26 - INFO - [TGP-5] ✔ prog=5 rank= 1  score=0.4919  kelly=0.365 edge=+0.292  ML= 0.20  2025-04-04  gap12=0.345  gap23=0.345
+2025-05-11 14:13:26 - INFO - [TGP-5] ▶ prog=8 rank= 2  score=0.1469  kelly=-0.094 edge=-0.073  ML= 0.22  2025-04-04  gap12=0.345  gap23=0.345
+2025-05-11 14:13:26 - INFO - [TGP-5] ✔ prog=5 rank= 1  score=0.4919  kelly=0.365 edge=+0.292  ML= 0.20  2025-04-04  gap12=0.345  gap23=0.345
+2025-05-11 14:13:26 - INFO - [TGP-5] ▶ prog=6 rank= 3  score=0.1176  kelly=-0.317 edge=-0.212  ML= 0.33  2025-04-04  gap12=0.345  gap23=0.345
+2025-05-11 14:13:26 - INFO - TGP-5 | Big gap key12 | stake $397.64 | 2 combos | cost 400.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 10), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 385.11079089211324
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '5'), ('4', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 400.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 24.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '5'), ('4', '3')]
+2025-05-11 14:13:26 - INFO - [TGP-4] ✔ prog=4 rank= 1  score=0.4777  kelly=0.304 edge=+0.228  ML= 0.25  2025-04-10  gap12=0.272  gap23=0.272
+2025-05-11 14:13:26 - INFO - [TGP-4] ▶ prog=5 rank= 2  score=0.2057  kelly=-0.119 edge=-0.084  ML= 0.29  2025-04-10  gap12=0.272  gap23=0.272
+2025-05-11 14:13:26 - INFO - [TGP-4] ✔ prog=4 rank= 1  score=0.4777  kelly=0.304 edge=+0.228  ML= 0.25  2025-04-10  gap12=0.272  gap23=0.272
+2025-05-11 14:13:26 - INFO - [TGP-4] ▶ prog=3 rank= 3  score=0.1581  kelly=0.021 edge=+0.018  ML= 0.14  2025-04-10  gap12=0.272  gap23=0.272
+2025-05-11 14:13:26 - INFO - TGP-4 | Big gap key12 | stake $385.11 | 2 combos | cost 400.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 11), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 324.58280093881973
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '5'), ('2', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 320.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 3.90
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '5'), ('2', '3')]
+2025-05-11 14:13:26 - INFO - [TGP-1] ✔ prog=2 rank= 1  score=0.4401  kelly=0.097 edge=+0.060  ML= 0.38  2025-04-11  gap12=0.257  gap23=0.257
+2025-05-11 14:13:26 - INFO - [TGP-1] ▶ prog=5 rank= 2  score=0.1829  kelly=0.004 edge=+0.003  ML= 0.18  2025-04-11  gap12=0.257  gap23=0.257
+2025-05-11 14:13:26 - INFO - [TGP-1] ✔ prog=2 rank= 1  score=0.4401  kelly=0.097 edge=+0.060  ML= 0.38  2025-04-11  gap12=0.257  gap23=0.257
+2025-05-11 14:13:26 - INFO - [TGP-1] ▶ prog=3 rank= 3  score=0.1608  kelly=-0.182 edge=-0.129  ML= 0.29  2025-04-11  gap12=0.257  gap23=0.257
+2025-05-11 14:13:26 - INFO - TGP-1 | Big gap key12 | stake $324.58 | 2 combos | cost 320.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 11), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 305.450043762196
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '5'), ('1', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 320.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 16.30
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '5'), ('1', '2')]
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=1 rank= 1  score=0.4823  kelly=0.449 edge=+0.422  ML= 0.06  2025-04-11  gap12=0.349  gap23=0.349
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=5 rank= 2  score=0.1329  kelly=-0.355 edge=-0.227  ML= 0.36  2025-04-11  gap12=0.349  gap23=0.349
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=1 rank= 1  score=0.4823  kelly=0.449 edge=+0.422  ML= 0.06  2025-04-11  gap12=0.349  gap23=0.349
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=2 rank= 3  score=0.1037  kelly=-0.080 edge=-0.066  ML= 0.17  2025-04-11  gap12=0.349  gap23=0.349
+2025-05-11 14:13:26 - INFO - TGP-3 | Big gap key12 | stake $305.45 | 2 combos | cost 320.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 11), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 269.4253092008244
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '3'), ('4', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 280.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 3.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('4', '3'), Payoff = 504.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '3'), ('4', '6')]
+2025-05-11 14:13:26 - INFO - [TGP-7] ✔ prog=4 rank= 1  score=0.4729  kelly=0.258 edge=+0.183  ML= 0.29  2025-04-11  gap12=0.302  gap23=0.302
+2025-05-11 14:13:26 - INFO - [TGP-7] ▶ prog=3 rank= 2  score=0.1714  kelly=-0.062 edge=-0.049  ML= 0.22  2025-04-11  gap12=0.302  gap23=0.302
+2025-05-11 14:13:26 - INFO - [TGP-7] ✔ prog=4 rank= 1  score=0.4729  kelly=0.258 edge=+0.183  ML= 0.29  2025-04-11  gap12=0.302  gap23=0.302
+2025-05-11 14:13:26 - INFO - [TGP-7] ▶ prog=6 rank= 3  score=0.1536  kelly=-0.129 edge=-0.096  ML= 0.25  2025-04-11  gap12=0.302  gap23=0.302
+2025-05-11 14:13:26 - INFO - TGP-7 | Big gap key12 | stake $269.43 | 2 combos | cost 280.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 11), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 283.0416095239737
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '7'), ('5', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 280.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 39.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '7'), ('5', '2')]
+2025-05-11 14:13:26 - INFO - [TGP-8] ✔ prog=5 rank= 1  score=0.4272  kelly=0.236 edge=+0.177  ML= 0.25  2025-04-11  gap12=0.260  gap23=0.260
+2025-05-11 14:13:26 - INFO - [TGP-8] ▶ prog=7 rank= 2  score=0.1676  kelly=-0.067 edge=-0.052  ML= 0.22  2025-04-11  gap12=0.260  gap23=0.260
+2025-05-11 14:13:26 - INFO - [TGP-8] ✔ prog=5 rank= 1  score=0.4272  kelly=0.236 edge=+0.177  ML= 0.25  2025-04-11  gap12=0.260  gap23=0.260
+2025-05-11 14:13:26 - INFO - [TGP-8] ▶ prog=2 rank= 3  score=0.1544  kelly=-0.191 edge=-0.136  ML= 0.29  2025-04-11  gap12=0.260  gap23=0.260
+2025-05-11 14:13:26 - INFO - TGP-8 | Big gap key12 | stake $283.04 | 2 combos | cost 280.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 12), 9, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 258.6767508471973
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '3'), ('4', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 240.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 48.30
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '3'), ('4', '1')]
+2025-05-11 14:13:26 - INFO - [TGP-9] ✔ prog=4 rank= 1  score=0.4129  kelly=0.083 edge=+0.053  ML= 0.36  2025-04-12  gap12=0.285  gap23=0.285
+2025-05-11 14:13:26 - INFO - [TGP-9] ▶ prog=3 rank= 2  score=0.1275  kelly=-0.064 edge=-0.053  ML= 0.18  2025-04-12  gap12=0.285  gap23=0.285
+2025-05-11 14:13:26 - INFO - [TGP-9] ✔ prog=4 rank= 1  score=0.4129  kelly=0.083 edge=+0.053  ML= 0.36  2025-04-12  gap12=0.285  gap23=0.285
+2025-05-11 14:13:26 - INFO - [TGP-9] ▶ prog=1 rank= 3  score=0.1172  kelly=0.061 edge=+0.057  ML= 0.06  2025-04-12  gap12=0.285  gap23=0.285
+2025-05-11 14:13:26 - INFO - TGP-9 | Big gap key12 | stake $258.68 | 2 combos | cost 240.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 18), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 248.28623455935036
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '4'), ('1', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 240.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 9.50
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '4'), ('1', '6')]
+2025-05-11 14:13:26 - INFO - [TGP-1] ✔ prog=1 rank= 1  score=0.4680  kelly=-0.064 edge=-0.032  ML= 0.50  2025-04-18  gap12=0.310  gap23=0.310
+2025-05-11 14:13:26 - INFO - [TGP-1] ▶ prog=4 rank= 2  score=0.1576  kelly=0.020 edge=+0.018  ML= 0.14  2025-04-18  gap12=0.310  gap23=0.310
+2025-05-11 14:13:26 - INFO - [TGP-1] ✔ prog=1 rank= 1  score=0.4680  kelly=-0.064 edge=-0.032  ML= 0.50  2025-04-18  gap12=0.310  gap23=0.310
+2025-05-11 14:13:26 - INFO - [TGP-1] ▶ prog=6 rank= 3  score=0.1367  kelly=-0.040 edge=-0.033  ML= 0.17  2025-04-18  gap12=0.310  gap23=0.310
+2025-05-11 14:13:26 - INFO - TGP-1 | Big gap key12 | stake $248.29 | 2 combos | cost 240.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 18), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 242.36019198722403
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '3'), ('7', '8')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 240.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 56.50
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '3'), ('7', '8')]
+2025-05-11 14:13:26 - INFO - [TGP-7] ✔ prog=7 rank= 1  score=0.4447  kelly=0.171 edge=+0.115  ML= 0.33  2025-04-18  gap12=0.274  gap23=0.274
+2025-05-11 14:13:26 - INFO - [TGP-7] ▶ prog=3 rank= 2  score=0.1710  kelly=0.069 edge=+0.061  ML= 0.11  2025-04-18  gap12=0.274  gap23=0.274
+2025-05-11 14:13:26 - INFO - [TGP-7] ✔ prog=7 rank= 1  score=0.4447  kelly=0.171 edge=+0.115  ML= 0.33  2025-04-18  gap12=0.274  gap23=0.274
+2025-05-11 14:13:26 - INFO - [TGP-7] ▶ prog=8 rank= 3  score=0.1315  kelly=-0.113 edge=-0.089  ML= 0.22  2025-04-18  gap12=0.274  gap23=0.274
+2025-05-11 14:13:26 - INFO - TGP-7 | Big gap key12 | stake $242.36 | 2 combos | cost 240.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 19), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 207.39278924946268
+2025-05-11 14:13:26 - INFO - Generated Combos: [('3', '4'), ('3', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 7.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('3', '4'), ('3', '1')]
+2025-05-11 14:13:26 - INFO - [TGP-5] ✔ prog=3 rank= 1  score=0.4212  kelly=0.002 edge=+0.001  ML= 0.42  2025-04-19  gap12=0.256  gap23=0.256
+2025-05-11 14:13:26 - INFO - [TGP-5] ▶ prog=4 rank= 2  score=0.1648  kelly=-0.247 edge=-0.165  ML= 0.33  2025-04-19  gap12=0.256  gap23=0.256
+2025-05-11 14:13:26 - INFO - [TGP-5] ✔ prog=3 rank= 1  score=0.4212  kelly=0.002 edge=+0.001  ML= 0.42  2025-04-19  gap12=0.256  gap23=0.256
+2025-05-11 14:13:26 - INFO - [TGP-5] ▶ prog=1 rank= 3  score=0.1475  kelly=-0.040 edge=-0.032  ML= 0.18  2025-04-19  gap12=0.256  gap23=0.256
+2025-05-11 14:13:26 - INFO - TGP-5 | Big gap key12 | stake $207.39 | 2 combos | cost 200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 19), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 198.92447990489342
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '4'), ('7', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 14.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('7', '4'), Payoff = 1420.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '4'), ('7', '1')]
+2025-05-11 14:13:26 - INFO - [TGP-6] ✔ prog=7 rank= 1  score=0.4484  kelly=0.177 edge=+0.118  ML= 0.33  2025-04-19  gap12=0.301  gap23=0.301
+2025-05-11 14:13:26 - INFO - [TGP-6] ▶ prog=4 rank= 2  score=0.1472  kelly=-0.093 edge=-0.073  ML= 0.22  2025-04-19  gap12=0.301  gap23=0.301
+2025-05-11 14:13:26 - INFO - [TGP-6] ✔ prog=7 rank= 1  score=0.4484  kelly=0.177 edge=+0.118  ML= 0.33  2025-04-19  gap12=0.301  gap23=0.301
+2025-05-11 14:13:26 - INFO - [TGP-6] ▶ prog=1 rank= 3  score=0.1177  kelly=0.009 edge=+0.008  ML= 0.11  2025-04-19  gap12=0.301  gap23=0.301
+2025-05-11 14:13:26 - INFO - TGP-6 | Big gap key12 | stake $198.92 | 2 combos | cost 200.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 19), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 273.6825376101431
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '1'), ('5', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 280.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 29.50
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('5', '1'), Payoff = 4130.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '1'), ('5', '3')]
+2025-05-11 14:13:26 - INFO - [TGP-8] ✔ prog=5 rank= 1  score=0.7472  kelly=0.592 edge=+0.367  ML= 0.38  2025-04-19  gap12=0.703  gap23=0.703
+2025-05-11 14:13:26 - INFO - [TGP-8] ▶ prog=1 rank= 2  score=0.0445  kelly=0.015 edge=+0.015  ML= 0.03  2025-04-19  gap12=0.703  gap23=0.703
+2025-05-11 14:13:26 - INFO - [TGP-8] ✔ prog=5 rank= 1  score=0.7472  kelly=0.592 edge=+0.367  ML= 0.38  2025-04-19  gap12=0.703  gap23=0.703
+2025-05-11 14:13:26 - INFO - [TGP-8] ▶ prog=3 rank= 3  score=0.0433  kelly=-0.428 edge=-0.287  ML= 0.33  2025-04-19  gap12=0.703  gap23=0.703
+2025-05-11 14:13:26 - INFO - TGP-8 | Big gap key12 | stake $273.68 | 2 combos | cost 280.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 24), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 570.1036437654953
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '5'), ('7', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 560.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['6']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 10.70
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '5'), ('7', '6')]
+2025-05-11 14:13:26 - INFO - [TGP-4] ✔ prog=7 rank= 1  score=0.4670  kelly=0.249 edge=+0.177  ML= 0.29  2025-04-24  gap12=0.318  gap23=0.318
+2025-05-11 14:13:26 - INFO - [TGP-4] ▶ prog=5 rank= 2  score=0.1493  kelly=0.011 edge=+0.009  ML= 0.14  2025-04-24  gap12=0.318  gap23=0.318
+2025-05-11 14:13:26 - INFO - [TGP-4] ✔ prog=7 rank= 1  score=0.4670  kelly=0.249 edge=+0.177  ML= 0.29  2025-04-24  gap12=0.318  gap23=0.318
+2025-05-11 14:13:26 - INFO - [TGP-4] ▶ prog=6 rank= 3  score=0.1446  kelly=-0.277 edge=-0.185  ML= 0.33  2025-04-24  gap12=0.318  gap23=0.318
+2025-05-11 14:13:26 - INFO - TGP-4 | Big gap key12 | stake $570.10 | 2 combos | cost 560.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 24), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 574.5127570328824
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '6'), ('2', '4')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 560.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 23.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '6'), ('2', '4')]
+2025-05-11 14:13:26 - INFO - [TGP-8] ✔ prog=2 rank= 1  score=0.4863  kelly=0.403 edge=+0.346  ML= 0.14  2025-04-24  gap12=0.312  gap23=0.312
+2025-05-11 14:13:26 - INFO - [TGP-8] ▶ prog=6 rank= 2  score=0.1739  kelly=-0.332 edge=-0.206  ML= 0.38  2025-04-24  gap12=0.312  gap23=0.312
+2025-05-11 14:13:26 - INFO - [TGP-8] ✔ prog=2 rank= 1  score=0.4863  kelly=0.403 edge=+0.346  ML= 0.14  2025-04-24  gap12=0.312  gap23=0.312
+2025-05-11 14:13:26 - INFO - [TGP-8] ▶ prog=4 rank= 3  score=0.1421  kelly=-0.144 edge=-0.108  ML= 0.25  2025-04-24  gap12=0.312  gap23=0.312
+2025-05-11 14:13:26 - INFO - TGP-8 | Big gap key12 | stake $574.51 | 2 combos | cost 560.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 25), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 514.4903965969615
+2025-05-11 14:13:26 - INFO - Generated Combos: [('8', '4'), ('8', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 520.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['8']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 14.90
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('8', '4'), ('8', '2')]
+2025-05-11 14:13:26 - INFO - [TGP-4] ✔ prog=8 rank= 1  score=0.4645  kelly=0.163 edge=+0.105  ML= 0.36  2025-04-25  gap12=0.322  gap23=0.322
+2025-05-11 14:13:26 - INFO - [TGP-4] ▶ prog=4 rank= 2  score=0.1424  kelly=0.068 edge=+0.062  ML= 0.08  2025-04-25  gap12=0.322  gap23=0.322
+2025-05-11 14:13:26 - INFO - [TGP-4] ✔ prog=8 rank= 1  score=0.4645  kelly=0.163 edge=+0.105  ML= 0.36  2025-04-25  gap12=0.322  gap23=0.322
+2025-05-11 14:13:26 - INFO - [TGP-4] ▶ prog=2 rank= 3  score=0.1191  kelly=-0.074 edge=-0.061  ML= 0.18  2025-04-25  gap12=0.322  gap23=0.322
+2025-05-11 14:13:26 - INFO - TGP-4 | Big gap key12 | stake $514.49 | 2 combos | cost 520.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 26), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 474.2418952482063
+2025-05-11 14:13:26 - INFO - Generated Combos: [('8', '4'), ('8', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 480.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['8'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 5.70
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('8', '4'), ('8', '1')]
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=8 rank= 1  score=0.5143  kelly=0.393 edge=+0.314  ML= 0.20  2025-04-26  gap12=0.402  gap23=0.402
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=4 rank= 2  score=0.1124  kelly=-0.138 edge=-0.108  ML= 0.22  2025-04-26  gap12=0.402  gap23=0.402
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=8 rank= 1  score=0.5143  kelly=0.393 edge=+0.314  ML= 0.20  2025-04-26  gap12=0.402  gap23=0.402
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=1 rank= 3  score=0.0879  kelly=-0.025 edge=-0.022  ML= 0.11  2025-04-26  gap12=0.402  gap23=0.402
+2025-05-11 14:13:26 - INFO - TGP-3 | Big gap key12 | stake $474.24 | 2 combos | cost 480.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 4, 27), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 430.83648869201915
+2025-05-11 14:13:26 - INFO - Generated Combos: [('3', '2'), ('3', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 440.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['2']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 4.70
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('3', '2'), Payoff = 1034.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('3', '2'), ('3', '5')]
+2025-05-11 14:13:26 - INFO - [TGP-5] ✔ prog=3 rank= 1  score=0.6534  kelly=0.402 edge=+0.233  ML= 0.42  2025-04-27  gap12=0.537  gap23=0.537
+2025-05-11 14:13:26 - INFO - [TGP-5] ▶ prog=2 rank= 2  score=0.1168  kelly=-0.064 edge=-0.053  ML= 0.17  2025-04-27  gap12=0.537  gap23=0.537
+2025-05-11 14:13:26 - INFO - [TGP-5] ✔ prog=3 rank= 1  score=0.6534  kelly=0.402 edge=+0.233  ML= 0.42  2025-04-27  gap12=0.537  gap23=0.537
+2025-05-11 14:13:26 - INFO - [TGP-5] ▶ prog=5 rank= 3  score=0.0956  kelly=-0.131 edge=-0.104  ML= 0.20  2025-04-27  gap12=0.537  gap23=0.537
+2025-05-11 14:13:26 - INFO - TGP-5 | Big gap key12 | stake $430.84 | 2 combos | cost 440.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 1), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 1191.8
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 1200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 23.70
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 1  |  [('4', '7')]
+2025-05-11 14:13:26 - INFO - [TGP-1] ✔ prog=4 rank= 1  score=0.5676  kelly=0.017 edge=+0.008  ML= 0.56  2025-05-01  gap12=0.265  gap23=0.265
+2025-05-11 14:13:26 - INFO - [TGP-1] ▶ prog=7 rank= 2  score=0.3022  kelly=0.233 edge=+0.212  ML= 0.09  2025-05-01  gap12=0.265  gap23=0.265
+2025-05-11 14:13:26 - INFO - TGP-1 | Huge gaps straight | stake $1191.80 | 1 combos | cost 1200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 1), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 389.4588992745965
+2025-05-11 14:13:26 - INFO - Generated Combos: [('3', '4'), ('3', '9')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 400.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['11']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 30.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('3', '4'), ('3', '9')]
+2025-05-11 14:13:26 - INFO - [TGP-2] ✔ prog=3 rank= 1  score=0.4749  kelly=0.360 edge=+0.295  ML= 0.18  2025-05-01  gap12=0.331  gap23=0.331
+2025-05-11 14:13:26 - INFO - [TGP-2] ▶ prog=4 rank= 2  score=0.1442  kelly=-0.141 edge=-0.106  ML= 0.25  2025-05-01  gap12=0.331  gap23=0.331
+2025-05-11 14:13:26 - INFO - [TGP-2] ✔ prog=3 rank= 1  score=0.4749  kelly=0.360 edge=+0.295  ML= 0.18  2025-05-01  gap12=0.331  gap23=0.331
+2025-05-11 14:13:26 - INFO - [TGP-2] ▶ prog=9 rank= 3  score=0.1169  kelly=-0.318 edge=-0.213  ML= 0.33  2025-05-01  gap12=0.331  gap23=0.331
+2025-05-11 14:13:26 - INFO - TGP-2 | Big gap key12 | stake $389.46 | 2 combos | cost 400.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 3), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 350.9350872468397
+2025-05-11 14:13:26 - INFO - Generated Combos: [('8', '4'), ('8', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 360.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['8']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 11.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('8', '4'), ('8', '6')]
+2025-05-11 14:13:26 - INFO - [TGP-8] ✔ prog=8 rank= 1  score=0.5433  kelly=0.318 edge=+0.213  ML= 0.33  2025-05-03  gap12=0.437  gap23=0.437
+2025-05-11 14:13:26 - INFO - [TGP-8] ▶ prog=4 rank= 2  score=0.1063  kelly=-0.259 edge=-0.184  ML= 0.29  2025-05-03  gap12=0.437  gap23=0.437
+2025-05-11 14:13:26 - INFO - [TGP-8] ✔ prog=8 rank= 1  score=0.5433  kelly=0.318 edge=+0.213  ML= 0.33  2025-05-03  gap12=0.437  gap23=0.437
+2025-05-11 14:13:26 - INFO - [TGP-8] ▶ prog=6 rank= 3  score=0.0843  kelly=-0.065 edge=-0.056  ML= 0.14  2025-05-03  gap12=0.437  gap23=0.437
+2025-05-11 14:13:26 - INFO - TGP-8 | Big gap key12 | stake $350.94 | 2 combos | cost 360.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 3), 10, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 309.50324278354753
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '2'), ('1', '4')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 320.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 12.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '2'), ('1', '4')]
+2025-05-11 14:13:26 - INFO - [TGP-10] ✔ prog=1 rank= 1  score=0.5521  kelly=0.403 edge=+0.302  ML= 0.25  2025-05-03  gap12=0.451  gap23=0.451
+2025-05-11 14:13:26 - INFO - [TGP-10] ▶ prog=2 rank= 2  score=0.1013  kelly=-0.096 edge=-0.079  ML= 0.18  2025-05-03  gap12=0.451  gap23=0.451
+2025-05-11 14:13:26 - INFO - [TGP-10] ✔ prog=1 rank= 1  score=0.5521  kelly=0.403 edge=+0.302  ML= 0.25  2025-05-03  gap12=0.451  gap23=0.451
+2025-05-11 14:13:26 - INFO - [TGP-10] ▶ prog=4 rank= 3  score=0.0918  kelly=-0.164 edge=-0.128  ML= 0.22  2025-05-03  gap12=0.451  gap23=0.451
+2025-05-11 14:13:26 - INFO - TGP-10 | Big gap key12 | stake $309.50 | 2 combos | cost 320.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 4), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 309.5609542773996
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '7'), ('4', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 320.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['2']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 18.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '7'), ('4', '6')]
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=4 rank= 1  score=0.4180  kelly=0.131 edge=+0.088  ML= 0.33  2025-05-04  gap12=0.253  gap23=0.253
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=7 rank= 2  score=0.1648  kelly=-0.176 edge=-0.125  ML= 0.29  2025-05-04  gap12=0.253  gap23=0.253
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=4 rank= 1  score=0.4180  kelly=0.131 edge=+0.088  ML= 0.33  2025-05-04  gap12=0.253  gap23=0.253
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=6 rank= 3  score=0.1283  kelly=-0.118 edge=-0.092  ML= 0.22  2025-05-04  gap12=0.253  gap23=0.253
+2025-05-11 14:13:26 - INFO - TGP-3 | Big gap key12 | stake $309.56 | 2 combos | cost 320.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TGP', datetime.date(2025, 5, 9), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 671.8000000000001
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 680.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['7']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 8.30
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 81
+2025-05-11 14:13:26 - INFO - combo size 1  |  [('7', '3')]
+2025-05-11 14:13:26 - INFO - [TGP-3] ✔ prog=7 rank= 1  score=0.5231  kelly=0.425 edge=+0.353  ML= 0.17  2025-05-09  gap12=0.222  gap23=0.222
+2025-05-11 14:13:26 - INFO - [TGP-3] ▶ prog=3 rank= 2  score=0.3013  kelly=0.148 edge=+0.121  ML= 0.18  2025-05-09  gap12=0.222  gap23=0.222
+2025-05-11 14:13:26 - INFO - TGP-3 | Huge gaps straight | stake $671.80 | 1 combos | cost 680.00 | miss
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 10), 11, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TGP', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 4, 17), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 202.8179093041503
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '8'), ('4', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['7']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 54.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '8'), ('4', '6')]
+2025-05-11 14:13:26 - INFO - [TLS-4] ✔ prog=4 rank= 1  score=0.4339  kelly=0.203 edge=+0.144  ML= 0.29  2025-04-17  gap12=0.292  gap23=0.292
+2025-05-11 14:13:26 - INFO - [TLS-4] ▶ prog=8 rank= 2  score=0.1421  kelly=0.002 edge=+0.002  ML= 0.14  2025-04-17  gap12=0.292  gap23=0.292
+2025-05-11 14:13:26 - INFO - [TLS-4] ✔ prog=4 rank= 1  score=0.4339  kelly=0.203 edge=+0.144  ML= 0.29  2025-04-17  gap12=0.292  gap23=0.292
+2025-05-11 14:13:26 - INFO - [TLS-4] ▶ prog=6 rank= 3  score=0.1393  kelly=-0.050 edge=-0.041  ML= 0.18  2025-04-17  gap12=0.292  gap23=0.292
+2025-05-11 14:13:26 - INFO - TLS-4 | Big gap key12 | stake $202.82 | 2 combos | cost 200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 4, 17), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 200.82052705947152
+2025-05-11 14:13:26 - INFO - Generated Combos: [('3', '4'), ('3', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 21.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('3', '4'), ('3', '7')]
+2025-05-11 14:13:26 - INFO - [TLS-7] ✔ prog=3 rank= 1  score=0.5227  kelly=0.288 edge=+0.193  ML= 0.33  2025-04-17  gap12=0.396  gap23=0.396
+2025-05-11 14:13:26 - INFO - [TLS-7] ▶ prog=4 rank= 2  score=0.1267  kelly=0.040 edge=+0.037  ML= 0.09  2025-04-17  gap12=0.396  gap23=0.396
+2025-05-11 14:13:26 - INFO - [TLS-7] ✔ prog=3 rank= 1  score=0.5227  kelly=0.288 edge=+0.193  ML= 0.33  2025-04-17  gap12=0.396  gap23=0.396
+2025-05-11 14:13:26 - INFO - [TLS-7] ▶ prog=7 rank= 3  score=0.1027  kelly=-0.043 edge=-0.037  ML= 0.14  2025-04-17  gap12=0.396  gap23=0.396
+2025-05-11 14:13:26 - INFO - TLS-7 | Big gap key12 | stake $200.82 | 2 combos | cost 200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 4, 18), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 172.0970684954326
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '8'), ('5', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 160.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 21.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '8'), ('5', '7')]
+2025-05-11 14:13:26 - INFO - [TLS-3] ✔ prog=5 rank= 1  score=0.5753  kelly=0.434 edge=+0.325  ML= 0.25  2025-04-18  gap12=0.484  gap23=0.484
+2025-05-11 14:13:26 - INFO - [TLS-3] ▶ prog=8 rank= 2  score=0.0916  kelly=-0.021 edge=-0.018  ML= 0.11  2025-04-18  gap12=0.484  gap23=0.484
+2025-05-11 14:13:26 - INFO - [TLS-3] ✔ prog=5 rank= 1  score=0.5753  kelly=0.434 edge=+0.325  ML= 0.25  2025-04-18  gap12=0.484  gap23=0.484
+2025-05-11 14:13:26 - INFO - [TLS-3] ▶ prog=7 rank= 3  score=0.0895  kelly=-0.138 edge=-0.110  ML= 0.20  2025-04-18  gap12=0.484  gap23=0.484
+2025-05-11 14:13:26 - INFO - TLS-3 | Big gap key12 | stake $172.10 | 2 combos | cost 160.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 4, 18), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 170.8797808256397
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '2'), ('4', '9')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 160.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 15.90
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '2'), ('4', '9')]
+2025-05-11 14:13:26 - INFO - [TLS-6] ✔ prog=4 rank= 1  score=0.4904  kelly=0.239 edge=+0.160  ML= 0.33  2025-04-18  gap12=0.383  gap23=0.383
+2025-05-11 14:13:26 - INFO - [TLS-6] ▶ prog=2 rank= 2  score=0.1073  kelly=-0.190 edge=-0.143  ML= 0.25  2025-04-18  gap12=0.383  gap23=0.383
+2025-05-11 14:13:26 - INFO - [TLS-6] ✔ prog=4 rank= 1  score=0.4904  kelly=0.239 edge=+0.160  ML= 0.33  2025-04-18  gap12=0.383  gap23=0.383
+2025-05-11 14:13:26 - INFO - [TLS-6] ▶ prog=9 rank= 3  score=0.0847  kelly=-0.064 edge=-0.055  ML= 0.14  2025-04-18  gap12=0.383  gap23=0.383
+2025-05-11 14:13:26 - INFO - TLS-6 | Big gap key12 | stake $170.88 | 2 combos | cost 160.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 4, 27), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 155.68435347496901
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '6'), ('4', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 160.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['6']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 8.10
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('4', '6'), Payoff = 648.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '6'), ('4', '7')]
+2025-05-11 14:13:26 - INFO - [TLS-5] ✔ prog=4 rank= 1  score=0.5233  kelly=0.231 edge=+0.143  ML= 0.38  2025-04-27  gap12=0.371  gap23=0.371
+2025-05-11 14:13:26 - INFO - [TLS-5] ▶ prog=6 rank= 2  score=0.1524  kelly=-0.265 edge=-0.178  ML= 0.33  2025-04-27  gap12=0.371  gap23=0.371
+2025-05-11 14:13:26 - INFO - [TLS-5] ✔ prog=4 rank= 1  score=0.5233  kelly=0.231 edge=+0.143  ML= 0.38  2025-04-27  gap12=0.371  gap23=0.371
+2025-05-11 14:13:26 - INFO - [TLS-5] ▶ prog=7 rank= 3  score=0.1346  kelly=-0.154 edge=-0.115  ML= 0.25  2025-04-27  gap12=0.371  gap23=0.371
+2025-05-11 14:13:26 - INFO - TLS-5 | Big gap key12 | stake $155.68 | 2 combos | cost 160.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 4, 27), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 193.1834539428288
+2025-05-11 14:13:26 - INFO - Generated Combos: [('10', '9'), ('10', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['10'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 11.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('10', '9'), ('10', '1')]
+2025-05-11 14:13:26 - INFO - [TLS-8] ✔ prog=10 rank= 1  score=0.3942  kelly=0.223 edge=+0.174  ML= 0.22  2025-04-27  gap12=0.262  gap23=0.262
+2025-05-11 14:13:26 - INFO - [TLS-8] ▶ prog=9 rank= 2  score=0.1323  kelly=0.057 edge=+0.052  ML= 0.08  2025-04-27  gap12=0.262  gap23=0.262
+2025-05-11 14:13:26 - INFO - [TLS-8] ✔ prog=10 rank= 1  score=0.3942  kelly=0.223 edge=+0.174  ML= 0.22  2025-04-27  gap12=0.262  gap23=0.262
+2025-05-11 14:13:26 - INFO - [TLS-8] ▶ prog=1 rank= 3  score=0.1165  kelly=-0.077 edge=-0.063  ML= 0.18  2025-04-27  gap12=0.262  gap23=0.262
+2025-05-11 14:13:26 - INFO - TLS-8 | Big gap key12 | stake $193.18 | 2 combos | cost 200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 2), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 191.14098330264957
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '3'), ('5', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 16.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '3'), ('5', '6')]
+2025-05-11 14:13:26 - INFO - [TLS-1] ✔ prog=5 rank= 1  score=0.4523  kelly=0.183 edge=+0.122  ML= 0.33  2025-05-02  gap12=0.259  gap23=0.259
+2025-05-11 14:13:26 - INFO - [TLS-1] ▶ prog=3 rank= 2  score=0.1935  kelly=-0.075 edge=-0.056  ML= 0.25  2025-05-02  gap12=0.259  gap23=0.259
+2025-05-11 14:13:26 - INFO - [TLS-1] ✔ prog=5 rank= 1  score=0.4523  kelly=0.183 edge=+0.122  ML= 0.33  2025-05-02  gap12=0.259  gap23=0.259
+2025-05-11 14:13:26 - INFO - [TLS-1] ▶ prog=6 rank= 3  score=0.1533  kelly=-0.058 edge=-0.047  ML= 0.20  2025-05-02  gap12=0.259  gap23=0.259
+2025-05-11 14:13:26 - INFO - TLS-1 | Big gap key12 | stake $191.14 | 2 combos | cost 200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 2), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 162.25869981016658
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '5'), ('2', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 160.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 8.30
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '5'), ('2', '3')]
+2025-05-11 14:13:26 - INFO - [TLS-5] ✔ prog=2 rank= 1  score=0.4250  kelly=0.009 edge=+0.005  ML= 0.42  2025-05-02  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TLS-5] ▶ prog=5 rank= 2  score=0.1372  kelly=0.062 edge=+0.057  ML= 0.08  2025-05-02  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TLS-5] ✔ prog=2 rank= 1  score=0.4250  kelly=0.009 edge=+0.005  ML= 0.42  2025-05-02  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TLS-5] ▶ prog=3 rank= 3  score=0.1201  kelly=0.011 edge=+0.010  ML= 0.11  2025-05-02  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - TLS-5 | Big gap key12 | stake $162.26 | 2 combos | cost 160.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 3), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 377.40000000000003
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '8')]
+2025-05-11 14:13:26 - INFO - Posted Base: 2.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 380.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['8']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 6.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('2', '8'), Payoff = 1216.00
+2025-05-11 14:13:26 - INFO - combo size 1  |  [('2', '8')]
+2025-05-11 14:13:26 - INFO - [TLS-1] ✔ prog=2 rank= 1  score=0.6232  kelly=0.246 edge=+0.123  ML= 0.50  2025-05-03  gap12=0.379  gap23=0.379
+2025-05-11 14:13:26 - INFO - [TLS-1] ▶ prog=8 rank= 2  score=0.2438  kelly=0.150 edge=+0.134  ML= 0.11  2025-05-03  gap12=0.379  gap23=0.379
+2025-05-11 14:13:26 - INFO - TLS-1 | Huge gaps straight | stake $377.40 | 1 combos | cost 380.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 4), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 214.68336370485855
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '6'), ('1', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 14.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '6'), ('1', '2')]
+2025-05-11 14:13:26 - INFO - [TLS-3] ✔ prog=1 rank= 1  score=0.5009  kelly=0.195 edge=+0.121  ML= 0.38  2025-05-04  gap12=0.370  gap23=0.370
+2025-05-11 14:13:26 - INFO - [TLS-3] ▶ prog=6 rank= 2  score=0.1309  kelly=-0.011 edge=-0.009  ML= 0.14  2025-05-04  gap12=0.370  gap23=0.370
+2025-05-11 14:13:26 - INFO - [TLS-3] ✔ prog=1 rank= 1  score=0.5009  kelly=0.195 edge=+0.121  ML= 0.38  2025-05-04  gap12=0.370  gap23=0.370
+2025-05-11 14:13:26 - INFO - [TLS-3] ▶ prog=2 rank= 3  score=0.1156  kelly=-0.106 edge=-0.084  ML= 0.20  2025-05-04  gap12=0.370  gap23=0.370
+2025-05-11 14:13:26 - INFO - TLS-3 | Big gap key12 | stake $214.68 | 2 combos | cost 200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 4), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 504.6
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 500.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 5.50
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 1  |  [('2', '6')]
+2025-05-11 14:13:26 - INFO - [TLS-6] ✔ prog=2 rank= 1  score=0.5387  kelly=0.437 edge=+0.359  ML= 0.18  2025-05-04  gap12=0.250  gap23=0.250
+2025-05-11 14:13:26 - INFO - [TLS-6] ▶ prog=6 rank= 2  score=0.2891  kelly=-0.061 edge=-0.041  ML= 0.33  2025-05-04  gap12=0.250  gap23=0.250
+2025-05-11 14:13:26 - INFO - TLS-6 | Huge gaps straight | stake $504.60 | 1 combos | cost 500.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 9), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 176.79686191953758
+2025-05-11 14:13:26 - INFO - Generated Combos: [('6', '2'), ('6', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 160.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 8.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('6', '2'), ('6', '7')]
+2025-05-11 14:13:26 - INFO - [TLS-1] ✔ prog=6 rank= 1  score=0.5913  kelly=0.424 edge=+0.301  ML= 0.29  2025-05-09  gap12=0.439  gap23=0.439
+2025-05-11 14:13:26 - INFO - [TLS-1] ▶ prog=2 rank= 2  score=0.1519  kelly=-0.266 edge=-0.178  ML= 0.33  2025-05-09  gap12=0.439  gap23=0.439
+2025-05-11 14:13:26 - INFO - [TLS-1] ✔ prog=6 rank= 1  score=0.5913  kelly=0.424 edge=+0.301  ML= 0.29  2025-05-09  gap12=0.439  gap23=0.439
+2025-05-11 14:13:26 - INFO - [TLS-1] ▶ prog=7 rank= 3  score=0.1024  kelly=-0.081 edge=-0.068  ML= 0.17  2025-05-09  gap12=0.439  gap23=0.439
+2025-05-11 14:13:26 - INFO - TLS-1 | Big gap key12 | stake $176.80 | 2 combos | cost 160.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 9), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 143.54988212631855
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '4'), ('2', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 160.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 30.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '4'), ('2', '6')]
+2025-05-11 14:13:26 - INFO - [TLS-3] ✔ prog=2 rank= 1  score=0.5922  kelly=0.342 edge=+0.212  ML= 0.38  2025-05-09  gap12=0.460  gap23=0.460
+2025-05-11 14:13:26 - INFO - [TLS-3] ▶ prog=4 rank= 2  score=0.1326  kelly=-0.084 edge=-0.067  ML= 0.20  2025-05-09  gap12=0.460  gap23=0.460
+2025-05-11 14:13:26 - INFO - [TLS-3] ✔ prog=2 rank= 1  score=0.5922  kelly=0.342 edge=+0.212  ML= 0.38  2025-05-09  gap12=0.460  gap23=0.460
+2025-05-11 14:13:26 - INFO - [TLS-3] ▶ prog=6 rank= 3  score=0.1244  kelly=0.068 edge=+0.064  ML= 0.06  2025-05-09  gap12=0.460  gap23=0.460
+2025-05-11 14:13:26 - INFO - TLS-3 | Big gap key12 | stake $143.55 | 2 combos | cost 160.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 9), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 146.69258514485549
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '5'), ('4', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 160.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 24.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '5'), ('4', '7')]
+2025-05-11 14:13:26 - INFO - [TLS-8] ✔ prog=4 rank= 1  score=0.4611  kelly=0.241 edge=+0.171  ML= 0.29  2025-05-09  gap12=0.296  gap23=0.296
+2025-05-11 14:13:26 - INFO - [TLS-8] ▶ prog=5 rank= 2  score=0.1656  kelly=0.122 edge=+0.116  ML= 0.05  2025-05-09  gap12=0.296  gap23=0.296
+2025-05-11 14:13:26 - INFO - [TLS-8] ✔ prog=4 rank= 1  score=0.4611  kelly=0.241 edge=+0.171  ML= 0.29  2025-05-09  gap12=0.296  gap23=0.296
+2025-05-11 14:13:26 - INFO - [TLS-8] ▶ prog=7 rank= 3  score=0.1210  kelly=-0.059 edge=-0.049  ML= 0.17  2025-05-09  gap12=0.296  gap23=0.296
+2025-05-11 14:13:26 - INFO - TLS-8 | Big gap key12 | stake $146.69 | 2 combos | cost 160.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TLS', datetime.date(2025, 5, 10), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 124.475472940349
+2025-05-11 14:13:26 - INFO - Generated Combos: [('9', '1'), ('9', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 120.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 28.50
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 91
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('9', '1'), ('9', '5')]
+2025-05-11 14:13:26 - INFO - [TLS-8] ✔ prog=9 rank= 1  score=0.3962  kelly=0.150 edge=+0.106  ML= 0.29  2025-05-10  gap12=0.260  gap23=0.260
+2025-05-11 14:13:26 - INFO - [TLS-8] ▶ prog=1 rank= 2  score=0.1364  kelly=-0.053 edge=-0.044  ML= 0.18  2025-05-10  gap12=0.260  gap23=0.260
+2025-05-11 14:13:26 - INFO - [TLS-8] ✔ prog=9 rank= 1  score=0.3962  kelly=0.150 edge=+0.106  ML= 0.29  2025-05-10  gap12=0.260  gap23=0.260
+2025-05-11 14:13:26 - INFO - [TLS-8] ▶ prog=5 rank= 3  score=0.1137  kelly=-0.108 edge=-0.086  ML= 0.20  2025-05-10  gap12=0.260  gap23=0.260
+2025-05-11 14:13:26 - INFO - TLS-8 | Big gap key12 | stake $124.48 | 2 combos | cost 120.00 | miss
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TLS', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 3, 30), 10, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 107.42825092329264
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '6'), ('7', '10')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 120.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 23.30
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '6'), ('7', '10')]
+2025-05-11 14:13:26 - INFO - [TSA-10] ✔ prog=7 rank= 1  score=0.4485  kelly=0.336 edge=+0.279  ML= 0.17  2025-03-30  gap12=0.312  gap23=0.312
+2025-05-11 14:13:26 - INFO - [TSA-10] ▶ prog=6 rank= 2  score=0.1366  kelly=-0.107 edge=-0.083  ML= 0.22  2025-03-30  gap12=0.312  gap23=0.312
+2025-05-11 14:13:26 - INFO - [TSA-10] ✔ prog=7 rank= 1  score=0.4485  kelly=0.336 edge=+0.279  ML= 0.17  2025-03-30  gap12=0.312  gap23=0.312
+2025-05-11 14:13:26 - INFO - [TSA-10] ▶ prog=10 rank= 3  score=0.1346  kelly=-0.219 edge=-0.155  ML= 0.29  2025-03-30  gap12=0.312  gap23=0.312
+2025-05-11 14:13:26 - INFO - TSA-10 | Big gap key12 | stake $107.43 | 2 combos | cost 120.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 4), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 99.52788850073063
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '2'), ('4', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['8']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 17.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '2'), ('4', '5')]
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=4 rank= 1  score=0.4404  kelly=0.165 edge=+0.110  ML= 0.33  2025-04-04  gap12=0.309  gap23=0.309
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=2 rank= 2  score=0.1316  kelly=-0.158 edge=-0.118  ML= 0.25  2025-04-04  gap12=0.309  gap23=0.309
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=4 rank= 1  score=0.4404  kelly=0.165 edge=+0.110  ML= 0.33  2025-04-04  gap12=0.309  gap23=0.309
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=5 rank= 3  score=0.1260  kelly=-0.231 edge=-0.164  ML= 0.29  2025-04-04  gap12=0.309  gap23=0.309
+2025-05-11 14:13:26 - INFO - TSA-6 | Big gap key12 | stake $99.53 | 2 combos | cost 80.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 5), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 95.93029749874627
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '6'), ('4', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['2']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 5.50
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '6'), ('4', '3')]
+2025-05-11 14:13:26 - INFO - [TSA-4] ✔ prog=4 rank= 1  score=0.5863  kelly=0.173 edge=+0.086  ML= 0.50  2025-04-05  gap12=0.472  gap23=0.472
+2025-05-11 14:13:26 - INFO - [TSA-4] ▶ prog=6 rank= 2  score=0.1144  kelly=-0.030 edge=-0.026  ML= 0.14  2025-04-05  gap12=0.472  gap23=0.472
+2025-05-11 14:13:26 - INFO - [TSA-4] ✔ prog=4 rank= 1  score=0.5863  kelly=0.173 edge=+0.086  ML= 0.50  2025-04-05  gap12=0.472  gap23=0.472
+2025-05-11 14:13:26 - INFO - [TSA-4] ▶ prog=3 rank= 3  score=0.1007  kelly=-0.124 edge=-0.099  ML= 0.20  2025-04-05  gap12=0.472  gap23=0.472
+2025-05-11 14:13:26 - INFO - TSA-4 | Big gap key12 | stake $95.93 | 2 combos | cost 80.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 5), 10, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 95.66226458554557
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '5'), ('1', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 12.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('1', '5'), Payoff = 488.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '5'), ('1', '2')]
+2025-05-11 14:13:26 - INFO - [TSA-10] ✔ prog=1 rank= 1  score=0.5797  kelly=0.236 edge=+0.130  ML= 0.45  2025-04-05  gap12=0.385  gap23=0.385
+2025-05-11 14:13:26 - INFO - [TSA-10] ▶ prog=5 rank= 2  score=0.1950  kelly=0.064 edge=+0.055  ML= 0.14  2025-04-05  gap12=0.385  gap23=0.385
+2025-05-11 14:13:26 - INFO - [TSA-10] ✔ prog=1 rank= 1  score=0.5797  kelly=0.236 edge=+0.130  ML= 0.45  2025-04-05  gap12=0.385  gap23=0.385
+2025-05-11 14:13:26 - INFO - [TSA-10] ▶ prog=2 rank= 3  score=0.1602  kelly=-0.312 edge=-0.200  ML= 0.36  2025-04-05  gap12=0.385  gap23=0.385
+2025-05-11 14:13:26 - INFO - TSA-10 | Big gap key12 | stake $95.66 | 2 combos | cost 80.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 6), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 131.6523258565289
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '3'), ('7', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 120.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 9.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '3'), ('7', '5')]
+2025-05-11 14:13:26 - INFO - [TSA-1] ✔ prog=7 rank= 1  score=0.7095  kelly=0.646 edge=+0.529  ML= 0.18  2025-04-06  gap12=0.614  gap23=0.614
+2025-05-11 14:13:26 - INFO - [TSA-1] ▶ prog=3 rank= 2  score=0.0954  kelly=-0.090 edge=-0.075  ML= 0.17  2025-04-06  gap12=0.614  gap23=0.614
+2025-05-11 14:13:26 - INFO - [TSA-1] ✔ prog=7 rank= 1  score=0.7095  kelly=0.646 edge=+0.529  ML= 0.18  2025-04-06  gap12=0.614  gap23=0.614
+2025-05-11 14:13:26 - INFO - [TSA-1] ▶ prog=5 rank= 3  score=0.0559  kelly=-0.098 edge=-0.084  ML= 0.14  2025-04-06  gap12=0.614  gap23=0.614
+2025-05-11 14:13:26 - INFO - TSA-1 | Big gap key12 | stake $131.65 | 2 combos | cost 120.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 6), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 119.72831718629155
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '2'), ('5', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 120.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 17.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '2'), ('5', '3')]
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=5 rank= 1  score=0.5186  kelly=0.037 edge=+0.019  ML= 0.50  2025-04-06  gap12=0.335  gap23=0.335
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=2 rank= 2  score=0.1837  kelly=0.103 edge=+0.094  ML= 0.09  2025-04-06  gap12=0.335  gap23=0.335
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=5 rank= 1  score=0.5186  kelly=0.037 edge=+0.019  ML= 0.50  2025-04-06  gap12=0.335  gap23=0.335
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=3 rank= 3  score=0.1490  kelly=-0.038 edge=-0.031  ML= 0.18  2025-04-06  gap12=0.335  gap23=0.335
+2025-05-11 14:13:26 - INFO - TSA-2 | Big gap key12 | stake $119.73 | 2 combos | cost 120.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 6), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 99.37624231279194
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '3'), ('4', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 3.70
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '3'), ('4', '2')]
+2025-05-11 14:13:26 - INFO - [TSA-3] ✔ prog=4 rank= 1  score=0.5548  kelly=0.191 edge=+0.105  ML= 0.45  2025-04-06  gap12=0.421  gap23=0.421
+2025-05-11 14:13:26 - INFO - [TSA-3] ▶ prog=3 rank= 2  score=0.1336  kelly=0.048 edge=+0.044  ML= 0.09  2025-04-06  gap12=0.421  gap23=0.421
+2025-05-11 14:13:26 - INFO - [TSA-3] ✔ prog=4 rank= 1  score=0.5548  kelly=0.191 edge=+0.105  ML= 0.45  2025-04-06  gap12=0.421  gap23=0.421
+2025-05-11 14:13:26 - INFO - [TSA-3] ▶ prog=2 rank= 3  score=0.1304  kelly=-0.060 edge=-0.050  ML= 0.18  2025-04-06  gap12=0.421  gap23=0.421
+2025-05-11 14:13:26 - INFO - TSA-3 | Big gap key12 | stake $99.38 | 2 combos | cost 80.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 6), 10, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 94.62416991770928
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '8'), ('2', '10')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['7']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 18.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '8'), ('2', '10')]
+2025-05-11 14:13:26 - INFO - [TSA-10] ✔ prog=2 rank= 1  score=0.3902  kelly=0.090 edge=+0.060  ML= 0.33  2025-04-06  gap12=0.279  gap23=0.279
+2025-05-11 14:13:26 - INFO - [TSA-10] ▶ prog=8 rank= 2  score=0.1108  kelly=0.001 edge=+0.001  ML= 0.11  2025-04-06  gap12=0.279  gap23=0.279
+2025-05-11 14:13:26 - INFO - [TSA-10] ✔ prog=2 rank= 1  score=0.3902  kelly=0.090 edge=+0.060  ML= 0.33  2025-04-06  gap12=0.279  gap23=0.279
+2025-05-11 14:13:26 - INFO - [TSA-10] ▶ prog=10 rank= 3  score=0.1034  kelly=-0.080 edge=-0.067  ML= 0.17  2025-04-06  gap12=0.279  gap23=0.279
+2025-05-11 14:13:26 - INFO - TSA-10 | Big gap key12 | stake $94.62 | 2 combos | cost 80.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 6), 11, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 92.98567381748818
+2025-05-11 14:13:26 - INFO - Generated Combos: [('6', '4'), ('6', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['9']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 13.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('6', '4'), ('6', '3')]
+2025-05-11 14:13:26 - INFO - [TSA-11] ✔ prog=6 rank= 1  score=0.4574  kelly=0.322 edge=+0.257  ML= 0.20  2025-04-06  gap12=0.338  gap23=0.338
+2025-05-11 14:13:26 - INFO - [TSA-11] ▶ prog=4 rank= 2  score=0.1191  kelly=-0.175 edge=-0.131  ML= 0.25  2025-04-06  gap12=0.338  gap23=0.338
+2025-05-11 14:13:26 - INFO - [TSA-11] ✔ prog=6 rank= 1  score=0.4574  kelly=0.322 edge=+0.257  ML= 0.20  2025-04-06  gap12=0.338  gap23=0.338
+2025-05-11 14:13:26 - INFO - [TSA-11] ▶ prog=3 rank= 3  score=0.0960  kelly=-0.102 edge=-0.084  ML= 0.18  2025-04-06  gap12=0.338  gap23=0.338
+2025-05-11 14:13:26 - INFO - TSA-11 | Big gap key12 | stake $92.99 | 2 combos | cost 80.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 18), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 85.26228234201528
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '4'), ('2', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 84.90
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '4'), ('2', '3')]
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=2 rank= 1  score=0.6191  kelly=0.386 edge=+0.239  ML= 0.38  2025-04-18  gap12=0.493  gap23=0.493
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=4 rank= 2  score=0.1264  kelly=-0.165 edge=-0.124  ML= 0.25  2025-04-18  gap12=0.493  gap23=0.493
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=2 rank= 1  score=0.6191  kelly=0.386 edge=+0.239  ML= 0.38  2025-04-18  gap12=0.493  gap23=0.493
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=3 rank= 3  score=0.1080  kelly=-0.331 edge=-0.222  ML= 0.33  2025-04-18  gap12=0.493  gap23=0.493
+2025-05-11 14:13:26 - INFO - TSA-2 | Big gap key12 | stake $85.26 | 2 combos | cost 80.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 20), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 198.20000000000002
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 200.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 3.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 1  |  [('4', '1')]
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=4 rank= 1  score=0.5170  kelly=0.279 edge=+0.187  ML= 0.33  2025-04-20  gap12=0.224  gap23=0.224
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=1 rank= 2  score=0.2929  kelly=-0.105 edge=-0.067  ML= 0.36  2025-04-20  gap12=0.224  gap23=0.224
+2025-05-11 14:13:26 - INFO - TSA-2 | Huge gaps straight | stake $198.20 | 1 combos | cost 200.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 20), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 62.66172088089863
+2025-05-11 14:13:26 - INFO - Generated Combos: [('6', '5'), ('6', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['6']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 14.30
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('6', '5'), ('6', '3')]
+2025-05-11 14:13:26 - INFO - [TSA-7] ✔ prog=6 rank= 1  score=0.5281  kelly=0.214 edge=+0.128  ML= 0.40  2025-04-20  gap12=0.410  gap23=0.410
+2025-05-11 14:13:26 - INFO - [TSA-7] ▶ prog=5 rank= 2  score=0.1179  kelly=0.009 edge=+0.008  ML= 0.11  2025-04-20  gap12=0.410  gap23=0.410
+2025-05-11 14:13:26 - INFO - [TSA-7] ✔ prog=6 rank= 1  score=0.5281  kelly=0.214 edge=+0.128  ML= 0.40  2025-04-20  gap12=0.410  gap23=0.410
+2025-05-11 14:13:26 - INFO - [TSA-7] ▶ prog=3 rank= 3  score=0.1010  kelly=-0.124 edge=-0.099  ML= 0.20  2025-04-20  gap12=0.410  gap23=0.410
+2025-05-11 14:13:26 - INFO - TSA-7 | Big gap key12 | stake $62.66 | 2 combos | cost 80.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 20), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 61.426293899458834
+2025-05-11 14:13:26 - INFO - Generated Combos: [('9', '7'), ('9', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 80.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['9']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 10.60
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('9', '7'), ('9', '6')]
+2025-05-11 14:13:26 - INFO - [TSA-8] ✔ prog=9 rank= 1  score=0.4652  kelly=0.331 edge=+0.265  ML= 0.20  2025-04-20  gap12=0.304  gap23=0.304
+2025-05-11 14:13:26 - INFO - [TSA-8] ▶ prog=7 rank= 2  score=0.1615  kelly=-0.251 edge=-0.168  ML= 0.33  2025-04-20  gap12=0.304  gap23=0.304
+2025-05-11 14:13:26 - INFO - [TSA-8] ✔ prog=9 rank= 1  score=0.4652  kelly=0.331 edge=+0.265  ML= 0.20  2025-04-20  gap12=0.304  gap23=0.304
+2025-05-11 14:13:26 - INFO - [TSA-8] ▶ prog=6 rank= 3  score=0.1160  kelly=-0.065 edge=-0.054  ML= 0.17  2025-04-20  gap12=0.304  gap23=0.304
+2025-05-11 14:13:26 - INFO - TSA-8 | Big gap key12 | stake $61.43 | 2 combos | cost 80.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 25), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 55.043969420878994
+2025-05-11 14:13:26 - INFO - Generated Combos: [('6', '1'), ('6', '9')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['9'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 40.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('6', '1'), ('6', '9')]
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=6 rank= 1  score=0.4715  kelly=0.295 edge=+0.222  ML= 0.25  2025-04-25  gap12=0.340  gap23=0.340
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=1 rank= 2  score=0.1316  kelly=-0.223 edge=-0.158  ML= 0.29  2025-04-25  gap12=0.340  gap23=0.340
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=6 rank= 1  score=0.4715  kelly=0.295 edge=+0.222  ML= 0.25  2025-04-25  gap12=0.340  gap23=0.340
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=9 rank= 3  score=0.0826  kelly=0.003 edge=+0.003  ML= 0.08  2025-04-25  gap12=0.340  gap23=0.340
+2025-05-11 14:13:26 - INFO - TSA-6 | Big gap key12 | stake $55.04 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 26), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 49.9560723904273
+2025-05-11 14:13:26 - INFO - Generated Combos: [('3', '2'), ('3', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 10.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('3', '2'), ('3', '5')]
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=3 rank= 1  score=0.5807  kelly=0.345 edge=+0.221  ML= 0.36  2025-04-26  gap12=0.440  gap23=0.440
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=2 rank= 2  score=0.1405  kelly=-0.146 edge=-0.109  ML= 0.25  2025-04-26  gap12=0.440  gap23=0.440
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=3 rank= 1  score=0.5807  kelly=0.345 edge=+0.221  ML= 0.36  2025-04-26  gap12=0.440  gap23=0.440
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=5 rank= 3  score=0.1024  kelly=-0.095 edge=-0.078  ML= 0.18  2025-04-26  gap12=0.440  gap23=0.440
+2025-05-11 14:13:26 - INFO - TSA-2 | Big gap key12 | stake $49.96 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 4, 27), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 42.208083565270655
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '4'), ('2', '5')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['2']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 54.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '4'), ('2', '5')]
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=2 rank= 1  score=0.5265  kelly=0.139 edge=+0.077  ML= 0.45  2025-04-27  gap12=0.415  gap23=0.415
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=4 rank= 2  score=0.1117  kelly=-0.184 edge=-0.138  ML= 0.25  2025-04-27  gap12=0.415  gap23=0.415
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=2 rank= 1  score=0.5265  kelly=0.139 edge=+0.077  ML= 0.45  2025-04-27  gap12=0.415  gap23=0.415
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=5 rank= 3  score=0.1053  kelly=-0.040 edge=-0.035  ML= 0.14  2025-04-27  gap12=0.415  gap23=0.415
+2025-05-11 14:13:26 - INFO - TSA-6 | Big gap key12 | stake $42.21 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 2), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 42.0537876067959
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '6'), ('2', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 13.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '6'), ('2', '3')]
+2025-05-11 14:13:26 - INFO - [TSA-1] ✔ prog=2 rank= 1  score=0.4971  kelly=0.292 edge=+0.207  ML= 0.29  2025-05-02  gap12=0.355  gap23=0.355
+2025-05-11 14:13:26 - INFO - [TSA-1] ▶ prog=6 rank= 2  score=0.1418  kelly=-0.281 edge=-0.188  ML= 0.33  2025-05-02  gap12=0.355  gap23=0.355
+2025-05-11 14:13:26 - INFO - [TSA-1] ✔ prog=2 rank= 1  score=0.4971  kelly=0.292 edge=+0.207  ML= 0.29  2025-05-02  gap12=0.355  gap23=0.355
+2025-05-11 14:13:26 - INFO - [TSA-1] ▶ prog=3 rank= 3  score=0.1126  kelly=-0.082 edge=-0.067  ML= 0.18  2025-05-02  gap12=0.355  gap23=0.355
+2025-05-11 14:13:26 - INFO - TSA-1 | Big gap key12 | stake $42.05 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 2), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 37.88644837050497
+2025-05-11 14:13:26 - INFO - Generated Combos: [('3', '4'), ('3', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 5.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('3', '4'), Payoff = 108.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('3', '4'), ('3', '6')]
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=3 rank= 1  score=0.5428  kelly=0.286 edge=+0.183  ML= 0.36  2025-05-02  gap12=0.425  gap23=0.425
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=4 rank= 2  score=0.1178  kelly=-0.317 edge=-0.212  ML= 0.33  2025-05-02  gap12=0.425  gap23=0.425
+2025-05-11 14:13:26 - INFO - [TSA-2] ✔ prog=3 rank= 1  score=0.5428  kelly=0.286 edge=+0.183  ML= 0.36  2025-05-02  gap12=0.425  gap23=0.425
+2025-05-11 14:13:26 - INFO - [TSA-2] ▶ prog=6 rank= 3  score=0.0961  kelly=-0.102 edge=-0.084  ML= 0.18  2025-05-02  gap12=0.425  gap23=0.425
+2025-05-11 14:13:26 - INFO - TSA-2 | Big gap key12 | stake $37.89 | 2 combos | cost 40.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 3), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 41.32730289429538
+2025-05-11 14:13:26 - INFO - Generated Combos: [('7', '3'), ('7', '4')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 12.20
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('7', '3'), ('7', '4')]
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=7 rank= 1  score=0.5634  kelly=0.272 edge=+0.163  ML= 0.40  2025-05-03  gap12=0.423  gap23=0.423
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=3 rank= 2  score=0.1400  kelly=-0.147 edge=-0.110  ML= 0.25  2025-05-03  gap12=0.423  gap23=0.423
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=7 rank= 1  score=0.5634  kelly=0.272 edge=+0.163  ML= 0.40  2025-05-03  gap12=0.423  gap23=0.423
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=4 rank= 3  score=0.1333  kelly=-0.008 edge=-0.007  ML= 0.14  2025-05-03  gap12=0.423  gap23=0.423
+2025-05-11 14:13:26 - INFO - TSA-6 | Big gap key12 | stake $41.33 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 3), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 37.603289735833435
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '8'), ('5', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['4'], ['8']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 43.70
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '8'), ('5', '7')]
+2025-05-11 14:13:26 - INFO - [TSA-7] ✔ prog=5 rank= 1  score=0.8541  kelly=0.782 edge=+0.524  ML= 0.33  2025-05-03  gap12=0.816  gap23=0.816
+2025-05-11 14:13:26 - INFO - [TSA-7] ▶ prog=8 rank= 2  score=0.0379  kelly=-0.233 edge=-0.182  ML= 0.22  2025-05-03  gap12=0.816  gap23=0.816
+2025-05-11 14:13:26 - INFO - [TSA-7] ✔ prog=5 rank= 1  score=0.8541  kelly=0.782 edge=+0.524  ML= 0.33  2025-05-03  gap12=0.816  gap23=0.816
+2025-05-11 14:13:26 - INFO - [TSA-7] ▶ prog=7 rank= 3  score=0.0365  kelly=-0.083 edge=-0.074  ML= 0.11  2025-05-03  gap12=0.816  gap23=0.816
+2025-05-11 14:13:26 - INFO - TSA-7 | Big gap key12 | stake $37.60 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 9), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 34.44060269078409
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '6'), ('2', '4')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 43.90
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '6'), ('2', '4')]
+2025-05-11 14:13:26 - INFO - [TSA-5] ✔ prog=2 rank= 1  score=0.5006  kelly=0.334 edge=+0.251  ML= 0.25  2025-05-09  gap12=0.358  gap23=0.358
+2025-05-11 14:13:26 - INFO - [TSA-5] ▶ prog=6 rank= 2  score=0.1423  kelly=-0.100 edge=-0.078  ML= 0.22  2025-05-09  gap12=0.358  gap23=0.358
+2025-05-11 14:13:26 - INFO - [TSA-5] ✔ prog=2 rank= 1  score=0.5006  kelly=0.334 edge=+0.251  ML= 0.25  2025-05-09  gap12=0.358  gap23=0.358
+2025-05-11 14:13:26 - INFO - [TSA-5] ▶ prog=4 rank= 3  score=0.1421  kelly=-0.034 edge=-0.028  ML= 0.17  2025-05-09  gap12=0.358  gap23=0.358
+2025-05-11 14:13:26 - INFO - TSA-5 | Big gap key12 | stake $34.44 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 10), 1, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 32.297717252263155
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '2'), ('1', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['7'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 50.70
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '2'), ('1', '3')]
+2025-05-11 14:13:26 - INFO - [TSA-1] ✔ prog=1 rank= 1  score=0.4084  kelly=0.242 edge=+0.188  ML= 0.22  2025-05-10  gap12=0.275  gap23=0.275
+2025-05-11 14:13:26 - INFO - [TSA-1] ▶ prog=2 rank= 2  score=0.1333  kelly=-0.156 edge=-0.117  ML= 0.25  2025-05-10  gap12=0.275  gap23=0.275
+2025-05-11 14:13:26 - INFO - [TSA-1] ✔ prog=1 rank= 1  score=0.4084  kelly=0.242 edge=+0.188  ML= 0.22  2025-05-10  gap12=0.275  gap23=0.275
+2025-05-11 14:13:26 - INFO - [TSA-1] ▶ prog=3 rank= 3  score=0.1249  kelly=-0.067 edge=-0.055  ML= 0.18  2025-05-10  gap12=0.275  gap23=0.275
+2025-05-11 14:13:26 - INFO - TSA-1 | Big gap key12 | stake $32.30 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 10), 3, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 30.37556562942668
+2025-05-11 14:13:26 - INFO - Generated Combos: [('5', '1'), ('5', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['5'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 3.80
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - => Match Found! Winning Combo: ('5', '1'), Payoff = 76.00
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('5', '1'), ('5', '7')]
+2025-05-11 14:13:26 - INFO - [TSA-3] ✔ prog=5 rank= 1  score=0.5870  kelly=0.174 edge=+0.087  ML= 0.50  2025-05-10  gap12=0.447  gap23=0.447
+2025-05-11 14:13:26 - INFO - [TSA-3] ▶ prog=1 rank= 2  score=0.1404  kelly=-0.146 edge=-0.110  ML= 0.25  2025-05-10  gap12=0.447  gap23=0.447
+2025-05-11 14:13:26 - INFO - [TSA-3] ✔ prog=5 rank= 1  score=0.5870  kelly=0.174 edge=+0.087  ML= 0.50  2025-05-10  gap12=0.447  gap23=0.447
+2025-05-11 14:13:26 - INFO - [TSA-3] ▶ prog=7 rank= 3  score=0.1198  kelly=-0.100 edge=-0.080  ML= 0.20  2025-05-10  gap12=0.447  gap23=0.447
+2025-05-11 14:13:26 - INFO - TSA-3 | Big gap key12 | stake $30.38 | 2 combos | cost 40.00 | HIT
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TSA', datetime.date(2025, 5, 10), 6, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 34.94801464276313
+2025-05-11 14:13:26 - INFO - Generated Combos: [('3', '6'), ('3', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['6'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 11.30
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 100
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('3', '6'), ('3', '7')]
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=3 rank= 1  score=0.4299  kelly=0.109 edge=+0.070  ML= 0.36  2025-05-10  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=6 rank= 2  score=0.1423  kelly=-0.072 edge=-0.058  ML= 0.20  2025-05-10  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TSA-6] ✔ prog=3 rank= 1  score=0.4299  kelly=0.109 edge=+0.070  ML= 0.36  2025-05-10  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - [TSA-6] ▶ prog=7 rank= 3  score=0.1055  kelly=-0.040 edge=-0.035  ML= 0.14  2025-05-10  gap12=0.288  gap23=0.288
+2025-05-11 14:13:26 - INFO - TSA-6 | Big gap key12 | stake $34.95 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TSA', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 4, 26), 2, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 28.67039678542282
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '6'), ('1', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 12.40
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '6'), ('1', '2')]
+2025-05-11 14:13:26 - INFO - [TWO-2] ✔ prog=1 rank= 1  score=0.9052  kelly=0.847 edge=+0.525  ML= 0.38  2025-04-26  gap12=0.879  gap23=0.879
+2025-05-11 14:13:26 - INFO - [TWO-2] ▶ prog=6 rank= 2  score=0.0261  kelly=-0.217 edge=-0.174  ML= 0.20  2025-04-26  gap12=0.879  gap23=0.879
+2025-05-11 14:13:26 - INFO - [TWO-2] ✔ prog=1 rank= 1  score=0.9052  kelly=0.847 edge=+0.525  ML= 0.38  2025-04-26  gap12=0.879  gap23=0.879
+2025-05-11 14:13:26 - INFO - [TWO-2] ▶ prog=2 rank= 3  score=0.0203  kelly=-0.101 edge=-0.090  ML= 0.11  2025-04-26  gap12=0.879  gap23=0.879
+2025-05-11 14:13:26 - INFO - TWO-2 | Big gap key12 | stake $28.67 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 4, 26), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 27.952244145290795
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '5'), ('1', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['5']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 14.35
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '5'), ('1', '3')]
+2025-05-11 14:13:26 - INFO - [TWO-7] ✔ prog=1 rank= 1  score=0.5454  kelly=0.290 edge=+0.185  ML= 0.36  2025-04-26  gap12=0.366  gap23=0.366
+2025-05-11 14:13:26 - INFO - [TWO-7] ▶ prog=5 rank= 2  score=0.1796  kelly=-0.323 edge=-0.200  ML= 0.38  2025-04-26  gap12=0.366  gap23=0.366
+2025-05-11 14:13:26 - INFO - [TWO-7] ✔ prog=1 rank= 1  score=0.5454  kelly=0.290 edge=+0.185  ML= 0.36  2025-04-26  gap12=0.366  gap23=0.366
+2025-05-11 14:13:26 - INFO - [TWO-7] ▶ prog=3 rank= 3  score=0.1458  kelly=-0.068 edge=-0.054  ML= 0.20  2025-04-26  gap12=0.366  gap23=0.366
+2025-05-11 14:13:26 - INFO - TWO-7 | Big gap key12 | stake $27.95 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 4, 27), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 25.238371711944282
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '7'), ('2', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['6']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 11.55
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '7'), ('2', '1')]
+2025-05-11 14:13:26 - INFO - [TWO-4] ✔ prog=2 rank= 1  score=0.4491  kelly=0.265 edge=+0.199  ML= 0.25  2025-04-27  gap12=0.250  gap23=0.250
+2025-05-11 14:13:26 - INFO - [TWO-4] ▶ prog=7 rank= 2  score=0.1989  kelly=-0.196 edge=-0.131  ML= 0.33  2025-04-27  gap12=0.250  gap23=0.250
+2025-05-11 14:13:26 - INFO - [TWO-4] ✔ prog=2 rank= 1  score=0.4491  kelly=0.265 edge=+0.199  ML= 0.25  2025-04-27  gap12=0.250  gap23=0.250
+2025-05-11 14:13:26 - INFO - [TWO-4] ▶ prog=1 rank= 3  score=0.1567  kelly=-0.188 edge=-0.133  ML= 0.29  2025-04-27  gap12=0.250  gap23=0.250
+2025-05-11 14:13:26 - INFO - TWO-4 | Big gap key12 | stake $25.24 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 4, 27), 5, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 20.03480963291762
+2025-05-11 14:13:26 - INFO - Generated Combos: [('2', '3'), ('2', '1')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 40.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 4.05
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('2', '3'), ('2', '1')]
+2025-05-11 14:13:26 - INFO - [TWO-5] ✔ prog=2 rank= 1  score=0.5072  kelly=0.014 edge=+0.007  ML= 0.50  2025-04-27  gap12=0.359  gap23=0.359
+2025-05-11 14:13:26 - INFO - [TWO-5] ▶ prog=3 rank= 2  score=0.1482  kelly=-0.136 edge=-0.102  ML= 0.25  2025-04-27  gap12=0.359  gap23=0.359
+2025-05-11 14:13:26 - INFO - [TWO-5] ✔ prog=2 rank= 1  score=0.5072  kelly=0.014 edge=+0.007  ML= 0.50  2025-04-27  gap12=0.359  gap23=0.359
+2025-05-11 14:13:26 - INFO - [TWO-5] ▶ prog=1 rank= 3  score=0.1339  kelly=-0.083 edge=-0.066  ML= 0.20  2025-04-27  gap12=0.359  gap23=0.359
+2025-05-11 14:13:26 - INFO - TWO-5 | Big gap key12 | stake $20.03 | 2 combos | cost 40.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 4, 27), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 20.0
+2025-05-11 14:13:26 - INFO - Generated Combos: [('9', '4'), ('9', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 0.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['2'], ['9']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 15.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('9', '4'), ('9', '2')]
+2025-05-11 14:13:26 - INFO - [TWO-7] ✔ prog=9 rank= 1  score=0.5442  kelly=0.358 edge=+0.254  ML= 0.29  2025-04-27  gap12=0.414  gap23=0.414
+2025-05-11 14:13:26 - INFO - [TWO-7] ▶ prog=4 rank= 2  score=0.1307  kelly=-0.087 edge=-0.069  ML= 0.20  2025-04-27  gap12=0.414  gap23=0.414
+2025-05-11 14:13:26 - INFO - [TWO-7] ✔ prog=9 rank= 1  score=0.5442  kelly=0.358 edge=+0.254  ML= 0.29  2025-04-27  gap12=0.414  gap23=0.414
+2025-05-11 14:13:26 - INFO - [TWO-7] ▶ prog=2 rank= 3  score=0.1237  kelly=-0.019 edge=-0.016  ML= 0.14  2025-04-27  gap12=0.414  gap23=0.414
+2025-05-11 14:13:26 - INFO - TWO-7 | Big gap key12 | stake $20.00 | 2 combos | cost 0.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 5, 3), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 20.0
+2025-05-11 14:13:26 - INFO - Generated Combos: [('4', '1'), ('4', '3')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 0.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['1'], ['3']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 3.50
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('4', '1'), ('4', '3')]
+2025-05-11 14:13:26 - INFO - [TWO-8] ✔ prog=4 rank= 1  score=0.4647  kelly=0.201 edge=+0.135  ML= 0.33  2025-05-03  gap12=0.304  gap23=0.304
+2025-05-11 14:13:26 - INFO - [TWO-8] ▶ prog=1 rank= 2  score=0.1610  kelly=-0.353 edge=-0.219  ML= 0.38  2025-05-03  gap12=0.304  gap23=0.304
+2025-05-11 14:13:26 - INFO - [TWO-8] ✔ prog=4 rank= 1  score=0.4647  kelly=0.201 edge=+0.135  ML= 0.33  2025-05-03  gap12=0.304  gap23=0.304
+2025-05-11 14:13:26 - INFO - [TWO-8] ▶ prog=3 rank= 3  score=0.1428  kelly=-0.143 edge=-0.107  ML= 0.25  2025-05-03  gap12=0.304  gap23=0.304
+2025-05-11 14:13:26 - INFO - TWO-8 | Big gap key12 | stake $20.00 | 2 combos | cost 0.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 5, 4), 4, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 20.0
+2025-05-11 14:13:26 - INFO - Generated Combos: [('6', '3'), ('6', '7')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 0.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 12.75
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('6', '3'), ('6', '7')]
+2025-05-11 14:13:26 - INFO - [TWO-4] ✔ prog=6 rank= 1  score=0.4517  kelly=0.269 edge=+0.202  ML= 0.25  2025-05-04  gap12=0.325  gap23=0.325
+2025-05-11 14:13:26 - INFO - [TWO-4] ▶ prog=3 rank= 2  score=0.1271  kelly=-0.015 edge=-0.013  ML= 0.14  2025-05-04  gap12=0.325  gap23=0.325
+2025-05-11 14:13:26 - INFO - [TWO-4] ✔ prog=6 rank= 1  score=0.4517  kelly=0.269 edge=+0.202  ML= 0.25  2025-05-04  gap12=0.325  gap23=0.325
+2025-05-11 14:13:26 - INFO - [TWO-4] ▶ prog=7 rank= 3  score=0.1203  kelly=-0.313 edge=-0.210  ML= 0.33  2025-05-04  gap12=0.325  gap23=0.325
+2025-05-11 14:13:26 - INFO - TWO-4 | Big gap key12 | stake $20.00 | 2 combos | cost 0.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 5, 4), 7, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 20.0
+2025-05-11 14:13:26 - INFO - Generated Combos: [('8', '4'), ('8', '2')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 0.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['8'], ['1']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 40.00
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('8', '4'), ('8', '2')]
+2025-05-11 14:13:26 - INFO - [TWO-7] ✔ prog=8 rank= 1  score=0.5523  kelly=0.426 edge=+0.332  ML= 0.22  2025-05-04  gap12=0.467  gap23=0.467
+2025-05-11 14:13:26 - INFO - [TWO-7] ▶ prog=4 rank= 2  score=0.0851  kelly=-0.220 edge=-0.165  ML= 0.25  2025-05-04  gap12=0.467  gap23=0.467
+2025-05-11 14:13:26 - INFO - [TWO-7] ✔ prog=8 rank= 1  score=0.5523  kelly=0.426 edge=+0.332  ML= 0.22  2025-05-04  gap12=0.467  gap23=0.467
+2025-05-11 14:13:26 - INFO - [TWO-7] ▶ prog=2 rank= 3  score=0.0575  kelly=-0.024 edge=-0.022  ML= 0.08  2025-05-04  gap12=0.467  gap23=0.467
+2025-05-11 14:13:26 - INFO - TWO-7 | Big gap key12 | stake $20.00 | 2 combos | cost 0.00 | miss
+2025-05-11 14:13:26 - INFO - 
+--- Debugging Race ---
+2025-05-11 14:13:26 - INFO - Race Key: ('TWO', datetime.date(2025, 5, 10), 8, 'Exacta')
+2025-05-11 14:13:26 - INFO - Wager Amount: 20.0
+2025-05-11 14:13:26 - INFO - Generated Combos: [('1', '5'), ('1', '6')]
+2025-05-11 14:13:26 - INFO - Posted Base: 1.00
+2025-05-11 14:13:26 - INFO - Cost for Combos: 0.00
+2025-05-11 14:13:26 - INFO - Actual Winning Combo: [['3'], ['4']]
+2025-05-11 14:13:26 - INFO - Listed Payoff: 30.30
+2025-05-11 14:13:26 - INFO - Bad Race Wager info so far: 109
+2025-05-11 14:13:26 - INFO - combo size 2  |  [('1', '5'), ('1', '6')]
+2025-05-11 14:13:26 - INFO - [TWO-8] ✔ prog=1 rank= 1  score=0.4756  kelly=0.344 edge=+0.276  ML= 0.20  2025-05-10  gap12=0.345  gap23=0.345
+2025-05-11 14:13:26 - INFO - [TWO-8] ▶ prog=5 rank= 2  score=0.1303  kelly=-0.298 edge=-0.200  ML= 0.33  2025-05-10  gap12=0.345  gap23=0.345
+2025-05-11 14:13:26 - INFO - [TWO-8] ✔ prog=1 rank= 1  score=0.4756  kelly=0.344 edge=+0.276  ML= 0.20  2025-05-10  gap12=0.345  gap23=0.345
+2025-05-11 14:13:26 - INFO - [TWO-8] ▶ prog=6 rank= 3  score=0.1263  kelly=-0.365 edge=-0.234  ML= 0.36  2025-05-10  gap12=0.345  gap23=0.345
+2025-05-11 14:13:26 - INFO - TWO-8 | Big gap key12 | stake $20.00 | 2 combos | cost 0.00 | miss
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 1, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 2, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 3, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 4, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 5, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 6, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 7, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 8, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 9, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Debug1 New Race: key=('TWO', datetime.date(2025, 5, 11), 10, 'Exacta'), race_wager_info=None, num_tickets=None (type: <class 'NoneType'>)
+2025-05-11 14:13:26 - INFO - Exacta ▶ Cost $24840.00 | Payoff $20055.00 | ROI -19.26% | Bankroll $215.00 | Hit-rate 6.7% (12 / 178)
+2025-05-11 14:13:26 - INFO - No forward-dated races matched today’s rule set – no bet-sheet generated.
+2025-05-11 14:13:29 - INFO - Closing down clientserver connection
