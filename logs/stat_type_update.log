@@ -1,953 +1,953 @@
-2025-06-05 04:00:01 - INFO - Logging has been set up successfully.
-2025-06-05 04:00:01 - INFO - Initializing stat types in stat_type_code table...
-2025-06-05 04:00:01 - INFO - Stat types initialized successfully.
-2025-06-05 04:00:01 - INFO - Unprocessed stat types: ['ALL_WEATHR', 'FAST_TRACK', 'MUDDY_TRACK', 'FIRM_TURF', 'SOFT_TURF', 'CLAIMING', 'ALLOWANCE', 'STAKE_HCP', 'MAIDEN', 'UP_IN_CLASS', 'DOWN_IN_CLASS', 'FAVORITE', 'LONGSHOT', 'TWO_YEAR_OLD', 'FIRST_TIME', 'LAST_OUT_WINNER', 'JOCK_TRAIN_COMBO', 'FAVORITE_SPRNT', 'FAVORITE_RTE', 'ALL_WEATHER_SPRNT', 'ALL_WEATHER_RTE', '1_7OFF', 'LAST30', '31_60OFF', '61_180OFF', 'TY_TURF', 'AT_DST_CRS', 'AT_DST_D', 'LY_SOFT', 'AT_TRK_CRS', 'TY_ALLWTHR', 'TY_JUMP', 'AT_TRKDIRT', 'MUD', 'AT_TRKTURF', 'AT_TRK_DRT', 'MSW2MCL', 'ODDSGT5', 'ODDSLE5', 'ROUTE2SPRT', 'SCND60_180', 'SCND180_UP', 'SPRT2ROUTE', 'SYN2TURF', 'TURF2DIRT', 'TURF2SYN', '2YEAR_OLD', 'UP_INCLASS', 'WON_LAST', 'SHRT_LAY34', 'SHRT_LAY12', 'THIS_YEAR', 'TURF', 'TY_MUD', 'TY_SOFT', 'ALL_RACES_JT', 'ALL_RACES_T', 'ALL_RACES', 'ALL_RACES_J', 'TRAN_HORSE', 'ALL_RACES_T_TRACK', 'MUDDY_SPRNT', 'MUDDY_RTE', 'ALL_RACES_JT_TRACK', 'DIRT_SPRNT', 'ALL_RACES_J_TRACK', 'TY_DIRT', 'AT_TRK_DSP', 'AT_TRKDSTT', 'AT_TRKDSTD', 'AT_TRK_TSP', 'AT_TRK', 'JUMP', 'AT_TRKSOFT', 'AT_TRKMUD', 'DIST_SURF', 'JOCK_HORSE', 'LONG_LAY34', 'LY_ALLWTHR', 'LY_JUMP', 'LY_MUD', 'LY_TURF', 'OFF_CLM1', 'OFF_CLM2', 'AT_DST_T', 'AT_TRK_TRT', 'DIRT', 'STAKES', 'Allowance_SPRNT', 'Allowance_RTE', 'Maiden_SPRNT', 'Maiden_RTE', '180_UPOFF', 'AFTER_60', 'AFTER_CLM', 'BLINKOFF', 'BLINKON', 'DIRT2TURF', 'DOWNCLASS', 'FRSTBLINK', 'FRSTLASIX', 'FRSTTURF', 'LAST10', 'MCLDEBUT', 'MCLRACE', 'MSWRACE', 'JOCK_TRAN', 'LIFETIME', 'LONG_LAY12', 'LY_DIRT', 'LAST_YEAR', 'AT_TRKSURF', 'DIRT_RTE', 'TURF_SPRNT', 'TURF_RTE', 'ALLOWANCE_SPRNT', 'ALLOWANCE_RTE', 'CLAIMING_SPRNT', 'CLAIMING_RTE', 'STAKES_SPRNT', 'STAKES_RTE']
-2025-06-05 04:00:01 - INFO - Starting processing for stat type: ALL_RACES
-2025-06-05 04:00:01 - INFO - Last processed date for ALL_RACES: 2025-05-10
-2025-06-05 04:00:01 - INFO - Fetched 0 race_dates for ALL_RACES.
-2025-06-05 04:00:01 - INFO - No new race dates to process for stat type: ALL_RACES.
-2025-06-05 04:00:01 - INFO - No race dates were processed for stat type: ALL_RACES
-2025-06-05 04:00:01 - INFO - Starting processing for stat type: DIRT_SPRNT
-2025-06-05 04:00:01 - INFO - Last processed date for DIRT_SPRNT: 2025-05-10
-2025-06-05 04:00:01 - INFO - Fetched 0 race_dates for DIRT_SPRNT.
-2025-06-05 04:00:01 - INFO - No new race dates to process for stat type: DIRT_SPRNT.
-2025-06-05 04:00:01 - INFO - No race dates were processed for stat type: DIRT_SPRNT
-2025-06-05 04:00:01 - INFO - Starting processing for stat type: DIRT_RTE
-2025-06-05 04:00:01 - INFO - Last processed date for DIRT_RTE: 2025-05-10
-2025-06-05 04:00:01 - INFO - Fetched 0 race_dates for DIRT_RTE.
-2025-06-05 04:00:01 - INFO - No new race dates to process for stat type: DIRT_RTE.
-2025-06-05 04:00:01 - INFO - No race dates were processed for stat type: DIRT_RTE
-2025-06-05 04:00:01 - INFO - Starting processing for stat type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Last processed date for MUDDY_SPRNT: None
-2025-06-05 04:00:01 - INFO - Fetched 145 race_dates for MUDDY_SPRNT.
-2025-06-05 04:00:01 - INFO - Processing stat type: MUDDY_SPRNT for 145 new race dates.
-2025-06-05 04:00:01 - INFO - Total horses fetched from 'horse' table: 120565.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-17 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-17: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-17. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-18 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-18: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-18. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-19 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-19: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-19. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-20 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-20: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-20. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-21 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-21: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-21. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-22 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-22: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-22. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-23 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-23: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-23. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-24 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-24: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-24. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-25 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-25: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-25. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-26 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-26: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-26. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-27 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-27: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-27. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-28 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-28: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-28. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-29 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-29: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-29. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-30 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-30: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-30. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2024-12-31 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2024-12-31: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2024-12-31. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-01 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-01: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-01. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-02 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-02: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-02. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-03 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-03: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-03. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-04 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-04: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-04. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-05 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-05: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-05. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-06 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-06: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-06. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-07 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-07: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-07. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-08 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-08: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-08. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-09 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-09: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-09. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-10 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-10: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-10. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-11 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-11: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-11. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-12 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-12: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-12. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-13 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-13: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-13. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-14 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-14: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-14. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-15 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-15: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-15. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-16 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-16: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-16. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-17 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-17: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-17. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-18 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-18: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-18. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-19 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-19: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-19. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-20 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-20: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-21 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-21: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-22 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-22: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-22. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-23 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-23: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-23. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-24 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-24: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-24. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-25 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-25: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-25. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-26 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-26: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-26. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-27 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-27: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-27. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-28 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-28: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-28. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-29 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-29: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-29. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-30 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-30: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-30. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-01-31 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-01-31: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-01-31. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-01 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-01: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-01. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-02 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-02: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-02. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-03 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-03: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-03. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-04 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-04: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-04. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-05 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-05: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-05. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-06 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-06: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-06. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-07 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-07: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-07. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-08 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-08: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-08. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-09 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-09: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-09. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-10 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-10: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-10. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-11 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-11: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-11. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-12 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-12: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-12. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-13 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-13: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-13. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-14 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-14: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-14. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-15 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-15: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-15. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-16 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-16: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-16. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-17 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-17: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-17. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-18 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-18: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-18. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-19 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-19: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-19. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-20 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-20: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-20. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-21 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-21: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-21. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-22 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-22: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-22. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-23 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-23: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-23. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-24 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-24: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-24. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-25 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-25: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-25. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-26 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-26: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-26. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-27 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-27: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-27. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-02-28 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-02-28: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-02-28. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-01 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-01: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-01. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-02 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-02: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-02. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-03 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-03: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-03. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-04 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-04: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-04. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-05 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-05: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-05. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-06 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-06: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-06. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-07 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-07: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-07. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-08 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-08: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-08. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-09 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-09: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-09. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-10 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-10: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-10. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-11 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-11: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-11. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-12 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-12: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-12. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-13 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-13: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-13. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-14 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-14: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-14. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-15 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-15: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-15. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-16 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-16: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-16. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-17 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-17: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-17. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-18 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-18: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-18. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-19 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-19: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-19. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-20 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-20: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-20. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-21 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-21: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-21. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-22 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-22: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-22. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-23 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-23: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-23. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-24 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-24: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-24. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-25 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-25: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-25. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-26 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-26: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-26. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-27 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-27: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-27. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-28 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-28: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-28. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-29 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-29: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-29. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-30 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-30: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-30. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-03-31 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-03-31: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-03-31. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-01 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-01: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-01. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-02 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-02: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-02. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-03 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-03: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-03. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-04 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-04: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-04. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-05 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-05: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-05. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-06 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-06: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-06. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-07 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-07: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-07. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-08 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-08: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-08. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-09 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-09: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-09. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-10 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-10: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-10. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-11 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-11: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-11. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-12 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-12: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-12. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-13 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-13: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-13. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-14 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-14: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-14. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-15 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-15: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-15. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-16 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-16: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-16. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-17 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-17: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-17. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-18 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-18: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-18. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-19 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-19: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-19. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-20 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-20: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-20. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-21 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-21: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-21. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-22 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-22: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-22. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-23 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-23: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-23. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-24 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-24: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-24. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-25 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-25: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-25. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-26 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-26: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-26. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-27 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-27: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-27. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-28 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-28: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-28. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-29 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-29: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-29. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-04-30 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-04-30: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-04-30. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-01 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-01: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-01. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-02 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-02: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-02. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-03 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-03: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-03. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-04 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-04: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-04. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-05 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-05: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-05. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-06 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-06: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-06. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-07 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-07: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-07. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-08 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-08: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-08. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-09 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-09: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-09. Skipping.
-2025-06-05 04:00:01 - INFO - Processing race_date: 2025-05-10 for stat_type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Race_date 2025-05-10: 0 actual_horses found.
-2025-06-05 04:00:01 - WARNING - No actual_horses found for race_date 2025-05-10. Skipping.
-2025-06-05 04:00:01 - INFO - No race dates were processed for stat type: MUDDY_SPRNT
-2025-06-05 04:00:01 - INFO - Starting processing for stat type: MUDDY_RTE
-2025-06-05 04:00:01 - INFO - Last processed date for MUDDY_RTE: None
-2025-06-05 04:00:02 - INFO - Fetched 145 race_dates for MUDDY_RTE.
-2025-06-05 04:00:02 - INFO - Processing stat type: MUDDY_RTE for 145 new race dates.
-2025-06-05 04:00:02 - INFO - Total horses fetched from 'horse' table: 120565.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-17 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-17: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-17. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-18 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-18: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-18. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-19 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-19: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-19. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-20 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-20: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-20. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-21 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-21: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-21. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-22 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-22: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-22. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-23 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-23: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-23. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-24 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-24: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-24. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-25 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-25: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-25. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-26 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-26: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-26. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-27 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-27: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-27. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-28 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-28: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-28. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-29 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-29: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-29. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-30 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-30: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-30. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2024-12-31 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2024-12-31: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-31. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-01 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-01: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-01. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-02 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-02: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-02. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-03 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-03: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-03. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-04 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-04: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-04. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-05 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-05: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-05. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-06 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-06: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-06. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-07 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-07: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-07. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-08 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-08: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-08. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-09 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-09: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-09. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-10 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-10: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-10. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-11 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-11: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-11. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-12 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-12: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-12. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-13 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-13: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-13. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-14 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-14: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-14. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-15 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-15: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-15. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-16 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-16: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-16. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-17 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-17: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-17. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-18 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-18: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-18. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-19 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-19: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-19. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-20 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-20: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-21: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-22: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-22. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-23 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-23: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-23. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-24 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-24: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-24. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-25 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-25: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-25. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-26 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-26: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-26. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-27 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-27: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-27. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-28 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-28: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-28. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-29 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-29: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-29. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-30 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-30: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-30. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-01-31 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-01-31: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-31. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-01 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-01: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-01. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-02 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-02: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-02. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-03 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-03: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-03. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-04 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-04: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-04. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-05 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-05: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-05. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-06 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-06: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-06. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-07 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-07: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-07. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-08 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-08: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-08. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-09 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-09: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-09. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-10 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-10: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-10. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-11 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-11: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-11. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-12 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-12: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-12. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-13 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-13: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-13. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-14 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-14: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-14. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-15 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-15: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-15. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-16 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-16: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-16. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-17 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-17: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-17. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-18 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-18: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-18. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-19 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-19: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-19. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-20 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-20: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-20. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-21 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-21: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-21. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-22 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-22: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-22. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-23 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-23: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-23. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-24 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-24: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-24. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-25 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-25: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-25. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-26 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-26: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-26. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-27 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-27: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-27. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-02-28 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-02-28: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-28. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-01 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-01: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-01. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-02 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-02: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-02. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-03 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-03: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-03. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-04 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-04: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-04. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-05 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-05: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-05. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-06 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-06: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-06. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-07 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-07: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-07. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-08 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-08: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-08. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-09 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-09: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-09. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-10 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-10: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-10. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-11 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-11: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-11. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-12 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-12: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-12. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-13 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-13: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-13. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-14 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-14: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-14. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-15 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-15: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-15. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-16 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-16: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-16. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-17 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-17: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-17. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-18 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-18: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-18. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-19 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-19: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-19. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-20 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-20: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-20. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-21 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-21: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-21. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-22 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-22: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-22. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-23 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-23: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-23. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-24 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-24: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-24. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-25 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-25: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-25. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-26 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-26: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-26. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-27 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-27: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-27. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-28 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-28: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-28. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-29 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-29: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-29. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-30 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-30: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-30. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-03-31 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-03-31: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-31. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-01 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-01: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-01. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-02 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-02: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-02. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-03 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-03: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-03. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-04 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-04: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-04. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-05 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-05: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-05. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-06 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-06: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-06. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-07 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-07: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-07. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-08 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-08: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-08. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-09 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-09: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-09. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-10 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-10: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-10. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-11 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-11: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-11. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-12 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-12: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-12. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-13 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-13: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-13. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-14 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-14: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-14. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-15 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-15: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-15. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-16 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-16: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-16. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-17 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-17: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-17. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-18 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-18: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-18. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-19 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-19: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-19. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-20 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-20: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-20. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-21 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-21: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-21. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-22 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-22: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-22. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-23 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-23: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-23. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-24 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-24: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-24. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-25 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-25: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-25. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-26 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-26: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-26. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-27 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-27: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-27. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-28 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-28: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-28. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-29 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-29: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-29. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-04-30 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-04-30: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-30. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-01 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-01: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-01. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-02 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-02: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-02. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-03 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-03: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-03. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-04 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-04: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-04. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-05 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-05: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-05. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-06 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-06: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-06. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-07 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-07: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-07. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-08 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-08: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-08. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-09 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-09: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-09. Skipping.
-2025-06-05 04:00:02 - INFO - Processing race_date: 2025-05-10 for stat_type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Race_date 2025-05-10: 0 actual_horses found.
-2025-06-05 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-10. Skipping.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: MUDDY_RTE
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: TURF_SPRNT
-2025-06-05 04:00:02 - INFO - Last processed date for TURF_SPRNT: 2025-05-10
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for TURF_SPRNT.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: TURF_SPRNT.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: TURF_SPRNT
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: TURF_RTE
-2025-06-05 04:00:02 - INFO - Last processed date for TURF_RTE: 2025-05-10
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for TURF_RTE.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: TURF_RTE.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: TURF_RTE
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: ALL_WEATHER_SPRNT
-2025-06-05 04:00:02 - INFO - Last processed date for ALL_WEATHER_SPRNT: None
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for ALL_WEATHER_SPRNT.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: ALL_WEATHER_SPRNT.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: ALL_WEATHER_SPRNT
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: ALL_WEATHER_RTE
-2025-06-05 04:00:02 - INFO - Last processed date for ALL_WEATHER_RTE: None
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for ALL_WEATHER_RTE.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: ALL_WEATHER_RTE.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: ALL_WEATHER_RTE
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: ALLOWANCE_SPRNT
-2025-06-05 04:00:02 - INFO - Last processed date for ALLOWANCE_SPRNT: 2025-05-10
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for ALLOWANCE_SPRNT.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: ALLOWANCE_SPRNT.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: ALLOWANCE_SPRNT
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: ALLOWANCE_RTE
-2025-06-05 04:00:02 - INFO - Last processed date for ALLOWANCE_RTE: 2025-05-10
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for ALLOWANCE_RTE.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: ALLOWANCE_RTE.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: ALLOWANCE_RTE
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: CLAIMING_SPRNT
-2025-06-05 04:00:02 - INFO - Last processed date for CLAIMING_SPRNT: 2025-05-10
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for CLAIMING_SPRNT.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: CLAIMING_SPRNT.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: CLAIMING_SPRNT
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: CLAIMING_RTE
-2025-06-05 04:00:02 - INFO - Last processed date for CLAIMING_RTE: 2025-05-10
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for CLAIMING_RTE.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: CLAIMING_RTE.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: CLAIMING_RTE
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: STAKES_SPRNT
-2025-06-05 04:00:02 - INFO - Last processed date for STAKES_SPRNT: 2025-05-10
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for STAKES_SPRNT.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: STAKES_SPRNT.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: STAKES_SPRNT
-2025-06-05 04:00:02 - INFO - Starting processing for stat type: STAKES_RTE
-2025-06-05 04:00:02 - INFO - Last processed date for STAKES_RTE: 2025-05-10
-2025-06-05 04:00:02 - INFO - Fetched 0 race_dates for STAKES_RTE.
-2025-06-05 04:00:02 - INFO - No new race dates to process for stat type: STAKES_RTE.
-2025-06-05 04:00:02 - INFO - No race dates were processed for stat type: STAKES_RTE
-2025-06-05 04:00:02 - INFO - Successfully updated horse_accum_stats for all stat types, including ALL_RACES.
-2025-06-05 04:00:02 - INFO - Database connection closed.
+2025-06-06 04:00:01 - INFO - Logging has been set up successfully.
+2025-06-06 04:00:01 - INFO - Initializing stat types in stat_type_code table...
+2025-06-06 04:00:01 - INFO - Stat types initialized successfully.
+2025-06-06 04:00:01 - INFO - Unprocessed stat types: ['ALL_WEATHR', 'FAST_TRACK', 'MUDDY_TRACK', 'FIRM_TURF', 'SOFT_TURF', 'CLAIMING', 'ALLOWANCE', 'STAKE_HCP', 'MAIDEN', 'UP_IN_CLASS', 'DOWN_IN_CLASS', 'FAVORITE', 'LONGSHOT', 'TWO_YEAR_OLD', 'FIRST_TIME', 'LAST_OUT_WINNER', 'JOCK_TRAIN_COMBO', 'FAVORITE_SPRNT', 'FAVORITE_RTE', 'ALL_WEATHER_SPRNT', 'ALL_WEATHER_RTE', '1_7OFF', 'LAST30', '31_60OFF', '61_180OFF', 'TY_TURF', 'AT_DST_CRS', 'AT_DST_D', 'LY_SOFT', 'AT_TRK_CRS', 'TY_ALLWTHR', 'TY_JUMP', 'AT_TRKDIRT', 'MUD', 'AT_TRKTURF', 'AT_TRK_DRT', 'MSW2MCL', 'ODDSGT5', 'ODDSLE5', 'ROUTE2SPRT', 'SCND60_180', 'SCND180_UP', 'SPRT2ROUTE', 'SYN2TURF', 'TURF2DIRT', 'TURF2SYN', '2YEAR_OLD', 'UP_INCLASS', 'WON_LAST', 'SHRT_LAY34', 'SHRT_LAY12', 'THIS_YEAR', 'TURF', 'TY_MUD', 'TY_SOFT', 'ALL_RACES_JT', 'ALL_RACES_T', 'ALL_RACES', 'ALL_RACES_J', 'TRAN_HORSE', 'ALL_RACES_T_TRACK', 'MUDDY_SPRNT', 'MUDDY_RTE', 'ALL_RACES_JT_TRACK', 'DIRT_SPRNT', 'ALL_RACES_J_TRACK', 'TY_DIRT', 'AT_TRK_DSP', 'AT_TRKDSTT', 'AT_TRKDSTD', 'AT_TRK_TSP', 'AT_TRK', 'JUMP', 'AT_TRKSOFT', 'AT_TRKMUD', 'DIST_SURF', 'JOCK_HORSE', 'LONG_LAY34', 'LY_ALLWTHR', 'LY_JUMP', 'LY_MUD', 'LY_TURF', 'OFF_CLM1', 'OFF_CLM2', 'AT_DST_T', 'AT_TRK_TRT', 'DIRT', 'STAKES', 'Allowance_SPRNT', 'Allowance_RTE', 'Maiden_SPRNT', 'Maiden_RTE', '180_UPOFF', 'AFTER_60', 'AFTER_CLM', 'BLINKOFF', 'BLINKON', 'DIRT2TURF', 'DOWNCLASS', 'FRSTBLINK', 'FRSTLASIX', 'FRSTTURF', 'LAST10', 'MCLDEBUT', 'MCLRACE', 'MSWRACE', 'JOCK_TRAN', 'LIFETIME', 'LONG_LAY12', 'LY_DIRT', 'LAST_YEAR', 'AT_TRKSURF', 'DIRT_RTE', 'TURF_SPRNT', 'TURF_RTE', 'ALLOWANCE_SPRNT', 'ALLOWANCE_RTE', 'CLAIMING_SPRNT', 'CLAIMING_RTE', 'STAKES_SPRNT', 'STAKES_RTE']
+2025-06-06 04:00:01 - INFO - Starting processing for stat type: ALL_RACES
+2025-06-06 04:00:01 - INFO - Last processed date for ALL_RACES: 2025-05-10
+2025-06-06 04:00:01 - INFO - Fetched 0 race_dates for ALL_RACES.
+2025-06-06 04:00:01 - INFO - No new race dates to process for stat type: ALL_RACES.
+2025-06-06 04:00:01 - INFO - No race dates were processed for stat type: ALL_RACES
+2025-06-06 04:00:01 - INFO - Starting processing for stat type: DIRT_SPRNT
+2025-06-06 04:00:01 - INFO - Last processed date for DIRT_SPRNT: 2025-05-10
+2025-06-06 04:00:01 - INFO - Fetched 0 race_dates for DIRT_SPRNT.
+2025-06-06 04:00:01 - INFO - No new race dates to process for stat type: DIRT_SPRNT.
+2025-06-06 04:00:01 - INFO - No race dates were processed for stat type: DIRT_SPRNT
+2025-06-06 04:00:01 - INFO - Starting processing for stat type: DIRT_RTE
+2025-06-06 04:00:01 - INFO - Last processed date for DIRT_RTE: 2025-05-10
+2025-06-06 04:00:01 - INFO - Fetched 0 race_dates for DIRT_RTE.
+2025-06-06 04:00:01 - INFO - No new race dates to process for stat type: DIRT_RTE.
+2025-06-06 04:00:01 - INFO - No race dates were processed for stat type: DIRT_RTE
+2025-06-06 04:00:01 - INFO - Starting processing for stat type: MUDDY_SPRNT
+2025-06-06 04:00:01 - INFO - Last processed date for MUDDY_SPRNT: None
+2025-06-06 04:00:02 - INFO - Fetched 145 race_dates for MUDDY_SPRNT.
+2025-06-06 04:00:02 - INFO - Processing stat type: MUDDY_SPRNT for 145 new race dates.
+2025-06-06 04:00:02 - INFO - Total horses fetched from 'horse' table: 120565.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-17 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-18 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-19 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-20 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-21 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-22 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-23 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-24 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-25 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-26 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-27 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-28 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-29 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-29: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-29. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-30 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-30: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-30. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-31 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-31: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-31. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-01 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-02 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-03 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-04 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-05 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-06 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-07 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-08 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-09 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-10 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-10. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-11 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-11: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-11. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-12 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-12: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-12. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-13 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-13: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-13. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-14 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-14: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-14. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-15 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-15: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-15. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-16 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-16: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-16. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-17 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-18 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-19 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-20 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-23 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-24 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-25 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-26 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-27 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-28 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-29 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-29: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-29. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-30 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-30: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-30. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-31 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-31: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-31. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-01 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-02 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-03 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-04 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-05 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-06 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-07 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-08 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-09 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-10 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-10. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-11 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-11: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-11. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-12 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-12: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-12. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-13 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-13: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-13. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-14 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-14: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-14. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-15 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-15: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-15. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-16 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-16: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-16. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-17 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-18 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-19 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-20 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-21 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-22 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-23 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-24 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-25 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-26 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-27 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-28 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-01 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-02 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-03 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-04 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-05 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-06 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-07 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-08 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-09 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-10 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-10. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-11 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-11: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-11. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-12 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-12: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-12. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-13 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-13: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-13. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-14 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-14: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-14. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-15 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-15: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-15. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-16 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-16: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-16. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-17 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-18 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-19 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-20 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-21 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-22 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-23 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-24 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-25 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-26 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-27 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-28 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-29 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-29: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-29. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-30 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-30: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-30. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-31 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-31: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-31. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-01 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-02 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-03 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-04 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-05 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-06 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-07 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-08 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-09 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-10 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-10. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-11 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-11: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-11. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-12 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-12: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-12. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-13 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-13: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-13. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-14 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-14: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-14. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-15 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-15: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-15. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-16 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-16: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-16. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-17 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-18 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-19 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-20 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-21 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-22 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-23 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-24 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-25 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-26 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-27 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-28 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-29 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-29: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-29. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-30 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-30: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-30. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-01 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-02 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-03 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-04 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-05 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-06 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-07 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-08 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-09 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-10 for stat_type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-10. Skipping.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: MUDDY_SPRNT
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Last processed date for MUDDY_RTE: None
+2025-06-06 04:00:02 - INFO - Fetched 145 race_dates for MUDDY_RTE.
+2025-06-06 04:00:02 - INFO - Processing stat type: MUDDY_RTE for 145 new race dates.
+2025-06-06 04:00:02 - INFO - Total horses fetched from 'horse' table: 120565.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-17 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-18 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-19 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-20 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-21 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-22 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-23 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-24 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-25 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-26 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-27 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-28 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-29 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-29: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-29. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-30 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-30: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-30. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2024-12-31 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2024-12-31: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2024-12-31. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-01 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-02 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-03 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-04 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-05 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-06 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-07 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-08 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-09 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-10 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-10. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-11 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-11: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-11. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-12 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-12: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-12. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-13 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-13: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-13. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-14 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-14: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-14. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-15 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-15: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-15. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-16 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-16: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-16. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-17 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-18 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-19 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-20 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-21 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-22 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-23 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-24 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-25 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-26 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-27 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-28 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-29 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-29: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-29. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-30 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-30: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-30. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-01-31 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-01-31: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-01-31. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-01 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-02 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-03 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-04 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-05 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-06 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-07 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-08 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-09 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-10 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-10. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-11 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-11: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-11. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-12 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-12: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-12. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-13 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-13: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-13. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-14 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-14: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-14. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-15 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-15: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-15. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-16 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-16: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-16. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-17 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-18 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-19 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-20 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-21 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-22 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-23 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-24 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-25 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-26 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-27 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-02-28 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-02-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-02-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-01 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-02 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-03 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-04 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-05 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-06 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-07 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-08 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-09 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-10 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-10. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-11 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-11: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-11. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-12 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-12: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-12. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-13 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-13: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-13. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-14 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-14: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-14. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-15 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-15: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-15. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-16 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-16: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-16. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-17 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-18 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-19 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-20 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-21 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-22 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-23 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-24 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-25 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-26 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-27 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-28 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-29 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-29: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-29. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-30 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-30: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-30. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-03-31 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-03-31: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-03-31. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-01 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-02 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-03 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-04 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-05 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-06 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-07 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-08 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-09 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-10 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-10. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-11 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-11: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-11. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-12 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-12: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-12. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-13 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-13: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-13. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-14 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-14: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-14. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-15 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-15: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-15. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-16 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-16: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-16. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-17 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-17: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-17. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-18 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-18: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-18. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-19 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-19: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-19. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-20 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-20: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-20. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-21 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-21: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-21. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-22 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-22: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-22. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-23 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-23: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-23. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-24 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-24: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-24. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-25 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-25: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-25. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-26 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-26: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-26. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-27 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-27: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-27. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-28 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-28: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-28. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-29 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-29: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-29. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-04-30 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-04-30: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-04-30. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-01 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-01: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-01. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-02 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-02: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-02. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-03 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-03: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-03. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-04 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-04: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-04. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-05 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-05: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-05. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-06 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-06: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-06. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-07 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-07: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-07. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-08 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-08: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-08. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-09 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-09: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-09. Skipping.
+2025-06-06 04:00:02 - INFO - Processing race_date: 2025-05-10 for stat_type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Race_date 2025-05-10: 0 actual_horses found.
+2025-06-06 04:00:02 - WARNING - No actual_horses found for race_date 2025-05-10. Skipping.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: MUDDY_RTE
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: TURF_SPRNT
+2025-06-06 04:00:02 - INFO - Last processed date for TURF_SPRNT: 2025-05-10
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for TURF_SPRNT.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: TURF_SPRNT.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: TURF_SPRNT
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: TURF_RTE
+2025-06-06 04:00:02 - INFO - Last processed date for TURF_RTE: 2025-05-10
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for TURF_RTE.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: TURF_RTE.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: TURF_RTE
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: ALL_WEATHER_SPRNT
+2025-06-06 04:00:02 - INFO - Last processed date for ALL_WEATHER_SPRNT: None
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for ALL_WEATHER_SPRNT.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: ALL_WEATHER_SPRNT.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: ALL_WEATHER_SPRNT
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: ALL_WEATHER_RTE
+2025-06-06 04:00:02 - INFO - Last processed date for ALL_WEATHER_RTE: None
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for ALL_WEATHER_RTE.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: ALL_WEATHER_RTE.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: ALL_WEATHER_RTE
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: ALLOWANCE_SPRNT
+2025-06-06 04:00:02 - INFO - Last processed date for ALLOWANCE_SPRNT: 2025-05-10
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for ALLOWANCE_SPRNT.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: ALLOWANCE_SPRNT.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: ALLOWANCE_SPRNT
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: ALLOWANCE_RTE
+2025-06-06 04:00:02 - INFO - Last processed date for ALLOWANCE_RTE: 2025-05-10
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for ALLOWANCE_RTE.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: ALLOWANCE_RTE.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: ALLOWANCE_RTE
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: CLAIMING_SPRNT
+2025-06-06 04:00:02 - INFO - Last processed date for CLAIMING_SPRNT: 2025-05-10
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for CLAIMING_SPRNT.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: CLAIMING_SPRNT.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: CLAIMING_SPRNT
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: CLAIMING_RTE
+2025-06-06 04:00:02 - INFO - Last processed date for CLAIMING_RTE: 2025-05-10
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for CLAIMING_RTE.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: CLAIMING_RTE.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: CLAIMING_RTE
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: STAKES_SPRNT
+2025-06-06 04:00:02 - INFO - Last processed date for STAKES_SPRNT: 2025-05-10
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for STAKES_SPRNT.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: STAKES_SPRNT.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: STAKES_SPRNT
+2025-06-06 04:00:02 - INFO - Starting processing for stat type: STAKES_RTE
+2025-06-06 04:00:02 - INFO - Last processed date for STAKES_RTE: 2025-05-10
+2025-06-06 04:00:02 - INFO - Fetched 0 race_dates for STAKES_RTE.
+2025-06-06 04:00:02 - INFO - No new race dates to process for stat type: STAKES_RTE.
+2025-06-06 04:00:02 - INFO - No race dates were processed for stat type: STAKES_RTE
+2025-06-06 04:00:02 - INFO - Successfully updated horse_accum_stats for all stat types, including ALL_RACES.
+2025-06-06 04:00:02 - INFO - Database connection closed.

@@ -1,14 +1,14 @@
-2025-06-05 03:00:01 - INFO - Logging has been set up successfully.
-2025-06-05 03:00:01 - INFO - Setting up logging for PlusPro
-2025-06-05 03:00:01 - INFO - Starting ingestion job
-2025-06-05 03:00:01 - INFO - Starting ingestion for: PlusPro
-2025-06-05 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/kar20250222plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
-2025-06-05 03:00:02 - ERROR - Validation failed for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/kar20250222plusXML.xml. Errors:
-2025-06-05 03:00:02 - ERROR - Line 29050, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
-2025-06-05 03:00:02 - ERROR - Line 29051, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
-2025-06-05 03:00:02 - ERROR - Line 29054, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
-2025-06-05 03:00:02 - ERROR - Line 29055, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
-2025-06-05 03:00:02 - ERROR - Line 29056, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
-2025-06-05 03:00:02 - INFO - PlusPro data ingestion completed successfully.
-2025-06-05 03:00:02 - INFO - Ingestion for PlusPro succeeded
-2025-06-05 03:00:02 - INFO - Setting up logging for ResultsCharts
+2025-06-06 03:00:01 - INFO - Logging has been set up successfully.
+2025-06-06 03:00:01 - INFO - Setting up logging for PlusPro
+2025-06-06 03:00:01 - INFO - Starting ingestion job
+2025-06-06 03:00:01 - INFO - Starting ingestion for: PlusPro
+2025-06-06 03:00:02 - INFO - Validating XML file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/kar20250222plusXML.xml against XSD schema /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/plusProXMLData.xsd...
+2025-06-06 03:00:02 - ERROR - Validation failed for file /home/exx/myCode/horse-racing/FoxRiverAIRacing/data/Equibase/PlusPro/Daily/kar20250222plusXML.xml. Errors:
+2025-06-06 03:00:02 - ERROR - Line 29050, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
+2025-06-06 03:00:02 - ERROR - Line 29051, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
+2025-06-06 03:00:02 - ERROR - Line 29054, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
+2025-06-06 03:00:02 - ERROR - Line 29055, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
+2025-06-06 03:00:02 - ERROR - Line 29056, Column 0: Element 'courseid': '' is not a valid value of the atomic type 'xs:NCName'.
+2025-06-06 03:00:02 - INFO - PlusPro data ingestion completed successfully.
+2025-06-06 03:00:02 - INFO - Ingestion for PlusPro succeeded
+2025-06-06 03:00:02 - INFO - Setting up logging for ResultsCharts

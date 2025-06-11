@@ -1,86 +1,118 @@
-# FoxRiverAIRacing
-Repo of models
+# 🏋️ FoxRiverAI — AI-Driven Horse Racing Prediction System
 
-Creating Partitions 
+FoxRiverAI is a machine learning platform for intelligent horse racing predictions using historical and real-time data. Built on top of GPS-based sectional timing, past performance data, and custom-engineered features, this system aims to power exotic wager strategies like Exactas, Trifectas, and Pick 3/4s.
 
-DO $$
-DECLARE
-    course TEXT;
-    batch_size INT := 50; -- Adjust based on system capacity
-    counter INT := 0;
-    course_list TEXT[] := ARRAY[
-        'CNL', 'SAR', 'PIM', 'TSA', 'BEL', 'MVR', 'TWO', 'CLS', 'KEE', 'TAM', 'TTP', 'TKD', 
-        'ELP', 'PEN', 'HOU', 'DMR', 'TLS', 'AQU', 'MTH', 'TGP', 'TGG', 'CBY', 'LRL', 
-        'TED', 'IND', 'CTD', 'ASD', 'TCD', 'LAD', 'MED', 'TOP', 'HOO',
-        'EQE','EQC','CCP','CMR','EQG','EQD','EQJ','EQF','EQB',
-        'BCC','EQA','EQI','EQH','KAR','RAS','BCD','BCT','DUB','BFF','EQK',
-        'EQZ','BCA','EQN','EQX','BCB','EQO','EQY','EQR','EQV','EQQ','BCG',
-        'EQS','EQM','EQP','BCE','EQU','EQT','EQW','SWA','SWD','SWC','LSP',
-        'LTD','LTH','TFG','ABT','GPR','LBG','CTM','MIL','TNP','STP','AZD',
-        'TDG','DUN','RIL','SAF','SON','TUP','YAV','DEP','TEP','HST','KAM',
-        'KIN','SAN','SND','BHP','BMF','BSR','FER','FNO','FPX','HOL','TLA',
-        'LRC','OSA','OTH','OTP','PLN','SAC','SLR','SOL','TSR','STK','ARP',
-        'DEL','WNT','CRC','GPW','HIA','LEV','OTC','PMB','ATH','GRA','PMT',
-        'PRM','BKF','BOI','CAS','EMT','JRM','ONE','POD','RUP','SDY','TAP',
-        'DUQ','FAN','HAW','SPT','ANF','EUR','WDS','LEX','RDM','SRM','SRR',
-        'DED','EVD','TBM','GBF','SUF','RPD','BOW','FAI','GLN','TGN','MAR',
-        'MON','SHW','TIM','DET','GLD','THP','MPM','NVD','PNL','TGF','KSP',
-        'MAF','TMC','WMF','TYD','BRO','CHL','CLM','TMS','TFP','SOP','STN',
-        'TRY','CPW','FAR','ATO','FON','FPL','HPO','LEG','LNN','RKM','ATL',
-        'TFH','TRB','ALB','LAM','RUI','SFE','SJD','SRP','SUN','ZIA','ELK',
-        'ELY','HCF','WPR','BAQ','TFL','TGV','TGD','BEU','BTP','TRD','TDN',
-        'BRD','FMT','WRD','AJX','PIC','BRN','GRP','PRV','TIL','TUN','CHE',
-        'MAL','PHA','PID','PRX','UNI','WIL','AIK','CAM','CHA','BCF','FTP',
-        'TMD','MDA','MMD','TPW','GIL','MAN','RET','DXD','LBT','WBR','FAX',
-        'TFX','GRM','ING','MID','MOR','MTP','ODH','OKR','TSH','DAY','EMD',
-        'HAP','SUD','WTS','TCT','MNR','SHD','CWF','EDR','SWF','WYO','TFE',
-        'TRP','TPM','TWW','TYM'
-    ];
-    sql_stmt TEXT;
-BEGIN
-    -- Create Default Partitions
-    RAISE NOTICE 'Creating default partitions...';
-    
-    EXECUTE '
-        CREATE TABLE IF NOT EXISTS gpspoint_default PARTITION OF gpspoint
-        DEFAULT;
-    ';
-    
-    EXECUTE '
-        CREATE TABLE IF NOT EXISTS sectionals_default PARTITION OF sectionals
-        DEFAULT;
-    ';
-    
-    FOREACH course IN ARRAY course_list LOOP
-        -- Create gpspoint partition
-        sql_stmt := format('
-            CREATE TABLE IF NOT EXISTS gpspoint_%s PARTITION OF gpspoint
-            FOR VALUES IN (%L);
-        ', course, course);
-        
-        -- Output the SQL statement for debugging
-        RAISE NOTICE 'Executing SQL for gpspoint: %', sql_stmt;
-        
-        -- Execute the SQL statement
-        EXECUTE sql_stmt;
-        
-        -- Create sectionals partition
-        sql_stmt := format('
-            CREATE TABLE IF NOT EXISTS sectionals_%s PARTITION OF sectionals
-            FOR VALUES IN (%L);
-        ', course, course);
-        
-        -- Output the SQL statement for debugging
-        RAISE NOTICE 'Executing SQL for sectionals: %', sql_stmt;
-        
-        -- Execute the SQL statement
-        EXECUTE sql_stmt;
-        
-        counter := counter + 1;
-        
-        -- Optional: Provide progress feedback
-        IF counter % batch_size = 0 THEN
-            RAISE NOTICE 'Created % partitions so far', counter;
-        END IF;
-    END LOOP;
-END $$;
+> 📈 Designed to convert elite predictive modeling techniques into profitable, real-world wagering outcomes.
+
+---
+
+## ✅ Key Features
+
+* 🧠 Predictive modeling with LSTM, CatBoost, and ensemble methods
+* ⏳ Time-series analysis of real-time GPS and sectional data (via TPD)
+* 📊 Past performance (PP) data ingestion from Equibase Plus Pro and Results
+* 📍 PostGIS integration for spatial race dynamics
+* 🔬 Feature engineering: fatigue, acceleration, normalized pace, class changes
+* 🏇 Exotic bet optimization (Exacta, Pick 3/4, Superfecta)
+* 📂 PostgreSQL backend with historical + live ingestion tracking
+* 📀 Modular ingestion for TPD (GPS, sectionals, routes) and Equibase (XML)
+
+---
+
+## 📊 Tech Stack
+
+| Layer         | Stack                                                                   |
+| ------------- | ----------------------------------------------------------------------- |
+| Core Language | Python (3.10+)                                                          |
+| ML Models     | LSTM (Keras), CatBoost, XGBoost, Logistic Regression                    |
+| Data Pipeline | Pandas, NumPy, xml.etree, JSON, Postgres COPY, LangChain (experimental) |
+| Database      | PostgreSQL + PostGIS                                                    |
+| Ingestion     | XML/JSON loaders for Equibase + TPD                                     |
+| Viz (WIP)     | Matplotlib, Plotly, GeoJSON (future for track maps)                     |
+
+---
+
+## 📁 Project Layout
+
+```
+foxriver-ai/
+├── data/                   # TPD + Equibase source files (structured folders)
+├── models/                 # Training scripts and saved models
+├── database/               # SQL schema and migration scripts
+├── notebooks/              # EDA and model diagnostics
+├── ingestion/              # XML/JSON processors and job runners
+├── features/               # Feature engineering modules
+├── betting/                # Simulated bet strategy execution + ROI logging
+├── config/                 # YAML settings and environment variables
+├── scripts/                # Batch jobs (CLI rebuilds, exports)
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🔄 Data Sources
+
+* **Equibase**: Plus Pro PPs, Results Charts (XML)
+* **TPD** (Total Performance Data): GPS, Sectionals, Routes (JSON/KML)
+
+> ⚠️ Note: Equibase data requires licensing. This repo contains loader stubs and schemas only.
+
+---
+
+## 🧠 Modeling Highlights
+
+* **Predictive targets**:
+
+  * Win/place likelihood
+  * Top 2 ranking (Exacta use)
+  * Speed/fatigue delta by surface
+* **Feature types**:
+
+  * Class drops/rises
+  * Trainer/jockey stats by condition
+  * Track-adjusted fractional performance
+  * Pace shape + sectional timing trends
+* **Models**:
+
+  * LSTM for stride/fatigue sequence modeling
+  * CatBoost + Logistic regression ensemble
+  * Custom scoring metric for top 2 accuracy
+
+---
+
+## 📦 How to Run
+
+```bash
+conda activate foxriver
+pip install -r requirements.txt
+python scripts/load_all.py            # Load TPD + EQB data to DB
+python scripts/train_model.py         # Build and save ensemble
+python scripts/run_predict.py --race  # Predict upcoming race set
+```
+
+---
+
+## 🔐 Licensing
+
+Data sources used in this project (Equibase, TPD) may be subject to licensing and cannot be redistributed. This repository provides structure and tooling but does not contain proprietary data.
+
+---
+
+## 👤 Author
+
+**Randall Shane** — [LinkedIn](https://www.linkedin.com/in/randall-shane/)
+
+* Former systems architect, now applying AI to sports betting and real-world prediction systems
+* Building private GenAI + ML pipelines optimized for niche, high-signal domains
+
+---
+
+## 📊 Roadmap
+
+* [x] Full ingestion + DB tracking for TPD and EQB
+* [x] LSTM modeling of stride/fatigue
+* [x] Exacta and Pick 3 simulation
+* [ ] GUI dashboard for model evaluation
+* [ ] LangChain integration for racing insights Q\&A
+* [ ] Discord bot / CLI interface for live picks
