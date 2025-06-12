@@ -51,6 +51,12 @@ For simulated wagering and recommended bet/no-bet strategy:
 For DDL scripts to build the PostgreSQL database, please contact me if interested. I will add the scripts
 to the repo at some later time if there is interest. 
 
+> ⚠️ CRITICAL Note: This system requires a rather beefy workstation/server. I developed it using a system with the following specs:
+
+* CPU: Threadripper 64 Core, 128 Threads
+* Memory: 512 GB DDR5
+* Disk: 20 TB NVMe SSD
+* GPU: Two Nvidia A6000 GPUs
 
 ---
 
