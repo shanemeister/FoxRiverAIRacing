@@ -9,14 +9,23 @@ FoxRiverAI is a machine learning platform for intelligent horse racing predictio
 For inference see:
 
 50 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/drop_races.sh 
+
 0 2 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/tpd_daily_download.sh 
+
 30 2 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/plusPro_results_charts_cron.sh 
+
 0 3 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/ingestion_controller.sh 
+
 50 3 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/recreate_races.sh
+
 0 4 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/stat_type_update.sh 
-4 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/stat_type_update_jt.sh 
+
+15 4 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/stat_type_update_jt.sh 
+
 0 5 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/tpd_aggregation_update.sh 
+
 45 5 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/horse_recent_form_cron.sh
+
 15 6 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/db_backup.sh 
 
 Following the code logic from those jobs will help you reverse engineer the code and create a working copy
