@@ -4,7 +4,43 @@ FoxRiverAI is a machine learning platform for intelligent horse racing predictio
 
 > 📈 Designed to convert elite predictive modeling techniques into profitable, real-world wagering outcomes.
 
-> ⚠️ Note: This code is the foundation of the production code and requires significant work to configure and make functional. It also requires that data access be purchased from Equibase, and Total Performance Data to make the product truly functional. However, it does provide the fundamental building blocks to automate a prediction pipeline from ingestion, to simulated wagering, and the code necessary to train your own LSTM (Long Short Term Memory time-series model), CatBoost model, and ensemble.
+> ⚠️ Note: This code is the foundation of the production code and requires significant work to configure and make functional. It also requires that data access be purchased from Equibase, and Total Performance Data to make the product truly functional. However, it does provide the fundamental building blocks to automate a prediction pipeline from ingestion, to simulated wagering, and the code necessary to train your own LSTM (Long Short Term Memory time-series model), CatBoost model, and ensemble. If you want to actually implement the application, I would suggest you follow the jobs that were run daily using the follow CRON jobs:
+
+For inference see:
+
+50 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/drop_races.sh 
+0 2 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/tpd_daily_download.sh 
+30 2 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/plusPro_results_charts_cron.sh 
+0 3 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/ingestion_controller.sh 
+50 3 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/recreate_races.sh
+0 4 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/stat_type_update.sh 
+4 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/stat_type_update_jt.sh 
+0 5 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/tpd_aggregation_update.sh 
+45 5 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/horse_recent_form_cron.sh
+15 6 * * * /home/exx/myCode/horse-racing/FoxRiverAIRacing/cron_jobs/db_backup.sh 
+
+Following the code logic from those jobs will help you reverse engineer the code and create a working copy
+of the ingestion, feature engineering, and daily backup scripts.
+
+To see how the LSTM model is built, look at the Jupyter notebooks, and in particular:
+./notebooks/0-LSTM_Sectionals_v3.ipynb
+
+For loading, doing some additional feature engineering, and running training the CatBoost model, look at:
+./src/train_and_predict/main_train_embed_infer_prep.py 
+./src/Predict_only/main_infer_prep.py
+
+To calibrate CatBoost score into a probability rating:
+./src/Predictions/calibration_multinomial_fullcopy.py
+
+To create a MS Word Doc with races and predictions:
+./src/Predictions/Predictions_with_calibration_v2.py
+
+For simulated wagering and recommended bet/no-bet strategy:
+./src/wagering_bandit/train_multi_arm_bandit.py
+./src/wagering/wagering.py
+
+For DDL scripts to build the PostgreSQL database, please contact me if interested. I will add the scripts
+to the repo at some later time if there is interest. 
 
 
 ---
