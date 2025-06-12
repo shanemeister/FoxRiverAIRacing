@@ -4,7 +4,7 @@ FoxRiverAI is a machine learning platform for intelligent horse racing predictio
 
 > 📈 Designed to convert elite predictive modeling techniques into profitable, real-world wagering outcomes.
 
-> ⚠️ Note: This code is the foundation of the production code and requires significant work to configure and make functional. It also requires that data access be purchased from Equibase, and Total Performance Data to make the product truly functional. However, it does provide the fundamental building blocks to automate a prediction pipeline from ingestion, to simulated wagering, and the code necessary to train your own LSTM (Long Short Term Memory time-series model), CatBoost model, and ensemble. If you want to actually implement the application, I would suggest you follow the jobs that were run daily using the follow CRON jobs:
+> ⚠️ Note: This code is the foundation of the production code and requires significant work to configure and make functional. It also requires that data access be purchased from Equibase, and Total Performance Data to make the product truly functional. However, it does provide the fundamental building blocks to automate a prediction pipeline from ingestion, to simulated wagering, and the code necessary to train your own LSTM (Long Short Term Memory time-series model), CatBoost model, and ensemble. If you want to actually implement the application, I would suggest you follow the jobs that were run daily using the following CRON jobs:
 
 For inference see:
 
